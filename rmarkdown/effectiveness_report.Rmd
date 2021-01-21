@@ -1,0 +1,271 @@
+---
+title: "Vaccine effectiveness"
+output: 
+  html_document:
+    code_folding: hide
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library('tidyverse')
+library('lubridate')
+library('gt')
+library('patchwork')
+
+source(here::here("lib", "html_output_functions.R"))
+
+output_dir <- here::here("released_output")
+
+summary_stats <- read_rds(file.path(output_dir, "data_summary", "summary_stats.rds"))
+
+run_date <- "2021-01-20" ## need to update this once metadata is available to access
+end_date <- summary_stats$end_date
+
+pct <- scales::label_percent(accuracy=0.1)
+
+
+bar_theme <- 
+  theme_bw(base_size = 9) + 
+  theme(
+    panel.border = element_blank(), #axis.line.x = element_line(colour = "black"),
+    panel.grid = element_blank(),
+    panel.grid.major.x = element_line(colour="grey"),
+    axis.ticks = element_blank(),
+    strip.background = element_blank(),
+    strip.text.y = element_text(angle = 0),
+    plot.title = element_text(hjust = 0),
+    plot.title.position = "plot",
+    plot.caption.position =  "plot",
+    plot.caption = element_text(hjust = 0, face= "italic")
+  )
+
+
+
+```
+
+## Vaccine effectiveness in OpenSAFELY-TPP data
+
+This report examines covid-related outcomes in TPP-registered patients who have received a vaccine for SARS-CoV-2. 
+
+Outcomes include:
+
+* Positive Covid case identification in primary care, using the following clinical codes:
+  * [probable covid](https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16)
+  * [positive covid test](https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16/)
+  * [covid sequelae](https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-sequelae/2020-07-16/)
+* Positive SARS-CoV-2 test, as reported via the Second Generation Surveillance System (SGSS)
+* Covid-related hospital admission, where [Covid](https://codelists.opensafely.org/codelist/opensafely/covid-identification/2020-06-03/) is listed as a reason for admission.
+* Covid-related death, where [Covid](https://codelists.opensafely.org/codelist/opensafely/covid-identification/2020-06-03/) is mentioned anywhere on the death certificate.
+* All-cause death.
+
+### Data notes
+
+The dataset used for this report was created using the study definition `/analysis/study_definition_delivery.py`, using codelists referenced in `/codelists/codelists.txt`.
+
+The dataset is based on OpenSAFELY-TPP data extracted on `r run_date`, with event dates occurring no later than `r end_date`.
+
+```{r tte_rate_function, echo=FALSE}
+
+print_event_rates <- function(variable,  variable_name){
+
+  table <- read_csv(
+    file.path(output_dir, "tte", "tables", paste0("event_rates_at_7days_", variable, ".csv")),
+    col_types = "fiididididid",
+    na="-"
+  )
+  names(table)[1] <- variable_name
+  
+  renamer <-
+  c(
+    posPC_ = "primary care case_", 
+    posSGSS_ = "positive test_",
+    admitted_ = "covid-related admission_",
+    coviddeath_ = "covid-related death_",
+    `death_n` = "all-cause death_n",
+    `death_%` = "all-cause death_%"
+  )
+  
+  table <- rename_with(table, ~str_replace_all(string = .x, renamer))
+  
+  gt_table <- table %>%
+  gt() %>%
+  tab_spanner_delim(delim="_", gather=TRUE) %>%
+    # gather doesn't work!
+    fmt_percent(
+      columns = ends_with(c("%")),
+      decimals = 1
+    ) %>%
+    fmt_missing(
+      everything(),
+      missing_text="-"
+    ) %>%
+    tab_header(
+      title = md("Post-vaccination event rates at 7-days")
+    ) %>%
+    tab_source_note(
+      "- indicates redacted values"
+    )
+
+  gt_table
+}
+
+
+```
+
+
+```{r vaccinetype_function, echo=FALSE}
+
+print_vaccinetype <- function(variable,  variable_name){
+
+  table <- read_csv(
+    file.path(output_dir, "vaccine_type", "tables", paste0("vaccine_type_", variable, ".csv")),
+    col_types = "ffiddl",
+    na="-"
+  )
+  
+  gt_catcat(summary_catcat=table, 
+            var1_name = variable_name, 
+            var2_name = "vaccine type", 
+            title="Vaccine type", 
+            source_note = "- indicates redacted values",
+            pct_decimal=1
+            )
+}
+```
+
+```{r tte_barplot_function, echo=FALSE}
+
+print_variable_freq <- function(variable, variable_name){
+  
+  table <- read_csv(
+    file.path(output_dir, "variable_summary", "tables", paste0("categorical_", variable, ".csv")),
+    col_types = cols(
+      n=col_integer(),
+      pct=col_double(),
+      pct_nonmiss=col_double()
+    )
+  )
+  
+  ywrapwidth <- 50
+  
+  plotdata <- table %>%
+    mutate(
+      variable_explicit_na=factor(str_wrap(.level, ywrapwidth), levels=str_wrap(unique(.level), ywrapwidth))
+    )
+  
+  plot <- ggplot(plotdata)+
+    geom_bar(aes(x=n, y=variable_explicit_na), stat='identity', width=0.8)+
+    geom_text(aes(x=n, y=variable_explicit_na, label=pct(pct)), hjust=-0.2)+
+    #scale_x_continuous(limits=c(0, xlim_upper), breaks=seq(0,10000,1000))+
+    scale_y_discrete(limits = rev(levels(plotdata$variable_explicit_na)))+
+    labs(
+      #title=variable_name,
+      #subtitle = subtitle,
+      x="Patients", 
+      y=NULL
+    )+
+    bar_theme+
+    NULL
+  
+  print(plot)
+  
+}
+
+```
+
+
+```{r tte_survplot_function, echo=FALSE}
+  #cat("  ")
+  
+print_variable_surv <- function(variable, variable_name){
+  
+  knitr::include_graphics(
+    here::here(output_dir, "tte", "figures", paste0("plot_patch_",variable, ".svg"))
+  )
+}
+
+```
+
+
+## Summary
+
+As of `r end_date`, there were `r summary_stats$total_vaccinated` TPP-registered patients who had received at least one dose of a vaccine for covid. Of these, 
+`r summary_stats$total_vaccinated_pfizer` received the Pfizer vaccine and `r summary_stats$total_vaccinated_oxford` received the Oxford/AZ vaccine.
+
+## Summaries by patient characteristics
+
+The tables below show, for each characteristic:
+
+* Vaccine type, including those who have received both vaccine types
+* 7-day post-vaccination event rates
+* Cumulative post-vaccination event rates over time.
+
+### Age
+
+```{r age, echo=FALSE, out.width='90%', results='asis'}
+print_vaccinetype("ageband", "Age")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_event_rates("ageband", "Age")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_variable_surv("ageband", "Age")
+cat("  \n", "  \n", "  \n")
+```
+
+
+### Sex
+
+```{r sex, echo=FALSE, out.width='90%', results='asis'}
+print_vaccinetype("sex", "Sex")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_event_rates("sex", "Sex")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_variable_surv("sex", "Sex")
+cat("  \n", "  \n", "  \n")
+```
+
+### Ethnicity
+
+```{r ethnicity, echo=FALSE, out.width='90%', results='asis'}
+print_vaccinetype("ethnicity", "Ethnicity")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_event_rates("ethnicity", "Ethnicity")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_variable_surv("ethnicity", "Ethnicity")
+cat("  \n", "  \n", "  \n")
+```
+
+### Index of Multiple Deprivation (IMD)
+
+```{r imd, echo=FALSE, out.width='90%', results='asis'}
+print_vaccinetype("imd", "IMD")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_event_rates("imd", "IMD")
+cat("  \n", "  \n", "  \n", "   \n")
+cat("##  \n")
+print_variable_surv("imd", "IMD")
+cat("  \n", "  \n", "  \n")
+```
+
+### STP
+
+```{r stp, echo=FALSE, out.width='90%', results='asis'}
+print_vaccinetype("stp", "STP")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_event_rates("stp", "STP")
+cat("  \n", "  \n", "  \n")
+cat("##  \n")
+print_variable_surv("stp", "STP")
+cat("  \n", "  \n", "  \n")
+```

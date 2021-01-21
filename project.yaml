@@ -5,16 +5,62 @@ expectations:
 
 actions:
 
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition
+  generate_delivery_cohort:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_delivery
     outputs:
       highly_sensitive:
-        cohort: output/input.csv
+        cohort: output/input_delivery.csv
 
-  run_model:
-    run: stata-mp:latest analysis/model.do
-    needs: [generate_study_population]
+  # generate_notebook:
+  #   run: jupyter:latest jupyter nbconvert /workspace/notebooks/population_characteristics.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+  #
+  #   needs: [generate_delivery_cohort]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/population_characteristics.html
+
+
+  process_data:
+    run: r:latest analysis/R/process_data.R
+    needs: [generate_delivery_cohort]
+    outputs:
+      highly_sensitive:
+        cohort: output/data/data_processed.rds
+      moderately_sensitive:
+        summary1: output/data_summary/summary_delivery.txt
+        summary2: output/data_summary/summary_processed.txt
+        summary3: output/data_summary/type_delivery.txt
+        summary4: output/data_summary/type_processed.txt
+
+
+  summarise_data:
+    run: r:latest analysis/R/summarise_data.R
+    needs: [process_data]
     outputs:
       moderately_sensitive:
-        log: logs/model.log
+        summary1: output/variable_summary/categorical.txt
+        summary2: output/variable_summary/numeric.txt
+        summary3: output/variable_summary/date.txt
+        summarytables: output/variable_summary/tables/categorical_*.csv
+        summarystats: output/data_summary/summary_stats.rds
 
+  vaccinetype_tables:
+    run: r:latest analysis/R/vaccine_type.R
+    needs: [process_data]
+    outputs:
+      moderately_sensitive:
+        tables: output/vaccine_type/tables/vaccine_type_*.csv
+
+  tte_tables:
+    run: r:latest analysis/R/tte_tables.R
+    needs: [process_data]
+    outputs:
+      moderately_sensitive:
+        tables: output/tte/tables/event_rates_*.csv
+
+  tte_plots:
+    run: r:latest analysis/R/tte_plots.R
+    needs: [process_data]
+    outputs:
+      moderately_sensitive:
+        plots: output/tte/figures/plot_*.svg
