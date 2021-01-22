@@ -20,6 +20,12 @@ actions:
   #       notebook: output/population_characteristics.html
 
 
+  get_packages:
+    run: r:latest analysis/R/export_package_names.R
+    outputs:    
+      moderately_sensitive:
+        cohort: output/available_packages.csv
+
   process_data:
     run: r:latest analysis/R/process_data.R
     needs: [generate_delivery_cohort]
