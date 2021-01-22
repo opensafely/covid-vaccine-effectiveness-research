@@ -52,7 +52,7 @@ plot_surv <- function(.surv_data, colour_var, colour_name, title=""){
   surv_plot <- .surv_data %>%
   ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
   geom_step(aes(x=time, y=1-estimate))+
-  geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-conf.high, ymax=1-conf.low), alpha=0.1, colour="transparent")+
+ # geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-conf.high, ymax=1-conf.low), alpha=0.1, colour="transparent")+
   scale_fill_viridis_d(guide=FALSE)+
   scale_colour_viridis_d()+
   scale_y_continuous(expand = expansion(mult=c(0,0.1)))+
