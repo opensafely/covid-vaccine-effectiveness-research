@@ -5,16 +5,71 @@ expectations:
 
 actions:
 
-  generate_study_population:
+  extract_data:
     run: cohortextractor:latest generate_cohort --study-definition study_definition
     outputs:
       highly_sensitive:
         cohort: output/input.csv
 
-  run_model:
-    run: stata-mp:latest analysis/model.do
-    needs: [generate_study_population]
+  # generate_notebook:
+  #   run: jupyter:latest jupyter nbconvert /workspace/notebooks/population_characteristics.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+  #
+  #   needs: [generate_delivery_cohort]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/population_characteristics.html
+
+
+  get_packages:
+    run: r:latest analysis/R/export_package_names.R
+    outputs:    
+      moderately_sensitive:
+        cohort: output/available_packages.csv
+
+  process_data:
+    run: r:latest analysis/R/process_data.R
+    needs: [extract_data]
+    outputs:
+      highly_sensitive:
+        cohort1: output/data/data_processed.rds
+        cohort2: output/data/data_vaccinated.rds
+      moderately_sensitive:
+        summary1: output/data_summary/summary_extract.txt
+        summary2: output/data_summary/summary_processed.txt
+        summary3: output/data_summary/summary_vaccinated.txt
+        summary4: output/data_summary/type_extract.txt
+        summary5: output/data_summary/type_processed.txt
+        summary6: output/data_summary/type_vaccinated.txt
+
+
+  summarise_data:
+    run: r:latest analysis/R/summarise_data.R
+    needs: [process_data]
     outputs:
       moderately_sensitive:
-        log: logs/model.log
+        summary1: output/variable_summary/categorical.txt
+        summary2: output/variable_summary/numeric.txt
+        summary3: output/variable_summary/date.txt
+        summarytables: output/variable_summary/tables/categorical_*.csv
+        summarystats: output/data_summary/summary_stats.json
 
+  vaccine_tables:
+    run: r:latest analysis/R/vaccine_type.R
+    needs: [process_data]
+    outputs:
+      moderately_sensitive:
+        tables: output/vaccine_type/tables/vaccine_type_*.csv
+
+  tte_tables:
+    run: r:latest analysis/R/tte_tables.R
+    needs: [process_data]
+    outputs:
+      moderately_sensitive:
+        tables: output/tte/tables/event_rates_*.csv
+
+  tte_plots:
+    run: r:latest analysis/R/tte_plots.R
+    needs: [process_data]
+    outputs:
+      moderately_sensitive:
+        plots: output/tte/figures/plot_*.svg

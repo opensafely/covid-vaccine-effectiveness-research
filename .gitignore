@@ -6,3 +6,19 @@ __pycache__
 output/*
 metadata/*
 .idea/
+
+# jupyter
+
+.ipynb_checkpoints
+
+.ipython/
+
+.jupyter/
+
+.local/
+.env
+
+#Rstudio
+
+.Rproj.user
+*.Rproj

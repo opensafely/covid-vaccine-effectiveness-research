@@ -308,7 +308,7 @@ study = StudyDefinition(
         },
     ),
 
-    # SECOND DOSE COVID VACCINATION, TYPE = Pfizer (within at least 19 d of patient's first dose of same vaccine type)
+    # SECOND DOSE COVID VACCINATION, TYPE = Pfizer (after at least 19 d of patient's first dose of same vaccine type)
         # NB will not pick up second doses in patients given mixed types
     covid_vacc_pfizer_second_dose_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
@@ -323,6 +323,23 @@ study = StudyDefinition(
             }
         },
     ),
+    
+    # THIRD DOSE COVID VACCINATION, TYPE = Pfizer (after patient's second dose of same vaccine type)
+    # NB will not pick up second doses in patients given mixed types
+    covid_vacc_pfizer_third_dose_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+        on_or_after="covid_vacc_pfizer_second_dose_date",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2020-12-29",  # first reported second dose administered on the 29/12
+                "latest": latest_date,
+            }
+        },
+    ),
+
 
     # COVID VACCINATION TYPE = Oxford AZ - first record of an Oxford AZ vaccine 
         # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
@@ -340,11 +357,27 @@ study = StudyDefinition(
         },
     ),
 
-    # SECOND DOSE COVID VACCINATION, TYPE = Oxford AZ (within at least 19 d of patient's first dose of same vaccine type)
+    # SECOND DOSE COVID VACCINATION, TYPE = Oxford AZ (after at least 19 d of patient's first dose of same vaccine type)
         # NB will not pick up second doses in patients given mixed types
     covid_vacc_oxford_second_dose_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
         on_or_after="covid_vacc_oxford_first_dose_date + 19 days",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2021-01-19",  
+                "latest": latest_date,
+            }
+        },
+    ),
+
+    # THIRD DOSE COVID VACCINATION, TYPE = Oxford AZ (after second dose of same vaccine type)
+        # NB will not pick up second doses in patients given mixed types
+    covid_vacc_oxford_third_dose_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+        on_or_after="covid_vacc_oxford_second_dose_date",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
