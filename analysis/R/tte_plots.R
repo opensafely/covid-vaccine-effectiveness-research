@@ -71,23 +71,16 @@ plot_surv <- function(.surv_data, colour_var, colour_name, title=""){
   surv_plot
 }
 
-survobj(data_vaccinated, "tte_coviddeath", "ind_coviddeath", "stp")
-
-test<-
-  data_vaccinated %>%
-  select(stp, tte_coviddeath, ind_coviddeath) %>%
-  group_by(stp) %>%
-  nest()
 
 metadata_variables <- tibble(
-    variable = c("sex", "ageband", "ethnicity", "imd", "stp"),
-    variable_name = c("Sex", "Age", "Ethnicity", "IMD", "STP")
+    variable = c("sex", "ageband", "ethnicity", "imd", "region"),
+    variable_name = c("Sex", "Age", "Ethnicity", "IMD", "Region")
 )
 
 metadata_outcomes <- tibble(
-    outcome = c("posSGSS", "posPC", #"admitted",
+    outcome = c("seconddose", "posSGSS", "posPC", #"admitted",
                 "coviddeath", "death"),
-    outcome_name = c("positive SGSS test", "primary care case", #"covid-related admission",
+    outcome_name = c("second dose", "positive SGSS test", "primary care case", #"covid-related admission",
                      "covid-related death", "death")
 )
 
@@ -125,9 +118,10 @@ plot_combinations %>%
   pwalk(ggsave)
 
 
-# patch plots together by variable and save
+# patch adverse event plots together by variable and save
 
 plot_combinations %>%
+  filter(outcome != "seconddose") %>%
   group_by(variable, variable_name) %>%
   summarise(patch_plot = list(plot)) %>%
   mutate(

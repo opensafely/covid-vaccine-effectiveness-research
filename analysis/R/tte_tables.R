@@ -43,6 +43,7 @@ eventrate_table_all <- function(data, variable, days=30L){
 
   list(
     total_followup,
+    eventrate_table_1(data, "seconddose", variable, days),
     eventrate_table_1(data, "posPC", variable, days),
     eventrate_table_1(data, "posSGSS", variable, days),
     eventrate_table_1(data, "admitted", variable, days),
@@ -58,7 +59,7 @@ eventrate_table_all <- function(data, variable, days=30L){
 
 dir.create(here::here("output", "tte", "tables"), showWarnings = FALSE, recursive=TRUE)
 
-c("sex", "ageband", "imd", "stp", "ethnicity") %>%
+c("sex", "ageband", "imd", "ethnicity", "region") %>%
   set_names(.) %>%
   map(~{eventrate_table_all(data_vaccinated, ., 7)}) %>%
   enframe() %>%

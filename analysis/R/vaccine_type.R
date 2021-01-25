@@ -11,12 +11,15 @@ data_vaccinated <- read_rds(
 )
 
 
+# crosstabs ----
+
 redacted_summary_catcat(data_vaccinated$ageband, as.character(data_vaccinated$vaccine_first_dose_type), redaction_accuracy=7L)
+
 
 
 dir.create(here::here("output", "vaccine_type", "tables"), showWarnings = FALSE, recursive=TRUE)
 
-c("sex", "ageband", "imd", "stp", "ethnicity") %>%
+c("sex", "ageband", "imd", "ethnicity", "region") %>%
   set_names(.) %>%
   map(~{redacted_summary_catcat(data_vaccinated[[.x]], data_vaccinated$vaccine_first_dose_type, redaction_accuracy=7L)}) %>%
   enframe() %>%
