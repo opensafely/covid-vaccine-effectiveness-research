@@ -91,7 +91,6 @@ data_delivery0 <- read_csv(
     temporary_immunosuppression = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
     asplenia = col_logical(),
-    adrenaline_pen = col_logical(),
 
     # dates
     covid_vacc_date = col_date(format="%Y-%m-%d"),
@@ -134,23 +133,27 @@ data_processed <- data_delivery %>%
       TRUE ~ NA_character_
     ),
 
-    ethnicity = fct_recode(ethnicity,
-      `White` = "1",
-      `Mixed` = "2",
-      `South Asian` = "3",
-      `Black` = "4",
-      `Other` = "5"
-    ) %>% fct_relevel(c("Black", "Mixed", "South Asian", "White", "Other")),
+    ethnicity = fct_case_when(
+      ethnicity == "4" ~ "Black",
+      ethnicity == "2" ~ "Mixed",
+      ethnicity == "3" ~ "South Asian",
+      ethnicity == "1" ~ "White",
+      ethnicity == "5" ~ "Other",
+      TRUE ~ NA_character_
+    ),
 
-    imd = fct_recode(na_if(imd, 0),
-      `1 least deprived` = "1",
-      `2` = "2",
-      `3` = "3",
-      `4` = "4",
-      `5 most deprived` = "5",
-    ) %>% fct_relevel(c("1 least deprived", "2", "3", "4", "5 most deprived")),
 
-    vaccine_type = case_when(
+    imd = na_if(imd, "0"),
+    imd = fct_case_when(
+      imd == 1 ~ "1 least deprived",
+      imd == 2 ~ "2",
+      imd == 3 ~ "3",
+      imd == 4 ~ "4",
+      imd == 5 ~ "5 most deprived",
+      TRUE ~ NA_character_
+    ),
+
+    vaccine_type = fct_case_when(
       !is.na(covid_vacc_oxford_date) & is.na(covid_vacc_pfizer_date) ~ "Oxford/AZ",
       is.na(covid_vacc_oxford_date) & !is.na(covid_vacc_pfizer_date) ~ "Pfizer",
       !is.na(covid_vacc_oxford_date) & !is.na(covid_vacc_pfizer_date) ~ "Oxford/AZ and Pfizer",
@@ -186,12 +189,12 @@ data_processed <- data_delivery %>%
 
 # Output summary .txt ----
 
+options(width=200) # set output width for capture.output
+
 dir.create(here::here("output", "data_summary"), showWarnings = FALSE, recursive=TRUE)
 
-# capture.output(skimr::skim_without_charts(data_delivery), file = here::here("output", "data_summary", "summary_delivery.txt"))
-# capture.output(skimr::skim_without_charts(data_processed), file = here::here("output", "data_summary", "summary_processed.txt"))
-capture.output(Hmisc::describe(data_delivery), file = here::here("output", "data_summary", "summary_delivery.txt"))
-capture.output(Hmisc::describe(data_processed), file = here::here("output", "data_summary", "summary_processed.txt"))
+capture.output(skimr::skim_without_charts(data_delivery), file = here::here("output", "data_summary", "summary_delivery.txt"), split=FALSE)
+capture.output(skimr::skim_without_charts(data_processed), file = here::here("output", "data_summary", "summary_processed.txt"), split=FALSE)
 
 capture.output(map(data_delivery, class), file = here::here("output", "data_summary", "type_delivery.txt"))
 capture.output(map(data_processed, class), file = here::here("output", "data_summary", "type_processed.txt"))
