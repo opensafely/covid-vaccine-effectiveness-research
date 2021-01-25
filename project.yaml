@@ -53,7 +53,7 @@ actions:
         summarytables: output/variable_summary/tables/categorical_*.csv
         summarystats: output/data_summary/summary_stats.json
 
-  vaccinetype_tables:
+  vaccine_tables:
     run: r:latest analysis/R/vaccine_type.R
     needs: [process_data]
     outputs:
