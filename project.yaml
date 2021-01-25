@@ -5,11 +5,11 @@ expectations:
 
 actions:
 
-  generate_delivery_cohort:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_delivery
+  extract_data:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition
     outputs:
       highly_sensitive:
-        cohort: output/input_delivery.csv
+        cohort: output/input.csv
 
   # generate_notebook:
   #   run: jupyter:latest jupyter nbconvert /workspace/notebooks/population_characteristics.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
@@ -28,15 +28,18 @@ actions:
 
   process_data:
     run: r:latest analysis/R/process_data.R
-    needs: [generate_delivery_cohort]
+    needs: [extract_data]
     outputs:
       highly_sensitive:
-        cohort: output/data/data_processed.rds
+        cohort1: output/data/data_processed.rds
+        cohort2: output/data/data_vaccinated.rds
       moderately_sensitive:
-        summary1: output/data_summary/summary_delivery.txt
+        summary1: output/data_summary/summary_extract.txt
         summary2: output/data_summary/summary_processed.txt
-        summary3: output/data_summary/type_delivery.txt
-        summary4: output/data_summary/type_processed.txt
+        summary3: output/data_summary/summary_vaccinated.txt
+        summary4: output/data_summary/type_extract.txt
+        summary5: output/data_summary/type_processed.txt
+        summary6: output/data_summary/type_vaccinated.txt
 
 
   summarise_data:
@@ -48,7 +51,7 @@ actions:
         summary2: output/variable_summary/numeric.txt
         summary3: output/variable_summary/date.txt
         summarytables: output/variable_summary/tables/categorical_*.csv
-        summarystats: output/data_summary/summary_stats.rds
+        summarystats: output/data_summary/summary_stats.json
 
   vaccinetype_tables:
     run: r:latest analysis/R/vaccine_type.R

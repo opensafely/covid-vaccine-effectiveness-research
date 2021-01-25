@@ -91,16 +91,27 @@ capture.output(
 
 # summary stats for report ----
 
+
 print(date(file.info(here::here("output","input_delivery.csv"))$ctime))
 print(date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime))
 
-summary_stats <- list(
-  run_date = date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime),
-  end_date = data_processed$end_date[1],
-  total_vaccinated = sum(!is.na(data_processed$covid_vacc_date)),
-  total_vaccinated_oxford = sum(!is.na(data_processed$vaccine_type=="Oxford/AZ")),
-  total_vaccinated_pfizer = sum(!is.na(data_processed$vaccine_type=="Pfizer"))
+
+# won't been needed when we can run R via notebook
+
+vars_list <- jsonlite::fromJSON(txt=here::here("lib", "global-variables.json"))
+
+summary_stats <- append (
+  vars_list,
+  list(
+    total_vaccinated = sum(!is.na(data_processed$covid_vacc_date)),
+    total_vaccinated_oxford = sum(!is.na(data_processed$vaccine_type=="Oxford/AZ")),
+    total_vaccinated_pfizer = sum(!is.na(data_processed$vaccine_type=="Pfizer"))
+  )
 )
 
-write_rds(summary_stats, here::here("output", "data_summary", "summary_stats.rds"))
+#write_rds(summary_stats, here::here("output", "data_summary", "summary_stats.rds"))
+
+jsonlite::write_json(summary_stats, path=here::here("output", "data_summary", "summary_stats.json"), auto_unbox = TRUE,  pretty=TRUE)
+
+
 

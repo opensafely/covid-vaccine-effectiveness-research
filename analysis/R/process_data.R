@@ -1,6 +1,7 @@
 # Import libraries ----
 library('tidyverse')
 library('lubridate')
+library('jsonlite')
 
 # functions ----
 
@@ -32,12 +33,32 @@ tte <- function(origin_date, event_date, censor_date){
 
 
 
+# get global variables ----
+
+# eventually this section will be replaced by something that imports metadata from the opensafely CLI,
+# such as run dates and end dates for study period, etc
+
+# for now, we create it manually
+
+vars_list = list(
+  run_date = date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime),
+  start_date = "2020-12-07", # change this if you need to
+  end_date = "2021-01-13"
+)
+
+jsonlite::write_json(vars_list, path=here::here("lib", "global-variables.json"), auto_unbox = TRUE,  pretty=TRUE)
+
+# import in R using:
+# vars_list <- jsonlite::fromJSON(txt=here::here("lib", "global-variables.json"))
+# list2env(vars_list, globalenv())
+
+
 
 
 # process ----
 
 read_csv(
-  here::here("output", "input_delivery.csv"),
+  here::here("output", "input.csv"),
   n_max=0,
   col_types = cols()
 ) %>%
@@ -45,8 +66,8 @@ names() %>%
 print()
 
 
-data_delivery0 <- read_csv(
-  here::here("output", "input_delivery.csv"),
+data_extract0 <- read_csv(
+  here::here("output", "input.csv"),
   col_types = cols(
 
     # identifiers
@@ -95,8 +116,15 @@ data_delivery0 <- read_csv(
     # dates
     covid_vacc_date = col_date(format="%Y-%m-%d"),
     covid_vacc_second_dose_date = col_date(format="%Y-%m-%d"),
-    covid_vacc_pfizer_date = col_date(format="%Y-%m-%d"),
-    covid_vacc_oxford_date = col_date(format="%Y-%m-%d"),
+
+    covid_vacc_pfizer_first_dose_date = col_date(format="%Y-%m-%d"),
+    covid_vacc_pfizer_second_dose_date = col_date(format="%Y-%m-%d"),
+    covid_vacc_pfizer_third_dose_date = col_date(format="%Y-%m-%d"),
+
+    covid_vacc_oxford_first_dose_date = col_date(format="%Y-%m-%d"),
+    covid_vacc_oxford_second_dose_date = col_date(format="%Y-%m-%d"),
+    covid_vacc_oxford_third_dose_date = col_date(format="%Y-%m-%d"),
+
     first_positive_test_date_SGSS = col_date(format="%Y-%m-%d"),
     earliest_primary_care_covid_case = col_date(format="%Y-%m-%d"),
     postvac_primary_care_covid_case = col_date(format="%Y-%m-%d"),
@@ -110,7 +138,7 @@ data_delivery0 <- read_csv(
 
 # parse NAs
 
-data_delivery <- data_delivery0 %>%
+data_extract <- data_extract0 %>%
   mutate(across(
     .cols = where(is.character),
     .fns = ~na_if(.x, "")
@@ -121,9 +149,9 @@ data_delivery <- data_delivery0 %>%
   ))
 
 
-data_processed <- data_delivery %>%
+data_processed <- data_extract %>%
   mutate(
-    end_date = as.Date("2021-01-18"),
+    end_date = as.Date(vars_list$end_date),
 
     sex = fct_case_when(
       sex == "F" ~ "Female",
@@ -153,29 +181,31 @@ data_processed <- data_delivery %>%
       TRUE ~ NA_character_
     ),
 
-    vaccine_type = fct_case_when(
-      !is.na(covid_vacc_oxford_date) & is.na(covid_vacc_pfizer_date) ~ "Oxford/AZ",
-      is.na(covid_vacc_oxford_date) & !is.na(covid_vacc_pfizer_date) ~ "Pfizer",
-      !is.na(covid_vacc_oxford_date) & !is.na(covid_vacc_pfizer_date) ~ "Oxford/AZ and Pfizer",
-      is.na(covid_vacc_oxford_date) & is.na(covid_vacc_pfizer_date) ~ "Not vaccinated",
-      TRUE ~ NA_character_
+    vaccine_first_dose_type = fct_case_when(
+      !is.na(covid_vacc_oxford_first_dose_date) & is.na(covid_vacc_pfizer_first_dose_date) ~ "Ox/AZ",
+      is.na(covid_vacc_oxford_first_dose_date) & !is.na(covid_vacc_pfizer_first_dose_date) ~ "P/B",
+      TRUE ~ "Not vaccinated"
     ),
+
+    covid_vacc_second_dose_date = pmin(covid_vacc_oxford_second_dose_date, covid_vacc_pfizer_second_dose_date, na.rm=TRUE),
 
     censor_date = pmin(end_date, death_date, na.rm=TRUE),
     tte_end = tte(covid_vacc_date, end_date, end_date),
 
-    postvac_positive_test_date_SGSS_censored = censor(postvac_positive_test_date_SGSS, censor_date, na.censor=FALSE),
-    postvac_primary_care_covid_case_censored = censor(postvac_primary_care_covid_case, censor_date, na.censor=FALSE),
-    postvac_admitted_date_censored = censor(postvac_admitted_date, censor_date, na.censor=FALSE),
-    coviddeath_date_censored = censor(coviddeath_date, censor_date, na.censor=FALSE),
-    death_date_censored = censor(death_date, censor_date, na.censor=FALSE),
+    # postvac_positive_test_date_SGSS_censored = censor(postvac_positive_test_date_SGSS, censor_date, na.censor=FALSE),
+    # postvac_primary_care_covid_case_censored = censor(postvac_primary_care_covid_case, censor_date, na.censor=FALSE),
+    # postvac_admitted_date_censored = censor(postvac_admitted_date, censor_date, na.censor=FALSE),
+    # coviddeath_date_censored = censor(coviddeath_date, censor_date, na.censor=FALSE),
+    # death_date_censored = censor(death_date, censor_date, na.censor=FALSE),
 
+    tte_seconddose = tte(covid_vacc_date, covid_vacc_second_dose_date, censor_date),
     tte_posSGSS = tte(covid_vacc_date, postvac_positive_test_date_SGSS, censor_date),
     tte_posPC = tte(covid_vacc_date, postvac_primary_care_covid_case, censor_date),
     tte_admitted = tte(covid_vacc_date, postvac_admitted_date, censor_date),
     tte_coviddeath = tte(covid_vacc_date, coviddeath_date, censor_date),
     tte_death = tte(covid_vacc_date, death_date_censored, censor_date),
 
+    ind_seconddose = censor_indicator(covid_vacc_second_dose_date, censor_date),
     ind_posSGSS = censor_indicator(postvac_positive_test_date_SGSS, censor_date),
     ind_posPC = censor_indicator(postvac_primary_care_covid_case, censor_date),
     ind_admitted = censor_indicator(postvac_admitted_date, censor_date),
@@ -183,6 +213,10 @@ data_processed <- data_delivery %>%
     ind_death = censor_indicator(death_date, censor_date),
 
   )
+
+
+data_vaccinated <- data_processed %>%
+  filter(!is.na(covid_vacc_date))
 
 # Output processed data ----
 
@@ -193,11 +227,13 @@ options(width=200) # set output width for capture.output
 
 dir.create(here::here("output", "data_summary"), showWarnings = FALSE, recursive=TRUE)
 
-capture.output(skimr::skim_without_charts(data_delivery), file = here::here("output", "data_summary", "summary_delivery.txt"), split=FALSE)
+capture.output(skimr::skim_without_charts(data_extract), file = here::here("output", "data_summary", "summary_extract.txt"), split=FALSE)
 capture.output(skimr::skim_without_charts(data_processed), file = here::here("output", "data_summary", "summary_processed.txt"), split=FALSE)
+capture.output(skimr::skim_without_charts(data_vaccinated), file = here::here("output", "data_summary", "summary_vaccinated.txt"), split=FALSE)
 
-capture.output(map(data_delivery, class), file = here::here("output", "data_summary", "type_delivery.txt"))
+capture.output(map(data_extract, class), file = here::here("output", "data_summary", "type_extract.txt"))
 capture.output(map(data_processed, class), file = here::here("output", "data_summary", "type_processed.txt"))
+capture.output(map(data_vaccinated, class), file = here::here("output", "data_summary", "type_vaccinated.txt"))
 
 
 # output processed data to rds ----
@@ -205,5 +241,9 @@ capture.output(map(data_processed, class), file = here::here("output", "data_sum
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
 write_rds(data_processed, here::here("output", "data", "data_processed.rds"))
+write_rds(data_vaccinated, here::here("output", "data", "data_vaccinated.rds"))
+
+
+
 
 
