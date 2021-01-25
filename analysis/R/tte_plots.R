@@ -5,8 +5,8 @@ library('patchwork')
 
 # import data ----
 
-data_processed <- read_rds(
-  here::here("output", "data", "data_processed.rds")
+data_vaccinated <- read_rds(
+  here::here("output", "data", "data_vaccinated.rds")
 )
 
 # time to readmission or death ##################
@@ -71,10 +71,10 @@ plot_surv <- function(.surv_data, colour_var, colour_name, title=""){
   surv_plot
 }
 
-survobj(data_processed, "tte_coviddeath", "ind_coviddeath", "stp")
+survobj(data_vaccinated, "tte_coviddeath", "ind_coviddeath", "stp")
 
 test<-
-data_processed %>%
+  data_vaccinated %>%
   select(stp, tte_coviddeath, ind_coviddeath) %>%
   group_by(stp) %>%
   nest()
@@ -102,7 +102,7 @@ plot_combinations <- metadata_crossed %>%
     survobj = pmap(
       list(variable, outcome),
       function(variable, outcome){
-        survobj(data_processed, paste0("tte_", outcome), paste0("ind_", outcome), group_vars=c(variable))
+        survobj(data_vaccinated, paste0("tte_", outcome), paste0("ind_", outcome), group_vars=c(variable))
       }
     ),
     plot = pmap(

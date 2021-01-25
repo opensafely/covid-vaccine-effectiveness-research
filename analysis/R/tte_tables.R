@@ -6,8 +6,8 @@ source(here::here("lib", "redaction_functions.R"))
 
 # import data ----
 
-data_processed <- read_rds(
-  here::here("output", "data", "data_processed.rds")
+data_vaccinated <- read_rds(
+  here::here("output", "data", "data_vaccinated.rds")
 )
 
 
@@ -60,7 +60,7 @@ dir.create(here::here("output", "tte", "tables"), showWarnings = FALSE, recursiv
 
 c("sex", "ageband", "imd", "stp", "ethnicity") %>%
   set_names(.) %>%
-  map(~{eventrate_table_all(data_processed, ., 7)}) %>%
+  map(~{eventrate_table_all(data_vaccinated, ., 7)}) %>%
   enframe() %>%
   transmute(
     x=value,

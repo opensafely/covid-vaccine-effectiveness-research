@@ -6,20 +6,19 @@ source(here::here("lib", "redaction_functions.R"))
 
 # import data ----
 
-data_processed <- read_rds(
-  here::here("output", "data", "data_processed.rds")
+data_vaccinated <- read_rds(
+  here::here("output", "data", "data_vaccinated.rds")
 )
 
 
-redacted_summary_catcat(data_processed$ageband, as.character(data_processed$vaccine_type))
-
+redacted_summary_catcat(data_vaccinated$ageband, as.character(data_vaccinated$vaccine_first_dose_type), redaction_accuracy=7L)
 
 
 dir.create(here::here("output", "vaccine_type", "tables"), showWarnings = FALSE, recursive=TRUE)
 
 c("sex", "ageband", "imd", "stp", "ethnicity") %>%
   set_names(.) %>%
-  map(~{redacted_summary_catcat(data_processed[[.x]], data_processed$vaccine_type)}) %>%
+  map(~{redacted_summary_catcat(data_vaccinated[[.x]], data_vaccinated$vaccine_first_dose_type, redaction_accuracy=7L)}) %>%
   enframe() %>%
   transmute(
     x=value,

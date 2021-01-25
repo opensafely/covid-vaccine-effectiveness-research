@@ -77,16 +77,13 @@ data_extract0 <- read_csv(
     # demographic / administrative
     stp = col_character(),
     region = col_character(),
-    index_of_multiple_deprivation = col_integer(),
     imd = col_character(),
     care_home_type = col_character(),
 
-    has_follow_up = col_logical(),
     registered = col_logical(),
     has_died = col_logical(),
 
     age = col_integer(),
-    ageband = col_character(),
     sex = col_character(),
     ethnicity = col_character(),
     ethnicity_16 = col_character(),
@@ -94,7 +91,7 @@ data_extract0 <- read_csv(
 
     # clinical
 
-    bmi = col_double(),
+    bmi = col_character(),
     chronic_cardiac_disease = col_logical(),
     current_copd = col_logical(),
     dmards = col_logical(),
@@ -114,6 +111,10 @@ data_extract0 <- read_csv(
     asplenia = col_logical(),
 
     # dates
+
+    first_SGSS_positive_test_date = col_date(format="%Y-%m-%d"),
+    earliest_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
+
     covid_vacc_date = col_date(format="%Y-%m-%d"),
     covid_vacc_second_dose_date = col_date(format="%Y-%m-%d"),
 
@@ -125,11 +126,9 @@ data_extract0 <- read_csv(
     covid_vacc_oxford_second_dose_date = col_date(format="%Y-%m-%d"),
     covid_vacc_oxford_third_dose_date = col_date(format="%Y-%m-%d"),
 
-    first_positive_test_date_SGSS = col_date(format="%Y-%m-%d"),
-    earliest_primary_care_covid_case = col_date(format="%Y-%m-%d"),
-    postvac_primary_care_covid_case = col_date(format="%Y-%m-%d"),
-    postvac_positive_test_date_SGSS = col_date(format="%Y-%m-%d"),
-    postvac_admitted_date = col_date(format="%Y-%m-%d"),
+    post_vaccine_SGSS_positive_test_date = col_date(format="%Y-%m-%d"),
+    post_vaccine_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
+    post_vaccine_admitted_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d")
   ),
@@ -148,7 +147,6 @@ data_extract <- data_extract0 %>%
     .fns = ~na_if(.x, 0)
   ))
 
-
 data_processed <- data_extract %>%
   mutate(
     end_date = as.Date(vars_list$end_date),
@@ -159,6 +157,13 @@ data_processed <- data_extract %>%
       sex == "I" ~ "Inter-sex",
       sex == "U" ~ "Unknown",
       TRUE ~ NA_character_
+    ),
+
+    ageband = cut(
+      age,
+      breaks=c(-Inf, 18, 40, 50, 60, 70, 80, 90, Inf),
+      labels=c("under 18", "18-40", "40s", "50s", "60s", "70s", "80s", "90+"),
+      right=FALSE
     ),
 
     ethnicity = fct_case_when(
@@ -199,16 +204,16 @@ data_processed <- data_extract %>%
     # death_date_censored = censor(death_date, censor_date, na.censor=FALSE),
 
     tte_seconddose = tte(covid_vacc_date, covid_vacc_second_dose_date, censor_date),
-    tte_posSGSS = tte(covid_vacc_date, postvac_positive_test_date_SGSS, censor_date),
-    tte_posPC = tte(covid_vacc_date, postvac_primary_care_covid_case, censor_date),
-    tte_admitted = tte(covid_vacc_date, postvac_admitted_date, censor_date),
+    tte_posSGSS = tte(covid_vacc_date, post_vaccine_SGSS_positive_test_date, censor_date),
+    tte_posPC = tte(covid_vacc_date, post_vaccine_primary_care_covid_case_date, censor_date),
+    tte_admitted = tte(covid_vacc_date, post_vaccine_admitted_date, censor_date),
     tte_coviddeath = tte(covid_vacc_date, coviddeath_date, censor_date),
-    tte_death = tte(covid_vacc_date, death_date_censored, censor_date),
+    tte_death = tte(covid_vacc_date, death_date, censor_date),
 
     ind_seconddose = censor_indicator(covid_vacc_second_dose_date, censor_date),
-    ind_posSGSS = censor_indicator(postvac_positive_test_date_SGSS, censor_date),
-    ind_posPC = censor_indicator(postvac_primary_care_covid_case, censor_date),
-    ind_admitted = censor_indicator(postvac_admitted_date, censor_date),
+    ind_posSGSS = censor_indicator(post_vaccine_SGSS_positive_test_date, censor_date),
+    ind_posPC = censor_indicator(post_vaccine_primary_care_covid_case_date, censor_date),
+    ind_admitted = censor_indicator(post_vaccine_admitted_date, censor_date),
     ind_coviddeath = censor_indicator(coviddeath_date, censor_date),
     ind_death = censor_indicator(death_date, censor_date),
 
