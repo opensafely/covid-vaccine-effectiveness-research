@@ -28,6 +28,8 @@ redactor <- function(n, threshold){
 }
 
 
+
+
 ## summary table functions (outputs a data.frame) ----
 
 testdata <- tibble(
@@ -56,7 +58,16 @@ testdata <- tibble(
 
 ### categorical data ----
 
-redacted_summary_cat <- function(variable, .missing_name = "(missing)", .redacted_name="redacted", redaction_threshold=5){
+redacted_summary_cat <- function(
+  variable,
+  .missing_name = "(missing)",
+  .redacted_name="redacted",
+  redaction_threshold=5,
+  redaction_accuracy=1L
+){
+
+
+  stopifnot("redaction_accuracy must be a strictly-positive integer" = ((redaction_accuracy<0) | (redaction_accuracy %% 1)!=0))
 
   if (is.logical(variable)){
     variable <- if_else(variable, "yes", "no")
@@ -68,6 +79,7 @@ redacted_summary_cat <- function(variable, .missing_name = "(missing)", .redacte
     group_by(.level, .drop=FALSE) %>%
     tally() %>%
     mutate(
+      n = as.integer(round(n/redaction_accuracy)*redaction_accuracy),
       pct=n/sum(n),
       n_nonmiss=if_else(.level==.missing_name, 0L, n),
       pct_nonmiss = (n_nonmiss/sum(n_nonmiss, na.rm=TRUE)),
@@ -98,9 +110,12 @@ redacted_summary_catcat <- function(
   .missing_name = "(missing)",
   .redacted_name="redacted",
   redaction_threshold=5,
+  redaction_accuracy=1L,
   .total_name=NULL
 ){
 
+
+  stopifnot("redaction_accuracy must be a strictly-positive integer" = ((redaction_accuracy<1) | (redaction_accuracy %% 1)!=0))
 
   if (is.logical(variable1)){
     variable1 <- if_else(variable1, "yes", "no")
@@ -114,24 +129,40 @@ redacted_summary_catcat <- function(
     .level1 = (fct_explicit_na(variable1, na_level=.missing_name)),
     .level2 = (fct_explicit_na(variable2, na_level=.missing_name)),
   ) %>%
-    group_by(.level2, .level1, .drop=TRUE) %>%
+    group_by(.level2, .level1, .drop=FALSE) %>%
     tally() %>%
     mutate(
       pct = n/sum(n),
+      n = as.integer(round(n/redaction_accuracy)*redaction_accuracy),
       n_nonmiss = if_else(.level1==.missing_name, 0L, n),
       pct_nonmiss = (n_nonmiss/sum(n_nonmiss, na.rm=TRUE)),
     ) %>%
     select(-n_nonmiss)
 
 
-  dat_freq[[.redacted_name]] <- redactor(dat_freq$n, redaction_threshold)
 
-  dat_redacted <- dat_freq %>%
+  dat_freq_redact0 <- dat_freq %>%
+    group_by(.level1) %>%
+    mutate(
+      .redacted_name1 = redactor(n, redaction_threshold),
+    ) %>%
+    group_by(.level2) %>%
+    mutate(
+      .redacted_name2 = redactor(n, redaction_threshold)
+    ) %>%
     ungroup() %>%
+    mutate(
+      {{.redacted_name}} := .redacted_name1 | .redacted_name2
+    ) %>%
+    select(-.redacted_name1, -.redacted_name2)
+
+ print(dat_freq_redact0)
+
+  dat_redacted <- dat_freq_redact0 %>%
     mutate(across(
       .cols = -all_of(c(".level1", ".level2", .redacted_name)),
       ~{
-        if_else(dat_freq[[.redacted_name]], .x+NA, .x) # .x+NA rather than NA to ensure correct type
+        if_else(dat_freq_redact0[[.redacted_name]], .x+NA, .x) # .x+NA rather than NA to ensure correct type
       }
     ))
 
@@ -156,7 +187,7 @@ redacted_summary_catcat <- function(
 
 }
 
-test_catcat <- redacted_summary_catcat(testdata$a, testdata$b, .total_name="Total")
+test_catcat <- redacted_summary_catcat(testdata$a, testdata$b, .total_name="Total") %>% View()
 
 
 
