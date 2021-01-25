@@ -67,7 +67,7 @@ redacted_summary_cat <- function(
 ){
 
 
-  stopifnot("redaction_accuracy must be a strictly-positive integer" = ((redaction_accuracy<0) | (redaction_accuracy %% 1)!=0))
+  stopifnot("redaction_accuracy must be a strictly-positive integer" = ((redaction_accuracy>=1) | (redaction_accuracy %% 1)==0))
 
   if (is.logical(variable)){
     variable <- if_else(variable, "yes", "no")
@@ -98,7 +98,7 @@ redacted_summary_cat <- function(
   dat_redacted
 }
 
-test_cat <- redacted_summary_cat(testdata$a)
+#test_cat <- redacted_summary_cat(testdata$a)
 
 
 
@@ -115,7 +115,7 @@ redacted_summary_catcat <- function(
 ){
 
 
-  stopifnot("redaction_accuracy must be a strictly-positive integer" = ((redaction_accuracy<1) | (redaction_accuracy %% 1)!=0))
+  stopifnot("redaction_accuracy must be a strictly-positive integer" = ((redaction_accuracy>=1) | (redaction_accuracy %% 1)==0))
 
   if (is.logical(variable1)){
     variable1 <- if_else(variable1, "yes", "no")
@@ -187,7 +187,7 @@ redacted_summary_catcat <- function(
 
 }
 
-test_catcat <- redacted_summary_catcat(testdata$a, testdata$b, .total_name="Total") %>% View()
+#test_catcat <- redacted_summary_catcat(testdata$a, testdata$b, .total_name="Total")
 
 
 
@@ -238,7 +238,7 @@ redacted_summary_num <- function(variable, .redacted_name="redacted", redaction_
   dat_redacted
 }
 
-test_num <- redacted_summary_num(testdata$c)
+#test_num <- redacted_summary_num(testdata$c)
 
 
 
@@ -293,9 +293,9 @@ redacted_summary_date <- function(variable, .redacted_name="redacted", redaction
   dat_redacted
 }
 
-test_date<- redacted_summary_date(as.Date(c(NA,NA,NA), origin="1970-01-01"))
+#test_date<- redacted_summary_date(as.Date(c(NA,NA,NA), origin="1970-01-01"))
 
-map(test_date, class)
+
 
 
 ### categorical * numeric data ----
@@ -341,7 +341,7 @@ redacted_summary_catnum <- function(variable_cat, variable_num, .missing_name = 
   dat_redacted
 }
 
-test_catnum <- redacted_summary_catnum(testdata$a, testdata$c)
+#test_catnum <- redacted_summary_catnum(testdata$a, testdata$c)
 
 
 
