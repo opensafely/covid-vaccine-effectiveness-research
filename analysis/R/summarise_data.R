@@ -15,9 +15,6 @@ data_processed <- read_rds(here::here("output", "data", "data_processed.rds"))
 dir.create(here::here("output", "variable_summary"), showWarnings = FALSE, recursive=TRUE)
 dir.create(here::here("output", "variable_summary", "tables"), showWarnings = FALSE, recursive=TRUE)
 
-
-
-
 ## categorical ----
 
 
@@ -35,13 +32,13 @@ capture.output(
 
 sumtabs_cat %>%
   unnest(value) %>%
-  write_csv(path=here::here("output", "variable_summary", "categorical.csv"), na="[redacted]")
+  write_csv(path=here::here("output", "variable_summary", "categorical.csv"), na="")
 
 sumtabs_cat %>%
   transmute(
     x=value,
     path=paste0(here::here("output", "variable_summary", "tables", paste0("categorical_", name, ".csv"))),
-    na="[redacted]"
+    na=""
   ) %>%
   pwalk(write_csv)
 
@@ -66,7 +63,7 @@ data_processed %>%
   map(redacted_summary_num) %>%
   enframe() %>%
   unnest(value) %>%
-  write_csv(path=here::here("output", "variable_summary", "continuous.csv"), na="[redacted]")
+  write_csv(path=here::here("output", "variable_summary", "continuous.csv"), na="")
 
 ## dates ----
 
@@ -84,11 +81,11 @@ capture.output(
   append=FALSE
 )
 
-# this does work because date attribute isn't kept for NA vectors in OPENSAFELY version of ??rlang
+# this doesn't work because date attribute isn't kept for NA vectors in OPENSAFELY version of ??rlang
 
 #sumtabs_date %>%
 #  unnest(value) %>%
-#  write_csv(path=here::here("output", "variable_summary", "date.csv"), na="[redacted]")
+#  write_csv(path=here::here("output", "variable_summary", "date.csv"), na="")
 
 
 
