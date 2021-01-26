@@ -21,7 +21,9 @@ eventrate_table_1 <- function(data, outcome, variable, days=30L){
 
   tab <- redacted_summary_catcat(
     as.character((dat[[paste0("tte_", outcome)]] <= days)*dat[[paste0("ind_", outcome)]]),
-    dat[[variable]]
+    dat[[variable]],
+    redaction_threshold = 0L,
+    redaction_accuracy = 7L
   ) %>%
     filter(.level1=="1") %>%
   select(
@@ -33,11 +35,15 @@ eventrate_table_1 <- function(data, outcome, variable, days=30L){
   tab
 }
 
-eventrate_table_all <- function(data, variable, days=30L){
+eventrate_table_all <- function(data, variable, days=14L){
 
   total_followup <- data %>%
     filter(tte_end >= days) %>%
-    {redacted_summary_cat(.[[variable]])} %>%
+    {redacted_summary_cat(
+      .[[variable]],
+      redaction_threshold=0L,
+      redaction_accuracy=7L
+    )} %>%
     select(.level, n) %>%
     set_names(c(variable, "n"))
 
@@ -61,7 +67,7 @@ dir.create(here::here("output", "tte", "tables"), showWarnings = FALSE, recursiv
 
 c("sex", "ageband", "imd", "ethnicity", "region") %>%
   set_names(.) %>%
-  map(~{eventrate_table_all(data_vaccinated, ., 7)}) %>%
+  map(~{eventrate_table_all(data_vaccinated, ., 14L)}) %>%
   enframe() %>%
   transmute(
     x=value,

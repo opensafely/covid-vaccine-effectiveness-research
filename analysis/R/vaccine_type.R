@@ -13,7 +13,7 @@ data_vaccinated <- read_rds(
 
 # crosstabs ----
 
-redacted_summary_catcat(data_vaccinated$ageband, as.character(data_vaccinated$vaccine_first_dose_type), redaction_accuracy=7L)
+redacted_summary_catcat(data_vaccinated$ageband, as.character(data_vaccinated$vaccine_first_dose_type), redaction_accuracy=7L) %>% View()
 
 
 
@@ -21,7 +21,14 @@ dir.create(here::here("output", "vaccine_type", "tables"), showWarnings = FALSE,
 
 c("sex", "ageband", "imd", "ethnicity", "region") %>%
   set_names(.) %>%
-  map(~{redacted_summary_catcat(data_vaccinated[[.x]], data_vaccinated$vaccine_first_dose_type, redaction_accuracy=7L)}) %>%
+  map(~{
+    redacted_summary_catcat(
+      data_vaccinated[[.x]],
+      data_vaccinated$vaccine_first_dose_type,
+      redaction_threshold = 0L,
+      redaction_accuracy=7L
+    )
+  }) %>%
   enframe() %>%
   transmute(
     x=value,
