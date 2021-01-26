@@ -64,15 +64,7 @@ survobj <- function(.data, time, indicator, group_vars){
   dat_surv
 }
 
-#surv <- survfit(Surv(tte_seconddose, ind_seconddose) ~ 1, data = data_vaccinated)
-#tidy_surv(surv)
-
-survobj(data_vaccinated, "tte_seconddose", "ind_seconddose", group_vars="sex") %>% View()
-
-
-
-## select colour_type
-
+## select colour type based on variable it maps
 get_colour_scales <- function(colour_type = "qual"){
 
   if(colour_type == "qual"){
@@ -88,18 +80,17 @@ get_colour_scales <- function(colour_type = "qual"){
     )
   } else if(colour_type == "cont"){
     list(
-      scale_colour_viridis(discrete = FALSE),
-      scale_fill_viridis(discrete = FALSE, guide = FALSE)
+      viridis::scale_colour_viridis(discrete = FALSE),
+      viridis::scale_fill_viridis(discrete = FALSE, guide = FALSE)
     )
   } else if(colour_type == "ordinal"){
     list(
-      scale_colour_viridis(discrete = TRUE),
-      scale_fill_viridis(discrete = TRUE, guide = FALSE)
+      viridis::scale_colour_viridis(discrete = TRUE),
+      viridis::scale_fill_viridis(discrete = TRUE, guide = FALSE)
     )
   } else
-    stop("colour_type not supported -- must be qual, cont, or ordinal")
+    stop("colour_type '", colour_type, "' not supported -- must be 'qual', 'cont', or 'ordinal'")
 }
-
 
 plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",  title=""){
 
@@ -128,7 +119,6 @@ plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",  
 
 plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual", title=""){
 
-
   surv_plot <- .surv_data %>%
     ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
     geom_step(aes(x=time, y=haz_km))+
@@ -154,25 +144,24 @@ plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual",
 metadata_variables <- tibble(
     variable = c("sex"),# "ageband", "ethnicity", "imd", "region"),
     variable_name = c("Sex"),# "Age", "Ethnicity", "IMD", "Region"),
-    colour_type = c("qual")#, "ordinal", "qual", "ordinal", "", "qual")
+    colour_type = c("qual")#, "ordinal", "qual", "ordinal", "qual")
 )
 
 metadata_outcomes <- tibble(
-    outcome = c("seconddose"#,
+    outcome = c("seconddose",
                 #"posSGSS", "posPC", #"admitted",
-                #"coviddeath", "death"
+                #"coviddeath",
+                #"death"
                 ),
-    outcome_name = c("second dose"#,
+    outcome_name = c("second dose",
                      #"positive SGSS test", "primary care case", #"covid-related admission",
-                    # "covid-related death", "death"
+                    # "covid-related death",
+                    #"death"
                      )
 )
 
 metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
 
-
-
-dir.create(here::here("output", "tte", "figures"), showWarnings = FALSE, recursive=TRUE)
 
 plot_combinations <- metadata_crossed %>%
   mutate(
@@ -192,6 +181,8 @@ plot_combinations <- metadata_crossed %>%
     )
   )
 
+
+dir.create(here::here("output", "tte", "figures"), showWarnings = FALSE, recursive=TRUE)
 
 # save individual plots
 plot_combinations %>%
@@ -219,7 +210,7 @@ plot_combinations %>%
   pwalk(ggsave)
 
 
-# patch adverse event plots together by variable and save
+# patch adverse event rate plots together by variable and save
 
 plot_combinations %>%
   filter(outcome != "seconddose") %>%
@@ -238,7 +229,61 @@ plot_combinations %>%
     height = 10,
     width = 15,
     limitsize=FALSE,
+    filename = str_c("plot_patch_surv_", variable, ".svg"),
+    path = here::here("output", "tte", "figures"),
+  ) %>%
+  pwalk(ggsave)
+
+
+# patch adverse event hazard plots together by variable and save
+
+plot_combinations %>%
+  filter(outcome != "seconddose") %>%
+  group_by(variable, variable_name) %>%
+  summarise(patch_plot = list(plot_hazard)) %>%
+  mutate(
+    patch_plot = map(
+      patch_plot,
+      ~{wrap_plots(.x, ncol=2, guides="collect")}
+    )
+  ) %>%
+  ungroup() %>%
+  transmute(
+    plot=patch_plot,
+    units = "cm",
+    height = 10,
+    width = 15,
+    limitsize=FALSE,
+    filename = str_c("plot_patch_hazard_", variable, ".svg"),
+    path = here::here("output", "tte", "figures"),
+  ) %>%
+  pwalk(ggsave)
+
+
+
+# patch adverse event rate and hazard rate plots together by variable and save
+
+plot_combinations %>%
+  filter(outcome != "seconddose") %>%
+  group_by(variable, variable_name) %>%
+  summarise(
+    patch_plot = list(c(plot_surv, plot_hazard))
+  ) %>%
+  mutate(
+    patch_plot = map(
+      patch_plot,
+      ~{wrap_plots(.x, ncol=2, byrow=FALSE, guides="collect")}
+    )
+  ) %>%
+  ungroup() %>%
+  transmute(
+    plot=patch_plot,
+    units = "cm",
+    height = 10,
+    width = 15,
+    limitsize=FALSE,
     filename = str_c("plot_patch_", variable, ".svg"),
     path = here::here("output", "tte", "figures"),
   ) %>%
   pwalk(ggsave)
+
