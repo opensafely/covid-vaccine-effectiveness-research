@@ -2,6 +2,8 @@
 library('tidyverse')
 library('survival')
 library('patchwork')
+library('flexsurv')
+library('viridis')
 
 # import data ----
 
@@ -9,18 +11,29 @@ data_vaccinated <- read_rds(
   here::here("output", "data", "data_vaccinated.rds")
 )
 
+source(here::here("lib", "survival_functions.R"))
+
 # time to readmission or death ##################
 
 survobj <- function(.data, time, indicator, group_vars){
 
-  dat_surv <- .data %>%
-    group_by(across(all_of(group_vars))) %>%
-    transmute(
+  dat_filtered <- .data %>%
+    mutate(
       .time = .data[[time]],
       .indicator = .data[[indicator]]
     ) %>%
     filter(
-      !is.na(.time)
+      !is.na(.time),
+      .time>0
+    )
+
+  unique_times <- unique(c(dat_filtered[[time]]))
+
+  dat_surv <- dat_filtered %>%
+    group_by(across(all_of(group_vars))) %>%
+    transmute(
+      .time = .data[[time]],
+      .indicator = .data[[indicator]]
     )
 
   if(nrow(dat_surv)==0){
@@ -28,74 +41,74 @@ survobj <- function(.data, time, indicator, group_vars){
   } else {
 
     dat_surv <- dat_surv %>%
-    nest() %>%
-    mutate(
-      surv_obj = map(data, ~survfit(Surv(.time, .indicator) ~ 1, data = .)),
-      surv_obj_tidy = map(surv_obj, ~broom::tidy(.)),
-      surv_obj_tidy_augmented = map(
-        surv_obj_tidy,
-        ~mutate(
-          .,
-          leadtime = lead(time, n=1, default = NA),
-          interval = leadtime - time,
-          sumerand = n.event / ((n.risk - n.event) * n.risk),
-
-          surv=cumprod(1 - n.event / n.risk), # =1-(cml.event/max(n.risk))
-          se.surv_greenwood = surv * sqrt(cumsum(sumerand)),
-
-          # kaplan meier hazard estimates
-          haz_km = n.event / (n.risk * interval), # =-(surv-lag(surv))/lag(surv)
-          cml.haz_km = cumsum(haz_km), # =cumsum(haz_km)
-          se.haz_km = haz_km * sqrt((n.risk - n.event) / (n.risk * n.event)),
-
-          # actuarial hazard estimates
-          haz_ac = n.event / ((n.risk - (n.censor / 2) - (n.event / 2)) * interval), # =(cml.haz-lag(cml.haz))/interval
-          cml.haz_ac = -log(surv), #=cumsum(haz_ac)
-          se.haz_ac = (haz_ac * sqrt(1 - (haz_ac * interval / 2)^2)) / sqrt(n.event),
-
-          # log(-log()) scale
-
-          llsurv = log(-log(surv)),
-          se.llsurv = sqrt((1 / log(surv)^2) * cumsum(sumerand)),
-        )
-      ),
-      surv_obj_tidy_timezero = map(
-        surv_obj_tidy_augmented,
-        ~add_row(
-          .,
-          time=min(0, .$time-1),
-          leadtime = min(.$time),
-          interval = leadtime-time,
-          sumerand=0,
-          surv=1,
-          se.surv_greenwood=0,
-          estimate=1, std.error=0, conf.high=1, conf.low=1,
-          haz_km=0, se.haz_km=0, cml.haz_km=0,
-          haz_ac=0, se.haz_ac=0, cml.haz_ac=0,
-          #se.estimate=0,
-          .before=1
-        )
-      )
-    ) %>%
-    select(surv_obj_tidy_timezero) %>%
-    unnest(surv_obj_tidy_timezero)
-
+      nest() %>%
+      mutate(
+        surv_obj = map(data, ~survfit(Surv(.time, .indicator) ~ 1, data = .)),
+        surv_obj_tidy = map(surv_obj, ~tidy_surv(., times= unique_times)),
+        flexsurv_obj = map(data, ~{
+          flexsurvspline(
+            Surv(.time, .indicator) ~ 1,
+            data = .,
+            scale="hazard",
+            timescale="log",
+            k=4
+          )
+        }),
+        flexsurv_obj_tidy = map(flexsurv_obj, ~tidy_flexsurvspline(., times=unique_times)),
+        merged = map2(surv_obj_tidy, flexsurv_obj_tidy, ~full_join(.x, .y, by="time"))
+      ) %>%
+      select(merged) %>%
+      unnest(merged)
   }
 
   dat_surv
 }
 
-survobj(data_vaccinated, "tte_seconddose", "ind_seconddose", group_vars="ageband")
+#surv <- survfit(Surv(tte_seconddose, ind_seconddose) ~ 1, data = data_vaccinated)
+#tidy_surv(surv)
+
+survobj(data_vaccinated, "tte_seconddose", "ind_seconddose", group_vars="sex") %>% View()
 
 
-plot_surv <- function(.surv_data, colour_var, colour_name, title=""){
+
+## select colour_type
+
+get_colour_scales <- function(colour_type = "qual"){
+
+  if(colour_type == "qual"){
+    list(
+      scale_color_brewer(type="qual", palette="Set3"),
+      scale_fill_brewer(type="qual", palette="Set3", guide=FALSE)
+      #ggthemes::scale_color_colorblind(),
+      #ggthemes::scale_fill_colorblind(guide=FALSE),
+      #rcartocolor::scale_color_carto_d(palette = "Safe"),
+      #rcartocolor::scale_fill_carto_d(palette = "Safe", guide=FALSE),
+      #ggsci::scale_color_simpsons(),
+      #ggsci::scale_fill_simpsons(guide=FALSE)
+    )
+  } else if(colour_type == "cont"){
+    list(
+      scale_colour_viridis(discrete = FALSE),
+      scale_fill_viridis(discrete = FALSE, guide = FALSE)
+    )
+  } else if(colour_type == "ordinal"){
+    list(
+      scale_colour_viridis(discrete = TRUE),
+      scale_fill_viridis(discrete = TRUE, guide = FALSE)
+    )
+  } else
+    stop("colour_type not supported -- must be qual, cont, or ordinal")
+}
+
+
+plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",  title=""){
 
   surv_plot <- .surv_data %>%
   ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
   geom_step(aes(x=time, y=1-surv))+
+  geom_line(aes(x=time, y=1-smooth_surv), linetype='dotted')+
  # geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-conf.high, ymax=1-conf.low), alpha=0.1, colour="transparent")+
-  scale_fill_viridis_d(guide=FALSE)+
-  scale_colour_viridis_d()+
+  get_colour_scales(colour_type)+
   scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
   labs(
     x="Days",
@@ -113,15 +126,14 @@ plot_surv <- function(.surv_data, colour_var, colour_name, title=""){
 }
 
 
-plot_hazard <- function(.surv_data, colour_var, colour_name, title=""){
+plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual", title=""){
+
 
   surv_plot <- .surv_data %>%
     ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
     geom_step(aes(x=time, y=haz_km))+
-    geom_step(aes(x=time, y=haz_ac), linetype="dotted")+
-    # geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-conf.high, ymax=1-conf.low), alpha=0.1, colour="transparent")+
-    scale_fill_viridis_d(guide=FALSE)+
-    scale_colour_viridis_d()+
+    geom_line(aes(x=time, y=smooth_haz), linetype='dotted')+
+    get_colour_scales(colour_type)+
     scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
     labs(
       x="Days",
@@ -139,17 +151,21 @@ plot_hazard <- function(.surv_data, colour_var, colour_name, title=""){
 }
 
 
-
 metadata_variables <- tibble(
-    variable = c("sex", "ageband", "ethnicity", "imd", "region"),
-    variable_name = c("Sex", "Age", "Ethnicity", "IMD", "Region")
+    variable = c("sex"),# "ageband", "ethnicity", "imd", "region"),
+    variable_name = c("Sex"),# "Age", "Ethnicity", "IMD", "Region"),
+    colour_type = c("qual")#, "ordinal", "qual", "ordinal", "", "qual")
 )
 
 metadata_outcomes <- tibble(
-    outcome = c("seconddose", "posSGSS", "posPC", #"admitted",
-                "coviddeath", "death"),
-    outcome_name = c("second dose", "positive SGSS test", "primary care case", #"covid-related admission",
-                     "covid-related death", "death")
+    outcome = c("seconddose"#,
+                #"posSGSS", "posPC", #"admitted",
+                #"coviddeath", "death"
+                ),
+    outcome_name = c("second dose"#,
+                     #"positive SGSS test", "primary care case", #"covid-related admission",
+                    # "covid-related death", "death"
+                     )
 )
 
 metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
@@ -167,14 +183,15 @@ plot_combinations <- metadata_crossed %>%
       }
     ),
     plot_surv = pmap(
-      list(survobj, variable, variable_name, outcome_name),
+      list(survobj, variable, variable_name, colour_type, outcome_name),
       plot_surv
     ),
     plot_hazard = pmap(
-      list(survobj, variable, variable_name, outcome_name),
+      list(survobj, variable, variable_name, colour_type, outcome_name),
       plot_hazard
     )
   )
+
 
 # save individual plots
 plot_combinations %>%
