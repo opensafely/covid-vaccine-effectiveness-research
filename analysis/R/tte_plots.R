@@ -207,7 +207,7 @@ plot_combinations %>%
 plot_combinations %>%
   filter(outcome != "seconddose") %>%
   group_by(variable, variable_name) %>%
-  summarise(patch_plot = list(plot)) %>%
+  summarise(patch_plot = list(plot_surv)) %>%
   mutate(
     patch_plot = map(
       patch_plot,
