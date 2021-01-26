@@ -71,7 +71,7 @@ c("sex", "ageband", "imd", "ethnicity", "region") %>%
   enframe() %>%
   transmute(
     x=value,
-    path=paste0(here::here("output", "tte", "tables", paste0("event_rates_at_7days_", name, ".csv"))),
+    path=paste0(here::here("output", "tte", "tables", paste0("event_rates_at_14days_", name, ".csv"))),
     na="-"
   ) %>%
   pwalk(write_csv)
