@@ -141,23 +141,24 @@ plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual",
 }
 
 
-metadata_variables <- tibble(
-    variable = c("sex"),# "ageband", "ethnicity", "imd", "region"),
-    variable_name = c("Sex"),# "Age", "Ethnicity", "IMD", "Region"),
-    colour_type = c("qual")#, "ordinal", "qual", "ordinal", "qual")
+metadata_variables <- tribble(
+  ~variable, ~variable_name, ~colour_type,
+  "sex", "Sex", "qual",
+ # "ageband", "Age", "ordinal",
+#  "Ethnicity","ethnicity", "qual",
+#  "imd", "IMD", "ordinal",
+#  "region", "Region", "qual"
 )
 
-metadata_outcomes <- tibble(
-    outcome = c("seconddose",
-                #"posSGSS", "posPC", #"admitted",
-                #"coviddeath",
-                #"death"
-                ),
-    outcome_name = c("second dose",
-                     #"positive SGSS test", "primary care case", #"covid-related admission",
-                    # "covid-related death",
-                    #"death"
-                     )
+
+metadata_outcomes <- tribble(
+  ~outcome, ~outcome_name,
+  "seconddose", "second dose",
+  #"posSGSS",   "positive SGSS test",
+  #"posPC",     "primary care case",
+  #"admitted",  "covid-related admission",
+  #"coviddeath","covid-related death",
+  #"death",     "death"
 )
 
 metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
