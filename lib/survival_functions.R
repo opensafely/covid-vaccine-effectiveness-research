@@ -113,8 +113,6 @@ tidy_surv <-
     return(output)
   }
 
-survobj(data_vaccinated, "tte_seconddose", "ind_seconddose", group_vars="sex") %>% View()
-
 
 
 tidy_flexsurvspline <- function(
