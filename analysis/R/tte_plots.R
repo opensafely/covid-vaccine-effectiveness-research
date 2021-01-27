@@ -304,7 +304,7 @@ plot_combinations %>%
     plot=patch_plot,
     units = "cm",
     height = 10,
-    width = 15,
+    width = 15/2,
     scale=2,
     limitsize=FALSE,
     filename = str_c("plot_patch_", variable, ".svg"),
