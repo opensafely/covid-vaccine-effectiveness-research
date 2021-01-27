@@ -43,7 +43,9 @@ survobj <- function(.data, time, indicator, group_vars){
     dat_surv <- dat_surv %>%
       nest() %>%
       mutate(
-        surv_obj = map(data, ~survfit(Surv(.time, .indicator) ~ 1, data = .)),
+        surv_obj = map(data, ~{
+          survfit(Surv(.time, .indicator) ~ 1, data = .)
+        }),
         surv_obj_tidy = map(surv_obj, ~tidy_surv(., times= unique_times)),
         flexsurv_obj = map(data, ~{
           flexsurvspline(
@@ -63,6 +65,7 @@ survobj <- function(.data, time, indicator, group_vars){
 
   dat_surv
 }
+
 
 ## select colour type based on variable it maps
 get_colour_scales <- function(colour_type = "qual"){
@@ -144,24 +147,30 @@ plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual",
 metadata_variables <- tribble(
   ~variable, ~variable_name, ~colour_type,
   "sex", "Sex", "qual",
- # "ageband", "Age", "ordinal",
-#  "Ethnicity","ethnicity", "qual",
-#  "imd", "IMD", "ordinal",
-#  "region", "Region", "qual"
+  "ageband", "Age", "ordinal",
+  "Ethnicity","ethnicity", "qual",
+  "imd", "IMD", "ordinal",
+  "region", "Region", "qual"
 )
 
 
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_name,
   "seconddose", "second dose",
-  #"posSGSS",   "positive SGSS test",
-  #"posPC",     "primary care case",
+  "posSGSS",   "positive SGSS test",
+  "posPC",     "primary care case",
   #"admitted",  "covid-related admission",
-  #"coviddeath","covid-related death",
-  #"death",     "death"
+  "coviddeath","covid-related death",
+  "death",     "death"
 )
 
 metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
+
+
+# test_data <- data_vaccinated %>%
+#  filter(age<=18, tte_admitted>0) %>%
+#  select(tte_admitted, ind_admitted, sex)
+# survobj(test_data, "tte_admitted", "ind_admitted", "sex")
 
 
 plot_combinations <- metadata_crossed %>%
