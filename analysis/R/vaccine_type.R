@@ -13,10 +13,6 @@ data_vaccinated <- read_rds(
 
 # crosstabs ----
 
-redacted_summary_catcat(data_vaccinated$ageband, as.character(data_vaccinated$vaccine_first_dose_type), redaction_accuracy=7L) %>% View()
-
-
-
 dir.create(here::here("output", "vaccine_type", "tables"), showWarnings = FALSE, recursive=TRUE)
 
 c("sex", "ageband", "imd", "ethnicity", "region") %>%
