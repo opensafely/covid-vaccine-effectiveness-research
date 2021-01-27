@@ -148,7 +148,7 @@ metadata_variables <- tribble(
   ~variable, ~variable_name, ~colour_type,
   "sex", "Sex", "qual",
   "ageband", "Age", "ordinal",
-  "Ethnicity","ethnicity", "qual",
+  "ethnicity","Ethnicity", "qual",
   "imd", "IMD", "ordinal",
   "region", "Region", "qual"
 )
