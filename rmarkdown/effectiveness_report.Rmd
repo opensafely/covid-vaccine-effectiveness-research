@@ -18,7 +18,7 @@ library('patchwork')
 
 source(here::here("lib", "html_output_functions.R"))
 
-output_dir <- here::here("released_output")
+output_dir <- here::here("output") # change this when running on real data
 
 summary_stats <- jsonlite::fromJSON(txt=here::here("output", "data_summary", "summary_stats.json"))
 

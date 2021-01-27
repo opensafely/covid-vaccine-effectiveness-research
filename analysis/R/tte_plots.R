@@ -36,35 +36,49 @@ survobj <- function(.data, time, indicator, group_vars){
       .indicator = .data[[indicator]]
     )
 
-  if(nrow(dat_surv)==0){
-    dat_surv <- tibble(time=0, estimate=NA_real_, std.error=NA_real_, conf.high=NA_real_, conf.low=NA_real_, leadtime=NA_real_)
-  } else {
-
-    dat_surv <- dat_surv %>%
-      nest() %>%
-      mutate(
-        surv_obj = map(data, ~{
-          survfit(Surv(.time, .indicator) ~ 1, data = .)
-        }),
-        surv_obj_tidy = map(surv_obj, ~tidy_surv(., times= unique_times)),
-        flexsurv_obj = map(data, ~{
-          flexsurvspline(
-            Surv(.time, .indicator) ~ 1,
-            data = .,
-            scale="hazard",
-            timescale="log",
-            k=4
+  dat_surv1 <- dat_surv %>%
+    nest() %>%
+    mutate(
+      n_events = map_int(data, ~sum(.x$.indicator, na.rm=TRUE)),
+      surv_obj = map(data, ~{
+        survfit(Surv(.time, .indicator) ~ 1, data = .x)
+      }),
+      surv_obj_tidy = map(surv_obj, ~tidy_surv(.x, times= unique_times)),
+      flexsurv_obj = map(data, ~{
+        possflex <- possibly(flexsurvspline, NA)
+        possflex(
+          Surv(.time, .indicator) ~ 1,
+          data = .x,
+          scale="hazard",
+          timescale="log",
+          k=4
+        )
+      }),
+      flexsurv_obj_tidy = map(flexsurv_obj, ~{
+        if(is.na(.x)){
+          tibble(
+            time=0,
+            smooth_surv=1, smooth_surv.ll=1, smooth_surv.ul=1,
+            smooth_haz=0, smooth_haz.ll=0, smooth_haz.ul=0,
+            smooth_cml.haz=0, smooth_cml.haz.ll=0, smooth_cml.haz.ul=0
           )
-        }),
-        flexsurv_obj_tidy = map(flexsurv_obj, ~tidy_flexsurvspline(., times=unique_times)),
-        merged = map2(surv_obj_tidy, flexsurv_obj_tidy, ~full_join(.x, .y, by="time"))
-      ) %>%
-      select(merged) %>%
-      unnest(merged)
-  }
+        } else {
+          tidy_flexsurvspline(.x, times=unique_times)
+        }
+      }),
+      merged = map2(surv_obj_tidy, flexsurv_obj_tidy, ~full_join(.x, .y, by="time"))
+    ) %>%
+    select(merged) %>%
+    unnest(merged)
 
-  dat_surv
+  dat_surv1
 }
+
+
+test_data <- data_vaccinated %>%
+ filter(age<=18, tte_admitted>0) %>%
+ select(tte_admitted, ind_admitted, sex)
+survobj(test_data, "tte_admitted", "ind_admitted", "sex")
 
 
 ## select colour type based on variable it maps
@@ -291,6 +305,7 @@ plot_combinations %>%
     units = "cm",
     height = 10,
     width = 15,
+    scale=2,
     limitsize=FALSE,
     filename = str_c("plot_patch_", variable, ".svg"),
     path = here::here("output", "tte", "figures"),
