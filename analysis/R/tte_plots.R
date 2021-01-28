@@ -113,8 +113,8 @@ plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",  
 
   surv_plot <- .surv_data %>%
   ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
-  geom_step(aes(x=time, y=1-surv))+
-  geom_line(aes(x=time, y=1-smooth_surv), linetype='dotted')+
+  #geom_step(aes(x=time, y=1-surv))+
+  geom_line(aes(x=time, y=1-smooth_surv))+#, linetype='dotted')+
  # geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-conf.high, ymax=1-conf.low), alpha=0.1, colour="transparent")+
   get_colour_scales(colour_type)+
   scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
@@ -138,8 +138,8 @@ plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual",
 
   surv_plot <- .surv_data %>%
     ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
-    geom_step(aes(x=time, y=haz_km))+
-    geom_line(aes(x=time, y=smooth_haz), linetype='dotted')+
+    #geom_step(aes(x=time, y=haz_km))+
+    geom_line(aes(x=time, y=smooth_haz))+
     get_colour_scales(colour_type)+
     scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
     labs(
