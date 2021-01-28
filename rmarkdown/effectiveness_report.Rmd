@@ -1,10 +1,11 @@
 ---
 title: "Vaccine effectiveness report"
-output: 
+output:
   html_document:
     code_folding: hide
   md_document:
     variant: gfm
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -18,9 +19,9 @@ library('patchwork')
 
 source(here::here("lib", "html_output_functions.R"))
 
-output_dir <- here::here("output") # change this when running on real data
+output_dir <- here::here("released_output") # change this when running on real data
 
-summary_stats <- jsonlite::fromJSON(txt=here::here("output", "data_summary", "summary_stats.json"))
+summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir,  "data_summary", "summary_stats.json"))
 
 run_date <- summary_stats$run_date
 end_date <- summary_stats$end_date
@@ -107,11 +108,11 @@ print_event_rates <- function(variable,  variable_name){
       missing_text="-"
     ) %>%
     tab_header(
-      title = md("Post-vaccination event rates at 7-days")
-    )# %>%
-    #tab_source_note(
-    #  "- indicates redacted values"
-    #)
+      title = md("Post-vaccination event rates at 14 days amongst those with sufficient follow-up")
+    ) %>%
+    tab_source_note(
+     "- indicates redacted values. Numbers are rounded to the nearest 7"
+    )
 
   gt_table
 }
@@ -181,10 +182,10 @@ print_variable_freq <- function(variable, variable_name){
 ```
 
 
-```{r tte_survplot_function, echo=FALSE}
+```{r tte_plotsurv_function, echo=FALSE}
   #cat("  ")
   
-print_variable_surv <- function(variable){
+print_variable_patch <- function(variable){
   
   knitr::include_graphics(
     here::here(output_dir, "tte", "figures", paste0("plot_patch_",variable, ".svg"))
@@ -208,7 +209,7 @@ print_variable_haz <- function(variable){
 
 ## Summary
 
-As of `r summary_stats$end_date`, there were `r summary_stats$total_vaccinated` TPP-registered patients who had received at least one vaccine dose. Of these, `r summary_stats$total_vaccinated_pfizer` received the Pfizer vaccine and `r summary_stats$total_vaccinated_oxford` received the Oxford/AZ vaccine.
+As of `r summary_stats$end_date`, there were `r summary_stats$total_vaccinated` TPP-registered patients who had received at least one vaccine dose. Of these, `r summary_stats$total_vaccinated_pfizer` received the Pfizer-BioNTech (P-B) vaccine and `r summary_stats$total_vaccinated_oxford` received the Oxford-AstraZenica (Ox-AZ) vaccine. Brand is unknown for the remaining `r summary_stats$total_vaccinated - summary_stats$total_vaccinated_oxford - summary_stats$total_vaccinated_pfizer` patients. 
 
 ## Summaries by patient characteristics
 
@@ -229,10 +230,9 @@ cat("&nbsp;  \n")
 print_event_rates("sex", "Sex")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_surv("sex")
+print_variable_patch("sex")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_haz("sex")
 
 ```
 
@@ -245,10 +245,9 @@ cat("&nbsp;  \n")
 print_event_rates("ageband", "Age")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_surv("ageband")
+print_variable_patch("ageband")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_haz("ageband")
 
 ```
 
@@ -263,10 +262,9 @@ cat("&nbsp;  \n")
 print_event_rates("ethnicity", "Ethnicity")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_surv("ethnicity")
+print_variable_patch("ethnicity")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_haz("ethnicity")
 
 ```
 
@@ -279,10 +277,9 @@ cat("&nbsp;  \n")
 print_event_rates("imd", "IMD")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_surv("imd")
+print_variable_patch("imd")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_haz("imd")
 
 ```
 
@@ -295,9 +292,8 @@ cat("&nbsp;  \n")
 print_event_rates("region", "Region")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_surv("region")
+print_variable_patch("region")
 cat("&nbsp;  \n")
 cat("&nbsp;  \n")
-print_variable_haz("region")
 
 ```
