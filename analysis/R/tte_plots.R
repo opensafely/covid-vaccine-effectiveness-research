@@ -86,8 +86,8 @@ get_colour_scales <- function(colour_type = "qual"){
 
   if(colour_type == "qual"){
     list(
-      scale_color_brewer(type="qual", palette="Set3"),
-      scale_fill_brewer(type="qual", palette="Set3", guide=FALSE)
+      scale_color_brewer(type="qual", palette="Set1"),
+      scale_fill_brewer(type="qual", palette="Set1", guide=FALSE)
       #ggthemes::scale_color_colorblind(),
       #ggthemes::scale_fill_colorblind(guide=FALSE),
       #rcartocolor::scale_color_carto_d(palette = "Safe"),
