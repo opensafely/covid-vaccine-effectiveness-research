@@ -79,8 +79,12 @@ data_extract0 <- read_csv(
     region = col_character(),
     imd = col_character(),
     care_home_type = col_character(),
+    care_home = col_logical(),
+
 
     registered = col_logical(),
+    registered_at_latest_date = col_logical(),
+    has_follow_up_previous_year = col_logical(),
     has_died = col_logical(),
 
     age = col_integer(),
@@ -109,6 +113,8 @@ data_extract0 <- read_csv(
     temporary_immunosuppression = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
     asplenia = col_logical(),
+    dementia = col_logical(),
+
 
     # dates
 
