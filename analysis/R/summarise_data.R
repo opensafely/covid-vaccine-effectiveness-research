@@ -99,8 +99,8 @@ summary_stats <- append (
   vars_list,
   list(
     total_vaccinated = sum(!is.na(data_vaccinated$covid_vacc_date)),
-    total_vaccinated_oxford = sum(!is.na(data_vaccinated$vaccine_type=="Oxford/AZ")),
-    total_vaccinated_pfizer = sum(!is.na(data_vaccinated$vaccine_type=="Pfizer"))
+    total_vaccinated_oxford = sum(!is.na(data_vaccinated$vaccine_type=="Ox/AZ")),
+    total_vaccinated_pfizer = sum(!is.na(data_vaccinated$vaccine_type=="P/B"))
   )
 )
 
