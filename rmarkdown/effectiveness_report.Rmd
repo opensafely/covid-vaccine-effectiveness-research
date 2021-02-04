@@ -3,6 +3,7 @@ title: "Vaccine effectiveness report"
 output:
   html_document:
     code_folding: hide
+    keep_md: yes
   md_document:
     variant: gfm
   pdf_document: default
@@ -48,11 +49,12 @@ bar_theme <-
 
 ```
 
-## Vaccine effectiveness in OpenSAFELY-TPP data
+## Vaccine effectiveness data in OpenSAFELY-TPP data
 
-This report examines covid-related outcomes in TPP-registered patients who have received a vaccine for SARS-CoV-2. 
+This document reports the frequency of covid-related outcomes in TPP-registered patients who have received a vaccine for SARS-CoV-2. 
+This is a technical document to help inform the design of vaccine effectiveness Studies in OpenSAFELY. Only patients who have received the vaccine are included, and **no inferences should be made about the comparative effectiveness between vaccinated and unvaccinated patient, between vaccine brands, or across different patient groups**. 
 
-Outcomes include:
+Measured outcomes include:
 
 * Positive Covid case identification in primary care, using the following clinical codes:
   * [probable covid](https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16)
@@ -107,11 +109,15 @@ print_event_rates <- function(variable,  variable_name){
       everything(),
       missing_text="-"
     ) %>%
+    cols_align(
+      align = "left",
+      columns = all_of(variable_name)
+    ) %>%
     tab_header(
       title = md("Post-vaccination event rates at 14 days amongst those with sufficient follow-up")
     ) %>%
     tab_source_note(
-     "- indicates redacted values. Numbers are rounded to the nearest 7"
+     "Numbers are rounded to the nearest 7"
     )
 
   gt_table
@@ -223,77 +229,105 @@ The tables below show, for each characteristic:
 
 ### Sex
 
-```{r sex, echo=FALSE, out.width='90%', results='asis'}
+```{r sex_vacc, echo=FALSE, out.width='90%', results='asis'}
 print_vaccinetype("sex", "Sex")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_event_rates("sex", "Sex")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_variable_patch("sex")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-
 ```
+
+&nbsp;
+&nbsp;
+
+
+```{r sex_tab, echo=FALSE, out.width='90%', results='asis'}
+print_event_rates("sex", "Sex")
+```
+
+&nbsp;
+&nbsp;
+
+![](../released_output/tte/figures/plot_patch_sex.svg "outcomes by Sex"){width="80%"}
+
+
+
 
 ### Age
 
-```{r age, echo=FALSE, out.width='90%', results='asis'}
+```{r age_vacc, echo=FALSE, out.width='90%', results='asis'}
 print_vaccinetype("ageband", "Age")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_event_rates("ageband", "Age")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_variable_patch("ageband")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-
 ```
+
+&nbsp;
+&nbsp;
+
+
+```{r age_tab, echo=FALSE, out.width='90%', results='asis'}
+print_event_rates("ageband", "Age")
+```
+
+&nbsp;
+&nbsp;
+
+![](../released_output/tte/figures/plot_patch_ageband.svg "outcomes by Age"){width="80%"}
+
 
 
 
 ### Ethnicity
 
-```{r ethnicity, echo=FALSE, out.width='90%', results='asis'}
+```{r ethnicity_vacc, echo=FALSE, out.width='90%', results='asis'}
 print_vaccinetype("ethnicity", "Ethnicity")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_event_rates("ethnicity", "Ethnicity")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_variable_patch("ethnicity")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-
 ```
+
+&nbsp;
+&nbsp;
+
+
+```{r ethnicity_tab, echo=FALSE, out.width='90%', results='asis'}
+print_event_rates("ethnicity", "Ethnicity")
+```
+
+&nbsp;
+&nbsp;
+
+![](../released_output/tte/figures/plot_patch_ethnicity.svg "outcomes by Ethnicity"){width="80%"}
+
 
 ### Index of Multiple Deprivation (IMD)
 
-```{r imd, echo=FALSE, out.width='90%', results='asis'}
-print_vaccinetype("imd", "IMD")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_event_rates("imd", "IMD")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_variable_patch("imd")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
 
+```{r imd_vacc, echo=FALSE, out.width='90%', results='asis'}
+print_vaccinetype("imd", "IMD")
 ```
+
+&nbsp;
+&nbsp;
+
+
+```{r imd_tab, echo=FALSE, out.width='90%', results='asis'}
+print_event_rates("imd", "IMD")
+```
+
+&nbsp;
+&nbsp;
+
+![](../released_output/tte/figures/plot_patch_imd.svg "outcomes by IMD"){width="80%"}
+
+
 
 ### Region
 
-```{r region, echo=FALSE, out.width='90%', results='asis'}
+```{r region_vacc, echo=FALSE, out.width='90%', results='asis'}
 print_vaccinetype("region", "Region")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_event_rates("region", "Region")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_variable_patch("region")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-
 ```
+
+&nbsp;
+&nbsp;
+
+
+```{r region_tab, echo=FALSE, out.width='90%', results='asis'}
+print_event_rates("region", "Region")
+```
+
+&nbsp;
+&nbsp;
+
+![](../released_output/tte/figures/plot_patch_region.svg "outcomes by Region"){width="80%"}

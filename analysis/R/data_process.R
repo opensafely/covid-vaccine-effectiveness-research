@@ -23,7 +23,7 @@ censor <- function(event_date, censor_date, na.censor=TRUE){
 
 censor_indicator <- function(event_date, censor_date){
   # returns 0 if event_date is censored by censor_date, or if event_date is NA. Otherwise 1
-  dplyr::if_else((event_date>censor_date) | is.na(event_date), 0L, 1L)
+  dplyr::if_else((event_date>censor_date) | is.na(event_date), FALSE, TRUE)
 }
 
 tte <- function(origin_date, event_date, censor_date){
@@ -153,7 +153,7 @@ data_extract <- data_extract0 %>%
     .fns = ~na_if(.x, 0)
   ))
 
-data_processed <- data_extract %>%
+data_vaccinated <- data_extract %>%
   mutate(
     end_date = as.Date(vars_list$end_date),
 
@@ -227,35 +227,14 @@ data_processed <- data_extract %>%
     ind_coviddeath = censor_indicator(coviddeath_date, censor_date),
     ind_death = censor_indicator(death_date, censor_date),
 
-  )
-
-
-data_vaccinated <- data_processed %>%
-  filter(!is.na(covid_vacc_date))
-
-# Output processed data ----
-
-
-# Output summary .txt ----
-
-options(width=200) # set output width for capture.output
-
-dir.create(here::here("output", "data_summary"), showWarnings = FALSE, recursive=TRUE)
-
-capture.output(skimr::skim_without_charts(data_extract), file = here::here("output", "data_summary", "summary_extract.txt"), split=FALSE)
-capture.output(skimr::skim_without_charts(data_processed), file = here::here("output", "data_summary", "summary_processed.txt"), split=FALSE)
-capture.output(skimr::skim_without_charts(data_vaccinated), file = here::here("output", "data_summary", "summary_vaccinated.txt"), split=FALSE)
-
-capture.output(map(data_extract, class), file = here::here("output", "data_summary", "type_extract.txt"))
-capture.output(map(data_processed, class), file = here::here("output", "data_summary", "type_processed.txt"))
-capture.output(map(data_vaccinated, class), file = here::here("output", "data_summary", "type_vaccinated.txt"))
+  ) %>%
+  droplevels()
 
 
 # output processed data to rds ----
 
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
-write_rds(data_processed, here::here("output", "data", "data_processed.rds"))
 write_rds(data_vaccinated, here::here("output", "data", "data_vaccinated.rds"))
 
 

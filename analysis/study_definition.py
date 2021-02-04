@@ -35,6 +35,8 @@ study = StudyDefinition(
         (sex = "M" OR sex = "F")
         AND
         NOT has_died
+        AND 
+        covid_vacc_date
         """
     ),
     registered=patients.registered_as_of(
