@@ -117,11 +117,11 @@ ggplot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",
   }
 
   surv_plot <- .surv_data %>%
+  filter(time<=30) %>%
   ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
   lines+
   get_colour_scales(colour_type)+
   scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
-  coord_cartesian(xlim=c(0, 30))+
   labs(
     x="Days",
     y="Cumul. event rate",
@@ -156,11 +156,11 @@ ggplot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual
 
 
   surv_plot <- .surv_data %>%
+    filter(time<=30) %>%
     ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
     lines+
     get_colour_scales(colour_type)+
     scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
-    coord_cartesian(xlim=c(0, 30))+
     labs(
       x="Days",
       y="Inst. hazard rate",
