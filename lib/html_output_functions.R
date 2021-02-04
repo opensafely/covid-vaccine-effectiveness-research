@@ -30,6 +30,10 @@ gt_cat <- function(
       n_nonmiss = "N",
       pct = "%",
       pct_nonmiss = "%",
+    ) %>%
+    cols_align(
+      align = "left",
+      columns = vars(.level)
     )
 }
 
@@ -82,6 +86,10 @@ gt_catcat <- function(
     ) %>%
     cols_label(
       .level1=var1_name
+    ) %>%
+    cols_align(
+      align = "left",
+      columns = vars(.level1)
     )
 
     if(!is.null(title)){
@@ -184,6 +192,10 @@ gt_catnum <- function(
       sd = "SD",
       min = "min",
       unique = "unique values"
+    ) %>%
+    cols_align(
+      align = "left",
+      columns = vars(.variable_cat)
     )
 }
 
