@@ -55,7 +55,7 @@ survobj <- function(.data, time, indicator, group_vars){
         )
       }),
       flexsurv_obj_tidy = map(flexsurv_obj, ~{
-        if(is.na(.x)){
+        if(!("flexsurvreg" %in% class(.x))){
           tibble(
             time=0,
             smooth_surv=1, smooth_surv.ll=1, smooth_surv.ul=1,
@@ -73,13 +73,6 @@ survobj <- function(.data, time, indicator, group_vars){
 
   dat_surv1
 }
-
-#
-# test_data <- data_vaccinated %>%
-#  filter(age<=18, tte_admitted>0) %>%
-#  select(tte_admitted, ind_admitted, sex)
-# survobj(test_data, "tte_admitted", "ind_admitted", "sex")
-
 
 ## select colour type based on variable it maps
 get_colour_scales <- function(colour_type = "qual"){
@@ -109,7 +102,7 @@ get_colour_scales <- function(colour_type = "qual"){
     stop("colour_type '", colour_type, "' not supported -- must be 'qual', 'cont', or 'ordinal'")
 }
 
-plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual", smooth=FALSE, ci=FALSE, title=""){
+ggplot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual", smooth=FALSE, ci=FALSE, title=""){
 
   if(smooth){
     lines <- list(geom_line(aes(x=time, y=1-smooth_surv)))
@@ -144,7 +137,8 @@ plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual", s
 }
 
 
-plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual", smooth=FALSE, ci=FALSE, title=""){
+
+ggplot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual", smooth=FALSE, ci=FALSE, title=""){
 
 
   if(smooth){
@@ -154,8 +148,8 @@ plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual",
     }
   } else{
     lines <- list(geom_step(aes(x=time, y=haz_km)))
-    # if(ci){
-    #   lines <- append(lines, list(geom_rect(aes(xmin=time, xmax=leadtime, ymin=haz_km, ymax=haz_km), alpha=0.1, colour="transparent")))
+    # if(ci){ ## NO EASY SOLUTION FOR CIs FOR HAZARDS JUST YET
+    #   lines <- append(lines, list(geom_rect(aes(xmin=time, xmax=leadtime, ymin=haz_km.ll, ymax=haz_km.ul), alpha=0.1, colour="transparent")))
     # }
   }
 
@@ -205,10 +199,11 @@ metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
 
 
 # test_data <- data_vaccinated %>%
-#  filter(age<=18, tte_admitted>0) %>%
-#  select(tte_admitted, ind_admitted, sex)
-# survobj(test_data, "tte_admitted", "ind_admitted", "sex")
-
+#  filter(age<=18, tte_posSGSS>0) %>%
+#  select(tte_posSGSS, ind_posSGSS, sex)
+# test_surv <- survobj(test_data, "tte_posSGSS", "ind_posSGSS", "sex")
+#
+# ggplot_surv(test_surv, "sex", "sex", "qual", FALSE, TRUE)
 
 plot_combinations <- metadata_crossed %>%
   mutate(
@@ -220,23 +215,23 @@ plot_combinations <- metadata_crossed %>%
     ),
     plot_surv = pmap(
       list(survobj, variable, variable_name, colour_type, smooth=FALSE, ci=FALSE, outcome_name),
-      plot_surv
+      ggplot_surv
     ),
     plot_surv_ci = pmap(
       list(survobj, variable, variable_name, colour_type, smooth=FALSE, ci=TRUE, outcome_name),
-      plot_surv
+      ggplot_surv
     ),
     plot_hazard = pmap(
       list(survobj, variable, variable_name, colour_type, smooth=FALSE, ci=TRUE, outcome_name),
-      plot_hazard
+      ggplot_hazard
     ),
     plot_smoothhazard = pmap(
       list(survobj, variable, variable_name, colour_type, smooth=TRUE, ci=FALSE, outcome_name),
-      plot_hazard
+      ggplot_hazard
     ),
     plot_smoothhazard_ci = pmap(
       list(survobj, variable, variable_name, colour_type, smooth=TRUE, ci=TRUE, outcome_name),
-      plot_hazard
+      ggplot_hazard
     ),
   )
 
@@ -258,7 +253,7 @@ plot_combinations %>%
 
 plot_combinations %>%
   transmute(
-    plot=plot_surv,
+    plot=plot_surv_ci,
     units = "cm",
     height = 10,
     width = 15,
@@ -358,7 +353,6 @@ plot_combinations %>%
 
 
 # patch event rate and hazard rate plots together by variable and save
-test<-
 plot_combinations %>%
   filter(outcome != "seconddose") %>%
   group_by(variable, variable_name) %>%

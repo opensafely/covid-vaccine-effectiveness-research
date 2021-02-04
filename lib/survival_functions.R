@@ -105,6 +105,8 @@ tidy_surv <-
           #estimate=1, std.error=0, conf.high=1, conf.low=1,
 
           surv=1,
+          surv.ll=1,
+          surv.ul=1,
           se.surv_greenwood=0,
 
           haz_km=0, se.haz_km=0, cml.haz_km=0,
