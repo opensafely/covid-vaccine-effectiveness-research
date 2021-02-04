@@ -1,10 +1,10 @@
 ---
 title: "Vaccine effectiveness report"
 output:
+  md_document:
+    variant: markdown_strict
   html_document:
     code_folding: hide
-  md_document:
-    variant: gfm
   pdf_document: default
 ---
 
