@@ -227,7 +227,8 @@ data_vaccinated <- data_extract %>%
     ind_coviddeath = censor_indicator(coviddeath_date, censor_date),
     ind_death = censor_indicator(death_date, censor_date),
 
-  )
+  ) %>%
+  droplevels()
 
 
 # output processed data to rds ----
