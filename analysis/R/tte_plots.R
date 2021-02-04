@@ -187,23 +187,22 @@ metadata_variables <- tribble(
 
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_name,
-  "seconddose", "second dose",
-  "posSGSS",   "positive SGSS test",
-  "posPC",     "primary care case",
+  "seconddose", "Second dose",
+  "posSGSS",   "Positive PCR test",
+  "posPC",     "Primary care case",
   #"admitted",  "covid-related admission",
-  "coviddeath","covid-related death",
-  "death",     "death"
+  "coviddeath","Covid-related death",
+  "death",     "All-cause death"
 )
 
 metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
 
-
-test_data <- data_vaccinated %>%
- filter(age<=18, tte_posSGSS>0) %>%
- select(tte_posSGSS, ind_posSGSS, ethnicity)
-test_surv <- survobj(test_data, "tte_posSGSS", "ind_posSGSS", "ethnicity")
-
-ggplot_surv(test_surv, "ethnicity", "ethnicity", "qual", FALSE, TRUE)
+# test_data <- data_vaccinated %>%
+#  filter(age<=18, tte_posSGSS>0) %>%
+#  select(tte_posSGSS, ind_posSGSS, ethnicity)
+# test_surv <- survobj(test_data, "tte_posSGSS", "ind_posSGSS", "ethnicity")
+#
+# ggplot_surv(test_surv, "ethnicity", "ethnicity", "qual", FALSE, TRUE)
 
 plot_combinations <- metadata_crossed %>%
   mutate(
