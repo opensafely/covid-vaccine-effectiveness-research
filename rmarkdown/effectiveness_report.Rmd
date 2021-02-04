@@ -224,18 +224,26 @@ The tables below show, for each characteristic:
 
 ### Sex
 
-```{r sex, echo=FALSE, out.width='90%', results='asis'}
+```{r sex_vacc, echo=FALSE, out.width='90%', results='asis'}
 print_vaccinetype("sex", "Sex")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_event_rates("sex", "Sex")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-print_variable_patch("sex")
-cat("&nbsp;  \n")
-cat("&nbsp;  \n")
-
 ```
+
+&nbsp;
+&nbsp;
+
+
+```{r se_tab, echo=FALSE, out.width='90%', results='asis'}
+print_event_rates("sex", "Sex")
+```
+
+&nbsp;
+&nbsp;
+
+
+```{r sex_plot, echo=FALSE, out.width='90%', results='asis'}
+print_variable_patch("sex")
+```
+
 
 ### Age
 
