@@ -122,6 +122,7 @@ ggplot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",
   lines+
   get_colour_scales(colour_type)+
   scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
+  coord_cartesian(xlim=c(0, 30))+
   labs(
     x="Days",
     y="Cumul. event rate",
@@ -161,6 +162,7 @@ ggplot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual
     lines+
     get_colour_scales(colour_type)+
     scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
+    coord_cartesian(xlim=c(0, 30))+
     labs(
       x="Days",
       y="Inst. hazard rate",
@@ -359,7 +361,7 @@ plot_combinations %>%
   group_by(variable, variable_name) %>%
   arrange(factor(outcome, levels=c("posSGSS", "posPC", "coviddeath", "death"))) %>%
   summarise(
-    patch_plot = list(c(plot_surv, plot_hazard))
+    patch_plot = list(c(plot_surv, plot_smoothhazard))
   ) %>%
   mutate(
     patch_plot = map(
