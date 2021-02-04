@@ -8,8 +8,6 @@ tidy_surv <-
     addtimezero=FALSE
   ) {
 
-
-
     mintime <- min(survfit$time)
     timezero <- min(0, mintime-1)
 
@@ -30,6 +28,8 @@ tidy_surv <-
           sumerand = n.event / ((n.risk - n.event) * n.risk),
 
           surv=cumprod(1 - n.event / n.risk),
+          surv.ll = conf.low,
+          surv.ul = conf.high,
           se.surv_greenwood = surv * sqrt(cumsum(sumerand)),
 
           # kaplan meier hazard estimates
@@ -72,6 +72,9 @@ tidy_surv <-
           sumerand = n.event / ((n.risk - n.event) * n.risk),
 
           surv=cumprod(1 - n.event / n.risk),
+          surv.ll = conf.low,
+          surv.ul = conf.high,
+
           se.surv_greenwood = surv * sqrt(cumsum(sumerand)),
 
           # kaplan meier hazard estimates
@@ -131,12 +134,38 @@ tidy_flexsurvspline <- function(
     times <- unique(c(timezero, times))
   }
 
-  sumfs_survival <- setNames(summary(flexsurvsplinefit, type="survival", t=times, tidy=TRUE), c("time", "smooth_surv", "smooth_surv.ll", "smooth_surv.ul"))
-  sumfs_hazard <- setNames(summary(flexsurvsplinefit, type="hazard", t=times, tidy=TRUE), c("time", "smooth_haz", "smooth_haz.ll", "smooth_haz.ul"))
-  sumfs_cmlhazard <- setNames(summary(flexsurvsplinefit, type="cumhaz", t=times, tidy=TRUE), c("time", "smooth_cml.haz", "smooth_cml.haz.ll", "smooth_cml.haz.ul"))
 
-  output <- reduce(list(sumfs_survival,sumfs_hazard,sumfs_cmlhazard), full_join, by='time')
+  summaryfs_survival <- summary(flexsurvsplinefit, type="survival", t=times, tidy=TRUE)
+  names(summaryfs_survival)[1:4] <- c("time", "smooth_surv", "smooth_surv.ll", "smooth_surv.ul")
+
+  summaryfs_hazard <- summary(flexsurvsplinefit, type="hazard", t=times, tidy=TRUE)
+  names(summaryfs_hazard)[1:4] <- c("time", "smooth_haz", "smooth_haz.ll", "smooth_haz.ul")
+
+  summaryfs_cmlhazard <- summary(flexsurvsplinefit, type="cumhaz", t=times, tidy=TRUE)
+  names(summaryfs_cmlhazard)[1:4] <- c("time", "smooth_cml.haz", "smooth_cml.haz.ll", "smooth_cml.haz.ul")
+
+  output <- bind_cols(summaryfs_survival, summaryfs_hazard[,c(2,3,4)], summaryfs_cmlhazard[,c(2,3,4)])
 
   return(output)
 
 }
+
+
+get_hr <- function(tidy_flexsurv_group, group){
+
+  hrdat <- tidy_flexsurv_group %>%
+    mutate(
+      .trt = tidy_flexsurv[[group]]
+    ) %>%
+    select(time, .trt, smooth_haz) %>%
+    pivot_wider(
+      id_cols=c(time),
+      names_from = .trt,
+      values_from=c(smooth_haz)
+    )
+
+  hrdat
+}
+
+
+

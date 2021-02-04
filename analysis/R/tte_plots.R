@@ -41,7 +41,7 @@ survobj <- function(.data, time, indicator, group_vars){
     mutate(
       n_events = map_int(data, ~sum(.x$.indicator, na.rm=TRUE)),
       surv_obj = map(data, ~{
-        survfit(Surv(.time, .indicator) ~ 1, data = .x)
+        survfit(Surv(.time, .indicator) ~ 1, data = .x, conf.type="log-log")
       }),
       surv_obj_tidy = map(surv_obj, ~tidy_surv(.x, times= unique_times)),
       flexsurv_obj = map(data, ~{
@@ -74,11 +74,11 @@ survobj <- function(.data, time, indicator, group_vars){
   dat_surv1
 }
 
-
-test_data <- data_vaccinated %>%
- filter(age<=18, tte_admitted>0) %>%
- select(tte_admitted, ind_admitted, sex)
-survobj(test_data, "tte_admitted", "ind_admitted", "sex")
+#
+# test_data <- data_vaccinated %>%
+#  filter(age<=18, tte_admitted>0) %>%
+#  select(tte_admitted, ind_admitted, sex)
+# survobj(test_data, "tte_admitted", "ind_admitted", "sex")
 
 
 ## select colour type based on variable it maps
@@ -109,18 +109,28 @@ get_colour_scales <- function(colour_type = "qual"){
     stop("colour_type '", colour_type, "' not supported -- must be 'qual', 'cont', or 'ordinal'")
 }
 
-plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",  title=""){
+plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual", smooth=FALSE, ci=FALSE, title=""){
+
+  if(smooth){
+    lines <- list(geom_line(aes(x=time, y=1-smooth_surv)))
+    if(ci){
+      lines <- append(lines, list(geom_ribbon(aes(x=time, ymin=1-smooth_surv.ul, ymax=1-smooth_surv.ll), alpha=0.1, colour="transparent")))
+    }
+  } else{
+    lines <- list(geom_step(aes(x=time, y=1-surv)))
+    if(ci){
+      lines <- append(lines, list(geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-surv.ul, ymax=1-surv.ll), alpha=0.1, colour="transparent")))
+    }
+  }
 
   surv_plot <- .surv_data %>%
   ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
-  #geom_step(aes(x=time, y=1-surv))+
-  geom_line(aes(x=time, y=1-smooth_surv))+#, linetype='dotted')+
- # geom_rect(aes(xmin=time, xmax=leadtime, ymin=1-conf.high, ymax=1-conf.low), alpha=0.1, colour="transparent")+
+  lines+
   get_colour_scales(colour_type)+
   scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
   labs(
     x="Days",
-    y="Event rate",
+    y="Cumulative event rate",
     colour=colour_name,
     title=title
   )+
@@ -134,17 +144,30 @@ plot_surv <- function(.surv_data, colour_var, colour_name, colour_type="qual",  
 }
 
 
-plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual", title=""){
+plot_hazard <- function(.surv_data, colour_var, colour_name, colour_type="qual", smooth=FALSE, ci=FALSE, title=""){
+
+
+  if(smooth){
+    lines <- list(geom_line(aes(x=time, y=smooth_haz)))
+    if(ci){
+      lines <- append(lines, list(geom_ribbon(aes(x=time, ymin=smooth_haz.ll, ymax=smooth_haz.ul), alpha=0.1, colour="transparent")))
+    }
+  } else{
+    lines <- list(geom_step(aes(x=time, y=haz_km)))
+    # if(ci){
+    #   lines <- append(lines, list(geom_rect(aes(xmin=time, xmax=leadtime, ymin=haz_km, ymax=haz_km), alpha=0.1, colour="transparent")))
+    # }
+  }
+
 
   surv_plot <- .surv_data %>%
     ggplot(aes_string(group=colour_var, colour=colour_var, fill=colour_var)) +
-    #geom_step(aes(x=time, y=haz_km))+
-    geom_line(aes(x=time, y=smooth_haz))+
+    lines+
     get_colour_scales(colour_type)+
     scale_y_continuous(expand = expansion(mult=c(0,0.01)))+
     labs(
       x="Days",
-      y="Hazard rate",
+      y="Instantaneous hazard rate",
       colour=colour_name,
       title=title
     )+
@@ -196,13 +219,25 @@ plot_combinations <- metadata_crossed %>%
       }
     ),
     plot_surv = pmap(
-      list(survobj, variable, variable_name, colour_type, outcome_name),
+      list(survobj, variable, variable_name, colour_type, smooth=FALSE, ci=FALSE, outcome_name),
+      plot_surv
+    ),
+    plot_surv_ci = pmap(
+      list(survobj, variable, variable_name, colour_type, smooth=FALSE, ci=TRUE, outcome_name),
       plot_surv
     ),
     plot_hazard = pmap(
-      list(survobj, variable, variable_name, colour_type, outcome_name),
+      list(survobj, variable, variable_name, colour_type, smooth=FALSE, ci=TRUE, outcome_name),
       plot_hazard
-    )
+    ),
+    plot_smoothhazard = pmap(
+      list(survobj, variable, variable_name, colour_type, smooth=TRUE, ci=FALSE, outcome_name),
+      plot_hazard
+    ),
+    plot_smoothhazard_ci = pmap(
+      list(survobj, variable, variable_name, colour_type, smooth=TRUE, ci=TRUE, outcome_name),
+      plot_hazard
+    ),
   )
 
 
@@ -223,6 +258,18 @@ plot_combinations %>%
 
 plot_combinations %>%
   transmute(
+    plot=plot_surv,
+    units = "cm",
+    height = 10,
+    width = 15,
+    limitsize=FALSE,
+    filename = str_c("plot_survival_ci_", variable, "_", outcome, ".svg"),
+    path = here::here("output", "tte", "figures"),
+  ) %>%
+  pwalk(ggsave)
+
+plot_combinations %>%
+  transmute(
     plot=plot_hazard,
     units = "cm",
     height = 10,
@@ -233,6 +280,29 @@ plot_combinations %>%
   ) %>%
   pwalk(ggsave)
 
+plot_combinations %>%
+  transmute(
+    plot=plot_smoothhazard,
+    units = "cm",
+    height = 10,
+    width = 15,
+    limitsize=FALSE,
+    filename = str_c("plot_smoothhazard_", variable, "_", outcome, ".svg"),
+    path = here::here("output", "tte", "figures"),
+  ) %>%
+  pwalk(ggsave)
+
+plot_combinations %>%
+  transmute(
+    plot=plot_smoothhazard_ci,
+    units = "cm",
+    height = 10,
+    width = 15,
+    limitsize=FALSE,
+    filename = str_c("plot_smoothhazard_ci_", variable, "_", outcome, ".svg"),
+    path = here::here("output", "tte", "figures"),
+  ) %>%
+  pwalk(ggsave)
 
 # patch adverse event rate plots together by variable and save
 
