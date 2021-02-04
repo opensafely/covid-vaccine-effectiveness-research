@@ -104,9 +104,7 @@ summary_stats <- append (
   )
 )
 
-#write_rds(summary_stats, here::here("output", "data_summary", "summary_stats.rds"))
-
-jsonlite::write_json(summary_stats, path=here::here("output", "data_summary", "summary_stats.json"), auto_unbox = TRUE,  pretty=TRUE)
+jsonlite::write_json(summary_stats, path=here::here("output", "summary_stats.json"), auto_unbox = TRUE,  pretty=TRUE)
 
 
 
