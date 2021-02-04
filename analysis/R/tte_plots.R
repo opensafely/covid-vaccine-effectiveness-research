@@ -79,8 +79,8 @@ get_colour_scales <- function(colour_type = "qual"){
 
   if(colour_type == "qual"){
     list(
-      scale_color_brewer(type="qual", palette="Set1"),
-      scale_fill_brewer(type="qual", palette="Set1", guide=FALSE)
+      scale_color_brewer(type="qual", palette="Set1", na.value="grey"),
+      scale_fill_brewer(type="qual", palette="Set1", guide=FALSE, na.value="grey")
       #ggthemes::scale_color_colorblind(),
       #ggthemes::scale_fill_colorblind(guide=FALSE),
       #rcartocolor::scale_color_carto_d(palette = "Safe"),
@@ -90,13 +90,13 @@ get_colour_scales <- function(colour_type = "qual"){
     )
   } else if(colour_type == "cont"){
     list(
-      viridis::scale_colour_viridis(discrete = FALSE),
-      viridis::scale_fill_viridis(discrete = FALSE, guide = FALSE)
+      viridis::scale_colour_viridis(discrete = FALSE, na.value="grey"),
+      viridis::scale_fill_viridis(discrete = FALSE, guide = FALSE, na.value="grey")
     )
   } else if(colour_type == "ordinal"){
     list(
-      viridis::scale_colour_viridis(discrete = TRUE),
-      viridis::scale_fill_viridis(discrete = TRUE, guide = FALSE)
+      viridis::scale_colour_viridis(discrete = TRUE, na.value="grey"),
+      viridis::scale_fill_viridis(discrete = TRUE, guide = FALSE, na.value="grey")
     )
   } else
     stop("colour_type '", colour_type, "' not supported -- must be 'qual', 'cont', or 'ordinal'")
@@ -198,12 +198,12 @@ metadata_outcomes <- tribble(
 metadata_crossed <- crossing(metadata_variables, metadata_outcomes)
 
 
-# test_data <- data_vaccinated %>%
-#  filter(age<=18, tte_posSGSS>0) %>%
-#  select(tte_posSGSS, ind_posSGSS, sex)
-# test_surv <- survobj(test_data, "tte_posSGSS", "ind_posSGSS", "sex")
-#
-# ggplot_surv(test_surv, "sex", "sex", "qual", FALSE, TRUE)
+test_data <- data_vaccinated %>%
+ filter(age<=18, tte_posSGSS>0) %>%
+ select(tte_posSGSS, ind_posSGSS, ethnicity)
+test_surv <- survobj(test_data, "tte_posSGSS", "ind_posSGSS", "ethnicity")
+
+ggplot_surv(test_surv, "ethnicity", "ethnicity", "qual", FALSE, TRUE)
 
 plot_combinations <- metadata_crossed %>%
   mutate(

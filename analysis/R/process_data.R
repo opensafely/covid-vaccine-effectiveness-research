@@ -160,8 +160,8 @@ data_processed <- data_extract %>%
     sex = fct_case_when(
       sex == "F" ~ "Female",
       sex == "M" ~ "Male",
-      sex == "I" ~ "Inter-sex",
-      sex == "U" ~ "Unknown",
+      #sex == "I" ~ "Inter-sex",
+      #sex == "U" ~ "Unknown",
       TRUE ~ NA_character_
     ),
 
@@ -178,7 +178,9 @@ data_processed <- data_extract %>%
       ethnicity == "3" ~ "South Asian",
       ethnicity == "1" ~ "White",
       ethnicity == "5" ~ "Other",
+      #TRUE ~ "Unknown",
       TRUE ~ NA_character_
+
     ),
 
 
@@ -189,12 +191,14 @@ data_processed <- data_extract %>%
       imd == 3 ~ "3",
       imd == 4 ~ "4",
       imd == 5 ~ "5 most deprived",
+      #TRUE ~ "Unknown",
       TRUE ~ NA_character_
     ),
 
     vaccine_first_dose_type = fct_case_when(
-      !is.na(covid_vacc_oxford_first_dose_date) & is.na(covid_vacc_pfizer_first_dose_date) ~ "Ox/AZ",
-      is.na(covid_vacc_oxford_first_dose_date) & !is.na(covid_vacc_pfizer_first_dose_date) ~ "P/B",
+      !is.na(covid_vacc_oxford_first_dose_date) & is.na(covid_vacc_pfizer_first_dose_date) ~ "Ox-AZ",
+      is.na(covid_vacc_oxford_first_dose_date) & !is.na(covid_vacc_pfizer_first_dose_date) ~ "P-B",
+      !is.na(covid_vacc_date) ~ "Unknown",
       TRUE ~ "Not vaccinated"
     ),
 
