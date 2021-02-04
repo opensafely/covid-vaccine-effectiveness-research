@@ -306,54 +306,54 @@ plot_combinations %>%
 
 # patch adverse event rate plots together by variable and save
 
-plot_combinations %>%
-  filter(outcome != "seconddose") %>%
-  group_by(variable, variable_name) %>%
-  arrange(factor(outcome, levels=c("posSGSS", "posPC", "coviddeath", "death"))) %>%
-  summarise(patch_plot = list(plot_surv)) %>%
-  mutate(
-    patch_plot = map(
-      patch_plot,
-      ~{wrap_plots(.x, ncol=2, guides="collect")}
-    )
-  ) %>%
-  ungroup() %>%
-  transmute(
-    plot=patch_plot,
-    units = "cm",
-    height = 10,
-    width = 15,
-    limitsize=FALSE,
-    filename = str_c("plot_patch_surv_", variable, ".svg"),
-    path = here::here("output", "tte", "figures"),
-  ) %>%
-  pwalk(ggsave)
+# plot_combinations %>%
+#   filter(outcome != "seconddose") %>%
+#   group_by(variable, variable_name) %>%
+#   arrange(factor(outcome, levels=c("posSGSS", "posPC", "coviddeath", "death"))) %>%
+#   summarise(patch_plot = list(plot_surv)) %>%
+#   mutate(
+#     patch_plot = map(
+#       patch_plot,
+#       ~{wrap_plots(.x, ncol=2, guides="collect")}
+#     )
+#   ) %>%
+#   ungroup() %>%
+#   transmute(
+#     plot=patch_plot,
+#     units = "cm",
+#     height = 10,
+#     width = 15,
+#     limitsize=FALSE,
+#     filename = str_c("plot_patch_surv_", variable, ".svg"),
+#     path = here::here("output", "tte", "figures"),
+#   ) %>%
+#   pwalk(ggsave)
 
 
 # patch adverse event hazard plots together by variable and save
 
-plot_combinations %>%
-  filter(outcome != "seconddose") %>%
-  group_by(variable, variable_name) %>%
-  arrange(factor(outcome, levels=c("posSGSS", "posPC", "coviddeath", "death"))) %>%
-  summarise(patch_plot = list(plot_hazard)) %>%
-  mutate(
-    patch_plot = map(
-      patch_plot,
-      ~{wrap_plots(.x, ncol=2, guides="collect")}
-    )
-  ) %>%
-  ungroup() %>%
-  transmute(
-    plot=patch_plot,
-    units = "cm",
-    height = 10,
-    width = 15,
-    limitsize=FALSE,
-    filename = str_c("plot_patch_hazard_", variable, ".svg"),
-    path = here::here("output", "tte", "figures"),
-  ) %>%
-  pwalk(ggsave)
+# plot_combinations %>%
+#   filter(outcome != "seconddose") %>%
+#   group_by(variable, variable_name) %>%
+#   arrange(factor(outcome, levels=c("posSGSS", "posPC", "coviddeath", "death"))) %>%
+#   summarise(patch_plot = list(plot_hazard)) %>%
+#   mutate(
+#     patch_plot = map(
+#       patch_plot,
+#       ~{wrap_plots(.x, ncol=2, guides="collect")}
+#     )
+#   ) %>%
+#   ungroup() %>%
+#   transmute(
+#     plot=patch_plot,
+#     units = "cm",
+#     height = 10,
+#     width = 15,
+#     limitsize=FALSE,
+#     filename = str_c("plot_patch_hazard_", variable, ".svg"),
+#     path = here::here("output", "tte", "figures"),
+#   ) %>%
+#   pwalk(ggsave)
 
 
 
