@@ -32,6 +32,8 @@ study = StudyDefinition(
         AND
         (age >= 18 AND age <= 110)
         AND
+        (sex = "M" OR sex = "F")
+        AND
         NOT has_died
         """
     ),
