@@ -20,9 +20,9 @@ library('patchwork')
 
 source(here::here("lib", "html_output_functions.R"))
 
-output_dir <- here::here("released_output") # change this when running on real data
+output_dir <- here::here("released_outputs/output") # change this when running on real data
 
-summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir,  "data_summary", "summary_stats.json"))
+summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir, "summary_stats.json"))
 
 run_date <- summary_stats$run_date
 end_date <- summary_stats$end_date
@@ -244,7 +244,7 @@ print_event_rates("sex", "Sex")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_sex.svg "outcomes by Sex"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_sex.svg "outcomes by Sex"){width="80%"}
 
 
 
@@ -266,7 +266,7 @@ print_event_rates("ageband", "Age")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_ageband.svg "outcomes by Age"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_ageband.svg "outcomes by Age"){width="80%"}
 
 
 
@@ -288,7 +288,7 @@ print_event_rates("ethnicity", "Ethnicity")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_ethnicity.svg "outcomes by Ethnicity"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_ethnicity.svg "outcomes by Ethnicity"){width="80%"}
 
 
 ### Index of Multiple Deprivation (IMD)
@@ -309,7 +309,7 @@ print_event_rates("imd", "IMD")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_imd.svg "outcomes by IMD"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_imd.svg "outcomes by IMD"){width="80%"}
 
 
 
@@ -330,4 +330,4 @@ print_event_rates("region", "Region")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_region.svg "outcomes by Region"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_region.svg "outcomes by Region"){width="80%"}
