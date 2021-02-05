@@ -285,7 +285,7 @@ study = StudyDefinition(
     # SECOND DOSE COVID VACCINATION - any type
     covid_vacc_2_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="covid_vacc_1_date",
+        on_or_after="covid_vacc_1_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -297,9 +297,9 @@ study = StudyDefinition(
         },
     ),
     # THIRD DOSE COVID VACCINATION - any type
-    covid_vacc_2_date=patients.with_tpp_vaccination_record(
+    covid_vacc_3_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="covid_vacc_2_date",
+        on_or_after="covid_vacc_2_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -311,9 +311,9 @@ study = StudyDefinition(
         },
     ),
     # 4th DOSE COVID VACCINATION - any type
-    covid_vacc_2_date=patients.with_tpp_vaccination_record(
+    covid_vacc_4_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="covid_vacc_3_date",
+        on_or_after="covid_vacc_3_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -346,7 +346,7 @@ study = StudyDefinition(
     # SECOND DOSE COVID VACCINATION, TYPE = Pfizer (after patient's first dose of same vaccine type)
     covid_vacc_pfizer_2_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="covid_vacc_pfizer_1_date",
+        on_or_after="covid_vacc_pfizer_1_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -361,7 +361,7 @@ study = StudyDefinition(
     # THIRD DOSE COVID VACCINATION, TYPE = Pfizer (after patient's second dose of same vaccine type)
     covid_vacc_pfizer_3_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="covid_vacc_pfizer_2_date",
+        on_or_after="covid_vacc_pfizer_2_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -372,6 +372,22 @@ study = StudyDefinition(
             }
         },
     ),
+    
+    # 4th DOSE COVID VACCINATION, TYPE = Pfizer (after patient's second dose of same vaccine type)
+    covid_vacc_pfizer_4_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+        on_or_after="covid_vacc_pfizer_3_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2020-12-29",  # first reported second dose administered on the 29/12
+                "latest": "2021-02-01",
+            }
+        },
+    ),
+
 
 
     # COVID VACCINATION TYPE = Oxford AZ - first record of an Oxford AZ vaccine 
@@ -393,7 +409,7 @@ study = StudyDefinition(
     # SECOND DOSE COVID VACCINATION, TYPE = Oxford AZ
             covid_vacc_oxford_2_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="covid_vacc_oxford_1_date",
+        on_or_after="covid_vacc_oxford_1_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -408,7 +424,22 @@ study = StudyDefinition(
     # THIRD DOSE COVID VACCINATION, TYPE = Oxford AZ
     covid_vacc_oxford_3_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="covid_vacc_oxford_2_date",
+        on_or_after="covid_vacc_oxford_2_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2021-01-19",  
+                "latest": "2021-03-01",
+            }
+        },
+    ),
+    
+    # 4th DOSE COVID VACCINATION, TYPE = Oxford AZ
+    covid_vacc_oxford_4_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+        on_or_after="covid_vacc_oxford_3_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -421,7 +452,7 @@ study = StudyDefinition(
     ),
 
     ################################################
-    ############ COVID CASES #######################
+    ############ pre-vaccine events ################
     ################################################
     # FIRST EVER SGSS POSITIVE
     earliest_positive_test_date=patients.with_test_result_in_sgss(
@@ -449,6 +480,138 @@ study = StudyDefinition(
         return_expectations={"rate": "exponential_increase"},
     ),
     
+    
+    ################################################
+    ############ hospital admissions################
+    ################################################
+    
+    admitted_1_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after=campaign_start,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    discharged_1_date=patients.admitted_to_hospital(
+        returning="date_discsharged",
+        on_or_after=campaign_start,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    admitted_2_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    discharged_2_date=patients.admitted_to_hospital(
+        returning="date_discsharged",
+        on_or_after="admitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    admitted_3_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_2_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    discharged_3_date=patients.admitted_to_hospital(
+        returning="date_discsharged",
+        on_or_after="admitted_2_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+
+    admitted_4_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_3_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    discharged_4_date=patients.admitted_to_hospital(
+        returning="date_discsharged",
+        on_or_after="admitted_3_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+
+    admitted_5_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_4_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    discharged_5_date=patients.admitted_to_hospital(
+        returning="date_discsharged",
+        on_or_after="admitted_4_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    
+    
+    ################################################
+    ############ post-vaccine events ###############
+    ################################################
     
     # POST VACCINE SGSS POSITIVE    
     post_vaccine_positive_test_date=patients.with_test_result_in_sgss(
