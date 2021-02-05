@@ -11,6 +11,12 @@ actions:
       highly_sensitive:
         cohort: output/input.csv
 
+  extract_doses_data:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_doses
+    outputs:
+      highly_sensitive:
+        cohort: output/input_doses.csv
+
   # generate_notebook:
   #   run: jupyter:latest jupyter nbconvert /workspace/notebooks/population_characteristics.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
   #
