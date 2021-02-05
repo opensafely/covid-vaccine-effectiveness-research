@@ -87,12 +87,11 @@ print_event_rates <- function(variable,  variable_name){
   
   renamer <-
   c(
-    posPC_ = "primary care case_", 
-    posSGSS_ = "positive test_",
-    admitted_ = "covid-related admission_",
-    coviddeath_ = "covid-related death_",
-    `death_n` = "all-cause death_n",
-    `death_%` = "all-cause death_%"
+    `^posPC_` = "primary care case_", 
+    `^posSGSS_` = "positive test_",
+    `^admitted_` = "covid-related admission_",
+    `^coviddeath_` = "covid-related death_",
+    `^death_` = "all-cause death_"
   )
   
   table <- rename_with(table, ~str_replace_all(string = .x, renamer))
