@@ -108,10 +108,10 @@ print_event_rates <- function(variable,  variable_name){
       everything(),
       missing_text="-"
     ) %>%
-    cols_align(
-      align = "left",
-      columns = all_of(variable_name)
-    ) %>%
+   # cols_align(
+   #   align = "left",
+   #   columns = all_of(variable_name)
+   # ) %>%
     tab_header(
       title = md("Post-vaccination event rates at 14 days amongst those with sufficient follow-up")
     ) %>%
