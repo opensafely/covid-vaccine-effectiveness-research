@@ -36,7 +36,7 @@ study = StudyDefinition(
         AND
         NOT has_died
         AND 
-        covid_vacc_date
+        covid_vacc_1_date
         """
     ),
     registered=patients.registered_as_of(
@@ -498,7 +498,7 @@ study = StudyDefinition(
     ),
     
     discharged_1_date=patients.admitted_to_hospital(
-        returning="date_discsharged",
+        returning="date_discharged",
         on_or_after=campaign_start,
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -522,7 +522,7 @@ study = StudyDefinition(
     ),
     
     discharged_2_date=patients.admitted_to_hospital(
-        returning="date_discsharged",
+        returning="date_discharged",
         on_or_after="admitted_1_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -546,7 +546,7 @@ study = StudyDefinition(
     ),
     
     discharged_3_date=patients.admitted_to_hospital(
-        returning="date_discsharged",
+        returning="date_discharged",
         on_or_after="admitted_2_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -571,7 +571,7 @@ study = StudyDefinition(
     ),
     
     discharged_4_date=patients.admitted_to_hospital(
-        returning="date_discsharged",
+        returning="date_discharged",
         on_or_after="admitted_3_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -596,7 +596,7 @@ study = StudyDefinition(
     ),
     
     discharged_5_date=patients.admitted_to_hospital(
-        returning="date_discsharged",
+        returning="date_discharged",
         on_or_after="admitted_4_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
