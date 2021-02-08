@@ -407,7 +407,7 @@ study = StudyDefinition(
     ),
 
     # SECOND DOSE COVID VACCINATION, TYPE = Oxford AZ
-            covid_vacc_oxford_2_date=patients.with_tpp_vaccination_record(
+    covid_vacc_oxford_2_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
         on_or_after="covid_vacc_oxford_1_date + 1 day",
         find_first_match_in_period=True,
@@ -415,7 +415,7 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {
-                "earliest": "2021-01-19",  
+                "earliest": "2021-02-01",
                 "latest": "2021-03-01",
             }
         },
@@ -430,8 +430,8 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {
-                "earliest": "2021-01-19",  
-                "latest": "2021-03-01",
+                "earliest": "2021-03-02",  
+                "latest": "2021-04-01",
             }
         },
     ),
@@ -445,8 +445,8 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {
-                "earliest": "2021-01-19",  
-                "latest": "2021-03-01",
+                "earliest": "2021-04-02",  
+                "latest": "2021-05-01",
             }
         },
     ),

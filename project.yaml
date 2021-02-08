@@ -26,6 +26,13 @@ actions:
   #       notebook: output/population_characteristics.html
 
 
+  data_models:
+    run: r:latest analysis/R/data_doses_process.R
+    needs: [extract_doses_data]
+    outputs:
+      moderately_sensitive:
+        log: output/cox.txt
+
   get_packages:
     run: r:latest analysis/R/export_package_names.R
     outputs:
