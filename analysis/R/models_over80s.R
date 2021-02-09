@@ -64,7 +64,39 @@ data_time <- data_over80s %>%
 
 
 
-print("one-row-per-patient tt()")
+## PH model with only time-varying vax, no time-varying coefficients
+
+
+# data_tm0 <- tmerge(
+#   data1 = data_time %>% select(patient_id, sex, age),
+#   data2 = data_time,
+#   id = patient_id,
+#   vacc1 = tdc(tte_vax1),
+#   outcome = event(tte_outcome),
+#   tstop = as.numeric(tte_censor)
+# ) %>%
+#   group_by(patient_id) #%>%
+#filter(cumsum(lag(outcome, 1, 0)) == 0) #remove any observations after first occurrence of outcome
+
+
+
+# coxmod_ph <- coxph(
+#   Surv(tstart, tstop, outcome) ~vacc1 + age + sex + cluster(patient_id),
+#   data = data_tm0, x=TRUE
+# )
+# summary(coxmod_ph)
+#
+# zp <- cox.zph(coxmod_ph, transform= "km", terms=FALSE)
+
+#plot(zp[1])
+# if there's a NA/NAN/Inf warning, then there may be observations in the dataset _after_ the outcome has occurred
+# OR...
+
+
+cat("  \n")
+cat("one-row-per-patient tt()")
+cat("  \n")
+
 
 coxmod_tt <- coxph(
   Surv(tte_outcome_censored, ind_outcome) ~ tt(tte_vax1_censored) + age + sex + cluster(patient_id),
@@ -81,35 +113,6 @@ coxmod_tt <- coxph(
   }
 )
 summary(coxmod_tt)
-
-
-## PH model with only time-varying vax, no time-varying coefficients
-
-data_tm0 <- tmerge(
-  data1 = data_time %>% select(patient_id, sex, age),
-  data2 = data_time,
-  id = patient_id,
-  vacc1 = tdc(tte_vax1),
-  outcome = event(tte_outcome),
-  tstop = as.numeric(tte_censor)
-) %>%
-  group_by(patient_id) #%>%
-#filter(cumsum(lag(outcome, 1, 0)) == 0) #remove any observations after first occurrence of outcome
-
-
-
-coxmod_ph <- coxph(
-  Surv(tstart, tstop, outcome) ~vacc1 + age + sex + cluster(patient_id),
-  data = data_tm0, x=TRUE
-)
-summary(coxmod_ph)
-
-zp <- cox.zph(coxmod_ph, transform= "km", terms=FALSE)
-
-#plot(zp[1])
-# if there's a NA/NAN/Inf warning, then there may be observations in the dataset _after_ the outcome has occurred
-# OR...
-
 
 
 
@@ -131,7 +134,9 @@ data_tm <- tmerge(
     vacc = vacc1 + vacc2 + vacc3
   )
 
-print("mergedata v1, use data")
+cat("  \n")
+cat("mergedata v1, use tstart tstop")
+cat("  \n")
 
 coxmod_tm1 <- coxph(
   Surv(tstart, tstop, outcome) ~ as.factor(vacc) + age + sex + cluster(patient_id),
@@ -139,23 +144,23 @@ coxmod_tm1 <- coxph(
 )
 summary(coxmod_tm1)
 
-print("mergedata v2, use tt()")
-
-coxmod_tm2 <- coxph(
-  Surv(tstart, tstop, outcome) ~ tt(tte_vax1_censored) + age + sex + cluster(patient_id),
-  data = data_tm,
-  tt = function(x, t, ...){
-    vax_status <- fct_case_when(
-      t <= x ~ 'unvaccinated',
-      (x < t) & (t <= x+10) ~ '(0,10]',
-      (x+10 < t) & (t <= x+21) ~ '(10,21]',
-      (x+21 < t) ~ '(21,Inf)',
-      TRUE ~ NA_character_
-    )
-    vax_status
-  }
-)
-summary(coxmod_tm2)
+#cat("mergedata v2, use tt()")
+#
+# coxmod_tm2 <- coxph(
+#   Surv(tstart, tstop, outcome) ~ tt(tte_vax1_censored) + age + sex + cluster(patient_id),
+#   data = data_tm,
+#   tt = function(x, t, ...){
+#     vax_status <- fct_case_when(
+#       t <= x ~ 'unvaccinated',
+#       (x < t) & (t <= x+10) ~ '(0,10]',
+#       (x+10 < t) & (t <= x+21) ~ '(10,21]',
+#       (x+21 < t) ~ '(21,Inf)',
+#       TRUE ~ NA_character_
+#     )
+#     vax_status
+#   }
+# )
+# summary(coxmod_tm2)
 
 
 sink()
