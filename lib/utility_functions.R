@@ -25,7 +25,8 @@ tte <- function(origin_date, event_date, censor_date, na.censor=FALSE){
   # returns time to event date or time to censor date, which is earlier
 
   if (na.censor)
-    event_date-origin_date
+    time <- event_date-origin_date
   else
-    pmin(event_date-origin_date, censor_date-origin_date, na.rm=TRUE)
+    time <- pmin(event_date-origin_date, censor_date-origin_date, na.rm=TRUE)
+    as.numeric(time)
 }
