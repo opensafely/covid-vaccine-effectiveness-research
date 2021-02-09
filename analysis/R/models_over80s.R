@@ -19,12 +19,6 @@ library('jsonlite')
 library('survival')
 
 
-vars_list = list(
-  run_date = date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime),
-  start_date = "2020-12-07",
-  end_date = "2021-01-13"
-)
-
 ## one-row-per-patient data
 
 data_time <- data_over80s %>%
@@ -36,21 +30,22 @@ data_time <- data_over80s %>%
 
     start_date,
     end_date,
-    outcome_date = post_vax_positive_test_date, #change here for different outcomes
-    censor_date = pmin(outcome_date, death_date, end_date, na.rm=TRUE),
+    covid_vax_1_date,
+    outcome_date = positive_test_1_date, #change here for different outcomes.
+    censor_date = pmin(death_date, end_date, outcome_date, na.rm=TRUE),
 
-    tte_censor = as.numeric(tte(start_date, censor_date, censor_date)),
-    tte_outcome = as.numeric(tte(start_date, outcome_date, censor_date, na.censor=TRUE)),
-    tte_outcome_censored = as.numeric(tte(start_date, outcome_date, censor_date, na.censor=FALSE)),
+    # +0.5 ensures that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
+    # -- see sectoin 3.3 of timedep vignette in survival package
+    tte_censor = tte(start_date, censor_date, censor_date)+0.5,
+    tte_outcome = tte(start_date, outcome_date, censor_date, na.censor=TRUE)+0.5,
+    tte_outcome_censored = tte(start_date, outcome_date, censor_date, na.censor=FALSE)+0.5,
     ind_outcome = censor_indicator(outcome_date, censor_date),
 
-    tte_vax1 = as.numeric(tte(start_date, covid_vax_1_date, pmin(censor_date, outcome_date, na.rm=TRUE), na.censor=TRUE)),
-    tte_vax1_censored = as.numeric(tte(start_date, covid_vax_1_date, censor_date, na.censor=FALSE)),
+    tte_vax1 = tte(start_date, covid_vax_1_date, pmin(censor_date, outcome_date, na.rm=TRUE), na.censor=TRUE),
+    tte_vax1_censored = tte(start_date, covid_vax_1_date, censor_date, na.censor=FALSE),
     ind_vax1 = censor_indicator(covid_vax_1_date, pmin(censor_date, outcome_date, na.rm=TRUE)),
 
-    #tte_outcome = if_else(tte_outcome==0 | tte_outcome==tte_vax1, tte_outcome+0.5, tte_outcome), # this ensures that outcomes occurring on the same day as the start date are bumped forward by 0.5 days
-
-    tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
+    tte_death = tte(start_date, death_date, end_date, na.censor=TRUE)+0.5,
   )
 
 options(width=200) # set output width for capture.output
@@ -60,22 +55,27 @@ capture.output(skimr::skim(data_time), file = here::here("output", "data_summary
 
 ## PH model with only time-varying vax, no time-varying coefficients
 
+# cat("  \n")
+# cat("tmerge cox PH model")
+# cat("  \n")
 
 # data_tm0 <- tmerge(
-#   data1 = data_time %>% select(patient_id, sex, age),
+#   data1 = data_time %>% select(patient_id, sex, age, imd),
 #   data2 = data_time,
 #   id = patient_id,
-#   vacc1 = tdc(tte_vax1),
+#   vax1 = tdc(tte_vax1),
 #   outcome = event(tte_outcome),
-#   tstop = as.numeric(tte_censor)
+#   tstop = tte_censor
 # ) %>%
-#   group_by(patient_id) #%>%
+# mutate(
+#   width = tstop - tstart
+# ) #%>%
+#group_by(patient_id) %>%
 #filter(cumsum(lag(outcome, 1, 0)) == 0) #remove any observations after first occurrence of outcome
 
 
-
 # coxmod_ph <- coxph(
-#   Surv(tstart, tstop, outcome) ~vacc1 + age + sex + cluster(patient_id),
+#   Surv(tstart, tstop, outcome) ~vax1 + age + sex + imd + cluster(patient_id),
 #   data = data_tm0, x=TRUE
 # )
 # summary(coxmod_ph)
@@ -86,10 +86,23 @@ capture.output(skimr::skim(data_time), file = here::here("output", "data_summary
 # if there's a NA/NAN/Inf warning, then there may be observations in the dataset _after_ the outcome has occurred
 # OR...
 
+cat("  \n")
+cat("simple cox model")
+cat("  \n")
 
-cat("  \n")
+
+coxmod_ph <- coxph(Surv(tte_outcome_censored, ind_outcome) ~ age + sex,
+                   data = data_time, x=TRUE
+                   )
+summary(coxmod_ph)
+
+zp <- cox.zph(coxmod_ph, transform= "km", terms=FALSE)
+try(plot(zp[1]), silent=TRUE)
+
+
+cat("  \n  ")
 cat("one-row-per-patient tt()")
-cat("  \n")
+cat("  \n  ")
 
 
 coxmod_tt <- coxph(
@@ -112,6 +125,12 @@ summary(coxmod_tt)
 
 ## use tmerge method
 
+
+cat("  \n")
+cat("mergedata v1, use tstart tstop")
+cat("  \n")
+
+
 data_tm <- tmerge(
   data1=data_time %>% select(patient_id, sex, age, imd, tte_vax1_censored),
   data2=data_time,
@@ -122,15 +141,23 @@ data_tm <- tmerge(
   outcome = event(tte_outcome),
   tstop = tte_censor
 ) %>%
-  group_by(patient_id) %>%
-  filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
-  mutate(
-    postvaxperiod = vax1_0_10 + vax1_11_21 + vax3_22_Inf
-  )
+tmerge(
+  data1 = .,
+  data2 = .,
+  id= patient_id,
+  enum = cumtdc(tstart)
+) %>%
+{print(attr(., "tcount")); .} %>%
+mutate(
+  width = tstop - tstart
+) %>%
+group_by(patient_id) %>%
+filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
+mutate(
+  postvaxperiod = vax1_0_10 + vax1_11_21 + vax3_22_Inf
+)
 
-cat("  \n")
-cat("mergedata v1, use tstart tstop")
-cat("  \n")
+
 
 coxmod_tm1 <- coxph(
   Surv(tstart, tstop, outcome) ~ as.factor(postvaxperiod) + age + sex + imd + cluster(patient_id),

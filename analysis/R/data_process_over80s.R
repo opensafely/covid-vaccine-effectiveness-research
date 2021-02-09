@@ -29,7 +29,7 @@ data_extract0 <- read_csv(
   col_types = cols(
 
     # identifiers
-    patient_id = col_integer(),
+    patient_id = col_character(),
     practice_id = col_integer(),
 
     # demographic / administrative
@@ -40,7 +40,7 @@ data_extract0 <- read_csv(
     care_home = col_logical(),
 
 
-    registered_at_latest_date = col_logical(),
+    registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
 
     age = col_integer(),
@@ -53,17 +53,17 @@ data_extract0 <- read_csv(
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
 
-    admitted_1_date = col_date(format="%Y-%m-%d"),
-    admitted_2_date = col_date(format="%Y-%m-%d"),
-    admitted_3_date = col_date(format="%Y-%m-%d"),
-    admitted_4_date = col_date(format="%Y-%m-%d"),
-    admitted_5_date = col_date(format="%Y-%m-%d"),
-
-    discharged_1_date = col_date(format="%Y-%m-%d"),
-    discharged_2_date = col_date(format="%Y-%m-%d"),
-    discharged_3_date = col_date(format="%Y-%m-%d"),
-    discharged_4_date = col_date(format="%Y-%m-%d"),
-    discharged_5_date = col_date(format="%Y-%m-%d"),
+    # admitted_1_date = col_date(format="%Y-%m-%d"),
+    # admitted_2_date = col_date(format="%Y-%m-%d"),
+    # admitted_3_date = col_date(format="%Y-%m-%d"),
+    # admitted_4_date = col_date(format="%Y-%m-%d"),
+    # admitted_5_date = col_date(format="%Y-%m-%d"),
+    #
+    # discharged_1_date = col_date(format="%Y-%m-%d"),
+    # discharged_2_date = col_date(format="%Y-%m-%d"),
+    # discharged_3_date = col_date(format="%Y-%m-%d"),
+    # discharged_4_date = col_date(format="%Y-%m-%d"),
+    # discharged_5_date = col_date(format="%Y-%m-%d"),
 
     covid_vax_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_2_date = col_date(format="%Y-%m-%d"),
@@ -80,9 +80,9 @@ data_extract0 <- read_csv(
     covid_vax_az_3_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_4_date = col_date(format="%Y-%m-%d"),
 
-    post_vax_positive_test_date = col_date(format="%Y-%m-%d"),
-    post_vax_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
-    post_vax_admitted_date = col_date(format="%Y-%m-%d"),
+    positive_test_1_date = col_date(format="%Y-%m-%d"),
+    primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
+    admitted_1_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d")
   ),
