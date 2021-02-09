@@ -52,6 +52,7 @@ data_time <- data_over80s %>%
 
     tte_censor = as.numeric(tte(start_date, censor_date, censor_date)),
     tte_outcome = as.numeric(tte(start_date, outcome_date, censor_date, na.censor=TRUE)),
+    tte_outcome = if_else(tte_outcome==0, 0.5, tte_outcome), # this ensures that outcomes occurring on the same day as the start date are bumped forward by 0.5 days
     tte_outcome_censored = as.numeric(tte(start_date, outcome_date, censor_date, na.censor=FALSE)),
     ind_outcome = censor_indicator(outcome_date, censor_date),
 
@@ -61,7 +62,6 @@ data_time <- data_over80s %>%
 
     tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
   )
-
 
 
 ## PH model with only time-varying vax, no time-varying coefficients
