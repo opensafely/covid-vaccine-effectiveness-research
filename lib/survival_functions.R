@@ -1,6 +1,7 @@
 library('tidyverse')
 library('flexsurv')
 
+
 tidy_surv <-
   function(
     survfit,
