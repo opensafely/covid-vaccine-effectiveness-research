@@ -3,35 +3,8 @@ library('tidyverse')
 library('lubridate')
 library('jsonlite')
 
-# functions ----
 
-fct_case_when <- function(...) {
-  args <- as.list(match.call())
-  levels <- sapply(args[-1], function(f) f[[3]])  # extract RHS of formula
-  levels <- levels[!is.na(levels)]
-  factor(dplyr::case_when(...), levels=levels)
-}
-
-censor <- function(event_date, censor_date, na.censor=TRUE){
-  # censors event_date to on or before censor_date
-  # if na.censor = TRUE then returns NA if event_date>censor_date, otherwise returns min(event_date, censor_date)
-  if (na.censor)
-    dplyr::if_else(event_date>censor_date, as.Date(NA_character_), as.Date(event_date))
-  else
-    dplyr::if_else(event_date>censor_date, as.Date(censor_date), as.Date(event_date))
-}
-
-censor_indicator <- function(event_date, censor_date){
-  # returns 0 if event_date is censored by censor_date, or if event_date is NA. Otherwise 1
-  dplyr::if_else((event_date>censor_date) | is.na(event_date), FALSE, TRUE)
-}
-
-tte <- function(origin_date, event_date, censor_date){
-  # returns time to event date or time to censor date, which is earlier
-  pmin(event_date-origin_date, censor_date-origin_date, na.rm=TRUE)
-}
-
-
+source(here::here("lib", "utility_functions.R"))
 
 # get global variables ----
 
@@ -58,7 +31,7 @@ jsonlite::write_json(vars_list, path=here::here("lib", "global-variables.json"),
 # process ----
 
 read_csv(
-  here::here("output", "input.csv"),
+  here::here("output", "input_vaccinated.csv"),
   n_max=0,
   col_types = cols()
 ) %>%
@@ -67,7 +40,7 @@ print()
 
 
 data_extract0 <- read_csv(
-  here::here("output", "input.csv"),
+  here::here("output", "input_vaccinated.csv"),
   col_types = cols(
 
     # identifiers
