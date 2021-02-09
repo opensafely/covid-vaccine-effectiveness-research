@@ -97,4 +97,5 @@ actions:
     needs: [data_process_over80s]
     outputs:
       moderately_sensitive:
+        summary: output/data_summary/time_colsummary.txt
         log: output/cox.txt
