@@ -45,6 +45,10 @@ data_time <- data_over80s %>%
     tte_vax1_censored = tte(start_date, covid_vax_1_date, censor_date, na.censor=FALSE),
     ind_vax1 = censor_indicator(covid_vax_1_date, pmin(censor_date, outcome_date, na.rm=TRUE)),
 
+    tte_vax2 = tte(start_date, covid_vax_2_date, pmin(censor_date, outcome_date, na.rm=TRUE), na.censor=TRUE),
+    tte_vax2_censored = tte(start_date, covid_vax_2_date, censor_date, na.censor=FALSE),
+    ind_vax2 = censor_indicator(covid_vax_2_date, pmin(censor_date, outcome_date, na.rm=TRUE)),
+
     tte_death = tte(start_date, death_date, end_date, na.censor=TRUE)+0.5,
   )
 
@@ -137,25 +141,19 @@ data_tm <- tmerge(
   id=patient_id,
   vax1_0_10 = tdc(tte_vax1),
   vax1_11_21 = tdc(tte_vax1+10),
-  vax3_22_Inf = tdc(tte_vax1+21),
+  vax1_22_Inf = tdc(tte_vax1+21),
   outcome = event(tte_outcome),
   tstop = tte_censor
 ) %>%
-tmerge(
-  data1 = .,
-  data2 = .,
-  id= patient_id,
-  enum = cumtdc(tstart)
-) %>%
 {print(attr(., "tcount")); .} %>%
-mutate(
-  width = tstop - tstart
-) %>%
 group_by(patient_id) %>%
-filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
+#filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
 mutate(
-  postvaxperiod = vax1_0_10 + vax1_11_21 + vax3_22_Inf
-)
+  enum = row_number(),
+  width = tstop - tstart,
+  postvaxperiod = vax1_0_10 + vax1_11_21 + vax1_22_Inf
+) %>%
+ungroup()
 
 
 
