@@ -31,7 +31,7 @@ study = StudyDefinition(
         """
         registered
         AND
-        age >= 80
+        (age >= 80 AND age < 110)
         AND
         (sex = "M" OR sex = "F")
         AND
@@ -462,7 +462,7 @@ study = StudyDefinition(
         test_result="positive",
         returning="date",
         date_format="YYYY-MM-DD",
-        on_or_before="index_date - 1 day",
+        on_or_before="index_date",
         find_first_match_in_period=True,
         return_expectations={
             "date": {"earliest": "2020-02-01"},
@@ -478,7 +478,7 @@ study = StudyDefinition(
         ),
         returning="date",
         date_format="YYYY-MM-DD",
-        on_or_before="index_date - 1 day",
+        on_or_before="index_date",
         find_first_match_in_period=True,
         return_expectations={"rate": "exponential_increase"},
     ),
@@ -488,127 +488,127 @@ study = StudyDefinition(
     ############ hospital admissions################
     ################################################
     
-    admitted_1_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="index_date",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    discharged_1_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="index_date",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    admitted_2_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_1_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    discharged_2_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_1_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    admitted_3_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_2_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    discharged_3_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_2_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-
-    admitted_4_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_3_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    discharged_4_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_3_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-
-    admitted_5_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_4_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-    
-    discharged_5_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_4_date + 1 day",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
+    # admitted_1_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="index_date",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_1_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="index_date",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # admitted_2_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_1_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_2_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_1_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # admitted_3_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_2_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_3_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_2_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # 
+    # admitted_4_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_3_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_4_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_3_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # 
+    # admitted_5_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_4_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_5_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_4_date + 1 day",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
     
     
     
@@ -617,10 +617,10 @@ study = StudyDefinition(
     ################################################
     
     # POST VACCINE SGSS POSITIVE    
-    post_vax_positive_test_date=patients.with_test_result_in_sgss(
+    positive_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_after="covid_vax_1_date",
+        on_or_after="index_date",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -630,7 +630,7 @@ study = StudyDefinition(
         },
     ),
     # POST VACCINE PRIMARY CARE CASE IDENTIFICATION
-    post_vax_primary_care_covid_case_date=patients.with_these_clinical_events(
+    primary_care_covid_case_1_date=patients.with_these_clinical_events(
         combine_codelists(
             covid_primary_care_code,
             covid_primary_care_positive_test,
@@ -639,7 +639,7 @@ study = StudyDefinition(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        on_or_after="covid_vax_1_date",
+        on_or_after="index_date",
         return_expectations={
             "date": {"earliest": "2021-04-01", "latest" : "2021-05-01"},
             "rate": "uniform",
@@ -647,10 +647,10 @@ study = StudyDefinition(
         },
     ),
     # POST VACCINE COVID-RELATED HOSPITAL ADMISSION
-    post_vax_admitted_date=patients.admitted_to_hospital(
+    admitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
-        on_or_after="covid_vax_1_date",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
