@@ -99,7 +99,7 @@ cat("  \n")
 
 
 coxmod_tt <- coxph(
-  Surv(tte_outcome_censored, ind_outcome) ~ tt(tte_vax1_censored) + age + sex + cluster(patient_id),
+  Surv(tte_outcome_censored, ind_outcome) ~ tt(tte_vax1_censored) + age + sex + imd + cluster(patient_id),
   data = data_time,
   tt = function(x, t, ...){
     vax_status <- fct_case_when(
@@ -119,19 +119,19 @@ summary(coxmod_tt)
 ## use tmerge method
 
 data_tm <- tmerge(
-  data1=data_time %>% select(patient_id, sex, age, tte_vax1_censored),
+  data1=data_time %>% select(patient_id, sex, age, imd, tte_vax1_censored),
   data2=data_time,
   id=patient_id,
-  vacc1 = tdc(tte_vax1),
-  vacc2 = tdc(tte_vax1+10),
-  vacc3 = tdc(tte_vax1+21),
+  vax1_0_10 = tdc(tte_vax1),
+  vax1_11_21 = tdc(tte_vax1+10),
+  vax3_22_Inf = tdc(tte_vax1+21),
   outcome = event(tte_outcome),
   tstop = tte_censor
 ) %>%
   group_by(patient_id) %>%
   filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
   mutate(
-    vacc = vacc1 + vacc2 + vacc3
+    postvaxperiod = vax1_0_10 + vax1_11_21 + vax3_22_Inf
   )
 
 cat("  \n")
@@ -139,7 +139,7 @@ cat("mergedata v1, use tstart tstop")
 cat("  \n")
 
 coxmod_tm1 <- coxph(
-  Surv(tstart, tstop, outcome) ~ as.factor(vacc) + age + sex + cluster(patient_id),
+  Surv(tstart, tstop, outcome) ~ as.factor(postvaxperiod) + age + sex + imd + cluster(patient_id),
   data = data_tm
 )
 summary(coxmod_tm1)
