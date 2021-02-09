@@ -17,7 +17,6 @@ dir.create(here::here("output", "variable_summary", "tables"), showWarnings = FA
 
 ## categorical ----
 
-
 sumtabs_cat <-
   data_vaccinated %>%
   select(where(is.character), where(is.logical), where(is.factor)) %>%
