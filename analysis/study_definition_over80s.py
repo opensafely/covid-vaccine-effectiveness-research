@@ -25,7 +25,7 @@ study = StudyDefinition(
         "incidence": 0.2,
     },
         
-    index_date = "2020-12-01",
+    index_date = campaign_start,
     # This line defines the study population
     population=patients.satisfying(
         """
@@ -42,10 +42,10 @@ study = StudyDefinition(
         NOT prior_positive_test_date
         """,
         registered=patients.registered_as_of(
-            "index_date",  # Currently 1 Dec 2020 day but can change to before vaccination campaign starts
+            "index_date",
         ),
         has_died=patients.died_from_any_cause(
-            on_or_before="index_date- 1 day",
+            on_or_before="index_date",
             returning="binary_flag",
         ),
     ),

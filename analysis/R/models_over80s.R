@@ -25,17 +25,6 @@ vars_list = list(
   end_date = "2021-01-13"
 )
 
-
-
-data_baseline <- data_over80s %>%
-  transmute(
-    patient_id,
-    age,
-    sex,
-    imd,
-  )
-
-
 ## one-row-per-patient data
 
 data_time <- data_over80s %>%
@@ -52,7 +41,6 @@ data_time <- data_over80s %>%
 
     tte_censor = as.numeric(tte(start_date, censor_date, censor_date)),
     tte_outcome = as.numeric(tte(start_date, outcome_date, censor_date, na.censor=TRUE)),
-    tte_outcome = if_else(tte_outcome==0, 0.5, tte_outcome), # this ensures that outcomes occurring on the same day as the start date are bumped forward by 0.5 days
     tte_outcome_censored = as.numeric(tte(start_date, outcome_date, censor_date, na.censor=FALSE)),
     ind_outcome = censor_indicator(outcome_date, censor_date),
 
@@ -60,8 +48,14 @@ data_time <- data_over80s %>%
     tte_vax1_censored = as.numeric(tte(start_date, covid_vax_1_date, censor_date, na.censor=FALSE)),
     ind_vax1 = censor_indicator(covid_vax_1_date, pmin(censor_date, outcome_date, na.rm=TRUE)),
 
+    #tte_outcome = if_else(tte_outcome==0 | tte_outcome==tte_vax1, tte_outcome+0.5, tte_outcome), # this ensures that outcomes occurring on the same day as the start date are bumped forward by 0.5 days
+
     tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
   )
+
+options(width=200) # set output width for capture.output
+dir.create(here::here("output","data_summary"), showWarnings = FALSE, recursive=TRUE)
+capture.output(skimr::skim(data_time), file = here::here("output", "data_summary", "time_colsummary.txt"), split=FALSE)
 
 
 ## PH model with only time-varying vax, no time-varying coefficients
