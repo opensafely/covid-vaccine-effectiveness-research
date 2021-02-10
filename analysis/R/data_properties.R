@@ -5,11 +5,10 @@ args <- commandArgs(trailingOnly=TRUE)
 rds_file <- args[[1]]
 output_dir <- args[[2]]
 
-rds_file <- "output/data/data_vaccinated.rds"
-output_dir <- "output/data_properties"
+# rds_file <- "output/data/data_vaccinated.rds"
+# output_dir <- "output/data_properties"
 
 stopifnot("must pass an .rds file" = fs::path_ext(rds_file)=="rds")
-#stopifnot("must pass a valid output directory" = fs::is_dir(output_dir))
 
 filenamebase <- fs::path_ext_remove(fs::path_file(rds_file))
 
