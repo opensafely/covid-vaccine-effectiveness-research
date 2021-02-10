@@ -1,4 +1,3 @@
-
 # Import libraries ----
 library('tidyverse')
 library('lubridate')
@@ -112,7 +111,7 @@ dev.off()
 # note that the exact vaccination date is set to the first "pre-vax" period,
 # because in survival analysis, intervals are open-left and closed-right.
 
-postvaxcuts <- c(0, 3, 6, 9, 12, 21)
+postvaxcuts <- c(0, 3, 6, 12, 21)
 
 coxmod_tt <- coxph(
   formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime) + age + sex + imd,
@@ -125,13 +124,16 @@ coxmod_tt <- coxph(
     x1 <- x[,1]
     x2 <- x[,2]
 
-    vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="vax 1 ")
-    vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="vax 2 ")
+    vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="dose 1 ")
+    vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="dose 2 ")
 
-    if_else(t<=x2, as.character(vax1_status), as.character(vax2_status))
+    levels <- c(levels(vax1_status), levels(vax2_status))
+
+    factor(if_else(t<=x2, as.character(vax1_status), as.character(vax2_status)), levels=levels) %>% droplevels()
 
   }
 )
+
 
 # create table with model estimates
 coxmod_table <- broom::tidy(coxmod_tt, conf.int=TRUE) %>%
@@ -143,11 +145,43 @@ coxmod_table <- broom::tidy(coxmod_tt, conf.int=TRUE) %>%
 write_csv(coxmod_table, path = here::here("output", "models", "tables", "estimates.csv"))
 
 # create forest plot
-coxmod_forest <- ggforest(coxmod_tt)
-png(filename=here::here("output","models", "figures", "forest_plot.png"))
-plot(coxmod_forest)
-dev.off()
+coxmod_forest <- coxmod_table %>%
+  filter(str_detect(term, "vaxtime")) %>%
+  mutate(
+    term=str_replace(term, pattern="tt\\(vaxtime\\)", ""),
+    term=str_replace(term, pattern="imd", "IMD "),
+    term=str_replace(term, pattern="sex", "Sex "),
+    term=fct_inorder(term)
+  ) %>%
+  ggplot() +
+  geom_point(aes(x=hr, y=forcats::fct_rev(factor(term))))+
+  geom_linerange(aes(xmin=hr.ll, xmax=hr.ul, y=term))+
+  geom_vline(aes(xintercept=1), colour='grey')+
+  scale_x_log10()+
+  coord_cartesian(xlim=c(0.2,5)) +
+  labs(
+    x="Hazard ratio (versus no vaccination)",
+    y=NULL,
+    title="Hazard ratio for time since vaccine",
+    subtitle="Adjusting for age (linear), sex, and IMD"
+  ) +
+  theme_bw()+
+  theme(
+    panel.border = element_blank(),
+    axis.line.x = element_line(colour = "black"),
 
+    strip.background = element_blank(),
+
+    plot.title = element_text(hjust = 0),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.caption = element_text(hjust = 0, face= "italic"),
+    strip.text.y = element_text(angle = 0),
+
+    legend.position = "left"
+  )
+
+ggsave(filename=here::here("output", "models", "figures", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
 
 
 # OLD TEST MODELS keep for sense-checking ---

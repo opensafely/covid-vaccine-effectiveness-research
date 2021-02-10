@@ -112,7 +112,7 @@ actions:
     outputs:
       moderately_sensitive:
         zph: output/models/figures/zph*.png
-        forest: output/models/figures/forest*.png
+        forest: output/models/figures/forest*.svg
         tables: output/models/tables/*.csv
 
 
