@@ -140,8 +140,6 @@ data_extract_reordered <- left_join(
 )
 
 
-
-
 data_processed <- data_extract_reordered %>%
   mutate(
 
@@ -192,18 +190,61 @@ data_processed <- data_extract_reordered %>%
   filter(
     !is.na(age),
     !is.na(sex),
+    !is.na(imd)
   )
 
 
 
+## one-row-per-patient data
 
+data_tte_ready <- data_processed %>%
+  transmute(
+    patient_id,
+    age,
+    sex,
+    imd,
+    #ethnicity,
+
+    start_date,
+    end_date,
+    covid_vax_1_date,
+    covid_vax_2_date,
+    positive_test_1_date,
+    coviddeath_date,
+    death_date,
+
+    outcome_date = positive_test_1_date, #change here for different outcomes.
+    lastfup_date = pmin(death_date, end_date, outcome_date, na.rm=TRUE),
+
+    # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
+    # -- see section 3.3 of the timedep vignette in survival package
+    # but might not be necessary if ties are andle appropriately (eg with tmerge)
+
+    tte_censor = tte(start_date, lastfup_date, lastfup_date),
+    tte_outcome = tte(start_date, outcome_date, lastfup_date, na.censor=TRUE),
+    tte_outcome_censored = tte(start_date, outcome_date, lastfup_date, na.censor=FALSE),
+    ind_outcome = censor_indicator(outcome_date, lastfup_date),
+
+    tte_vax1 = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=TRUE),
+    tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
+    tte_vax1_censored = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=FALSE),
+    ind_vax1 = censor_indicator(covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE)),
+
+    tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
+    tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
+    tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
+    ind_vax2 = censor_indicator(covid_vax_2_date, lastfup_date),
+
+    tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
+  )
 
 
 # output processed data to rds ----
 
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
-write_rds(data_processed, here::here("output", "data", "data_over80s.rds"))
+write_rds(data_processed, here::here("output", "data", "data_processed_over80s.rds"))
+write_rds(data_tte_ready, here::here("output", "data", "data_tte_over80s.rds"))
 
 
 
