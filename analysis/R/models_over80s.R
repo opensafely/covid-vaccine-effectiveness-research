@@ -16,7 +16,7 @@ dir.create(here::here("output", "models", "tables"), showWarnings = FALSE, recur
 
 # Import processed data ----
 
-data_tte <- read_rds(here::here("output", "data", "data_tte_ready_over80s.rds"))
+data_tte <- read_rds(here::here("output", "data", "data_tte_over80s.rds"))
 
 # functions ----
 postvax_cut <- function(x, t, breaks, prelabel="pre", prefix=""){
@@ -77,27 +77,29 @@ coxmod_ph <- coxph(
 
 coxmod_ph_zph <- cox.zph(coxmod_ph, transform= "km", terms=FALSE)
 
-# wrap try around plot call because often fails on dummy data
-try(coxmod_ph_zph_vax1 <- plot(coxmod_ph_zph[1]), silent=TRUE)
-try(coxmod_ph_zph_vax2 <- plot(coxmod_ph_zph[2]), silent=TRUE)
+
+#plot(coxmod_ph_zph[1])
 # if there's a NA/NAN/Inf warning, then there may be observations in the dataset _after_ the outcome has occurred
 # or possibly spline fit did not work (likely with dummy data)
 
 
 # print plots
-if(exists("coxmod_ph_zph_vax1")){
 
-  png(filename=here::here("output","models", "zph_postvax1.png"))
-  plot(coxmod_ph_zph_vax1)
-  dev.off()
-}
+# print dummy plot first
+# then overwrite with actual plot if it works
+# wrap try around plot call because often fails on dummy data
 
-if(exists("coxmod_ph_zph_vax2")){
+png(filename=here::here("output","models", "figures", "zph_postvax1.png"))
+plot(c(1,2),c(1,2))
+try(plot(coxmod_ph_zph[1]), silent=TRUE)
+dev.off()
 
-  png(filename=here::here("output","models", "zph_postvax2.png"))
-  plot(coxmod_ph_zph_vax2)
-  dev.off()
-}
+
+png(filename=here::here("output","models", "figures", "zph_postvax2.png"))
+plot(c(1,2),c(1,2))
+try(plot(coxmod_ph_zph[2]), silent=TRUE)
+dev.off()
+
 
 
 ## non-PH model ----
@@ -138,7 +140,7 @@ coxmod_table <- broom::tidy(coxmod_tt, conf.int=TRUE) %>%
     hr.ll = exp(estimate - robust.se*qnorm(0.975)),
     hr.ul = exp(estimate + robust.se*qnorm(0.975)),
   )
-write_csv(coxmod_table, file = here::here("output", "models", "tables", "estimates.csv"))
+write_csv(coxmod_table, path = here::here("output", "models", "tables", "estimates.csv"))
 
 # create forest plot
 coxmod_forest <- ggforest(coxmod_tt)
