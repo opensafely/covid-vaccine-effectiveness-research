@@ -56,7 +56,7 @@ postvax_cut <- function(x, t, breaks, prelabel="pre", prefix=""){
 # because cox.zph doesn't work with models specified using tt()
 
 data_tm <- tmerge(
-  data1 = data_tte %>% select(patient_id, sex, age, imd),
+  data1 = data_tte %>% select(patient_id, sex, age, imd, tte_vax1, tte_vax2),
   data2 = data_tte,
   id = patient_id,
   vax1 = tdc(tte_vax1),
@@ -113,7 +113,28 @@ dev.off()
 
 postvaxcuts <- c(0, 3, 6, 12, 21)
 
-coxmod_tt <- coxph(
+coxmod_tt0 <- coxph(
+  formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime),
+  data = data_tte %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
+  #id = patient_id,
+  #cluster = patient_id, # not needed for one-row-per-patient representation
+  robust = TRUE,
+  tt = function(x, t, ...){
+
+    x1 <- x[,1]
+    x2 <- x[,2]
+
+    vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="Dose 1 ")
+    vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="Dose 2 ")
+
+    levels <- c(levels(vax1_status), levels(vax2_status))
+
+    factor(if_else(t<=x2, as.character(vax1_status), as.character(vax2_status)), levels=levels) %>% droplevels()
+
+  }
+)
+
+coxmod_tt1 <- coxph(
   formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime) + age + sex + imd,
   data = data_tte %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
   #id = patient_id,
@@ -124,8 +145,8 @@ coxmod_tt <- coxph(
     x1 <- x[,1]
     x2 <- x[,2]
 
-    vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="dose 1 ")
-    vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="dose 2 ")
+    vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="Dose 1 ")
+    vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="Dose 2 ")
 
     levels <- c(levels(vax1_status), levels(vax2_status))
 
@@ -135,35 +156,86 @@ coxmod_tt <- coxph(
 )
 
 
+## DO NOT DELETE YET
+## may be useful for reweighting
+
+## alternative to coxmod_tt1 using long dataset
+## DO NOT DELETE YET
+
+# data_tm <- tmerge(
+#   data1 = data_tte %>% select(patient_id, sex, age, imd, tte_vax1_Inf, tte_vax2_Inf),
+#   data2 = data_tte,
+#   id = patient_id,
+#   vax1 = tdc(tte_vax1),
+#   vax2 = tdc(tte_vax2),
+#   outcome = event(tte_outcome),
+#   tstop = tte_censor
+# ) %>%
+#   mutate(
+#     width = tstop - tstart,
+#     vax_status = vax1+vax2
+#   )
+#
+# coxmod_tt1a <- coxph(
+#   formula = Surv(tstart, tstop, outcome) ~ tt(vaxtime) + age + sex + imd,
+#   data = data_tm %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
+#   cluster = patient_id, # not needed for one-row-per-patient representation
+#   robust = TRUE,
+#   tt = function(x, t, ...){
+#
+#     x1 <- x[,1]
+#     x2 <- x[,2]
+#
+#     vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="Dose 1 ")
+#     vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="Dose 2 ")
+#
+#     levels <- c(levels(vax1_status), levels(vax2_status))
+#
+#     factor(if_else(t<=x2, as.character(vax1_status), as.character(vax2_status)), levels=levels) %>% droplevels()
+#
+#   }
+# )
+
+coxmod_tidy_tt0 <- broom::tidy(coxmod_tt0, conf.int=TRUE) %>% mutate(model="Unadjusted")
+coxmod_tidy_tt1 <- broom::tidy(coxmod_tt1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
+
 # create table with model estimates
-coxmod_table <- broom::tidy(coxmod_tt, conf.int=TRUE) %>%
-  mutate(
-    hr = exp(estimate),
-    hr.ll = exp(estimate - robust.se*qnorm(0.975)),
-    hr.ul = exp(estimate + robust.se*qnorm(0.975)),
-  )
+coxmod_summary <- bind_rows(
+  coxmod_tidy_tt0,
+  coxmod_tidy_tt1
+) %>%
+mutate(
+  hr = exp(estimate),
+  hr.ll = exp(estimate - robust.se*qnorm(0.975)),
+  hr.ul = exp(estimate + robust.se*qnorm(0.975)),
+)
 write_csv(coxmod_table, path = here::here("output", "models", "tables", "estimates.csv"))
 
 # create forest plot
-coxmod_forest <- coxmod_table %>%
+coxmod_forest <- coxmod_summary %>%
   filter(str_detect(term, "vaxtime")) %>%
   mutate(
+    dose=str_extract(term, pattern="Dose \\d"),
     term=str_replace(term, pattern="tt\\(vaxtime\\)", ""),
     term=str_replace(term, pattern="imd", "IMD "),
     term=str_replace(term, pattern="sex", "Sex "),
+    term=str_replace(term, pattern="Dose \\d", ""),
     term=fct_inorder(term)
   ) %>%
-  ggplot() +
-  geom_point(aes(x=hr, y=forcats::fct_rev(factor(term))))+
-  geom_linerange(aes(xmin=hr.ll, xmax=hr.ul, y=term))+
+  ggplot(aes(colour=model)) +
+  geom_point(aes(x=hr, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
+  geom_linerange(aes(xmin=hr.ll, xmax=hr.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
   geom_vline(aes(xintercept=1), colour='grey')+
+  facet_grid(rows=vars(dose), scales="free_y", switch="y")+
   scale_x_log10()+
-  coord_cartesian(xlim=c(0.2,5)) +
+  scale_y_discrete(na.translate=FALSE)+
+  coord_cartesian(xlim=c(0.1,10)) +
   labs(
-    x="Hazard ratio (versus no vaccination)",
+    x="Hazard ratio, versus no vaccination",
     y=NULL,
-    title="Hazard ratio for time since vaccine",
-    subtitle="Adjusting for age (linear), sex, and IMD"
+    colour=NULL,
+    title="Hazard ratios, positive test by time since vaccine",
+    subtitle="Aged 80+, non-carehome, no prior positive test"
   ) +
   theme_bw()+
   theme(
@@ -171,6 +243,8 @@ coxmod_forest <- coxmod_table %>%
     axis.line.x = element_line(colour = "black"),
 
     strip.background = element_blank(),
+    strip.placement = "outside",
+    strip.text.y.left = element_text(angle = 0),
 
     plot.title = element_text(hjust = 0),
     plot.title.position = "plot",
@@ -178,9 +252,9 @@ coxmod_forest <- coxmod_table %>%
     plot.caption = element_text(hjust = 0, face= "italic"),
     strip.text.y = element_text(angle = 0),
 
-    legend.position = "left"
+    legend.position = "right"
   )
-
+coxmod_forest
 ggsave(filename=here::here("output", "models", "figures", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
 
 

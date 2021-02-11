@@ -197,7 +197,7 @@ data_processed <- data_extract_reordered %>%
 
 ## one-row-per-patient data
 
-data_tte_ready <- data_processed %>%
+data_tte <- data_processed %>%
   transmute(
     patient_id,
     age,
@@ -244,7 +244,7 @@ data_tte_ready <- data_processed %>%
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
 write_rds(data_processed, here::here("output", "data", "data_processed_over80s.rds"))
-write_rds(data_tte_ready, here::here("output", "data", "data_tte_over80s.rds"))
+write_rds(data_tte, here::here("output", "data", "data_tte_over80s.rds"))
 
 
 
