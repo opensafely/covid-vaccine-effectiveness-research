@@ -1,0 +1,47 @@
+2021-02-11T14:34:31.713629700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-02-11T14:34:31.722468800Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-02-11T14:34:31.722486700Z v tibble  3.0.3     v dplyr   1.0.2
+2021-02-11T14:34:31.722494300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-02-11T14:34:31.722501400Z v readr   1.3.1     v forcats 0.5.0
+2021-02-11T14:34:31.883971200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-02-11T14:34:31.884020700Z x dplyr::filter() masks stats::filter()
+2021-02-11T14:34:31.884029400Z x dplyr::lag()    masks stats::lag()
+2021-02-11T14:34:31.898119400Z 
+2021-02-11T14:34:31.898153300Z Attaching package: 'lubridate'
+2021-02-11T14:34:31.898161500Z 
+2021-02-11T14:34:31.899575000Z The following objects are masked from 'package:base':
+2021-02-11T14:34:31.899596800Z 
+2021-02-11T14:34:31.899605700Z     date, intersect, setdiff, union
+2021-02-11T14:34:31.899612700Z 
+2021-02-11T14:34:33.605313400Z Loading required package: ggpubr
+2021-02-11T14:39:14.116874200Z null device 
+2021-02-11T14:39:14.116917100Z           1 
+2021-02-11T14:39:14.532020600Z null device 
+2021-02-11T14:39:14.532045700Z           1 
+2021-02-11T15:56:44.818572800Z Warning message:
+2021-02-11T15:56:44.818618900Z In fitter(X, Y, istrat, offset, init, control, weights = weights,  :
+2021-02-11T15:56:44.818628000Z   Loglik converged before variable  10 ; coefficient may be infinite. 
+2021-02-11T17:48:15.686722500Z Warning message:
+2021-02-11T17:48:15.686765600Z In fitter(X, Y, istrat, offset, init, control, weights = weights,  :
+2021-02-11T17:48:15.686774600Z   Loglik converged before variable  10 ; coefficient may be infinite. 
+2021-02-11T20:06:48.032910300Z Warning message:
+2021-02-11T20:06:48.032955000Z In fitter(X, Y, istrat, offset, init, control, weights = weights,  :
+2021-02-11T20:06:48.032964200Z   Loglik converged before variable  10 ; coefficient may be infinite. 
+
+
+state: succeeded
+commit: 57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4
+docker_image_id: sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a
+job_id: l2w2tts42tx4wdbq
+run_by_user: wjchulme
+created_at: 2021-02-11T13:46:03Z
+started_at: 2021-02-11T14:34:29Z
+completed_at: 2021-02-11T20:07:24Z
+
+Completed successfully
+
+outputs:
+  output/models/figures/forest_plot.svg   - moderately_sensitive
+  output/models/figures/zph_postvax1.png  - moderately_sensitive
+  output/models/figures/zph_postvax2.png  - moderately_sensitive
+  output/models/tables/estimates.csv      - moderately_sensitive
