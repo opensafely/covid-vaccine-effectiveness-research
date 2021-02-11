@@ -1,11 +1,11 @@
 ---
 title: "Vaccine effectiveness report"
 output:
+  md_document:
+    variant: gfm
   html_document:
     code_folding: hide
     keep_md: yes
-  md_document:
-    variant: gfm
   pdf_document: default
 ---
 
@@ -20,9 +20,9 @@ library('patchwork')
 
 source(here::here("lib", "html_output_functions.R"))
 
-output_dir <- here::here("released_output") # change this when running on real data
+output_dir <- here::here("released_outputs/output") # change this when running on real data
 
-summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir,  "data_summary", "summary_stats.json"))
+summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir, "summary_stats.json"))
 
 run_date <- summary_stats$run_date
 end_date <- summary_stats$end_date
@@ -87,12 +87,11 @@ print_event_rates <- function(variable,  variable_name){
   
   renamer <-
   c(
-    posPC_ = "primary care case_", 
-    posSGSS_ = "positive test_",
-    admitted_ = "covid-related admission_",
-    coviddeath_ = "covid-related death_",
-    `death_n` = "all-cause death_n",
-    `death_%` = "all-cause death_%"
+    `^posPC_` = "primary care case_", 
+    `^posSGSS_` = "positive test_",
+    `^admitted_` = "covid-related admission_",
+    `^coviddeath_` = "covid-related death_",
+    `^death_` = "all-cause death_"
   )
   
   table <- rename_with(table, ~str_replace_all(string = .x, renamer))
@@ -109,10 +108,10 @@ print_event_rates <- function(variable,  variable_name){
       everything(),
       missing_text="-"
     ) %>%
-    cols_align(
-      align = "left",
-      columns = all_of(variable_name)
-    ) %>%
+   # cols_align(
+   #   align = "left",
+   #   columns = all_of(variable_name)
+   # ) %>%
     tab_header(
       title = md("Post-vaccination event rates at 14 days amongst those with sufficient follow-up")
     ) %>%
@@ -244,7 +243,7 @@ print_event_rates("sex", "Sex")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_sex.svg "outcomes by Sex"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_sex.svg "outcomes by Sex"){width="80%"}
 
 
 
@@ -266,7 +265,7 @@ print_event_rates("ageband", "Age")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_ageband.svg "outcomes by Age"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_ageband.svg "outcomes by Age"){width="80%"}
 
 
 
@@ -288,7 +287,7 @@ print_event_rates("ethnicity", "Ethnicity")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_ethnicity.svg "outcomes by Ethnicity"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_ethnicity.svg "outcomes by Ethnicity"){width="80%"}
 
 
 ### Index of Multiple Deprivation (IMD)
@@ -309,7 +308,7 @@ print_event_rates("imd", "IMD")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_imd.svg "outcomes by IMD"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_imd.svg "outcomes by IMD"){width="80%"}
 
 
 
@@ -330,4 +329,4 @@ print_event_rates("region", "Region")
 &nbsp;
 &nbsp;
 
-![](../released_output/tte/figures/plot_patch_region.svg "outcomes by Region"){width="80%"}
+![](../released_outputs/output/tte/figures/plot_patch_region.svg "outcomes by Region"){width="80%"}

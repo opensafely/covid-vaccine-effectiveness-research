@@ -1,0 +1,99 @@
+$patient_id
+[1] "character"
+
+$age
+[1] "integer"
+
+$sex
+[1] "factor"
+
+$bmi
+[1] "character"
+
+$has_follow_up_previous_year
+[1] "logical"
+
+$registered_at_latest
+[1] "logical"
+
+$practice_id
+[1] "integer"
+
+$stp
+[1] "character"
+
+$region
+[1] "character"
+
+$imd
+[1] "factor"
+
+$care_home_type
+[1] "character"
+
+$care_home
+[1] "logical"
+
+$prior_positive_test_date
+[1] "Date"
+
+$prior_primary_care_covid_case_date
+[1] "Date"
+
+$coviddeath_date
+[1] "Date"
+
+$death_date
+[1] "Date"
+
+$covid_vax_1_date
+[1] "Date"
+
+$covid_vax_2_date
+[1] "Date"
+
+$covid_vax_pfizer_1_date
+[1] "Date"
+
+$covid_vax_pfizer_2_date
+[1] "Date"
+
+$positive_test_1_date
+[1] "Date"
+
+$covid_vax_az_1_date
+[1] "Date"
+
+$primary_care_covid_case_1_date
+[1] "Date"
+
+$covid_vax_3_date
+[1] "Date"
+
+$covid_vax_pfizer_3_date
+[1] "Date"
+
+$covid_vax_az_2_date
+[1] "Date"
+
+$covid_vax_az_3_date
+[1] "Date"
+
+$covid_vax_4_date
+[1] "Date"
+
+$covid_vax_pfizer_4_date
+[1] "Date"
+
+$start_date
+[1] "Date"
+
+$end_date
+[1] "Date"
+
+$censor_date
+[1] "Date"
+
+$ageband
+[1] "factor"
+
