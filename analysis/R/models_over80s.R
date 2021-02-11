@@ -287,7 +287,7 @@ coxmod_tt2 <- coxph(
 
 coxmod_tidy_tt0 <- broom::tidy(coxmod_tt0, conf.int=TRUE) %>% mutate(model="Unadjusted")
 coxmod_tidy_tt1 <- broom::tidy(coxmod_tt1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
-coxmod_tidy_tt2 <- broom::tidy(coxmod_tt2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted")
+coxmod_tidy_tt2 <- broom::tidy(coxmod_tt2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted (temp)")
 # create table with model estimates
 coxmod_summary <- bind_rows(
   coxmod_tidy_tt0,

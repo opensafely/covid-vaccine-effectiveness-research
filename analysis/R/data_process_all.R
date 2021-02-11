@@ -9,7 +9,7 @@ source(here::here("lib", "utility_functions.R"))
 vars_list = list(
   run_date = date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime),
   start_date = "2020-12-07",
-  end_date = "2021-01-13"
+  end_date = "2021-01-18"
 )
 
 
