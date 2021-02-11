@@ -1,0 +1,16 @@
+
+
+state: succeeded
+commit: 57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4
+docker_image_id: sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a
+job_id: q5myzcevzaejy5pz
+run_by_user: wjchulme
+created_at: 2021-02-11T13:46:03Z
+started_at: 2021-02-11T14:32:41Z
+completed_at: 2021-02-11T14:43:54Z
+
+Completed successfully
+
+outputs:
+  output/data_properties/data_all_colsummary.txt  - moderately_sensitive
+  output/data_properties/data_all_coltypes.txt    - moderately_sensitive

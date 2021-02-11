@@ -1,10 +1,35 @@
 # Table of contents
 
+* metadata
+  * [metadata/data_models.log](metadata/data_models.log)
+  * [metadata/data_process_all.log](metadata/data_process_all.log)
+  * [metadata/data_process_over80s.log](metadata/data_process_over80s.log)
+  * [metadata/data_properties_all.log](metadata/data_properties_all.log)
+  * [metadata/data_properties_processed_over80s.log](metadata/data_properties_processed_over80s.log)
+  * [metadata/data_properties_tte_over80s.log](metadata/data_properties_tte_over80s.log)
+  * [metadata/extract_all.log](metadata/extract_all.log)
+  * [metadata/extract_doses_data.log](metadata/extract_doses_data.log)
+  * [metadata/extract_over80s.log](metadata/extract_over80s.log)
+  * [metadata/manifest.json](metadata/manifest.json)
+  * [metadata/models_over80s.log](metadata/models_over80s.log)
 * output
   * [output/available_packages.csv](output/available_packages.csv)
   * output/data_properties
+    * [output/data_properties/data_all_colsummary.txt](output/data_properties/data_all_colsummary.txt)
+    * [output/data_properties/data_all_coltypes.txt](output/data_properties/data_all_coltypes.txt)
+    * [output/data_properties/data_processed_over80s_colsummary.txt](output/data_properties/data_processed_over80s_colsummary.txt)
+    * [output/data_properties/data_processed_over80s_coltypes.txt](output/data_properties/data_processed_over80s_coltypes.txt)
+    * [output/data_properties/data_tte_over80s_colsummary.txt](output/data_properties/data_tte_over80s_colsummary.txt)
+    * [output/data_properties/data_tte_over80s_coltypes.txt](output/data_properties/data_tte_over80s_coltypes.txt)
     * [output/data_properties/data_vaccinated_colsummary.txt](output/data_properties/data_vaccinated_colsummary.txt)
     * [output/data_properties/data_vaccinated_coltypes.txt](output/data_properties/data_vaccinated_coltypes.txt)
+  * output/models
+    * output/models/figures
+      * [output/models/figures/forest_plot.svg](output/models/figures/forest_plot.svg)
+      * [output/models/figures/zph_postvax1.png](output/models/figures/zph_postvax1.png)
+      * [output/models/figures/zph_postvax2.png](output/models/figures/zph_postvax2.png)
+    * output/models/tables
+      * [output/models/tables/estimates.csv](output/models/tables/estimates.csv)
   * [output/summary_stats.json](output/summary_stats.json)
   * output/tte
     * output/tte/figures
@@ -144,11 +169,6 @@
       * [output/tte/tables/event_rates_at_14days_imd.csv](output/tte/tables/event_rates_at_14days_imd.csv)
       * [output/tte/tables/event_rates_at_14days_region.csv](output/tte/tables/event_rates_at_14days_region.csv)
       * [output/tte/tables/event_rates_at_14days_sex.csv](output/tte/tables/event_rates_at_14days_sex.csv)
-      * [output/tte/tables/event_rates_at_7days_ageband.csv](output/tte/tables/event_rates_at_7days_ageband.csv)
-      * [output/tte/tables/event_rates_at_7days_ethnicity.csv](output/tte/tables/event_rates_at_7days_ethnicity.csv)
-      * [output/tte/tables/event_rates_at_7days_imd.csv](output/tte/tables/event_rates_at_7days_imd.csv)
-      * [output/tte/tables/event_rates_at_7days_region.csv](output/tte/tables/event_rates_at_7days_region.csv)
-      * [output/tte/tables/event_rates_at_7days_sex.csv](output/tte/tables/event_rates_at_7days_sex.csv)
   * output/vaccine_type
     * output/vaccine_type/tables
       * [output/vaccine_type/tables/vaccine_type_ageband.csv](output/vaccine_type/tables/vaccine_type_ageband.csv)

@@ -1,0 +1,62 @@
+2021-02-11T14:12:25.711374300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-02-11T14:12:25.720233600Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-02-11T14:12:25.720257300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-02-11T14:12:25.720265500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-02-11T14:12:25.720272500Z v readr   1.3.1     v forcats 0.5.0
+2021-02-11T14:12:25.888125100Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-02-11T14:12:25.888145200Z x dplyr::filter() masks stats::filter()
+2021-02-11T14:12:25.888153500Z x dplyr::lag()    masks stats::lag()
+2021-02-11T14:12:25.903783200Z 
+2021-02-11T14:12:25.903801000Z Attaching package: 'lubridate'
+2021-02-11T14:12:25.903809000Z 
+2021-02-11T14:12:25.905207700Z The following objects are masked from 'package:base':
+2021-02-11T14:12:25.905221700Z 
+2021-02-11T14:12:25.905228600Z     date, intersect, setdiff, union
+2021-02-11T14:12:25.905235400Z 
+2021-02-11T14:12:25.914396400Z 
+2021-02-11T14:12:25.914412600Z Attaching package: 'jsonlite'
+2021-02-11T14:12:25.914419800Z 
+2021-02-11T14:12:25.914890000Z The following object is masked from 'package:purrr':
+2021-02-11T14:12:25.914903700Z 
+2021-02-11T14:12:25.914910700Z     flatten
+2021-02-11T14:12:25.914917400Z 
+2021-02-11T14:12:27.712802600Z  [1] "patient_id"                         "age"                               
+2021-02-11T14:12:27.712858500Z  [3] "sex"                                "bmi"                               
+2021-02-11T14:12:27.712867200Z  [5] "has_follow_up_previous_year"        "registered_at_latest"              
+2021-02-11T14:12:27.712874500Z  [7] "practice_id"                        "stp"                               
+2021-02-11T14:12:27.712881800Z  [9] "region"                             "imd"                               
+2021-02-11T14:12:27.712889000Z [11] "care_home_type"                     "care_home"                         
+2021-02-11T14:12:27.712896300Z [13] "covid_vax_1_date"                   "covid_vax_2_date"                  
+2021-02-11T14:12:27.712903700Z [15] "covid_vax_3_date"                   "covid_vax_4_date"                  
+2021-02-11T14:12:27.712911000Z [17] "covid_vax_pfizer_1_date"            "covid_vax_pfizer_2_date"           
+2021-02-11T14:12:27.712918000Z [19] "covid_vax_pfizer_3_date"            "covid_vax_pfizer_4_date"           
+2021-02-11T14:12:27.712925200Z [21] "covid_vax_az_1_date"                "covid_vax_az_2_date"               
+2021-02-11T14:12:27.712932300Z [23] "covid_vax_az_3_date"                "covid_vax_az_4_date"               
+2021-02-11T14:12:27.712939500Z [25] "prior_positive_test_date"           "prior_primary_care_covid_case_date"
+2021-02-11T14:12:27.712946500Z [27] "positive_test_1_date"               "primary_care_covid_case_1_date"    
+2021-02-11T14:12:27.712977200Z [29] "admitted_1_date"                    "coviddeath_date"                   
+2021-02-11T14:12:27.712985200Z [31] "death_date"                         "chronic_cardiac_disease"           
+2021-02-11T14:12:27.712992400Z [33] "current_copd"                       "dmards"                            
+2021-02-11T14:12:27.712999600Z [35] "dementia"                           "dialysis"                          
+2021-02-11T14:12:27.713006800Z [37] "solid_organ_transplantation"        "chemo_or_radio"                    
+2021-02-11T14:12:27.713013900Z [39] "intel_dis_incl_downs_syndrome"      "lung_cancer"                       
+2021-02-11T14:12:27.713021000Z [41] "cancer_excl_lung_and_haem"          "haematological_cancer"             
+2021-02-11T14:12:27.713028000Z [43] "bone_marrow_transplant"             "cystic_fibrosis"                   
+2021-02-11T14:12:27.713035100Z [45] "sickle_cell_disease"                "permanant_immunosuppression"       
+2021-02-11T14:12:27.713042100Z [47] "temporary_immunosuppression"        "psychosis_schiz_bipolar"           
+2021-02-11T14:12:27.713049300Z [49] "asplenia"                          
+
+
+state: succeeded
+commit: 57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4
+docker_image_id: sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a
+job_id: ijjms6naz7juqpyk
+run_by_user: wjchulme
+created_at: 2021-02-11T13:46:03Z
+started_at: 2021-02-11T14:12:23Z
+completed_at: 2021-02-11T14:28:14Z
+
+Completed successfully
+
+outputs:
+  output/data/data_all.rds  - highly_sensitive

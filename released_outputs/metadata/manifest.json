@@ -1,0 +1,162 @@
+{
+  "files": {
+    "output/data/data_all.rds": {
+      "created_by_action": "data_process_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_processed_over80s.rds": {
+      "created_by_action": "data_process_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_tte_over80s.rds": {
+      "created_by_action": "data_process_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data_properties/data_all_colsummary.txt": {
+      "created_by_action": "data_properties_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_all_coltypes.txt": {
+      "created_by_action": "data_properties_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_processed_over80s_colsummary.txt": {
+      "created_by_action": "data_properties_processed_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_processed_over80s_coltypes.txt": {
+      "created_by_action": "data_properties_processed_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_over80s_colsummary.txt": {
+      "created_by_action": "data_properties_tte_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_over80s_coltypes.txt": {
+      "created_by_action": "data_properties_tte_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/input_all.csv": {
+      "created_by_action": "extract_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/input_doses.csv": {
+      "created_by_action": "extract_doses_data",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/input_over80s.csv": {
+      "created_by_action": "extract_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/models/figures/forest_plot.svg": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/figures/zph_postvax1.png": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/figures/zph_postvax2.png": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/tables/estimates.csv": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    }
+  },
+  "actions": {
+    "extract_doses_data": {
+      "state": "succeeded",
+      "commit": "5538e94cca9082d8419a2ef6315d8770282ea75d",
+      "docker_image_id": "sha256:0574f44079c63ec41c331a06cfec7a857774f1a7b3a8af544837209e53afc4b3",
+      "job_id": "wdkljfs3lcgbfdcs",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-08T22:33:33Z",
+      "completed_at": "2021-02-08T22:42:35Z"
+    },
+    "data_models": {
+      "state": "succeeded",
+      "commit": "5538e94cca9082d8419a2ef6315d8770282ea75d",
+      "docker_image_id": "sha256:76740c1d3b370497b2291d1b01b8b8fac4cf79bdc6e79e8b06117de59f791e7b",
+      "job_id": "zrbwpi47axgqrb6q",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-08T22:33:33Z",
+      "completed_at": "2021-02-09T07:05:27Z"
+    },
+    "extract_over80s": {
+      "state": "succeeded",
+      "commit": "b6a640d1dae5123da04cf5fb753fec133eb593e1",
+      "docker_image_id": "sha256:0574f44079c63ec41c331a06cfec7a857774f1a7b3a8af544837209e53afc4b3",
+      "job_id": "n6ceyzjakl4yb2qp",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-10T17:02:29Z",
+      "completed_at": "2021-02-10T17:08:30Z"
+    },
+    "data_properties_processed_over80s": {
+      "state": "succeeded",
+      "commit": "b6a640d1dae5123da04cf5fb753fec133eb593e1",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "5nyimemzizb6k5sd",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-10T17:02:29Z",
+      "completed_at": "2021-02-10T17:11:56Z"
+    },
+    "data_properties_tte_over80s": {
+      "state": "succeeded",
+      "commit": "b6a640d1dae5123da04cf5fb753fec133eb593e1",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "6uior7hr3qzrvxxv",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-10T17:02:29Z",
+      "completed_at": "2021-02-10T17:12:04Z"
+    },
+    "data_process_over80s": {
+      "state": "succeeded",
+      "commit": "e98a355a562425a7a31936f2ac695337c64f84a8",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "a6ocxaix6chbhbga",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-11T10:52:06Z",
+      "completed_at": "2021-02-11T10:54:26Z"
+    },
+    "extract_all": {
+      "state": "succeeded",
+      "commit": "57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4",
+      "docker_image_id": "sha256:63fb56eb6ac012b5abf9f6499614912d29cb3e1f09f92073f68bd50346cc9dc5",
+      "job_id": "javlfntqno33yadb",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-11T13:46:03Z",
+      "completed_at": "2021-02-11T14:10:32Z"
+    },
+    "data_process_all": {
+      "state": "succeeded",
+      "commit": "57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "ijjms6naz7juqpyk",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-11T13:46:03Z",
+      "completed_at": "2021-02-11T14:28:14Z"
+    },
+    "data_properties_all": {
+      "state": "succeeded",
+      "commit": "57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "q5myzcevzaejy5pz",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-11T13:46:03Z",
+      "completed_at": "2021-02-11T14:43:54Z"
+    },
+    "models_over80s": {
+      "state": "succeeded",
+      "commit": "57ee69bc79aa8b5ac61d54aa5d1d9f2e67dd38a4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "l2w2tts42tx4wdbq",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-11T13:46:03Z",
+      "completed_at": "2021-02-11T20:07:24Z"
+    }
+  },
+  "workspace": "covid-vaccineeffectiveness-research_doses",
+  "repo": "https://github.com/opensafely/covid-vaccine-effectiveness-research"
+}
