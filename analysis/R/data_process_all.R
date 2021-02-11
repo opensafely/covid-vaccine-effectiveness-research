@@ -16,7 +16,7 @@ vars_list = list(
 # process ----
 
 read_csv(
-  here::here("output", "input_over80s.csv"),
+  here::here("output", "input_all.csv"),
   n_max=0,
   col_types = cols()
 ) %>%
@@ -25,7 +25,7 @@ print()
 
 
 data_extract0 <- read_csv(
-  here::here("output", "input_over80s.csv"),
+  here::here("output", "input_all.csv"),
   col_types = cols(
 
     # identifiers
@@ -84,9 +84,29 @@ data_extract0 <- read_csv(
     primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
     admitted_1_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
-    death_date = col_date(format="%Y-%m-%d")
+    death_date = col_date(format="%Y-%m-%d"),
+
+
+    chronic_cardiac_disease = col_logical(),
+    current_copd = col_logical(),
+    dmards = col_logical(),
+    dementia = col_logical(),
+    dialysis = col_logical(),
+    solid_organ_transplantation = col_logical(),
+    chemo_or_radio = col_logical(),
+    intel_dis_incl_downs_syndrome = col_logical(),
+    lung_cancer = col_logical(),
+    cancer_excl_lung_and_haem = col_logical(),
+    haematological_cancer = col_logical(),
+    bone_marrow_transplant = col_logical(),
+    cystic_fibrosis = col_logical(),
+    sickle_cell_disease = col_logical(),
+    permanant_immunosuppression = col_logical(),
+    temporary_immunosuppression = col_logical(),
+    psychosis_schiz_bipolar = col_logical(),
+    asplenia = col_logical()
   ),
-  na = character() # more stable to convert to missing later
+    na = character() # more stable to convert to missing later
 )
 
 # parse NAs
@@ -194,57 +214,11 @@ data_processed <- data_extract_reordered %>%
   )
 
 
-
-## one-row-per-patient data
-
-data_tte <- data_processed %>%
-  transmute(
-    patient_id,
-    age,
-    sex,
-    imd,
-    #ethnicity,
-
-    start_date,
-    end_date,
-    covid_vax_1_date,
-    covid_vax_2_date,
-    positive_test_1_date,
-    coviddeath_date,
-    death_date,
-
-    outcome_date = positive_test_1_date, #change here for different outcomes.
-    lastfup_date = pmin(death_date, end_date, outcome_date, na.rm=TRUE),
-
-    # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
-    # -- see section 3.3 of the timedep vignette in survival package
-    # but might not be necessary if ties are andle appropriately (eg with tmerge)
-
-    tte_censor = tte(start_date, lastfup_date, lastfup_date),
-    tte_outcome = tte(start_date, outcome_date, lastfup_date, na.censor=TRUE),
-    tte_outcome_censored = tte(start_date, outcome_date, lastfup_date, na.censor=FALSE),
-    ind_outcome = censor_indicator(outcome_date, lastfup_date),
-
-    tte_vax1 = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=TRUE),
-    tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
-    tte_vax1_censored = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=FALSE),
-    ind_vax1 = censor_indicator(covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE)),
-
-    tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
-    tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
-    tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
-    ind_vax2 = censor_indicator(covid_vax_2_date, lastfup_date),
-
-    tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
-  )
-
-
 # output processed data to rds ----
 
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
-write_rds(data_processed, here::here("output", "data", "data_processed_over80s.rds"))
-write_rds(data_tte, here::here("output", "data", "data_tte_over80s.rds"))
+write_rds(data_processed, here::here("output", "data", "data_all.rds"))
 
 
 
