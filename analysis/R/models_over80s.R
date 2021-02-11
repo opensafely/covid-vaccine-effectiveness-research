@@ -15,7 +15,72 @@ dir.create(here::here("output", "models", "tables"), showWarnings = FALSE, recur
 
 # Import processed data ----
 
-data_tte <- read_rds(here::here("output", "data", "data_tte_over80s.rds"))
+data_all <- read_rds(here::here("output", "data", "data_all.rds"))
+
+## one-row-per-patient data
+
+data_tte <- data_all %>%
+  filter(
+    age>=80,
+    is.na(care_home_type),
+    is.na(prior_positive_test_date)
+  ) %>%
+  transmute(
+    patient_id,
+    age,
+    sex,
+    imd,
+    #ethnicity,
+
+    chronic_cardiac_disease,
+    current_copd,
+    dementia,
+    dialysis,
+
+
+    start_date,
+    end_date,
+    covid_vax_1_date,
+    covid_vax_2_date,
+    positive_test_1_date,
+    coviddeath_date,
+    death_date,
+
+    outcome_date = positive_test_1_date, #change here for different outcomes.
+    lastfup_date = pmin(death_date, end_date, outcome_date, na.rm=TRUE),
+
+    # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
+    # -- see section 3.3 of the timedep vignette in survival package
+    # but might not be necessary if ties are andle appropriately (eg with tmerge)
+
+    tte_censor = tte(start_date, lastfup_date, lastfup_date),
+    tte_outcome = tte(start_date, outcome_date, lastfup_date, na.censor=TRUE),
+    tte_outcome_censored = tte(start_date, outcome_date, lastfup_date, na.censor=FALSE),
+    ind_outcome = censor_indicator(outcome_date, lastfup_date),
+
+    tte_vax1 = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=TRUE),
+    tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
+    tte_vax1_censored = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=FALSE),
+    ind_vax1 = censor_indicator(covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE)),
+
+    tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
+    tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
+    tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
+    ind_vax2 = censor_indicator(covid_vax_2_date, lastfup_date),
+
+    tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
+  )
+
+rm("data_all") # to free up space
+
+write_rds(data_tte, here::here("output", "data", "data_tte_over80s.rds"))
+
+# system(paste(
+#   'r:latest ./analysis/R/data_properties.R',
+#   "output/data/data_tte_over80s.rds",
+#   "output/data_properties"
+#   )
+# )
 
 # functions ----
 postvax_cut <- function(x, t, breaks, prelabel="pre", prefix=""){
@@ -156,6 +221,30 @@ coxmod_tt1 <- coxph(
 )
 
 
+
+coxmod_tt2 <- coxph(
+  formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime) + age + sex + imd +
+    chronic_cardiac_disease + current_copd + dementia + dialysis,
+  data = data_tte %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
+  #id = patient_id,
+  #cluster = patient_id, # not needed for one-row-per-patient representation
+  robust = TRUE,
+  tt = function(x, t, ...){
+
+    x1 <- x[,1]
+    x2 <- x[,2]
+
+    vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="Dose 1 ")
+    vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="Dose 2 ")
+
+    levels <- c(levels(vax1_status), levels(vax2_status))
+
+    factor(if_else(t<=x2, as.character(vax1_status), as.character(vax2_status)), levels=levels) %>% droplevels()
+
+  }
+)
+
+
 ## DO NOT DELETE YET
 ## may be useful for reweighting
 
@@ -198,18 +287,19 @@ coxmod_tt1 <- coxph(
 
 coxmod_tidy_tt0 <- broom::tidy(coxmod_tt0, conf.int=TRUE) %>% mutate(model="Unadjusted")
 coxmod_tidy_tt1 <- broom::tidy(coxmod_tt1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
-
+coxmod_tidy_tt2 <- broom::tidy(coxmod_tt2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted")
 # create table with model estimates
 coxmod_summary <- bind_rows(
   coxmod_tidy_tt0,
-  coxmod_tidy_tt1
+  coxmod_tidy_tt1,
+  coxmod_tidy_tt2
 ) %>%
 mutate(
   hr = exp(estimate),
   hr.ll = exp(estimate - robust.se*qnorm(0.975)),
   hr.ul = exp(estimate + robust.se*qnorm(0.975)),
 )
-write_csv(coxmod_table, path = here::here("output", "models", "tables", "estimates.csv"))
+write_csv(coxmod_summary, path = here::here("output", "models", "tables", "estimates.csv"))
 
 # create forest plot
 coxmod_forest <- coxmod_summary %>%
@@ -256,111 +346,4 @@ coxmod_forest <- coxmod_summary %>%
   )
 coxmod_forest
 ggsave(filename=here::here("output", "models", "figures", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
-
-
-# OLD TEST MODELS keep for sense-checking ---
-
-
-## cox model, time-varying vaccination status using tt() functions ----
-# cat("  \n  ")
-# cat("one-row-per-patient tt()")
-# cat("  \n  ")
-#
-#
-# coxmod_tt1 <- coxph(
-#   Surv(tte_outcome_censored, ind_outcome) ~ tt(tte_vax1_Inf) + age + sex + imd + cluster(patient_id),
-#   data = data_tte,
-#   tt = function(x, t, ...){
-#
-#     vax1_status <- postvax_cut(x, t, breaks=postvaxcuts, prefix="vax1 ")
-#
-#     # vax1_status <- fct_case_when(
-#     #   t <= x | is.na(x)  ~ 'unvaccinated',
-#     #   (x < t) & (t <= x+10) ~ 'vax1[(0,10]',
-#     #   (x+10 < t) & (t <= x+21) ~ 'vax1(10,21]',
-#     #   (x+21 < t) ~ 'vax1(21,Inf)',
-#     #   TRUE ~ NA_character_
-#     # )
-#     vax1_status
-#   }
-# )
-# summary(coxmod_tt1)
-
-
-## use tmerge method
-
-
-# cat("  \n")
-# cat("mergedata v1, use tstart tstop")
-# cat("  \n")
-#
-#
-# data_tm <- tmerge(
-#   data1=data_time %>% select(patient_id, sex, age, imd, tte_vax1_Inf),
-#   data2=data_time,
-#   id=patient_id,
-#   vax1_0_10 = tdc(tte_vax1),
-#   vax1_11_21 = tdc(tte_vax1+10),
-#   vax1_22_Inf = tdc(tte_vax1+21),
-#   outcome = event(tte_outcome),
-#   tstop = tte_censor
-# ) %>%
-# {print(attr(., "tcount")); .} %>%
-# group_by(patient_id) %>%
-# #filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
-# mutate(
-#   enum = row_number(),
-#   width = tstop - tstart,
-#   postvaxperiod = vax1_0_10 + vax1_11_21 + vax1_22_Inf
-# ) %>%
-# ungroup()
-#
-#
-#
-# coxmod_tm1 <- coxph(
-#   Surv(tstart, tstop, outcome) ~ as.factor(postvaxperiod) + age + sex + imd + cluster(patient_id),
-#   data = data_tm
-# )
-# summary(coxmod_tm1)
-
-
-
-
-# cat("mergedata v2, use tt()")
-#
-# data_tm2 <- tmerge(
-#   data1=data_time %>% select(patient_id, sex, age, imd, tte_vax1_Inf),
-#   data2=data_time,
-#   id=patient_id,
-#   outcome = event(tte_outcome),
-#   tstop = tte_censor
-# ) %>%
-#   {print(attr(., "tcount")); .} %>%
-#   group_by(patient_id) %>%
-#   #filter(cumsum(lag(outcome, 1, 0)) == 0) %>% #remove any observations after first occurrence of outcome
-#   mutate(
-#     enum = row_number(),
-#     width = tstop - tstart,
-#   ) %>%
-#   ungroup()
-#
-#
-# coxmod_tm2 <- coxph(
-#   Surv(tstart, tstop, outcome) ~ tt(tte_vax1_Inf) + age + sex + imd + cluster(patient_id),
-#   data = data_tm2,
-#   tt = list(
-#     function(x, t, ...){
-#       vax_status <- fct_case_when(
-#         t <= x | is.na(x)  ~ 'unvaccinated',
-#         (x < t) & (t <= x+10) ~ '(0,10]',
-#         (x+10 < t) & (t <= x+21) ~ '(10,21]',
-#         (x+21 < t) ~ '(21,Inf)',
-#         TRUE ~ NA_character_
-#       )
-#       vax_status
-#     },
-#     function(x, t, ...){x}
-#   )
-# )
-# summary(coxmod_tm2)
 
