@@ -111,9 +111,9 @@ actions:
     outputs:
       moderately_sensitive:
         #datasummary: output/data_properties/data_tte_over80s*.txt
-        zph: output/models/figures/zph*.png
-        forest: output/models/figures/forest*.svg
-        tables: output/models/tables/*.csv
+        zph: output/models/over80s/zph*.png
+        forest: output/models/over80s/forest*.svg
+        tables: output/models/over80s/*.csv
 
 
   models_under65s:
@@ -122,9 +122,9 @@ actions:
     outputs:
       moderately_sensitive:
         #datasummary: output/data_properties/data_tte_over80s*.txt
-        zph: output/models/figures/zph*.png
-        forest: output/models/figures/forest*.svg
-        tables: output/models/tables/*.csv
+        zph: output/models/under65s/zph*.png
+        forest: output/models/under65s/forest*.svg
+        tables: output/models/under65s/*.csv
 
 
 

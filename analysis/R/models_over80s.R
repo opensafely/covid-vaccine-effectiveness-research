@@ -9,8 +9,7 @@ source(here::here("lib", "survival_functions.R"))
 
 # create output directories ----
 
-dir.create(here::here("output", "models", "figures"), showWarnings = FALSE, recursive=TRUE)
-dir.create(here::here("output", "models", "tables"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", "models", "over80s"), showWarnings = FALSE, recursive=TRUE)
 
 
 # Import processed data ----
@@ -153,13 +152,13 @@ coxmod_ph_zph <- cox.zph(coxmod_ph, transform= "km", terms=FALSE)
 # then overwrite with actual plot if it works
 # wrap try around plot call because often fails on dummy data
 
-png(filename=here::here("output","models", "figures", "zph_postvax1.png"))
+png(filename=here::here("output","models", "over80s", "zph_vax.png"))
 plot(c(1,2),c(1,2))
 try(plot(coxmod_ph_zph[1]), silent=TRUE)
 dev.off()
 
 
-png(filename=here::here("output","models", "figures", "zph_postvax2.png"))
+png(filename=here::here("output","models", "over80s", "zph_age.png"))
 plot(c(1,2),c(1,2))
 try(plot(coxmod_ph_zph[2]), silent=TRUE)
 dev.off()
@@ -299,7 +298,7 @@ mutate(
   hr.ll = exp(estimate - robust.se*qnorm(0.975)),
   hr.ul = exp(estimate + robust.se*qnorm(0.975)),
 )
-write_csv(coxmod_summary, path = here::here("output", "models", "tables", "estimates.csv"))
+write_csv(coxmod_summary, path = here::here("output", "models", "over80s", "estimates.csv"))
 
 # create forest plot
 coxmod_forest <- coxmod_summary %>%
@@ -345,5 +344,5 @@ coxmod_forest <- coxmod_summary %>%
     legend.position = "right"
   )
 coxmod_forest
-ggsave(filename=here::here("output", "models", "figures", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", "models", "over80s", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
 
