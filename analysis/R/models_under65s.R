@@ -75,12 +75,6 @@ rm("data_all") # to free up space
 
 write_rds(data_tte, here::here("output", "data", "data_tte_under65s.rds"))
 
-# system(paste(
-#   'r:latest ./analysis/R/data_properties.R',
-#   "output/data/data_tte_over80s.rds",
-#   "output/data_properties"
-#   )
-# )
 
 # functions ----
 postvax_cut <- function(x, t, breaks, prelabel="pre", prefix=""){
@@ -325,7 +319,7 @@ coxmod_forest <- coxmod_summary %>%
     y=NULL,
     colour=NULL,
     title="Hazard ratios, positive test by time since vaccination",
-    subtitle="Aged 80+, non-carehome, no prior positive test"
+    subtitle="Aged <=65, non-carehome, no prior positive test"
   ) +
   theme_bw()+
   theme(
