@@ -53,17 +53,17 @@ data_extract0 <- read_csv(
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
 
-    # admitted_1_date = col_date(format="%Y-%m-%d"),
-    # admitted_2_date = col_date(format="%Y-%m-%d"),
-    # admitted_3_date = col_date(format="%Y-%m-%d"),
-    # admitted_4_date = col_date(format="%Y-%m-%d"),
-    # admitted_5_date = col_date(format="%Y-%m-%d"),
-    #
-    # discharged_1_date = col_date(format="%Y-%m-%d"),
-    # discharged_2_date = col_date(format="%Y-%m-%d"),
-    # discharged_3_date = col_date(format="%Y-%m-%d"),
-    # discharged_4_date = col_date(format="%Y-%m-%d"),
-    # discharged_5_date = col_date(format="%Y-%m-%d"),
+    admitted_1_date = col_date(format="%Y-%m-%d"),
+    admitted_2_date = col_date(format="%Y-%m-%d"),
+    admitted_3_date = col_date(format="%Y-%m-%d"),
+    admitted_4_date = col_date(format="%Y-%m-%d"),
+    admitted_5_date = col_date(format="%Y-%m-%d"),
+
+    discharged_1_date = col_date(format="%Y-%m-%d"),
+    discharged_2_date = col_date(format="%Y-%m-%d"),
+    discharged_3_date = col_date(format="%Y-%m-%d"),
+    discharged_4_date = col_date(format="%Y-%m-%d"),
+    discharged_5_date = col_date(format="%Y-%m-%d"),
 
     covid_vax_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_2_date = col_date(format="%Y-%m-%d"),
@@ -82,7 +82,7 @@ data_extract0 <- read_csv(
 
     positive_test_1_date = col_date(format="%Y-%m-%d"),
     primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
-    admitted_1_date = col_date(format="%Y-%m-%d"),
+    covidadmitted_1_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
@@ -127,11 +127,11 @@ data_extract <- data_extract0 %>%
 ##  SECTION TO SORT OUT BAD DUMMY DATA ----
 # this rearranges so events are in date order
 
-data_dates_reordered <- data_extract %>%
+data_dates_reordered_long <- data_extract %>%
   select(patient_id, matches("^(.*)_(\\d+)_date")) %>%
   pivot_longer(
     cols = -patient_id,
-    names_to = c("event", NA),
+    names_to = c("event", "index"),
     names_pattern = "^(.*)_(\\d+)_date",
     values_to = "date",
     values_drop_na = TRUE
@@ -144,18 +144,21 @@ data_dates_reordered <- data_extract %>%
   ) %>%
   ungroup() %>%
   select(
-    patient_id, name, date
-  ) %>%
-  pivot_wider(
-    id_cols=c(patient_id),
-    names_from=name,
-    values_from = date
+    patient_id, name, event, index, date
   )
 
 
+data_dates_reordered_wide <- data_dates_reordered_long %>%
+  arrange(name, patient_id) %>%
+  pivot_wider(
+    id_cols=c(patient_id),
+    names_from = name,
+    values_from = date
+  )
+
 data_extract_reordered <- left_join(
   data_extract %>% select(-matches("^(.*)_(\\d+)_date")),
-  data_dates_reordered,
+  data_dates_reordered_wide,
   by="patient_id"
 )
 
@@ -205,6 +208,12 @@ data_processed <- data_extract_reordered %>%
       TRUE ~ NA_character_
     ),
 
+    cause_of_death = fct_case_when(
+      !is.na(coviddeath_date) ~ "covid-related",
+      !is.na(death_date) ~ "not covid-related",
+      TRUE ~ NA_character_
+    )
+
   ) %>%
   droplevels() %>%
   filter(
@@ -222,7 +231,74 @@ write_rds(data_processed, here::here("output", "data", "data_all.rds"))
 
 
 
+## create one-row-per-event datasets ----
+# for vaccination, positive test, hospitalisation/discharge, death
 
 
+data_admissions <- data_processed %>%
+    select(patient_id, matches("^admitted\\_\\d+\\_date"), matches("^discharged\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(".value", "index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_drop_na = TRUE
+    ) %>%
+    select(patient_id, index, admitted_date=admitted, discharged_date = discharged) %>%
+    arrange(patient_id, admitted_date)
 
 
+data_vax <- local({
+
+  data_vax_all <- data_processed %>%
+    select(patient_id, matches("covid\\_vax\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(NA, "vax_index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_to = "date",
+      values_drop_na = TRUE
+    ) %>%
+    arrange(patient_id, date)
+
+  data_vax_pf <- data_processed %>%
+    select(patient_id, matches("covid\\_vax\\_pfizer\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(NA, "vax_pf_index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_to = "date",
+      values_drop_na = TRUE
+    ) %>%
+    arrange(patient_id, date)
+
+  data_vax_az <- data_processed %>%
+    select(patient_id, matches("covid\\_vax\\_az\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(NA, "vax_az_index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_to = "date",
+      values_drop_na = TRUE
+    ) %>%
+    arrange(patient_id, date)
+
+
+  data_vax_all %>%
+    left_join(data_vax_pf, by=c("patient_id", "date")) %>%
+    left_join(data_vax_az, by=c("patient_id", "date")) %>%
+    mutate(
+      vaccine_type = fct_case_when(
+        !is.na(vax_az_index) & is.na(vax_pf_index) ~ "Ox-AZ",
+        is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Pf-BN",
+        is.na(vax_az_index) & is.na(vax_pf_index) ~ "Unknown",
+        !is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Both",
+        TRUE ~ NA_character_
+      )
+    ) %>%
+    arrange(patient_id, date)
+
+})
+
+
+write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"))
+write_rds(data_admitted, here::here("output", "data", "data_long_admission_dates.rds"))
