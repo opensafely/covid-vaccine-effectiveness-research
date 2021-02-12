@@ -21,9 +21,9 @@ metadata/*
 #Rstudio
 
 .Rproj.user
-.Rproj
+*.Rproj
 
 #VSCode
-.vscode
+*.vscode
 
 sandbox/*
