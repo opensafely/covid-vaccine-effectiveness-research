@@ -301,4 +301,4 @@ data_vax <- local({
 
 
 write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"))
-write_rds(data_admitted, here::here("output", "data", "data_long_admission_dates.rds"))
+write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"))
