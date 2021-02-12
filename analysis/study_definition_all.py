@@ -8,12 +8,23 @@ from cohortextractor import (
     combine_codelists,
 )
 
-# Important Dates
-campaign_start = "2020-12-07" # change this if you need to
-latest_date = "2021-01-13" 
-
 # Import Codelists
 from codelists import *
+
+# import json module
+import json
+
+# import global-variables.json
+with open("./lib/global-variables.json") as f:
+    gbl_vars = json.load(f)
+
+# define variables explicitly
+start_date = gbl_vars["start_date"] # change this in global-variables.json if necessary
+end_date = gbl_vars["end_date"] # change this in global-variables.json if necessary
+
+# start_date is currently set to the start of the vaccination campaign
+# end_date depends on the most reent data coverage in the database, and the particular variables of interest
+
 
 
 # Specifiy study defeinition
@@ -25,7 +36,7 @@ study = StudyDefinition(
         "incidence": 0.2,
     },
         
-    index_date = campaign_start,
+    index_date = start_date,
     # This line defines the study population
     population=patients.satisfying(
         """
