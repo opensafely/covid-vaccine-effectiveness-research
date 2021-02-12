@@ -1,16 +1,33 @@
+######################################
+
+# This script:
+# imports data extracted by the cohort extractor
+# tidies missing values
+# re-orders date variables so no negative time differences (only actually does anything for dummy data)
+# standardises some variables (eg convert to factor) and derives some new ones
+# saves processed one-row-per-patient dataset
+# saves one-row-per-patient dataset for vaccines and for hospital admissions
+
+######################################
+
+
+
+
 # Import libraries ----
 library('tidyverse')
 library('lubridate')
-library('jsonlite')
-library('survival')
 
+# Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
 
-vars_list = list(
-  run_date = date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime),
-  start_date = "2020-12-07",
-  end_date = "2021-01-18"
+# import globally defined repo variables from
+gbl_vars <- jsonlite::fromJSON(
+  txt="./lib/global-variables.json"
 )
+gbl_vars$run_date =date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime)
+#list2env(gbl_vars, globalenv())
+
+
 
 
 # process ----
