@@ -116,4 +116,15 @@ actions:
         tables: output/models/tables/*.csv
 
 
+  models_under65s:
+    run: r:latest analysis/R/models_under65s.R
+    needs: [data_process_all]
+    outputs:
+      moderately_sensitive:
+        #datasummary: output/data_properties/data_tte_over80s*.txt
+        zph: output/models/figures/zph*.png
+        forest: output/models/figures/forest*.svg
+        tables: output/models/tables/*.csv
+
+
 
