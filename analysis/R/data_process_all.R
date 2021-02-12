@@ -183,8 +183,8 @@ data_extract_reordered <- left_join(
 data_processed <- data_extract_reordered %>%
   mutate(
 
-    start_date = as.Date(vars_list$start_date),
-    end_date = as.Date(vars_list$end_date),
+    start_date = as.Date(gbl_vars$start_date),
+    end_date = as.Date(gbl_vars$end_date),
     censor_date = pmin(end_date, death_date, na.rm=TRUE),
 
     sex = fct_case_when(
