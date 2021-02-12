@@ -482,139 +482,12 @@ study = StudyDefinition(
     ),
     
     
-    ################################################
-    ############ hospital admissions################
-    ################################################
-    
-    # admitted_1_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="index_date",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_1_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="index_date",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # admitted_2_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_1_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_2_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_1_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # admitted_3_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_2_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_3_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_2_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # 
-    # admitted_4_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_3_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_4_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_3_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # 
-    # admitted_5_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_4_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_5_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_4_date + 1 day",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    
-    
     
     ################################################
-    ############ post-vaccine events ###############
+    ############ events during study period ########
     ################################################
     
-    # POST VACCINE SGSS POSITIVE    
+    # SGSS POSITIVE    
     positive_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
@@ -627,7 +500,7 @@ study = StudyDefinition(
             "rate": "exponential_increase",
         },
     ),
-    # POST VACCINE PRIMARY CARE CASE IDENTIFICATION
+    # RIMARY CARE CASE IDENTIFICATION
     primary_care_covid_case_1_date=patients.with_these_clinical_events(
         combine_codelists(
             covid_primary_care_code,
@@ -644,8 +517,9 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
-    # POST VACCINE COVID-RELATED HOSPITAL ADMISSION
-    admitted_1_date=patients.admitted_to_hospital(
+
+    # COVID-RELATED HOSPITAL ADMISSION
+    covidadmitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
         on_or_after="index_date",
@@ -657,6 +531,8 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
+    
+
     # COVID-RELATED DEATH
     coviddeath_date=patients.with_these_codes_on_death_certificate(
         covid_codes,
@@ -678,6 +554,138 @@ study = StudyDefinition(
             "incidence": 0.02
         },
     ),
+    
+    
+    
+    #######################################################
+    ## hospital admissions during study period, up to 5  ##
+    #######################################################
+    
+    
+    
+    admitted_1_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_1_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    admitted_2_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_2_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    admitted_3_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_2_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_3_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_2_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+
+    admitted_4_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_3_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_4_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_3_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+
+    admitted_5_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_4_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_5_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_4_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    
     
     
     ############################################################
