@@ -1,9 +1,20 @@
+######################################
+
+# This script:
+# imports processed data
+# creates additional survival variables for use in models (eg time to event from study start date)
+# fits 3 models for vaccine effectiveness, with 3 different adjustment sets
+# saves model summaries (tables and figures)
+# "tte" = "time-to-event"
+######################################
+
+
 # Import libraries ----
 library('tidyverse')
 library('lubridate')
 library('survival')
-library('survminer')
 
+# Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
@@ -76,19 +87,19 @@ write_rds(data_tte, here::here("output", "data", "data_tte_under65s.rds"))
 
 
 # functions ----
-postvax_cut <- function(x, t, breaks, prelabel="pre", prefix=""){
+postvax_cut <- function(event_time, time, breaks, prelabel="pre", prefix=""){
 
-  # this function defines post-vaccination time-periods at time `t`,
-  # for a vaccination occurring at time `x`
+  # this function defines post-vaccination time-periods at `time`,
+  # for a vaccination occurring at time `event_time`
   # delimited by `breaks`
 
   # note, intervals are open on the left and closed on the right
   # so at the exact time point the vaccination occurred, it will be classed as "pre-dose".
 
-  x <- as.numeric(x)
-  x <- if_else(!is.na(x), x, Inf)
+  event_time <- as.numeric(event_time)
+  event_time <- if_else(!is.na(event_time), event_time, Inf)
 
-  diff <- t-x
+  diff <- time - event_time
   breaks_aug <- unique(c(-Inf, breaks, Inf))
   labels0 <- cut(c(breaks, Inf), breaks_aug)
   labels <- paste0(prefix, c(prelabel, as.character(labels0[-1])))
@@ -97,6 +108,7 @@ postvax_cut <- function(x, t, breaks, prelabel="pre", prefix=""){
 
   period
 }
+#
 #
 # t=0:50
 # x=6
@@ -159,7 +171,7 @@ dev.off()
 
 
 
-## non-PH model ----
+## non-PH models ----
 # time-varying treatment (vaccination) with time-varying effects for vax1 and vax2 (not brand-specific)
 
 # define post-vaccination time periods for piece-wise constant hazards (ie time-varying effects / time-varying coefficients)
@@ -170,6 +182,11 @@ dev.off()
 # because in survival analysis, intervals are open-left and closed-right.
 
 postvaxcuts <- c(0, 3, 6, 12, 21)
+
+
+### model 0 - unadjusted vaccination effect model ----
+## no control variables
+
 
 coxmod_tt0 <- coxph(
   formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime),
@@ -192,6 +209,9 @@ coxmod_tt0 <- coxph(
   }
 )
 
+### model 1 - minimally adjusted vaccination effect model ----
+## age, sex, IMD
+
 coxmod_tt1 <- coxph(
   formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime) + age + sex + imd,
   data = data_tte %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
@@ -213,6 +233,10 @@ coxmod_tt1 <- coxph(
   }
 )
 
+
+### model 2 - "fully" adjusted vaccination effect model ----
+## age, sex, IMD, + other comorbidities
+## PLACEHOLDER FOR THE EVENTUAL FULLY ADJUSTED MODEL
 
 
 coxmod_tt2 <- coxph(
@@ -278,9 +302,14 @@ coxmod_tt2 <- coxph(
 #   }
 # )
 
+
+## report models ----
+
+# tidy model outputs
 coxmod_tidy_tt0 <- broom::tidy(coxmod_tt0, conf.int=TRUE) %>% mutate(model="Unadjusted")
 coxmod_tidy_tt1 <- broom::tidy(coxmod_tt1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
 coxmod_tidy_tt2 <- broom::tidy(coxmod_tt2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted (temp)")
+
 # create table with model estimates
 coxmod_summary <- bind_rows(
   coxmod_tidy_tt0,
@@ -337,6 +366,8 @@ coxmod_forest <- coxmod_summary %>%
 
     legend.position = "right"
   )
-coxmod_forest
+
+
+## save plot
 ggsave(filename=here::here("output", "models", "under65s", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
 
