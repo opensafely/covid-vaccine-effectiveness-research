@@ -324,7 +324,7 @@ coxmod_forest <- coxmod_summary %>%
     x="Hazard ratio, versus no vaccination",
     y=NULL,
     colour=NULL,
-    title="Hazard ratios, positive test by time since vaccine",
+    title="Hazard ratios, positive test by time since vaccination",
     subtitle="Aged 80+, non-carehome, no prior positive test"
   ) +
   theme_bw()+
