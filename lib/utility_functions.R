@@ -1,6 +1,9 @@
 
 
+
 fct_case_when <- function(...) {
+  # uses dplyr::case_when but converts the output to a factor,
+  # with factors ordered as they appear in the case_when's  ... argument
   args <- as.list(match.call())
   levels <- sapply(args[-1], function(f) f[[3]])  # extract RHS of formula
   levels <- levels[!is.na(levels)]
@@ -22,7 +25,7 @@ censor_indicator <- function(event_date, censor_date){
 }
 
 tte <- function(origin_date, event_date, censor_date, na.censor=FALSE){
-  # returns time to event date or time to censor date, which is earlier
+  # returns time-to-event date or time to censor date, which is earlier
 
   if (na.censor)
     time <- event_date-origin_date
