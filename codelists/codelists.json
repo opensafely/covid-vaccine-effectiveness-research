@@ -72,11 +72,11 @@
       "downloaded_at": "2021-01-18 11:45:40.900057Z",
       "sha": "31d7fecefd8c77801c73226d01fc6577b82a2cef"
     },
-    "opensafely-dementia.csv": {
-      "id": "opensafely/dementia/2020-04-22",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/dementia/2020-04-22/",
-      "downloaded_at": "2021-01-18 11:45:41.061484Z",
-      "sha": "9d40ff3a5c2428af4651c765f2c418de3a3ad4b4"
+    "opensafely-dementia-complete.csv": {
+      "id": "opensafely/dementia-complete/48c76cf8",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dementia-complete/48c76cf8/",
+      "downloaded_at": "2021-02-12 10:42:49.507057Z",
+      "sha": "b73c9363f19a9ee9f4407e34e95e11d3eeb615f4"
     },
     "opensafely-dmards.csv": {
       "id": "opensafely/dmards/2020-06-23",
