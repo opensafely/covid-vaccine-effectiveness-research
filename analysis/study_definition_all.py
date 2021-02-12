@@ -31,7 +31,7 @@ end_date = gbl_vars["end_date"] # change this in global-variables.json if necess
 study = StudyDefinition(
     # Configure the expectations framework
     default_expectations={
-        "date": {"earliest": "1970-01-01", "latest": latest_date},
+        "date": {"earliest": "1970-01-01", "latest": end_date},
         "rate": "uniform",
         "incidence": 0.2,
     },
@@ -110,7 +110,7 @@ study = StudyDefinition(
     ),
 
     registered_at_latest=patients.registered_as_of(
-        reference_date=latest_date,
+        reference_date=end_date,
         return_expectations={"incidence": 0.95},
     ),
 
