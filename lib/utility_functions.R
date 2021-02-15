@@ -71,3 +71,58 @@ postvax_cut <- function(event_time, time, breaks, prelabel="pre", prefix=""){
 
   period
 }
+
+
+
+
+
+# define post-vaccination time periods for piece-wise constant hazards (ie time-varying effects / time-varying coefficients)
+# eg c(0, 10, 21) will create 4 periods
+# pre-vaccination, [0, 10), [10, 21), and [21, inf)
+# can use eg c(3, 10, 21) to treat first 3 days post-vaccination the same as pre-vaccination
+# note that the exact vaccination date is set to the first "pre-vax" period,
+# because in survival analysis, intervals are open-left and closed-right.
+
+
+timesince_cut <- function(time_since, breaks, prelabel="pre", prefix=""){
+
+  # this function defines post-vaccination time-periods at `time_since`,
+  # delimited by `breaks`
+
+  # note, intervals are open on the left and closed on the right
+  # so at the exact time point the vaccination occurred, it will be classed as "pre-dose".
+
+  time_since <- as.numeric(time_since)
+  time_since <- if_else(!is.na(time_since), time_since, Inf)
+
+  breaks_aug <- unique(c(-Inf, breaks, Inf))
+  labels0 <- cut(c(breaks, Inf), breaks_aug)
+  labels <- paste0(prefix, c(prelabel, as.character(labels0[-1])))
+  period <- cut(time_since, breaks=breaks_aug, labels=labels, include.lowest=TRUE)
+
+  period
+}
+
+
+
+timesince2_cut <- function(time_since1, time_since2, breaks, prelabel="pre-vax"){
+  #wrapper for timesince_cut than puts postvax1 and postvax2 together
+
+  stopifnot("time_since1 should be greater than time_since2" = time_since1>=time_since2)
+
+  vax1_status <- timesince_cut(time_since1, breaks=breaks, prelabel=" SHOULD NOT APPEAR 1", prefix="Dose 1 ")
+  vax2_status <- timesince_cut(time_since2, breaks=breaks, prelabel=" SHOULD NOT APPEAR 2", prefix="Dose 2 ")
+
+  levels <- c(prelabel, levels(vax1_status[time_since1>0]), levels(vax2_status[time_since2>0]))
+
+  fct <- case_when(
+    time_since1 == 0 ~ as.character(prelabel),
+    time_since1 > 0 & time_since2 == 0 ~ as.character(vax1_status),
+    time_since2 > 0 ~ as.character(vax2_status)
+  )
+
+  fct <- factor(fct, levels=levels) %>% droplevels()
+
+  fct
+
+}
