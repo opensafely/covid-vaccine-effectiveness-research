@@ -288,7 +288,7 @@ study = StudyDefinition(
         return_expectations={
             "date": {
                 "earliest": "2020-12-08",  # first vaccine administered on the 8/12
-                "latest": "2021-01-01",
+                "latest": "2021-02-01",
             }
         },
     ),
@@ -301,8 +301,8 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {
-                "earliest": "2020-12-29",  # first reported second dose administered on the 29/12
-                "latest": "2021-01-31",
+                "earliest": "2021-02-02",  # first reported second dose administered on the 29/12
+                "latest": "2021-04-31",
             }
         },
     ),
