@@ -129,6 +129,8 @@ data_tte_cp <- tmerge(
   id = patient_id,
   vax1 = tdc(tte_vax1),
   vax2 = tdc(tte_vax2),
+  timesincevax1 = cumtdc(tte_vax1),
+  timesincevax2 = cumtdc(tte_vax2),
   outcome = event(tte_outcome),
   tstop = tte_maxfup
 ) %>%
@@ -137,27 +139,44 @@ arrange(
 ) %>%
 mutate(
   twidth = tstop - tstart,
-  vax_status = vax1+vax2
+  vax_status = vax1 + vax2
 )
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for inverse-probability weighting
 
+postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
+
 data_tte_pt <-
   survSplit(
     formula = Surv(tstart, tstop, outcome) ~ .,
     data = data_tte_cp,
     cut = 0:300000 # cut at each time point! 20000 is plenty big enough =~1000*365 years in days
+  ) %>%
+  arrange(patient_id, tstart) %>%
+  group_by(patient_id) %>%
+  mutate(
+
+    # so we can select all time-points where patient is at risk of vax AND vax has not occurred
+    vax_history = lag(vax_status, 1, 0),
+
+    # define time since vaccination
+    timesincevax1 = cumsum(vax1),
+    timesincevax2 = cumsum(vax2),
+  ) %>%
+  ungroup() %>%
+  mutate(
+    timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax")
   )
 
 
 # output data ----
 
 ## print data sizes ----
-cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte_rounded)))
-cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)))
-cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)))
+cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte_rounded)), "\n  ")
+cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
+cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
 
 
 ## Save processed tte data ----
