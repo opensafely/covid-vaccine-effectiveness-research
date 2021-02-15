@@ -507,7 +507,7 @@ study = StudyDefinition(
         returning="date",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": "2021-01-01"},
+            "date": {"earliest": "2021-01-01",  "latest" : "2021-02-01"},
             "rate": "exponential_increase",
         },
     ),
@@ -519,7 +519,7 @@ study = StudyDefinition(
         returning="date",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": "2021-02-01"},
+            "date": {"earliest": "2021-02-01", "latest" : "2021-04-01"},
             "rate": "uniform",
         },
     ),
