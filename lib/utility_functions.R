@@ -38,12 +38,12 @@ tte <- function(origin_date, event_date, censor_date, na.censor=FALSE){
 
 
 
-round_tte <- function(x, width=7){
+round_tte <- function(time, width=7){
   # group follow-up time to be in periods of size `width`
   # eg, convert to weekly instead of dail with width=7
   # follow-up time of zero is always mapped to zero
   # then first period is mapped to `1`, second period is mapped to `2`, etc
-  as.numeric(ggplot2::cut_width(x, width=width, labels=FALSE, boundary=width+1, closed="left")-1L)
+  ceiling(time/width)
 }
 
 
