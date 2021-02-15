@@ -520,10 +520,9 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": "2021-02-01"},
-            "rate": "exponential_increase",
+            "rate": "uniform",
         },
     ),
-    
     
     
     # RIMARY CARE CASE IDENTIFICATION
