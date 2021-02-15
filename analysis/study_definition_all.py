@@ -511,6 +511,21 @@ study = StudyDefinition(
             "rate": "exponential_increase",
         },
     ),
+    positive_test_2_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="positive_test_1_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-02-01"},
+            "rate": "exponential_increase",
+        },
+    ),
+    
+    
+    
     # RIMARY CARE CASE IDENTIFICATION
     primary_care_covid_case_1_date=patients.with_these_clinical_events(
         combine_codelists(
@@ -528,6 +543,23 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
+    
+    primary_care_covid_case_2_date=patients.with_these_clinical_events(
+        combine_codelists(
+            covid_primary_care_code,
+            covid_primary_care_positive_test,
+            covid_primary_care_sequalae,
+        ),
+        returning="date",
+        find_last_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        on_or_after="primary_care_covid_case_1_date + 1 day",
+        return_expectations={
+            "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
 
     # COVID-RELATED HOSPITAL ADMISSION
     covidadmitted_1_date=patients.admitted_to_hospital(
@@ -538,6 +570,19 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         return_expectations={
             "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    covidadmitted_2_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        on_or_after="covidadmitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-07-01", "latest" : "2021-08-01"},
             "rate": "uniform",
             "incidence": 0.05,
         },
