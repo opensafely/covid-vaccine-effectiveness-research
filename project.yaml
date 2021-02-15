@@ -114,8 +114,8 @@ actions:
         data2: output/modeldata/data_tte_week_cp_over80s.rds
         data3: output/modeldata/data_tte_week_pt_over80s.rds
 
-  models_over80s:
-    run: r:latest analysis/R/models_over80s.R
+  models_cox_over80s:
+    run: r:latest analysis/R/models_cox_over80s.R
     needs: [data_tte_over80s]
     outputs:
       moderately_sensitive:
@@ -127,7 +127,7 @@ actions:
 
   # run_ve:
   #   run: cohortextractor:latest --version
-  #   needs: [extract_all, data_process_all, data_properties_all, data_tte_over80s, models_over80s]
+  #   needs: [extract_all, data_process_all, data_properties_all, data_tte_over80s, models_cox_over80s]
   #   outputs:
   #     moderately_sensitive:
   #       whatever: output/.gitignore

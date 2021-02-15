@@ -1,128 +1,33 @@
 
-######################################
-
+# # # # # # # # # # # # # # # # # # # # #
 # This script:
 # imports processed data
 # creates additional survival variables for use in models (eg time to event from study start date)
 # fits 3 models for vaccine effectiveness, with 3 different adjustment sets
+# models are
 # saves model summaries (tables and figures)
 # "tte" = "time-to-event"
-######################################
+# # # # # # # # # # # # # # # # # # # # #
 
+# Preliminaries ----
 
-
-# Import libraries ----
+## Import libraries ----
 library('tidyverse')
 library('lubridate')
 library('survival')
 
-# Import custom user functions from lib
+## Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
-# create output directories ----
-dir.create(here::here("output", "models", "over80s"), showWarnings = FALSE, recursive=TRUE)
+## create output directories ----
+dir.create(here::here("output", "models", "cox", "over80s"), showWarnings = FALSE, recursive=TRUE)
 
 
-# Import processed data ----
+## Import processed data ----
 
-data_all <- read_rds(here::here("output", "data", "data_all.rds"))
-
-## one-row-per-patient data
-
-data_tte <- data_all %>%
-  filter(
-    age>=80,
-    is.na(care_home_type),
-    is.na(prior_positive_test_date)
-  ) %>%
-  transmute(
-    patient_id,
-    age,
-    sex,
-    imd,
-    #ethnicity,
-
-    chronic_cardiac_disease,
-    current_copd,
-    dementia,
-    dialysis,
-
-
-    start_date,
-    end_date,
-    covid_vax_1_date,
-    covid_vax_2_date,
-    positive_test_1_date,
-    coviddeath_date,
-    death_date,
-
-    outcome_date = positive_test_1_date, #change here for different outcomes.
-    lastfup_date = pmin(death_date, end_date, outcome_date, na.rm=TRUE),
-
-    # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
-    # -- see section 3.3 of the timedep vignette in survival package
-    # but might not be necessary if ties are andle appropriately (eg with tmerge)
-
-    tte_censor = tte(start_date, lastfup_date, lastfup_date),
-    tte_outcome = tte(start_date, outcome_date, lastfup_date, na.censor=TRUE),
-    tte_outcome_censored = tte(start_date, outcome_date, lastfup_date, na.censor=FALSE),
-    ind_outcome = censor_indicator(outcome_date, lastfup_date),
-
-    tte_vax1 = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=TRUE),
-    tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
-    tte_vax1_censored = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=FALSE),
-    ind_vax1 = censor_indicator(covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE)),
-
-    tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
-    tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
-    tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
-    ind_vax2 = censor_indicator(covid_vax_2_date, lastfup_date),
-
-    tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
-  )
-
-rm("data_all") # delete data_all to free up space
-
-# save processed tte data
-write_rds(data_tte, here::here("output", "data", "data_tte_over80s.rds"))
-
-# system(paste(
-#   'r:latest ./analysis/R/data_properties.R',
-#   "output/data/data_tte_over80s.rds",
-#   "output/data_properties"
-#   )
-# )
-
-# functions ----
-postvax_cut <- function(event_time, time, breaks, prelabel="pre", prefix=""){
-
-  # this function defines post-vaccination time-periods at `time`,
-  # for a vaccination occurring at time `event_time`
-  # delimited by `breaks`
-
-  # note, intervals are open on the left and closed on the right
-  # so at the exact time point the vaccination occurred, it will be classed as "pre-dose".
-
-  event_time <- as.numeric(event_time)
-  event_time <- if_else(!is.na(event_time), event_time, Inf)
-
-  diff <- time - event_time
-  breaks_aug <- unique(c(-Inf, breaks, Inf))
-  labels0 <- cut(c(breaks, Inf), breaks_aug)
-  labels <- paste0(prefix, c(prelabel, as.character(labels0[-1])))
-  period <- cut(diff, breaks=breaks_aug, labels=labels, include.lowest=TRUE)
-
-
-  period
-}
-#
-# t=0:50
-# x=6
-# breaks=c(0,10,21)
-#
-# cbind(t, t-x, as.character(postvax_cut(x, t, cutoff)))
-
+data_tte <- read_rds(here::here("output", "modeldata", "data_tte_week_over80s.rds")) # wide (one row per patient)
+data_tte_cp <- read_rds(here::here("output", "modeldata", "data_tte_week_cp_over80s.rds")) # counting-process (one row per patient per event)
 
 
 # MODELS ----
@@ -133,23 +38,9 @@ postvax_cut <- function(event_time, time, breaks, prelabel="pre", prefix=""){
 # because cox.zph doesn't work with models specified using tt()
 
 
-data_tm <- tmerge(
-  data1 = data_tte %>% select(patient_id, sex, age, imd, tte_vax1, tte_vax2),
-  data2 = data_tte,
-  id = patient_id,
-  vax1 = tdc(tte_vax1),
-  vax2 = tdc(tte_vax2),
-  outcome = event(tte_outcome),
-  tstop = tte_censor
-) %>%
-mutate(
-  width = tstop - tstart,
-  vax_status = vax1+vax2
-)
-
 coxmod_ph <- coxph(
   Surv(tstart, tstop, outcome) ~ as.factor(vax_status) + age + sex + imd + cluster(patient_id),
-  data = data_tm, x=TRUE
+  data = data_tte_cp, x=TRUE
 )
 
 # tests for proportional hazards, used for plotting spline over time
@@ -166,13 +57,13 @@ coxmod_ph_zph <- cox.zph(coxmod_ph, transform= "km", terms=FALSE)
 # then overwrite with actual plot if it works
 # wrap try around plot call because often fails on dummy data
 
-png(filename=here::here("output","models", "over80s", "zph_vax.png"))
+png(filename=here::here("output","models", "cox", "over80s", "zph_vax.png"))
 plot(c(1,2),c(1,2))
 try(plot(coxmod_ph_zph[1]), silent=TRUE)
 dev.off()
 
 
-png(filename=here::here("output","models", "over80s", "zph_age.png"))
+png(filename=here::here("output","models", "cox", "over80s", "zph_age.png"))
 plot(c(1,2),c(1,2))
 try(plot(coxmod_ph_zph[2]), silent=TRUE)
 dev.off()
@@ -189,7 +80,8 @@ dev.off()
 # note that the exact vaccination date is set to the first "pre-vax" period,
 # because in survival analysis, intervals are open-left and closed-right.
 
-postvaxcuts <- c(0, 3, 6, 12, 21)
+#postvaxcuts <- c(0, 3, 6, 12, 21) # use if coded as days
+postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
 
 ### model 0 - unadjusted vaccination effect model ----
@@ -218,7 +110,6 @@ coxmod_tt0 <- coxph(
 
 ### model 1 - minimally adjusted vaccination effect model ----
 ## age, sex, IMD
-
 coxmod_tt1 <- coxph(
   formula = Surv(tte_outcome_censored, ind_outcome) ~ tt(vaxtime) + age + sex + imd,
   data = data_tte %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
@@ -239,6 +130,28 @@ coxmod_tt1 <- coxph(
 
   }
 )
+
+## ALTERNATIVE USING COUNTING-PROCESS DATA - DO NOT DELETE
+
+# coxmod_tt1a <- coxph(
+#   formula = Surv(tstart, tstop, outcome) ~ tt(vaxtime) + age + sex + imd,
+#   data = data_tte_cp %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
+#   cluster = patient_id, # not needed for one-row-per-patient representation
+#   robust = TRUE,
+#   tt = function(x, t, ...){
+#
+#     x1 <- x[,1]
+#     x2 <- x[,2]
+#
+#     vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="Dose 1 ")
+#     vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="Dose 2 ")
+#
+#     levels <- c(levels(vax1_status), levels(vax2_status))
+#
+#     factor(if_else(t<=x2, as.character(vax1_status), as.character(vax2_status)), levels=levels) %>% droplevels()
+#
+#   }
+# )
 
 ### model 2 - "fully" adjusted vaccination effect model ----
 ## age, sex, IMD, + other comorbidities
@@ -266,48 +179,6 @@ coxmod_tt2 <- coxph(
   }
 )
 
-
-## DO NOT DELETE YET
-## may be useful for reweighting
-
-## alternative to coxmod_tt1 using long dataset
-## DO NOT DELETE YET
-
-# data_tm <- tmerge(
-#   data1 = data_tte %>% select(patient_id, sex, age, imd, tte_vax1_Inf, tte_vax2_Inf),
-#   data2 = data_tte,
-#   id = patient_id,
-#   vax1 = tdc(tte_vax1),
-#   vax2 = tdc(tte_vax2),
-#   outcome = event(tte_outcome),
-#   tstop = tte_censor
-# ) %>%
-#   mutate(
-#     width = tstop - tstart,
-#     vax_status = vax1+vax2
-#   )
-#
-# coxmod_tt1a <- coxph(
-#   formula = Surv(tstart, tstop, outcome) ~ tt(vaxtime) + age + sex + imd,
-#   data = data_tm %>% mutate(vaxtime =cbind(tte_vax1_Inf, tte_vax2_Inf)),
-#   cluster = patient_id, # not needed for one-row-per-patient representation
-#   robust = TRUE,
-#   tt = function(x, t, ...){
-#
-#     x1 <- x[,1]
-#     x2 <- x[,2]
-#
-#     vax1_status <- postvax_cut(x1, t, breaks=postvaxcuts, prelabel=" pre-vax", prefix="Dose 1 ")
-#     vax2_status <- postvax_cut(x2, t, breaks=postvaxcuts, prelabel=" SHOULD NOT APPEAR", prefix="Dose 2 ")
-#
-#     levels <- c(levels(vax1_status), levels(vax2_status))
-#
-#     factor(if_else(t<=x2, as.character(vax1_status), as.character(vax2_status)), levels=levels) %>% droplevels()
-#
-#   }
-# )
-
-
 ## report models ----
 
 # tidy model outputs
@@ -326,7 +197,7 @@ mutate(
   hr.ll = exp(estimate - robust.se*qnorm(0.975)),
   hr.ul = exp(estimate + robust.se*qnorm(0.975)),
 )
-write_csv(coxmod_summary, path = here::here("output", "models", "over80s", "estimates.csv"))
+write_csv(coxmod_summary, path = here::here("output", "models", "cox", "over80s", "estimates.csv"))
 
 # create forest plot
 coxmod_forest <- coxmod_summary %>%
@@ -374,5 +245,5 @@ coxmod_forest <- coxmod_summary %>%
 
 
 ## save plot
-ggsave(filename=here::here("output", "models", "over80s", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", "models", "cox", "over80s", "forest_plot.svg"), coxmod_forest, width=20, height=20, units="cm")
 
