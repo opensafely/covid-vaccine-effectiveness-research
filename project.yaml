@@ -119,10 +119,18 @@ actions:
     needs: [data_tte_over80s]
     outputs:
       moderately_sensitive:
-        zph: output/models/over80s/zph*.png
-        forest: output/models/over80s/forest*.svg
-        tables: output/models/over80s/*.csv
+        zph: output/models/cox/over80s/zph*.png
+        forest: output/models/cox/over80s/forest*.svg
+        tables: output/models/cox/over80s/*.csv
 
+  models_msm_over80s:
+    run: r:latest analysis/R/models_msm_over80s.R
+    needs: [data_tte_over80s]
+    outputs:
+      moderately_sensitive:
+        weights: output/models/msm/over80s/weights.txt
+        forest: output/models/msm/over80s/forest*.svg
+        tables: output/models/msm/over80s/*.csv
 
 
   # run_ve:
