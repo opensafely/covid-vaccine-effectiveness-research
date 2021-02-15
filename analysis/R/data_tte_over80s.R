@@ -86,6 +86,8 @@ data_tte_daily <- data_all %>%
   )
 
 
+
+
 ## convert time-to-event data from daily to weekly ----
 
 #choose units to discretise time
@@ -149,6 +151,13 @@ data_tte_pt <-
     cut = 0:300000 # cut at each time point! 20000 is plenty big enough =~1000*365 years in days
   )
 
+
+# output data ----
+
+## print data sizes ----
+cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte_rounded)))
+cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)))
+cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)))
 
 
 ## Save processed tte data ----
