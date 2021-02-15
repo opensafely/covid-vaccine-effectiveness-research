@@ -46,7 +46,7 @@ data_extract0 <- read_csv(
   col_types = cols(
 
     # identifiers
-    patient_id = col_character(),
+    patient_id = col_integer(),
     practice_id = col_integer(),
 
     # demographic / administrative
@@ -135,7 +135,7 @@ data_extract <- data_extract0 %>%
     .fns = ~na_if(.x, "")
   )) %>%
   mutate(across(
-    .cols = where(is.numeric),
+    .cols = c(where(is.numeric), -ends_with("_id")), #convert numeric+integer but not id variables
     .fns = ~na_if(.x, 0)
   )) %>%
   arrange(patient_id) %>%
