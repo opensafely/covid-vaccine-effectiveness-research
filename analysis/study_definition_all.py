@@ -302,7 +302,7 @@ study = StudyDefinition(
         return_expectations={
             "date": {
                 "earliest": "2021-02-02",  # first reported second dose administered on the 29/12
-                "latest": "2021-04-31",
+                "latest": "2021-04-30",
             }
         },
     ),
