@@ -73,13 +73,6 @@ dev.off()
 ## non-PH models ----
 # time-varying treatment (vaccination) with time-varying effects for vax1 and vax2 (not brand-specific)
 
-# define post-vaccination time periods for piece-wise constant hazards (ie time-varying effects / time-varying coefficients)
-# eg c(0, 10, 21) will create 4 periods
-# pre-vaccination, [0, 10), [10, 21), and [21, inf)
-# can use eg c(3, 10, 21) to treat first 3 days post-vaccination the same as pre-vaccination
-# note that the exact vaccination date is set to the first "pre-vax" period,
-# because in survival analysis, intervals are open-left and closed-right.
-
 #postvaxcuts <- c(0, 3, 6, 12, 21) # use if coded as days
 postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
