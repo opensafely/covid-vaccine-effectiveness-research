@@ -47,6 +47,9 @@ round_tte <- function(time, width=7){
 }
 
 
+
+
+
 postvax_cut <- function(event_time, time, breaks, prelabel="pre", prefix=""){
 
   # this function defines post-vaccination time-periods at `time`,
