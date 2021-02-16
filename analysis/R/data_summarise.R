@@ -97,6 +97,7 @@ vars_list <- jsonlite::fromJSON(txt=here::here("lib", "global-variables.json"))
 summary_stats <- append (
   vars_list,
   list(
+    run_date =date(file.info(here::here("metadata","extract_vaccinated.log"))$ctime),
     total_vaccinated = sum(!is.na(data_vaccinated$covid_vax_1_date)),
     total_vaccinated_az = sum(data_vaccinated$covid_vax_1_type=="Ox-AZ", na.rm=TRUE),
     total_vaccinated_pfizer = sum(data_vaccinated$covid_vax_1_type=="P-B", na.rm=TRUE)
