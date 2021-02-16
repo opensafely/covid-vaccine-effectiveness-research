@@ -54,13 +54,13 @@ data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
 ### with time-updating covariates
 
 ipwvax1 <- glm(
-  formula = vax1 ~ age + I(age*age) + sex + imd + as.character(tstop),
+  formula = vax1 ~ age + I(age*age) + sex + imd + hospital_status + as.character(tstop),
   data = data_tte_pt_atriskvax1,
   family=binomial
 )
 
 ipwvax2 <- glm(
-  formula = vax2 ~ age + I(age*age) + sex + imd + as.character(tstop),
+  formula = vax2 ~ age + I(age*age) + sex + imd + hospital_status + as.character(tstop),
   data = data_tte_pt_atriskvax2,
   family=binomial
 )

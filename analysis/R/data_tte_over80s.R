@@ -123,6 +123,25 @@ data_tte_rounded <- data_tte_daily %>%
 # ie, one row per person per event
 # every time an event occurs or a covariate changes, a new row is generated
 
+# import hospitalisations data for time-updating "in-hospital" covariate
+data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_dates.rds")) %>%
+  pivot_longer(
+    cols=c(admitted_date, discharged_date),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte_rounded %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+    hosp_status = if_else(status=="admitted_date", 1, 0)
+  )
+
+
 data_tte_cp <- tmerge(
   data1 = data_tte_rounded %>% select(-starts_with("ind_"), -ends_with("_date")),
   data2 = data_tte_rounded,
@@ -133,6 +152,13 @@ data_tte_cp <- tmerge(
   timesincevax2 = cumtdc(tte_vax2),
   outcome = event(tte_outcome),
   tstop = tte_maxfup
+) %>%
+tmerge(
+  data1 = .,
+  data2 = data_hospitalised,
+  id = patient_id,
+  hospital_status = tdc(tte, hosp_status),
+  options = list(tdcstart = 0)
 ) %>%
 arrange(
   patient_id, tstart
