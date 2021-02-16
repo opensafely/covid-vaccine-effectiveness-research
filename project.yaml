@@ -111,9 +111,7 @@ actions:
     needs: [data_process_all]
     outputs:
       highly_sensitive:
-        data1: output/modeldata/data_tte_week_over80s.rds
-        data2: output/modeldata/data_tte_week_cp_over80s.rds
-        data3: output/modeldata/data_tte_week_pt_over80s.rds
+        data: output/modeldata/data_tte_*.rds
 
   models_cox_over80s:
     run: r:latest analysis/R/models_cox_over80s.R
