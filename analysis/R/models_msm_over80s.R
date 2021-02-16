@@ -15,6 +15,7 @@
 library('tidyverse')
 library('lubridate')
 library('survival')
+library('parglm')
 
 ## Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
@@ -25,9 +26,44 @@ source(here::here("lib", "survival_functions.R"))
 dir.create(here::here("output", "models", "msm", "over80s"), showWarnings = FALSE, recursive=TRUE)
 
 
+
+### create tidy.parglm function
+
+
+tidy_parglm <- function(x, conf.int = FALSE, conf.level = .95,
+                     exponentiate = FALSE, ...) {
+
+  # nickedd from https://github.com/tidymodels/broom/blob/443ebd995760c6674f122d75ceb2e6b82f055439/R/stats-glm-tidiers.R#L12
+
+  ret <- as_tibble(summary(x)$coefficients, rownames = "term")
+  colnames(ret) <- c("term", "estimate", "std.error", "statistic", "p.value")
+
+  # summary(x)$coefficients misses rank deficient rows (i.e. coefs that
+  # summary.lm() sets to NA), catch them here and add them back
+
+  coefs <- tibble::enframe(stats::coef(x), name = "term", value = "estimate")
+  ret <- left_join(coefs, ret, by = c("term", "estimate"))
+
+  if (conf.int) {
+    ci <- confint.default(x, level = conf.level) # not ideal -- change for more robust conf intervals!
+    ci <- as_tibble(ci, rownames = "term")
+    names(ci) <- c("term", "conf.low", "conf.high")
+
+    ret <- dplyr::left_join(ret, ci, by = "term")
+  }
+
+  if (exponentiate) {
+    ret <- exponentiate(ret)
+  }
+
+  ret
+}
+
+
+
 ## Import processed data ----
 
-data_tte_pt <- read_rds(here::here("output", "modeldata", "data_tte_week_pt_over80s.rds")) # counting-process (one row per patient per event)
+data_tte_pt <- read_rds(here::here("output", "modeldata", "data_tte_day_pt_over80s.rds")) # counting-process (one row per patient per event)
 
 
 #postvaxcuts <- c(0, 3, 6, 12, 21) # use if coded as days
@@ -51,18 +87,28 @@ postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 data_tte_pt_atriskvax1 <- data_tte_pt %>% filter(vax_history==0)
 data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
 
-### with time-updating covariates
 
-ipwvax1 <- glm(
-  formula = vax1 ~ age + I(age*age) + sex + imd + hospital_status + as.character(tstop),
-  data = data_tte_pt_atriskvax1,
-  family=binomial
+## define parglm optimisation parameters:
+
+parglmparams <- parglm.control(
+  method = "LINPACK",
+  nthreads = 6
 )
 
-ipwvax2 <- glm(
-  formula = vax2 ~ age + I(age*age) + sex + imd + hospital_status + as.character(tstop),
+### with time-updating covariates
+
+ipwvax1 <- parglm(
+  formula = vax1 ~ age + I(age*age) + sex + imd + hospital_status + poly(tstop, 2),
+  data = data_tte_pt_atriskvax1,
+  family=binomial,
+  control = parglmparams
+)
+
+ipwvax2 <- parglm(
+  formula = vax2 ~ age + I(age*age) + sex + imd + hospital_status + poly(tstop, 2),
   data = data_tte_pt_atriskvax2,
-  family=binomial
+  family=binomial,
+  control = parglmparams
 )
 
 
@@ -72,17 +118,19 @@ ipwvax2 <- glm(
 
 # using quadratic time for now;
 
-ipwvax1_fxd <- glm(
-  formula = vax1 ~ age + I(age*age) + sex + imd + tstop,# + I(tstop^2),
+ipwvax1_fxd <- parglm(
+  formula = vax1 ~ age + I(age*age) + sex + imd + poly(tstop, 2),# + I(tstop^2),
   data = data_tte_pt_atriskvax1,
-  family=binomial
+  family=binomial,
+  control = parglmparams
 )
 
 
-ipwvax2_fxd <- glm(
-  formula = vax2 ~ age + I(age*age) + sex + imd + tstop,# + I(tstop^2),
+ipwvax2_fxd <- parglm(
+  formula = vax2 ~ age + I(age*age) + sex + imd + poly(tstop, 2),# + I(tstop^2),
   data = data_tte_pt_atriskvax2,
-  family=binomial
+  family=binomial,
+  control = parglmparams
 )
 
 
@@ -180,11 +228,12 @@ capture.output(
 ### model 0 - unadjusted vaccination effect model ----
 ## no control variables
 
-msmmod0 <- glm(
+msmmod0 <- parglm(
   formula = outcome ~ timesincevax_pw,
   data = data_weights,
   weights = ipweight_stbl,
-  family = quasibinomial
+  family = binomial,
+  control = parglmparams
 )
 
 summary(msmmod0)
@@ -192,11 +241,12 @@ summary(msmmod0)
 ### model 1 - minimally adjusted vaccination effect model ----
 ## age, sex, IMD
 
-msmmod1 <- glm(
-  formula = outcome ~ timesincevax_pw + age + sex + imd,
+msmmod1 <- parglm(
+  formula = outcome ~ timesincevax_pw + age + sex + imd + poly(tstop, 2),
   data = data_weights,
   weights = ipweight_stbl,
-  family = quasibinomial
+  family = binomial,
+  control = parglmparams
 )
 
 summary(msmmod1)
@@ -205,12 +255,13 @@ summary(msmmod1)
 ## age, sex, IMD, + other comorbidities
 ## PLACEHOLDER FOR THE EVENTUAL FULLY ADJUSTED MODEL
 
-msmmod2 <- glm(
-  formula = outcome ~ timesincevax_pw + age + sex + imd +
+msmmod2 <- parglm(
+  formula = outcome ~ timesincevax_pw + age + sex + imd + poly(tstop, 2) +
     chronic_cardiac_disease + current_copd + dementia + dialysis,
   data = data_weights,
   weights = ipweight_stbl,
-  family = quasibinomial
+  family = binomial,
+  control = parglmparams
 )
 
 summary(msmmod2)
@@ -218,9 +269,10 @@ summary(msmmod2)
 ## report models ----
 
 # tidy model outputs
-msmmod_tidy0 <- broom::tidy(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
-msmmod_tidy1 <- broom::tidy(msmmod1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
-msmmod_tidy2 <- broom::tidy(msmmod2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted (temp)")
+
+msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
+msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
+msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted (temp)")
 
 # library('sandwich')
 # library('lmtest')

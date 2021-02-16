@@ -93,8 +93,8 @@ data_tte_daily <- data_all %>%
 #choose units to discretise time
 # 1 = day (i.e, no change)
 # 7 = week
-round_val <- 7
-time_unit <- "week"
+round_val <- 1
+time_unit <- "day"
 
 # convert
 data_tte_rounded <- data_tte_daily %>%
