@@ -91,8 +91,8 @@ data_tte_daily <- data_all %>%
 ## convert time-to-event data from daily to weekly ----
 
 #choose units to discretise time
-# 7 = week
 # 1 = day (i.e, no change)
+# 7 = week
 round_val <- 7
 time_unit <- "week"
 

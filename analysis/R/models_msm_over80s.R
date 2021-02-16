@@ -30,7 +30,6 @@ dir.create(here::here("output", "models", "msm", "over80s"), showWarnings = FALS
 data_tte_pt <- read_rds(here::here("output", "modeldata", "data_tte_week_pt_over80s.rds")) # counting-process (one row per patient per event)
 
 
-
 #postvaxcuts <- c(0, 3, 6, 12, 21) # use if coded as days
 postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
