@@ -26,8 +26,8 @@ dir.create(here::here("output", "models", "cox", "over80s"), showWarnings = FALS
 
 ## Import processed data ----
 
-data_tte <- read_rds(here::here("output", "modeldata", "data_tte_week_over80s.rds")) # wide (one row per patient)
-data_tte_cp <- read_rds(here::here("output", "modeldata", "data_tte_week_cp_over80s.rds")) # counting-process (one row per patient per event)
+data_tte <- read_rds(here::here("output", "modeldata", "data_tte_day_over80s.rds")) # wide (one row per patient)
+data_tte_cp <- read_rds(here::here("output", "modeldata", "data_tte_day_cp_over80s.rds")) # counting-process (one row per patient per event)
 
 
 # MODELS ----
