@@ -20,7 +20,7 @@ c("sex", "ageband", "imd", "ethnicity", "region") %>%
   map(~{
     redacted_summary_catcat(
       data_vaccinated[[.x]],
-      data_vaccinated$vaccine_first_dose_type,
+      data_vaccinated$covid_vax_1_type,
       redaction_threshold = 0L,
       redaction_accuracy=7L
     )

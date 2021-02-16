@@ -35,6 +35,7 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/data/data_vaccinated.rds
+        vaxdates: output/data/data_vaccinated_vax_dates.rds
 
   data_properties_vaccinated:
     run: r:latest analysis/R/data_properties.R output/data/data_vaccinated.rds output/data_properties
