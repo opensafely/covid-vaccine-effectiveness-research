@@ -192,9 +192,9 @@ metadata_variables <- tribble(
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_name,
   "seconddose", "Second dose",
-  "posSGSS",   "Positive PCR test",
+  "posSGSS",   "Positive test",
   "posPC",     "Primary care case",
-  #"admitted",  "covid-related admission",
+  "admitted",  "Covid-related admission",
   "coviddeath","Covid-related death",
   "death",     "All-cause death"
 )
@@ -359,7 +359,7 @@ plot_combinations %>%
 plot_combinations %>%
   filter(outcome != "seconddose") %>%
   group_by(variable, variable_name) %>%
-  arrange(factor(outcome, levels=c("posSGSS", "posPC", "coviddeath", "death"))) %>%
+  arrange(factor(outcome, levels=c("posSGSS", "posPC", "admitted", "coviddeath", "death"))) %>%
   summarise(
     patch_plot = list(c(plot_surv, plot_smoothhazard))
   ) %>%
