@@ -24,7 +24,7 @@ source(here::here("lib", "utility_functions.R"))
 gbl_vars <- jsonlite::fromJSON(
   txt="./lib/global-variables.json"
 )
-gbl_vars$run_date =date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime)
+gbl_vars$run_date =date(file.info(here::here("metadata","extract_all.log"))$ctime)
 #list2env(gbl_vars, globalenv())
 
 
