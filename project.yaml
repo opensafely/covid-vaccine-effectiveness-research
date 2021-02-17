@@ -141,29 +141,29 @@ actions:
         tables: output/models/msm/over80s/*.csv
 
 
-  data_stset_under60s:
-    run: r:latest analysis/R/data_stset.R under60s
+  data_stset_under65s:
+    run: r:latest analysis/R/data_stset.R under65s
     needs: [data_cohorts, data_process_all]
     outputs:
       highly_sensitive:
-        data: output/modeldata/data_*under60s.rds
+        data: output/modeldata/data_*under65s.rds
 
-  data_properties_under60s:
-    run: r:latest analysis/R/data_properties.R output/modeldata/data_wide_under60s.rds output/data_properties
-    needs: [data_stset_under60s]
+  data_properties_under65s:
+    run: r:latest analysis/R/data_properties.R output/modeldata/data_wide_under65s.rds output/data_properties
+    needs: [data_stset_under65s]
     outputs:
       moderately_sensitive:
-        datasummary: output/data_properties/data_wide_under60s*.txt
+        datasummary: output/data_properties/data_wide_under65s*.txt
 
-  models_msm_under60s:
-    run: r:latest analysis/R/models_msms.R under60s
-    needs: [data_cohorts, data_stset_under60s]
+  models_msm_under65s:
+    run: r:latest analysis/R/models_msms.R under65s
+    needs: [data_cohorts, data_stset_under65s]
     outputs:
       moderately_sensitive:
-        weights: output/models/msm/under60s/weights.txt
-        forest: output/models/msm/under60s/forest*.svg
-        #trend: output/models/msm/under60s/secular_trends*.svg
-        tables: output/models/msm/under60s/*.csv
+        weights: output/models/msm/under65s/weights.txt
+        forest: output/models/msm/under65s/forest*.svg
+        #trend: output/models/msm/under65s/secular_trends*.svg
+        tables: output/models/msm/under65s/*.csv
 
 
   models_cox_over80s:
