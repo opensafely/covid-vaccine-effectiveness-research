@@ -71,7 +71,7 @@ Measured outcomes include:
 
 The code and data for this report can be found at the [covid-vaccine-effectiveness-research GitHub repository](https://github.com/opensafely/covid-vaccine-effectiveness-research). 
 
-The dataset used for this report was created using the study definition `/analysis/study_definition.py`, using codelists referenced in `/codelists/codelists.txt`. It was extracted from the OpenSAFELY-TPP data extracted on `r summary_stats$run_date`, with event dates censored on (occurring no later than) `r gbl_vars$end_date`.
+The dataset used for this report was created using the study definition `/analysis/study_definition.py`, using codelists referenced in `/codelists/codelists.txt`. It was extracted from the OpenSAFELY-TPP data extracted on `r run_date`, with event dates censored on (occurring no later than) `r gbl_vars$end_date`.
 
 To minimise data disclosivity in frequency tables, counts are rounded to the nearest 7 and percentages are derived from these rounded counts.
 
