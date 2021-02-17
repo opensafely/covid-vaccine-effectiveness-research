@@ -99,8 +99,6 @@ data_tte <- data_all %>%
   )
 
 
-
-
 ## convert time-to-event data from daily to weekly ----
 
 #choose units to discretise time
@@ -145,7 +143,7 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
     values_drop_na = TRUE
   ) %>%
   inner_join(
-    data_tte_rounded %>% select(patient_id, start_date, lastfup_date),
+    data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
     by =c("patient_id")
   ) %>%
@@ -189,7 +187,7 @@ data_tte_pt <-
   survSplit(
     formula = Surv(tstart, tstop, outcome) ~ .,
     data = data_tte_cp,
-    cut = 0:300000 # cut at each time point! 20000 is plenty big enough =~1000*365 years in days
+    cut = 0:300000 # cut at each time point! 300000 is plenty big enough =~1000*365 years in days
   ) %>%
   arrange(patient_id, tstart) %>%
   group_by(patient_id) %>%
