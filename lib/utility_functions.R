@@ -126,3 +126,36 @@ timesince2_cut <- function(time_since1, time_since2, breaks, prelabel="pre-vax")
   fct
 
 }
+
+
+
+
+tidy_parglm <- function(x, conf.int = FALSE, conf.level = .95,
+                        exponentiate = FALSE, ...) {
+
+  # nicked from https://github.com/tidymodels/broom/blob/443ebd995760c6674f122d75ceb2e6b82f055439/R/stats-glm-tidiers.R#L12
+  # and adapted for parglm glm objects
+
+  ret <- as_tibble(summary(x)$coefficients, rownames = "term")
+  colnames(ret) <- c("term", "estimate", "std.error", "statistic", "p.value")
+
+  # summary(x)$coefficients misses rank deficient rows (i.e. coefs that
+  # summary.lm() sets to NA), catch them here and add them back
+
+  coefs <- tibble::enframe(stats::coef(x), name = "term", value = "estimate")
+  ret <- left_join(coefs, ret, by = c("term", "estimate"))
+
+  if (conf.int) {
+    ci <- confint.default(x, level = conf.level) # not ideal -- change for more robust conf intervals!
+    ci <- as_tibble(ci, rownames = "term")
+    names(ci) <- c("term", "conf.low", "conf.high")
+
+    ret <- dplyr::left_join(ret, ci, by = "term")
+  }
+
+  if (exponentiate) {
+    ret <- exponentiate(ret)
+  }
+
+  ret
+}
