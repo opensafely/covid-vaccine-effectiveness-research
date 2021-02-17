@@ -29,7 +29,6 @@ args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
 
-
 ## create output directories ----
 dir.create(here::here("output", "modeldata"), showWarnings = FALSE, recursive=TRUE)
 
@@ -40,7 +39,7 @@ data_cohorts <- read_rds(here::here("output", "modeldata", "data_cohorts.rds"))
 metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
-stopifnot("cohort does not exist" = !(cohort %in% metadata_cohorts[["cohort"]]))
+stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
 data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
 metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]

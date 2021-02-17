@@ -35,7 +35,7 @@ cohort <- args[[1]]
 metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
 metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
 
-stopifnot("cohort does not exist" = !(cohort %in% metadata_cohorts[["cohort"]]))
+stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
 ## define model hyper-parameters and characteristics ----
 
