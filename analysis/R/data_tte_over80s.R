@@ -32,7 +32,7 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
 ## one-row-per-patient data ----
 
-data_tte_daily <- data_all %>%
+data_tte <- data_all %>%
   filter(
     age>=80,
     is.na(care_home_type),
@@ -44,6 +44,8 @@ data_tte_daily <- data_all %>%
     sex,
     imd,
     #ethnicity,
+
+    region,
 
     chronic_cardiac_disease,
     current_copd,
@@ -104,30 +106,30 @@ data_tte_daily <- data_all %>%
 #choose units to discretise time
 # 1 = day (i.e, no change)
 # 7 = week
-round_val <- 1
-time_unit <- "day"
-
-# convert
-data_tte_rounded <- data_tte_daily %>%
-  mutate(
-    tte_maxfup = round_tte(tte_maxfup, round_val),
-    tte_outcome = round_tte(tte_outcome, round_val),
-    tte_outcome_censored = round_tte(tte_outcome_censored, round_val),
-    ind_outcome = censor_indicator(tte_outcome, tte_maxfup),
-
-    tte_vax1 = round_tte(tte_vax1, round_val),
-    tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
-    tte_vax1_censored = round_tte(tte_vax1_censored, round_val),
-
-    tte_vax2 = round_tte(tte_vax2, round_val),
-    tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
-    tte_vax2_censored = round_tte(tte_vax2_censored, round_val),
-
-    ind_vax1 = censor_indicator(tte_vax1, pmin(tte_maxfup, tte_vax2, na.rm=TRUE)),
-    ind_vax2 = censor_indicator(tte_vax2, tte_maxfup),
-
-    tte_death = round_tte(tte_death, round_val),
-  )
+# round_val <- 1
+# time_unit <- "day"
+#
+# # convert
+# data_tte_rounded <- data_tte_daily %>%
+#   mutate(
+#     tte_maxfup = round_tte(tte_maxfup, round_val),
+#     tte_outcome = round_tte(tte_outcome, round_val),
+#     tte_outcome_censored = round_tte(tte_outcome_censored, round_val),
+#     ind_outcome = censor_indicator(tte_outcome, tte_maxfup),
+#
+#     tte_vax1 = round_tte(tte_vax1, round_val),
+#     tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
+#     tte_vax1_censored = round_tte(tte_vax1_censored, round_val),
+#
+#     tte_vax2 = round_tte(tte_vax2, round_val),
+#     tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
+#     tte_vax2_censored = round_tte(tte_vax2_censored, round_val),
+#
+#     ind_vax1 = censor_indicator(tte_vax1, pmin(tte_maxfup, tte_vax2, na.rm=TRUE)),
+#     ind_vax2 = censor_indicator(tte_vax2, tte_maxfup),
+#
+#     tte_death = round_tte(tte_death, round_val),
+#   )
 
 
 ## create counting-process format dataset ----
@@ -154,8 +156,8 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
 
 
 data_tte_cp <- tmerge(
-  data1 = data_tte_rounded %>% select(-starts_with("ind_"), -ends_with("_date")),
-  data2 = data_tte_rounded,
+  data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
+  data2 = data_tte,
   id = patient_id,
   vax1 = tdc(tte_vax1),
   vax2 = tdc(tte_vax2),
@@ -205,13 +207,13 @@ data_tte_pt <-
 # output data ----
 
 ## print data sizes ----
-cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte_rounded)), "\n  ")
+cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte)), "\n  ")
 cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
 
 
 ## Save processed tte data ----
-write_rds(data_tte_rounded, here::here("output", "modeldata", glue::glue("data_tte_{time_unit}_over80s.rds")))
-write_rds(data_tte_cp, here::here("output", "modeldata", glue::glue("data_tte_{time_unit}_cp_over80s.rds")))
-write_rds(data_tte_pt, here::here("output", "modeldata", glue::glue("data_tte_{time_unit}_pt_over80s.rds")))
+write_rds(data_tte, here::here("output", "modeldata", glue::glue("data_tte_over80s.rds")))
+write_rds(data_tte_cp, here::here("output", "modeldata", glue::glue("data_tte_cp_over80s.rds")))
+write_rds(data_tte_pt, here::here("output", "modeldata", glue::glue("data_tte_pt_over80s.rds")))
 

@@ -52,20 +52,20 @@ formula_comorbs <- . ~ . +
   permanant_immunosuppression + temporary_immunosuppression + asplenia +
   intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
   lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
-formula_calendar <- . ~ . + poly(tstop, 2) # should change to basis function in future
-formula_timedependent <- . ~ . + hospital_status # need to add local infection rates
+formula_secular <- . ~ . + region*poly(tstop, 2) # should change to basis function in future
+formula_timedependent <- . ~ . + hospital_status # consider local infection rates
 
+formula(outcome ~ 1) %>% update(formula_calendar) %>% update(formula_region)
 
 # create output directories ----
 dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, recursive=TRUE)
 
 # Import processed data ----
 
-data_tte_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_tte_day_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
+data_tte_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_tte_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax")
   )
-
 
 # IPW model ----
 
