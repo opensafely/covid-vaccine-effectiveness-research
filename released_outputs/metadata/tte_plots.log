@@ -1,0 +1,236 @@
+2021-02-16T13:16:00.176354000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-02-16T13:16:00.185251300Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-02-16T13:16:00.185280400Z v tibble  3.0.3     v dplyr   1.0.2
+2021-02-16T13:16:00.185289300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-02-16T13:16:00.185296700Z v readr   1.3.1     v forcats 0.5.0
+2021-02-16T13:16:00.359316700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-02-16T13:16:00.359394000Z x dplyr::filter() masks stats::filter()
+2021-02-16T13:16:00.359402600Z x dplyr::lag()    masks stats::lag()
+2021-02-16T13:16:02.502838500Z Loading required package: viridisLite
+2021-02-16T13:29:29.722739100Z Adding missing grouping variables: `ageband`
+2021-02-16T13:41:33.663141200Z Adding missing grouping variables: `ageband`
+2021-02-16T13:53:30.924295500Z Adding missing grouping variables: `ageband`
+2021-02-16T14:05:07.836259200Z Adding missing grouping variables: `ageband`
+2021-02-16T14:18:41.659126100Z Adding missing grouping variables: `ageband`
+2021-02-16T14:19:41.983430000Z Adding missing grouping variables: `ageband`
+2021-02-16T14:26:32.800834200Z Adding missing grouping variables: `ethnicity`
+2021-02-16T14:39:40.495311200Z Adding missing grouping variables: `ethnicity`
+2021-02-16T14:57:21.669133900Z Adding missing grouping variables: `ethnicity`
+2021-02-16T15:13:40.125314900Z Adding missing grouping variables: `ethnicity`
+2021-02-16T15:29:09.147584600Z Adding missing grouping variables: `ethnicity`
+2021-02-16T15:30:15.152443400Z Adding missing grouping variables: `ethnicity`
+2021-02-16T15:42:46.304833900Z Adding missing grouping variables: `imd`
+2021-02-16T15:58:16.692486100Z Adding missing grouping variables: `imd`
+2021-02-16T16:11:35.240392700Z Adding missing grouping variables: `imd`
+2021-02-16T16:26:16.422695000Z Adding missing grouping variables: `imd`
+2021-02-16T16:39:09.738655000Z Adding missing grouping variables: `imd`
+2021-02-16T16:39:57.340114700Z Adding missing grouping variables: `imd`
+2021-02-16T16:49:33.074497200Z Adding missing grouping variables: `region`
+2021-02-16T17:02:55.688106200Z Adding missing grouping variables: `region`
+2021-02-16T17:16:39.179748500Z Adding missing grouping variables: `region`
+2021-02-16T17:29:42.298837200Z Adding missing grouping variables: `region`
+2021-02-16T17:43:35.732204300Z Adding missing grouping variables: `region`
+2021-02-16T17:44:32.086211200Z Adding missing grouping variables: `region`
+2021-02-16T18:09:41.587061600Z Adding missing grouping variables: `sex`
+2021-02-16T18:25:43.581678300Z Adding missing grouping variables: `sex`
+2021-02-16T18:41:54.391600800Z Adding missing grouping variables: `sex`
+2021-02-16T18:56:49.424561800Z Adding missing grouping variables: `sex`
+2021-02-16T19:11:35.301864100Z Adding missing grouping variables: `sex`
+2021-02-16T19:12:40.760808400Z Adding missing grouping variables: `sex`
+2021-02-16T19:12:44.460383600Z There were 24 warnings (use warnings() to see them)
+2021-02-16T19:12:56.218472000Z There were 16 warnings (use warnings() to see them)
+2021-02-16T19:13:07.263082400Z There were 39 warnings (use warnings() to see them)
+2021-02-16T19:13:17.436073700Z There were 16 warnings (use warnings() to see them)
+2021-02-16T19:13:19.067258000Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:19.067343000Z the group aesthetic?
+2021-02-16T19:13:21.195462600Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:21.195523700Z the group aesthetic?
+2021-02-16T19:13:23.197712800Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:23.197774300Z the group aesthetic?
+2021-02-16T19:13:25.569475100Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:25.569536700Z the group aesthetic?
+2021-02-16T19:13:27.209165600Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:27.209228200Z the group aesthetic?
+2021-02-16T19:13:27.384917900Z There were 16 warnings (use warnings() to see them)
+2021-02-16T19:13:29.431958200Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:29.432016900Z the group aesthetic?
+2021-02-16T19:13:31.767354400Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:31.767423200Z the group aesthetic?
+2021-02-16T19:13:34.167246800Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:34.167314900Z the group aesthetic?
+2021-02-16T19:13:37.049987900Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:37.050059200Z the group aesthetic?
+2021-02-16T19:13:38.956838700Z geom_path: Each group consists of only one observation. Do you need to adjust
+2021-02-16T19:13:38.956911900Z the group aesthetic?
+2021-02-16T19:13:39.186737700Z There were 16 warnings (use warnings() to see them)
+2021-02-16T19:13:39.215354600Z `summarise()` regrouping output by 'variable' (override with `.groups` argument)
+2021-02-16T19:13:55.275349600Z There were 22 warnings (use warnings() to see them)
+
+
+state: succeeded
+commit: 068a9d77282100339453bd94787c4495801b58e4
+docker_image_id: sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a
+job_id: izob7afoa7uahhjh
+run_by_user: wjchulme
+created_at: 2021-02-16T11:53:43Z
+started_at: 2021-02-16T13:15:57Z
+completed_at: 2021-02-16T19:14:01Z
+
+Completed successfully
+
+outputs:
+  output/tte/figures/plot_hazard_ageband_admitted.svg               - moderately_sensitive
+  output/tte/figures/plot_hazard_ageband_coviddeath.svg             - moderately_sensitive
+  output/tte/figures/plot_hazard_ageband_death.svg                  - moderately_sensitive
+  output/tte/figures/plot_hazard_ageband_posPC.svg                  - moderately_sensitive
+  output/tte/figures/plot_hazard_ageband_posSGSS.svg                - moderately_sensitive
+  output/tte/figures/plot_hazard_ageband_seconddose.svg             - moderately_sensitive
+  output/tte/figures/plot_hazard_ethnicity_admitted.svg             - moderately_sensitive
+  output/tte/figures/plot_hazard_ethnicity_coviddeath.svg           - moderately_sensitive
+  output/tte/figures/plot_hazard_ethnicity_death.svg                - moderately_sensitive
+  output/tte/figures/plot_hazard_ethnicity_posPC.svg                - moderately_sensitive
+  output/tte/figures/plot_hazard_ethnicity_posSGSS.svg              - moderately_sensitive
+  output/tte/figures/plot_hazard_ethnicity_seconddose.svg           - moderately_sensitive
+  output/tte/figures/plot_hazard_imd_admitted.svg                   - moderately_sensitive
+  output/tte/figures/plot_hazard_imd_coviddeath.svg                 - moderately_sensitive
+  output/tte/figures/plot_hazard_imd_death.svg                      - moderately_sensitive
+  output/tte/figures/plot_hazard_imd_posPC.svg                      - moderately_sensitive
+  output/tte/figures/plot_hazard_imd_posSGSS.svg                    - moderately_sensitive
+  output/tte/figures/plot_hazard_imd_seconddose.svg                 - moderately_sensitive
+  output/tte/figures/plot_hazard_region_admitted.svg                - moderately_sensitive
+  output/tte/figures/plot_hazard_region_coviddeath.svg              - moderately_sensitive
+  output/tte/figures/plot_hazard_region_death.svg                   - moderately_sensitive
+  output/tte/figures/plot_hazard_region_posPC.svg                   - moderately_sensitive
+  output/tte/figures/plot_hazard_region_posSGSS.svg                 - moderately_sensitive
+  output/tte/figures/plot_hazard_region_seconddose.svg              - moderately_sensitive
+  output/tte/figures/plot_hazard_sex_admitted.svg                   - moderately_sensitive
+  output/tte/figures/plot_hazard_sex_coviddeath.svg                 - moderately_sensitive
+  output/tte/figures/plot_hazard_sex_death.svg                      - moderately_sensitive
+  output/tte/figures/plot_hazard_sex_posPC.svg                      - moderately_sensitive
+  output/tte/figures/plot_hazard_sex_posSGSS.svg                    - moderately_sensitive
+  output/tte/figures/plot_hazard_sex_seconddose.svg                 - moderately_sensitive
+  output/tte/figures/plot_patch_ageband.svg                         - moderately_sensitive
+  output/tte/figures/plot_patch_ethnicity.svg                       - moderately_sensitive
+  output/tte/figures/plot_patch_imd.svg                             - moderately_sensitive
+  output/tte/figures/plot_patch_region.svg                          - moderately_sensitive
+  output/tte/figures/plot_patch_sex.svg                             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ageband_admitted.svg         - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ageband_coviddeath.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ageband_death.svg            - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ageband_posPC.svg            - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ageband_posSGSS.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ageband_seconddose.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ageband_admitted.svg      - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ageband_coviddeath.svg    - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ageband_death.svg         - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ageband_posPC.svg         - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ageband_posSGSS.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ageband_seconddose.svg    - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ethnicity_admitted.svg    - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ethnicity_coviddeath.svg  - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ethnicity_death.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ethnicity_posPC.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ethnicity_posSGSS.svg     - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_ethnicity_seconddose.svg  - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_imd_admitted.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_imd_coviddeath.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_imd_death.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_imd_posPC.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_imd_posSGSS.svg           - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_imd_seconddose.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_region_admitted.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_region_coviddeath.svg     - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_region_death.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_region_posPC.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_region_posSGSS.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_region_seconddose.svg     - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_sex_admitted.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_sex_coviddeath.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_sex_death.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_sex_posPC.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_sex_posSGSS.svg           - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ci_sex_seconddose.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ethnicity_admitted.svg       - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ethnicity_coviddeath.svg     - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ethnicity_death.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ethnicity_posPC.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ethnicity_posSGSS.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_ethnicity_seconddose.svg     - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_imd_admitted.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_imd_coviddeath.svg           - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_imd_death.svg                - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_imd_posPC.svg                - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_imd_posSGSS.svg              - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_imd_seconddose.svg           - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_region_admitted.svg          - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_region_coviddeath.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_region_death.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_region_posPC.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_region_posSGSS.svg           - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_region_seconddose.svg        - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_sex_admitted.svg             - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_sex_coviddeath.svg           - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_sex_death.svg                - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_sex_posPC.svg                - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_sex_posSGSS.svg              - moderately_sensitive
+  output/tte/figures/plot_smoothhazard_sex_seconddose.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ageband_admitted.svg             - moderately_sensitive
+  output/tte/figures/plot_survival_ageband_coviddeath.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ageband_death.svg                - moderately_sensitive
+  output/tte/figures/plot_survival_ageband_posPC.svg                - moderately_sensitive
+  output/tte/figures/plot_survival_ageband_posSGSS.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ageband_seconddose.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ageband_admitted.svg          - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ageband_coviddeath.svg        - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ageband_death.svg             - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ageband_posPC.svg             - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ageband_posSGSS.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ageband_seconddose.svg        - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ethnicity_admitted.svg        - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ethnicity_coviddeath.svg      - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ethnicity_death.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ethnicity_posPC.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ethnicity_posSGSS.svg         - moderately_sensitive
+  output/tte/figures/plot_survival_ci_ethnicity_seconddose.svg      - moderately_sensitive
+  output/tte/figures/plot_survival_ci_imd_admitted.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ci_imd_coviddeath.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_ci_imd_death.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_ci_imd_posPC.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_ci_imd_posSGSS.svg               - moderately_sensitive
+  output/tte/figures/plot_survival_ci_imd_seconddose.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_ci_region_admitted.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ci_region_coviddeath.svg         - moderately_sensitive
+  output/tte/figures/plot_survival_ci_region_death.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ci_region_posPC.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ci_region_posSGSS.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_ci_region_seconddose.svg         - moderately_sensitive
+  output/tte/figures/plot_survival_ci_sex_admitted.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ci_sex_coviddeath.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_ci_sex_death.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_ci_sex_posPC.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_ci_sex_posSGSS.svg               - moderately_sensitive
+  output/tte/figures/plot_survival_ci_sex_seconddose.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_ethnicity_admitted.svg           - moderately_sensitive
+  output/tte/figures/plot_survival_ethnicity_coviddeath.svg         - moderately_sensitive
+  output/tte/figures/plot_survival_ethnicity_death.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ethnicity_posPC.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_ethnicity_posSGSS.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_ethnicity_seconddose.svg         - moderately_sensitive
+  output/tte/figures/plot_survival_imd_admitted.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_imd_coviddeath.svg               - moderately_sensitive
+  output/tte/figures/plot_survival_imd_death.svg                    - moderately_sensitive
+  output/tte/figures/plot_survival_imd_posPC.svg                    - moderately_sensitive
+  output/tte/figures/plot_survival_imd_posSGSS.svg                  - moderately_sensitive
+  output/tte/figures/plot_survival_imd_seconddose.svg               - moderately_sensitive
+  output/tte/figures/plot_survival_region_admitted.svg              - moderately_sensitive
+  output/tte/figures/plot_survival_region_coviddeath.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_region_death.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_region_posPC.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_region_posSGSS.svg               - moderately_sensitive
+  output/tte/figures/plot_survival_region_seconddose.svg            - moderately_sensitive
+  output/tte/figures/plot_survival_sex_admitted.svg                 - moderately_sensitive
+  output/tte/figures/plot_survival_sex_coviddeath.svg               - moderately_sensitive
+  output/tte/figures/plot_survival_sex_death.svg                    - moderately_sensitive
+  output/tte/figures/plot_survival_sex_posPC.svg                    - moderately_sensitive
+  output/tte/figures/plot_survival_sex_posSGSS.svg                  - moderately_sensitive
+  output/tte/figures/plot_survival_sex_seconddose.svg               - moderately_sensitive
