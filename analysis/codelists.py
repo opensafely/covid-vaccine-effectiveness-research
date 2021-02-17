@@ -117,7 +117,7 @@ current_copd_codes = codelist_from_csv(
 )
 
 dementia_codes = codelist_from_csv(
-    "codelists/opensafely-dementia.csv", system="ctv3", column="CTV3ID"
+    "codelists/opensafely-dementia-complete.csv", system="ctv3", column="code"
 )
 
 dmards_codes = codelist_from_csv(

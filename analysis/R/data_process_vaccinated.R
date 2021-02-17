@@ -3,62 +3,25 @@ library('tidyverse')
 library('lubridate')
 library('jsonlite')
 
-# functions ----
 
-fct_case_when <- function(...) {
-  args <- as.list(match.call())
-  levels <- sapply(args[-1], function(f) f[[3]])  # extract RHS of formula
-  levels <- levels[!is.na(levels)]
-  factor(dplyr::case_when(...), levels=levels)
-}
-
-censor <- function(event_date, censor_date, na.censor=TRUE){
-  # censors event_date to on or before censor_date
-  # if na.censor = TRUE then returns NA if event_date>censor_date, otherwise returns min(event_date, censor_date)
-  if (na.censor)
-    dplyr::if_else(event_date>censor_date, as.Date(NA_character_), as.Date(event_date))
-  else
-    dplyr::if_else(event_date>censor_date, as.Date(censor_date), as.Date(event_date))
-}
-
-censor_indicator <- function(event_date, censor_date){
-  # returns 0 if event_date is censored by censor_date, or if event_date is NA. Otherwise 1
-  dplyr::if_else((event_date>censor_date) | is.na(event_date), FALSE, TRUE)
-}
-
-tte <- function(origin_date, event_date, censor_date){
-  # returns time to event date or time to censor date, which is earlier
-  pmin(event_date-origin_date, censor_date-origin_date, na.rm=TRUE)
-}
-
-
+source(here::here("lib", "utility_functions.R"))
 
 # get global variables ----
 
 # eventually this section will be replaced by something that imports metadata from the opensafely CLI,
 # such as run dates and end dates for study period, etc
-
-# for now, we create it manually
-
-vars_list = list(
-  run_date = date(file.info(here::here("metadata","generate_delivery_cohort.log"))$ctime),
-  start_date = "2020-12-07", # change this if you need to
-  end_date = "2021-01-13"
+# for now, import globally defined repo variables from file:
+gbl_vars <- jsonlite::fromJSON(
+  txt="./lib/global-variables.json"
 )
-
-jsonlite::write_json(vars_list, path=here::here("lib", "global-variables.json"), auto_unbox = TRUE,  pretty=TRUE)
-
-# import in R using:
-# vars_list <- jsonlite::fromJSON(txt=here::here("lib", "global-variables.json"))
-# list2env(vars_list, globalenv())
-
-
+gbl_vars$run_date =date(file.info(here::here("metadata","extract_vaccinated.log"))$ctime)
+#list2env(gbl_vars, globalenv())
 
 
 # process ----
 
 read_csv(
-  here::here("output", "input.csv"),
+  here::here("output", "input_vaccinated.csv"),
   n_max=0,
   col_types = cols()
 ) %>%
@@ -67,7 +30,7 @@ print()
 
 
 data_extract0 <- read_csv(
-  here::here("output", "input.csv"),
+  here::here("output", "input_vaccinated.csv"),
   col_types = cols(
 
     # identifiers
@@ -142,20 +105,25 @@ data_extract0 <- read_csv(
 )
 
 # parse NAs
-
 data_extract <- data_extract0 %>%
   mutate(across(
     .cols = where(is.character),
     .fns = ~na_if(.x, "")
   )) %>%
   mutate(across(
-    .cols = where(is.numeric),
+    .cols = c(where(is.numeric), -ends_with("_id")), #convert numeric+integer but not id variables
     .fns = ~na_if(.x, 0)
-  ))
+  )) %>%
+  arrange(patient_id) %>%
+  select(all_of((names(data_extract0))))
+
 
 data_vaccinated <- data_extract %>%
   mutate(
-    end_date = as.Date(vars_list$end_date),
+
+    start_date = as.Date(gbl_vars$start_date),
+    end_date = as.Date(gbl_vars$end_date),
+    censor_date = pmin(end_date, death_date, na.rm=TRUE),
 
     sex = fct_case_when(
       sex == "F" ~ "Female",
@@ -195,35 +163,34 @@ data_vaccinated <- data_extract %>%
       TRUE ~ NA_character_
     ),
 
-    vaccine_first_dose_type = fct_case_when(
-      !is.na(covid_vacc_oxford_first_dose_date) & is.na(covid_vacc_pfizer_first_dose_date) ~ "Ox-AZ",
-      is.na(covid_vacc_oxford_first_dose_date) & !is.na(covid_vacc_pfizer_first_dose_date) ~ "P-B",
-      !is.na(covid_vacc_date) ~ "Unknown",
+    cause_of_death = fct_case_when(
+      !is.na(coviddeath_date) ~ "covid-related",
+      !is.na(death_date) ~ "not covid-related",
+      TRUE ~ NA_character_
+    ),
+
+    covid_vax_1_type = fct_case_when(
+      !is.na(covid_vax_az_1_date) & is.na(covid_vax_pfizer_1_date) ~ "Ox-AZ",
+      is.na(covid_vax_az_1_date) & !is.na(covid_vax_pfizer_1_date) ~ "P-B",
+      !is.na(covid_vax_1_date) ~ "Unknown",
       TRUE ~ "Not vaccinated"
     ),
 
-    covid_vacc_second_dose_date = pmin(covid_vacc_oxford_second_dose_date, covid_vacc_pfizer_second_dose_date, na.rm=TRUE),
 
-    censor_date = pmin(end_date, death_date, na.rm=TRUE),
-    tte_end = tte(covid_vacc_date, end_date, end_date),
 
-    # postvac_positive_test_date_SGSS_censored = censor(postvac_positive_test_date_SGSS, censor_date, na.censor=FALSE),
-    # postvac_primary_care_covid_case_censored = censor(postvac_primary_care_covid_case, censor_date, na.censor=FALSE),
-    # postvac_admitted_date_censored = censor(postvac_admitted_date, censor_date, na.censor=FALSE),
-    # coviddeath_date_censored = censor(coviddeath_date, censor_date, na.censor=FALSE),
-    # death_date_censored = censor(death_date, censor_date, na.censor=FALSE),
+    tte_end = tte(covid_vax_1_date, end_date, end_date),
 
-    tte_seconddose = tte(covid_vacc_date, covid_vacc_second_dose_date, censor_date),
-    tte_posSGSS = tte(covid_vacc_date, post_vaccine_SGSS_positive_test_date, censor_date),
-    tte_posPC = tte(covid_vacc_date, post_vaccine_primary_care_covid_case_date, censor_date),
-    tte_admitted = tte(covid_vacc_date, post_vaccine_admitted_date, censor_date),
-    tte_coviddeath = tte(covid_vacc_date, coviddeath_date, censor_date),
-    tte_death = tte(covid_vacc_date, death_date, censor_date),
+    tte_seconddose = tte(covid_vax_1_date, covid_vax_2_date, censor_date),
+    tte_posSGSS = tte(covid_vax_1_date, positive_test_1_date, censor_date),
+    tte_posPC = tte(covid_vax_1_date, primary_care_covid_case_1_date, censor_date),
+    tte_admitted = tte(covid_vax_1_date, covidadmitted_1_date, censor_date),
+    tte_coviddeath = tte(covid_vax_1_date, coviddeath_date, censor_date),
+    tte_death = tte(covid_vax_1_date, death_date, censor_date),
 
-    ind_seconddose = censor_indicator(covid_vacc_second_dose_date, censor_date),
-    ind_posSGSS = censor_indicator(post_vaccine_SGSS_positive_test_date, censor_date),
-    ind_posPC = censor_indicator(post_vaccine_primary_care_covid_case_date, censor_date),
-    ind_admitted = censor_indicator(post_vaccine_admitted_date, censor_date),
+    ind_seconddose = censor_indicator(covid_vax_2_date, censor_date),
+    ind_posSGSS = censor_indicator(positive_test_1_date, censor_date),
+    ind_posPC = censor_indicator(primary_care_covid_case_1_date, censor_date),
+    ind_admitted = censor_indicator(covidadmitted_1_date, censor_date),
     ind_coviddeath = censor_indicator(coviddeath_date, censor_date),
     ind_death = censor_indicator(death_date, censor_date),
 
@@ -231,10 +198,68 @@ data_vaccinated <- data_extract %>%
   droplevels()
 
 
+
+## create one-row-per-event datasets ----
+# for vaccination
+
+data_vax_dates <- local({
+
+  data_vax_all <- data_vaccinated %>%
+    select(patient_id, matches("covid\\_vax\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(NA, "vax_index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_to = "date",
+      values_drop_na = TRUE
+    ) %>%
+    arrange(patient_id, date)
+
+  data_vax_pf <- data_vaccinated %>%
+    select(patient_id, matches("covid\\_vax\\_pfizer\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(NA, "vax_pf_index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_to = "date",
+      values_drop_na = TRUE
+    ) %>%
+    arrange(patient_id, date)
+
+  data_vax_az <- data_vaccinated %>%
+    select(patient_id, matches("covid\\_vax\\_az\\_\\d+\\_date")) %>%
+    pivot_longer(
+      cols = -patient_id,
+      names_to = c(NA, "vax_az_index"),
+      names_pattern = "^(.*)_(\\d+)_date",
+      values_to = "date",
+      values_drop_na = TRUE
+    ) %>%
+    arrange(patient_id, date)
+
+
+  data_vax_all %>%
+    left_join(data_vax_pf, by=c("patient_id", "date")) %>%
+    left_join(data_vax_az, by=c("patient_id", "date")) %>%
+    mutate(
+      vaccine_type = fct_case_when(
+        !is.na(vax_az_index) & is.na(vax_pf_index) ~ "Ox-AZ",
+        is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Pf-BN",
+        is.na(vax_az_index) & is.na(vax_pf_index) ~ "Unknown",
+        !is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Both",
+        TRUE ~ NA_character_
+      )
+    ) %>%
+    arrange(patient_id, date)
+
+})
+
+
 # output processed data to rds ----
 
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
+write_rds(data_vax_dates, here::here("output", "data", "data_vaccinated_vax_dates.rds"))
 write_rds(data_vaccinated, here::here("output", "data", "data_vaccinated.rds"))
 
 

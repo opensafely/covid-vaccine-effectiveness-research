@@ -1,0 +1,21 @@
+2021-02-10T17:11:43.398061600Z Warning messages:
+2021-02-10T17:11:43.463825100Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-02-10T17:11:43.463876200Z   no non-missing arguments to min; returning Inf
+2021-02-10T17:11:43.530120300Z 2: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-02-10T17:11:43.530170100Z   no non-missing arguments to max; returning -Inf
+
+
+state: succeeded
+commit: b6a640d1dae5123da04cf5fb753fec133eb593e1
+docker_image_id: sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a
+job_id: 5nyimemzizb6k5sd
+run_by_user: wjchulme
+created_at: 2021-02-10T17:02:29Z
+started_at: 2021-02-10T17:11:19Z
+completed_at: 2021-02-10T17:11:56Z
+
+Completed successfully
+
+outputs:
+  output/data_properties/data_processed_over80s_colsummary.txt  - moderately_sensitive
+  output/data_properties/data_processed_over80s_coltypes.txt    - moderately_sensitive

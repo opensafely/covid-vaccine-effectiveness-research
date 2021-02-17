@@ -1,12 +1,15 @@
 library('tidyverse')
 library('flexsurv')
 
+
 tidy_surv <-
   function(
     survfit,
     times = NULL,
     addtimezero=FALSE
   ) {
+
+    # tidy post-fit survival dataset, with extra estimates than provided by broom::tidy.coxph
 
     mintime <- min(survfit$time)
     timezero <- min(0, mintime-1)
@@ -125,6 +128,8 @@ tidy_flexsurvspline <- function(
   times=NULL,
   addtimezero=FALSE
 ){
+
+  # tidy post-fit flexsurv dataset
 
   if(is.null(times)){
     times <- unique(flexsurvsplinefit$data$Y[,"time"])

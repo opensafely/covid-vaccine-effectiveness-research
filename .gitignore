@@ -23,4 +23,7 @@ metadata/*
 .Rproj.user
 *.Rproj
 
+#VSCode
+*.vscode
+
 sandbox/*

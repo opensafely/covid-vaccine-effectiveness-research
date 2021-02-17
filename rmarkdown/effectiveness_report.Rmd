@@ -22,9 +22,11 @@ source(here::here("lib", "html_output_functions.R"))
 
 output_dir <- here::here("released_outputs/output") # change this when running on real data
 
+gbl_vars <- jsonlite::fromJSON(txt=file.path(output_dir, "summary_stats.json"))
 summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir, "summary_stats.json"))
 
-run_date <- summary_stats$run_date
+run_date =date(file.info(here::here("metadata","extract_vaccinated.log"))$ctime)
+#run_date <- summary_stats$run_date
 end_date <- summary_stats$end_date
 
 pct <- scales::label_percent(accuracy=0.1)
@@ -69,7 +71,7 @@ Measured outcomes include:
 
 The code and data for this report can be found at the [covid-vaccine-effectiveness-research GitHub repository](https://github.com/opensafely/covid-vaccine-effectiveness-research). 
 
-The dataset used for this report was created using the study definition `/analysis/study_definition.py`, using codelists referenced in `/codelists/codelists.txt`. It was extracted from the OpenSAFELY-TPP data extracted on `r summary_stats$run_date`, with event dates censored on (occurring no later than) `r summary_stats$end_date`.
+The dataset used for this report was created using the study definition `/analysis/study_definition.py`, using codelists referenced in `/codelists/codelists.txt`. It was extracted from the OpenSAFELY-TPP data extracted on `r run_date`, with event dates censored on (occurring no later than) `r gbl_vars$end_date`.
 
 To minimise data disclosivity in frequency tables, counts are rounded to the nearest 7 and percentages are derived from these rounded counts.
 
@@ -80,7 +82,7 @@ print_event_rates <- function(variable,  variable_name){
 
   table <- read_csv(
     file.path(output_dir, "tte", "tables", paste0("event_rates_at_14days_", variable, ".csv")),
-    col_types = "fiididididid",
+    col_types = "fiidididididid",
     na="-"
   )
   names(table)[1] <- variable_name
@@ -214,7 +216,7 @@ print_variable_haz <- function(variable){
 
 ## Summary
 
-As of `r summary_stats$end_date`, there were `r summary_stats$total_vaccinated` TPP-registered patients who had received at least one vaccine dose. Of these, `r summary_stats$total_vaccinated_pfizer` received the Pfizer-BioNTech (P-B) vaccine and `r summary_stats$total_vaccinated_oxford` received the Oxford-AstraZenica (Ox-AZ) vaccine. Brand is unknown for the remaining `r summary_stats$total_vaccinated - summary_stats$total_vaccinated_oxford - summary_stats$total_vaccinated_pfizer` patients. 
+As of `r summary_stats$end_date`, there were `r summary_stats$total_vaccinated` TPP-registered patients who had received at least one vaccine dose. Of these, `r summary_stats$total_vaccinated_pfizer` received the Pfizer-BioNTech (P-B) vaccine and `r summary_stats$total_vaccinated_az` received the Oxford-AstraZenica (Ox-AZ) vaccine. Brand is unknown for the remaining `r summary_stats$total_vaccinated - summary_stats$total_vaccinated_az - summary_stats$total_vaccinated_pfizer` patients. 
 
 ## Summaries by patient characteristics
 
