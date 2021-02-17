@@ -136,6 +136,7 @@ actions:
       moderately_sensitive:
         weights: output/models/msm/over80s/weights.txt
         forest: output/models/msm/over80s/forest*.svg
+        #trend: output/models/msm/over80s/secular_trends*.svg
         tables: output/models/msm/over80s/*.csv
 
 

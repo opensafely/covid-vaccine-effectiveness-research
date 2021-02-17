@@ -15,6 +15,7 @@
 library('tidyverse')
 library('lubridate')
 library('survival')
+library('splines')
 library('parglm')
 
 ## Import custom user functions from lib
@@ -23,24 +24,30 @@ source(here::here("lib", "redaction_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
 
-# define model hyper-parameters and characteristics ----
+## define model hyper-parameters and characteristics ----
+
+### model names ----
 
 cohort <- "over80s"
 cohort_descr <- "Aged 80+, non-carehome, no prior positive test"
-
+outcome <- "positive_test_1_date"
 outcome_descr <- "Positive test"
 
-## define parglm optimisation parameters ----
+### define parglm optimisation parameters ----
 
 parglmparams <- parglm.control(
   method = "LINPACK",
   nthreads = 8
 )
 
-## post vax time periods ----
+### post vax time periods ----
 
 postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
 #postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
+
+### knot points for calendar time splines ----
+
+knots <- c(14, 28)
 
 ## define outcomes, exposures, and covariates ----
 
@@ -48,14 +55,13 @@ formula_demog <- . ~ . + age + I(age*age) + sex + imd
 formula_exposure <- . ~ . + timesincevax_pw
 formula_comorbs <- . ~ . +
   chronic_cardiac_disease + current_copd + dementia + dialysis +
-  solid_organ_transplantation + bone_marrow_transplant + chemo_or_radio + sickle_cell_disease +
+  solid_organ_transplantation + chemo_or_radio + sickle_cell_disease +
   permanant_immunosuppression + temporary_immunosuppression + asplenia +
   intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
   lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
-formula_secular <- . ~ . + region*poly(tstop, 2) # should change to basis function in future
-formula_timedependent <- . ~ . + hospital_status # consider local infection rates
-
-formula(outcome ~ 1) %>% update(formula_calendar) %>% update(formula_region)
+formula_secular <- . ~ . + ns(tstop, knots=knots)
+formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
+formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
 # create output directories ----
 dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, recursive=TRUE)
@@ -63,9 +69,11 @@ dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, 
 # Import processed data ----
 
 data_tte_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_tte_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
+  #fastDummies::dummy_cols(select_columns="region") %>%
   mutate(
-    timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax")
+    timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
   )
+
 
 # IPW model ----
 
@@ -89,14 +97,14 @@ data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
 ### with time-updating covariates
 
 ipwvax1 <- parglm(
-  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_timedependent),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent),
   data = data_tte_pt_atriskvax1,
   family=binomial,
   control = parglmparams
 )
 
 ipwvax2 <- parglm(
-  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_timedependent),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent),
   data = data_tte_pt_atriskvax2,
   family=binomial,
   control = parglmparams
@@ -110,7 +118,7 @@ ipwvax2 <- parglm(
 # using quadratic time for now;
 
 ipwvax1_fxd <- parglm(
-  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_calendar),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_tte_pt_atriskvax1,
   family=binomial,
   control = parglmparams
@@ -118,7 +126,7 @@ ipwvax1_fxd <- parglm(
 
 
 ipwvax2_fxd <- parglm(
-  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_calendar),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_tte_pt_atriskvax2,
   family=binomial,
   control = parglmparams
@@ -232,7 +240,7 @@ summary(msmmod0)
 ### model 1 - minimally adjusted vaccination effect model ----
 
 msmmod1 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_exposure),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
@@ -244,7 +252,7 @@ summary(msmmod1)
 ### model 2 - "fully" adjusted vaccination effect model ----
 
 msmmod2 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_comorbs) %>% update(formula_exposure),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
@@ -253,13 +261,25 @@ msmmod2 <- parglm(
 
 summary(msmmod2)
 
+
+msmmod3 <- parglm(
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure),
+  data = data_weights,
+  weights = ipweight_stbl,
+  family = binomial,
+  control = parglmparams
+)
+
+summary(msmmod3)
+
 ## report models ----
 
 # tidy model outputs
 
 msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
-msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
-msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted")
+msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Minimal adj.")
+msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="Full adj.")
+msmmod_tidy3 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="Full adj. by region")
 
 # library('sandwich')
 # library('lmtest')
@@ -267,7 +287,8 @@ msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="'Fully' ad
 msmmod_summary <- bind_rows(
   msmmod_tidy0,
   msmmod_tidy1,
-  msmmod_tidy2
+  msmmod_tidy2,
+  msmmod_tidy3
 ) %>%
 mutate(
   or = exp(estimate),
@@ -320,7 +341,28 @@ msmmod_forest <- msmmod_summary %>%
     legend.position = "right"
   )
 
-
 ## save plot
 ggsave(filename=here::here("output", "models", "msm", cohort, "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+
+
+## secular trends ----
+# until interactions package is installed
+
+# ggsecular2 <- interactions::interact_plot(
+#   msmmod2,
+#   pred=tstop, modx=region, data=data_weights,
+#   colors="Set1", vary.lty=FALSE,
+#   x.label="Days since 7 Dec 2020",
+#   y.label=glue::glue("{outcome_descr} prob.")
+#  )
+# ggsecular3<- interactions::interact_plot(
+#   msmmod3, pred=tstop, modx=region, data=data_weights,
+#   colors="Set1", vary.lty=FALSE,
+#   x.label="Days since 7 Dec 2020",
+#   y.label=glue::glue("{outcome_descr} prob.")
+# )
+#
+# ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3), ncol=1, byrow=FALSE, guides="collect")
+#
+# ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 
