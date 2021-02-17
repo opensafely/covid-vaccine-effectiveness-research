@@ -29,12 +29,13 @@ source(here::here("lib", "survival_functions.R"))
 args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
-cohort <- "over80s"
 
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
 metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
+
+stopifnot("cohort does not exist" = !(cohort %in% metadata_cohorts[["cohort"]]))
 
 ## define model hyper-parameters and characteristics ----
 
