@@ -73,8 +73,8 @@ dev.off()
 ## non-PH models ----
 # time-varying treatment (vaccination) with time-varying effects for vax1 and vax2 (not brand-specific)
 
-#postvaxcuts <- c(0, 3, 6, 12, 21) # use if coded as days
-postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
+postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
+#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
 
 ### model 0 - unadjusted vaccination effect model ----
