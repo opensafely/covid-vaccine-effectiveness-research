@@ -28,7 +28,6 @@ source(here::here("lib", "survival_functions.R"))
 args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
-cohort <- "over80s"
 
 
 ## create output directories ----
@@ -40,6 +39,8 @@ dir.create(here::here("output", "modeldata"), showWarnings = FALSE, recursive=TR
 data_cohorts <- read_rds(here::here("output", "modeldata", "data_cohorts.rds"))
 metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
+
+stopifnot("cohort does not exist" = !(cohort %in% metadata_cohorts[["cohort"]]))
 
 data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
 metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
