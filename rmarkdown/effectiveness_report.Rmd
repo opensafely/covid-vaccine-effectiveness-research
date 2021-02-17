@@ -1,11 +1,11 @@
 ---
 title: "Vaccine effectiveness report"
 output:
-  md_document:
-    variant: gfm
   html_document:
     code_folding: hide
     keep_md: yes
+  md_document:
+    variant: gfm
   pdf_document: default
 ---
 
@@ -22,9 +22,11 @@ source(here::here("lib", "html_output_functions.R"))
 
 output_dir <- here::here("released_outputs/output") # change this when running on real data
 
+gbl_vars <- jsonlite::fromJSON(txt=file.path(output_dir, "summary_stats.json"))
 summary_stats <- jsonlite::fromJSON(txt=file.path(output_dir, "summary_stats.json"))
 
-run_date <- summary_stats$run_date
+run_date =date(file.info(here::here("metadata","extract_vaccinated.log"))$ctime)
+#run_date <- summary_stats$run_date
 end_date <- summary_stats$end_date
 
 pct <- scales::label_percent(accuracy=0.1)
@@ -80,7 +82,7 @@ print_event_rates <- function(variable,  variable_name){
 
   table <- read_csv(
     file.path(output_dir, "tte", "tables", paste0("event_rates_at_14days_", variable, ".csv")),
-    col_types = "fiididididid",
+    col_types = "fiidididididid",
     na="-"
   )
   names(table)[1] <- variable_name
