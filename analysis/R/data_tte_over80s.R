@@ -49,7 +49,18 @@ data_tte_daily <- data_all %>%
     current_copd,
     dementia,
     dialysis,
-
+    solid_organ_transplantation,
+    bone_marrow_transplant,
+    chemo_or_radio,
+    sickle_cell_disease,
+    permanant_immunosuppression,
+    temporary_immunosuppression,
+    asplenia,
+    intel_dis_incl_downs_syndrome,
+    psychosis_schiz_bipolar,
+    lung_cancer,
+    cancer_excl_lung_and_haem,
+    haematological_cancer,
 
     start_date,
     end_date,
@@ -172,8 +183,6 @@ mutate(
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for inverse-probability weighting
 
-postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
-
 data_tte_pt <-
   survSplit(
     formula = Surv(tstart, tstop, outcome) ~ .,
@@ -191,11 +200,7 @@ data_tte_pt <-
     timesincevax1 = cumsum(vax1),
     timesincevax2 = cumsum(vax2),
   ) %>%
-  ungroup() %>%
-  mutate(
-    timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax")
-  )
-
+  ungroup()
 
 # output data ----
 
