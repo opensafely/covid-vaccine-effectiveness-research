@@ -22,26 +22,49 @@ source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "redaction_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
-## create output directories ----
-dir.create(here::here("output", "models", "msm", "over80s"), showWarnings = FALSE, recursive=TRUE)
 
+# define model hyper-parameters and characteristics ----
 
+cohort <- "over80s"
+cohort_descr <- "Aged 80+, non-carehome, no prior positive test"
 
+outcome_descr <- "Positive test"
 
-
-## Import processed data ----
-
-data_tte_pt <- read_rds(here::here("output", "modeldata", "data_tte_day_pt_over80s.rds")) # counting-process (one row per patient per event)
-
-postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
-#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
-
-## define parglm optimisation parameters:
+## define parglm optimisation parameters ----
 
 parglmparams <- parglm.control(
   method = "LINPACK",
   nthreads = 8
 )
+
+## post vax time periods ----
+
+postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
+#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
+
+## define outcomes, exposures, and covariates ----
+
+formula_demog <- . ~ . + age + I(age*age) + sex + imd
+formula_exposure <- . ~ . + timesincevax_pw
+formula_comorbs <- . ~ . +
+  chronic_cardiac_disease + current_copd + dementia + dialysis +
+  solid_organ_transplantation + bone_marrow_transplant + chemo_or_radio + sickle_cell_disease +
+  permanant_immunosuppression + temporary_immunosuppression + asplenia +
+  intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
+  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
+formula_calendar <- . ~ . + poly(tstop, 2) # should change to basis function in future
+formula_timedependent <- . ~ . + hospital_status # need to add local infection rates
+
+
+# create output directories ----
+dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, recursive=TRUE)
+
+# Import processed data ----
+
+data_tte_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_tte_day_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
+  mutate(
+    timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax")
+  )
 
 
 # IPW model ----
@@ -66,14 +89,14 @@ data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
 ### with time-updating covariates
 
 ipwvax1 <- parglm(
-  formula = vax1 ~ age + I(age*age) + sex + imd + hospital_status + poly(tstop, 2),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_timedependent),
   data = data_tte_pt_atriskvax1,
   family=binomial,
   control = parglmparams
 )
 
 ipwvax2 <- parglm(
-  formula = vax2 ~ age + I(age*age) + sex + imd + hospital_status + poly(tstop, 2),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_timedependent),
   data = data_tte_pt_atriskvax2,
   family=binomial,
   control = parglmparams
@@ -87,7 +110,7 @@ ipwvax2 <- parglm(
 # using quadratic time for now;
 
 ipwvax1_fxd <- parglm(
-  formula = vax1 ~ age + I(age*age) + sex + imd + poly(tstop, 2),# + I(tstop^2),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_calendar),
   data = data_tte_pt_atriskvax1,
   family=binomial,
   control = parglmparams
@@ -95,7 +118,7 @@ ipwvax1_fxd <- parglm(
 
 
 ipwvax2_fxd <- parglm(
-  formula = vax2 ~ age + I(age*age) + sex + imd + poly(tstop, 2),# + I(tstop^2),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_calendar),
   data = data_tte_pt_atriskvax2,
   family=binomial,
   control = parglmparams
@@ -181,7 +204,7 @@ summarise_weights <-
 
 capture.output(
   walk2(summarise_weights$value, summarise_weights$name, print_num),
-  file = here::here("output", "models", "msm", "over80s", "weights.txt"),
+  file = here::here("output", "models", "msm", cohort, "weights.txt"),
   append=FALSE
 )
 
@@ -194,10 +217,10 @@ capture.output(
 # use interaction with time terms?
 
 ### model 0 - unadjusted vaccination effect model ----
-## no control variables
+## no control variables, just weighted
 
 msmmod0 <- parglm(
-  formula = outcome ~ timesincevax_pw,
+  formula = update(outcome ~ 1, formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
@@ -207,10 +230,9 @@ msmmod0 <- parglm(
 summary(msmmod0)
 
 ### model 1 - minimally adjusted vaccination effect model ----
-## age, sex, IMD
 
 msmmod1 <- parglm(
-  formula = outcome ~ timesincevax_pw + age + sex + imd + poly(tstop, 2),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
@@ -220,12 +242,9 @@ msmmod1 <- parglm(
 summary(msmmod1)
 
 ### model 2 - "fully" adjusted vaccination effect model ----
-## age, sex, IMD, + other comorbidities
-## PLACEHOLDER FOR THE EVENTUAL FULLY ADJUSTED MODEL
 
 msmmod2 <- parglm(
-  formula = outcome ~ timesincevax_pw + age + sex + imd + poly(tstop, 2) +
-    chronic_cardiac_disease + current_copd + dementia + dialysis,
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_calendar) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
@@ -240,7 +259,7 @@ summary(msmmod2)
 
 msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
 msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Minimally adjusted")
-msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted (temp)")
+msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="'Fully' adjusted")
 
 # library('sandwich')
 # library('lmtest')
@@ -255,7 +274,7 @@ mutate(
   or.ll = exp(conf.low),
   or.ul = exp(conf.high),
 )
-write_csv(msmmod_summary, path = here::here("output", "models", "msm", "over80s", "estimates.csv"))
+write_csv(msmmod_summary, path = here::here("output", "models", "msm", cohort, "estimates.csv"))
 
 # create forest plot
 msmmod_forest <- msmmod_summary %>%
@@ -280,8 +299,8 @@ msmmod_forest <- msmmod_summary %>%
     x="Hazard ratio, versus no vaccination",
     y=NULL,
     colour=NULL,
-    title="Hazard ratios, positive test by time since vaccination",
-    subtitle="Aged 80+, non-carehome, no prior positive test (non-robust standard errors)"
+    title=glue::glue("{outcome_descr} by time since vaccination"),
+    subtitle=cohort_descr
   ) +
   theme_bw()+
   theme(
@@ -303,5 +322,5 @@ msmmod_forest <- msmmod_summary %>%
 
 
 ## save plot
-ggsave(filename=here::here("output", "models", "msm", "over80s", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", "models", "msm", cohort, "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
 
