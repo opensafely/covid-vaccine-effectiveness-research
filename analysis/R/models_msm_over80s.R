@@ -65,9 +65,15 @@ tidy_parglm <- function(x, conf.int = FALSE, conf.level = .95,
 
 data_tte_pt <- read_rds(here::here("output", "modeldata", "data_tte_day_pt_over80s.rds")) # counting-process (one row per patient per event)
 
+postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
+#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
-#postvaxcuts <- c(0, 3, 6, 12, 21) # use if coded as days
-postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
+## define parglm optimisation parameters:
+
+parglmparams <- parglm.control(
+  method = "LINPACK",
+  nthreads = 8
+)
 
 
 # IPW model ----
@@ -88,12 +94,6 @@ data_tte_pt_atriskvax1 <- data_tte_pt %>% filter(vax_history==0)
 data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
 
 
-## define parglm optimisation parameters:
-
-parglmparams <- parglm.control(
-  method = "LINPACK",
-  nthreads = 6
-)
 
 ### with time-updating covariates
 
