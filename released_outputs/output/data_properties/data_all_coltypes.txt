@@ -1,5 +1,5 @@
 $patient_id
-[1] "character"
+[1] "integer"
 
 $age
 [1] "integer"
@@ -100,31 +100,34 @@ $psychosis_schiz_bipolar
 $asplenia
 [1] "logical"
 
+$admitted_1_date
+[1] "Date"
+
+$admitted_2_date
+[1] "Date"
+
+$admitted_3_date
+[1] "Date"
+
+$admitted_4_date
+[1] "Date"
+
+$admitted_5_date
+[1] "Date"
+
 $covid_vax_1_date
 [1] "Date"
 
 $covid_vax_2_date
 [1] "Date"
 
-$covid_vax_pfizer_1_date
-[1] "Date"
-
-$covid_vax_pfizer_2_date
-[1] "Date"
-
-$positive_test_1_date
-[1] "Date"
-
-$covid_vax_az_1_date
-[1] "Date"
-
-$primary_care_covid_case_1_date
-[1] "Date"
-
 $covid_vax_3_date
 [1] "Date"
 
-$covid_vax_pfizer_3_date
+$covid_vax_4_date
+[1] "Date"
+
+$covid_vax_az_1_date
 [1] "Date"
 
 $covid_vax_az_2_date
@@ -133,10 +136,43 @@ $covid_vax_az_2_date
 $covid_vax_az_3_date
 [1] "Date"
 
-$covid_vax_4_date
+$covid_vax_pfizer_1_date
+[1] "Date"
+
+$covid_vax_pfizer_2_date
+[1] "Date"
+
+$covid_vax_pfizer_3_date
 [1] "Date"
 
 $covid_vax_pfizer_4_date
+[1] "Date"
+
+$covidadmitted_1_date
+[1] "Date"
+
+$discharged_1_date
+[1] "Date"
+
+$discharged_2_date
+[1] "Date"
+
+$discharged_3_date
+[1] "Date"
+
+$discharged_4_date
+[1] "Date"
+
+$discharged_5_date
+[1] "Date"
+
+$positive_test_1_date
+[1] "Date"
+
+$positive_test_2_date
+[1] "Date"
+
+$primary_care_covid_case_1_date
 [1] "Date"
 
 $start_date
@@ -149,5 +185,8 @@ $censor_date
 [1] "Date"
 
 $ageband
+[1] "factor"
+
+$cause_of_death
 [1] "factor"
 
