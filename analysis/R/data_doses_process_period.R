@@ -111,8 +111,6 @@ write_rds(data_vaccinated, here::here("output", "data", "data_vaccinated.rds"))
 
 ## get long dates ----
 
-postvax_period <- c(0, 10, 21) # (x1, x2], (x2, x3], ...]
-
 data_admissions <- data_vaccinated %>%
   select(patient_id, matches("admitted\\_\\d+\\_date"), matches("discharged\\_\\d+\\_date")) %>%
   pivot_longer(
