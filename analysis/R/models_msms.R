@@ -1,12 +1,13 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports processed data
-# creates additional survival variables for use in models (eg time to event from study start date)
-# fits 3 marginal structural models for vaccine effectiveness, with 3 different adjustment sets
-# models are
+# imports processed data and restricts it to patients in "cohort"
+# fits some marginal structural models for vaccine effectiveness, with different adjustment sets
 # saves model summaries (tables and figures)
 # "tte" = "time-to-event"
+#
+# The script should only be run via an action in the project.yaml only
+# The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -23,15 +24,29 @@ source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "redaction_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
+# import command-line arguments ----
+
+args <- commandArgs(trailingOnly=TRUE)
+
+cohort <- args[[1]]
+cohort <- "over80s"
+
+# Import metadata for cohort ----
+
+metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
+metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
 
 ## define model hyper-parameters and characteristics ----
 
 ### model names ----
 
-cohort <- "over80s"
-cohort_descr <- "Aged 80+, non-carehome, no prior positive test"
-outcome <- "positive_test_1_date"
-outcome_descr <- "Positive test"
+list2env(metadata_cohorts, globalenv())
+
+## or equivalently:
+# cohort <- metadata_cohorts$cohort
+# cohort_descr <- metadata_cohorts$cohort_descr
+# outcome <- metadata_cohorts$outcome
+# outcome_descr <- metadata_cohorts$outcome_descr
 
 ### define parglm optimisation parameters ----
 
@@ -68,12 +83,11 @@ dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, 
 
 # Import processed data ----
 
-data_tte_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_tte_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
+data_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
   #fastDummies::dummy_cols(select_columns="region") %>%
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
   )
-
 
 # IPW model ----
 
@@ -89,8 +103,8 @@ data_tte_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_tte_p
 
 ## models for first and second vaccination ----
 
-data_tte_pt_atriskvax1 <- data_tte_pt %>% filter(vax_history==0)
-data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
+data_pt_atriskvax1 <- data_pt %>% filter(vax_history==0)
+data_pt_atriskvax2 <- data_pt %>% filter(vax_history==1)
 
 
 
@@ -98,14 +112,14 @@ data_tte_pt_atriskvax2 <- data_tte_pt %>% filter(vax_history==1)
 
 ipwvax1 <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent),
-  data = data_tte_pt_atriskvax1,
+  data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams
 )
 
 ipwvax2 <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent),
-  data = data_tte_pt_atriskvax2,
+  data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams
 )
@@ -119,7 +133,7 @@ ipwvax2 <- parglm(
 
 ipwvax1_fxd <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
-  data = data_tte_pt_atriskvax1,
+  data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams
 )
@@ -127,7 +141,7 @@ ipwvax1_fxd <- parglm(
 
 ipwvax2_fxd <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
-  data = data_tte_pt_atriskvax2,
+  data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams
 )
@@ -135,7 +149,7 @@ ipwvax2_fxd <- parglm(
 
 ## get predictions from model ----
 
-data_predvax1 <- data_tte_pt_atriskvax1 %>%
+data_predvax1 <- data_pt_atriskvax1 %>%
   transmute(
     patient_id,
     tstart, tstop,
@@ -145,7 +159,7 @@ data_predvax1 <- data_tte_pt_atriskvax1 %>%
     predvax1_fxd=predict(ipwvax1_fxd, type="response"),
   )
 
-data_predvax2 <- data_tte_pt_atriskvax2 %>%
+data_predvax2 <- data_pt_atriskvax2 %>%
   transmute(
     patient_id,
     tstart, tstop,
@@ -156,7 +170,7 @@ data_predvax2 <- data_tte_pt_atriskvax2 %>%
   )
 
 
-data_weights <- data_tte_pt %>%
+data_weights <- data_pt %>%
   left_join(data_predvax1, by=c("patient_id", "tstart", "tstop")) %>%
   left_join(data_predvax2, by=c("patient_id", "tstart", "tstop")) %>%
   group_by(patient_id) %>%

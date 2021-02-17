@@ -1,11 +1,15 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports processed data
+# takes a cohort name as defined in data_define_cohorts.R, and imported as an Arg
+# creates 3 datasets for that cohort:
+# 1 is one row per patient (wide format)
+# 2 is one row per patient per event (eg `stset` format, where a new row is created everytime an event occurs or a covariate changes)
+# 3 is one row per patient per day
 # creates additional survival variables for use in models (eg time to event from study start date)
-# fits 3 models for vaccine effectiveness, with 3 different adjustment sets
-# saves model summaries (tables and figures)
-# "tte" = "time-to-event"
+#
+# The script should only be run via an action in the project.yaml only
+# The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -19,13 +23,26 @@ library('survival')
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
+# import command-line arguments ----
+
+args <- commandArgs(trailingOnly=TRUE)
+
+cohort <- args[[1]]
+cohort <- "over80s"
+
+
 ## create output directories ----
-dir.create(here::here("output", "modeldata", "over80s"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", "modeldata"), showWarnings = FALSE, recursive=TRUE)
+
+# Import processed data ----
 
 
-## Import processed data ----
-
+data_cohorts <- read_rds(here::here("output", "modeldata", "data_cohorts.rds"))
+metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
+
+data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
+metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
 
 
 # Generate different data formats ----
@@ -34,9 +51,7 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
 data_tte <- data_all %>%
   filter(
-    age>=80,
-    is.na(care_home_type),
-    is.na(prior_positive_test_date)
+    patient_id %in% data_cohorts$patient_id # take only the patients from "cohort"
   ) %>%
   transmute(
     patient_id,
@@ -52,7 +67,7 @@ data_tte <- data_all %>%
     dementia,
     dialysis,
     solid_organ_transplantation,
-    bone_marrow_transplant,
+    #bone_marrow_transplant,
     chemo_or_radio,
     sickle_cell_disease,
     permanant_immunosuppression,
@@ -100,6 +115,7 @@ data_tte <- data_all %>%
 
 
 ## convert time-to-event data from daily to weekly ----
+## not currently needed as daily data runs fairly quickly
 
 #choose units to discretise time
 # 1 = day (i.e, no change)
@@ -181,7 +197,7 @@ mutate(
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
-# this format has lots of redundancy but is necessary for inverse-probability weighting
+# this format has lots of redundancy but is necessary for MSMs
 
 data_tte_pt <-
   survSplit(
@@ -211,7 +227,7 @@ cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_p
 
 
 ## Save processed tte data ----
-write_rds(data_tte, here::here("output", "modeldata", glue::glue("data_tte_over80s.rds")))
-write_rds(data_tte_cp, here::here("output", "modeldata", glue::glue("data_tte_cp_over80s.rds")))
-write_rds(data_tte_pt, here::here("output", "modeldata", glue::glue("data_tte_pt_over80s.rds")))
+write_rds(data_tte, here::here("output", "modeldata", glue::glue("data_wide_{cohort}.rds")))
+write_rds(data_tte_cp, here::here("output", "modeldata", glue::glue("data_cp_{cohort}.rds")))
+write_rds(data_tte_pt, here::here("output", "modeldata", glue::glue("data_pt_{cohort}.rds")))
 
