@@ -102,6 +102,7 @@ data_extract0 <- read_csv(
     primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
     primary_care_covid_case_2_date = col_date(format="%Y-%m-%d"),
     covidadmitted_1_date = col_date(format="%Y-%m-%d"),
+    covidadmitted_2_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
