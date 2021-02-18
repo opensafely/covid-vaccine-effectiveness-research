@@ -365,23 +365,22 @@ ggsave(filename=here::here("output", "models", "msm", cohort, "forest_plot.svg")
 
 
 ## secular trends ----
-# until interactions package is installed
 
-# ggsecular2 <- interactions::interact_plot(
-#   msmmod2,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label="Days since 7 Dec 2020",
-#   y.label=glue::glue("{outcome_descr} prob.")
-#  )
-# ggsecular3<- interactions::interact_plot(
-#   msmmod3, pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label="Days since 7 Dec 2020",
-#   y.label=glue::glue("{outcome_descr} prob.")
-# )
-#
-# ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3), ncol=1, byrow=FALSE, guides="collect")
-#
-# ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+ggsecular2 <- interactions::interact_plot(
+  msmmod2,
+  pred=tstop, modx=region, data=data_weights,
+  colors="Set1", vary.lty=FALSE,
+  x.label="Days since 7 Dec 2020",
+  y.label=glue::glue("{outcome_descr} prob.")
+ )
+ggsecular3<- interactions::interact_plot(
+  msmmod3, pred=tstop, modx=region, data=data_weights,
+  colors="Set1", vary.lty=FALSE,
+  x.label="Days since 7 Dec 2020",
+  y.label=glue::glue("{outcome_descr} prob.")
+)
+
+ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3), ncol=1, byrow=FALSE, guides="collect")
+
+ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 
