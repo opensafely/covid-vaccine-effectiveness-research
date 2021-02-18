@@ -31,11 +31,18 @@ metadata_cohorts <- tribble(
   ~cohort, ~cohort_descr, ~outcome, ~outcome_descr, #~postvax_cuts, ~knots,
   "over80s", "Aged 80+, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
   "under65s", "Aged <=64, no prior positive test", "positive_test_1_date", "Positive test"
+) %>%
+mutate(
+  cohort_size = map_int(cohort, ~sum(data_cohorts[[.]]))
 )
 
+metadata_cohorts %>% select(cohort, cohort_size) %>% print(n=100)
 
 stopifnot("cohort names should match" = names(data_cohorts)[-1] == metadata_cohorts$cohort)
+stopifnot("all cohorts should contain at least 1 patient" = all(metadata_cohorts$cohort_size>0))
 
 ## Save processed tte data ----
 write_rds(data_cohorts, here::here("output", "modeldata", "data_cohorts.rds"))
 write_rds(metadata_cohorts, here::here("output", "modeldata", "metadata_cohorts.rds"))
+write_csv(metadata_cohorts, here::here("output", "modeldata", "metadata_cohorts.csv"))
+
