@@ -124,7 +124,7 @@ ipwvax1 <- parglm(
   control = parglmparams,
   na.action = "na.fail"
 )
-summary(ipwvax1)
+jtools::summ(ipwvax1)
 
 cat("ipwvax2 \n")
 ipwvax2 <- parglm(
@@ -134,7 +134,7 @@ ipwvax2 <- parglm(
   control = parglmparams,
   na.action = "na.fail"
 )
-summary(ipwvax2)
+jtools::summ(ipwvax2)
 
 ### without time-updating covariates ----
 # exclude time-updating covariates _except_ variables derived from calendar time itself (eg poly(calendar_time,2))
@@ -149,7 +149,7 @@ ipwvax1_fxd <- parglm(
   control = parglmparams,
   na.action = "na.fail"
 )
-summary(ipwvax1_fxd)
+jtools::summ(ipwvax1_fxd)
 
 cat("ipwvax2_fxd \n")
 ipwvax2_fxd <- parglm(
@@ -159,7 +159,7 @@ ipwvax2_fxd <- parglm(
   control = parglmparams,
   na.action = "na.fail"
 )
-summary(ipwvax2_fxd)
+jtools::summ(ipwvax2_fxd)
 
 ## get predictions from model ----
 
@@ -264,7 +264,7 @@ msmmod0 <- parglm(
   na.action = "na.fail"
 )
 
-summary(msmmod0)
+jtools::summ(msmmod0)
 
 ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
 cat("msmmod1 \n")
@@ -276,7 +276,7 @@ msmmod1 <- parglm(
   na.action = "na.fail"
 )
 
-summary(msmmod1)
+jtools::summ(msmmod1)
 
 ### model 2 - baseline, comorbs, adjusted vaccination effect model ----
 cat("msmmod2 \n")
@@ -288,7 +288,7 @@ msmmod2 <- parglm(
   na.action = "na.fail"
 )
 
-summary(msmmod2)
+jtools::summ(msmmod2)
 
 ### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
 cat("msmmod3 \n")
@@ -300,7 +300,7 @@ msmmod3 <- parglm(
   na.action = "na.fail"
 )
 
-summary(msmmod3)
+jtools::summ(msmmod3)
 
 
 
@@ -315,7 +315,7 @@ msmmod4 <- parglm(
   na.action = "na.fail"
 )
 
-summary(msmmod4)
+jtools::summ(msmmod4)
 
 ## report models ----
 
