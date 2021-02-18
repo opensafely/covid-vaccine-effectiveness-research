@@ -113,6 +113,9 @@ data_tte <- data_all %>%
     tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
   )
 
+## print dataset size ----
+cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte)), "\n  ")
+
 
 ## convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
@@ -150,6 +153,22 @@ data_tte <- data_all %>%
 # ie, one row per person per event
 # every time an event occurs or a covariate changes, a new row is generated
 
+
+data_tte_cp0 <- tmerge(
+  data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
+  data2 = data_tte,
+  id = patient_id,
+  vax1 = tdc(tte_vax1),
+  vax2 = tdc(tte_vax2),
+  timesincevax1 = cumtdc(tte_vax1),
+  timesincevax2 = cumtdc(tte_vax2),
+  outcome = event(tte_outcome),
+  tstop = tte_maxfup
+)
+
+stopifnot("tstart should be  >= 0 in data_tte_cp0" = data_tte_cp0$tstart>=0)
+stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp0" = data_tte_cp0$tstop - data_tte_cp0$tstart > 0)
+
 # import hospitalisations data for time-updating "in-hospital" covariate
 data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_dates.rds")) %>%
   pivot_longer(
@@ -168,20 +187,8 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
     hosp_status = if_else(status=="admitted_date", 1, 0)
   )
 
-
 data_tte_cp <- tmerge(
-  data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
-  data2 = data_tte,
-  id = patient_id,
-  vax1 = tdc(tte_vax1),
-  vax2 = tdc(tte_vax2),
-  timesincevax1 = cumtdc(tte_vax1),
-  timesincevax2 = cumtdc(tte_vax2),
-  outcome = event(tte_outcome),
-  tstop = tte_maxfup
-) %>%
-tmerge(
-  data1 = .,
+  data1 = data_tte_cp0,
   data2 = data_hospitalised,
   id = patient_id,
   hospital_status = tdc(tte, hosp_status),
@@ -194,6 +201,13 @@ mutate(
   twidth = tstop - tstart,
   vax_status = vax1 + vax2
 )
+
+stopifnot("tstart should be  >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
+stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$tstop - data_tte_cp$tstart > 0)
+
+### print dataset size ----
+cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
+
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
@@ -218,13 +232,9 @@ data_tte_pt <-
   ) %>%
   ungroup()
 
-# output data ----
 
-## print data sizes ----
-cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte)), "\n  ")
-cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
+### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
-
 
 ## Save processed tte data ----
 write_rds(data_tte, here::here("output", "modeldata", glue::glue("data_wide_{cohort}.rds")))
