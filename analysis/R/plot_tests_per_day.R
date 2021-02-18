@@ -89,9 +89,9 @@ plotpostestsperday_n <- ggplot(postestsperday) +
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
-    y="Positive tests per day",
+    y=glue::glue("{outcome_descr} frequency"),
     fill="Vaccinated",
-    title="Daily positive tests",
+    title=glue::glue("{outcome_descr} frequency"),
     subtitle=cohort_descr
   )+
   theme_minimal()+
@@ -103,7 +103,7 @@ plotpostestsperday_n <- ggplot(postestsperday) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank()
   )
-ggsave(filename=here::here("output", "models", "msm", cohort, "postestsperday_n.svg"), plotpostestsperday_n, width=30, height=20, units="cm", scale=0.8)
+ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outcome}_perday_n.svg")), plotpostestsperday_n, width=30, height=20, units="cm", scale=0.8)
 
 
 plotpostestsperday_rate <- ggplot(postestsperday) +
@@ -112,9 +112,9 @@ plotpostestsperday_rate <- ggplot(postestsperday) +
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
-    y="Positive test rate",
+    y=glue::glue("{outcome_descr} rate"),
     fill="Vaccinated",
-    title="Daily positive test rate",
+    title=glue::glue("{outcome_descr} rate"),
     subtitle=cohort_descr
   )+
   theme_minimal()+
@@ -127,7 +127,7 @@ plotpostestsperday_rate <- ggplot(postestsperday) +
     panel.grid.minor.x = element_blank()
   )
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "postestsperday_rate.svg"), plotpostestsperday_rate, width=30, height=20, units="cm", scale=0.8)
+ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outcome}_perday_rate.svg")), plotpostestsperday_rate, width=30, height=20, units="cm", scale=0.8)
 
 
 
@@ -151,9 +151,9 @@ plotpostestsperday_n_sex_ind <- ggplot(postestsperday_sex_imd) +
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
-    y="Positive tests per day",
-    fill="Vaccinated",
-    title="Daily positive tests",
+    y=glue::glue("{outcome_descr} frequency"),
+    colour="Vaccinated",
+    title=glue::glue("{outcome_descr} frequency"),
     subtitle=cohort_descr
   )+
   theme_minimal()+
@@ -167,7 +167,7 @@ plotpostestsperday_n_sex_ind <- ggplot(postestsperday_sex_imd) +
   )
 
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "postestsperday_n_sex_imd.svg"), plotpostestsperday_n_sex_ind, width=30, height=40, units="cm", scale=0.6)
+ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outcome}_perday_n_sex_imd.svg")), plotpostestsperday_n_sex_ind, width=30, height=40, units="cm", scale=0.6)
 
 
 
@@ -178,9 +178,9 @@ plotpostestsperday_rate_sex_ind <- ggplot(postestsperday_sex_imd) +
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
-    y="Positive test rate",
-    fill="Vaccinated",
-    title="Daily positive test rate",
+    y=glue::glue("{outcome_descr} rate"),
+    colour="Vaccinated",
+    title=glue::glue("{outcome_descr} rate"),
     subtitle=cohort_descr
   )+
   theme_minimal()+
@@ -194,5 +194,5 @@ plotpostestsperday_rate_sex_ind <- ggplot(postestsperday_sex_imd) +
   )
 
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "postestsperday_rate_sex_imd.svg"), plotpostestsperday_rate_sex_ind, width=30, height=40, units="cm", scale=0.8)
+ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outcome}_perday_rate_sex_imd.svg")), plotpostestsperday_rate_sex_ind, width=30, height=40, units="cm", scale=0.8)
 

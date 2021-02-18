@@ -135,7 +135,7 @@ actions:
     needs: [data_cohorts, data_stset_over80s]
     outputs:
       moderately_sensitive:
-        datasummary: output/models/msm/over80s/postests*.svg
+        datasummary: output/models/msm/over80s/positive_test*.svg
 
 
   models_msm_over80s:
