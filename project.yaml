@@ -166,14 +166,14 @@ actions:
         tables: output/models/msm/under65s/*.csv
 
 
-  models_cox_over80s:
-    run: r:latest analysis/R/models_cox_over80s.R
-    needs: [data_stset_over80s]
-    outputs:
-      moderately_sensitive:
-        zph: output/models/cox/over80s/zph*.png
-        forest: output/models/cox/over80s/forest*.svg
-        tables: output/models/cox/over80s/*.csv
+  # models_cox_over80s:
+  #   run: r:latest analysis/R/models_cox_over80s.R
+  #   needs: [data_stset_over80s]
+  #   outputs:
+  #     moderately_sensitive:
+  #       zph: output/models/cox/over80s/zph*.png
+  #       forest: output/models/cox/over80s/forest*.svg
+  #       tables: output/models/cox/over80s/*.csv
 
 
   # run_ve:
@@ -182,16 +182,6 @@ actions:
   #   outputs:
   #     moderately_sensitive:
   #       whatever: output/.gitignore
-
-  # models_under65s:
-  #   run: r:latest analysis/R/models_under65s.R
-  #   needs: [data_process_all]
-  #   outputs:
-  #     moderately_sensitive:
-  #       #datasummary: output/data_properties/data_tte_over80s*.txt
-  #       zph: output/models/under65s/zph*.png
-  #       forest: output/models/under65s/forest*.svg
-  #       tables: output/models/under65s/*.csv
 
 
 
