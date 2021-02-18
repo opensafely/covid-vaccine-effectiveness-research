@@ -34,6 +34,8 @@ if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
 }
+
+
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
@@ -114,7 +116,7 @@ data_pt_atriskvax2 <- data_pt %>% filter(vax_history==1)
 #update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent)
 ### with time-updating covariates
 
-cat("ipwvax1 \\n")
+cat("ipwvax1 \n")
 ipwvax1 <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax1,
@@ -124,7 +126,7 @@ ipwvax1 <- parglm(
 )
 summary(ipwvax1)
 
-cat("ipwvax2 \\n")
+cat("ipwvax2 \n")
 ipwvax2 <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax2,
@@ -139,7 +141,7 @@ summary(ipwvax2)
 # used for stabilised ip weights
 
 
-cat("ipwvax1_fxd \\n")
+cat("ipwvax1_fxd \n")
 ipwvax1_fxd <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax1,
@@ -149,7 +151,7 @@ ipwvax1_fxd <- parglm(
 )
 summary(ipwvax1_fxd)
 
-cat("ipwvax2_fxd \\n")
+cat("ipwvax2_fxd \n")
 ipwvax2_fxd <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax2,
@@ -251,13 +253,12 @@ capture.output(
 # use interaction with time terms?
 
 ### model 0 - unadjusted vaccination effect model ----
-## no control variables, just weighted
+## no adjustment variables
 
-cat("msmmod0 \\n")
+cat("msmmod0 \n")
 msmmod0 <- parglm(
   formula = update(outcome ~ 1, formula_exposure),
   data = data_weights,
-  weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
   na.action = "na.fail"
@@ -265,12 +266,11 @@ msmmod0 <- parglm(
 
 summary(msmmod0)
 
-### model 1 - minimally adjusted vaccination effect model ----
-cat("msmmod1 \\n")
+### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
+cat("msmmod1 \n")
 msmmod1 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_exposure),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_exposure),
   data = data_weights,
-  weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
   na.action = "na.fail"
@@ -278,12 +278,11 @@ msmmod1 <- parglm(
 
 summary(msmmod1)
 
-### model 2 - "fully" adjusted vaccination effect model ----
-cat("msmmod2 \\n")
+### model 2 - baseline, comorbs, adjusted vaccination effect model ----
+cat("msmmod2 \n")
 msmmod2 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_comorbs) %>% update(formula_exposure),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
-  weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
   na.action = "na.fail"
@@ -291,8 +290,23 @@ msmmod2 <- parglm(
 
 summary(msmmod2)
 
-cat("msmmod3 \\n")
+### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
+cat("msmmod3 \n")
 msmmod3 <- parglm(
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure),
+  data = data_weights,
+  family = binomial,
+  control = parglmparams,
+  na.action = "na.fail"
+)
+
+summary(msmmod3)
+
+
+
+### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
+cat("msmmod4 \n")
+msmmod4 <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
@@ -301,16 +315,17 @@ msmmod3 <- parglm(
   na.action = "na.fail"
 )
 
-summary(msmmod3)
+summary(msmmod4)
 
 ## report models ----
 
 # tidy model outputs
 
 msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
-msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Minimal adj.")
-msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="Full adj.")
-msmmod_tidy3 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="Full adj. by region")
+msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Age, sex, IMD")
+msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model=" + co-morbidities")
+msmmod_tidy3 <- tidy_parglm(msmmod3, conf.int=TRUE) %>% mutate(model=" + spatio-temporal trends")
+msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model=" + IP-weighting")
 
 # library('sandwich')
 # library('lmtest')
@@ -319,7 +334,8 @@ msmmod_summary <- bind_rows(
   msmmod_tidy0,
   msmmod_tidy1,
   msmmod_tidy2,
-  msmmod_tidy3
+  msmmod_tidy3,
+  msmmod_tidy4,
 ) %>%
 mutate(
   or = exp(estimate),
@@ -346,6 +362,7 @@ msmmod_forest <- msmmod_summary %>%
   facet_grid(rows=vars(dose), scales="free_y", switch="y")+
   scale_x_log10()+
   scale_y_discrete(na.translate=FALSE)+
+  scale_colour_brewer(type="qual", palette="Set1", guide=guide_legend(reverse = TRUE))+
   coord_cartesian(xlim=c(0.1,10)) +
   labs(
     x="Hazard ratio, versus no vaccination",
@@ -384,15 +401,22 @@ ggsecular2 <- interactions::interact_plot(
   colors="Set1", vary.lty=FALSE,
   x.label="Days since 7 Dec 2020",
   y.label=glue::glue("{outcome_descr} prob.")
+)
+ggsecular3 <- interactions::interact_plot(
+  msmmod3,
+  pred=tstop, modx=region, data=data_weights,
+  colors="Set1", vary.lty=FALSE,
+  x.label="Days since 7 Dec 2020",
+  y.label=glue::glue("{outcome_descr} prob.")
  )
-ggsecular3<- interactions::interact_plot(
-  msmmod3, pred=tstop, modx=region, data=data_weights,
+ggsecular4<- interactions::interact_plot(
+  msmmod4, pred=tstop, modx=region, data=data_weights,
   colors="Set1", vary.lty=FALSE,
   x.label="Days since 7 Dec 2020",
   y.label=glue::glue("{outcome_descr} prob.")
 )
 
-ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3), ncol=1, byrow=FALSE, guides="collect")
+ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3, ggsecular4), ncol=1, byrow=FALSE, guides="collect")
 
 ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 
