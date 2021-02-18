@@ -213,7 +213,7 @@ data_tte_cp0 <- tmerge(
   timesincevaxaz2 = cumtdc(tte_vaxaz2),
 
   outcome = event(tte_outcome),
-  tstop = tte_maxfup
+  tstop = tte_vax_maxfup
 )
 
 stopifnot("tstart should be  >= 0 in data_tte_cp0" = data_tte_cp0$tstart>=0)
