@@ -30,6 +30,10 @@ args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
 
+if(length(args)==0){
+  # use for interactive testing
+  cohort <- "over80s"
+}
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
@@ -115,7 +119,8 @@ ipwvax1 <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax1,
   family=binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 summary(ipwvax1)
 
@@ -124,7 +129,8 @@ ipwvax2 <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax2,
   family=binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 summary(ipwvax2)
 
@@ -138,7 +144,8 @@ ipwvax1_fxd <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax1,
   family=binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 summary(ipwvax1_fxd)
 
@@ -147,7 +154,8 @@ ipwvax2_fxd <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax2,
   family=binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 summary(ipwvax2_fxd)
 
@@ -251,7 +259,8 @@ msmmod0 <- parglm(
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 
 summary(msmmod0)
@@ -263,7 +272,8 @@ msmmod1 <- parglm(
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 
 summary(msmmod1)
@@ -275,7 +285,8 @@ msmmod2 <- parglm(
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 
 summary(msmmod2)
@@ -286,7 +297,8 @@ msmmod3 <- parglm(
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
-  control = parglmparams
+  control = parglmparams,
+  na.action = "na.fail"
 )
 
 summary(msmmod3)
