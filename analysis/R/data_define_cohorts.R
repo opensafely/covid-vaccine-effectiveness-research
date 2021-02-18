@@ -21,8 +21,8 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 data_cohorts <- data_all %>%
   transmute(
     patient_id,
-    over80s = (age>=80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date)),
-    under65s = (age<=64) & (is.na(care_home_type)) & (is.na(prior_positive_test_date)),
+    over80s = (age>=80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date)) & (!is.na(region)),
+    under65s = (age<=64) & (is.na(care_home_type)) & (is.na(prior_positive_test_date))  & (!is.na(region)),
   )
 ## define different cohorts ----
 
