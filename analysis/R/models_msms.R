@@ -63,7 +63,7 @@ postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
 
 ### knot points for calendar time splines ----
 
-knots <- c(14, 28)
+knots <- c(21)
 
 ## define outcomes, exposures, and covariates ----
 
@@ -107,46 +107,49 @@ data_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_pt_{cohor
 data_pt_atriskvax1 <- data_pt %>% filter(vax_history==0)
 data_pt_atriskvax2 <- data_pt %>% filter(vax_history==1)
 
-
-
+#update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent)
 ### with time-updating covariates
 
+cat("ipwvax1 \\n")
 ipwvax1 <- parglm(
-  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams
 )
+summary(ipwvax1)
 
+cat("ipwvax2 \\n")
 ipwvax2 <- parglm(
-  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams
 )
-
+summary(ipwvax2)
 
 ### without time-updating covariates ----
-# exclude time-updating covariates _except_ variables derived from calendar time itself (eg as.factor(calendar_time))
+# exclude time-updating covariates _except_ variables derived from calendar time itself (eg poly(calendar_time,2))
 # used for stabilised ip weights
 
-# using quadratic time for now;
 
+cat("ipwvax1_fxd \\n")
 ipwvax1_fxd <- parglm(
   formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams
 )
+summary(ipwvax1_fxd)
 
-
+cat("ipwvax2_fxd \\n")
 ipwvax2_fxd <- parglm(
   formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams
 )
-
+summary(ipwvax2_fxd)
 
 ## get predictions from model ----
 
@@ -242,6 +245,7 @@ capture.output(
 ### model 0 - unadjusted vaccination effect model ----
 ## no control variables, just weighted
 
+cat("msmmod0 \\n")
 msmmod0 <- parglm(
   formula = update(outcome ~ 1, formula_exposure),
   data = data_weights,
@@ -253,7 +257,7 @@ msmmod0 <- parglm(
 summary(msmmod0)
 
 ### model 1 - minimally adjusted vaccination effect model ----
-
+cat("msmmod1 \\n")
 msmmod1 <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_exposure),
   data = data_weights,
@@ -265,7 +269,7 @@ msmmod1 <- parglm(
 summary(msmmod1)
 
 ### model 2 - "fully" adjusted vaccination effect model ----
-
+cat("msmmod2 \\n")
 msmmod2 <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
@@ -276,7 +280,7 @@ msmmod2 <- parglm(
 
 summary(msmmod2)
 
-
+cat("msmmod3 \\n")
 msmmod3 <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
