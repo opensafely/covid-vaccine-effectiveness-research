@@ -27,7 +27,14 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
+if(length(args)==0){
+  # use for interactive testing
+  cohort <- "over80s"
+}
+
 cohort <- args[[1]]
+
+
 
 ## create output directories ----
 dir.create(here::here("output", "modeldata"), showWarnings = FALSE, recursive=TRUE)
@@ -81,9 +88,16 @@ data_tte <- data_all %>%
 
     start_date,
     end_date,
+
     covid_vax_1_date,
     covid_vax_2_date,
+    covid_vax_pfizer_1_date,
+    covid_vax_pfizer_2_date,
+    covid_vax_az_1_date,
+    covid_vax_az_2_date,
+
     positive_test_1_date,
+    covidadmitted_1_date,
     coviddeath_date,
     death_date,
 
@@ -94,21 +108,45 @@ data_tte <- data_all %>%
     # -- see section 3.3 of the timedep vignette in survival package
     # not necessary when ties are handled appropriately (eg with tmerge)
 
-    tte_maxfup = tte(start_date, lastfup_date, lastfup_date),
+    tte_vax_maxfup = tte(start_date, lastfup_date, lastfup_date),
+
     tte_outcome = tte(start_date, outcome_date, lastfup_date, na.censor=TRUE),
     tte_outcome_censored = tte(start_date, outcome_date, lastfup_date, na.censor=FALSE),
-    ind_outcome = censor_indicator(tte_outcome, tte_maxfup),
+    ind_outcome = censor_indicator(tte_outcome, tte_vax_maxfup),
 
-    tte_vax1 = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=TRUE),
+
+    tte_vax1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
-    tte_vax1_censored = tte(start_date, covid_vax_1_date, pmin(lastfup_date, covid_vax_2_date, na.rm=TRUE), na.censor=FALSE),
+    tte_vax1_censored = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE),
 
     tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
     tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
     tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
 
-    ind_vax1 = censor_indicator(tte_vax1, pmin(tte_maxfup, tte_vax2, na.rm=TRUE)),
-    ind_vax2 = censor_indicator(tte_vax2, tte_maxfup),
+    tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE),
+    tte_vaxpfizer1_Inf = if_else(is.na(tte_vaxpfizer1), Inf, tte_vaxpfizer1),
+    tte_vaxpfizer1_censored = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=FALSE),
+
+    tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxpfizer2_Inf = if_else(is.na(tte_vaxpfizer2), Inf, tte_vaxpfizer2),
+    tte_vaxpfizer2_censored = tte(start_date, covid_vax_pfizer_2_date,  lastfup_date, na.censor=FALSE),
+
+    tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
+    tte_vaxaz1_Inf = if_else(is.na(tte_vaxaz1), Inf, tte_vaxaz1),
+    tte_vaxaz1_censored = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=FALSE),
+
+    tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxaz2_Inf = if_else(is.na(tte_vaxaz2), Inf, tte_vaxaz2),
+    tte_vaxaz2_censored = tte(start_date, covid_vax_az_2_date,  lastfup_date, na.censor=FALSE),
+
+    ind_vax1 = censor_indicator(tte_vax1, tte_vax_maxfup),
+    ind_vax2 = censor_indicator(tte_vax2, tte_vax_maxfup),
+
+    ind_vaxpfizer1 = censor_indicator(tte_vaxpfizer1, tte_vax_maxfup),
+    ind_vaxpfizer2 = censor_indicator(tte_vaxpfizer2, tte_vax_maxfup),
+
+    ind_vaxaz1 = censor_indicator(tte_vaxaz1, tte_vax_maxfup),
+    ind_vaxaz2 = censor_indicator(tte_vaxaz2, tte_vax_maxfup),
 
     tte_death = tte(start_date, death_date, end_date, na.censor=TRUE),
   )
@@ -158,10 +196,22 @@ data_tte_cp0 <- tmerge(
   data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
   data2 = data_tte,
   id = patient_id,
+
   vax1 = tdc(tte_vax1),
   vax2 = tdc(tte_vax2),
   timesincevax1 = cumtdc(tte_vax1),
   timesincevax2 = cumtdc(tte_vax2),
+
+  vaxpfizer1 = tdc(tte_vaxpfizer1),
+  vaxpfizer2 = tdc(tte_vaxpfizer2),
+  timesincevaxpfizer1 = cumtdc(tte_vaxpfizer1),
+  timesincevaxpfizer2 = cumtdc(tte_vaxpfizer2),
+
+  vaxaz1 = tdc(tte_vaxaz1),
+  vaxaz2 = tdc(tte_vaxaz2),
+  timesincevaxaz1 = cumtdc(tte_vaxaz1),
+  timesincevaxaz2 = cumtdc(tte_vaxaz2),
+
   outcome = event(tte_outcome),
   tstop = tte_maxfup
 )
@@ -199,7 +249,9 @@ arrange(
 ) %>%
 mutate(
   twidth = tstop - tstart,
-  vax_status = vax1 + vax2
+  vax_status = vax1 + vax2,
+  vaxpfizer_status = vaxpfizer1 + vaxpfizer2,
+  vaxaz_status = vaxaz1 + vaxaz2,
 )
 
 stopifnot("tstart should be  >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
@@ -225,10 +277,16 @@ data_tte_pt <-
 
     # so we can select all time-points where patient is at risk of vax AND vax has not occurred
     vax_history = lag(vax_status, 1, 0),
+    vaxpfizer_history = lag(vaxpfizer_status, 1, 0),
+    vaxaz_history = lag(vaxaz_status, 1, 0),
 
     # define time since vaccination
     timesincevax1 = cumsum(vax1),
     timesincevax2 = cumsum(vax2),
+    timesincevaxpfizer1 = cumsum(vaxpfizer1),
+    timesincevaxpfizer2 = cumsum(vaxpfizer2),
+    timesincevaxaz1 = cumsum(vaxaz1),
+    timesincevaxaz2 = cumsum(vaxaz2),
   ) %>%
   ungroup()
 
