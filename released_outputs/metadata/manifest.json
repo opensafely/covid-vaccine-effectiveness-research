@@ -1221,7 +1221,7 @@
       "created_at": "2021-02-17T10:27:08Z",
       "completed_at": "2021-02-17T10:47:03Z"
     },
-    "data_properties_all": {
+    "data_cohorts": {
       "state": "succeeded",
       "commit": "3f8108f8c414576cfaba19e244e3737e0e23b64f",
       "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
