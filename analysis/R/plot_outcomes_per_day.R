@@ -74,8 +74,9 @@ data_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_pt_{cohor
 postestsperday <- data_pt %>%
   mutate(
     date=as.Date(gbl_vars$start_date) + tstop,
+    anyvax = vax_status>0
   ) %>%
-  group_by(date, vax_status) %>%
+  group_by(date, anyvax) %>%
   summarise(
     n=n(),
     n_positive_tests = sum(outcome),
@@ -84,7 +85,7 @@ postestsperday <- data_pt %>%
 
 
 plotpostestsperday_n <- ggplot(postestsperday) +
-  geom_bar(aes(x=date, y=n_positive_tests, fill=vax_status==1), stat="identity", colour="transparent")+
+  geom_bar(aes(x=date, y=n_positive_tests, fill=anyvax), stat="identity", colour="transparent")+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
@@ -107,7 +108,7 @@ ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outco
 
 
 plotpostestsperday_rate <- ggplot(postestsperday) +
-  geom_line(aes(x=date, y=rate_positive_tests, colour=vax_status==1), stat="identity")+
+  geom_line(aes(x=date, y=rate_positive_tests, colour=anyvax), stat="identity")+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
@@ -135,8 +136,9 @@ ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outco
 postestsperday_sex_imd <- data_pt %>%
   mutate(
     date=as.Date(gbl_vars$start_date) + tstop,
+    anyvax = vax_status>0
   ) %>%
-  group_by(date, vax_status, sex, imd) %>%
+  group_by(date, anyvax, sex, imd) %>%
   summarise(
     n=n(),
     n_positive_tests = sum(outcome),
@@ -145,7 +147,7 @@ postestsperday_sex_imd <- data_pt %>%
 
 
 plotpostestsperday_n_sex_ind <- ggplot(postestsperday_sex_imd) +
-  geom_line(aes(x=date, y=n_positive_tests, fill=vax_status==1), stat="identity", colour="transparent")+
+  geom_line(aes(x=date, y=n_positive_tests, fill=anyvax), stat="identity", colour="transparent")+
   facet_grid(cols=vars(sex), rows=vars(imd), margins=TRUE)+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
@@ -172,7 +174,7 @@ ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outco
 
 
 plotpostestsperday_rate_sex_ind <- ggplot(postestsperday_sex_imd) +
-  geom_line(aes(x=date, y=rate_positive_tests, fill=vax_status==1), stat="identity")+
+  geom_line(aes(x=date, y=rate_positive_tests, fill=anyvax), stat="identity")+
   facet_grid(cols=vars(sex), rows=vars(imd), margins=TRUE)+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
@@ -205,8 +207,9 @@ ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outco
 postestsperday_region <- data_pt %>%
   mutate(
     date=as.Date(gbl_vars$start_date) + tstop,
+    anyvax = vax_status>0
   ) %>%
-  group_by(date, vax_status, region) %>%
+  group_by(date, anyvax, region) %>%
   summarise(
     n=n(),
     n_positive_tests = sum(outcome),
@@ -215,7 +218,7 @@ postestsperday_region <- data_pt %>%
 
 
 plotpostestsperday_n_region <- ggplot(postestsperday_region) +
-  geom_bar(aes(x=date, y=n_positive_tests, fill=vax_status==1), stat="identity", colour="transparent")+
+  geom_bar(aes(x=date, y=n_positive_tests, fill=anyvax), stat="identity", colour="transparent")+
   facet_wrap(facets=vars(region))+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
@@ -242,7 +245,7 @@ ggsave(filename=here::here("output", "models", "msm", cohort, glue::glue("{outco
 
 
 plotpostestsperday_rate_region <- ggplot(postestsperday_region) +
-  geom_line(aes(x=date, y=rate_positive_tests, colour=vax_status==1), stat="identity")+
+  geom_line(aes(x=date, y=rate_positive_tests, colour=anyvax), stat="identity")+
   facet_wrap(facets=vars(region))+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
