@@ -142,10 +142,20 @@ actions:
     run: r:latest analysis/R/models_msms.R over80s
     needs: [data_cohorts, data_stset_over80s]
     outputs:
+      highly_sensitive:
+        models: output/models/msm/over80s/model*.rds
+        data: output/models/msm/over80s/data_weights.rds
       moderately_sensitive:
         weights: output/models/msm/over80s/weights.txt
+
+  reportmodels_msm_over80s:
+    run: r:latest analysis/R/reportmodels_msms.R over80s
+    needs: [data_cohorts, models_msm_over80s]
+    outputs:
+      moderately_sensitive:
         forest: output/models/msm/over80s/forest*.svg
         trend: output/models/msm/over80s/secular_trends*.svg
+        eventrate: output/models/msm/over80s/event_rate.svg
         tables: output/models/msm/over80s/*.csv
 
 

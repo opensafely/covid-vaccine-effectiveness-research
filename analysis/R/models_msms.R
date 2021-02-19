@@ -326,106 +326,35 @@ msmmod4 <- parglm(
 
 jtools::summ(msmmod4)
 
-## report models ----
 
-# tidy model outputs
-
-msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
-msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Age, sex, IMD")
-msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model=" + co-morbidities")
-msmmod_tidy3 <- tidy_parglm(msmmod3, conf.int=TRUE) %>% mutate(model=" + spatio-temporal trends")
-msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model=" + IP-weighting")
-
-# library('sandwich')
-# library('lmtest')
-# create table with model estimates
-msmmod_summary <- bind_rows(
-  msmmod_tidy0,
-  msmmod_tidy1,
-  msmmod_tidy2,
-  msmmod_tidy3,
-  msmmod_tidy4,
-) %>%
-mutate(
-  or = exp(estimate),
-  or.ll = exp(conf.low),
-  or.ul = exp(conf.high),
-)
-write_csv(msmmod_summary, path = here::here("output", "models", "msm", cohort, "estimates.csv"))
-
-# create forest plot
-msmmod_forest <- msmmod_summary %>%
-  filter(str_detect(term, "timesincevax")) %>%
-  mutate(
-    dose=str_extract(term, pattern="Dose \\d"),
-    term=str_replace(term, pattern="timesincevax\\_pw", ""),
-    term=str_replace(term, pattern="imd", "IMD "),
-    term=str_replace(term, pattern="sex", "Sex "),
-    term=str_replace(term, pattern="Dose \\d", ""),
-    term=fct_inorder(term)
-  ) %>%
-  ggplot(aes(colour=model)) +
-  geom_point(aes(x=or, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_vline(aes(xintercept=1), colour='grey')+
-  facet_grid(rows=vars(dose), scales="free_y", switch="y")+
-  scale_x_log10()+
-  scale_y_discrete(na.translate=FALSE)+
-  scale_colour_brewer(type="qual", palette="Set1", guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(xlim=c(0.1,10)) +
-  labs(
-    x="Hazard ratio, versus no vaccination",
-    y=NULL,
-    colour=NULL,
-    title=glue::glue("{outcome_descr} by time since vaccination"),
-    subtitle=cohort_descr
-  ) +
-  theme_bw()+
-  theme(
-    panel.border = element_blank(),
-    axis.line.x = element_line(colour = "black"),
-
-    strip.background = element_blank(),
-    strip.placement = "outside",
-    strip.text.y.left = element_text(angle = 0),
-
-    plot.title = element_text(hjust = 0),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0, face= "italic"),
-    strip.text.y = element_text(angle = 0),
-
-    legend.position = "right"
-  )
-
-## save plot
-ggsave(filename=here::here("output", "models", "msm", cohort, "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
-
-
-## secular trends ----
-
-ggsecular2 <- interactions::interact_plot(
-  msmmod2,
-  pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
-)
-ggsecular3 <- interactions::interact_plot(
-  msmmod3,
-  pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
- )
-ggsecular4<- interactions::interact_plot(
-  msmmod4, pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
+### model 5 - secular trend adjusted vaccination effect model + IP-weighted ----
+cat("msmmod5 \n")
+msmmod5 <- parglm(
+  formula = update(outcome ~ 1, formula_secular_region) %>% update(formula_exposure),
+  data = data_weights,
+  weights = ipweight_stbl,
+  family = binomial,
+  control = parglmparams,
+  na.action = "na.fail",
+  model = FALSE
 )
 
-ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3, ggsecular4), ncol=1, byrow=FALSE, guides="collect")
+jtools::summ(msmmod5)
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+## save weights
+
+write_rds(data_weights, here::here("output", "models", "msm", cohort, glue::glue("data_weights.rds")))
+
+## Save models as rds ----
+
+write_rds(ipwvax1, here::here("output", "models", "msm", cohort, glue::glue("model_vax1.rds")))
+write_rds(ipwvax2, here::here("output", "models", "msm", cohort, glue::glue("model_vax2.rds")))
+write_rds(ipwvax1_fxd, here::here("output", "models", "msm", cohort, glue::glue("model_vax1_fxd.rds")))
+write_rds(ipwvax2_fxd, here::here("output", "models", "msm", cohort, glue::glue("model_vax2_fxd.rds")))
+write_rds(msmmod0, here::here("output", "models", "msm", cohort, glue::glue("model0_{outcome}.rds")))
+write_rds(msmmod1, here::here("output", "models", "msm", cohort, glue::glue("model1_{outcome}.rds")))
+write_rds(msmmod2, here::here("output", "models", "msm", cohort, glue::glue("model2_{outcome}.rds")))
+write_rds(msmmod3, here::here("output", "models", "msm", cohort, glue::glue("model3_{outcome}.rds")))
+write_rds(msmmod4, here::here("output", "models", "msm", cohort, glue::glue("model4_{outcome}.rds")))
+write_rds(msmmod5, here::here("output", "models", "msm", cohort, glue::glue("model5_{outcome}.rds")))
 
