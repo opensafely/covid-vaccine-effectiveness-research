@@ -122,7 +122,8 @@ ipwvax1 <- parglm(
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 jtools::summ(ipwvax1)
 
@@ -132,7 +133,8 @@ ipwvax2 <- parglm(
   data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 jtools::summ(ipwvax2)
 
@@ -147,7 +149,8 @@ ipwvax1_fxd <- parglm(
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 jtools::summ(ipwvax1_fxd)
 
@@ -157,7 +160,8 @@ ipwvax2_fxd <- parglm(
   data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 jtools::summ(ipwvax2_fxd)
 
@@ -261,7 +265,8 @@ msmmod0 <- parglm(
   data = data_weights,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
 jtools::summ(msmmod0)
@@ -273,7 +278,8 @@ msmmod1 <- parglm(
   data = data_weights,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
 jtools::summ(msmmod1)
@@ -285,7 +291,8 @@ msmmod2 <- parglm(
   data = data_weights,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
 jtools::summ(msmmod2)
@@ -297,7 +304,8 @@ msmmod3 <- parglm(
   data = data_weights,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
 jtools::summ(msmmod3)
@@ -312,7 +320,8 @@ msmmod4 <- parglm(
   weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
 jtools::summ(msmmod4)
