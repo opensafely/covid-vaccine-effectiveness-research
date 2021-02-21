@@ -248,6 +248,9 @@ capture.output(
   append=FALSE
 )
 
+## save weights
+
+write_rds(data_weights, here::here("output", "models", "msm", cohort, glue::glue("data_weights.rds")))
 
 # MSM model ----
 
@@ -341,9 +344,6 @@ msmmod5 <- parglm(
 
 jtools::summ(msmmod5)
 
-## save weights
-
-write_rds(data_weights, here::here("output", "models", "msm", cohort, glue::glue("data_weights.rds")))
 
 ## Save models as rds ----
 
