@@ -14,7 +14,6 @@
 
 ## Import libraries ----
 library('tidyverse')
-library('lubridate')
 library('survival')
 library('splines')
 library('parglm')
@@ -29,17 +28,21 @@ source(here::here("lib", "survival_functions.R"))
 args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
+outcome <- args[[2]]
 
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
+  outcome <- "postest"
 }
+
 
 
 # Import metadata for cohort ----
 
-metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
-metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
+metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
+metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort & metadata_cohorts[["outcome"]]==outcome, ]
+
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
@@ -47,7 +50,7 @@ stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
 ### model names ----
 
-list2env(metadata_cohorts, globalenv())
+list2env(metadata, globalenv())
 
 ## or equivalently:
 # cohort <- metadata_cohorts$cohort
@@ -86,15 +89,20 @@ formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
 formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
 # create output directories ----
-dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, outcome, "models"), showWarnings = FALSE, recursive=TRUE)
 
 # Import processed data ----
 
-data_pt <- read_rds(here::here("output", "modeldata", glue::glue("data_pt_{cohort}.rds"))) %>% # counting-process (one row per patient per event)
+data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   #fastDummies::dummy_cols(select_columns="region") %>%
+  filter(
+    tstop <= .[[glue::glue("tte_{outcome}")]] | is.na(.[[glue::glue("tte_{outcome}")]])
+  ) %>%
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
+    outcome = .[[outcome]]
   )
+
 
 # IPW model ----
 
@@ -212,6 +220,11 @@ data_weights <- data_pt %>%
     # inverse probability weights
     ipweight = 1/cmlprobstatus,
 
+    # ipweight_clipped = case_when(
+    #   ipweight>quantile(ipweight,0.75, na.rm=TRUE) ~ quantile(ipweight,0.75, na.rm=TRUE),
+    #   ipweight<quantile(ipweight,0.25, na.RM=TRUE) ~ quantile(ipweight,0.25, na.rm=TRUE),
+    #   TRUE ~ ipweight
+    # ),
 
     #same but for time-independent model
 
@@ -229,7 +242,7 @@ data_weights <- data_pt %>%
     cmlprobstatus_fxd = cumprod(probstatus_fxd),
 
     # stabilised inverse probability weights
-    ipweight_stbl = cmlprobstatus_fxd/cmlprobstatus,
+    ipweight_stbl = cmlprobstatus_fxd*ipweight,
 
   ) %>%
   ungroup()
@@ -249,8 +262,16 @@ capture.output(
 )
 
 ## save weights
+weight_histogram <- ggplot(data_weights) +
+  geom_histogram(aes(x=ipweight_stbl)) +
+  theme_bw()
 
-write_rds(data_weights, here::here("output", "models", "msm", cohort, glue::glue("data_weights.rds")))
+weights_scatter <- ggplot(data_weights) +
+  geom_point(aes(x=ipweight, y=ipweight_stbl)) +
+  theme_bw()
+
+ggsave(here::here("output", cohort, outcome, "models", "histogram_weights.svg"), weight_histogram)
+write_rds(data_weights, here::here("output", cohort, outcome, "models", glue::glue("data_weights.rds")))
 
 # MSM model ----
 
@@ -313,6 +334,7 @@ msmmod3 <- parglm(
 
 jtools::summ(msmmod3)
 
+test<-model.frame(update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(. ~ .+ipweight_stbl), data=data_weights)
 
 
 ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
@@ -347,14 +369,14 @@ jtools::summ(msmmod5)
 
 ## Save models as rds ----
 
-write_rds(ipwvax1, here::here("output", "models", "msm", cohort, glue::glue("model_vax1.rds")))
-write_rds(ipwvax2, here::here("output", "models", "msm", cohort, glue::glue("model_vax2.rds")))
-write_rds(ipwvax1_fxd, here::here("output", "models", "msm", cohort, glue::glue("model_vax1_fxd.rds")))
-write_rds(ipwvax2_fxd, here::here("output", "models", "msm", cohort, glue::glue("model_vax2_fxd.rds")))
-write_rds(msmmod0, here::here("output", "models", "msm", cohort, glue::glue("model0_{outcome}.rds")))
-write_rds(msmmod1, here::here("output", "models", "msm", cohort, glue::glue("model1_{outcome}.rds")))
-write_rds(msmmod2, here::here("output", "models", "msm", cohort, glue::glue("model2_{outcome}.rds")))
-write_rds(msmmod3, here::here("output", "models", "msm", cohort, glue::glue("model3_{outcome}.rds")))
-write_rds(msmmod4, here::here("output", "models", "msm", cohort, glue::glue("model4_{outcome}.rds")))
-write_rds(msmmod5, here::here("output", "models", "msm", cohort, glue::glue("model5_{outcome}.rds")))
+write_rds(ipwvax1, here::here("output", cohort, outcome, "models", "model_vax1.rds"))
+write_rds(ipwvax2, here::here("output", cohort, outcome, "models", "model_vax2.rds"))
+write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, "models", "model_vax1_fxd.rds"))
+write_rds(ipwvax2_fxd, here::here("output", cohort, outcome, "models", "model_vax2_fxd.rds"))
+write_rds(msmmod0, here::here("output", cohort, outcome, "models", "model0_{outcome}.rds"))
+write_rds(msmmod1, here::here("output", cohort, outcome, "models", "model1_{outcome}.rds"))
+write_rds(msmmod2, here::here("output", cohort, outcome, "models", "model2_{outcome}.rds"))
+write_rds(msmmod3, here::here("output", cohort, outcome, "models", "model3_{outcome}.rds"))
+write_rds(msmmod4, here::here("output", cohort, outcome, "models", "model4_{outcome}.rds"))
+write_rds(msmmod5, here::here("output", cohort, outcome, "models", "model5_{outcome}.rds"))
 

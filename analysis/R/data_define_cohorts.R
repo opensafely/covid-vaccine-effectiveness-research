@@ -12,7 +12,7 @@
 library('tidyverse')
 
 ## create output directories ----
-dir.create(here::here("output", "modeldata"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
 ## Import processed data ----
 
@@ -29,9 +29,9 @@ data_cohorts <- data_all %>%
 ## define different cohorts ----
 
 metadata_cohorts <- tribble(
-  ~cohort, ~cohort_descr, ~outcome, ~outcome_descr, #~postvax_cuts, ~knots,
-  "over80s", "Aged 80+, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
-  "under65s", "Aged <=64, no prior positive test", "positive_test_1_date", "Positive test"
+  ~cohort, ~outcome, ~cohort_descr, ~outcome_var, ~outcome_descr, #~postvax_cuts, ~knots,
+  "over80s", "postest", "Aged 80+, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
+  "under65s", "postest", "Aged <=64, no prior positive test", "positive_test_1_date", "Positive test"
 ) %>%
 mutate(
   cohort_size = map_int(cohort, ~sum(data_cohorts[[.]]))
@@ -43,7 +43,7 @@ stopifnot("cohort names should match" = names(data_cohorts)[-1] == metadata_coho
 stopifnot("all cohorts should contain at least 1 patient" = all(metadata_cohorts$cohort_size>0))
 
 ## Save processed tte data ----
-write_rds(data_cohorts, here::here("output", "modeldata", "data_cohorts.rds"))
-write_rds(metadata_cohorts, here::here("output", "modeldata", "metadata_cohorts.rds"))
-write_csv(metadata_cohorts, here::here("output", "modeldata", "metadata_cohorts.csv"))
+write_rds(data_cohorts, here::here("output", "data", "data_cohorts.rds"))
+write_rds(metadata_cohorts, here::here("output", "data", "metadata_cohorts.rds"))
+write_csv(metadata_cohorts, here::here("output", "data", "metadata_cohorts.csv"))
 
