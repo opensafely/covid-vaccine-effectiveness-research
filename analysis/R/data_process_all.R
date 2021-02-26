@@ -247,7 +247,7 @@ data_processed <- data_extract_reordered %>%
 
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
-write_rds(data_processed, here::here("output", "data", "data_all.rds"))
+write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
 
 
 
@@ -320,5 +320,5 @@ data_vax <- local({
 })
 
 
-write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"))
-write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"))
+write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
+write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")

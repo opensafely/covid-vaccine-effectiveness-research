@@ -331,7 +331,7 @@ data_tte_pt <- data_tte_pt %>%
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
 
 ## Save processed tte data ----
-write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide.rds")))
-write_rds(data_tte_cp, here::here("output", cohort, "data", glue::glue("data_cp.rds")))
-write_rds(data_tte_pt, here::here("output", cohort, "data", glue::glue("data_pt.rds")))
+write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide.rds")), compress="gz")
+write_rds(data_tte_cp, here::here("output", cohort, "data", glue::glue("data_cp.rds")), compress="gz")
+write_rds(data_tte_pt, here::here("output", cohort, "data", glue::glue("data_pt.rds")), compress="gz")
 
