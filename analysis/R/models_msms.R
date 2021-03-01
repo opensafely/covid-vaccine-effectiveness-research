@@ -6,8 +6,10 @@
 # saves model summaries (tables and figures)
 # "tte" = "time-to-event"
 #
-# The script should only be run via an action in the project.yaml only
-# The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
+# The script should be run via an action in the project.yaml
+# The script must be accompanied by two arguments,
+# 1. the name of the cohort defined in data_define_cohorts.R
+# 2. the name of the outcome defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
