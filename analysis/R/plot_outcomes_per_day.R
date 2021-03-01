@@ -71,7 +71,13 @@ dir.create(here::here("output", cohort, outcome, "descr"), showWarnings = FALSE,
 
 ## Import processed data ----
 
-data_pt <- read_rds(here::here("output", cohort, outcome, glue::glue("data_pt.rds")))
+data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))  %>%
+  mutate(
+    outcome = .[[outcome]],
+    date = as.Date(gbl_vars$start_date) + tstop,
+    anyvax = vax_status>0
+  )
+
 
 
 ## define theme ----
@@ -93,11 +99,6 @@ theme_minimal()+
 ## overall ----
 
 eventsperday <- data_pt %>%
-  mutate(
-    outcome = .[[outcome]],
-    date = as.Date(gbl_vars$start_date) + tstop,
-    anyvax = vax_status>0
-  ) %>%
   group_by(date, anyvax) %>%
   summarise(
     n=n(),
@@ -119,7 +120,7 @@ plotoutcome_n <- ggplot(eventsperday) +
   )+
   plot_theme
 
-ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", glue::glue("events_perday_n.svg")), plotoutcome_n, width=30, height=20, units="cm", scale=0.8)
+ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("events_perday_n.svg")), plotoutcome_n, width=30, height=20, units="cm", scale=0.8)
 
 
 plotoutcome_rate <- ggplot(eventsperday) +
@@ -135,17 +136,13 @@ plotoutcome_rate <- ggplot(eventsperday) +
   )+
   plot_theme
 
-ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", glue::glue("events_perday_rate.svg")), plotoutcome_rate, width=30, height=20, units="cm", scale=0.8)
+ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("events_perday_rate.svg")), plotoutcome_rate, width=30, height=20, units="cm", scale=0.8)
 
 ## by sex, imd ----
 
 
 outcomeperday_sex_imd <- data_pt %>%
-  mutate(
-    date=as.Date(gbl_vars$start_date) + tstop,
-    anyvax = vax_status>0
-  ) %>%
-  group_by(date, anyvax, sex, imd) %>%
+  group_by(date, anyvax, sex, imd, .drop=FALSE) %>%
   summarise(
     n=n(),
     n_outcome = sum(outcome),
@@ -154,10 +151,10 @@ outcomeperday_sex_imd <- data_pt %>%
 
 
 plotoutcome_n_sex_ind <- ggplot(outcomeperday_sex_imd) +
-  geom_line(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
+  geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
   facet_grid(cols=vars(sex), rows=vars(imd), margins=TRUE)+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
-  scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
+  scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
     y=glue::glue("{outcome_descr} frequency"),
@@ -168,15 +165,15 @@ plotoutcome_n_sex_ind <- ggplot(outcomeperday_sex_imd) +
   plot_theme
 
 
-ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", glue::glue("events_perday_n_sex_imd.svg")), plotoutcome_n_sex_ind, width=30, height=40, units="cm", scale=0.6)
+ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("events_perday_n_sex_imd.svg")), plotoutcome_n_sex_ind, width=30, height=40, units="cm", scale=0.6)
 
 
 
 plotoutcome_rate_sex_ind <- ggplot(outcomeperday_sex_imd) +
-  geom_line(aes(x=date, y=rate_outcome, fill=anyvax), stat="identity")+
+  geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
   facet_grid(cols=vars(sex), rows=vars(imd), margins=TRUE)+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
-  scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
+  scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
     y=glue::glue("{outcome_descr} rate"),
@@ -187,7 +184,7 @@ plotoutcome_rate_sex_ind <- ggplot(outcomeperday_sex_imd) +
   plot_theme
 
 
-ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", glue::glue("events_perday_rate_sex_imd.svg")), plotoutcome_rate_sex_ind, width=30, height=40, units="cm", scale=0.8)
+ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("events_perday_rate_sex_imd.svg")), plotoutcome_rate_sex_ind, width=30, height=40, units="cm", scale=0.8)
 
 
 
@@ -196,10 +193,6 @@ ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", 
 
 
 outcomeperday_region <- data_pt %>%
-  mutate(
-    date=as.Date(gbl_vars$start_date) + tstop,
-    anyvax = vax_status>0
-  ) %>%
   group_by(date, anyvax, region) %>%
   summarise(
     n=n(),
@@ -212,7 +205,7 @@ plotoutome_n_region <- ggplot(outcomeperday_region) +
   geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
   facet_wrap(facets=vars(region))+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
-  scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
+  scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
     y=glue::glue("{outcome_descr} frequency"),
@@ -224,7 +217,7 @@ plotoutome_n_region <- ggplot(outcomeperday_region) +
 
 
 
-ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", glue::glue("events_perday_n_region.svg")), plotoutome_n_region, width=30, height=40, units="cm", scale=0.6)
+ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("events_perday_n_region.svg")), plotoutome_n_region, width=30, height=40, units="cm", scale=0.6)
 
 
 
@@ -232,7 +225,7 @@ plotoutcome_rate_region <- ggplot(outcomeperday_region) +
   geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
   facet_wrap(facets=vars(region))+
   scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
-  scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
+  scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
     y=glue::glue("{outcome_descr} rate"),
@@ -242,5 +235,5 @@ plotoutcome_rate_region <- ggplot(outcomeperday_region) +
   )+
   plot_theme
 
-ggsave(filename=here::here("output", "models", "msm", cohort, outcome, "descr", glue::glue("events_perday_rate_region.svg")), plotoutcome_rate_region, width=30, height=40, units="cm", scale=0.8)
+ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("events_perday_rate_region.svg")), plotoutcome_rate_region, width=30, height=40, units="cm", scale=0.8)
 
