@@ -15,7 +15,7 @@ from codelists import *
 import json
 
 # import global-variables.json
-with open("./lib/global-variables.json") as f:
+with open("./analysis/global-variables.json") as f:
     gbl_vars = json.load(f)
 
 # define variables explicitly
