@@ -5,87 +5,11 @@ expectations:
 
 actions:
 
-  # generate_notebook:
-  #   run: jupyter:latest jupyter nbconvert /workspace/notebooks/population_characteristics.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
-  #
-  #   needs: [generate_delivery_cohort]
-  #   outputs:
-  #     moderately_sensitive:
-  #       notebook: output/population_characteristics.html
-
-  get_packages:
-    run: r:latest analysis/R/export_package_names.R
-    outputs:
-      moderately_sensitive:
-        cohort: output/available_packages.csv
-
-
-
-## Descriptive info on vaccinated patients
-
-  extract_vaccinated:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated
-    outputs:
-      highly_sensitive:
-        cohort: output/input_vaccinated.csv
-
-  data_process_vaccinated:
-    run: r:latest analysis/R/data_process_vaccinated.R
-    needs: [extract_vaccinated]
-    outputs:
-      highly_sensitive:
-        cohort: output/data/data_vaccinated.rds
-        vaxdates: output/data/data_vaccinated_vax_dates.rds
-
-  data_properties_vaccinated:
-    run: r:latest analysis/R/data_properties.R output/data/data_vaccinated.rds output/data_properties
-    needs: [data_process_vaccinated]
-    outputs:
-      moderately_sensitive:
-        summary: output/data_properties/data_vaccinated*.txt
-
-  data_summarise_vaccinated:
-    run: r:latest analysis/R/data_summarise.R
-    needs: [data_process_vaccinated]
-    outputs:
-      moderately_sensitive:
-        summary1: output/variable_summary/categorical.txt
-        summary2: output/variable_summary/numeric.txt
-        summary3: output/variable_summary/date.txt
-        summarytables: output/variable_summary/tables/categorical_*.csv
-        summarystats: output/summary_stats.json
-
-  vaccine_tables:
-    run: r:latest analysis/R/vaccine_type.R
-    needs: [data_process_vaccinated]
-    outputs:
-      moderately_sensitive:
-        tables: output/vaccine_type/tables/vaccine_type_*.csv
-
-  tte_tables:
-    run: r:latest analysis/R/tte_tables.R
-    needs: [data_process_vaccinated]
-    outputs:
-      moderately_sensitive:
-        tables: output/tte/tables/event_rates_*.csv
-
-  tte_plots:
-    run: r:latest analysis/R/tte_plots.R
-    needs: [data_process_vaccinated]
-    outputs:
-      moderately_sensitive:
-        plots: output/tte/figures/plot_*.svg
-
-
-
-  # data for whole cohort
-
   extract_all:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_all
     outputs:
       highly_sensitive:
         cohort: output/input_all.csv
-
 
   data_process_all:
     run: r:latest analysis/R/data_process_all.R
@@ -103,10 +27,6 @@ actions:
       moderately_sensitive:
         datasummary: output/data_properties/data_all*.txt
 
-
-
-  ## VE models in over 80s
-
   data_define_cohorts:
     run: r:latest analysis/R/data_define_cohorts.R
     needs: [data_process_all]
@@ -115,6 +35,8 @@ actions:
         data: output/data/data_cohorts.rds
       moderately_sensitive:
         metadata: output/data/metadata_cohorts.rds
+
+  ## VE models in over 80s
 
   data_stset_over80s:
     run: r:latest analysis/R/data_stset.R over80s
@@ -136,7 +58,6 @@ actions:
     outputs:
       moderately_sensitive:
         datasummary: output/over80s/postest/descr/positive_test*.svg
-
 
   models_msm_over80s:
     run: r:latest analysis/R/models_msms.R over80s postest
