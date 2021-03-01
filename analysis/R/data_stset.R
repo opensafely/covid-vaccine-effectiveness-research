@@ -319,7 +319,7 @@ data_tte_pt <- tmerge(
   ungroup()
 
 stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes == data_tte_pt$tstop))
-stopifnot("vax1 time should not be same as vax2 time" = all(data_tte_pt$tte_vax1 != data_tte_pt$tte_vax2))
+stopifnot("vax1 time should not be same as vax2 time" = all(data_tte_pt$tte_vax1 != data_tte_pt$tte_vax2, na.rm=TRUE))
 
 
 
