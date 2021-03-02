@@ -127,7 +127,9 @@ data_extract0 <- read_csv(
     asplenia = col_logical()
   ),
     na = character() # more stable to convert to missing later
-)
+) %>%
+  ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
+  sample_n(size=200000)
 
 # parse NAs
 data_extract <- data_extract0 %>%
