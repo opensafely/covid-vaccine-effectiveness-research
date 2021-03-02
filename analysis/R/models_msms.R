@@ -263,7 +263,7 @@ summarise_weights <-
 
 capture.output(
   walk2(summarise_weights$value, summarise_weights$name, print_num),
-  file = here::here("output", "models", "msm", cohort, "weights.txt"),
+  file = here::here("output", cohort, outcome, "models",  "weights.txt"),
   append=FALSE
 )
 
