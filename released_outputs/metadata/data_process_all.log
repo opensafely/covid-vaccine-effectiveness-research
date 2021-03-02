@@ -1,0 +1,64 @@
+2021-02-17T10:28:05.638962500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-02-17T10:28:05.648722900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-02-17T10:28:05.648747600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-02-17T10:28:05.648756500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-02-17T10:28:05.648763700Z v readr   1.3.1     v forcats 0.5.0
+2021-02-17T10:28:05.825934700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-02-17T10:28:05.825954400Z x dplyr::filter() masks stats::filter()
+2021-02-17T10:28:05.825962400Z x dplyr::lag()    masks stats::lag()
+2021-02-17T10:28:05.841570000Z 
+2021-02-17T10:28:05.841610900Z Attaching package: 'lubridate'
+2021-02-17T10:28:05.841619400Z 
+2021-02-17T10:28:05.843057400Z The following objects are masked from 'package:base':
+2021-02-17T10:28:05.843074600Z 
+2021-02-17T10:28:05.843081900Z     date, intersect, setdiff, union
+2021-02-17T10:28:05.843088500Z 
+2021-02-17T10:28:05.911784900Z  [1] "patient_id"                         "age"                               
+2021-02-17T10:28:05.911806700Z  [3] "sex"                                "bmi"                               
+2021-02-17T10:28:05.911815600Z  [5] "has_follow_up_previous_year"        "registered_at_latest"              
+2021-02-17T10:28:05.911823100Z  [7] "practice_id"                        "stp"                               
+2021-02-17T10:28:05.911830600Z  [9] "region"                             "imd"                               
+2021-02-17T10:28:05.911838200Z [11] "care_home_type"                     "care_home"                         
+2021-02-17T10:28:05.911845300Z [13] "covid_vax_1_date"                   "covid_vax_2_date"                  
+2021-02-17T10:28:05.911852500Z [15] "covid_vax_3_date"                   "covid_vax_4_date"                  
+2021-02-17T10:28:05.911859500Z [17] "covid_vax_pfizer_1_date"            "covid_vax_pfizer_2_date"           
+2021-02-17T10:28:05.911867100Z [19] "covid_vax_pfizer_3_date"            "covid_vax_pfizer_4_date"           
+2021-02-17T10:28:05.911874200Z [21] "covid_vax_az_1_date"                "covid_vax_az_2_date"               
+2021-02-17T10:28:05.911881100Z [23] "covid_vax_az_3_date"                "covid_vax_az_4_date"               
+2021-02-17T10:28:05.911888100Z [25] "prior_positive_test_date"           "prior_primary_care_covid_case_date"
+2021-02-17T10:28:05.911895000Z [27] "positive_test_1_date"               "positive_test_2_date"              
+2021-02-17T10:28:05.911902100Z [29] "primary_care_covid_case_1_date"     "primary_care_covid_case_2_date"    
+2021-02-17T10:28:05.911909100Z [31] "covidadmitted_1_date"               "covidadmitted_2_date"              
+2021-02-17T10:28:05.911916200Z [33] "coviddeath_date"                    "death_date"                        
+2021-02-17T10:28:05.911923300Z [35] "admitted_1_date"                    "discharged_1_date"                 
+2021-02-17T10:28:05.911948800Z [37] "admitted_2_date"                    "discharged_2_date"                 
+2021-02-17T10:28:05.911957200Z [39] "admitted_3_date"                    "discharged_3_date"                 
+2021-02-17T10:28:05.911964200Z [41] "admitted_4_date"                    "discharged_4_date"                 
+2021-02-17T10:28:05.911971300Z [43] "admitted_5_date"                    "discharged_5_date"                 
+2021-02-17T10:28:05.911978300Z [45] "chronic_cardiac_disease"            "current_copd"                      
+2021-02-17T10:28:05.911985300Z [47] "dmards"                             "dementia"                          
+2021-02-17T10:28:05.911992400Z [49] "dialysis"                           "solid_organ_transplantation"       
+2021-02-17T10:28:05.912000900Z [51] "chemo_or_radio"                     "intel_dis_incl_downs_syndrome"     
+2021-02-17T10:28:05.912008100Z [53] "lung_cancer"                        "cancer_excl_lung_and_haem"         
+2021-02-17T10:28:05.912015100Z [55] "haematological_cancer"              "bone_marrow_transplant"            
+2021-02-17T10:28:05.912022000Z [57] "cystic_fibrosis"                    "sickle_cell_disease"               
+2021-02-17T10:28:05.912029000Z [59] "permanant_immunosuppression"        "temporary_immunosuppression"       
+2021-02-17T10:28:05.912035800Z [61] "psychosis_schiz_bipolar"            "asplenia"                          
+
+
+state: succeeded
+commit: 3f8108f8c414576cfaba19e244e3737e0e23b64f
+docker_image_id: sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0
+job_id: hzc2xhotprdgpzzp
+run_by_user: wjchulme
+created_at: 2021-02-17T10:27:08Z
+started_at: 2021-02-17T10:28:03Z
+completed_at: 2021-02-17T10:47:03Z
+
+
+Completed successfully
+
+outputs:
+  output/data/data_all.rds                   - highly_sensitive
+  output/data/data_long_admission_dates.rds  - highly_sensitive
+  output/data/data_long_vax_dates.rds        - highly_sensitive

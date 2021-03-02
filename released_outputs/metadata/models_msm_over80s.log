@@ -1,0 +1,172 @@
+2021-02-17T13:55:16.610775200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-02-17T13:55:16.619702300Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-02-17T13:55:16.619755300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-02-17T13:55:16.619763800Z v tidyr   1.1.2     v stringr 1.4.0
+2021-02-17T13:55:16.619770900Z v readr   1.3.1     v forcats 0.5.0
+2021-02-17T13:55:16.792862400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-02-17T13:55:16.792941200Z x dplyr::filter() masks stats::filter()
+2021-02-17T13:55:16.792950200Z x dplyr::lag()    masks stats::lag()
+2021-02-17T13:55:16.818591400Z 
+2021-02-17T13:55:16.818616400Z Attaching package: 'lubridate'
+2021-02-17T13:55:16.818624800Z 
+2021-02-17T13:55:16.820073400Z The following objects are masked from 'package:base':
+2021-02-17T13:55:16.820099200Z 
+2021-02-17T13:55:16.820107300Z     date, intersect, setdiff, union
+2021-02-17T13:55:16.820114300Z 
+2021-02-17T14:41:29.463771100Z 
+2021-02-17T14:41:29.463849400Z Call:
+2021-02-17T14:41:29.463858900Z glm(formula = update(outcome ~ 1, formula_exposure), family = binomial, 
+2021-02-17T14:41:29.463866600Z     data = data_weights, weights = ipweight_stbl, control = parglmparams, 
+2021-02-17T14:41:29.463874600Z     method = parglm::parglm.fit, singular.ok = FALSE)
+2021-02-17T14:41:29.463882100Z 
+2021-02-17T14:41:29.463889500Z Deviance Residuals: 
+2021-02-17T14:41:35.978607000Z     Min       1Q   Median       3Q      Max  
+2021-02-17T14:41:35.978685200Z -0.3317  -0.0298  -0.0297  -0.0297   4.3954  
+2021-02-17T14:41:35.978694600Z 
+2021-02-17T14:41:35.978702100Z Coefficients:
+2021-02-17T14:41:35.985912200Z                                   Estimate Std. Error  z value Pr(>|z|)    
+2021-02-17T14:41:35.985941200Z (Intercept)                      -7.724098   0.008318 -928.653  < 2e-16 ***
+2021-02-17T14:41:35.985951400Z timesincevax_pwDose 1 (0,3]      -1.156970   0.065396  -17.692  < 2e-16 ***
+2021-02-17T14:41:35.985959500Z timesincevax_pwDose 1 (3,7]      -0.704365   0.051428  -13.696  < 2e-16 ***
+2021-02-17T14:41:35.985967400Z timesincevax_pwDose 1 (7,14]     -0.444689   0.041145  -10.808  < 2e-16 ***
+2021-02-17T14:41:35.985975000Z timesincevax_pwDose 1 (14,21]    -0.441476   0.047392   -9.315  < 2e-16 ***
+2021-02-17T14:41:35.985982800Z timesincevax_pwDose 1 (21, Inf]  -0.342043   0.069700   -4.907 9.23e-07 ***
+2021-02-17T14:41:35.985990600Z timesincevax_pwDose 2 (0,3]      -1.926415   0.205458   -9.376  < 2e-16 ***
+2021-02-17T14:41:35.985998200Z timesincevax_pwDose 2 (3,7]      -1.402052   0.137763  -10.177  < 2e-16 ***
+2021-02-17T14:41:35.986005800Z timesincevax_pwDose 2 (7,14]     -1.689599   0.146202  -11.557  < 2e-16 ***
+2021-02-17T14:41:35.986062200Z timesincevax_pwDose 2 (14,21]    -1.314314   0.709834   -1.852   0.0641 .  
+2021-02-17T14:41:35.986070800Z timesincevax_pwDose 2 (21, Inf]  -4.838147 230.328360   -0.021   0.9832    
+2021-02-17T14:41:35.986080500Z ---
+2021-02-17T14:41:35.986088200Z Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+2021-02-17T14:41:35.986706700Z 
+2021-02-17T14:41:35.986724200Z (Dispersion parameter for binomial family taken to be 1)
+2021-02-17T14:41:35.986732400Z 
+2021-02-17T14:41:35.986739100Z     Null deviance: 291822  on 42091066  degrees of freedom
+2021-02-17T14:41:35.986746200Z Residual deviance: 290442  on 42091056  degrees of freedom
+2021-02-17T14:41:35.986997100Z AIC: 291697
+2021-02-17T14:41:35.987012600Z 
+2021-02-17T14:41:35.987020300Z Number of Fisher Scoring iterations: 11
+2021-02-17T14:41:35.987027000Z 
+2021-02-17T14:48:51.169418000Z 
+2021-02-17T14:48:51.169501600Z Call:
+2021-02-17T14:48:51.169510800Z glm(formula = update(outcome ~ 1, formula_demog) %>% update(formula_calendar) %>% 
+2021-02-17T14:48:51.169519300Z     update(formula_exposure), family = binomial, data = data_weights, 
+2021-02-17T14:48:51.169526900Z     weights = ipweight_stbl, control = parglmparams, method = parglm::parglm.fit, 
+2021-02-17T14:48:51.169534500Z     singular.ok = FALSE)
+2021-02-17T14:48:51.169541800Z 
+2021-02-17T14:48:51.169549000Z Deviance Residuals: 
+2021-02-17T14:48:57.252135100Z     Min       1Q   Median       3Q      Max  
+2021-02-17T14:48:57.252199400Z -0.3494  -0.0318  -0.0257  -0.0208   4.5054  
+2021-02-17T14:48:57.252208500Z 
+2021-02-17T14:48:57.252216000Z Coefficients:
+2021-02-17T14:48:57.254844200Z                                   Estimate Std. Error z value Pr(>|z|)    
+2021-02-17T14:48:57.254874300Z (Intercept)                     -2.128e+01  2.320e+00  -9.169  < 2e-16 ***
+2021-02-17T14:48:57.254884000Z age                              2.522e-01  5.297e-02   4.761 1.93e-06 ***
+2021-02-17T14:48:57.254892100Z I(age * age)                    -1.066e-03  3.016e-04  -3.535 0.000407 ***
+2021-02-17T14:48:57.254899800Z sexMale                          7.470e-02  1.588e-02   4.703 2.56e-06 ***
+2021-02-17T14:48:57.254907300Z imd2                            -8.911e-02  2.592e-02  -3.438 0.000587 ***
+2021-02-17T14:48:57.254915000Z imd3                            -2.202e-01  2.504e-02  -8.795  < 2e-16 ***
+2021-02-17T14:48:57.254922500Z imd4                            -3.548e-01  2.570e-02 -13.804  < 2e-16 ***
+2021-02-17T14:48:57.254930200Z imd5 most deprived              -3.840e-01  2.589e-02 -14.831  < 2e-16 ***
+2021-02-17T14:48:57.254937900Z poly(tstop, 2)1                  2.775e+03  5.693e+01  48.745  < 2e-16 ***
+2021-02-17T14:48:57.254946000Z poly(tstop, 2)2                 -3.005e+02  5.373e+01  -5.593 2.24e-08 ***
+2021-02-17T14:48:57.254995000Z timesincevax_pwDose 1 (0,3]     -1.403e+00  6.575e-02 -21.339  < 2e-16 ***
+2021-02-17T14:48:57.255003800Z timesincevax_pwDose 1 (3,7]     -9.396e-01  5.177e-02 -18.149  < 2e-16 ***
+2021-02-17T14:48:57.255011400Z timesincevax_pwDose 1 (7,14]    -6.744e-01  4.140e-02 -16.291  < 2e-16 ***
+2021-02-17T14:48:57.255019200Z timesincevax_pwDose 1 (14,21]   -7.435e-01  4.774e-02 -15.572  < 2e-16 ***
+2021-02-17T14:48:57.255028900Z timesincevax_pwDose 1 (21, Inf] -8.279e-01  7.080e-02 -11.692  < 2e-16 ***
+2021-02-17T14:48:57.255036300Z timesincevax_pwDose 2 (0,3]     -2.293e+00  2.055e-01 -11.155  < 2e-16 ***
+2021-02-17T14:48:57.255043100Z timesincevax_pwDose 2 (3,7]     -1.857e+00  1.381e-01 -13.452  < 2e-16 ***
+2021-02-17T14:48:57.255050000Z timesincevax_pwDose 2 (7,14]    -2.236e+00  1.470e-01 -15.208  < 2e-16 ***
+2021-02-17T14:48:57.255056800Z timesincevax_pwDose 2 (14,21]   -1.858e+00  7.100e-01  -2.617 0.008871 ** 
+2021-02-17T14:48:57.255065300Z timesincevax_pwDose 2 (21, Inf] -5.356e+00  2.303e+02  -0.023 0.981448    
+2021-02-17T14:48:57.255072100Z ---
+2021-02-17T14:48:57.255078700Z Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+2021-02-17T14:48:57.255696900Z 
+2021-02-17T14:48:57.255711400Z (Dispersion parameter for binomial family taken to be 1)
+2021-02-17T14:48:57.255718900Z 
+2021-02-17T14:48:57.255725600Z     Null deviance: 291822  on 42091066  degrees of freedom
+2021-02-17T14:48:57.255732400Z Residual deviance: 286071  on 42091047  degrees of freedom
+2021-02-17T14:48:57.255877500Z AIC: 287321
+2021-02-17T14:48:57.255891300Z 
+2021-02-17T14:48:57.255898400Z Number of Fisher Scoring iterations: 11
+2021-02-17T14:48:57.255905300Z 
+2021-02-17T15:11:08.468780200Z 
+2021-02-17T15:11:08.468883000Z Call:
+2021-02-17T15:11:08.468892900Z glm(formula = update(outcome ~ 1, formula_demog) %>% update(formula_calendar) %>% 
+2021-02-17T15:11:08.468901400Z     update(formula_comorbs) %>% update(formula_exposure), family = binomial, 
+2021-02-17T15:11:08.468909100Z     data = data_weights, weights = ipweight_stbl, control = parglmparams, 
+2021-02-17T15:11:08.468916600Z     method = parglm::parglm.fit, singular.ok = FALSE)
+2021-02-17T15:11:08.468923900Z 
+2021-02-17T15:11:08.468931200Z Deviance Residuals: 
+2021-02-17T15:11:15.242664700Z     Min       1Q   Median       3Q      Max  
+2021-02-17T15:11:15.242724100Z -0.3490  -0.0309  -0.0246  -0.0196   4.5535  
+2021-02-17T15:11:15.242733600Z 
+2021-02-17T15:11:15.242741200Z Coefficients:
+2021-02-17T15:11:15.245788800Z                                     Estimate Std. Error z value Pr(>|z|)    
+2021-02-17T15:11:15.245843400Z (Intercept)                       -1.560e+01  2.325e+00  -6.710 1.94e-11 ***
+2021-02-17T15:11:15.245883500Z age                                1.218e-01  5.308e-02   2.294 0.021813 *  
+2021-02-17T15:11:15.245891900Z I(age * age)                      -3.647e-04  3.022e-04  -1.207 0.227608    
+2021-02-17T15:11:15.245898800Z sexMale                            3.689e-02  1.612e-02   2.289 0.022103 *  
+2021-02-17T15:11:15.245905900Z imd2                              -6.354e-02  2.594e-02  -2.449 0.014321 *  
+2021-02-17T15:11:15.245913000Z imd3                              -1.803e-01  2.510e-02  -7.184 6.76e-13 ***
+2021-02-17T15:11:15.245920200Z imd4                              -3.061e-01  2.579e-02 -11.867  < 2e-16 ***
+2021-02-17T15:11:15.245928000Z imd5 most deprived                -3.239e-01  2.601e-02 -12.449  < 2e-16 ***
+2021-02-17T15:11:15.245935100Z poly(tstop, 2)1                    2.759e+03  5.696e+01  48.438  < 2e-16 ***
+2021-02-17T15:11:15.245942100Z poly(tstop, 2)2                   -3.041e+02  5.372e+01  -5.662 1.50e-08 ***
+2021-02-17T15:11:15.245949200Z chronic_cardiac_diseaseTRUE        2.865e-01  1.626e-02  17.621  < 2e-16 ***
+2021-02-17T15:11:15.245956300Z current_copdTRUE                   3.223e-01  2.273e-02  14.182  < 2e-16 ***
+2021-02-17T15:11:15.245963400Z dementiaTRUE                       9.440e-01  1.943e-02  48.595  < 2e-16 ***
+2021-02-17T15:11:15.245970300Z dialysisTRUE                       1.112e+00  1.097e-01  10.136  < 2e-16 ***
+2021-02-17T15:11:15.245977800Z solid_organ_transplantationTRUE    1.333e-01  2.558e-01   0.521 0.602287    
+2021-02-17T15:11:15.245984800Z bone_marrow_transplantTRUE        -5.444e+00  8.080e+01  -0.067 0.946286    
+2021-02-17T15:11:15.245997500Z chemo_or_radioTRUE                 5.152e-02  4.423e-02   1.165 0.244181    
+2021-02-17T15:11:15.246004800Z sickle_cell_diseaseTRUE           -9.043e-02  9.960e-01  -0.091 0.927657    
+2021-02-17T15:11:15.246012400Z permanant_immunosuppressionTRUE   -3.626e-01  3.343e-01  -1.085 0.278050    
+2021-02-17T15:11:15.246019600Z temporary_immunosuppressionTRUE    3.111e-01  1.036e-01   3.004 0.002668 ** 
+2021-02-17T15:11:15.246026700Z aspleniaTRUE                       1.981e-01  1.481e-01   1.337 0.181211    
+2021-02-17T15:11:15.246034500Z intel_dis_incl_downs_syndromeTRUE  8.323e-01  1.259e-01   6.613 3.78e-11 ***
+2021-02-17T15:11:15.246043400Z psychosis_schiz_bipolarTRUE        6.013e-01  6.208e-02   9.685  < 2e-16 ***
+2021-02-17T15:11:15.246050600Z lung_cancerTRUE                    2.881e-01  8.158e-02   3.531 0.000414 ***
+2021-02-17T15:11:15.246057600Z cancer_excl_lung_and_haemTRUE      1.117e-01  2.044e-02   5.465 4.62e-08 ***
+2021-02-17T15:11:15.246064900Z haematological_cancerTRUE          2.306e-01  5.391e-02   4.277 1.89e-05 ***
+2021-02-17T15:11:15.246072100Z timesincevax_pwDose 1 (0,3]       -1.382e+00  6.577e-02 -21.016  < 2e-16 ***
+2021-02-17T15:11:15.246082800Z timesincevax_pwDose 1 (3,7]       -9.182e-01  5.179e-02 -17.731  < 2e-16 ***
+2021-02-17T15:11:15.246089800Z timesincevax_pwDose 1 (7,14]      -6.474e-01  4.141e-02 -15.633  < 2e-16 ***
+2021-02-17T15:11:15.246105000Z timesincevax_pwDose 1 (14,21]     -7.101e-01  4.776e-02 -14.867  < 2e-16 ***
+2021-02-17T15:11:15.246113300Z timesincevax_pwDose 1 (21, Inf]   -7.978e-01  7.082e-02 -11.266  < 2e-16 ***
+2021-02-17T15:11:15.246122000Z timesincevax_pwDose 2 (0,3]       -2.251e+00  2.064e-01 -10.906  < 2e-16 ***
+2021-02-17T15:11:15.246129900Z timesincevax_pwDose 2 (3,7]       -1.814e+00  1.381e-01 -13.134  < 2e-16 ***
+2021-02-17T15:11:15.246138000Z timesincevax_pwDose 2 (7,14]      -2.193e+00  1.472e-01 -14.896  < 2e-16 ***
+2021-02-17T15:11:15.246145300Z timesincevax_pwDose 2 (14,21]     -1.811e+00  7.102e-01  -2.550 0.010779 *  
+2021-02-17T15:11:15.246152600Z timesincevax_pwDose 2 (21, Inf]   -6.305e+00  3.797e+02  -0.017 0.986754    
+2021-02-17T15:11:15.246267300Z ---
+2021-02-17T15:11:15.246289400Z Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+2021-02-17T15:11:15.246879400Z 
+2021-02-17T15:11:15.246895400Z (Dispersion parameter for binomial family taken to be 1)
+2021-02-17T15:11:15.246903400Z 
+2021-02-17T15:11:15.246910700Z     Null deviance: 291822  on 42091066  degrees of freedom
+2021-02-17T15:11:15.246917800Z Residual deviance: 283203  on 42091031  degrees of freedom
+2021-02-17T15:11:15.247068400Z AIC: 284487
+2021-02-17T15:11:15.247083000Z 
+2021-02-17T15:11:15.247090700Z Number of Fisher Scoring iterations: 12
+2021-02-17T15:11:15.247097900Z 
+2021-02-17T15:12:49.262255700Z Warning message:
+2021-02-17T15:12:49.262329400Z Transformation introduced infinite values in continuous x-axis 
+
+
+state: succeeded
+commit: d2588ddb076953dce69073309aef6a6a321d3ddf
+docker_image_id: sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0
+job_id: ploaihhlln6puedq
+run_by_user: wjchulme
+created_at: 2021-02-17T13:06:50Z
+started_at: 2021-02-17T13:55:13Z
+completed_at: 2021-02-17T15:13:39Z
+
+Completed successfully
+
+outputs:
+  output/models/msm/over80s/estimates.csv    - moderately_sensitive
+  output/models/msm/over80s/forest_plot.svg  - moderately_sensitive
+  output/models/msm/over80s/weights.txt      - moderately_sensitive

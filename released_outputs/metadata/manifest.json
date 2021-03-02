@@ -1,0 +1,1264 @@
+{
+  "files": {
+    "output/available_packages.csv": {
+      "created_by_action": "get_packages",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data/data_all.rds": {
+      "created_by_action": "data_process_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_long_admission_dates.rds": {
+      "created_by_action": "data_process_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_long_vax_dates.rds": {
+      "created_by_action": "data_process_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_processed_over80s.rds": {
+      "created_by_action": "data_process_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_tte_over80s.rds": {
+      "created_by_action": "data_process_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_vaccinated.rds": {
+      "created_by_action": "data_process_vaccinated",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data/data_vaccinated_vax_dates.rds": {
+      "created_by_action": "data_process_vaccinated",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/data_properties/data_all_coltypes.txt": {
+      "created_by_action": "data_properties_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_all_skim.txt": {
+      "created_by_action": "data_properties_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_all_tabulate.txt": {
+      "created_by_action": "data_properties_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_processed_over80s_colsummary.txt": {
+      "created_by_action": "data_properties_processed_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_processed_over80s_coltypes.txt": {
+      "created_by_action": "data_properties_processed_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_day_over80s_coltypes.txt": {
+      "created_by_action": "data_properties_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_day_over80s_skim.txt": {
+      "created_by_action": "data_properties_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_day_over80s_tabulate.txt": {
+      "created_by_action": "data_properties_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_over80s_colsummary.txt": {
+      "created_by_action": "data_properties_tte_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_tte_over80s_coltypes.txt": {
+      "created_by_action": "data_properties_tte_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_vaccinated_coltypes.txt": {
+      "created_by_action": "data_properties_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_vaccinated_skim.txt": {
+      "created_by_action": "data_properties_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/data_properties/data_vaccinated_tabulate.txt": {
+      "created_by_action": "data_properties_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/input_all.csv": {
+      "created_by_action": "extract_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/input_doses.csv": {
+      "created_by_action": "extract_doses_data",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/input_over80s.csv": {
+      "created_by_action": "extract_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/input_vaccinated.csv": {
+      "created_by_action": "extract_vaccinated",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/modeldata/data_tte_day_cp_over80s.rds": {
+      "created_by_action": "data_tte_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/modeldata/data_tte_day_over80s.rds": {
+      "created_by_action": "data_tte_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/modeldata/data_tte_day_pt_over80s.rds": {
+      "created_by_action": "data_tte_over80s",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/models/cox/over80s/estimates.csv": {
+      "created_by_action": "models_cox_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/cox/over80s/forest_plot.svg": {
+      "created_by_action": "models_cox_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/cox/over80s/zph_age.png": {
+      "created_by_action": "models_cox_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/cox/over80s/zph_vax.png": {
+      "created_by_action": "models_cox_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/msm/over80s/estimates.csv": {
+      "created_by_action": "models_msm_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/msm/over80s/forest_plot.svg": {
+      "created_by_action": "models_msm_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/msm/over80s/weights.txt": {
+      "created_by_action": "models_msm_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/over80s/estimates.csv": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/over80s/forest_plot.svg": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/over80s/zph_age.png": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/over80s/zph_vax.png": {
+      "created_by_action": "models_over80s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/under65s/zph_age.png": {
+      "created_by_action": "models_under65s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/models/under65s/zph_vax.png": {
+      "created_by_action": "models_under65s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/summary_stats.json": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ageband_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ageband_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ageband_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ageband_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ageband_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ageband_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ethnicity_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ethnicity_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ethnicity_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ethnicity_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ethnicity_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_ethnicity_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_imd_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_imd_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_imd_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_imd_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_imd_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_imd_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_region_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_region_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_region_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_region_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_region_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_region_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_sex_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_sex_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_sex_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_sex_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_sex_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_hazard_sex_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_patch_ageband.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_patch_ethnicity.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_patch_imd.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_patch_region.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_patch_sex.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ageband_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ageband_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ageband_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ageband_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ageband_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ageband_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ageband_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ageband_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ageband_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ageband_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ageband_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ageband_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ethnicity_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ethnicity_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ethnicity_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ethnicity_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ethnicity_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_ethnicity_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_imd_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_imd_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_imd_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_imd_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_imd_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_imd_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_region_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_region_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_region_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_region_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_region_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_region_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_sex_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_sex_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_sex_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_sex_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_sex_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ci_sex_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ethnicity_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ethnicity_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ethnicity_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ethnicity_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ethnicity_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_ethnicity_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_imd_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_imd_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_imd_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_imd_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_imd_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_imd_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_region_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_region_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_region_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_region_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_region_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_region_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_sex_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_sex_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_sex_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_sex_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_sex_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_smoothhazard_sex_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ageband_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ageband_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ageband_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ageband_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ageband_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ageband_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ageband_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ageband_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ageband_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ageband_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ageband_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ageband_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ethnicity_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ethnicity_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ethnicity_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ethnicity_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ethnicity_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_ethnicity_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_imd_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_imd_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_imd_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_imd_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_imd_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_imd_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_region_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_region_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_region_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_region_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_region_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_region_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_sex_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_sex_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_sex_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_sex_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_sex_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ci_sex_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ethnicity_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ethnicity_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ethnicity_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ethnicity_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ethnicity_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_ethnicity_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_imd_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_imd_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_imd_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_imd_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_imd_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_imd_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_region_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_region_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_region_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_region_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_region_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_region_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_sex_admitted.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_sex_coviddeath.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_sex_death.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_sex_posPC.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_sex_posSGSS.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/figures/plot_survival_sex_seconddose.svg": {
+      "created_by_action": "tte_plots",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/tables/event_rates_at_14days_ageband.csv": {
+      "created_by_action": "tte_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/tables/event_rates_at_14days_ethnicity.csv": {
+      "created_by_action": "tte_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/tables/event_rates_at_14days_imd.csv": {
+      "created_by_action": "tte_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/tables/event_rates_at_14days_region.csv": {
+      "created_by_action": "tte_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/tte/tables/event_rates_at_14days_sex.csv": {
+      "created_by_action": "tte_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/vaccine_type/tables/vaccine_type_ageband.csv": {
+      "created_by_action": "vaccine_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/vaccine_type/tables/vaccine_type_ethnicity.csv": {
+      "created_by_action": "vaccine_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/vaccine_type/tables/vaccine_type_imd.csv": {
+      "created_by_action": "vaccine_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/vaccine_type/tables/vaccine_type_region.csv": {
+      "created_by_action": "vaccine_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/vaccine_type/tables/vaccine_type_sex.csv": {
+      "created_by_action": "vaccine_tables",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/categorical.txt": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/date.txt": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/numeric.txt": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_admitted_3_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_admitted_4_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_admitted_5_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ageband.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_asplenia.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_bmi.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_bone_marrow_transplant.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_cancer_excl_lung_and_haem.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_care_home.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_care_home_type.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_cause_of_death.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_chemo_or_radio.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_chronic_cardiac_disease.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_1_type.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_3_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_4_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_az_2_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_az_3_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_az_4_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_pfizer_3_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covid_vax_pfizer_4_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_covidadmitted_2_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_current_copd.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_cystic_fibrosis.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_dementia.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_dialysis.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_discharged_3_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_discharged_4_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_discharged_5_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_dmards.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ethnicity.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_haematological_cancer.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_has_follow_up_previous_year.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_imd.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ind_admitted.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ind_coviddeath.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ind_death.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ind_posPC.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ind_posSGSS.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_ind_seconddose.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_intel_dis_incl_downs_syndrome.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_lung_cancer.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_permanant_immunosuppression.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_positive_test_2_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_primary_care_covid_case_2_date.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_psychosis_schiz_bipolar.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_region.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_sex.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_sickle_cell_disease.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_solid_organ_transplantation.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_stp.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/variable_summary/tables/categorical_temporary_immunosuppression.csv": {
+      "created_by_action": "data_summarise_vaccinated",
+      "privacy_level": "moderately_sensitive"
+    }
+  },
+  "actions": {
+    "extract_doses_data": {
+      "state": "succeeded",
+      "commit": "5538e94cca9082d8419a2ef6315d8770282ea75d",
+      "docker_image_id": "sha256:0574f44079c63ec41c331a06cfec7a857774f1a7b3a8af544837209e53afc4b3",
+      "job_id": "wdkljfs3lcgbfdcs",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-08T22:33:33Z",
+      "completed_at": "2021-02-08T22:42:35Z"
+    },
+    "data_models": {
+      "state": "succeeded",
+      "commit": "5538e94cca9082d8419a2ef6315d8770282ea75d",
+      "docker_image_id": "sha256:76740c1d3b370497b2291d1b01b8b8fac4cf79bdc6e79e8b06117de59f791e7b",
+      "job_id": "zrbwpi47axgqrb6q",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-08T22:33:33Z",
+      "completed_at": "2021-02-09T07:05:27Z"
+    },
+    "extract_over80s": {
+      "state": "succeeded",
+      "commit": "b6a640d1dae5123da04cf5fb753fec133eb593e1",
+      "docker_image_id": "sha256:0574f44079c63ec41c331a06cfec7a857774f1a7b3a8af544837209e53afc4b3",
+      "job_id": "n6ceyzjakl4yb2qp",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-10T17:02:29Z",
+      "completed_at": "2021-02-10T17:08:30Z"
+    },
+    "data_properties_processed_over80s": {
+      "state": "succeeded",
+      "commit": "b6a640d1dae5123da04cf5fb753fec133eb593e1",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "5nyimemzizb6k5sd",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-10T17:02:29Z",
+      "completed_at": "2021-02-10T17:11:56Z"
+    },
+    "data_properties_tte_over80s": {
+      "state": "succeeded",
+      "commit": "b6a640d1dae5123da04cf5fb753fec133eb593e1",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "6uior7hr3qzrvxxv",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-10T17:02:29Z",
+      "completed_at": "2021-02-10T17:12:04Z"
+    },
+    "data_process_over80s": {
+      "state": "succeeded",
+      "commit": "e98a355a562425a7a31936f2ac695337c64f84a8",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "a6ocxaix6chbhbga",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-11T10:52:06Z",
+      "completed_at": "2021-02-11T10:54:26Z"
+    },
+    "models_under65s": {
+      "state": "failed",
+      "commit": "cd700231f1091f9ba26915bd634dc732a6a48ead",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "uivwy5xmtazwofaw",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-12T12:25:02Z",
+      "completed_at": "2021-02-12T15:19:34Z"
+    },
+    "models_over80s": {
+      "state": "succeeded",
+      "commit": "cd700231f1091f9ba26915bd634dc732a6a48ead",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "qqrkk43ylrd5zbcx",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-12T12:25:02Z",
+      "completed_at": "2021-02-12T18:57:00Z"
+    },
+    "extract_all": {
+      "state": "succeeded",
+      "commit": "af08f8577ab4727672bdf4d1e47f354dd5a60762",
+      "docker_image_id": "sha256:57dbb79a93cf71de156a4e1010bb656d7e181149a49a17015eb8b75824cd6762",
+      "job_id": "if6wnf3kixgx47ep",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-15T20:07:11Z",
+      "completed_at": "2021-02-15T20:32:16Z"
+    },
+    "get_packages": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "lvucdw6scyl6fxxi",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T11:53:59Z"
+    },
+    "extract_vaccinated": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:57dbb79a93cf71de156a4e1010bb656d7e181149a49a17015eb8b75824cd6762",
+      "job_id": "qhhe6kpenofcw7wj",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T13:08:11Z"
+    },
+    "data_process_vaccinated": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "l3zxlwht6tmwygcg",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T13:10:46Z"
+    },
+    "vaccine_tables": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "k7b6d6d75xklqazo",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T13:16:03Z"
+    },
+    "tte_tables": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "zmtlthajinvfszga",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T13:16:13Z"
+    },
+    "data_summarise_vaccinated": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "4ozd54ynxszxh7kt",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T13:17:05Z"
+    },
+    "data_properties_vaccinated": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "gim7fzhpy5bto6k2",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T13:17:53Z"
+    },
+    "tte_plots": {
+      "state": "succeeded",
+      "commit": "068a9d77282100339453bd94787c4495801b58e4",
+      "docker_image_id": "sha256:841eb4b2d7724549048fdd750533559f9bd5131c6623d83a48602edaf6af651a",
+      "job_id": "izob7afoa7uahhjh",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T11:53:43Z",
+      "completed_at": "2021-02-16T19:14:01Z"
+    },
+    "models_cox_over80s": {
+      "state": "succeeded",
+      "commit": "d8ddb2d7de631d76d489d582a88e67264c882dfa",
+      "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
+      "job_id": "omwa75cmoauvwirc",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-16T17:57:29Z",
+      "completed_at": "2021-02-17T00:09:06Z"
+    },
+    "data_process_all": {
+      "state": "succeeded",
+      "commit": "3f8108f8c414576cfaba19e244e3737e0e23b64f",
+      "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
+      "job_id": "hzc2xhotprdgpzzp",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-17T10:27:08Z",
+      "completed_at": "2021-02-17T10:47:03Z"
+    },
+    "data_properties_all": {
+      "state": "succeeded",
+      "commit": "3f8108f8c414576cfaba19e244e3737e0e23b64f",
+      "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
+      "job_id": "wn2luzlbcxdceeec",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-17T10:27:08Z",
+      "completed_at": "2021-02-17T11:16:46Z"
+    },
+    "data_tte_over80s": {
+      "state": "succeeded",
+      "commit": "d2588ddb076953dce69073309aef6a6a321d3ddf",
+      "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
+      "job_id": "a65wgigw4xxscyde",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-17T13:06:50Z",
+      "completed_at": "2021-02-17T13:44:29Z"
+    },
+    "data_properties_over80s": {
+      "state": "succeeded",
+      "commit": "d2588ddb076953dce69073309aef6a6a321d3ddf",
+      "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
+      "job_id": "gltoqjyucf7r6gqn",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-17T13:06:50Z",
+      "completed_at": "2021-02-17T13:55:17Z"
+    },
+    "models_msm_over80s": {
+      "state": "succeeded",
+      "commit": "d2588ddb076953dce69073309aef6a6a321d3ddf",
+      "docker_image_id": "sha256:620657ea71ffa5cc1a98e97c26d2a3ee4298d16da0bec4b1af9fe2cfed6f8ff0",
+      "job_id": "ploaihhlln6puedq",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-02-17T13:06:50Z",
+      "completed_at": "2021-02-17T15:13:39Z"
+
+    }
+  },
+  "workspace": "covid-vaccineeffectiveness-research_doses",
+  "repo": "https://github.com/opensafely/covid-vaccine-effectiveness-research"
+}

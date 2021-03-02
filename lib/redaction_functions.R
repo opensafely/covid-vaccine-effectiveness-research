@@ -122,7 +122,7 @@ redacted_summary_catcat <- function(
   }
 
   if (is.logical(variable2)){
-    variable2 <- if_else(variable1, "yes", "no")
+    variable2 <- if_else(variable2, "yes", "no")
   }
 
   dat_freq <- tibble(
