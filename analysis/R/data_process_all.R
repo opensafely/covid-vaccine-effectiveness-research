@@ -129,7 +129,7 @@ data_extract0 <- read_csv(
     na = character() # more stable to convert to missing later
 ) %>%
   ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
-  sample_n(size=200000)
+  sample_frac(size=0.2)
 
 # parse NAs
 data_extract <- data_extract0 %>%
