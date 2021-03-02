@@ -27,11 +27,13 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
-cohort <- args[[1]]
+
 
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
+} else{
+  cohort <- args[[1]]
 }
 
 
@@ -104,6 +106,8 @@ data_tte <- data_all %>%
     #outcome_date = positive_test_1_date, #change here for different outcomes.
     #outcome_date = .[[metadata[["outcome_var"]]]],
     lastfup_date = pmin(death_date, end_date, na.rm=TRUE),
+
+    tte_enddate = tte(start_date, end_date, end_date),
 
     # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
     # -- see section 3.3 of the timedep vignette in survival package
@@ -288,7 +292,7 @@ cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)),
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for MSMs
 
-alltimes <- expand(data_tte, patient_id, alltimes=full_seq(c(1, tte_lastfup),1))
+alltimes <- expand(data_tte, patient_id, times=full_seq(c(1, tte_lastfup),1))
 
 # do not use survSplit as this doesn't handle multiple events properly
 # eg, a positive test will be expanded as if a tdc (eg c(0,0,1,1,1,..)) not an event (eg c(0,0,1,0,0,...))
@@ -297,7 +301,7 @@ data_tte_pt <- tmerge(
   data1 = data_tte_cp,
   data2 = alltimes,
   id = patient_id,
-  alltimes = event(alltimes, alltimes)
+  alltimes = event(times, times)
 ) %>%
   arrange(patient_id, tstart) %>%
   group_by(patient_id) %>%
