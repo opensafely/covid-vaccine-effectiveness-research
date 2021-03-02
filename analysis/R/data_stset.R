@@ -16,7 +16,6 @@
 
 ## Import libraries ----
 library('tidyverse')
-library('lubridate')
 library('survival')
 
 ## Import custom user functions from lib
@@ -28,14 +27,12 @@ source(here::here("lib", "survival_functions.R"))
 args <- commandArgs(trailingOnly=TRUE)
 
 
-
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
 } else{
   cohort <- args[[1]]
 }
-
 
 ## create output directories ----
 dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
