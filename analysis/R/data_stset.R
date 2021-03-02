@@ -54,7 +54,7 @@ metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ][1,]
 
 ## one-row-per-patient data ----
 
-data_tte <- data_all %>%
+data_fixed <- data_all %>%
   filter(
     patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
   ) %>%
@@ -85,6 +85,19 @@ data_tte <- data_all %>%
     lung_cancer,
     cancer_excl_lung_and_haem,
     haematological_cancer,
+  )
+
+
+## print dataset size ----
+cat(glue::glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI")))
+
+data_tte <- data_all  %>%
+  filter(
+    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
+  ) %>%
+  transmute(
+    patient_id,
 
     start_date,
     end_date,
@@ -179,7 +192,7 @@ data_tte <- data_all %>%
   )
 
 ## print dataset size ----
-cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte)), "\n  ")
+cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n  ")
 cat(glue::glue("memory usage = ", format(object.size(data_tte), units="GB", standard="SI")))
 
 ## convert time-to-event data from daily to weekly ----
@@ -286,6 +299,11 @@ mutate(
   vaxaz_status = vaxaz1 + vaxaz2,
 )
 
+# free up some memory
+rm(data_tte_cp0)
+rm(data_hospitalised)
+
+
 stopifnot("tstart should be >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
 stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$tstop - data_tte_cp$tstart > 0)
 
@@ -350,7 +368,8 @@ cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_p
 cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI")), "\n  ")
 
 ## Save processed tte data ----
-write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide.rds")), compress="gz")
+write_rds(data_fixed, here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")), compress="gz")
+write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide_tte.rds")), compress="gz")
 write_rds(data_tte_cp, here::here("output", cohort, "data", glue::glue("data_cp.rds")), compress="gz")
 write_rds(data_tte_pt, here::here("output", cohort, "data", glue::glue("data_pt.rds")), compress="gz")
 
