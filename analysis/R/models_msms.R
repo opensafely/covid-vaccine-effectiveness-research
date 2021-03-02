@@ -95,14 +95,18 @@ dir.create(here::here("output", cohort, outcome, "models"), showWarnings = FALSE
 
 # Import processed data ----
 
+data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
-  #fastDummies::dummy_cols(select_columns="region") %>%
   filter(
-    tstop <= .[[glue::glue("tte_{outcome}")]] | is.na(.[[glue::glue("tte_{outcome}")]]) # follow up ends at occurrence of outcome
+    .[[glue::glue("{outcome}_status")]] == 0 # follow up ends at occurrence of outcome, ie where status not >0
   ) %>%
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
     outcome = .[[outcome]]
+  ) %>%
+  left_join(
+    data_fixed, by="patient_id"
   )
 
 
@@ -120,8 +124,8 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
 
 ## models for first and second vaccination ----
 
-data_pt_atriskvax1 <- data_pt %>% filter(vax_history==0)
-data_pt_atriskvax2 <- data_pt %>% filter(vax_history==1)
+data_pt_atriskvax1 <- data_pt %>% filter(vax_status==0)
+data_pt_atriskvax2 <- data_pt %>% filter(vax_status==1)
 
 #update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent)
 ### with time-updating covariates
@@ -204,9 +208,9 @@ data_weights <- data_pt %>%
   group_by(patient_id) %>%
   mutate(
 
-    predvax1 = if_else(vax_history==1L, 1, predvax1),
-    predvax2 = if_else(vax_history==0L, 0, predvax2),
-    predvax2 = if_else(vax_history==2L, 1, predvax2),
+    predvax1 = if_else(vax_status==1L, 1, predvax1),
+    predvax2 = if_else(vax_status==0L, 0, predvax2),
+    predvax2 = if_else(vax_status==2L, 1, predvax2),
 
     # get probability of occurrence of realised vaccination status
     probstatus = case_when(
@@ -230,9 +234,9 @@ data_weights <- data_pt %>%
 
     #same but for time-independent model
 
-    predvax1_fxd = if_else(vax_history==1L, 1, predvax1_fxd),
-    predvax2_fxd = if_else(vax_history==0L, 0, predvax2_fxd),
-    predvax2_fxd = if_else(vax_history==2L, 1, predvax2_fxd),
+    predvax1_fxd = if_else(vax_status==1L, 1, predvax1_fxd),
+    predvax2_fxd = if_else(vax_status==0L, 0, predvax2_fxd),
+    predvax2_fxd = if_else(vax_status==2L, 1, predvax2_fxd),
 
     probstatus_fxd = case_when(
       vax_status==0L ~ 1-predvax1_fxd,
