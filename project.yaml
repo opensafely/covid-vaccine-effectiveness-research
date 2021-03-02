@@ -60,12 +60,12 @@ actions:
         datasummary: output/over80s/postest/descr/events*.svg
 
 
-  # descr_table1_over80s:
-  #   run: r:latest analysis/R/table1.R over80s postest
-  #   needs: [data_define_cohorts, data_stset_over80s]
-  #   outputs:
-  #     moderately_sensitive:
-  #       datasummary: output/over80s/postest/descr/table*.svg
+  descr_table1_over80s:
+    run: r:latest analysis/R/table1.R over80s
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      moderately_sensitive:
+        table1: output/over80s/descr/table*
 
   models_msm_over80s:
     run: r:latest analysis/R/models_msms.R over80s postest
