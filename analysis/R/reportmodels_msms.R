@@ -207,9 +207,11 @@ ggsecular4<- interactions::interact_plot(
   y.label=glue::glue("{outcome_descr} prob.")
 )
 
-ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3,
-                                              #ggsecular4
-                                              ), ncol=1, byrow=FALSE, guides="collect")
+ggsecular_patch <- patchwork::wrap_plots(list(
+  ggsecular2,
+  ggsecular3,
+  ggsecular4
+), ncol=1, byrow=FALSE, guides="collect")
 
 ggsave(filename=here::here("output", cohort, outcome, "models", "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 
