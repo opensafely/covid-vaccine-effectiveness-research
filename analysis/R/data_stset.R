@@ -317,6 +317,12 @@ data_tte_pt <- tmerge(
     vaxpfizer_history = lag(vaxpfizer_status, 1, 0),
     vaxaz_history = lag(vaxaz_status, 1, 0),
 
+    # similarly for outcomes
+    postest_history = lag(postest_status, 1, 0),
+    covidadmitted_history = lag(covidadmitted_status, 1, 0),
+    coviddeath_history = lag(coviddeath_status, 1, 0),
+    death_history = lag(death_status, 1, 0),
+
     # define time since vaccination
     timesincevax1 = cumsum(vax1),
     timesincevax2 = cumsum(vax2),
