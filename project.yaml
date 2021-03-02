@@ -52,12 +52,20 @@ actions:
       moderately_sensitive:
         datasummary: output/cohort/outcome/data_properties/data_wide*.txt
 
-  summary_over80s:
-    run: r:latest analysis/R/plot_outcomes_per_day.R over80s
+  descr_eventsperday_over80s:
+    run: r:latest analysis/R/plot_outcomes_per_day.R over80s postest
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       moderately_sensitive:
-        datasummary: output/over80s/postest/descr/positive_test*.svg
+        datasummary: output/over80s/postest/descr/events*.svg
+
+
+  # descr_table1_over80s:
+  #   run: r:latest analysis/R/table1.R over80s postest
+  #   needs: [data_define_cohorts, data_stset_over80s]
+  #   outputs:
+  #     moderately_sensitive:
+  #       datasummary: output/over80s/postest/descr/table*.svg
 
   models_msm_over80s:
     run: r:latest analysis/R/models_msms.R over80s postest
