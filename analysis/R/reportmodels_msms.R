@@ -29,25 +29,29 @@ source(here::here("lib", "survival_functions.R"))
 args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
+outcome <- args[[2]]
 
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
+  outcome <- "postest"
 }
 
 
 # Import metadata for cohort ----
 
-metadata_cohorts <- read_rds(here::here("output", "modeldata", "metadata_cohorts.rds"))
-metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort,]
+metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
+metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort & metadata_cohorts[["outcome"]]==outcome, ]
+
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
+
 
 ## define model hyper-parameters and characteristics ----
 
 ### model names ----
 
-list2env(metadata_cohorts, globalenv())
+list2env(metadata, globalenv())
 
 ## or equivalently:
 # cohort <- metadata_cohorts$cohort
@@ -80,25 +84,25 @@ formula_timedependent <- . ~ . + hospital_status # consider adding local infecti
 
 
 # create output directories ----
-dir.create(here::here("output", "models", "msm", cohort), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, outcome), showWarnings = FALSE, recursive=TRUE)
 
 # Import processed data ----
 
-data_weights <- read_rds(here::here("output","models", "msm", cohort, glue::glue("data_weights.rds")))
+data_weights <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("data_weights.rds")))
 
 # import models ----
 
 
-ipwvax1 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model_vax1.rds")))
-ipwvax2 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model_vax2.rds")))
-ipwvax1_fxd <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model_vax1_fxd.rds")))
-ipwvax2_fxd <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model_vax2_fxd.rds")))
-msmmod0 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model0_{outcome}.rds")))
-msmmod1 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model1_{outcome}.rds")))
-msmmod2 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model2_{outcome}.rds")))
-msmmod3 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model3_{outcome}.rds")))
-msmmod4 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model4_{outcome}.rds")))
-msmmod5 <- read_rds(here::here("output", "models", "msm", cohort, glue::glue("model5_{outcome}.rds")))
+ipwvax1 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax1.rds")))
+ipwvax2 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax2.rds")))
+ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax1_fxd.rds")))
+ipwvax2_fxd <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax2_fxd.rds")))
+msmmod0 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model0.rds")))
+msmmod1 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model1.rds")))
+msmmod2 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model2.rds")))
+msmmod3 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model3.rds")))
+msmmod4 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model4.rds")))
+msmmod5 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model5.rds")))
 
 
 
@@ -129,7 +133,7 @@ mutate(
   or.ll = exp(conf.low),
   or.ul = exp(conf.high),
 )
-write_csv(msmmod_summary, path = here::here("output", "models", "msm", cohort, "estimates.csv"))
+write_csv(msmmod_summary, path = here::here("output", cohort, outcome, "models", "estimates.csv"))
 
 # create forest plot
 msmmod_forest <- msmmod_summary %>%
@@ -177,7 +181,7 @@ msmmod_forest <- msmmod_summary %>%
   )
 
 ## save plot
-ggsave(filename=here::here("output", "models", "msm", cohort, "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
 
 
 ## secular trends ----
@@ -207,7 +211,7 @@ ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3,
                                               #ggsecular4
                                               ), ncol=1, byrow=FALSE, guides="collect")
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 
 
 ## estimated postvax survival ----
@@ -240,7 +244,7 @@ data_surv_vax <- data_postvax_pt %>%
   group_by(patient_id) %>%
   mutate(
     cmlprob_outcome = 1-cumprod(1-prob_outcome),
-  )
+  ) %>% ungroup()
 
 data_surv_novax <- data_postvax_pt %>%
   arrange(patient_id, timesincevax1) %>%
@@ -260,12 +264,13 @@ data_surv_novax <- data_postvax_pt %>%
   group_by(patient_id) %>%
   mutate(
     cmlprob_outcome = 1-cumprod(1-prob_outcome),
-  )
+  ) %>% ungroup()
 
 
 data_surv <- bind_rows(data_surv_vax, data_surv_novax) %>%
   group_by(timesincevax, vax_status) %>%
   summarise(
+    prob_outcome = mean(prob_outcome),
     cmlprob_outcome = mean(cmlprob_outcome)
   )
 
@@ -279,6 +284,40 @@ event_rate <- ggplot(data_surv) +
   )+
   theme_minimal()
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "event_rate.svg"), event_rate, width=30, height=00, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", "event_rate.svg"), event_rate, width=30, height=00, units="cm")
+
+
+
+data_surv_compare <-
+  inner_join(
+    data_surv_vax %>% mutate(prob_outcome_vax = prob_outcome, cmlprob_outcome_vax = cmlprob_outcome),
+    data_surv_novax %>% mutate(prob_outcome_novax = prob_outcome, cmlprob_outcome_novax = cmlprob_outcome),
+    by=c("patient_id",
+         "timesincevax1",
+         "timesincevax2",
+         "timesincevax"
+    )
+  ) %>%
+  mutate(
+    effectiveness = (prob_outcome_novax - prob_outcome_vax)/prob_outcome_novax,
+    cmleffectiveness = (cmlprob_outcome_novax - cmlprob_outcome_vax)/cmlprob_outcome_novax
+  ) %>%
+  group_by(timesincevax) %>%
+  summarise(
+    effectiveness = mean(effectiveness, na.rm=TRUE),
+    cmleffectiveness = mean(cmleffectiveness, na.rm=TRUE)
+  ) %>%
+  ungroup()
+
+
+
+event_rate_compare <- ggplot(data_surv_compare) +
+  geom_step(aes(x=timesincevax, y=cmleffectiveness))+#, group=patient_id, colour=patient_id))+
+  labs(
+    x="Time since dose"
+  )+
+  theme_minimal()
+
+ggsave(filename=here::here("output", cohort, outcome, "models", "cml_effectiveness.svg"), event_rate, width=30, height=00, units="cm")
 
 
