@@ -180,7 +180,7 @@ data_tte <- data_all %>%
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte)), "\n  ")
-cat(glue::glue("memory usage = ", print(object.size(data_tte), units="GB", standard="SI")))
+cat(glue::glue("memory usage = ", format(object.size(data_tte), units="GB", standard="SI")))
 
 ## convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
@@ -291,7 +291,7 @@ stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$t
 
 ### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
-cat(glue::glue("memory usage = ", print(object.size(data_tte_cp), units="GB", standard="SI")))
+cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", standard="SI")))
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
@@ -313,15 +313,15 @@ data_tte_pt <- tmerge(
   mutate(
 
     # so we can select all time-points where patient is at risk of vax AND vax has not occurred
-    vax_history = lag(vax_status, 1, 0),
-    vaxpfizer_history = lag(vaxpfizer_status, 1, 0),
-    vaxaz_history = lag(vaxaz_status, 1, 0),
-
-    # similarly for outcomes
-    postest_history = lag(postest_status, 1, 0),
-    covidadmitted_history = lag(covidadmitted_status, 1, 0),
-    coviddeath_history = lag(coviddeath_status, 1, 0),
-    death_history = lag(death_status, 1, 0),
+    # vax_history = lag(vax_status, 1, 0),
+    # vaxpfizer_history = lag(vaxpfizer_status, 1, 0),
+    # vaxaz_history = lag(vaxaz_status, 1, 0),
+    #
+    # # similarly for outcomes
+    # postest_history = lag(postest_status, 1, 0),
+    # covidadmitted_history = lag(covidadmitted_status, 1, 0),
+    # coviddeath_history = lag(coviddeath_status, 1, 0),
+    # death_history = lag(death_status, 1, 0),
 
     # define time since vaccination
     timesincevax1 = cumsum(vax1),
@@ -340,11 +340,14 @@ stopifnot("vax1 time should not be same as vax2 time" = all(data_tte_pt$tte_vax1
 
 # remove unused columns
 data_tte_pt <- data_tte_pt %>%
-  select(-starts_with("tte_"), -ends_with("_date"))
+  select(
+    -starts_with("tte_"),
+    -ends_with("_date")
+  )
 
 ### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
-cat(glue::glue("memory usage = ", print(object.size(data_tte_pt), units="GB", standard="SI")))
+cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI")), "\n  ")
 
 ## Save processed tte data ----
 write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide.rds")), compress="gz")
