@@ -183,7 +183,7 @@ data_tte <- data_all %>%
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient data size = ", nrow(data_tte)), "\n  ")
-
+cat(glue::glue("memory usage = ", print(object.size(data_tte), units="GB", standard="SI")))
 
 ## convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
@@ -294,7 +294,7 @@ stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$t
 
 ### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
-
+cat(glue::glue("memory usage = ", print(object.size(data_tte_cp), units="GB", standard="SI")))
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
@@ -341,6 +341,7 @@ data_tte_pt <- data_tte_pt %>%
 
 ### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
+cat(glue::glue("memory usage = ", print(object.size(data_tte_pt), units="GB", standard="SI")))
 
 ## Save processed tte data ----
 write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide.rds")), compress="gz")
