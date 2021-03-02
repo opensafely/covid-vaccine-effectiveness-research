@@ -64,12 +64,14 @@ data_tte <- data_all %>%
   transmute(
     patient_id,
     age,
+    ageband,
     sex,
     imd,
     #ethnicity,
 
     region,
 
+    bmi,
     chronic_cardiac_disease,
     current_copd,
     dementia,
@@ -238,6 +240,12 @@ data_tte_cp0 <- tmerge(
   covidadmitted = event(tte_covidadmitted),
   coviddeath = event(tte_coviddeath),
   death = event(tte_death),
+
+  postest_status = tdc(tte_postest),
+  covidadmitted_status = tdc(tte_covidadmitted),
+  coviddeath_status = tdc(tte_coviddeath),
+  death_status = tdc(tte_death),
+
   tstop = tte_lastfup
 )
 
