@@ -46,6 +46,9 @@ dir.create(here::here("output", cohort, "descr"), showWarnings = FALSE, recursiv
 
 ## Import processed data ----
 
+
+data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+
 data_cp <- read_rds(here::here("output", cohort, "data", glue::glue("data_cp.rds")))
 
 # create snapshot data ----
@@ -67,7 +70,8 @@ data_ss <- tmerge(
 select(-starts_with("tte_"), -ends_with("_date")) %>%
 filter(snapshot==1) %>%
 mutate(day = tstop-1) %>%
-arrange(day, patient_id)
+arrange(day, patient_id) %>%
+left_join(data_fixed, by = "patient_id")
 
 
 # create tables ----
@@ -144,41 +148,41 @@ data_tab %>%
     #output = "gt"
     output = here::here("output", cohort, "descr", "table1.md")
   )
-
-data_tab %>%
-  datasummary(
-    ageband + sex + imd + region + #ethnicity +
-
-      bmi +
-      dialysis +
-      chronic_cardiac_disease +
-      current_copd +
-      dementia +
-      dialysis +
-      solid_organ_transplantation +
-      #bone_marrow_transplant,
-      chemo_or_radio +
-      sickle_cell_disease +
-      permanant_immunosuppression +
-      temporary_immunosuppression +
-      asplenia +
-      intel_dis_incl_downs_syndrome +
-      psychosis_schiz_bipolar +
-      lung_cancer +
-      cancer_excl_lung_and_haem +
-      haematological_cancer +
-
-      Heading("Positive test", nearData=FALSE)*Factor(postest_status) +
-      covidadmitted_status +
-      coviddeath_status +
-      Heading("Death", nearData=TRUE)*death_status
-
-    ~ day * vax_status *
-      ( N + (`%`=Percent(denom="col"))) *
-      DropEmpty(which="col"),
-    data = .,
-    fmt = 1,
-    output = here::here("output", cohort, "descr", "table1.html")
-  )
-
-
+#
+# data_tab %>%
+#   datasummary(
+#     ageband + sex + imd + region + #ethnicity +
+#
+#       bmi +
+#       dialysis +
+#       chronic_cardiac_disease +
+#       current_copd +
+#       dementia +
+#       dialysis +
+#       solid_organ_transplantation +
+#       #bone_marrow_transplant,
+#       chemo_or_radio +
+#       sickle_cell_disease +
+#       permanant_immunosuppression +
+#       temporary_immunosuppression +
+#       asplenia +
+#       intel_dis_incl_downs_syndrome +
+#       psychosis_schiz_bipolar +
+#       lung_cancer +
+#       cancer_excl_lung_and_haem +
+#       haematological_cancer +
+#
+#       Heading("Positive test", nearData=FALSE)*Factor(postest_status) +
+#       covidadmitted_status +
+#       coviddeath_status +
+#       Heading("Death", nearData=TRUE)*death_status
+#
+#     ~ day * vax_status *
+#       ( N + (`%`=Percent(denom="col"))) *
+#       DropEmpty(which="col"),
+#     data = .,
+#     fmt = 1,
+#     output = here::here("output", cohort, "descr", "table1.html")
+#   )
+#
+#

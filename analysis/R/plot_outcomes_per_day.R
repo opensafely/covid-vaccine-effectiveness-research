@@ -71,12 +71,17 @@ dir.create(here::here("output", cohort, outcome, "descr"), showWarnings = FALSE,
 
 ## Import processed data ----
 
+
+data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+
+
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))  %>%
   mutate(
     outcome = .[[outcome]],
     date = as.Date(gbl_vars$start_date) + tstop,
     anyvax = vax_status>0
-  )
+  ) %>%
+  left_join(data_fixed, by="patient_id")
 
 
 
