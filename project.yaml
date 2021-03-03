@@ -138,6 +138,28 @@ actions:
         tables: output/over80s/postest/pfizer/models/*.csv
 
 
+  models_msm_over80s_az:
+    run: r:latest analysis/R/models_msms_brand.R over80s postest az
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/az/models/model*.rds
+        data: output/over80s/postest/az/models/data_weights.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/az/models/weights.txt
+        weightsplot: output/over80s/postest/az/models/histogram_weights.svg
+
+  reportmodels_msm_over80s_az:
+    run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest az
+    needs: [data_define_cohorts, models_msm_over80s_pfizer]
+    outputs:
+      moderately_sensitive:
+        forest: output/over80s/postest/az/models/forest*.svg
+        trend: output/over80s/postest/az/models/secular_trends*.svg
+        tables: output/over80s/postest/az/models/*.csv
+
+
+
   # data_stset_under65s:
   #   run: r:latest analysis/R/data_stset.R under65s
   #   needs: [data_cohorts, data_process_all]
