@@ -109,7 +109,7 @@ actions:
 
   reportmodels_msm_over80s:
     run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest any
-    needs: [data_define_cohorts, models_msm_over80s2]
+    needs: [data_define_cohorts, models_msm_over80s]
     outputs:
       moderately_sensitive:
         forest: output/over80s/postest/any/models/forest*.svg
