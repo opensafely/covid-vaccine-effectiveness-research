@@ -94,8 +94,8 @@ theme_minimal()+
     strip.text.y.right = element_text(angle = 0),
     axis.line.x = element_line(colour = "black"),
     axis.text.x = element_text(angle = 70, vjust = 1, hjust=1),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank()
+    panel.grid.major.x = element_blank()#,
+   # panel.grid.minor.x = element_blank()
   )
 
 
@@ -114,7 +114,7 @@ eventsperday <- data_pt %>%
 
 plotoutcome_n <- ggplot(eventsperday) +
   geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
-  scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
+  scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
@@ -130,7 +130,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 plotoutcome_rate <- ggplot(eventsperday) +
   geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
-  scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
+  scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
@@ -157,8 +157,8 @@ outcomeperday_sex_imd <- data_pt %>%
 
 plotoutcome_n_sex_ind <- ggplot(outcomeperday_sex_imd) +
   geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
-  facet_grid(cols=vars(sex), rows=vars(imd), margins=TRUE)+
-  scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
+  facet_grid(cols=vars(sex), rows=vars(imd))+
+  scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
@@ -176,8 +176,8 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 plotoutcome_rate_sex_ind <- ggplot(outcomeperday_sex_imd) +
   geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
-  facet_grid(cols=vars(sex), rows=vars(imd), margins=TRUE)+
-  scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
+  facet_grid(cols=vars(sex), rows=vars(imd))+
+  scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
@@ -209,7 +209,7 @@ outcomeperday_region <- data_pt %>%
 plotoutome_n_region <- ggplot(outcomeperday_region) +
   geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
   facet_wrap(facets=vars(region))+
-  scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
+  scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,
@@ -229,7 +229,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 plotoutcome_rate_region <- ggplot(outcomeperday_region) +
   geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
   facet_wrap(facets=vars(region))+
-  scale_x_date(date_breaks = "1 month", labels = scales::date_format("%Y-%m"))+
+  scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
     x=NULL,

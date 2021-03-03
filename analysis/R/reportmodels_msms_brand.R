@@ -30,11 +30,13 @@ args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
 outcome <- args[[2]]
+brand <- args[[3]]
 
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   outcome <- "postest"
+  brand <- "pfizer"
 }
 
 
@@ -83,26 +85,23 @@ formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
 formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
 
-# create output directories ----
-dir.create(here::here("output", cohort, outcome), showWarnings = FALSE, recursive=TRUE)
-
 # Import processed data ----
 
-data_weights <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("data_weights.rds")))
+data_weights <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("data_weights.rds")))
 
 # import models ----
 
 
-ipwvax1 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax1.rds")))
-ipwvax2 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax2.rds")))
-ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax1_fxd.rds")))
-ipwvax2_fxd <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model_vax2_fxd.rds")))
-msmmod0 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model0.rds")))
-msmmod1 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model1.rds")))
-msmmod2 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model2.rds")))
-msmmod3 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model3.rds")))
-msmmod4 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model4.rds")))
-msmmod5 <- read_rds(here::here("output", cohort, outcome, "models", glue::glue("model5.rds")))
+ipwvax1 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model_vax1.rds")))
+ipwvax2 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model_vax2.rds")))
+ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model_vax1_fxd.rds")))
+ipwvax2_fxd <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model_vax2_fxd.rds")))
+msmmod0 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model0.rds")))
+msmmod1 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model1.rds")))
+msmmod2 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model2.rds")))
+msmmod3 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model3.rds")))
+msmmod4 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model4.rds")))
+msmmod5 <- read_rds(here::here("output", cohort, outcome, "models", brand, glue::glue("model5.rds")))
 
 
 
@@ -133,7 +132,7 @@ mutate(
   or.ll = exp(conf.low),
   or.ul = exp(conf.high),
 )
-write_csv(msmmod_summary, path = here::here("output", cohort, outcome, "models", "estimates.csv"))
+write_csv(msmmod_summary, path = here::here("output", cohort, outcome, "models", brand, "estimates.csv"))
 
 # create forest plot
 msmmod_forest <- msmmod_summary %>%
@@ -159,7 +158,7 @@ msmmod_forest <- msmmod_summary %>%
     x="Hazard ratio, versus no vaccination",
     y=NULL,
     colour=NULL,
-    title=glue::glue("{outcome_descr} by time since vaccination"),
+    title=glue::glue("{outcome_descr} by time since vaccination ({brand})"),
     subtitle=cohort_descr
   ) +
   theme_bw()+
@@ -181,7 +180,7 @@ msmmod_forest <- msmmod_summary %>%
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, outcome, "models", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", brand, "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
 
 
 ## secular trends ----
@@ -213,7 +212,7 @@ ggsecular_patch <- patchwork::wrap_plots(list(
   ggsecular4
 ), ncol=1, byrow=FALSE, guides="collect")
 
-ggsave(filename=here::here("output", cohort, outcome, "models", "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", brand, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 
 
 ## estimated postvax survival ----
@@ -286,7 +285,7 @@ event_rate <- ggplot(data_surv) +
   )+
   theme_minimal()
 
-ggsave(filename=here::here("output", cohort, outcome, "models", "event_rate.svg"), event_rate, width=30, height=00, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", brand, "event_rate.svg"), event_rate, width=30, height=00, units="cm")
 
 
 
@@ -320,6 +319,6 @@ event_rate_compare <- ggplot(data_surv_compare) +
   )+
   theme_minimal()
 
-ggsave(filename=here::here("output", cohort, outcome, "models", "cml_effectiveness.svg"), event_rate, width=30, height=00, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, "models", brand, "cml_effectiveness.svg"), event_rate, width=30, height=00, units="cm")
 
 

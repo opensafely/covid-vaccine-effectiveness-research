@@ -2,13 +2,15 @@
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
 # imports processed data and restricts it to patients in "cohort"
-# fits some marginal structural models for vaccine effectiveness by brand, with different adjustment sets
+# fits some marginal structural models for vaccine effectiveness, with different adjustment sets
+# saves model summaries (tables and figures)
 # "tte" = "time-to-event"
-
+#
 # The script should be run via an action in the project.yaml
 # The script must be accompanied by two arguments,
 # 1. the name of the cohort defined in data_define_cohorts.R
 # 2. the name of the outcome defined in data_define_cohorts.R
+# 3. the name of the brand (currently "az" or "pfizer")
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -30,11 +32,13 @@ args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
 outcome <- args[[2]]
+brand <- args[[3]]
 
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   outcome <- "postest"
+  brand <- "pfizer"
 }
 
 
@@ -66,7 +70,6 @@ parglmparams <- parglm.control(
   nthreads = 8
 )
 
-
 ### post vax time periods ----
 
 postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
@@ -91,22 +94,26 @@ formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
 formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
 # create output directories ----
-dir.create(here::here("output", cohort, outcome, "models"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, outcome, "models", brand), showWarnings = FALSE, recursive=TRUE)
 
 # Import processed data ----
 
+data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
-  #fastDummies::dummy_cols(select_columns="region") %>%
   filter(
-    tstop <= .[[glue::glue("tte_{outcome}")]] | is.na(.[[glue::glue("tte_{outcome}")]]), # follow up ends at occurrence of outcome
-    !(vaxpfizer_history>0 & vaxaz_history>0), #exclude follow-up time with mixed branding
+    .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
+    vax_status != .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{brand}_status not >0
+    censored_status == 0 # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
   ) %>%
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
-    outcome = .[[outcome]]
+    outcome = .[[outcome]],
+
+  ) %>%
+  left_join(
+    data_fixed, by="patient_id"
   )
-
-
 
 
 # IPW model ----
@@ -123,163 +130,62 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
 
 ## models for first and second vaccination ----
 
-data_pt_atriskvax1 <- data_pt %>% filter(vaxpfizer_history==0 & vaxaz_history==0)
-data_pt_atriskvax2_pfizer1 <- data_pt %>% filter(vaxpfizer_history==1 & vaxaz_history==0)
-data_pt_atriskvax2_az1 <- data_pt %>% filter(vaxaz_history==1 & vaxpfizer_history==0)
+data_pt_atriskvax1 <- data_pt %>% filter(vax_status==0)
+data_pt_atriskvax2 <- data_pt %>% filter(vax_status==1)
 
+#update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent)
+### with time-updating covariates
 
-## DO WE NEED TO CONVERT THIS TO MULTINOMIAL LOGIT?
-
-# at risk of first ever vaccine being pfizer
-cat("ipwvaxpfizer1 \n")
-ipwvaxpfizer1 <- parglm(
-  formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
+cat("ipwvax1 \n")
+ipwvax1 <- parglm(
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
-jtools::summ(ipwvaxpfizer1)
+jtools::summ(ipwvax1)
 
-
-# at risk of first ever vaccine being az
-cat("ipwvaxaz1 \n")
-ipwvaxaz1 <- parglm(
-  formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
-  data = data_pt_atriskvax1,
+cat("ipwvax2 \n")
+ipwvax2 <- parglm(
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
+  data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
-jtools::summ(ipwvaxaz1)
-
-#at risk of second pfizer vaccine, given first vaccine pfizer
-cat("ipwvaxpfizer2_pfizer1 \n")
-ipwvaxpfizer2_pfizer1 <- parglm(
-  formula = update(vaxpfizer2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
-  data = data_pt_atriskvax2_pfizer1,
-  family=binomial,
-  control = parglmparams,
-  na.action = "na.fail"
-)
-jtools::summ(ipwvaxpfizer2_pfizer1)
-
-# at risk of second pfizer vaccine, given first vaccine az
-# cat("ipwvaxpfizer2_az1 \n")
-# ipwvaxpfizer2_az1 <- parglm(
-#   formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
-#   data = data_pt_atriskvax2_az1,
-#   family=binomial,
-#   control = parglmparams,
-#   na.action = "na.fail"
-# )
-# jtools::summ(ipwvaxpfizer2_az1)
-
-# at risk of second az vaccine, given first vaccine az
-cat("ipwvaxaz2_az1 \n")
-ipwvaxaz2_az1 <- parglm(
-  formula = update(vaxaz2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
-  data = data_pt_atriskvax2_az1,
-  family=binomial,
-  control = parglmparams,
-  na.action = "na.fail"
-)
-summary(ipwvaxaz2_az1)
-
-# at risk of second az vaccine, given first vaccine pfizer
-# cat("ipwvaxaz2_pfizer1 \n")
-# ipwvaxaz2_pfizer1 <- parglm(
-#   formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
-#   data = data_pt_atriskvax2_pfizer1,
-#   family=binomial,
-#   control = parglmparams,
-#   na.action = "na.fail"
-# )
-# jtools::summ(ipwvaxaz2_pfizer1)
-
-
+jtools::summ(ipwvax2)
 
 ### without time-updating covariates ----
 # exclude time-updating covariates _except_ variables derived from calendar time itself (eg poly(calendar_time,2))
 # used for stabilised ip weights
 
 
-# at risk of first ever vaccine being pfizer
-cat("ipwvaxpfizer1_fxd \n")
-ipwvaxpfizer1_fxd <- parglm(
-  formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_secular),
+cat("ipwvax1_fxd \n")
+ipwvax1_fxd <- parglm(
+  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
-jtools::summ(ipwvaxpfizer_fxd1)
+jtools::summ(ipwvax1_fxd)
 
-
-# at risk of first ever vaccine being az
-cat("ipwvaxaz1_fxd \n")
-ipwvaxaz1_fxd <- parglm(
-  formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_secular),
-  data = data_pt_atriskvax1,
+cat("ipwvax2_fxd \n")
+ipwvax2_fxd <- parglm(
+  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
+  data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
-jtools::summ(ipwvaxaz1_fxd)
-
-#at risk of second vaccine being pfizer, given first vaccine pfizer
-cat("ipwvaxpfizer2_pfizer1_fxd \n")
-ipwvaxpfizer2_pfizer1_fxd <- parglm(
-  formula = update(vaxpfizer2 ~ 1, formula_demog) %>% update(formula_secular),
-  data = data_pt_atriskvax2_pfizer1,
-  family=binomial,
-  control = parglmparams,
-  na.action = "na.fail"
-)
-jtools::summ(ipwvaxpfizer2_pfizer1_fxd)
-
-# at risk of second vaccine pfizer, given first vaccine az
-# cat("ipwvaxpfizer2_az1 \n")
-# ipwvaxpfizer2_az1 <- parglm(
-#   formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_secular),
-#   data = data_pt_atriskvax2_az1,
-#   family=binomial,
-#   control = parglmparams,
-#   na.action = "na.fail"
-# )
-# jtools::summ(ipwvaxpfizer2_az1)
-
-# at risk of second vaccine az, given first vaccine az
-cat("ipwvaxaz2_az1_fxd \n")
-ipwvaxaz2_az1_fxd <- parglm(
-  formula = update(vaxaz2 ~ 1, formula_demog) %>% update(formula_secular),
-  data = data_pt_atriskvax2_az1,
-  family=binomial,
-  control = parglmparams,
-  na.action = "na.fail"
-)
-jtools::summ(ipwvaxaz2_az1_fxd)
-
-# at risk of second vaccine az, given first vaccine pfizer
-# cat("ipwvaxaz2_pfizer1 \n")
-# ipwvaxaz2_pfizer1 <- parglm(
-#   formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_secular),
-#   data = data_pt_atriskvax2_pfizer1,
-#   family=binomial,
-#   control = parglmparams,
-#   na.action = "na.fail"
-# )
-# jtools::summ(ipwvaxaz2_pfizer1)
-
-
-
+jtools::summ(ipwvax2_fxd)
 
 ## get predictions from model ----
-
-data_pt_atriskvax1
-data_pt_atriskvax2_pfizer1
-data_pt_atriskvax2_az1
-
 
 data_predvax1 <- data_pt_atriskvax1 %>%
   transmute(
@@ -287,60 +193,34 @@ data_predvax1 <- data_pt_atriskvax1 %>%
     tstart, tstop,
 
     # get predicted probabilities from ipw models
-    predvaxpfizer1=predict(ipwvaxpfizer1, type="response"),
-    predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
-
-    predvaxaz1=predict(ipwvaxaz1, type="response"),
-    predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
+    predvax1=predict(ipwvax1, type="response"),
+    predvax1_fxd=predict(ipwvax1_fxd, type="response"),
   )
 
-data_predvaxpfizer2_pfizer1 <- data_pt_atriskvax2_pfizer1 %>%
+data_predvax2 <- data_pt_atriskvax2 %>%
   transmute(
     patient_id,
     tstart, tstop,
 
     # get predicted probabilities from ipw models
-    predvaxpfizer2_pfizer1=predict(ipwvaxpfizer2_pfizer1, type="response"),
-    predvaxpfizer2_pfizer1_fxd=predict(ipwvaxpfizer2_pfizer1_fxd, type="response"),
-  )
-
-
-data_predvaxaz2_az1 <- data_pt_atriskvax2_az1 %>%
-  transmute(
-    patient_id,
-    tstart, tstop,
-
-    # get predicted probabilities from ipw models
-    predvaxaz2_az1=predict(ipwvaxaz2_az1, type="response"),
-    predvaxaz2_az1_fxd=predict(ipwvaxaz2_az1_fxd, type="response"),
+    predvax2=predict(ipwvax2, type="response"),
+    predvax2_fxd=predict(ipwvax2_fxd, type="response"),
   )
 
 
 data_weights <- data_pt %>%
   left_join(data_predvax1, by=c("patient_id", "tstart", "tstop")) %>%
-  left_join(data_predvaxpfizer2_pfizer1, by=c("patient_id", "tstart", "tstop")) %>%
-  left_join(data_predvaxpfizer2_pfizer1, by=c("patient_id", "tstart", "tstop")) %>%
+  left_join(data_predvax2, by=c("patient_id", "tstart", "tstop")) %>%
   group_by(patient_id) %>%
   mutate(
 
-    predvaxpfizer1 = if_else(vaxpfizer_history==1L, 1, predvaxpfizer1),
-    predvaxpfizer1 = if_else(vaxaz_history==1L, 0, predvaxpfizer1),
-
-    predvaxaz1 = if_else(vaxaz_history==1L, 1, predvaxaz1),
-    predvaxaz1 = if_else(vaxpfizer_history==1L, 0, predvaxaz1),
-
-    predvaxpfizer2_pfizer1 = if_else(vaxpfizer_history==0L, 0, predvaxpfizer2_pfizer1),
-    predvaxpfizer2_pfizer1 = if_else(vaxpfizer_history==2L, 1, predvaxpfizer2_pfizer1),
-    predvaxpfizer2_pfizer1 = if_else(vaxaz_history==1L, 0, predvaxpfizer2_pfizer1),
-
-    predvaxaz2_az1 = if_else(vaxaz_history==0L, 0, predvaxaz2_az1),
-    predvaxaz2_az1 = if_else(vaxaz_history==2L, 1, predvaxaz2_az1),
-    predvaxaz2_az1 = if_else(vaxpfizer_history==1L, 0, predvaxaz2_az1),
+    predvax1 = if_else(vax_status==1L, 1, predvax1),
+    predvax2 = if_else(vax_status==0L, 0, predvax2),
+    predvax2 = if_else(vax_status==2L, 1, predvax2),
 
     # get probability of occurrence of realised vaccination status
-    # NEED MNLOGIT HERE!
     probstatus = case_when(
-      vax_status==0L ~ 1-predvaxpfizer1-predvaxaz1, #incorrect from here onwards
+      vax_status==0L ~ 1-predvax1,
       vax_status==1L ~ 1-predvax2,
       vax_status==2L ~ predvax2,
       TRUE ~ NA_real_
@@ -352,12 +232,17 @@ data_weights <- data_pt %>%
     # inverse probability weights
     ipweight = 1/cmlprobstatus,
 
+    # ipweight_clipped = case_when(
+    #   ipweight>quantile(ipweight,0.75, na.rm=TRUE) ~ quantile(ipweight,0.75, na.rm=TRUE),
+    #   ipweight<quantile(ipweight,0.25, na.RM=TRUE) ~ quantile(ipweight,0.25, na.rm=TRUE),
+    #   TRUE ~ ipweight
+    # ),
 
     #same but for time-independent model
 
-    predvax1_fxd = if_else(vax_history==1L, 1, predvax1_fxd),
-    predvax2_fxd = if_else(vax_history==0L, 0, predvax2_fxd),
-    predvax2_fxd = if_else(vax_history==2L, 1, predvax2_fxd),
+    predvax1_fxd = if_else(vax_status==1L, 1, predvax1_fxd),
+    predvax2_fxd = if_else(vax_status==0L, 0, predvax2_fxd),
+    predvax2_fxd = if_else(vax_status==2L, 1, predvax2_fxd),
 
     probstatus_fxd = case_when(
       vax_status==0L ~ 1-predvax1_fxd,
@@ -369,7 +254,7 @@ data_weights <- data_pt %>%
     cmlprobstatus_fxd = cumprod(probstatus_fxd),
 
     # stabilised inverse probability weights
-    ipweight_stbl = cmlprobstatus_fxd/cmlprobstatus,
+    ipweight_stbl = cmlprobstatus_fxd*ipweight,
 
   ) %>%
   ungroup()
@@ -384,10 +269,21 @@ summarise_weights <-
 
 capture.output(
   walk2(summarise_weights$value, summarise_weights$name, print_num),
-  file = here::here("output", "models", "msm", cohort, "weights.txt"),
+  file = here::here("output", cohort, outcome, "models", brand,  "weights.txt"),
   append=FALSE
 )
 
+## save weights
+weight_histogram <- ggplot(data_weights) +
+  geom_histogram(aes(x=ipweight_stbl)) +
+  theme_bw()
+
+weights_scatter <- ggplot(data_weights) +
+  geom_point(aes(x=ipweight, y=ipweight_stbl)) +
+  theme_bw()
+
+ggsave(here::here("output", cohort, outcome, "models", brand, "histogram_weights.svg"), weight_histogram)
+write_rds(data_weights, here::here("output", cohort, outcome, "models", brand, glue::glue("data_weights.rds")), compress="gz")
 
 # MSM model ----
 
@@ -397,148 +293,102 @@ capture.output(
 # use interaction with time terms?
 
 ### model 0 - unadjusted vaccination effect model ----
-## no control variables, just weighted
+## no adjustment variables
 
-cat("msmmod0 \\n")
+cat("msmmod0 \n")
 msmmod0 <- parglm(
   formula = update(outcome ~ 1, formula_exposure),
   data = data_weights,
-  weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
-summary(msmmod0)
+jtools::summ(msmmod0)
 
-### model 1 - minimally adjusted vaccination effect model ----
-cat("msmmod1 \\n")
+### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
+cat("msmmod1 \n")
 msmmod1 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_exposure),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_exposure),
   data = data_weights,
-  weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
-summary(msmmod1)
+jtools::summ(msmmod1)
 
-### model 2 - "fully" adjusted vaccination effect model ----
-cat("msmmod2 \\n")
+### model 2 - baseline, comorbs, adjusted vaccination effect model ----
+cat("msmmod2 \n")
 msmmod2 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_comorbs) %>% update(formula_exposure),
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
-  weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
-summary(msmmod2)
+jtools::summ(msmmod2)
 
-cat("msmmod3 \\n")
+### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
+cat("msmmod3 \n")
 msmmod3 <- parglm(
+  formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure),
+  data = data_weights,
+  family = binomial,
+  control = parglmparams,
+  na.action = "na.fail",
+  model = FALSE
+)
+
+jtools::summ(msmmod3)
+
+#test<-model.frame(update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(. ~ .+ipweight_stbl), data=data_weights)
+
+
+### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
+cat("msmmod4 \n")
+msmmod4 <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_comorbs) %>% update(formula_exposure),
   data = data_weights,
   weights = ipweight_stbl,
   family = binomial,
   control = parglmparams,
-  na.action = "na.fail"
+  na.action = "na.fail",
+  model = FALSE
 )
 
-summary(msmmod3)
-
-## report models ----
-
-# tidy model outputs
-
-msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="Unadjusted")
-msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="Minimal adj.")
-msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="Full adj.")
-msmmod_tidy3 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="Full adj. by region")
-
-# library('sandwich')
-# library('lmtest')
-# create table with model estimates
-msmmod_summary <- bind_rows(
-  msmmod_tidy0,
-  msmmod_tidy1,
-  msmmod_tidy2,
-  msmmod_tidy3
-) %>%
-mutate(
-  or = exp(estimate),
-  or.ll = exp(conf.low),
-  or.ul = exp(conf.high),
-)
-write_csv(msmmod_summary, path = here::here("output", "models", "msm", cohort, "estimates.csv"))
-
-# create forest plot
-msmmod_forest <- msmmod_summary %>%
-  filter(str_detect(term, "timesincevax")) %>%
-  mutate(
-    dose=str_extract(term, pattern="Dose \\d"),
-    term=str_replace(term, pattern="timesincevax\\_pw", ""),
-    term=str_replace(term, pattern="imd", "IMD "),
-    term=str_replace(term, pattern="sex", "Sex "),
-    term=str_replace(term, pattern="Dose \\d", ""),
-    term=fct_inorder(term)
-  ) %>%
-  ggplot(aes(colour=model)) +
-  geom_point(aes(x=or, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_vline(aes(xintercept=1), colour='grey')+
-  facet_grid(rows=vars(dose), scales="free_y", switch="y")+
-  scale_x_log10()+
-  scale_y_discrete(na.translate=FALSE)+
-  coord_cartesian(xlim=c(0.1,10)) +
-  labs(
-    x="Hazard ratio, versus no vaccination",
-    y=NULL,
-    colour=NULL,
-    title=glue::glue("{outcome_descr} by time since vaccination"),
-    subtitle=cohort_descr
-  ) +
-  theme_bw()+
-  theme(
-    panel.border = element_blank(),
-    axis.line.x = element_line(colour = "black"),
-
-    strip.background = element_blank(),
-    strip.placement = "outside",
-    strip.text.y.left = element_text(angle = 0),
-
-    plot.title = element_text(hjust = 0),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0, face= "italic"),
-    strip.text.y = element_text(angle = 0),
-
-    legend.position = "right"
-  )
-
-## save plot
-ggsave(filename=here::here("output", "models", "msm", cohort, "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+jtools::summ(msmmod4)
 
 
-## secular trends ----
-
-ggsecular2 <- interactions::interact_plot(
-  msmmod2,
-  pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
- )
-ggsecular3<- interactions::interact_plot(
-  msmmod3, pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
+### model 5 - secular trend adjusted vaccination effect model + IP-weighted ----
+cat("msmmod5 \n")
+msmmod5 <- parglm(
+  formula = update(outcome ~ 1, formula_secular_region) %>% update(formula_exposure),
+  data = data_weights,
+  weights = ipweight_stbl,
+  family = binomial,
+  control = parglmparams,
+  na.action = "na.fail",
+  model = FALSE
 )
 
-ggsecular_patch <- patchwork::wrap_plots(list(ggsecular2, ggsecular3), ncol=1, byrow=FALSE, guides="collect")
+jtools::summ(msmmod5)
 
-ggsave(filename=here::here("output", "models", "msm", cohort, "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+
+## Save models as rds ----
+
+write_rds(ipwvax1, here::here("output", cohort, outcome, "models", brand, "model_vax1.rds"), compress="gz")
+write_rds(ipwvax2, here::here("output", cohort, outcome, "models", brand, "model_vax2.rds"), compress="gz")
+write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, "models", brand, "model_vax1_fxd.rds"), compress="gz")
+write_rds(ipwvax2_fxd, here::here("output", cohort, outcome, "models", brand, "model_vax2_fxd.rds"), compress="gz")
+write_rds(msmmod0, here::here("output", cohort, outcome, "models", brand, "model0.rds"), compress="gz")
+write_rds(msmmod1, here::here("output", cohort, outcome, "models", brand, "model1.rds"), compress="gz")
+write_rds(msmmod2, here::here("output", cohort, outcome, "models", brand, "model2.rds"), compress="gz")
+write_rds(msmmod3, here::here("output", cohort, outcome, "models", brand, "model3.rds"), compress="gz")
+write_rds(msmmod4, here::here("output", cohort, outcome, "models", brand, "model4.rds"), compress="gz")
+write_rds(msmmod5, here::here("output", cohort, outcome, "models", brand, "model5.rds"), compress="gz")
 
