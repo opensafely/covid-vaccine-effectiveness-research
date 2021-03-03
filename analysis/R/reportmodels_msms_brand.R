@@ -114,7 +114,7 @@ msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex
 msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="2  + co-morbidities")
 msmmod_tidy3 <- tidy_parglm(msmmod3, conf.int=TRUE) %>% mutate(model="3  + spatio-temporal trends")
 msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="4  + IP-weighting")
-msmmod_tidy5 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="5 trends + IP-weighting only")
+msmmod_tidy5 <- tidy_parglm(msmmod5, conf.int=TRUE) %>% mutate(model="5 trends + IP-weighting only")
 
 # library('sandwich')
 # library('lmtest')
@@ -153,7 +153,7 @@ msmmod_forest <- msmmod_summary %>%
   scale_x_log10()+
   scale_y_discrete(na.translate=FALSE)+
   scale_colour_brewer(type="qual", palette="Set1", guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(xlim=c(0.1,10)) +
+  coord_cartesian(xlim=c(0.05,5)) +
   labs(
     x="Hazard ratio, versus no vaccination",
     y=NULL,
