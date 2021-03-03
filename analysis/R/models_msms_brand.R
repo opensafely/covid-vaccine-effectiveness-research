@@ -94,7 +94,7 @@ formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
 formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
 # create output directories ----
-dir.create(here::here("output", cohort, outcome, "models", brand), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, outcome, brand, "models"), showWarnings = FALSE, recursive=TRUE)
 
 # Import processed data ----
 
@@ -103,13 +103,20 @@ data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wid
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   filter(
     .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
-    vax_status != .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{brand}_status not >0
-    censored_status == 0 # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
+    censored_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
+    death_status ==0, # follow up ends at (day after) occurrence of death
+    vaxany_status == .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
   ) %>%
   mutate(
-    timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
+    timesincevax_pw = timesince2_cut(timesincevaxany1, timesincevaxany2, postvaxcuts, "pre-vax"),
     outcome = .[[outcome]],
-
+  ) %>%
+  rename(
+    vax_status=vaxany_status,
+    vax1 = vaxany1,
+    vax2 = vaxany2,
+    timesincevax1 = timesincevaxany1,
+    timesincevax2 = timesincevaxany2,
   ) %>%
   left_join(
     data_fixed, by="patient_id"
@@ -215,8 +222,11 @@ data_weights <- data_pt %>%
   mutate(
 
     predvax1 = if_else(vax_status==1L, 1, predvax1),
-    predvax2 = if_else(vax_status==0L, 0, predvax2),
-    predvax2 = if_else(vax_status==2L, 1, predvax2),
+    predvax2 = case_when(
+      vax_status==0L ~ 0,
+      vax_status==2L ~ 1,
+      TRUE ~predvax2
+    ),
 
     # get probability of occurrence of realised vaccination status
     probstatus = case_when(
@@ -241,8 +251,11 @@ data_weights <- data_pt %>%
     #same but for time-independent model
 
     predvax1_fxd = if_else(vax_status==1L, 1, predvax1_fxd),
-    predvax2_fxd = if_else(vax_status==0L, 0, predvax2_fxd),
-    predvax2_fxd = if_else(vax_status==2L, 1, predvax2_fxd),
+    predvax2_fxd = case_when(
+      vax_status==0L ~ 0,
+      vax_status==2L ~ 1,
+      TRUE ~ predvax2_fxd
+    ),
 
     probstatus_fxd = case_when(
       vax_status==0L ~ 1-predvax1_fxd,
@@ -269,7 +282,7 @@ summarise_weights <-
 
 capture.output(
   walk2(summarise_weights$value, summarise_weights$name, print_num),
-  file = here::here("output", cohort, outcome, "models", brand,  "weights.txt"),
+  file = here::here("output", cohort, outcome, brand, "models",  "weights.txt"),
   append=FALSE
 )
 
@@ -282,8 +295,8 @@ weights_scatter <- ggplot(data_weights) +
   geom_point(aes(x=ipweight, y=ipweight_stbl)) +
   theme_bw()
 
-ggsave(here::here("output", cohort, outcome, "models", brand, "histogram_weights.svg"), weight_histogram)
-write_rds(data_weights, here::here("output", cohort, outcome, "models", brand, glue::glue("data_weights.rds")), compress="gz")
+ggsave(here::here("output", cohort, outcome, brand, "models", "histogram_weights.svg"), weight_histogram)
+write_rds(data_weights, here::here("output", cohort, outcome, brand, "models", glue::glue("data_weights.rds")), compress="gz")
 
 # MSM model ----
 
@@ -381,14 +394,14 @@ jtools::summ(msmmod5)
 
 ## Save models as rds ----
 
-write_rds(ipwvax1, here::here("output", cohort, outcome, "models", brand, "model_vax1.rds"), compress="gz")
-write_rds(ipwvax2, here::here("output", cohort, outcome, "models", brand, "model_vax2.rds"), compress="gz")
-write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, "models", brand, "model_vax1_fxd.rds"), compress="gz")
-write_rds(ipwvax2_fxd, here::here("output", cohort, outcome, "models", brand, "model_vax2_fxd.rds"), compress="gz")
-write_rds(msmmod0, here::here("output", cohort, outcome, "models", brand, "model0.rds"), compress="gz")
-write_rds(msmmod1, here::here("output", cohort, outcome, "models", brand, "model1.rds"), compress="gz")
-write_rds(msmmod2, here::here("output", cohort, outcome, "models", brand, "model2.rds"), compress="gz")
-write_rds(msmmod3, here::here("output", cohort, outcome, "models", brand, "model3.rds"), compress="gz")
-write_rds(msmmod4, here::here("output", cohort, outcome, "models", brand, "model4.rds"), compress="gz")
-write_rds(msmmod5, here::here("output", cohort, outcome, "models", brand, "model5.rds"), compress="gz")
+write_rds(ipwvax1, here::here("output", cohort, outcome, brand, "models", "model_vax1.rds"), compress="gz")
+write_rds(ipwvax2, here::here("output", cohort, outcome, brand, "models", "model_vax2.rds"), compress="gz")
+write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, brand, "models", "model_vax1_fxd.rds"), compress="gz")
+write_rds(ipwvax2_fxd, here::here("output", cohort, outcome, brand, "models", "model_vax2_fxd.rds"), compress="gz")
+write_rds(msmmod0, here::here("output", cohort, outcome, brand, "models", "model0.rds"), compress="gz")
+write_rds(msmmod1, here::here("output", cohort, outcome, brand, "models", "model1.rds"), compress="gz")
+write_rds(msmmod2, here::here("output", cohort, outcome, brand, "models", "model2.rds"), compress="gz")
+write_rds(msmmod3, here::here("output", cohort, outcome, brand, "models", "model3.rds"), compress="gz")
+write_rds(msmmod4, here::here("output", cohort, outcome, brand, "models", "model4.rds"), compress="gz")
+write_rds(msmmod5, here::here("output", cohort, outcome, brand, "models", "model5.rds"), compress="gz")
 
