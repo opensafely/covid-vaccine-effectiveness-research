@@ -96,6 +96,29 @@ actions:
         tables: output/over80s/postest/models/*.csv
 
 
+  models_msm_over80s_pfizer:
+    run: r:latest analysis/R/models_msms_brand.R over80s postest pfizer
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/models/pfizer/model*.rds
+        data: output/over80s/postest/models/pfizer/data_weights.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/models/pfizer/weights.txt
+        weightsplot: output/over80s/postest/models/pfizer/histogram_weights.svg
+
+  reportmodels_msm_over80s_pfizer:
+    run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest pfizer
+    needs: [data_define_cohorts, models_msm_over80s_pfizer]
+    outputs:
+      moderately_sensitive:
+        forest: output/over80s/postest/models/pfizer/forest*.svg
+        trend: output/over80s/postest/models/pfizer/secular_trends*.svg
+        eventrate: output/over80s/postest/models/pfizer/event_rate.svg
+        cmleffect: output/over80s/postest/models/pfizer/cml_effectiveness.svg
+        tables: output/over80s/postest/models/pfizer/*.csv
+
+
   # data_stset_under65s:
   #   run: r:latest analysis/R/data_stset.R under65s
   #   needs: [data_cohorts, data_process_all]
