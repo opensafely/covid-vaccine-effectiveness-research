@@ -151,7 +151,7 @@ actions:
 
   reportmodels_msm_over80s_az:
     run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest az
-    needs: [data_define_cohorts, models_msm_over80s_pfizer]
+    needs: [data_define_cohorts, models_msm_over80s_az]
     outputs:
       moderately_sensitive:
         forest: output/over80s/postest/az/models/forest*.svg
