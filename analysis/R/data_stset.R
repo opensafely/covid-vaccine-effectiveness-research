@@ -237,19 +237,14 @@ data_tte_cp0 <- tmerge(
   data2 = data_tte,
   id = patient_id,
 
-  vax1 = tdc(tte_vax1),
-  vax2 = tdc(tte_vax2),
+  vax1_status = tdc(tte_vax1),
+  vax2_status = tdc(tte_vax2),
 
-  vaxpfizer1 = tdc(tte_vaxpfizer1),
-  vaxpfizer2 = tdc(tte_vaxpfizer2),
+  vaxpfizer1_status = tdc(tte_vaxpfizer1),
+  vaxpfizer2_status = tdc(tte_vaxpfizer2),
 
-  vaxaz1 = tdc(tte_vaxaz1),
-  vaxaz2 = tdc(tte_vaxaz2),
-
-  postest = event(tte_postest),
-  covidadmitted = event(tte_covidadmitted),
-  coviddeath = event(tte_coviddeath),
-  death = event(tte_death),
+  vaxaz1_status = tdc(tte_vaxaz1),
+  vaxaz2_status = tdc(tte_vaxaz2),
 
   postest_status = tdc(tte_postest),
   covidadmitted_status = tdc(tte_covidadmitted),
@@ -257,6 +252,18 @@ data_tte_cp0 <- tmerge(
   death_status = tdc(tte_death),
 
   censored_status = tdc(tte_lastfup),
+
+  vax1 = event(tte_vax1),
+  vax2 = event(tte_vax2),
+  vaxpfizer1 = event(tte_vaxpfizer1),
+  vaxpfizer2 = event(tte_vaxpfizer2),
+  vaxaz1 = event(tte_vaxaz1),
+  vaxaz2 = event(tte_vaxaz2),
+  postest = event(tte_postest),
+  covidadmitted = event(tte_covidadmitted),
+  coviddeath = event(tte_coviddeath),
+  death = event(tte_death),
+  censored = event(tte_lastfup),
 
   tstop = tte_enddate
 )
@@ -296,9 +303,9 @@ arrange(
 ) %>%
 mutate(
   twidth = tstop - tstart,
-  vax_status = vax1 + vax2,
-  vaxpfizer_status = vaxpfizer1 + vaxpfizer2,
-  vaxaz_status = vaxaz1 + vaxaz2,
+  vax_status = vax1_status + vax2_status,
+  vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
+  vaxaz_status = vaxaz1_status + vaxaz2_status,
 )
 
 # free up some memory
@@ -332,24 +339,13 @@ data_tte_pt <- tmerge(
   group_by(patient_id) %>%
   mutate(
 
-    # so we can select all time-points where patient is at risk of vax AND vax has not occurred
-    # vax_history = lag(vax_status, 1, 0),
-    # vaxpfizer_history = lag(vaxpfizer_status, 1, 0),
-    # vaxaz_history = lag(vaxaz_status, 1, 0),
-    #
-    # # similarly for outcomes
-    # postest_history = lag(postest_status, 1, 0),
-    # covidadmitted_history = lag(covidadmitted_status, 1, 0),
-    # coviddeath_history = lag(coviddeath_status, 1, 0),
-    # death_history = lag(death_status, 1, 0),
-
     # define time since vaccination
-    timesincevax1 = cumsum(vax1),
-    timesincevax2 = cumsum(vax2),
-    timesincevaxpfizer1 = cumsum(vaxpfizer1),
-    timesincevaxpfizer2 = cumsum(vaxpfizer2),
-    timesincevaxaz1 = cumsum(vaxaz1),
-    timesincevaxaz2 = cumsum(vaxaz2),
+    timesincevax1 = cumsum(vax1_status),
+    timesincevax2 = cumsum(vax2_status),
+    timesincevaxpfizer1 = cumsum(vaxpfizer1_status),
+    timesincevaxpfizer2 = cumsum(vaxpfizer2_status),
+    timesincevaxaz1 = cumsum(vaxaz1_status),
+    timesincevaxaz2 = cumsum(vaxaz2_status),
   ) %>%
   ungroup()
 
