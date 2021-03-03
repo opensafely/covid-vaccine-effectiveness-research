@@ -269,7 +269,7 @@ summarise_weights <-
 
 capture.output(
   walk2(summarise_weights$value, summarise_weights$name, print_num),
-  file = here::here("output", cohort, outcome, "models",  "weights.txt"),
+  file = here::here("output", cohort, outcome, "models", brand,  "weights.txt"),
   append=FALSE
 )
 
@@ -282,7 +282,7 @@ weights_scatter <- ggplot(data_weights) +
   geom_point(aes(x=ipweight, y=ipweight_stbl)) +
   theme_bw()
 
-ggsave(here::here("output", cohort, outcome, "models", "histogram_weights.svg"), weight_histogram)
+ggsave(here::here("output", cohort, outcome, "models", brand, "histogram_weights.svg"), weight_histogram)
 write_rds(data_weights, here::here("output", cohort, outcome, "models", brand, glue::glue("data_weights.rds")), compress="gz")
 
 # MSM model ----
