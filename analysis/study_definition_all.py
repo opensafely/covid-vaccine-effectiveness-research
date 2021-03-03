@@ -202,7 +202,7 @@ study = StudyDefinition(
         {
             "0": "DEFAULT",
             "1": """
-                    index_of_multiple_deprivation > =1
+                    index_of_multiple_deprivation >= 1
                 AND index_of_multiple_deprivation < 32844*1/5
                 """,
             "2": """
@@ -509,7 +509,7 @@ study = StudyDefinition(
             "rate": "uniform",
         },
     ),
-    # RIMARY CARE CASE IDENTIFICATION
+    # PRIMARY CARE CASE IDENTIFICATION
     primary_care_covid_case_1_date=patients.with_these_clinical_events(
         combine_codelists(
             covid_primary_care_code,
@@ -693,6 +693,69 @@ study = StudyDefinition(
     discharged_5_date=patients.admitted_to_hospital(
         returning="date_discharged",
         on_or_after="admitted_4_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    ############################################################
+    ## PRIMARY CARE COVID CODING DURING STUDY PERIOD, UP TO 5 ##
+    ############################################################
+    primary_care_covid_1_date=patients.with_these_clinical_events(
+        primary_care_suspected_covid_combined,
+        returning="date",
+        on_or_after="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_covid_2_date=patients.with_these_clinical_events(
+        primary_care_suspected_covid_combined,
+        returning="date",
+        on_or_after="primary_care_covid_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_covid_3_date=patients.with_these_clinical_events(
+        primary_care_suspected_covid_combined,
+        returning="date",
+        on_or_after="primary_care_covid_2_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_covid_4_date=patients.with_these_clinical_events(
+        primary_care_suspected_covid_combined,
+        returning="date",
+        on_or_after="primary_care_covid_3_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_covid_5_date=patients.with_these_clinical_events(
+        primary_care_suspected_covid_combined,
+        returning="date",
+        on_or_after="primary_care_covid_4_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
