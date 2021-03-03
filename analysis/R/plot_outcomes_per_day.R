@@ -79,7 +79,13 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   mutate(
     outcome = .[[outcome]],
     date = as.Date(gbl_vars$start_date) + tstop,
-    anyvax = vax_status>0
+    week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
+    #anyvax = vaxany_status>0,
+    vaxany_status = case_when(
+      vaxany_status ==0 ~ " Not vaccinated",
+      vaxany_status ==1 ~ "1 Dose",
+      vaxany_status ==2 ~ "2 Doses",
+    )
   ) %>%
   left_join(data_fixed, by="patient_id")
 
@@ -94,8 +100,9 @@ theme_minimal()+
     strip.text.y.right = element_text(angle = 0),
     axis.line.x = element_line(colour = "black"),
     axis.text.x = element_text(angle = 70, vjust = 1, hjust=1),
-    panel.grid.major.x = element_blank()#,
-   # panel.grid.minor.x = element_blank()
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.ticks.x = element_line(colour = 'black')
   )
 
 
@@ -104,7 +111,7 @@ theme_minimal()+
 ## overall ----
 
 eventsperday <- data_pt %>%
-  group_by(date, anyvax) %>%
+  group_by(week, vaxany_status) %>%
   summarise(
     n=n(),
     n_outcome = sum(outcome),
@@ -113,7 +120,7 @@ eventsperday <- data_pt %>%
 
 
 plotoutcome_n <- ggplot(eventsperday) +
-  geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
+  geom_bar(aes(x=week, y=n_outcome, fill=vaxany_status), stat="identity", colour="transparent")+
   scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
@@ -129,7 +136,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 
 plotoutcome_rate <- ggplot(eventsperday) +
-  geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
+  geom_line(aes(x=week, y=rate_outcome, colour=vaxany_status), stat="identity")+
   scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
   labs(
@@ -147,7 +154,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 
 outcomeperday_sex_imd <- data_pt %>%
-  group_by(date, anyvax, sex, imd, .drop=FALSE) %>%
+  group_by(week, vaxany_status, sex, imd, .drop=FALSE) %>%
   summarise(
     n=n(),
     n_outcome = sum(outcome),
@@ -156,7 +163,7 @@ outcomeperday_sex_imd <- data_pt %>%
 
 
 plotoutcome_n_sex_ind <- ggplot(outcomeperday_sex_imd) +
-  geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
+  geom_bar(aes(x=week, y=n_outcome, fill=vaxany_status), stat="identity", colour="transparent")+
   facet_grid(cols=vars(sex), rows=vars(imd))+
   scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
@@ -175,7 +182,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 
 plotoutcome_rate_sex_ind <- ggplot(outcomeperday_sex_imd) +
-  geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
+  geom_line(aes(x=week, y=rate_outcome, colour=vaxany_status), stat="identity")+
   facet_grid(cols=vars(sex), rows=vars(imd))+
   scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+
@@ -198,7 +205,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 
 outcomeperday_region <- data_pt %>%
-  group_by(date, anyvax, region) %>%
+  group_by(week, vaxany_status, region) %>%
   summarise(
     n=n(),
     n_outcome = sum(outcome),
@@ -207,7 +214,7 @@ outcomeperday_region <- data_pt %>%
 
 
 plotoutome_n_region <- ggplot(outcomeperday_region) +
-  geom_bar(aes(x=date, y=n_outcome, fill=anyvax), stat="identity", colour="transparent")+
+  geom_bar(aes(x=week, y=n_outcome, fill=vaxany_status), stat="identity", colour="transparent")+
   facet_wrap(facets=vars(region))+
   scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_fill_brewer(type="qual", palette="Set1", na.value="grey")+
@@ -227,7 +234,7 @@ ggsave(filename=here::here("output", cohort, outcome, "descr", glue::glue("event
 
 
 plotoutcome_rate_region <- ggplot(outcomeperday_region) +
-  geom_line(aes(x=date, y=rate_outcome, colour=anyvax), stat="identity")+
+  geom_line(aes(x=week, y=rate_outcome, colour=vaxany_status), stat="identity")+
   facet_wrap(facets=vars(region))+
   scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
   scale_colour_brewer(type="qual", palette="Set1", na.value="grey")+

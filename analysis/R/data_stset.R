@@ -158,12 +158,12 @@ data_tte <- data_all  %>%
     #time to death
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
 
-    tte_vax1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
+    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     #tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
     #tte_vax1_censored = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE),
     #ind_vax1 = censor_indicator(tte_vax1, tte_lastfup),
 
-    tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
     #tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
     #tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
     #ind_vax2 = censor_indicator(tte_vax2, tte_lastfup),
@@ -190,6 +190,8 @@ data_tte <- data_all  %>%
 
 
   )
+
+stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1 != data_tte$tte_vaxany2, na.rm=TRUE))
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n  ")
@@ -237,8 +239,8 @@ data_tte_cp0 <- tmerge(
   data2 = data_tte,
   id = patient_id,
 
-  vax1_status = tdc(tte_vax1),
-  vax2_status = tdc(tte_vax2),
+  vaxany1_status = tdc(tte_vaxany1),
+  vaxany2_status = tdc(tte_vaxany2),
 
   vaxpfizer1_status = tdc(tte_vaxpfizer1),
   vaxpfizer2_status = tdc(tte_vaxpfizer2),
@@ -253,8 +255,8 @@ data_tte_cp0 <- tmerge(
 
   censored_status = tdc(tte_lastfup),
 
-  vax1 = event(tte_vax1),
-  vax2 = event(tte_vax2),
+  vaxany1 = event(tte_vaxany1),
+  vaxany2 = event(tte_vaxany2),
   vaxpfizer1 = event(tte_vaxpfizer1),
   vaxpfizer2 = event(tte_vaxpfizer2),
   vaxaz1 = event(tte_vaxaz1),
@@ -303,7 +305,7 @@ arrange(
 ) %>%
 mutate(
   twidth = tstop - tstart,
-  vax_status = vax1_status + vax2_status,
+  vaxany_status = vaxany1_status + vaxany2_status,
   vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
   vaxaz_status = vaxaz1_status + vaxaz2_status,
 )
@@ -340,8 +342,8 @@ data_tte_pt <- tmerge(
   mutate(
 
     # define time since vaccination
-    timesincevax1 = cumsum(vax1_status),
-    timesincevax2 = cumsum(vax2_status),
+    timesincevaxany1 = cumsum(vaxany1_status),
+    timesincevaxany2 = cumsum(vaxany2_status),
     timesincevaxpfizer1 = cumsum(vaxpfizer1_status),
     timesincevaxpfizer2 = cumsum(vaxpfizer2_status),
     timesincevaxaz1 = cumsum(vaxaz1_status),
@@ -350,8 +352,6 @@ data_tte_pt <- tmerge(
   ungroup()
 
 stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes == data_tte_pt$tstop))
-stopifnot("vax1 time should not be same as vax2 time" = all(data_tte_pt$tte_vax1 != data_tte_pt$tte_vax2, na.rm=TRUE))
-
 
 
 # remove unused columns

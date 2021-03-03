@@ -151,10 +151,10 @@ msmmod_forest <- msmmod_summary %>%
   geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
   geom_vline(aes(xintercept=1), colour='grey')+
   facet_grid(rows=vars(dose), scales="free_y", switch="y")+
-  scale_x_log10()+
+  scale_x_log10(breaks=c(0.0625, 0.125, 0.25, 0.5, 1, 2, 4))+
   scale_y_discrete(na.translate=FALSE)+
   scale_colour_brewer(type="qual", palette="Set1", guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(xlim=c(0.05,5)) +
+  coord_cartesian(xlim=c(0.05,2)) +
   labs(
     x="Hazard ratio, versus no vaccination",
     y=NULL,
