@@ -88,7 +88,7 @@ formula_comorbs <- . ~ . +
   lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
 formula_secular <- . ~ . + ns(tstop, knots=knots)
 formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
-formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
+formula_timedependent <- . ~ . + hospital_status  # consider adding local infection rates
 
 # create output directories ----
 dir.create(here::here("output", cohort, outcome, "models"), showWarnings = FALSE, recursive=TRUE)
@@ -99,7 +99,8 @@ data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wid
 
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   filter(
-    .[[glue::glue("{outcome}_status")]] == 0 # follow up ends at occurrence of outcome, ie where status not >0
+    .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at occurrence of outcome, ie where status not >0
+   censored_status == 0 # follow up ends at occurrence of censoring event (derived from lastfup = min(end_date, death))
   ) %>%
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),

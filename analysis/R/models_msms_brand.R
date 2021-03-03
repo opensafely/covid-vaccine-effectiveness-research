@@ -104,10 +104,12 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   filter(
     .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     vax_status != .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{brand}_status not >0
+    censored_status == 0 # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
   ) %>%
   mutate(
     timesincevax_pw = timesince2_cut(timesincevax1, timesincevax2, postvaxcuts, "pre-vax"),
-    outcome = .[[outcome]]
+    outcome = .[[outcome]],
+
   ) %>%
   left_join(
     data_fixed, by="patient_id"

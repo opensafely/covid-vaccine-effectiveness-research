@@ -256,7 +256,9 @@ data_tte_cp0 <- tmerge(
   coviddeath_status = tdc(tte_coviddeath),
   death_status = tdc(tte_death),
 
-  tstop = tte_lastfup
+  censored_status = tdc(tte_lastfup),
+
+  tstop = tte_enddate
 )
 
 
@@ -315,7 +317,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", s
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for MSMs
 
-alltimes <- expand(data_tte, patient_id, times=full_seq(c(1, tte_lastfup),1))
+alltimes <- expand(data_tte, patient_id, times=full_seq(c(1, tte_enddate),1))
 
 # do not use survSplit as this doesn't handle multiple events properly
 # eg, a positive test will be expanded as if a tdc (eg c(0,0,1,1,1,..)) not an event (eg c(0,0,1,0,0,...))
