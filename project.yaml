@@ -35,6 +35,7 @@ actions:
         data: output/data/data_cohorts.rds
       moderately_sensitive:
         metadata: output/data/metadata_cohorts.rds
+        formula: output/data/list_formula.rds
 
   ## VE models in over 80s
 
