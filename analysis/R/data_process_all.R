@@ -82,18 +82,6 @@ data_extract0 <- read_csv(
     discharged_4_date = col_date(format="%Y-%m-%d"),
     discharged_5_date = col_date(format="%Y-%m-%d"),
 
-    primary_care_probable_covid_1_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_2_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_3_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_4_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_5_date = col_date(format="%Y-%m-%d"),
-
-    primary_care_suspected_covid_1_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_2_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_3_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_4_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_5_date = col_date(format="%Y-%m-%d"),
-
     covid_vax_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_3_date = col_date(format="%Y-%m-%d"),
@@ -266,7 +254,7 @@ write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress
 
 
 ## create one-row-per-event datasets ----
-# for vaccination, positive test, hospitalisation/discharge, covid in primary care, death
+# for vaccination, positive test, hospitalisation/discharge, death
 
 
 data_admissions <- data_processed %>%
@@ -279,28 +267,6 @@ data_admissions <- data_processed %>%
     ) %>%
     select(patient_id, index, admitted_date=admitted, discharged_date = discharged) %>%
     arrange(patient_id, admitted_date)
-
-data_pr_probable_covid <- data_processed %>% 
-    select(patient_id, matches("^primary_care_probable_covid\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(".value", "index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_drop_na = TRUE
-    ) %>%
-    select(patient_id, index, primary_care_probable_covid_date=primary_care_probable_covid) %>%
-    arrange(patient_id, primary_care_probable_covid_date)
-
-data_pr_suspected_covid <- data_processed %>% 
-    select(patient_id, matches("^primary_care_suspected_covid\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(".value", "index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_drop_na = TRUE
-    ) %>%
-    select(patient_id, index, primary_care_suspected_covid_date=primary_care_suspected_covid) %>%
-    arrange(patient_id, primary_care_suspected_covid_date)
 
 
 data_vax <- local({
@@ -358,5 +324,3 @@ data_vax <- local({
 
 write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
-write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
-write_rds(data_pr_suspected_covid, here::here("output", "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
