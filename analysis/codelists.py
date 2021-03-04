@@ -1,7 +1,4 @@
-from cohortextractor import (
-    codelist,
-    codelist_from_csv,
-)
+from cohortextractor import (codelist, codelist_from_csv, combine_codelists)
 
 covid_codes = codelist_from_csv(
     "codelists/opensafely-covid-identification.csv",
@@ -25,6 +22,42 @@ covid_primary_care_sequalae = codelist_from_csv(
     "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
     system="ctv3",
     column="CTV3ID",
+)
+covid_primary_care_probable_combined = combine_codelists(
+    covid_primary_care_positive_test,
+    covid_primary_care_code,
+    covid_primary_care_sequalae,
+)
+covid_primary_care_suspected_covid_advice = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-suspected-covid-advice.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+covid_primary_care_suspected_covid_had_test = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-suspected-covid-had-test.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+covid_primary_care_suspected_covid_isolation_code = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-suspected-covid-isolation-code.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+covid_primary_care_suspected_covid_nonspecific_clinical_assessment = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-suspected-covid-nonspecific-clinical-assessment.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+covid_primary_care_suspected_covid_exposure = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-exposure-to-disease.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+primary_care_suspected_covid_combined = combine_codelists(
+    covid_primary_care_suspected_covid_advice,
+    covid_primary_care_suspected_covid_had_test,
+    covid_primary_care_suspected_covid_isolation_code,
+    covid_primary_care_suspected_covid_exposure,
 )
 
 ethnicity_codes = codelist_from_csv(
