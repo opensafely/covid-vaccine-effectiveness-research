@@ -282,6 +282,40 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
     hosp_status = if_else(status=="admitted_date", 1, 0)
   )
 
+data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+  pivot_longer(
+    cols=c(primary_care_probable_covid_date),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+    prob_covid_status = if_else(status=="primary_care_probable_covid_date", 1, 0)
+  )
+
+data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+  pivot_longer(
+    cols=c(primary_care_suspected_covid_date),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+    susp_covid_status = if_else(status=="primary_care_suspected_covid_date", 1, 0)
+  )
+
 data_tte_cp <- tmerge(
   data1 = data_tte_cp0,
   data2 = data_hospitalised,
