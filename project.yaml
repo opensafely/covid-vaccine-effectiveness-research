@@ -35,6 +35,7 @@ actions:
         data: output/data/data_cohorts.rds
       moderately_sensitive:
         metadata: output/data/metadata_cohorts.rds
+        formula: output/data/list_formula.rds
 
   ## VE models in over 80s
 
@@ -73,90 +74,133 @@ actions:
       moderately_sensitive:
         table1: output/over80s/descr/table*
 
-  # models_msm_over80s:
-  #   run: r:latest analysis/R/models_msms.R over80s postest
-  #   needs: [data_define_cohorts, data_stset_over80s]
-  #   outputs:
-  #     highly_sensitive:
-  #       models: output/over80s/postest/models/model*.rds
-  #       data: output/over80s/postest/models/data_weights.rds
-  #     moderately_sensitive:
-  #       weights: output/over80s/postest/models/weights.txt
-  #       weightsplot: output/over80s/postest/models/histogram_weights.svg
 
-  models_msm_over80s:
-    run: r:latest analysis/R/models_msms_brand.R over80s postest any
+ # vax1 only (ignores second dose)
+
+  models_msm_over80s_any_dose1:
+    run: r:latest analysis/R/models_msms_dose1.R over80s postest any
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/any/models/model*.rds
-        data: output/over80s/postest/any/models/data_weights.rds
+        models: output/over80s/postest/any/dose1/model*.rds
+        data: output/over80s/postest/any/dose1/data_weights.rds
       moderately_sensitive:
-        weights: output/over80s/postest/any/models/weights.txt
-        weightsplot: output/over80s/postest/any/models/histogram_weights.svg
+        weights: output/over80s/postest/any/dose1/weights.txt
+        weightsplot: output/over80s/postest/any/dose1/histogram_weights.svg
 
-  # reportmodels_msm_over80s:
-  #   run: r:latest analysis/R/reportmodels_msms.R over80s postest
-  #   needs: [data_define_cohorts, models_msm_over80s]
-  #   outputs:
-  #     moderately_sensitive:
-  #       forest: output/over80s/postest/models/forest*.svg
-  #       trend: output/over80s/postest/models/secular_trends*.svg
-  #       eventrate: output/over80s/postest/models/event_rate.svg
-  #       cmleffect: output/over80s/postest/models/cml_effectiveness.svg
-  #       tables: output/over80s/postest/models/*.csv
-
-
-  reportmodels_msm_over80s:
-    run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest any
-    needs: [data_define_cohorts, models_msm_over80s]
+  reportmodels_msm_over80s_any_dose1:
+    run: r:latest analysis/R/reportmodels_msms_dose1.R over80s postest any
+    needs: [data_define_cohorts, models_msm_over80s_any_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/any/models/forest*.svg
-        trend: output/over80s/postest/any/models/secular_trends*.svg
-        tables: output/over80s/postest/any/models/*.csv
+        forest: output/over80s/postest/any/dose1/forest*.svg
+        trend: output/over80s/postest/any/dose1/secular_trends*.svg
+        tables: output/over80s/postest/any/dose1/*.csv
 
-
-  models_msm_over80s_pfizer:
-    run: r:latest analysis/R/models_msms_brand.R over80s postest pfizer
+  models_msm_over80s_pfizer_dose1:
+    run: r:latest analysis/R/models_msms_dose1.R over80s postest pfizer
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/pfizer/models/model*.rds
-        data: output/over80s/postest/pfizer/models/data_weights.rds
+        models: output/over80s/postest/pfizer/dose1/model*.rds
+        data: output/over80s/postest/pfizer/dose1/data_weights.rds
       moderately_sensitive:
-        weights: output/over80s/postest/pfizer/models/weights.txt
-        weightsplot: output/over80s/postest/pfizer/models/histogram_weights.svg
+        weights: output/over80s/postest/pfizer/dose1/weights.txt
+        weightsplot: output/over80s/postest/pfizer/dose1/histogram_weights.svg
 
-  reportmodels_msm_over80s_pfizer:
-    run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest pfizer
-    needs: [data_define_cohorts, models_msm_over80s_pfizer]
+  reportmodels_msm_over80s_pfizer_dose1:
+    run: r:latest analysis/R/reportmodels_msms_dose1.R over80s postest pfizer
+    needs: [data_define_cohorts, models_msm_over80s_pfizer_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/pfizer/models/forest*.svg
-        trend: output/over80s/postest/pfizer/models/secular_trends*.svg
-        tables: output/over80s/postest/pfizer/models/*.csv
+        forest: output/over80s/postest/pfizer/dose1/forest*.svg
+        trend: output/over80s/postest/pfizer/dose1/secular_trends*.svg
+        tables: output/over80s/postest/pfizer/dose1/*.csv
 
-
-  models_msm_over80s_az:
-    run: r:latest analysis/R/models_msms_brand.R over80s postest az
+  models_msm_over80s_az_dose1:
+    run: r:latest analysis/R/models_msms_dose1.R over80s postest az
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/az/models/model*.rds
-        data: output/over80s/postest/az/models/data_weights.rds
+        models: output/over80s/postest/az/dose1/model*.rds
+        data: output/over80s/postest/az/dose1/data_weights.rds
       moderately_sensitive:
-        weights: output/over80s/postest/az/models/weights.txt
-        weightsplot: output/over80s/postest/az/models/histogram_weights.svg
+        weights: output/over80s/postest/az/dose1/weights.txt
+        weightsplot: output/over80s/postest/az/dose1/histogram_weights.svg
 
-  reportmodels_msm_over80s_az:
-    run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest az
-    needs: [data_define_cohorts, models_msm_over80s_az]
+  reportmodels_msm_over80s_az_dose1:
+    run: r:latest analysis/R/reportmodels_msms_dose1.R over80s postest az
+    needs: [data_define_cohorts, models_msm_over80s_az_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/az/models/forest*.svg
-        trend: output/over80s/postest/az/models/secular_trends*.svg
-        tables: output/over80s/postest/az/models/*.csv
+        forest: output/over80s/postest/az/dose1/forest*.svg
+        trend: output/over80s/postest/az/dose1/secular_trends*.svg
+        tables: output/over80s/postest/az/dose1/*.csv
+
+
+ # vax1 and vax2
+
+  models_msm_over80s_any_dose12:
+    run: r:latest analysis/R/models_msms_dose12.R over80s postest any
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/any/dose12/model*.rds
+        data: output/over80s/postest/any/dose12/data_weights.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/any/dose12/weights.txt
+        weightsplot: output/over80s/postest/any/dose12/histogram_weights.svg
+
+  reportmodels_msm_over80s_any_dose12:
+    run: r:latest analysis/R/reportmodels_msms_dose12.R over80s postest any
+    needs: [data_define_cohorts, models_msm_over80s_any_dose12]
+    outputs:
+      moderately_sensitive:
+        forest: output/over80s/postest/any/dose12/forest*.svg
+        trend: output/over80s/postest/any/dose12/secular_trends*.svg
+        tables: output/over80s/postest/any/dose12/*.csv
+
+
+  models_msm_over80s_pfizer_dose12:
+    run: r:latest analysis/R/models_msms_dose12.R over80s postest pfizer
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/pfizer/dose12/model*.rds
+        data: output/over80s/postest/pfizer/dose12/data_weights.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/pfizer/dose12/weights.txt
+        weightsplot: output/over80s/postest/pfizer/dose12/histogram_weights.svg
+
+  reportmodels_msm_over80s_pfizer_dose12:
+    run: r:latest analysis/R/reportmodels_msms_dose12.R over80s postest pfizer
+    needs: [data_define_cohorts, models_msm_over80s_pfizer_dose12]
+    outputs:
+      moderately_sensitive:
+        forest: output/over80s/postest/pfizer/dose12/forest*.svg
+        trend: output/over80s/postest/pfizer/dose12/secular_trends*.svg
+        tables: output/over80s/postest/pfizer/dose12/*.csv
+
+
+  models_msm_over80s_az_dose12:
+    run: r:latest analysis/R/models_msms_dose12.R over80s postest az
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/az/dose12/model*.rds
+        data: output/over80s/postest/az/dose12/data_weights.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/az/dose12/weights.txt
+        weightsplot: output/over80s/postest/az/dose12/histogram_weights.svg
+
+  reportmodels_msm_over80s_az_dose12:
+    run: r:latest analysis/R/reportmodels_msms_dose12.R over80s postest az
+    needs: [data_define_cohorts, models_msm_over80s_az_dose12]
+    outputs:
+      moderately_sensitive:
+        forest: output/over80s/postest/az/dose12/forest*.svg
+        trend: output/over80s/postest/az/dose12/secular_trends*.svg
+        tables: output/over80s/postest/az/dose12/*.csv
 
 
 
