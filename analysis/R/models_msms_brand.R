@@ -70,6 +70,12 @@ parglmparams <- parglm.control(
   nthreads = 8
 )
 
+### import outcomes, exposures, and covariate formulae ----
+## these are created in data_define_cohorts.R script
+
+list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list2env(list_formula, globalenv())
+
 ### post vax time periods ----
 
 postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
@@ -79,19 +85,6 @@ postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
 
 knots <- c(21)
 
-## define outcomes, exposures, and covariates ----
-
-formula_demog <- . ~ . + age + I(age*age) + sex + imd
-formula_exposure <- . ~ . + timesincevax_pw
-formula_comorbs <- . ~ . +
-  chronic_cardiac_disease + current_copd + dementia + dialysis +
-  solid_organ_transplantation + chemo_or_radio + sickle_cell_disease +
-  permanant_immunosuppression + temporary_immunosuppression + asplenia +
-  intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
-  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
-formula_secular <- . ~ . + ns(tstop, knots=knots)
-formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
-formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
 # create output directories ----
 dir.create(here::here("output", cohort, outcome, brand, "models"), showWarnings = FALSE, recursive=TRUE)
@@ -123,13 +116,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   )
 
 
-# IPW model ----
-
-# consider:
-# piecewise period effects with eg as.factor(tstop)
-# polynomial splines, eg, t + I(t^2) + I(t^3)
-# using GAMs for getting spline effect of calendar time, with library('mgcv')
-# localised infection rates (then can ignore calendar time?)
+# IPW model for vaccination ----
 
 # tests:
 # test that model complexity/DoF for vax1 and vax2 is the same (eg same factor levels for predictors)
@@ -140,7 +127,6 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
 data_pt_atriskvax1 <- data_pt %>% filter(vax_status==0)
 data_pt_atriskvax2 <- data_pt %>% filter(vax_status==1)
 
-#update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region) %>% update(formula_timedependent)
 ### with time-updating covariates
 
 cat("ipwvax1 \n")
@@ -166,7 +152,7 @@ ipwvax2 <- parglm(
 jtools::summ(ipwvax2)
 
 ### without time-updating covariates ----
-# exclude time-updating covariates _except_ variables derived from calendar time itself (eg poly(calendar_time,2))
+# exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
 # used for stabilised ip weights
 
 
@@ -215,59 +201,142 @@ data_predvax2 <- data_pt_atriskvax2 %>%
   )
 
 
+# IPW model for death ----
+
+## models death ----
+
+data_pt_atriskdeath <- data_pt %>% filter(death_status==0)
+
+### with time-updating covariates
+
+cat("ipwdeath \n")
+ipwdeath <- parglm(
+  formula = update(death ~ 1, formula_demog) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular) %>% update(formula_timedependent),
+  data = data_pt_atriskdeath,
+  family=binomial,
+  control = parglmparams,
+  na.action = "na.fail",
+  model = FALSE
+)
+jtools::summ(ipwdeath)
+
+### without time-updating covariates ----
+
+cat("ipwdeath_fxd \n")
+ipwdeath_fxd <- parglm(
+  formula = update(death ~ 1, formula_demog) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular_region),
+  data = data_pt_atriskdeath,
+  family=binomial,
+  control = parglmparams,
+  na.action = "na.fail",
+  model = FALSE
+)
+jtools::summ(ipwdeath_fxd)
+
+
+## get predictions from model ----
+
+data_predvax1 <- data_pt_atriskvax1 %>%
+  transmute(
+    patient_id,
+    tstart, tstop,
+
+    # get predicted probabilities from ipw models
+    predvax1=predict(ipwvax1, type="response"),
+    predvax1_fxd=predict(ipwvax1_fxd, type="response"),
+  )
+
+data_predvax2 <- data_pt_atriskvax2 %>%
+  transmute(
+    patient_id,
+    tstart, tstop,
+
+    # get predicted probabilities from ipw models
+    predvax2=predict(ipwvax2, type="response"),
+    predvax2_fxd=predict(ipwvax2_fxd, type="response"),
+  )
+
+data_preddeath <- data_pt_atriskdeath %>%
+  transmute(
+    patient_id,
+    tstart, tstop,
+
+    # get predicted probabilities from ipw models
+    preddeath=predict(ipwdeath, type="response"),
+    preddeath_fxd=predict(ipwdeath_fxd, type="response"),
+  )
+
+
 data_weights <- data_pt %>%
   left_join(data_predvax1, by=c("patient_id", "tstart", "tstop")) %>%
   left_join(data_predvax2, by=c("patient_id", "tstart", "tstop")) %>%
+  left_join(data_preddeath, by=c("patient_id", "tstart", "tstop")) %>%
   group_by(patient_id) %>%
   mutate(
 
-    predvax1 = if_else(vax_status==1L, 1, predvax1),
-    predvax2 = case_when(
-      vax_status==0L ~ 0,
-      vax_status==2L ~ 1,
-      TRUE ~predvax2
-    ),
-
     # get probability of occurrence of realised vaccination status
-    probstatus = case_when(
-      vax_status==0L ~ 1-predvax1,
-      vax_status==1L ~ 1-predvax2,
-      vax_status==2L ~ predvax2,
+    probvax_realised = case_when(
+      vax_status==0L & vax1!=1 ~ 1 - predvax1,
+      vax_status==0L & vax1==1 ~ predvax1,
+      vax_status==1L & vax2!=1 ~ 1 - predvax2,
+      vax_status==1L & vax2==1 ~ predvax2,
+      vax_status==2L ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
       TRUE ~ NA_real_
     ),
-
     # cumulative product of status probabilities
-    cmlprobstatus = cumprod(probstatus),
-
+    cmlprobvax_realised = cumprod(probvax_realised),
     # inverse probability weights
-    ipweight = 1/cmlprobstatus,
-
-    # ipweight_clipped = case_when(
-    #   ipweight>quantile(ipweight,0.75, na.rm=TRUE) ~ quantile(ipweight,0.75, na.rm=TRUE),
-    #   ipweight<quantile(ipweight,0.25, na.RM=TRUE) ~ quantile(ipweight,0.25, na.rm=TRUE),
-    #   TRUE ~ ipweight
-    # ),
+    ipweightvax = 1/cmlprobvax_realised,
 
     #same but for time-independent model
 
-    predvax1_fxd = if_else(vax_status==1L, 1, predvax1_fxd),
-    predvax2_fxd = case_when(
-      vax_status==0L ~ 0,
+    # get probability of occurrence of realised vaccination status (non-time varying model)
+    probvax_realised_fxd = case_when(
+      vax_status==0L & vax1!=1 ~ 1 - predvax1_fxd,
+      vax_status==0L & vax1==1 ~ predvax1_fxd,
+      vax_status==1L & vax2!=1 ~ 1 - predvax2_fxd,
+      vax_status==1L & vax2==1 ~ predvax2_fxd,
       vax_status==2L ~ 1,
-      TRUE ~ predvax2_fxd
-    ),
-
-    probstatus_fxd = case_when(
-      vax_status==0L ~ 1-predvax1_fxd,
-      vax_status==1L ~ 1-predvax2_fxd,
-      vax_status==2L ~ predvax2_fxd,
       TRUE ~ NA_real_
     ),
-
-    cmlprobstatus_fxd = cumprod(probstatus_fxd),
+    # cumulative product of status probabilities
+    cmlprobvax_realised_fxd = cumprod(probvax_realised_fxd),
+    # inverse probability weights
+    ipweightvax_fxd = 1/cmlprobvax_realised_fxd,
 
     # stabilised inverse probability weights
-    ipweight_stbl = cmlprobstatus_fxd*ipweight,
+    ipweightvax_stbl = cmlprobvax_realised_fxd/cmlprobvax_realised,
+
+
+    # death censoring
+    probdeath_realised = case_when(
+      death_status==0L & death!=1 ~ 1 - preddeath,
+      death_status==0L & death==1 ~ preddeath,
+      death_status==1L ~ 1,
+      TRUE ~ NA_real_
+    ),
+    # cumulative product of status probabilities
+    cmlprobdeath_realised = cumprod(probdeath_realised),
+    # inverse probability weights
+    ipweightdeath = 1/cmlprobdeath_realised,
+
+    probdeath_realised_fxd = case_when(
+      death_status==0L & death!=1 ~ 1 - preddeath_fxd,
+      death_status==0L & death==1 ~ preddeath_fxd,
+      death_status==1L ~ 1,
+      TRUE ~ NA_real_
+    ),
+    # cumulative product of status probabilities
+    cmlprobdeath_realised_fxd = cumprod(probdeath_realised_fxd),
+    # inverse probability weights
+    ipweightdeath_fxd = 1/cmlprobdeath_realised_fxd,
+
+
+    # stabilised inverse probability weights
+    ipweightdeath_stbl = cmlprobdeath_realised_fxd/cmlprobdeath_realised,
+
+
+    ipweight_stbl = ipweightvax_stbl*ipweightdeath_stbl
 
   ) %>%
   ungroup()
@@ -291,11 +360,17 @@ weight_histogram <- ggplot(data_weights) +
   geom_histogram(aes(x=ipweight_stbl)) +
   theme_bw()
 
-weights_scatter <- ggplot(data_weights) +
-  geom_point(aes(x=ipweight, y=ipweight_stbl)) +
-  theme_bw()
-
 ggsave(here::here("output", cohort, outcome, brand, "models", "histogram_weights.svg"), weight_histogram)
+
+
+
+data_weights <- data_weights %>%
+  select(
+    all.vars(formula_all_rhsvars),
+    "ipweight_stbl",
+    "outcome",
+  )
+
 write_rds(data_weights, here::here("output", cohort, outcome, brand, "models", glue::glue("data_weights.rds")), compress="gz")
 
 # MSM model ----

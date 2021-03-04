@@ -70,20 +70,11 @@ postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
 
 knots <- c(21, 28)
 
-## define outcomes, exposures, and covariates ----
+### import outcomes, exposures, and covariate formulae ----
+## these are created in data_define_cohorts.R script
 
-formula_demog <- . ~ . + age + I(age*age) + sex + imd
-formula_exposure <- . ~ . + timesincevax_pw
-formula_comorbs <- . ~ . +
-  chronic_cardiac_disease + current_copd + dementia + dialysis +
-  solid_organ_transplantation + chemo_or_radio + sickle_cell_disease +
-  permanant_immunosuppression + temporary_immunosuppression + asplenia +
-  intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
-  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
-formula_secular <- . ~ . + ns(tstop, knots=knots)
-formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
-formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
-
+list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list2env(list_formula, globalenv())
 
 # Import processed data ----
 
