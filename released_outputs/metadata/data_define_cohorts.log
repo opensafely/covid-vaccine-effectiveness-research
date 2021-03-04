@@ -1,0 +1,30 @@
+2021-03-03T07:02:18.096152500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-03T07:02:18.105163900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-03T07:02:18.105221600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-03T07:02:18.105235100Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-03T07:02:18.105242300Z v readr   1.3.1     v forcats 0.5.0
+2021-03-03T07:02:18.278871400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-03T07:02:18.278898800Z x dplyr::filter() masks stats::filter()
+2021-03-03T07:02:18.278907400Z x dplyr::lag()    masks stats::lag()
+2021-03-03T07:02:34.188472000Z # A tibble: 2 x 2
+2021-03-03T07:02:34.188512400Z   cohort   cohort_size
+2021-03-03T07:02:34.188521000Z   <chr>          <int>
+2021-03-03T07:02:34.188529100Z 1 over80s       198909
+2021-03-03T07:02:34.188536100Z 2 under65s     2793228
+
+
+state: succeeded
+commit: 7eddd9a6ef4a4214f87cf74e2988b7c0d500f302
+docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
+exit_code: 0
+job_id: 2zye3wqu4hykck34
+run_by_user: wjchulme
+created_at: 2021-03-03T06:25:28Z
+started_at: 2021-03-03T07:02:15Z
+completed_at: 2021-03-03T07:02:39Z
+
+Completed successfully
+
+outputs:
+  output/data/data_cohorts.rds      - highly_sensitive    
+  output/data/metadata_cohorts.rds  - moderately_sensitive

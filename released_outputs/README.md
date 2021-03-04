@@ -1,23 +1,36 @@
 # Table of contents
 
 * metadata
+  * [metadata/data_define_cohorts.log](metadata/data_define_cohorts.log)
   * [metadata/data_process_all.log](metadata/data_process_all.log)
   * [metadata/data_process_vaccinated.log](metadata/data_process_vaccinated.log)
   * [metadata/data_properties_all.log](metadata/data_properties_all.log)
   * [metadata/data_properties_over80s.log](metadata/data_properties_over80s.log)
+  * [metadata/data_properties_over80s_fixed.log](metadata/data_properties_over80s_fixed.log)
+  * [metadata/data_properties_over80s_tte.log](metadata/data_properties_over80s_tte.log)
   * [metadata/data_properties_vaccinated.log](metadata/data_properties_vaccinated.log)
+  * [metadata/data_stset_over80s.log](metadata/data_stset_over80s.log)
   * [metadata/data_summarise_vaccinated.log](metadata/data_summarise_vaccinated.log)
   * [metadata/data_tte_over80s.log](metadata/data_tte_over80s.log)
+  * [metadata/descr_eventsperday_over80s.log](metadata/descr_eventsperday_over80s.log)
+  * [metadata/descr_table1_over80s.log](metadata/descr_table1_over80s.log)
   * [metadata/extract_all.log](metadata/extract_all.log)
   * [metadata/extract_vaccinated.log](metadata/extract_vaccinated.log)
   * [metadata/get_packages.log](metadata/get_packages.log)
   * [metadata/manifest.json](metadata/manifest.json)
   * [metadata/models_cox_over80s.log](metadata/models_cox_over80s.log)
   * [metadata/models_msm_over80s.log](metadata/models_msm_over80s.log)
+  * [metadata/models_msm_over80s_az.log](metadata/models_msm_over80s_az.log)
+  * [metadata/models_msm_over80s_pfizer.log](metadata/models_msm_over80s_pfizer.log)
+  * [metadata/reportmodels_msm_over80s.log](metadata/reportmodels_msm_over80s.log)
+  * [metadata/reportmodels_msm_over80s_az.log](metadata/reportmodels_msm_over80s_az.log)
+  * [metadata/reportmodels_msm_over80s_pfizer.log](metadata/reportmodels_msm_over80s_pfizer.log)
   * [metadata/tte_plots.log](metadata/tte_plots.log)
   * [metadata/tte_tables.log](metadata/tte_tables.log)
   * [metadata/vaccine_tables.log](metadata/vaccine_tables.log)
 * output
+  * output/data
+    * [output/data/metadata_cohorts.rds](output/data/metadata_cohorts.rds)
   * output/data_properties
     * [output/data_properties/data_all_coltypes.txt](output/data_properties/data_all_coltypes.txt)
     * [output/data_properties/data_all_skim.txt](output/data_properties/data_all_skim.txt)
@@ -44,6 +57,43 @@
         * [output/models/msm/over80s/estimates.csv](output/models/msm/over80s/estimates.csv)
         * [output/models/msm/over80s/forest_plot.svg](output/models/msm/over80s/forest_plot.svg)
         * [output/models/msm/over80s/weights.txt](output/models/msm/over80s/weights.txt)
+  * output/over80s
+    * output/over80s/data_properties
+      * [output/over80s/data_properties/data_wide_fixed_coltypes.txt](output/over80s/data_properties/data_wide_fixed_coltypes.txt)
+      * [output/over80s/data_properties/data_wide_fixed_skim.txt](output/over80s/data_properties/data_wide_fixed_skim.txt)
+      * [output/over80s/data_properties/data_wide_fixed_tabulate.txt](output/over80s/data_properties/data_wide_fixed_tabulate.txt)
+      * [output/over80s/data_properties/data_wide_tte_coltypes.txt](output/over80s/data_properties/data_wide_tte_coltypes.txt)
+      * [output/over80s/data_properties/data_wide_tte_skim.txt](output/over80s/data_properties/data_wide_tte_skim.txt)
+      * [output/over80s/data_properties/data_wide_tte_tabulate.txt](output/over80s/data_properties/data_wide_tte_tabulate.txt)
+    * output/over80s/descr
+      * [output/over80s/descr/table1.md](output/over80s/descr/table1.md)
+    * output/over80s/postest
+      * output/over80s/postest/any
+        * output/over80s/postest/any/models
+          * [output/over80s/postest/any/models/estimates.csv](output/over80s/postest/any/models/estimates.csv)
+          * [output/over80s/postest/any/models/forest_plot.svg](output/over80s/postest/any/models/forest_plot.svg)
+          * [output/over80s/postest/any/models/histogram_weights.svg](output/over80s/postest/any/models/histogram_weights.svg)
+          * [output/over80s/postest/any/models/secular_trends_region_plot.svg](output/over80s/postest/any/models/secular_trends_region_plot.svg)
+          * [output/over80s/postest/any/models/weights.txt](output/over80s/postest/any/models/weights.txt)
+      * output/over80s/postest/az
+        * output/over80s/postest/az/models
+          * [output/over80s/postest/az/models/estimates.csv](output/over80s/postest/az/models/estimates.csv)
+          * [output/over80s/postest/az/models/forest_plot.svg](output/over80s/postest/az/models/forest_plot.svg)
+          * [output/over80s/postest/az/models/histogram_weights.svg](output/over80s/postest/az/models/histogram_weights.svg)
+          * [output/over80s/postest/az/models/secular_trends_region_plot.svg](output/over80s/postest/az/models/secular_trends_region_plot.svg)
+          * [output/over80s/postest/az/models/weights.txt](output/over80s/postest/az/models/weights.txt)
+      * output/over80s/postest/descr
+        * [output/over80s/postest/descr/events_perday_n.svg](output/over80s/postest/descr/events_perday_n.svg)
+        * [output/over80s/postest/descr/events_perday_rate.svg](output/over80s/postest/descr/events_perday_rate.svg)
+        * [output/over80s/postest/descr/events_perday_rate_region.svg](output/over80s/postest/descr/events_perday_rate_region.svg)
+        * [output/over80s/postest/descr/events_perday_rate_sex_imd.svg](output/over80s/postest/descr/events_perday_rate_sex_imd.svg)
+      * output/over80s/postest/pfizer
+        * output/over80s/postest/pfizer/models
+          * [output/over80s/postest/pfizer/models/estimates.csv](output/over80s/postest/pfizer/models/estimates.csv)
+          * [output/over80s/postest/pfizer/models/forest_plot.svg](output/over80s/postest/pfizer/models/forest_plot.svg)
+          * [output/over80s/postest/pfizer/models/histogram_weights.svg](output/over80s/postest/pfizer/models/histogram_weights.svg)
+          * [output/over80s/postest/pfizer/models/secular_trends_region_plot.svg](output/over80s/postest/pfizer/models/secular_trends_region_plot.svg)
+          * [output/over80s/postest/pfizer/models/weights.txt](output/over80s/postest/pfizer/models/weights.txt)
   * [output/summary_stats.json](output/summary_stats.json)
   * output/tte
     * output/tte/figures
