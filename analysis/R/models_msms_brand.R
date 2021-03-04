@@ -131,7 +131,7 @@ data_pt_atriskvax2 <- data_pt %>% filter(vax_status==1)
 
 cat("ipwvax1 \n")
 ipwvax1 <- parglm(
-  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(vax1 ~ 1, formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent),
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams,
@@ -142,7 +142,7 @@ jtools::summ(ipwvax1)
 
 cat("ipwvax2 \n")
 ipwvax2 <- parglm(
-  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular) %>% update(formula_timedependent),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(vax1 ~ 1, formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent),
   data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams,
@@ -158,7 +158,7 @@ jtools::summ(ipwvax2)
 
 cat("ipwvax1_fxd \n")
 ipwvax1_fxd <- parglm(
-  formula = update(vax1 ~ 1, formula_demog) %>% update(formula_secular_region),
+  formula = update(vax1 ~ 1, formula_demog) %>% update(vax1 ~ 1, formula_comorbs) %>% update(formula_secular_region),
   data = data_pt_atriskvax1,
   family=binomial,
   control = parglmparams,
@@ -169,7 +169,7 @@ jtools::summ(ipwvax1_fxd)
 
 cat("ipwvax2_fxd \n")
 ipwvax2_fxd <- parglm(
-  formula = update(vax2 ~ 1, formula_demog) %>% update(formula_secular_region),
+  formula = update(vax2 ~ 1, formula_demog) %>% update(vax1 ~ 1, formula_comorbs) %>% update(formula_secular_region),
   data = data_pt_atriskvax2,
   family=binomial,
   control = parglmparams,
@@ -211,7 +211,7 @@ data_pt_atriskdeath <- data_pt %>% filter(death_status==0)
 
 cat("ipwdeath \n")
 ipwdeath <- parglm(
-  formula = update(death ~ 1, formula_demog) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular) %>% update(formula_timedependent),
+  formula = update(death ~ 1, formula_demog) %>% update(vax1 ~ 1, formula_comorbs) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular_region) %>% update(formula_timedependent),
   data = data_pt_atriskdeath,
   family=binomial,
   control = parglmparams,
@@ -224,7 +224,7 @@ jtools::summ(ipwdeath)
 
 cat("ipwdeath_fxd \n")
 ipwdeath_fxd <- parglm(
-  formula = update(death ~ 1, formula_demog) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular_region),
+  formula = update(death ~ 1, formula_demog) %>% update(vax1 ~ 1, formula_comorbs) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular_region),
   data = data_pt_atriskdeath,
   family=binomial,
   control = parglmparams,
@@ -363,10 +363,9 @@ weight_histogram <- ggplot(data_weights) +
 ggsave(here::here("output", cohort, outcome, brand, "models", "histogram_weights.svg"), weight_histogram)
 
 
-
 data_weights <- data_weights %>%
   select(
-    all.vars(formula_all_rhsvars),
+    any_of(all.vars(formula_all_rhsvars)),
     "ipweight_stbl",
     "outcome",
   )
