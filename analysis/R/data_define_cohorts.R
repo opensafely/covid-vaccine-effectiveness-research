@@ -79,7 +79,7 @@ list_formula <- lst(
   formula_secular,
   formula_secular_region,
   formula_timedependent,
-  formula_all_lhsvars
+  formula_all_rhsvars
 )
 
 write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rds")))
