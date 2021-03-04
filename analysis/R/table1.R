@@ -56,7 +56,7 @@ data_cp <- read_rds(here::here("output", cohort, "data", glue::glue("data_cp.rds
 ## choose snapshot times ----
 snapshots <- c(0, 28, 56)
 
-## create snatshop format dataset ----
+## create snapshop format dataset ----
 # ie, one row per person per snapshot date
 
 snapshottimes <- expand(data_cp, patient_id, time=snapshots)
@@ -85,10 +85,10 @@ data_tab <- data_ss %>%
   mutate(
     date = factor(as.Date(gbl_vars$start_date) + day),
     day = paste0("day ", day),
-    vax_status=case_when(
-      vax_status==0 ~ "Not vaccinated",
-      vax_status==1 ~ "One dose",
-      vax_status==2 ~ "Two doses",
+    vaxany_status=case_when(
+      vaxany_status==0 ~ "Not vaccinated",
+      vaxany_status==1 ~ "One dose",
+      vaxany_status==2 ~ "Two doses",
       TRUE ~ NA_character_
     ),
 
@@ -99,11 +99,11 @@ data_tab <- data_ss %>%
       right=FALSE
     ),
 
-
     postest_status = postest_status==1,
-    covidadmitted_status = postest_status==1,
+    covidadmitted_status = covidadmitted_status==1,
     coviddeath_status = coviddeath_status==1,
     death_status = death_status==1,
+
   ) %>%
   droplevels() %>%
   mutate(across(
@@ -135,12 +135,12 @@ data_tab %>%
       cancer_excl_lung_and_haem +
       haematological_cancer +
 
-      Heading("Positive test", nearData=FALSE)*Factor(postest_status) +
+      postest_status +
       covidadmitted_status +
       coviddeath_status +
-      Heading("Death", nearData=TRUE)*death_status
+      death_status
 
-    ~ day * vax_status *
+    ~ day * vaxany_status *
       ( N + (`%`=Percent(denom="col"))) *
       DropEmpty(which="col"),
     data = .,
@@ -149,40 +149,40 @@ data_tab %>%
     output = here::here("output", cohort, "descr", "table1.md")
   )
 #
-# data_tab %>%
-#   datasummary(
-#     ageband + sex + imd + region + #ethnicity +
-#
-#       bmi +
-#       dialysis +
-#       chronic_cardiac_disease +
-#       current_copd +
-#       dementia +
-#       dialysis +
-#       solid_organ_transplantation +
-#       #bone_marrow_transplant,
-#       chemo_or_radio +
-#       sickle_cell_disease +
-#       permanant_immunosuppression +
-#       temporary_immunosuppression +
-#       asplenia +
-#       intel_dis_incl_downs_syndrome +
-#       psychosis_schiz_bipolar +
-#       lung_cancer +
-#       cancer_excl_lung_and_haem +
-#       haematological_cancer +
-#
-#       Heading("Positive test", nearData=FALSE)*Factor(postest_status) +
-#       covidadmitted_status +
-#       coviddeath_status +
-#       Heading("Death", nearData=TRUE)*death_status
-#
-#     ~ day * vax_status *
-#       ( N + (`%`=Percent(denom="col"))) *
-#       DropEmpty(which="col"),
-#     data = .,
-#     fmt = 1,
-#     output = here::here("output", cohort, "descr", "table1.html")
-#   )
+data_tab %>%
+  datasummary(
+    ageband + sex + imd + region + #ethnicity +
+
+      bmi +
+      dialysis +
+      chronic_cardiac_disease +
+      current_copd +
+      dementia +
+      dialysis +
+      solid_organ_transplantation +
+      #bone_marrow_transplant,
+      chemo_or_radio +
+      sickle_cell_disease +
+      permanant_immunosuppression +
+      temporary_immunosuppression +
+      asplenia +
+      intel_dis_incl_downs_syndrome +
+      psychosis_schiz_bipolar +
+      lung_cancer +
+      cancer_excl_lung_and_haem +
+      haematological_cancer +
+
+      Heading("Positive test", nearData=FALSE)*Factor(postest_status) +
+      covidadmitted_status +
+      coviddeath_status +
+      Heading("Death", nearData=TRUE)*death_status
+
+    ~ day * vaxany_status *
+      ( N + (`%`=Percent(denom="col"))) *
+      DropEmpty(which="col"),
+    data = .,
+    fmt = 1,
+    output = here::here("output", cohort, "descr", "table1.png")
+  )
 #
 #

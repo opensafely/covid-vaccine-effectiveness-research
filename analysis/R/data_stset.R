@@ -158,12 +158,12 @@ data_tte <- data_all  %>%
     #time to death
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
 
-    tte_vax1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
+    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     #tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
     #tte_vax1_censored = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE),
     #ind_vax1 = censor_indicator(tte_vax1, tte_lastfup),
 
-    tte_vax2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
     #tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
     #tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
     #ind_vax2 = censor_indicator(tte_vax2, tte_lastfup),
@@ -190,6 +190,8 @@ data_tte <- data_all  %>%
 
 
   )
+
+stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1 != data_tte$tte_vaxany2, na.rm=TRUE))
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n  ")
@@ -237,26 +239,35 @@ data_tte_cp0 <- tmerge(
   data2 = data_tte,
   id = patient_id,
 
-  vax1 = tdc(tte_vax1),
-  vax2 = tdc(tte_vax2),
+  vaxany1_status = tdc(tte_vaxany1),
+  vaxany2_status = tdc(tte_vaxany2),
 
-  vaxpfizer1 = tdc(tte_vaxpfizer1),
-  vaxpfizer2 = tdc(tte_vaxpfizer2),
+  vaxpfizer1_status = tdc(tte_vaxpfizer1),
+  vaxpfizer2_status = tdc(tte_vaxpfizer2),
 
-  vaxaz1 = tdc(tte_vaxaz1),
-  vaxaz2 = tdc(tte_vaxaz2),
-
-  postest = event(tte_postest),
-  covidadmitted = event(tte_covidadmitted),
-  coviddeath = event(tte_coviddeath),
-  death = event(tte_death),
+  vaxaz1_status = tdc(tte_vaxaz1),
+  vaxaz2_status = tdc(tte_vaxaz2),
 
   postest_status = tdc(tte_postest),
   covidadmitted_status = tdc(tte_covidadmitted),
   coviddeath_status = tdc(tte_coviddeath),
   death_status = tdc(tte_death),
 
-  tstop = tte_lastfup
+  censored_status = tdc(tte_lastfup),
+
+  vaxany1 = event(tte_vaxany1),
+  vaxany2 = event(tte_vaxany2),
+  vaxpfizer1 = event(tte_vaxpfizer1),
+  vaxpfizer2 = event(tte_vaxpfizer2),
+  vaxaz1 = event(tte_vaxaz1),
+  vaxaz2 = event(tte_vaxaz2),
+  postest = event(tte_postest),
+  covidadmitted = event(tte_covidadmitted),
+  coviddeath = event(tte_coviddeath),
+  death = event(tte_death),
+  censored = event(tte_lastfup),
+
+  tstop = tte_enddate
 )
 
 
@@ -282,40 +293,6 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
     hosp_status = if_else(status=="admitted_date", 1, 0)
   )
 
-data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
-  pivot_longer(
-    cols=c(primary_care_probable_covid_date),
-    names_to="status",
-    values_to="date",
-    values_drop_na = TRUE
-  ) %>%
-  inner_join(
-    data_tte %>% select(patient_id, start_date, lastfup_date),
-    .,
-    by =c("patient_id")
-  ) %>%
-  mutate(
-    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    prob_covid_status = if_else(status=="primary_care_probable_covid_date", 1, 0)
-  )
-
-data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
-  pivot_longer(
-    cols=c(primary_care_suspected_covid_date),
-    names_to="status",
-    values_to="date",
-    values_drop_na = TRUE
-  ) %>%
-  inner_join(
-    data_tte %>% select(patient_id, start_date, lastfup_date),
-    .,
-    by =c("patient_id")
-  ) %>%
-  mutate(
-    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    susp_covid_status = if_else(status=="primary_care_suspected_covid_date", 1, 0)
-  )
-
 data_tte_cp <- tmerge(
   data1 = data_tte_cp0,
   data2 = data_hospitalised,
@@ -328,9 +305,9 @@ arrange(
 ) %>%
 mutate(
   twidth = tstop - tstart,
-  vax_status = vax1 + vax2,
-  vaxpfizer_status = vaxpfizer1 + vaxpfizer2,
-  vaxaz_status = vaxaz1 + vaxaz2,
+  vaxany_status = vaxany1_status + vaxany2_status,
+  vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
+  vaxaz_status = vaxaz1_status + vaxaz2_status,
 )
 
 # free up some memory
@@ -349,7 +326,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", s
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for MSMs
 
-alltimes <- expand(data_tte, patient_id, times=full_seq(c(1, tte_lastfup),1))
+alltimes <- expand(data_tte, patient_id, times=full_seq(c(1, tte_enddate),1))
 
 # do not use survSplit as this doesn't handle multiple events properly
 # eg, a positive test will be expanded as if a tdc (eg c(0,0,1,1,1,..)) not an event (eg c(0,0,1,0,0,...))
@@ -364,30 +341,17 @@ data_tte_pt <- tmerge(
   group_by(patient_id) %>%
   mutate(
 
-    # so we can select all time-points where patient is at risk of vax AND vax has not occurred
-    # vax_history = lag(vax_status, 1, 0),
-    # vaxpfizer_history = lag(vaxpfizer_status, 1, 0),
-    # vaxaz_history = lag(vaxaz_status, 1, 0),
-    #
-    # # similarly for outcomes
-    # postest_history = lag(postest_status, 1, 0),
-    # covidadmitted_history = lag(covidadmitted_status, 1, 0),
-    # coviddeath_history = lag(coviddeath_status, 1, 0),
-    # death_history = lag(death_status, 1, 0),
-
     # define time since vaccination
-    timesincevax1 = cumsum(vax1),
-    timesincevax2 = cumsum(vax2),
-    timesincevaxpfizer1 = cumsum(vaxpfizer1),
-    timesincevaxpfizer2 = cumsum(vaxpfizer2),
-    timesincevaxaz1 = cumsum(vaxaz1),
-    timesincevaxaz2 = cumsum(vaxaz2),
+    timesincevaxany1 = cumsum(vaxany1_status),
+    timesincevaxany2 = cumsum(vaxany2_status),
+    timesincevaxpfizer1 = cumsum(vaxpfizer1_status),
+    timesincevaxpfizer2 = cumsum(vaxpfizer2_status),
+    timesincevaxaz1 = cumsum(vaxaz1_status),
+    timesincevaxaz2 = cumsum(vaxaz2_status),
   ) %>%
   ungroup()
 
 stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes == data_tte_pt$tstop))
-stopifnot("vax1 time should not be same as vax2 time" = all(data_tte_pt$tte_vax1 != data_tte_pt$tte_vax2, na.rm=TRUE))
-
 
 
 # remove unused columns
