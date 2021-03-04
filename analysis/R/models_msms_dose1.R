@@ -358,30 +358,30 @@ msmmod1 <- parglm(
 jtools::summ(msmmod1)
 
 ### model 2 - baseline, comorbs, adjusted vaccination effect model ----
-cat("msmmod2 \n")
-msmmod2 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure),
-  data = data_weights,
-  family = binomial,
-  control = parglmparams,
-  na.action = "na.fail",
-  model = FALSE
-)
-
-jtools::summ(msmmod2)
+# cat("msmmod2 \n")
+# msmmod2 <- parglm(
+#   formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure),
+#   data = data_weights,
+#   family = binomial,
+#   control = parglmparams,
+#   na.action = "na.fail",
+#   model = FALSE
+# )
+#
+# jtools::summ(msmmod2)
 
 ### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
-cat("msmmod3 \n")
-msmmod3 <- parglm(
-  formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure),
-  data = data_weights,
-  family = binomial,
-  control = parglmparams,
-  na.action = "na.fail",
-  model = FALSE
-)
-
-jtools::summ(msmmod3)
+# cat("msmmod3 \n")
+# msmmod3 <- parglm(
+#   formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure),
+#   data = data_weights,
+#   family = binomial,
+#   control = parglmparams,
+#   na.action = "na.fail",
+#   model = FALSE
+# )
+#
+# jtools::summ(msmmod3)
 
 
 ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
@@ -400,18 +400,18 @@ jtools::summ(msmmod4)
 
 
 ### model 5 - secular trend adjusted vaccination effect model + IP-weighted ----
-cat("msmmod5 \n")
-msmmod5 <- parglm(
-  formula = update(outcome ~ 1, formula_secular_region) %>% update(formula_exposure),
-  data = data_weights,
-  weights = ipweight_stbl,
-  family = binomial,
-  control = parglmparams,
-  na.action = "na.fail",
-  model = FALSE
-)
-
-jtools::summ(msmmod5)
+# cat("msmmod5 \n")
+# msmmod5 <- parglm(
+#   formula = update(outcome ~ 1, formula_secular_region) %>% update(formula_exposure),
+#   data = data_weights,
+#   weights = ipweight_stbl,
+#   family = binomial,
+#   control = parglmparams,
+#   na.action = "na.fail",
+#   model = FALSE
+# )
+#
+# jtools::summ(msmmod5)
 
 
 ## Save models as rds ----
@@ -420,8 +420,8 @@ write_rds(ipwvax1, here::here("output", cohort, outcome, brand, "dose1", "model_
 write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, brand, "dose1", "model_vax1_fxd.rds"), compress="gz")
 write_rds(msmmod0, here::here("output", cohort, outcome, brand, "dose1", "model0.rds"), compress="gz")
 write_rds(msmmod1, here::here("output", cohort, outcome, brand, "dose1", "model1.rds"), compress="gz")
-write_rds(msmmod2, here::here("output", cohort, outcome, brand, "dose1", "model2.rds"), compress="gz")
-write_rds(msmmod3, here::here("output", cohort, outcome, brand, "dose1", "model3.rds"), compress="gz")
+#write_rds(msmmod2, here::here("output", cohort, outcome, brand, "dose1", "model2.rds"), compress="gz")
+#write_rds(msmmod3, here::here("output", cohort, outcome, brand, "dose1", "model3.rds"), compress="gz")
 write_rds(msmmod4, here::here("output", cohort, outcome, brand, "dose1", "model4.rds"), compress="gz")
-write_rds(msmmod5, here::here("output", cohort, outcome, brand, "dose1", "model5.rds"), compress="gz")
+#write_rds(msmmod5, here::here("output", cohort, outcome, brand, "dose1", "model5.rds"), compress="gz")
 

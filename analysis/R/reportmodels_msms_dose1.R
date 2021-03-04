@@ -78,21 +78,19 @@ list2env(list_formula, globalenv())
 
 # Import processed data ----
 
-data_weights <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("data_weights.rds")))
+data_weights <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("data_weights.rds")))
 
 # import models ----
 
 
-ipwvax1 <- read_rds(here::here("output", cohort, outcome,  brand, "models", glue::glue("model_vax1.rds")))
-ipwvax2 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model_vax2.rds")))
-ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model_vax1_fxd.rds")))
-ipwvax2_fxd <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model_vax2_fxd.rds")))
-msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model0.rds")))
-msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model1.rds")))
-msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model2.rds")))
-msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model3.rds")))
-msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model4.rds")))
-msmmod5 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model5.rds")))
+ipwvax1 <- read_rds(here::here("output", cohort, outcome,  brand, "dose1", glue::glue("model_vax1.rds")))
+ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model_vax1_fxd.rds")))
+msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model0.rds")))
+msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model1.rds")))
+#msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model2.rds")))
+#msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model3.rds")))
+msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model4.rds")))
+#msmmod5 <- read_rds(here::here("output", cohort, outcome, brand, "dose1", glue::glue("model5.rds")))
 
 
 
@@ -102,10 +100,10 @@ msmmod5 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue:
 
 msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="0 Unadjusted")
 msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex, IMD")
-msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="2  + co-morbidities")
-msmmod_tidy3 <- tidy_parglm(msmmod3, conf.int=TRUE) %>% mutate(model="3  + spatio-temporal trends")
+#msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="2  + co-morbidities")
+#msmmod_tidy3 <- tidy_parglm(msmmod3, conf.int=TRUE) %>% mutate(model="3  + spatio-temporal trends")
 msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="4  + IP-weighting")
-msmmod_tidy5 <- tidy_parglm(msmmod5, conf.int=TRUE) %>% mutate(model="5 trends + IP-weighting only")
+#msmmod_tidy5 <- tidy_parglm(msmmod5, conf.int=TRUE) %>% mutate(model="5 trends + IP-weighting only")
 
 # library('sandwich')
 # library('lmtest')
@@ -113,17 +111,17 @@ msmmod_tidy5 <- tidy_parglm(msmmod5, conf.int=TRUE) %>% mutate(model="5 trends +
 msmmod_summary <- bind_rows(
   msmmod_tidy0,
   msmmod_tidy1,
-  msmmod_tidy2,
-  msmmod_tidy3,
+  #msmmod_tidy2,
+  #msmmod_tidy3,
   msmmod_tidy4,
-  msmmod_tidy5,
+  #msmmod_tidy5,
 ) %>%
 mutate(
   or = exp(estimate),
   or.ll = exp(conf.low),
   or.ul = exp(conf.high),
 )
-write_csv(msmmod_summary, path = here::here("output", cohort, outcome, brand, "models", "estimates.csv"))
+write_csv(msmmod_summary, path = here::here("output", cohort, outcome, brand, "dose1", "estimates.csv"))
 
 # create forest plot
 msmmod_forest <- msmmod_summary %>%
@@ -136,19 +134,18 @@ msmmod_forest <- msmmod_summary %>%
     term=str_replace(term, pattern="Dose \\d", ""),
     term=fct_inorder(term)
   ) %>%
-  filter(dose != "Dose 2")
+  filter(dose != "Dose 2") %>%
   ggplot(aes(colour=model)) +
-  geom_point(aes(x=or, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_vline(aes(xintercept=1), colour='grey')+
-  #facet_grid(rows=vars(dose), scales="free_y", switch="y")+
-  scale_x_log10(breaks=c(0.125, 0.25, 0.5, 1, 2, 4))+
-  scale_y_discrete(na.translate=FALSE)+
+  geom_point(aes(y=or, x=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
+  geom_hline(aes(yintercept=1), colour='grey')+
+  scale_y_log10(breaks=c(0.125, 0.25, 0.5, 1, 2, 4))+
+  scale_x_discrete(na.translate=FALSE)+
   scale_colour_brewer(type="qual", palette="Set1", guide=guide_legend(reverse = TRUE))+
   coord_cartesian(xlim=c(0.1,2)) +
   labs(
-    x="Hazard ratio, versus no vaccination",
-    y=NULL,
+    y="Hazard ratio, versus no vaccination",
+    x=NULL,
     colour=NULL,
     title=glue::glue("{outcome_descr} by time since vaccination ({brand})"),
     subtitle=cohort_descr
@@ -156,53 +153,51 @@ msmmod_forest <- msmmod_summary %>%
   theme_bw()+
   theme(
     panel.border = element_blank(),
-    axis.line.x = element_line(colour = "black"),
+    axis.line.y = element_line(colour = "black"),
 
     strip.background = element_blank(),
     strip.placement = "outside",
-    strip.text.y.left = element_text(angle = 0),
 
     plot.title = element_text(hjust = 0),
     plot.title.position = "plot",
     plot.caption.position = "plot",
     plot.caption = element_text(hjust = 0, face= "italic"),
-    strip.text.y = element_text(angle = 0),
 
     legend.position = "right"
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, outcome, brand, "models", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, "dose1", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
 
 
 ## secular trends ----
 
-ggsecular2 <- interactions::interact_plot(
-  msmmod2,
-  pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
-)
-ggsecular3 <- interactions::interact_plot(
-  msmmod3,
+# ggsecular3 <- interactions::interact_plot(
+#   msmmod3,
+#   pred=tstop, modx=region, data=data_weights,
+#   colors="Set1", vary.lty=FALSE,
+#   x.label="Days since 7 Dec 2020",
+#   y.label=glue::glue("{outcome_descr} prob.")
+# )
+ggsecular4 <- interactions::interact_plot(
+  msmmod4,
   pred=tstop, modx=region, data=data_weights,
   colors="Set1", vary.lty=FALSE,
   x.label="Days since 7 Dec 2020",
   y.label=glue::glue("{outcome_descr} prob.")
  )
-ggsecular4<- interactions::interact_plot(
-  msmmod4, pred=tstop, modx=region, data=data_weights,
-  colors="Set1", vary.lty=FALSE,
-  x.label="Days since 7 Dec 2020",
-  y.label=glue::glue("{outcome_descr} prob.")
-)
+# ggsecular5<- interactions::interact_plot(
+#   msmmod5, pred=tstop, modx=region, data=data_weights,
+#   colors="Set1", vary.lty=FALSE,
+#   x.label="Days since 7 Dec 2020",
+#   y.label=glue::glue("{outcome_descr} prob.")
+# )
 
-ggsecular_patch <- patchwork::wrap_plots(list(
-  ggsecular2,
-  ggsecular3,
-  ggsecular4
-), ncol=1, byrow=FALSE, guides="collect")
+# ggsecular_patch <- patchwork::wrap_plots(list(
+#   ggsecular3,
+#   ggsecular4,
+#   ggsecular5
+# ), ncol=1, byrow=FALSE, guides="collect")
 
-ggsave(filename=here::here("output", cohort, outcome, brand, "models", "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, "dose1", "secular_trends_region_plot.svg"), ggsecular4, width=20, height=30, units="cm")
 
