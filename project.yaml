@@ -74,16 +74,30 @@ actions:
       moderately_sensitive:
         table1: output/over80s/descr/table*
 
-  # models_msm_over80s:
-  #   run: r:latest analysis/R/models_msms.R over80s postest
-  #   needs: [data_define_cohorts, data_stset_over80s]
-  #   outputs:
-  #     highly_sensitive:
-  #       models: output/over80s/postest/models/model*.rds
-  #       data: output/over80s/postest/models/data_weights.rds
-  #     moderately_sensitive:
-  #       weights: output/over80s/postest/models/weights.txt
-  #       weightsplot: output/over80s/postest/models/histogram_weights.svg
+
+ # vax1 only (ignores second dose)
+
+  models_msm_over80s_dose1:
+    run: r:latest analysis/R/models_msms_dose1.R over80s postest any
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/any/dose1/model*.rds
+        data: output/over80s/postest/any/dose1/data_weights.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/any/dose1/weights.txt
+        weightsplot: output/over80s/postest/any/dose1/histogram_weights.svg
+
+  reportmodels_msm_over80s_dose1:
+    run: r:latest analysis/R/reportmodels_msms_dose1.R over80s postest any
+    needs: [data_define_cohorts, models_msm_over80s]
+    outputs:
+      moderately_sensitive:
+        forest: output/over80s/postest/any/dose1/forest*.svg
+        trend: output/over80s/postest/any/dose1/secular_trends*.svg
+        tables: output/over80s/postest/any/dose1/*.csv
+
+ # vax1 and vax2
 
   models_msm_over80s:
     run: r:latest analysis/R/models_msms_brand.R over80s postest any
@@ -95,18 +109,6 @@ actions:
       moderately_sensitive:
         weights: output/over80s/postest/any/models/weights.txt
         weightsplot: output/over80s/postest/any/models/histogram_weights.svg
-
-  # reportmodels_msm_over80s:
-  #   run: r:latest analysis/R/reportmodels_msms.R over80s postest
-  #   needs: [data_define_cohorts, models_msm_over80s]
-  #   outputs:
-  #     moderately_sensitive:
-  #       forest: output/over80s/postest/models/forest*.svg
-  #       trend: output/over80s/postest/models/secular_trends*.svg
-  #       eventrate: output/over80s/postest/models/event_rate.svg
-  #       cmleffect: output/over80s/postest/models/cml_effectiveness.svg
-  #       tables: output/over80s/postest/models/*.csv
-
 
   reportmodels_msm_over80s:
     run: r:latest analysis/R/reportmodels_msms_brand.R over80s postest any
