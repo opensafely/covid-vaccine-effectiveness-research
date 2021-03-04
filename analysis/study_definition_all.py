@@ -470,11 +470,7 @@ study = StudyDefinition(
     ),
     # FIRST EVER PRIMARY CARE CASE IDENTIFICATION
     prior_primary_care_covid_case_date=patients.with_these_clinical_events(
-        combine_codelists(
-            covid_primary_care_code,
-            covid_primary_care_positive_test,
-            covid_primary_care_sequalae,
-        ),
+        covid_primary_care_probable_combined,
         returning="date",
         date_format="YYYY-MM-DD",
         on_or_before="index_date",
@@ -511,11 +507,7 @@ study = StudyDefinition(
     ),
     # PRIMARY CARE CASE IDENTIFICATION
     primary_care_covid_case_1_date=patients.with_these_clinical_events(
-        combine_codelists(
-            covid_primary_care_code,
-            covid_primary_care_positive_test,
-            covid_primary_care_sequalae,
-        ),
+        covid_primary_care_probable_combined,
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
@@ -527,11 +519,7 @@ study = StudyDefinition(
         },
     ),
     primary_care_covid_case_2_date=patients.with_these_clinical_events(
-        combine_codelists(
-            covid_primary_care_code,
-            covid_primary_care_positive_test,
-            covid_primary_care_sequalae,
-        ),
+        covid_primary_care_probable_combined,
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
@@ -704,7 +692,69 @@ study = StudyDefinition(
     ############################################################
     ## PRIMARY CARE COVID CODING DURING STUDY PERIOD, UP TO 5 ##
     ############################################################
-    primary_care_covid_1_date=patients.with_these_clinical_events(
+    ## PROBABLE
+    primary_care_probable_covid_1_date=patients.with_these_clinical_events(
+        covid_primary_care_probable_combined,
+        returning="date",
+        on_or_after="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_probable_covid_2_date=patients.with_these_clinical_events(
+        covid_primary_care_probable_combined,
+        returning="date",
+        on_or_after="primary_care_probable_covid_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_probable_covid_3_date=patients.with_these_clinical_events(
+        covid_primary_care_probable_combined,
+        returning="date",
+        on_or_after="primary_care_probable_covid_2_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_probable_covid_4_date=patients.with_these_clinical_events(
+        covid_primary_care_probable_combined,
+        returning="date",
+        on_or_after="primary_care_probable_covid_3_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    primary_care_probable_covid_5_date=patients.with_these_clinical_events(
+        covid_primary_care_probable_combined,
+        returning="date",
+        on_or_after="primary_care_probable_covid_4_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest": "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    ## SUSPECTED
+    primary_care_suspected_covid_1_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
         on_or_after="index_date",
@@ -716,10 +766,10 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
-    primary_care_covid_2_date=patients.with_these_clinical_events(
+    primary_care_suspected_covid_2_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="primary_care_covid_1_date + 1 day",
+        on_or_after="primary_care_suspected_covid_1_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -728,10 +778,10 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
-    primary_care_covid_3_date=patients.with_these_clinical_events(
+    primary_care_suspected_covid_3_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="primary_care_covid_2_date + 1 day",
+        on_or_after="primary_care_suspected_covid_2_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -740,10 +790,10 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
-    primary_care_covid_4_date=patients.with_these_clinical_events(
+    primary_care_suspected_covid_4_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="primary_care_covid_3_date + 1 day",
+        on_or_after="primary_care_suspected_covid_3_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -752,10 +802,10 @@ study = StudyDefinition(
             "incidence": 0.05,
         },
     ),
-    primary_care_covid_5_date=patients.with_these_clinical_events(
+    primary_care_suspected_covid_5_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="primary_care_covid_4_date + 1 day",
+        on_or_after="primary_care_suspected_covid_4_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
