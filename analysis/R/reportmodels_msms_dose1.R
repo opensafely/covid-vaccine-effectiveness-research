@@ -102,7 +102,7 @@ msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="0 Unadjust
 msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex, IMD")
 #msmmod_tidy2 <- tidy_parglm(msmmod2, conf.int=TRUE) %>% mutate(model="2  + co-morbidities")
 #msmmod_tidy3 <- tidy_parglm(msmmod3, conf.int=TRUE) %>% mutate(model="3  + spatio-temporal trends")
-msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="4  + IP-weighting")
+msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="2 Fully adjusted")
 #msmmod_tidy5 <- tidy_parglm(msmmod5, conf.int=TRUE) %>% mutate(model="5 trends + IP-weighting only")
 
 # library('sandwich')
@@ -127,22 +127,19 @@ write_csv(msmmod_summary, path = here::here("output", cohort, outcome, brand, "d
 msmmod_forest <- msmmod_summary %>%
   filter(str_detect(term, "timesincevax")) %>%
   mutate(
-    dose=str_extract(term, pattern="Dose \\d"),
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
     term=str_replace(term, pattern="imd", "IMD "),
     term=str_replace(term, pattern="sex", "Sex "),
-    term=str_replace(term, pattern="Dose \\d", ""),
     term=fct_inorder(term)
   ) %>%
-  filter(dose != "Dose 2") %>%
   ggplot(aes(colour=model)) +
-  geom_point(aes(y=or, x=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, y=forcats::fct_rev(factor(term))), position = position_dodge(width = 0.5))+
+  geom_point(aes(y=or, x=factor(term)), position = position_dodge(width = 0.5))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=factor(term)), position = position_dodge(width = 0.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
   scale_y_log10(breaks=c(0.125, 0.25, 0.5, 1, 2, 4))+
   scale_x_discrete(na.translate=FALSE)+
-  scale_colour_brewer(type="qual", palette="Set1", guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(xlim=c(0.1,2)) +
+  scale_colour_brewer(type="qual", palette="Set1")+#, guide=guide_legend(reverse = TRUE))+
+  coord_cartesian(ylim=c(0.1,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x=NULL,
