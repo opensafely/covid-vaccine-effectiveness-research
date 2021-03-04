@@ -78,21 +78,21 @@ list2env(list_formula, globalenv())
 
 # Import processed data ----
 
-data_weights <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("data_weights.rds")))
+data_weights <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("data_weights.rds")))
 
 # import models ----
 
 
-ipwvax1 <- read_rds(here::here("output", cohort, outcome,  brand, "models", glue::glue("model_vax1.rds")))
-ipwvax2 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model_vax2.rds")))
-ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model_vax1_fxd.rds")))
-ipwvax2_fxd <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model_vax2_fxd.rds")))
-msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model0.rds")))
-msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model1.rds")))
-msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model2.rds")))
-msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model3.rds")))
-msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model4.rds")))
-msmmod5 <- read_rds(here::here("output", cohort, outcome, brand, "models", glue::glue("model5.rds")))
+ipwvax1 <- read_rds(here::here("output", cohort, outcome,  brand, "dose12", glue::glue("model_vax1.rds")))
+ipwvax2 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model_vax2.rds")))
+ipwvax1_fxd <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model_vax1_fxd.rds")))
+ipwvax2_fxd <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model_vax2_fxd.rds")))
+msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model0.rds")))
+msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model1.rds")))
+msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model2.rds")))
+msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model3.rds")))
+msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model4.rds")))
+msmmod5 <- read_rds(here::here("output", cohort, outcome, brand, "dose12", glue::glue("model5.rds")))
 
 
 
@@ -123,7 +123,7 @@ mutate(
   or.ll = exp(conf.low),
   or.ul = exp(conf.high),
 )
-write_csv(msmmod_summary, path = here::here("output", cohort, outcome, brand, "models", "estimates.csv"))
+write_csv(msmmod_summary, path = here::here("output", cohort, outcome, brand, "dose12", "estimates.csv"))
 
 # create forest plot
 msmmod_forest <- msmmod_summary %>%
@@ -171,7 +171,7 @@ msmmod_forest <- msmmod_summary %>%
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, outcome, brand, "models", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, "dose12", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
 
 
 ## secular trends ----
@@ -203,5 +203,5 @@ ggsecular_patch <- patchwork::wrap_plots(list(
   ggsecular4
 ), ncol=1, byrow=FALSE, guides="collect")
 
-ggsave(filename=here::here("output", cohort, outcome, brand, "models", "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, "dose12", "secular_trends_region_plot.svg"), ggsecular_patch, width=20, height=30, units="cm")
 

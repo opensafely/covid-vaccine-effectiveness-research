@@ -87,7 +87,7 @@ knots <- c(21)
 
 
 # create output directories ----
-dir.create(here::here("output", cohort, outcome, brand, "models"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, outcome, brand, "dose12"), showWarnings = FALSE, recursive=TRUE)
 
 # Import processed data ----
 
@@ -307,7 +307,6 @@ data_weights <- data_pt %>%
     # stabilised inverse probability weights
     ipweightvax_stbl = cmlprobvax_realised_fxd/cmlprobvax_realised,
 
-
     # death censoring
     probdeath_realised = case_when(
       death_status==0L & death!=1 ~ 1 - preddeath,
@@ -351,7 +350,7 @@ summarise_weights <-
 
 capture.output(
   walk2(summarise_weights$value, summarise_weights$name, print_num),
-  file = here::here("output", cohort, outcome, brand, "models",  "weights.txt"),
+  file = here::here("output", cohort, outcome, brand, "dose12",  "weights.txt"),
   append=FALSE
 )
 
@@ -360,7 +359,7 @@ weight_histogram <- ggplot(data_weights) +
   geom_histogram(aes(x=ipweight_stbl)) +
   theme_bw()
 
-ggsave(here::here("output", cohort, outcome, brand, "models", "histogram_weights.svg"), weight_histogram)
+ggsave(here::here("output", cohort, outcome, brand, "dose12", "histogram_weights.svg"), weight_histogram)
 
 
 data_weights <- data_weights %>%
@@ -370,7 +369,7 @@ data_weights <- data_weights %>%
     "outcome",
   )
 
-write_rds(data_weights, here::here("output", cohort, outcome, brand, "models", glue::glue("data_weights.rds")), compress="gz")
+write_rds(data_weights, here::here("output", cohort, outcome, brand, "dose12", glue::glue("data_weights.rds")), compress="gz")
 
 # MSM model ----
 
@@ -468,14 +467,14 @@ jtools::summ(msmmod5)
 
 ## Save models as rds ----
 
-write_rds(ipwvax1, here::here("output", cohort, outcome, brand, "models", "model_vax1.rds"), compress="gz")
-write_rds(ipwvax2, here::here("output", cohort, outcome, brand, "models", "model_vax2.rds"), compress="gz")
-write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, brand, "models", "model_vax1_fxd.rds"), compress="gz")
-write_rds(ipwvax2_fxd, here::here("output", cohort, outcome, brand, "models", "model_vax2_fxd.rds"), compress="gz")
-write_rds(msmmod0, here::here("output", cohort, outcome, brand, "models", "model0.rds"), compress="gz")
-write_rds(msmmod1, here::here("output", cohort, outcome, brand, "models", "model1.rds"), compress="gz")
-write_rds(msmmod2, here::here("output", cohort, outcome, brand, "models", "model2.rds"), compress="gz")
-write_rds(msmmod3, here::here("output", cohort, outcome, brand, "models", "model3.rds"), compress="gz")
-write_rds(msmmod4, here::here("output", cohort, outcome, brand, "models", "model4.rds"), compress="gz")
-write_rds(msmmod5, here::here("output", cohort, outcome, brand, "models", "model5.rds"), compress="gz")
+write_rds(ipwvax1, here::here("output", cohort, outcome, brand, "dose12", "model_vax1.rds"), compress="gz")
+write_rds(ipwvax2, here::here("output", cohort, outcome, brand, "dose12", "model_vax2.rds"), compress="gz")
+write_rds(ipwvax1_fxd, here::here("output", cohort, outcome, brand, "dose12", "model_vax1_fxd.rds"), compress="gz")
+write_rds(ipwvax2_fxd, here::here("output", cohort, outcome, brand, "dose12", "model_vax2_fxd.rds"), compress="gz")
+write_rds(msmmod0, here::here("output", cohort, outcome, brand, "dose12", "model0.rds"), compress="gz")
+write_rds(msmmod1, here::here("output", cohort, outcome, brand, "dose12", "model1.rds"), compress="gz")
+write_rds(msmmod2, here::here("output", cohort, outcome, brand, "dose12", "model2.rds"), compress="gz")
+write_rds(msmmod3, here::here("output", cohort, outcome, brand, "dose12", "model3.rds"), compress="gz")
+write_rds(msmmod4, here::here("output", cohort, outcome, brand, "dose12", "model4.rds"), compress="gz")
+write_rds(msmmod5, here::here("output", cohort, outcome, brand, "dose12", "model5.rds"), compress="gz")
 
