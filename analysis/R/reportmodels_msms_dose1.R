@@ -142,7 +142,7 @@ msmmod_forest <- msmmod_summary %>%
   coord_cartesian(ylim=c(0.1,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
-    x=NULL,
+    x="Time since first dose",
     colour=NULL,
     title=glue::glue("{outcome_descr} by time since vaccination ({brand})"),
     subtitle=cohort_descr
