@@ -64,7 +64,8 @@ formula_secular <- . ~ . + ns(tstop, knots=knots)
 formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
 formula_timedependent <- . ~ . + hospital_status # consider adding local infection rates
 
-forumla_all_lhsvars <- update(outcome ~ 1, formula_exposure) %>%
+
+formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_demog) %>%
   update(formula_comorbs) %>%
   update(formula_secular) %>%
@@ -77,7 +78,8 @@ list_formula <- lst(
   formula_comorbs,
   formula_secular,
   formula_secular_region,
-  formula_timedependent
+  formula_timedependent,
+  formula_all_lhsvars
 )
 
 write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rds")))
