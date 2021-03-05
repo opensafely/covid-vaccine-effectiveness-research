@@ -289,7 +289,12 @@ data_pr_probable_covid <- data_processed %>%
       values_to = "date",
       values_drop_na = TRUE
     ) %>%
-  arrange(patient_id, date)
+  arrange(patient_id, date) %>%
+  # temporary solution to indicator for "X days around covid pc event date"
+  mutate(
+    date_5before = date - 5,
+    date_10after = date + 10,
+  )
 
 data_pr_suspected_covid <- data_processed %>%
   select(patient_id, matches("^primary_care_suspected_covid\\_\\d+\\_date")) %>%
@@ -300,7 +305,12 @@ data_pr_suspected_covid <- data_processed %>%
     values_to = "date",
     values_drop_na = TRUE
   ) %>%
-  arrange(patient_id, date)
+  arrange(patient_id, date) %>%
+  # temporary solution to indicator for "X days around covid pc event date"
+  mutate(
+    date_5before = date - 5,
+    date_10after = date + 10,
+  )
 
 
 data_vax <- local({
@@ -360,3 +370,4 @@ write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), com
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
 write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
 write_rds(data_pr_suspected_covid, here::here("output", "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
+

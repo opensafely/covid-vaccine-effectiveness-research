@@ -293,13 +293,102 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
     hosp_status = if_else(status=="admitted_date", 1, 0)
   )
 
-data_tte_cp <- tmerge(
-  data1 = data_tte_cp0,
-  data2 = data_hospitalised,
-  id = patient_id,
-  hospital_status = tdc(tte, hosp_status),
-  options = list(tdcstart = 0)
-) %>%
+
+data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+  select(-date) %>%
+  pivot_longer(
+    cols=c(date_5before, date_10after),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+    probable_covid_status = if_else(status=="date_5before", 1, 0)
+  )
+
+data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+  select(-date) %>%
+  pivot_longer(
+    cols=c(date_5before, date_10after),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+    suspected_covid_status = if_else(status=="date_5before", 1, 0)
+  )
+
+## Use follow option when fast option available for processing "X days around event date" for pt dataset
+
+# data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+#   inner_join(
+#     data_tte %>% select(patient_id, start_date, lastfup_date),
+#     .,
+#     by =c("patient_id")
+#   ) %>%
+#   mutate(
+#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
+#   )
+#
+#
+# data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+#   inner_join(
+#     data_tte %>% select(patient_id, start_date, lastfup_date),
+#     .,
+#     by =c("patient_id")
+#   ) %>%
+#   mutate(
+#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
+#   )
+
+
+data_tte_cp <- data_tte_cp0 %>%
+  tmerge(
+    data1 = .,
+    data2 = data_hospitalised,
+    id = patient_id,
+    hospital_status = tdc(tte, hosp_status),
+    options = list(tdcstart = 0)
+  ) %>%
+  tmerge(
+    data1 = .,
+    data2 = data_probable_covid,
+    id = patient_id,
+    probable_covid_status = tdc(tte, probable_covid_status),
+    options = list(tdcstart = 0)
+  ) %>%
+  tmerge(
+    data1 = .,
+    data2 = data_probable_covid,
+    id = patient_id,
+    suspected_covid_status = tdc(tte, suspected_covid_status),
+    options = list(tdcstart = 0)
+  ) %>%
+  # use this option when event date is enough and rolling indicator available
+  # tmerge(
+  #   data1 = .,
+  #   data2 = data_probable_covid,
+  #   id = patient_id,
+  #   probable_covid = event(tte)
+  # ) %>%
+  # tmerge(
+  #   data1 = .,
+  #   data2 = data_suspected_covid,
+  #   id = patient_id,
+  #   probable_covid = event(tte)
+  # ) %>%
 arrange(
   patient_id, tstart
 ) %>%
@@ -310,9 +399,11 @@ mutate(
   vaxaz_status = vaxaz1_status + vaxaz2_status,
 )
 
-# free up some memory
+# free up memory
 rm(data_tte_cp0)
 rm(data_hospitalised)
+rm(data_suspected_covid)
+rm(data_probable_covid)
 
 
 stopifnot("tstart should be >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
