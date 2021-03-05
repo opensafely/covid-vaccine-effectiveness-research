@@ -103,6 +103,7 @@ data_tab <- data_ss %>%
     covidadmitted_status = covidadmitted_status==1,
     coviddeath_status = coviddeath_status==1,
     death_status = death_status==1,
+    Participants = "1"
 
   ) %>%
   droplevels() %>%
@@ -114,7 +115,8 @@ data_tab <- data_ss %>%
 
 data_tab %>%
   datasummary(
-    ageband + sex + imd + region + #ethnicity +
+    Participants +
+      ageband + sex + imd + region + #ethnicity +
 
       bmi +
       dialysis +
@@ -151,7 +153,8 @@ data_tab %>%
 #
 data_tab %>%
   datasummary(
-    ageband + sex + imd + region + #ethnicity +
+    Participants +
+      ageband + sex + imd + region + #ethnicity +
 
       bmi +
       dialysis +
@@ -172,10 +175,10 @@ data_tab %>%
       cancer_excl_lung_and_haem +
       haematological_cancer +
 
-      Heading("Positive test", nearData=FALSE)*Factor(postest_status) +
+      Factor(postest_status) +
       covidadmitted_status +
       coviddeath_status +
-      Heading("Death", nearData=TRUE)*death_status
+      death_status
 
     ~ day * vaxany_status *
       ( N + (`%`=Percent(denom="col"))) *
