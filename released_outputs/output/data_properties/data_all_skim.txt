@@ -1,18 +1,17 @@
 -- Data Summary ------------------------
-                           Values  
-Name                       data    
-Number of rows             18513431
-
-Number of columns          65      
-_______________________            
-Column type frequency:             
-  Date                     33      
-  character                4       
-  factor                   4       
-  logical                  21      
-  numeric                  3       
-________________________           
-Group variables            None    
+                           Values 
+Name                       data   
+Number of rows             3707587
+Number of columns          65     
+_______________________           
+Column type frequency:            
+  Date                     33     
+  character                4      
+  factor                   4      
+  logical                  21     
+  numeric                  3      
+________________________          
+Group variables            None   
 
 -- Variable type: Date ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    skim_variable                      n_missing complete_rate min        max        median     n_unique

@@ -1,0 +1,35 @@
+2021-03-04T23:18:23.004824200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-04T23:18:23.016467300Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-04T23:18:23.016490200Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-04T23:18:23.016498500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-04T23:18:23.016505500Z v readr   1.3.1     v forcats 0.5.0
+2021-03-04T23:18:23.175375200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-04T23:18:23.175407600Z x dplyr::filter() masks stats::filter()
+2021-03-04T23:18:23.175415700Z x dplyr::lag()    masks stats::lag()
+2021-03-04T23:18:23.190217700Z 
+2021-03-04T23:18:23.190241600Z Attaching package: 'lubridate'
+2021-03-04T23:18:23.190249600Z 
+2021-03-04T23:18:23.191647600Z The following objects are masked from 'package:base':
+2021-03-04T23:18:23.191665900Z 
+2021-03-04T23:18:23.191673600Z     date, intersect, setdiff, union
+2021-03-04T23:18:23.191680500Z 
+2021-03-04T23:18:25.860957900Z <environment: R_GlobalEnv>
+2021-03-04T23:18:25.861281900Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: 803cda83984e6588d51c02c0aa8e1a848d063d78
+docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
+exit_code: 0
+job_id: owpk3ndbkgpbrp4l
+run_by_user: wjchulme
+created_at: 2021-03-04T20:27:41Z
+started_at: 2021-03-04T23:18:20Z
+completed_at: 2021-03-04T23:31:59Z
+
+Completed successfully
+
+outputs:
+  output/over80s/postest/pfizer/dose1/estimates.csv                   - moderately_sensitive
+  output/over80s/postest/pfizer/dose1/forest_plot.svg                 - moderately_sensitive
+  output/over80s/postest/pfizer/dose1/secular_trends_region_plot.svg  - moderately_sensitive

@@ -77,10 +77,10 @@ care_home_type
 
 |-               - |         n| % (of all)| % (of non-missing)|redacted |
 |:-----------------|---------:|----------:|------------------:|:--------|
-|Carehome          |     56122|      0.003|              0.531|FALSE    |
-|Mixed             |      2364|      0.000|              0.022|FALSE    |
-|Nursinghome       |     47205|      0.003|              0.447|FALSE    |
-|(missing)         |  18407740|      0.994|              0.000|FALSE    |
+|Carehome          |     11370|      0.003|               0.54|FALSE    |
+|Mixed             |       431|      0.000|               0.02|FALSE    |
+|Nursinghome       |      9255|      0.002|               0.44|FALSE    |
+|(missing)         |   3686531|      0.994|               0.00|FALSE    |
 
 
 
@@ -720,7 +720,6 @@ covidadmitted_1_date
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
-
 covidadmitted_2_date
 
 |         n| n non-missing| % non-missing| n missing| % missing| n unique|
@@ -737,7 +736,6 @@ covidadmitted_2_date
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
-
 discharged_1_date
 
 |         n| n non-missing| % non-missing| n missing| % missing| n unique|
