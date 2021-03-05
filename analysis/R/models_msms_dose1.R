@@ -176,7 +176,7 @@ data_pt_atriskdeath <- data_pt %>% filter(death_status==0)
 
 cat("ipwdeath \n")
 ipwdeath <- parglm(
-  formula = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular_region) %>% update(formula_timedependent),
+  formula = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent),
   data = data_pt_atriskdeath,
   family=binomial,
   control = parglmparams,
@@ -189,7 +189,7 @@ jtools::summ(ipwdeath)
 
 cat("ipwdeath_fxd \n")
 ipwdeath_fxd <- parglm(
-  formula = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(. ~ . + timesincevax_pw) %>% update(formula_secular_region),
+  formula = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region),
   data = data_pt_atriskdeath,
   family=binomial,
   control = parglmparams,
