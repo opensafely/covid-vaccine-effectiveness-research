@@ -371,7 +371,7 @@ data_tte_cp <- data_tte_cp0 %>%
   ) %>%
   tmerge(
     data1 = .,
-    data2 = data_probable_covid,
+    data2 = data_suspected_covid,
     id = patient_id,
     suspected_covid_status = tdc(tte, suspected_covid_status),
     options = list(tdcstart = 0)
