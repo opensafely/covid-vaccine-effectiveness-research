@@ -164,7 +164,7 @@ msmmod_forest <- msmmod_summary %>%
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, outcome, brand, "dose1", "forest_plot.svg"), msmmod_forest, width=20, height=20, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, "dose1", "forest_plot.svg"), msmmod_forest, width=20, height=15, units="cm")
 
 
 ## secular trends ----
