@@ -182,7 +182,7 @@ data_tab %>%
       DropEmpty(which="col"),
     data = .,
     fmt = 1,
-    output = here::here("output", cohort, "descr", "table1.png")
+    output = here::here("output", cohort, "descr", "table1.html")
   )
 #
 #
