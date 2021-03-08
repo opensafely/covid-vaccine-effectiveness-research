@@ -181,7 +181,7 @@ actions:
         data: output/over80s/postest/az/sex/dose1/data_weights.rds
       moderately_sensitive:
         weights: output/over80s/postest/az/sex/dose1/weights.txt
-        weightsplot: output/over80s/postest/sex/az/dose1/histogram_weights.svg
+        weightsplot: output/over80s/postest/az/sex/dose1/histogram_weights.svg
 
 
  # vax1 and vax2
