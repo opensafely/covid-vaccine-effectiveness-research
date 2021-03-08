@@ -323,7 +323,7 @@ write_rds(data_weights, here::here("output", cohort, outcome, brand, subgroup, "
 ## no adjustment variables
 
 cat("msmmod0 \n")
-msmmod0 <- parglm(
+msmmod0_par <- parglm(
   formula = update(outcome ~ 1, exposure_subgroup_interaction),
   data = data_weights,
   family = binomial,
@@ -347,7 +347,7 @@ jtools::summ(msmmod0)
 
 ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
 cat("msmmod1 \n")
-msmmod1 <- parglm(
+msmmod1_par <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(exposure_subgroup_interaction),
   data = data_weights,
   family = binomial,
@@ -398,7 +398,7 @@ jtools::summ(msmmod1)
 
 ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
 cat("msmmod4 \n")
-msmmod4 <- parglm(
+msmmod4_par <- parglm(
   formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(exposure_subgroup_interaction),
   data = data_weights,
   weights = ipweight_stbl,
