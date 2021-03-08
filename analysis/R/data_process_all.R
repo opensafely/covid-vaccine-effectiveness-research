@@ -219,16 +219,16 @@ data_processed <- data_extract_reordered %>%
       right=FALSE
     ),
 
-    # ethnicity = fct_case_when(
-    #   ethnicity == "4" ~ "Black",
-    #   ethnicity == "2" ~ "Mixed",
-    #   ethnicity == "3" ~ "South Asian",
-    #   ethnicity == "1" ~ "White",
-    #   ethnicity == "5" ~ "Other",
-    #   #TRUE ~ "Unknown",
-    #   TRUE ~ NA_character_
-    #
-    # ),
+    ethnicity = fct_case_when(
+      ethnicity == "4" ~ "Black",
+      ethnicity == "2" ~ "Mixed",
+      ethnicity == "3" ~ "South Asian",
+      ethnicity == "1" ~ "White",
+      ethnicity == "5" ~ "Other",
+      #TRUE ~ "Unknown",
+      TRUE ~ NA_character_
+
+    ),
 
 
     imd = na_if(imd, "0"),
@@ -242,6 +242,20 @@ data_processed <- data_extract_reordered %>%
       TRUE ~ NA_character_
     ),
 
+    region = factor(region,
+                    levels= c(
+                      "East",
+                      "East Midlands",
+                      "London",
+                      "North East",
+                      "North West",
+                      "South East",
+                      "South West",
+                      "West Midlands",
+                      "Yorkshire and The Humber"
+                    )
+    ),
+
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",
       !is.na(death_date) ~ "not covid-related",
@@ -253,7 +267,8 @@ data_processed <- data_extract_reordered %>%
   filter(
     !is.na(age),
     !is.na(sex),
-    !is.na(imd)
+    !is.na(imd),
+    !is.na(ethnicity),
   )
 
 

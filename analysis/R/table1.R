@@ -14,11 +14,11 @@
 ## Import libraries ----
 library('tidyverse')
 library('lubridate')
+library('survival')
 
 ## Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
 
 ## import command-line arguments ----
 

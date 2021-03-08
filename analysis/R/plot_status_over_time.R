@@ -1,0 +1,389 @@
+
+# # # # # # # # # # # # # # # # # # # # #
+# This script:
+# takes a cohort name as defined in data_define_cohorts.R, and imported as an Arg
+# creates descriptive outputs on patient characteristics by vaccination status at 0, 28, and 56 days.
+#
+# The script should be run via an action in the project.yaml
+# The script must be accompanied by one argument,
+# 1. the name of the cohort defined in data_define_cohorts.R
+# # # # # # # # # # # # # # # # # # # # #
+
+# Preliminaries ----
+
+## Import libraries ----
+library('tidyverse')
+library('lubridate')
+
+## Import custom user functions from lib
+source(here::here("lib", "utility_functions.R"))
+source(here::here("lib", "redaction_functions.R"))
+
+
+## custom functions ----
+
+
+# function to extract total plot height minus panel height
+plotHeight <- function(plot, unit){
+  grob <- ggplot2::ggplotGrob(plot)
+  grid::convertHeight(gtable::gtable_height(grob), unitTo=unit, valueOnly=TRUE)
+}
+
+# function to extract total plot width minus panel height
+plotWidth <- function(plot, unit){
+  grob <- ggplot2::ggplotGrob(plot)
+  grid::convertWidth(gtable::gtable_width(grob), unitTo=unit, valueOnly=TRUE)
+}
+
+# function to extract total number of bars plot (strictly this is the number of rows in the build of the plot data)
+plotNbars <- function(plot){
+  length(unique(ggplot2::ggplot_build(plot)$data[[1]]$x))
+}
+
+# function to extract total number of bars plot (strictly this is the number of rows in the build of the plot data)
+plotNfacetrows <- function(plot){
+  length(levels(ggplot2::ggplot_build(plot)$data[[1]]$PANEL))
+}
+
+plotNyscales <- function(plot){
+  length(ggplot2::ggplot_build(plot)$layout$panel_scales_y[[1]]$range$range)
+}
+
+
+# function to extract total number of panels
+plotNpanelrows <- function(plot){
+  length(unique(ggplot2::ggplot_build(plot)$layout$layout$ROW))
+}
+
+
+
+## import command-line arguments ----
+
+args <- commandArgs(trailingOnly=TRUE)
+
+
+if(length(args)==0){
+  # use for interactive testing
+  cohort <- "over80s"
+} else {
+  # use for actions
+  cohort <- args[[1]]
+}
+
+## import global vars ----
+gbl_vars <- jsonlite::fromJSON(
+  txt="./analysis/global-variables.json"
+)
+#list2env(gbl_vars, globalenv())
+
+
+## create output directories ----
+dir.create(here::here("output", cohort, "descr", "plots"), showWarnings = FALSE, recursive=TRUE)
+
+## define theme ----
+
+plot_theme <-
+  theme_minimal()+
+  theme(
+    legend.position = "left",
+    panel.border=element_rect(colour='black', fill=NA),
+    strip.text.y.right = element_text(angle = 0),
+    axis.line.x = element_line(colour = "black"),
+    axis.text.x = element_text(angle = 70, vjust = 1, hjust=1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.ticks.x = element_line(colour = 'black')
+  )
+
+
+## Import processed data ----
+
+
+data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))
+
+
+
+# create plots ----
+
+data_pt <- data_pt %>%
+select(-starts_with("tte_"), -ends_with("_date")) %>%
+left_join(data_fixed, by = "patient_id")
+
+
+data_by_day <-
+data_pt %>%
+  transmute(
+    patient_id,
+    sex,
+    imd,
+    ethnicity,
+    region,
+    ageband = cut(
+      age,
+      breaks=c(-Inf, 80, 85, 90, 95, Inf),
+      labels=c("under 80", "80-84", "85-89", "90-94", "95+"),
+      right=FALSE
+    ),
+    postest_status,
+    day = tstop-1,
+    date = as.Date(gbl_vars$start_date) + day,
+    vaxany_status_onedose = vaxany_status!=0,
+    vaxany_status=fct_case_when(
+      vaxany_status==0 ~ "Not vaccinated",
+      vaxany_status==1 ~ "One dose",
+      vaxany_status==2 ~ "Two doses",
+      TRUE ~ NA_character_
+    ),
+
+    death,
+    noncoviddeath=death & !coviddeath,
+    coviddeath,
+    covidadmitted,
+    postest,
+
+    death_status,
+    noncoviddeath_status=death_status & !coviddeath_status,
+    coviddeath_status,
+    covidadmitted_status,
+    postest_status,
+
+    outcome_status = fct_case_when(
+      noncoviddeath_status==1 ~ "Non-covid death",
+      coviddeath_status==1 ~ "Covid-related death",
+      covidadmitted_status==1 ~ "Covid-related admission",
+      postest_status==1 ~ "Positive test",
+      TRUE ~ "No events"
+    ) %>% fct_rev()
+  ) %>%
+  group_by(patient_id) %>%
+  mutate(
+    lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
+    lag_vaxany_status_onedose = fct_case_when(
+      !vaxany_status_onedose ~ "no vaccination or < 14 days post-vaccination",
+      vaxany_status_onedose ~ "> 14 days post-vaccination",
+      TRUE ~ NA_character_
+    )
+  ) %>% ungroup()
+
+
+
+vars_df <- tribble(
+  ~var, ~var_descr,
+  "sex", "Sex",
+  "imd", "IMD"
+)
+
+## cumulative vaccination status ----
+
+
+plot_vax_counts <- function(var, var_descr){
+
+
+  data1 <- data_by_day %>%
+    mutate(
+      variable = data_by_day[[var]]
+    ) %>%
+    group_by(date, variable, vaxany_status) %>%
+    summarise(
+      n = n(),
+    ) %>%
+    ungroup()
+
+  plot <- data1 %>%
+  ggplot() +
+    geom_area(aes(x=date, y=n, group=vaxany_status, fill=vaxany_status), alpha=0.5)+
+    facet_grid(rows=vars(variable))+
+    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
+    scale_alpha(range=c(0.4,0.8), breaks=c(0,1))+
+    labs(
+      x=NULL,
+      y="Patients",
+      colour=NULL,
+      fill=NULL,
+      title = glue::glue("Vaccination status over time, by {var_descr}")
+    ) +
+    plot_theme+
+    theme(legend.position = "bottom")
+
+  plot
+}
+
+
+## cumulative event status ----
+
+
+
+plot_event_counts <- function(var, var_descr){
+
+  data1 <- data_by_day %>%
+    mutate(
+      variable = data_by_day[[var]]
+    ) %>%
+    group_by(date, outcome_status, variable, lag_vaxany_status_onedose) %>%
+    summarise(
+      n_events = n()
+    ) %>%
+    group_by(date, variable, lag_vaxany_status_onedose) %>%
+    mutate(
+      n = (n_events/sum(n_events))*10000
+    ) %>%
+    ungroup()
+
+  plot <- data1 %>%
+    filter(outcome_status !="No events") %>%
+    droplevels() %>%
+    ggplot() +
+    geom_area(aes(x=date, y=n, group=outcome_status, fill=outcome_status), alpha=0.5)+
+    facet_grid(rows=vars(variable), cols=vars(lag_vaxany_status_onedose))+
+    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
+    scale_fill_brewer(palette="Dark2")+
+    labs(
+      x=NULL,
+      y="Events per 10,000 patients",
+      fill=NULL,
+      title = glue::glue("Outcome status over time, by {var_descr}")
+    ) +
+    plot_theme+
+    theme(legend.position = "bottom")
+
+  plot
+}
+
+## event rates ----
+
+
+plot_event_rates <- function(var, var_descr){
+
+  data1 <- data_by_day %>%
+    mutate(
+      variable = data_by_day[[var]]
+    ) %>%
+    filter(!death_status) %>%
+    group_by(date, variable, lag_vaxany_status_onedose) %>%
+    summarise(
+      n= n(),
+      death_rate = (sum(death)/n())*10000,
+      coviddeath_rate = (sum(coviddeath)/n())*10000,
+      covidadmitted_rate = (sum(covidadmitted)/n())*10000,
+      postest_rate = (sum(postest)/n())*10000
+    ) %>%
+    pivot_longer(
+      cols=c(-n, -date, -variable, -lag_vaxany_status_onedose),
+      names_to = "outcome",
+      values_to = "rate"
+    ) %>%
+    mutate(
+      outcome = factor(
+        outcome,
+        levels=c("postest_rate", "covidadmitted_rate", "coviddeath_rate", "death_rate"),
+        labels=c("Positive test", "Covid-related admission", "Covid-releated death", "Any death"))
+    )
+
+
+  plot <- data1 %>%
+    ggplot() +
+    geom_line(aes(x=date, y=rate, group=outcome, colour=outcome))+
+    facet_grid(rows=vars(variable), cols=vars(lag_vaxany_status_onedose))+
+    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
+    scale_color_brewer(palette="Dark2")+
+    labs(
+      x=NULL,
+      y="Event rate",
+      colour=NULL,
+      title = glue::glue("Outcome rates over time, by {var_descr}")
+    ) +
+    plot_theme+
+    guides(colour = guide_legend(nrow = 2))+
+    theme(legend.position = "bottom")
+
+  plot
+
+}
+
+vars_df <- tribble(
+  ~var, ~var_descr,
+  "sex", "Sex",
+  "imd", "IMD",
+  "ageband", "Age",
+  "ethnicity", "ethnicity",
+  "region", "region"
+) %>% mutate(
+  device="svg",
+  units = "cm",
+)
+
+vars_df %>%
+transmute(
+  plot = pmap(lst(var, var_descr), plot_vax_counts),
+  plot = patchwork::align_patches(plot),
+  filename = paste0("vaxcounts_",var,".svg"),
+  path=here::here("output", cohort, "descr", "plots"),
+  panelwidth = 10,
+  panelheight = 5,
+  #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+  units="cm",
+  width = 20,
+  height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
+) %>%
+mutate(
+  pmap(list(
+      filename=filename,
+      plot=plot,
+      path=path,
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.7
+    ),
+    ggsave)
+  )
+
+
+vars_df %>%
+  transmute(
+    plot = pmap(lst(var, var_descr), plot_event_counts),
+    plot = patchwork::align_patches(plot),
+    filename = paste0("eventcounts_",var,".svg"),
+    path=here::here("output", cohort, "descr", "plots"),
+    panelwidth = 10,
+    panelheight = 5,
+    units="cm",
+    #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+    width = 20,
+    height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
+  ) %>%
+  mutate(
+    pmap(list(
+      filename=filename,
+      path=path,
+      plot=plot,
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.7
+    ),
+    ggsave)
+  )
+
+
+
+
+vars_df %>%
+  transmute(
+    plot = pmap(lst(var, var_descr), plot_event_rates),
+    plot = patchwork::align_patches(plot),
+    filename = paste0("eventrates_",var,".svg"),
+    path=here::here("output", cohort, "descr", "plots"),
+    panelwidth = 10,
+    panelheight = 5,
+    units="cm",
+    #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+    width = 20,
+    height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
+  ) %>%
+  mutate(
+    pmap(list(
+      filename=filename,
+      path=path,
+      plot=plot,
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.7
+    ),
+    ggsave)
+  )
+

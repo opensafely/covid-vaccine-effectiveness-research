@@ -64,7 +64,7 @@ data_fixed <- data_all %>%
     ageband,
     sex,
     imd,
-    #ethnicity,
+    ethnicity,
 
     region,
 
@@ -128,17 +128,8 @@ data_tte <- data_all  %>%
     # time to last follow up day
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
 
-    # time to outcome
-    #tte_outcome = tte(start_date, outcome_date, lastfup_date, na.censor=TRUE),
-    #tte_outcome_Inf = if_else(is.na(tte_outcome), Inf, tte_outcome),
-    #tte_outcome_censored = tte(start_date, outcome_date, lastfup_date, na.censor=FALSE),
-    #ind_outcome = censor_indicator(tte_outcome, tte_lastfup),
-
     # time to test
     #tte_test = tte(start_date, test_1_date, lastfup_date, na.censor=TRUE),
-    #tte_test_Inf = if_else(is.na(tte_test), Inf, tte_test),
-    #tte_test_censored = tte(start_date, test_1_date, lastfup_date, na.censor=FALSE),
-    #ind_test = censor_indicator(tte_test, tte_lastfup),
 
     # time to positive test
     tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE),
@@ -146,11 +137,8 @@ data_tte <- data_all  %>%
     #tte_postest_censored = tte(start_date, positive_test_1_date, lastfup_date, na.censor=FALSE),
     #ind_postest = censor_indicator(tte_postest, tte_lastfup),
 
-    # time to test
+    # time to admission
     tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE),
-    #tte_covidadmitted_Inf = if_else(is.na(tte_covidadmitted), Inf, tte_covidadmitted),
-    #tte_covidadmitted_censored = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=FALSE),
-    #ind_covidadmitted = censor_indicator(tte_covidadmitted, tte_lastfup),
 
     #time to covid death
     tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE),
@@ -159,34 +147,13 @@ data_tte <- data_all  %>%
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
 
     tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
-    #tte_vax1_Inf = if_else(is.na(tte_vax1), Inf, tte_vax1),
-    #tte_vax1_censored = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE),
-    #ind_vax1 = censor_indicator(tte_vax1, tte_lastfup),
-
     tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
-    #tte_vax2_Inf = if_else(is.na(tte_vax2), Inf, tte_vax2),
-    #tte_vax2_censored = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=FALSE),
-    #ind_vax2 = censor_indicator(tte_vax2, tte_lastfup),
 
     tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE),
-    #tte_vaxpfizer1_Inf = if_else(is.na(tte_vaxpfizer1), Inf, tte_vaxpfizer1),
-    #tte_vaxpfizer1_censored = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=FALSE),
-    #ind_vaxpfizer1 = censor_indicator(tte_vaxpfizer1, tte_lastfup),
-
     tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE),
-    #tte_vaxpfizer2_Inf = if_else(is.na(tte_vaxpfizer2), Inf, tte_vaxpfizer2),
-    #tte_vaxpfizer2_censored = tte(start_date, covid_vax_pfizer_2_date,  lastfup_date, na.censor=FALSE),
-    #ind_vaxpfizer2 = censor_indicator(tte_vaxpfizer2, tte_lastfup),
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
-    #tte_vaxaz1_Inf = if_else(is.na(tte_vaxaz1), Inf, tte_vaxaz1),
-    #tte_vaxaz1_censored = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=FALSE),
-    #ind_vaxaz1 = censor_indicator(tte_vaxaz1, tte_lastfup),
-
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
-    #tte_vaxaz2_Inf = if_else(is.na(tte_vaxaz2), Inf, tte_vaxaz2),
-    #tte_vaxaz2_censored = tte(start_date, covid_vax_az_2_date,  lastfup_date, na.censor=FALSE),
-    #ind_vaxaz2 = censor_indicator(tte_vaxaz2, tte_lastfup),
 
 
   )

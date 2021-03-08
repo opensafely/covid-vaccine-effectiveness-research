@@ -53,7 +53,7 @@ write_csv(metadata_cohorts, here::here("output", "data", "metadata_cohorts.csv")
 ## define outcomes, exposures, and covariates ----
 
 formula_exposure <- . ~ . + timesincevax_pw
-formula_demog <- . ~ . + age + I(age*age) + sex + imd
+formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
   chronic_cardiac_disease + current_copd + dementia + dialysis +
   solid_organ_transplantation + chemo_or_radio + sickle_cell_disease +
