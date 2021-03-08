@@ -262,9 +262,8 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
 
 
 data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
-  select(-date) %>%
   pivot_longer(
-    cols=c(date_5before, date_10after),
+    cols=c(date, date_10after),
     names_to="status",
     values_to="date",
     values_drop_na = TRUE
@@ -276,13 +275,12 @@ data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_proba
   ) %>%
   mutate(
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    probable_covid_status = if_else(status=="date_5before", 1, 0)
+    probable_covid_status = if_else(status=="date", 1, 0)
   )
 
 data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
-  select(-date) %>%
   pivot_longer(
-    cols=c(date_5before, date_10after),
+    cols=c(date, date_10after),
     names_to="status",
     values_to="date",
     values_drop_na = TRUE
@@ -294,7 +292,7 @@ data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_susp
   ) %>%
   mutate(
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    suspected_covid_status = if_else(status=="date_5before", 1, 0)
+    suspected_covid_status = if_else(status=="date", 1, 0)
   )
 
 ## Use follow option when fast option available for processing "X days around event date" for pt dataset

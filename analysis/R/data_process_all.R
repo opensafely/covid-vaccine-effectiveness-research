@@ -307,7 +307,6 @@ data_pr_probable_covid <- data_processed %>%
   arrange(patient_id, date) %>%
   # temporary solution to indicator for "X days around covid pc event date"
   mutate(
-    date_5before = date - 5,
     date_10after = date + 10,
   )
 
@@ -323,7 +322,6 @@ data_pr_suspected_covid <- data_processed %>%
   arrange(patient_id, date) %>%
   # temporary solution to indicator for "X days around covid pc event date"
   mutate(
-    date_5before = date - 5,
     date_10after = date + 10,
   )
 
