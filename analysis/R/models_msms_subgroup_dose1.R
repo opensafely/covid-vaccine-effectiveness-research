@@ -340,7 +340,7 @@ msmmod0 <- glm(
   control = list(maxit = 1),
   na.action = "na.fail",
   model = FALSE,
-  start = coefficients(msmmod4_par)
+  start = coefficients(msmmod0_par)
 )
 
 jtools::summ(msmmod0)
@@ -364,7 +364,7 @@ msmmod1 <- glm(
   control = list(maxit = 1),
   na.action = "na.fail",
   model = FALSE,
-  start = coefficients(msmmod4_par)
+  start = coefficients(msmmod1_par)
 )
 
 jtools::summ(msmmod1)
