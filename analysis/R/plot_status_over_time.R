@@ -117,6 +117,14 @@ data_pt %>%
     patient_id,
     sex,
     imd,
+    ethnicity,
+    region,
+    ageband = cut(
+      age,
+      breaks=c(-Inf, 80, 85, 90, 95, Inf),
+      labels=c("under 80", "80-84", "85-89", "90-94", "95+"),
+      right=FALSE
+    ),
     postest_status,
     day = tstop-1,
     date = as.Date(gbl_vars$start_date) + day,
@@ -315,14 +323,15 @@ transmute(
   panelwidth = 10,
   panelheight = 5,
   #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+  units="cm",
   width = 20,
   height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
 ) %>%
 mutate(
   pmap(list(
       filename=filename,
-      path=path,
       plot=plot,
+      path=path,
       width=width, height=height, units=units, limitsize=FALSE, scale=0.7
     ),
     ggsave)
@@ -337,6 +346,7 @@ vars_df %>%
     path=here::here("output", cohort, "descr", "plots"),
     panelwidth = 10,
     panelheight = 5,
+    units="cm",
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
     width = 20,
     height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
@@ -362,6 +372,7 @@ vars_df %>%
     path=here::here("output", cohort, "descr", "plots"),
     panelwidth = 10,
     panelheight = 5,
+    units="cm",
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
     width = 20,
     height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
