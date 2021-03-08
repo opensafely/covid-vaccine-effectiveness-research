@@ -178,6 +178,36 @@ $positive_test_2_date
 $primary_care_covid_case_1_date
 [1] "Date"
 
+$primary_care_probable_covid_1_date
+[1] "Date"
+
+$primary_care_probable_covid_2_date
+[1] "Date"
+
+$primary_care_probable_covid_3_date
+[1] "Date"
+
+$primary_care_probable_covid_4_date
+[1] "Date"
+
+$primary_care_probable_covid_5_date
+[1] "Date"
+
+$primary_care_suspected_covid_1_date
+[1] "Date"
+
+$primary_care_suspected_covid_2_date
+[1] "Date"
+
+$primary_care_suspected_covid_3_date
+[1] "Date"
+
+$primary_care_suspected_covid_4_date
+[1] "Date"
+
+$primary_care_suspected_covid_5_date
+[1] "Date"
+
 $start_date
 [1] "Date"
 

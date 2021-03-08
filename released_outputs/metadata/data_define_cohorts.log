@@ -1,27 +1,27 @@
-2021-03-04T20:27:53.077325300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-04T20:27:53.085483900Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-04T20:27:53.085501700Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-04T20:27:53.085509200Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-04T20:27:53.085516400Z v readr   1.3.1     v forcats 0.5.0
-2021-03-04T20:27:53.240535600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-04T20:27:53.240553300Z x dplyr::filter() masks stats::filter()
-2021-03-04T20:27:53.240560700Z x dplyr::lag()    masks stats::lag()
-2021-03-04T20:28:08.685428200Z # A tibble: 2 x 2
-2021-03-04T20:28:08.685503100Z   cohort   cohort_size
-2021-03-04T20:28:08.685511700Z   <chr>          <int>
-2021-03-04T20:28:08.685519300Z 1 over80s       198909
-2021-03-04T20:28:08.685526100Z 2 under65s     2793228
+2021-03-06T00:06:42.775414500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-06T00:06:42.783488100Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-06T00:06:42.783506800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-06T00:06:42.783515000Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-06T00:06:42.783522000Z v readr   1.3.1     v forcats 0.5.0
+2021-03-06T00:06:42.929321500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-06T00:06:42.929339800Z x dplyr::filter() masks stats::filter()
+2021-03-06T00:06:42.929347700Z x dplyr::lag()    masks stats::lag()
+2021-03-06T00:06:58.631518400Z # A tibble: 2 x 2
+2021-03-06T00:06:58.631585600Z   cohort   cohort_size
+2021-03-06T00:06:58.631594400Z   <chr>          <int>
+2021-03-06T00:06:58.631602500Z 1 over80s       198262
+2021-03-06T00:06:58.631609900Z 2 under65s     2794096
 
 
 state: succeeded
-commit: 803cda83984e6588d51c02c0aa8e1a848d063d78
+commit: 9456bc1e00f7ce6dc72be69f711f8409e59f569c
 docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
 exit_code: 0
-job_id: trdoz3xmstgfp57g
+job_id: wgtsrw7f4oqimwke
 run_by_user: wjchulme
-created_at: 2021-03-04T20:27:41Z
-started_at: 2021-03-04T20:27:50Z
-completed_at: 2021-03-04T20:28:12Z
+created_at: 2021-03-05T23:27:30Z
+started_at: 2021-03-06T00:06:40Z
+completed_at: 2021-03-06T00:07:03Z
 
 Completed successfully
 

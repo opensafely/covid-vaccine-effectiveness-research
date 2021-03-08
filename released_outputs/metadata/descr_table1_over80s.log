@@ -1,52 +1,52 @@
-2021-03-05T07:34:14.798476500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-05T07:34:14.808596600Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-05T07:34:14.808622700Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-05T07:34:14.808631100Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-05T07:34:14.808638200Z v readr   1.3.1     v forcats 0.5.0
-2021-03-05T07:34:14.986586900Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-05T07:34:14.986605700Z x dplyr::filter() masks stats::filter()
-2021-03-05T07:34:14.986614200Z x dplyr::lag()    masks stats::lag()
-2021-03-05T07:34:15.001981400Z 
-2021-03-05T07:34:15.002000200Z Attaching package: 'lubridate'
-2021-03-05T07:34:15.002008200Z 
-2021-03-05T07:34:15.003385400Z The following objects are masked from 'package:base':
-2021-03-05T07:34:15.003399400Z 
-2021-03-05T07:34:15.003406800Z     date, intersect, setdiff, union
-2021-03-05T07:34:15.003414000Z 
-2021-03-05T07:34:15.166358200Z Loading required package: survival
-2021-03-05T07:35:50.128898300Z NULL
-2021-03-05T07:36:52.305522700Z sh: 1: +RTS: not found
-2021-03-05T07:36:52.306552500Z Error: pandoc document conversion failed with error 127
-2021-03-05T07:36:52.306600200Z In addition: Warning message:
-2021-03-05T07:36:52.306609100Z In system(command) : error in running command
-2021-03-05T07:36:52.330776400Z Backtrace:
-2021-03-05T07:36:52.330978500Z 1: stop("pandoc document conversion failed with error ", result, 
-2021-03-05T07:36:52.331158000Z 2: rmarkdown::pandoc_convert(input = input, from = from, output = output, 
-2021-03-05T07:36:52.331300500Z 3: self_contained(file, file)
-2021-03-05T07:36:52.331315500Z 4: save_kable_html(x, file, bs_theme, self_contained, extra_dependencies, 
-2021-03-05T07:36:52.331548300Z 5: kableExtra::save_kable(out, file = output_file)
-2021-03-05T07:36:52.331670400Z 6: f(tab, align = align, hrule = hrule, notes = notes, output_file = output_list$output_file, 
-2021-03-05T07:36:52.331813100Z 7: factory(dse, align = align, fmt = fmt, hrule = NULL, notes = notes, 
-2021-03-05T07:36:52.331953900Z 8: datasummary(ageband + sex + imd + region + bmi + dialysis + chronic_cardiac_disease + 
-2021-03-05T07:36:52.332116700Z 9: function_list[[k]](value)
-2021-03-05T07:36:52.332248800Z 10: withVisible(function_list[[k]](value))
-2021-03-05T07:36:52.332373000Z 11: freduce(value, `_function_list`)
-2021-03-05T07:36:52.332498100Z 12: `_fseq`(`_lhs`)
-2021-03-05T07:36:52.332630500Z 13: eval(quote(`_fseq`(`_lhs`)), env, env)
-2021-03-05T07:36:52.332773000Z 14: eval(quote(`_fseq`(`_lhs`)), env, env)
-2021-03-05T07:36:52.332869500Z 15: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-2021-03-05T07:36:52.333024400Z 16: data_tab %>% datasummary(ageband + sex + imd + region + bmi + 
+2021-03-06T00:13:35.434706900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-06T00:13:35.443651200Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-06T00:13:35.443701600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-06T00:13:35.443710100Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-06T00:13:35.443717200Z v readr   1.3.1     v forcats 0.5.0
+2021-03-06T00:13:35.602856300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-06T00:13:35.602882900Z x dplyr::filter() masks stats::filter()
+2021-03-06T00:13:35.602891200Z x dplyr::lag()    masks stats::lag()
+2021-03-06T00:13:35.616732900Z 
+2021-03-06T00:13:35.616798500Z Attaching package: 'lubridate'
+2021-03-06T00:13:35.616806300Z 
+2021-03-06T00:13:35.618086200Z The following objects are masked from 'package:base':
+2021-03-06T00:13:35.618106100Z 
+2021-03-06T00:13:35.618114000Z     date, intersect, setdiff, union
+2021-03-06T00:13:35.618121000Z 
+2021-03-06T00:13:35.764084600Z Loading required package: survival
+2021-03-06T00:15:16.670756700Z NULL
+2021-03-06T00:17:16.003856700Z sh: 1: +RTS: not found
+2021-03-06T00:17:16.005314900Z Error: pandoc document conversion failed with error 127
+2021-03-06T00:17:16.005369500Z In addition: Warning message:
+2021-03-06T00:17:16.005378900Z In system(command) : error in running command
+2021-03-06T00:17:16.042829500Z Backtrace:
+2021-03-06T00:17:16.043069900Z 1: stop("pandoc document conversion failed with error ", result, 
+2021-03-06T00:17:16.043169300Z 2: rmarkdown::pandoc_convert(input = input, from = from, output = output, 
+2021-03-06T00:17:16.043297200Z 3: self_contained(file, file)
+2021-03-06T00:17:16.043485800Z 4: save_kable_html(x, file, bs_theme, self_contained, extra_dependencies, 
+2021-03-06T00:17:16.043652900Z 5: kableExtra::save_kable(out, file = output_file)
+2021-03-06T00:17:16.043806700Z 6: f(tab, align = align, hrule = hrule, notes = notes, output_file = output_list$output_file, 
+2021-03-06T00:17:16.043986200Z 7: factory(dse, align = align, fmt = fmt, hrule = NULL, notes = notes, 
+2021-03-06T00:17:16.044184200Z 8: datasummary(Participants + ageband + sex + imd + region + bmi + 
+2021-03-06T00:17:16.044404000Z 9: function_list[[k]](value)
+2021-03-06T00:17:16.044545000Z 10: withVisible(function_list[[k]](value))
+2021-03-06T00:17:16.044694800Z 11: freduce(value, `_function_list`)
+2021-03-06T00:17:16.044829800Z 12: `_fseq`(`_lhs`)
+2021-03-06T00:17:16.044983300Z 13: eval(quote(`_fseq`(`_lhs`)), env, env)
+2021-03-06T00:17:16.045132700Z 14: eval(quote(`_fseq`(`_lhs`)), env, env)
+2021-03-06T00:17:16.045275500Z 15: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+2021-03-06T00:17:16.045497000Z 16: data_tab %>% datasummary(Participants + ageband + sex + imd + 
 
 
 state: failed
-commit: 93da5b9fc1ade44843ea058c5d5f0f9ffb5b406f
+commit: 9456bc1e00f7ce6dc72be69f711f8409e59f569c
 docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
 exit_code: 1
-job_id: dbzargb6qwk2te6u
+job_id: m4u3pl2upayrj7jq
 run_by_user: wjchulme
-created_at: 2021-03-05T07:33:59Z
-started_at: 2021-03-05T07:34:12Z
-completed_at: 2021-03-05T07:36:55Z
+created_at: 2021-03-05T23:27:30Z
+started_at: 2021-03-06T00:13:32Z
+completed_at: 2021-03-06T00:17:22Z
 
 Job exited with an error code
 
