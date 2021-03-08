@@ -315,9 +315,9 @@ write_rds(data_weights, here::here("output", cohort, outcome, brand, subgroup, "
 # MSM model ----
 
 # do not use time-dependent covariates as these are accounted for with the weights
-# use cluster standard errors
-# use quasibinomial to suppress "non-integer #successes in a binomial glm!" warning
-# use interaction with time terms?
+# use cluster standard errors TODO
+# use quasibinomial to suppress "non-integer #successes in a binomial glm!" warning (except doesn't work for parglm)
+# use parglm (parallisation) to speed up fit, but then pass through real glm (one iteration) to get proper QR decomposition for later methods
 
 ### model 0 - unadjusted vaccination effect model ----
 ## no adjustment variables
