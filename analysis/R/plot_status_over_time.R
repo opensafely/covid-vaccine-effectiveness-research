@@ -202,9 +202,6 @@ plot_vax_counts <- function(var, var_descr){
   plot
 }
 
-plot_vax_counts(data_by_day, "sex", "sex")
-ggsave(filename=here::here("output", cohort, "descr", glue::glue("vaxcounts_sex.svg")), plot_vax_counts, width=30, height=20, units="cm", scale=0.8)
-
 
 ## cumulative event status ----
 
@@ -245,18 +242,6 @@ plot_event_counts <- function(var, var_descr){
 
   plot
 }
-
-plot_event_counts(data_by_day, "sex", "sex")
-
-width = 15
-units="cm"
-panelwidth = 8
-panelheight = 2
-height = pmap_dbl(list(plot_events_counts, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight})
-
-
-ggsave(filename=here::here("output", cohort, "descr", glue::glue("eventcounts_sex.svg")), plot_events_counts, width=width, height=height, units=units, scale=0.8)
-
 
 ## event rates ----
 
