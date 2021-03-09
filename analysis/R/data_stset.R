@@ -321,11 +321,8 @@ data_tte_cp0 <- tmerge(
 )
 
 
-
 stopifnot("tstart should be  >= 0 in data_tte_cp0" = data_tte_cp0$tstart>=0)
 stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp0" = data_tte_cp0$tstop - data_tte_cp0$tstart > 0)
-
-
 
 data_tte_cp <- data_tte_cp0 %>%
   tmerge(
