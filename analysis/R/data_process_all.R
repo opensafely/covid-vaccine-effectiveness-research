@@ -29,6 +29,10 @@ gbl_vars$run_date =date(file.info(here::here("metadata","extract_all.log"))$ctim
 
 
 
+# output processed data to rds ----
+
+dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
+
 
 # process ----
 
@@ -278,14 +282,6 @@ data_processed <- data_extract_reordered %>%
   )
 
 
-# output processed data to rds ----
-
-dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
-
-write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
-
-
-
 ## create one-row-per-event datasets ----
 # for vaccination, positive test, hospitalisation/discharge, covid in primary care, death
 
@@ -385,6 +381,7 @@ data_vax <- local({
 })
 
 
+write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
 write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
 write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
