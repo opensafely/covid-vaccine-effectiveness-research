@@ -156,13 +156,18 @@ data_tte <- data_all  %>%
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
 
 
-  )
+  ) %>%
+  # convert tte variables to integer to save space. works since we know precision is to nearest day
+  mutate(across(
+    .cols = starts_with("tte_"),
+    .fns = as.integer
+  ))
 
 stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1 != data_tte$tte_vaxany2, na.rm=TRUE))
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n  ")
-cat(glue::glue("memory usage = ", format(object.size(data_tte), units="GB", standard="SI", digits=3L)), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", standard="SI", digits=3L)), "\n  ")
 
 ## convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
@@ -200,6 +205,83 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte), units="GB", stan
 # ie, one row per person per event
 # every time an event occurs or a covariate changes, a new row is generated
 
+# import hospitalisations data for time-updating "in-hospital" covariate
+data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_dates.rds")) %>%
+  pivot_longer(
+    cols=c(admitted_date, discharged_date),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
+    hosp_status = if_else(status=="admitted_date", 1L, 0L)
+  )
+
+
+data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+  pivot_longer(
+    cols=c(date, date_10after),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
+    probable_covid_status = if_else(status=="date", 1L, 0L)
+  )
+
+data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+  pivot_longer(
+    cols=c(date, date_10after),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
+    suspected_covid_status = if_else(status=="date", 1L, 0L)
+  )
+
+## Use follow option when fast option available for processing "X days around event date" for pt dataset
+
+# data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+#   inner_join(
+#     data_tte %>% select(patient_id, start_date, lastfup_date),
+#     .,
+#     by =c("patient_id")
+#   ) %>%
+#   mutate(
+#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
+#   )
+#
+#
+# data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+#   inner_join(
+#     data_tte %>% select(patient_id, start_date, lastfup_date),
+#     .,
+#     by =c("patient_id")
+#   ) %>%
+#   mutate(
+#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
+#   )
+
+
 # initial call based on events and vaccination status
 data_tte_cp0 <- tmerge(
   data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
@@ -234,6 +316,7 @@ data_tte_cp0 <- tmerge(
   death = event(tte_death),
   censored = event(tte_lastfup),
 
+  tstart = 0L,
   tstop = tte_enddate
 )
 
@@ -242,81 +325,6 @@ data_tte_cp0 <- tmerge(
 stopifnot("tstart should be  >= 0 in data_tte_cp0" = data_tte_cp0$tstart>=0)
 stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp0" = data_tte_cp0$tstop - data_tte_cp0$tstart > 0)
 
-# import hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_dates.rds")) %>%
-  pivot_longer(
-    cols=c(admitted_date, discharged_date),
-    names_to="status",
-    values_to="date",
-    values_drop_na = TRUE
-  ) %>%
-  inner_join(
-    data_tte %>% select(patient_id, start_date, lastfup_date),
-    .,
-    by =c("patient_id")
-  ) %>%
-  mutate(
-    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    hosp_status = if_else(status=="admitted_date", 1, 0)
-  )
-
-
-data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
-  pivot_longer(
-    cols=c(date, date_10after),
-    names_to="status",
-    values_to="date",
-    values_drop_na = TRUE
-  ) %>%
-  inner_join(
-    data_tte %>% select(patient_id, start_date, lastfup_date),
-    .,
-    by =c("patient_id")
-  ) %>%
-  mutate(
-    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    probable_covid_status = if_else(status=="date", 1, 0)
-  )
-
-data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
-  pivot_longer(
-    cols=c(date, date_10after),
-    names_to="status",
-    values_to="date",
-    values_drop_na = TRUE
-  ) %>%
-  inner_join(
-    data_tte %>% select(patient_id, start_date, lastfup_date),
-    .,
-    by =c("patient_id")
-  ) %>%
-  mutate(
-    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-    suspected_covid_status = if_else(status=="date", 1, 0)
-  )
-
-## Use follow option when fast option available for processing "X days around event date" for pt dataset
-
-# data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
-#   inner_join(
-#     data_tte %>% select(patient_id, start_date, lastfup_date),
-#     .,
-#     by =c("patient_id")
-#   ) %>%
-#   mutate(
-#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
-#   )
-#
-#
-# data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
-#   inner_join(
-#     data_tte %>% select(patient_id, start_date, lastfup_date),
-#     .,
-#     by =c("patient_id")
-#   ) %>%
-#   mutate(
-#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
-#   )
 
 
 data_tte_cp <- data_tte_cp0 %>%
@@ -325,14 +333,14 @@ data_tte_cp <- data_tte_cp0 %>%
     data2 = data_hospitalised,
     id = patient_id,
     hospital_status = tdc(tte, hosp_status),
-    options = list(tdcstart = 0)
+    options = list(tdcstart = 0L)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_probable_covid,
     id = patient_id,
     probable_covid_status = tdc(tte, probable_covid_status),
-    options = list(tdcstart = 0)
+    options = list(tdcstart = 0L)
   ) %>%
   tmerge(
     data1 = .,
@@ -362,7 +370,26 @@ mutate(
   vaxany_status = vaxany1_status + vaxany2_status,
   vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
   vaxaz_status = vaxaz1_status + vaxaz2_status,
-)
+) %>%
+# for some reason tmerge converts event indicators to numeric. So convert back to save space
+mutate(across(
+  .cols = c("vaxany1",
+            "vaxany2",
+            "vaxpfizer1",
+            "vaxpfizer2",
+            "vaxaz1",
+            "vaxaz2",
+            "postest",
+            "covidadmitted",
+            "coviddeath",
+            "death",
+            "censored",
+            "hospital_status",
+            "probable_covid_status",
+            "suspected_covid_status"
+          ),
+  .fns = as.integer
+))
 
 # free up memory
 rm(data_tte_cp0)
@@ -382,7 +409,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", s
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for MSMs
 
-alltimes <- expand(data_tte, patient_id, times=full_seq(c(1, tte_enddate),1))
+alltimes <- expand(data_tte, patient_id, times=as.integer(full_seq(c(1, tte_enddate),1)))
 
 # do not use survSplit as this doesn't handle multiple events properly
 # eg, a positive test will be expanded as if a tdc (eg c(0,0,1,1,1,..)) not an event (eg c(0,0,1,0,0,...))
@@ -405,7 +432,23 @@ data_tte_pt <- tmerge(
     timesincevaxaz1 = cumsum(vaxaz1_status),
     timesincevaxaz2 = cumsum(vaxaz2_status),
   ) %>%
-  ungroup()
+  ungroup() %>%
+  # for some reason tmerge converts event indicators to numeric. So convert back to save space
+  mutate(across(
+    .cols = c("vaxany1",
+              "vaxany2",
+              "vaxpfizer1",
+              "vaxpfizer2",
+              "vaxaz1",
+              "vaxaz2",
+              "postest",
+              "covidadmitted",
+              "coviddeath",
+              "death",
+              "censored",
+    ),
+    .fns = as.integer
+  ))
 
 stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes == data_tte_pt$tstop))
 
