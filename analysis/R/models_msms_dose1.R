@@ -114,6 +114,10 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   )
 
 
+### print dataset size ----
+cat(glue::glue("data_pt data size = ", nrow(data_pt)), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_pt), units="GB", standard="SI", digits=3L)), "\n  ")
+
 # IPW model for vaccination ----
 
 # tests:
@@ -290,6 +294,11 @@ data_weights <- data_pt %>%
 
   ) %>%
   ungroup()
+
+
+cat(glue::glue("data_weights data size = ", nrow(data_weights)), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "\n  ")
+
 
 ## output weight distribution file ----
 

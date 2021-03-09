@@ -90,7 +90,7 @@ data_fixed <- data_all %>%
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n  ")
-cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI")), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI", digits=3L)), "\n  ")
 
 data_tte <- data_all  %>%
   filter(
@@ -162,7 +162,7 @@ stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1
 
 ## print dataset size ----
 cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n  ")
-cat(glue::glue("memory usage = ", format(object.size(data_tte), units="GB", standard="SI")), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_tte), units="GB", standard="SI", digits=3L)), "\n  ")
 
 ## convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
@@ -376,7 +376,7 @@ stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$t
 
 ### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n  ")
-cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", standard="SI")), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", standard="SI", digits=3L)), "\n  ")
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
@@ -419,7 +419,7 @@ data_tte_pt <- data_tte_pt %>%
 
 ### print dataset size ----
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n  ")
-cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI")), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI", digits=3L)), "\n  ")
 
 ## Save processed tte data ----
 write_rds(data_fixed, here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")), compress="gz")
