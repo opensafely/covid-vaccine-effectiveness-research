@@ -56,13 +56,12 @@ data_extract0 <- read_csv(
     care_home_type = col_character(),
     care_home = col_logical(),
 
-
     registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
 
     age = col_integer(),
     sex = col_character(),
-    #ethnicity = col_character(),
+    ethnicity = col_character(),
     #ethnicity_16 = col_character(),
 
     # dates
@@ -118,7 +117,7 @@ data_extract0 <- read_csv(
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
-
+    bmi = col_character(),
     chronic_cardiac_disease = col_logical(),
     current_copd = col_logical(),
     dmards = col_logical(),
@@ -137,6 +136,8 @@ data_extract0 <- read_csv(
     temporary_immunosuppression = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
     asplenia = col_logical()
+
+    #previous_flu_vax = col_logical(),
   ),
     na = character() # more stable to convert to missing later
 ) %>%
@@ -255,6 +256,10 @@ data_processed <- data_extract_reordered %>%
                       "Yorkshire and The Humber"
                     )
     ),
+    stp = as.factor(stp),
+    care_home_type = as.factor(care_home_type),
+
+    bmi = as.factor(bmi),
 
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",
@@ -269,6 +274,7 @@ data_processed <- data_extract_reordered %>%
     !is.na(sex),
     !is.na(imd),
     !is.na(ethnicity),
+    !is.na(region)
   )
 
 
