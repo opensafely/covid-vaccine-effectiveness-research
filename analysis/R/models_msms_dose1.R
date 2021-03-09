@@ -97,7 +97,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   filter(
     .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     censored_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
-    death_status ==0, # follow up ends at (day after) occurrence of death
+    death_status == 0, # follow up ends at (day after) occurrence of death
     vaxany_status == .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
   ) %>%
   mutate(
