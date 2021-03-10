@@ -991,4 +991,51 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.01, },
     ),
     
+    # flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
+    #     target_disease_matches="INFLUENZA",
+    #     between=["index_date - 5 years", "index_date"],  # current flu season
+    #     returning="binary_flag",
+    #     return_expectations={"incidence": 0.5, },
+    # ),
+    # flu_vaccine_med=patients.with_these_medications(
+    #     flu_med_codes,
+    #     between=["index_date - 5 years", "index_date"],  # current flu season
+    #     returning="binary_flag",
+    #     return_expectations={"incidence": 0.5, },
+    # ),
+    # flu_vaccine_clinical=patients.with_these_clinical_events(
+    #     flu_clinical_given_codes,
+    #     ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+    #     between=["index_date - 5 years", "index_date"],  # current flu season
+    #     returning="binary_flag",
+    #     return_expectations={"incidence": 0.5, },
+    # ),
+    
+    flu_vaccine=patients.satisfying(
+        """
+        flu_vaccine_tpp_table>0 OR
+        flu_vaccine_med>0 OR
+        flu_vaccine_clinical>0
+        """,
+        
+        flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
+            target_disease_matches="INFLUENZA",
+            between=["index_date - 5 years", "index_date"],  # current flu season
+            returning="binary_flag",
+        ),
+        
+        flu_vaccine_med=patients.with_these_medications(
+            flu_med_codes,
+            between=["index_date - 5 years", "index_date"],  # current flu season
+            returning="binary_flag",
+        ),
+        flu_vaccine_clinical=patients.with_these_clinical_events(
+            flu_clinical_given_codes,
+            ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+            between=["index_date - 5 years", "index_date"],  # current flu season
+            returning="binary_flag",
+        ),
+        
+        return_expectations={"incidence": 0.5, },
+    ),
 )

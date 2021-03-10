@@ -76,15 +76,17 @@ data_fixed <- data_all %>%
     solid_organ_transplantation,
     #bone_marrow_transplant,
     chemo_or_radio,
-    sickle_cell_disease,
+    #sickle_cell_disease,
     permanant_immunosuppression,
-    temporary_immunosuppression,
+    #temporary_immunosuppression,
     asplenia,
     intel_dis_incl_downs_syndrome,
     psychosis_schiz_bipolar,
     lung_cancer,
     cancer_excl_lung_and_haem,
     haematological_cancer,
+
+    flu_vaccine
   )
 
 

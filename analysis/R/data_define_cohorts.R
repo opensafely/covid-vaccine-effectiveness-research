@@ -56,10 +56,13 @@ formula_exposure <- . ~ . + timesincevax_pw
 formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
   chronic_cardiac_disease + current_copd + dementia + dialysis +
-  solid_organ_transplantation + chemo_or_radio + sickle_cell_disease +
-  permanant_immunosuppression + temporary_immunosuppression + asplenia +
+  solid_organ_transplantation + chemo_or_radio +
+  permanant_immunosuppression + asplenia +
+  dmards +
   intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
-  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
+  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer +
+  flu_vaccine
+
 formula_secular <- . ~ . + ns(tstop, knots=knots)
 formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
 formula_timedependent <- . ~ . + hospital_status + probable_covid_status + suspected_covid_status # consider adding local infection rates

@@ -139,9 +139,8 @@ data_extract0 <- read_csv(
     permanant_immunosuppression = col_logical(),
     temporary_immunosuppression = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
-    asplenia = col_logical()
-
-    #previous_flu_vax = col_logical(),
+    asplenia = col_logical(),
+    flu_vaccine = col_logical()
   ),
     na = character() # more stable to convert to missing later
 ) %>%
