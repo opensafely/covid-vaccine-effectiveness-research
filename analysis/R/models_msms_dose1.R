@@ -97,7 +97,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   filter(
     .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     censored_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
-    death_status ==0, # follow up ends at (day after) occurrence of death
+    death_status == 0, # follow up ends at (day after) occurrence of death
     vaxany_status == .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
   ) %>%
   mutate(
@@ -113,6 +113,10 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
     data_fixed, by="patient_id"
   )
 
+
+### print dataset size ----
+cat(glue::glue("data_pt data size = ", nrow(data_pt)), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_pt), units="GB", standard="SI", digits=3L)), "\n  ")
 
 # IPW model for vaccination ----
 
@@ -290,6 +294,11 @@ data_weights <- data_pt %>%
 
   ) %>%
   ungroup()
+
+
+cat(glue::glue("data_weights data size = ", nrow(data_weights)), "\n  ")
+cat(glue::glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "\n  ")
+
 
 ## output weight distribution file ----
 

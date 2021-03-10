@@ -29,6 +29,10 @@ gbl_vars$run_date =date(file.info(here::here("metadata","extract_all.log"))$ctim
 
 
 
+# output processed data to rds ----
+
+dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
+
 
 # process ----
 
@@ -56,13 +60,12 @@ data_extract0 <- read_csv(
     care_home_type = col_character(),
     care_home = col_logical(),
 
-
     registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
 
     age = col_integer(),
     sex = col_character(),
-    #ethnicity = col_character(),
+    ethnicity = col_character(),
     #ethnicity_16 = col_character(),
 
     # dates
@@ -118,7 +121,7 @@ data_extract0 <- read_csv(
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
-
+    bmi = col_character(),
     chronic_cardiac_disease = col_logical(),
     current_copd = col_logical(),
     dmards = col_logical(),
@@ -137,6 +140,8 @@ data_extract0 <- read_csv(
     temporary_immunosuppression = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
     asplenia = col_logical()
+
+    #previous_flu_vax = col_logical(),
   ),
     na = character() # more stable to convert to missing later
 ) %>%
@@ -255,6 +260,10 @@ data_processed <- data_extract_reordered %>%
                       "Yorkshire and The Humber"
                     )
     ),
+    stp = as.factor(stp),
+    care_home_type = as.factor(care_home_type),
+
+    bmi = as.factor(bmi),
 
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",
@@ -269,15 +278,8 @@ data_processed <- data_extract_reordered %>%
     !is.na(sex),
     !is.na(imd),
     !is.na(ethnicity),
+    !is.na(region)
   )
-
-
-# output processed data to rds ----
-
-dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
-
-write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
-
 
 
 ## create one-row-per-event datasets ----
@@ -379,6 +381,7 @@ data_vax <- local({
 })
 
 
+write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
 write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
 write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
