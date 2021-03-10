@@ -32,7 +32,7 @@ data_cohorts <- data_all %>%
 metadata_cohorts <- tribble(
   ~cohort, ~outcome, ~cohort_descr, ~outcome_var, ~outcome_descr, #~postvax_cuts, ~knots,
   "over80s", "postest", "Aged 80+, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
-  "in80s", "postest", "Aged 70-79, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
+  "in70s", "postest", "Aged 70-79, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
   "under65s", "postest", "Aged <=64, no prior positive test", "positive_test_1_date", "Positive test"
 ) %>%
 mutate(
