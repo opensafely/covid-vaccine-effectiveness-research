@@ -40,10 +40,6 @@ gbl_vars <- jsonlite::fromJSON(
 #list2env(gbl_vars, globalenv())
 
 
-## create output directories ----
-dir.create(here::here("output", cohort, "descr"), showWarnings = FALSE, recursive=TRUE)
-
-
 ## Import processed data ----
 
 
@@ -175,15 +171,19 @@ map(
       postest_status ~ "Positive test status",
       covidadmitted_status ~ "Covid-related admission",
       coviddeath_status ~ "Covid-related death",
-      death_status ~ "Any death",
+      death_status ~ "Any death"
     )
   ) %>%
   modify_footnote(starts_with("stat_") ~ NA)
 ) %>%
 tbl_merge(tab_spanner=c("Day 0", "Day 28", "Day 56"))
 
-gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.png"))
-gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.rtf"))
+
+## create output directories ----
+dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE, recursive=TRUE)
+
+#gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.png"))
+#gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.rtf"))
 gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.html"))
 
 
