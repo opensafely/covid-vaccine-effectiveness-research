@@ -182,8 +182,6 @@ map(
 ) %>%
 tbl_merge(tab_spanner=c("Day 0", "Day 28", "Day 56"))
 
-tab_summary
-
 gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.png"))
 gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.rtf"))
 gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.html"))
