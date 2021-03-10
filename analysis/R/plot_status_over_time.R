@@ -128,6 +128,8 @@ data_pt %>%
     postest_status,
     day = tstop-1,
     date = as.Date(gbl_vars$start_date) + day,
+    week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
+    date = week,
     vaxany_status_onedose = vaxany_status!=0,
     vaxany_status=fct_case_when(
       vaxany_status==0 ~ "Not vaccinated",
