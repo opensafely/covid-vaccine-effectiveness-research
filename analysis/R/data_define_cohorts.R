@@ -22,6 +22,7 @@ data_cohorts <- data_all %>%
   transmute(
     patient_id,
     over80s = (age>=80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date)) & (!is.na(region)),
+    in70s = (age>=70 & age<80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date)) & (!is.na(region)),
     under65s = (age<=64) & (is.na(care_home_type)) & (is.na(prior_positive_test_date))  & (!is.na(region)),
   )
 
@@ -31,6 +32,7 @@ data_cohorts <- data_all %>%
 metadata_cohorts <- tribble(
   ~cohort, ~outcome, ~cohort_descr, ~outcome_var, ~outcome_descr, #~postvax_cuts, ~knots,
   "over80s", "postest", "Aged 80+, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
+  "in80s", "postest", "Aged 70-79, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
   "under65s", "postest", "Aged <=64, no prior positive test", "positive_test_1_date", "Positive test"
 ) %>%
 mutate(
