@@ -85,7 +85,7 @@ data_fixed <- data_all %>%
     lung_cancer,
     cancer_excl_lung_and_haem,
     haematological_cancer,
-
+    dmards,
     flu_vaccine
   )
 
