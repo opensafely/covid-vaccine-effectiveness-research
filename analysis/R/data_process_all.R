@@ -238,11 +238,11 @@ data_processed <- data_extract_reordered %>%
 
     imd = na_if(imd, "0"),
     imd = fct_case_when(
-      imd == 1 ~ "1 least deprived",
+      imd == 1 ~ "1 most deprived",
       imd == 2 ~ "2",
       imd == 3 ~ "3",
       imd == 4 ~ "4",
-      imd == 5 ~ "5 most deprived",
+      imd == 5 ~ "5 least deprived",
       #TRUE ~ "Unknown",
       TRUE ~ NA_character_
     ),
