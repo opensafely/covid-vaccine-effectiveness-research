@@ -75,7 +75,7 @@ actions:
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       moderately_sensitive:
-        table1: output/over80s/descr/table*
+        table1: output/over80s/descr/tables/table*
 
   descr_events_over80s:
     run: r:latest analysis/R/plot_status_over_time.R over80s
