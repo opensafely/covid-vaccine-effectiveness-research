@@ -107,8 +107,8 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
 # create plots ----
 
 data_pt <- data_pt %>%
-select(-starts_with("tte_"), -ends_with("_date")) %>%
-left_join(data_fixed, by = "patient_id")
+left_join(data_fixed, by = "patient_id") %>%
+filter(censored_status==0)
 
 
 data_by_day <-
@@ -162,19 +162,12 @@ data_pt %>%
   mutate(
     lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
     lag_vaxany_status_onedose = fct_case_when(
-      !vaxany_status_onedose ~ "no vaccination or < 14 days post-vaccination",
+      !vaxany_status_onedose ~ "no vaccination or\n< 14 days post-vaccination",
       vaxany_status_onedose ~ "> 14 days post-vaccination",
       TRUE ~ NA_character_
     )
   ) %>% ungroup()
 
-
-
-vars_df <- tribble(
-  ~var, ~var_descr,
-  "sex", "Sex",
-  "imd", "IMD"
-)
 
 ## cumulative vaccination status ----
 
@@ -198,7 +191,6 @@ plot_vax_counts <- function(var, var_descr){
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
     scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
-    scale_alpha(range=c(0.4,0.8), breaks=c(0,1))+
     labs(
       x=NULL,
       y="Patients",
@@ -248,7 +240,8 @@ plot_event_counts <- function(var, var_descr){
       title = glue::glue("Outcome status over time, by {var_descr}")
     ) +
     plot_theme+
-    theme(legend.position = "bottom")
+    theme(legend.position = "bottom")+
+    guides(fill = guide_legend(nrow = 2))
 
   plot
 }
