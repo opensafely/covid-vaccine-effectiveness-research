@@ -209,7 +209,7 @@ for(stratum in strata){
 
   ## models for first vaccination ----
 
-  data_pt_atriskvaxaz1 <- data_pt_sub %>% filter(vaxaz_status==0)
+  data_pt_atriskvaxaz1 <- data_pt_sub %>% filter(vaxaz_status==0, tstart>=28)
 
   ### with time-updating covariates
 
@@ -360,6 +360,7 @@ for(stratum in strata){
 
       # get probability of occurrence of realised vaccination status (non-time varying model)
       probvaxpfizer_realised_fxd = case_when(
+        vaxpfizer_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
         vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1_fxd,
         vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1_fxd,
         vaxpfizer_status>0L ~ 1,
@@ -436,22 +437,28 @@ for(stratum in strata){
       ipweightdeath_stbl = cmlprobdeath_realised_fxd/cmlprobdeath_realised,
 
     ) %>%
-    ungroup()
-
-  if(brand=="any"){
-    data_weights <- data_weights %>%
-      mutate(
-        ## COMBINE WEIGHTS
-        # take product of all weights
-        ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
-      )
-  } else{
-    data_weights <- data_weights %>%
-      mutate(
-        ## COMBINE WEIGHTS
-        # take product of all weights then undo product of actual outcome used
-        ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl) / .[[glue::glue("ipweightvax{brand}_stbl")]]
+    ungroup()%>%
+    mutate(
+      ## COMBINE WEIGHTS
+      # take product of all weights
+      ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
     )
+
+  # if(brand=="any"){
+  #   data_weights <- data_weights %>%
+  #     mutate(
+  #       ## COMBINE WEIGHTS
+  #       # take product of all weights
+  #       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
+  #     )
+  # } else{
+  #   data_weights <- data_weights %>%
+  #     mutate(
+  #       ## COMBINE WEIGHTS
+  #       # take product of all weights then undo product of actual outcome used
+  #       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl) / .[[glue::glue("ipweightvax{brand}_stbl")]]
+  #   )
+
   }
 
   ## report weights ----
@@ -535,8 +542,8 @@ for(stratum in strata){
     formula = update(outcome ~ 1, formula_exposure) %>% update(formula_remove_strata_var),
     data = data_weights,
     weights = ipweight_stbl,
-    family = quasibinomial,
-    control = list(maxit = 2),
+    family = binomial,
+    control = list(maxit = 1),
     na.action = "na.fail",
     model = FALSE,
     start = coefficients(msmmod0_par)
@@ -561,8 +568,8 @@ for(stratum in strata){
     formula = update(outcome ~ 1, formula_demog) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
     data = data_weights,
     weights = ipweight_stbl,
-    family = quasibinomial,
-    control = list(maxit = 2),
+    family = binomial,
+    control = list(maxit = 1),
     na.action = "na.fail",
     model = FALSE,
     start = coefficients(msmmod1_par)
@@ -588,8 +595,8 @@ for(stratum in strata){
     formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
     data = data_weights,
     weights = ipweight_stbl,
-    family = quasibinomial,
-    control = list(maxit = 2),
+    family = binomial,
+    control = list(maxit = 1),
     na.action = "na.fail",
     model = FALSE,
     start = coefficients(msmmod4_par)
