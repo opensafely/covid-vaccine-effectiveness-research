@@ -360,7 +360,6 @@ for(stratum in strata){
 
       # get probability of occurrence of realised vaccination status (non-time varying model)
       probvaxpfizer_realised_fxd = case_when(
-        vaxpfizer_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
         vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1_fxd,
         vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1_fxd,
         vaxpfizer_status>0L ~ 1,
@@ -374,10 +373,12 @@ for(stratum in strata){
       # stabilised inverse probability weights
       ipweightvaxpfizer_stbl = cmlprobvaxpfizer_realised_fxd/cmlprobvaxpfizer_realised,
 
+
       ## AZ
 
       # get probability of occurrence of realised vaccination status
       probvaxaz_realised = case_when(
+        vaxaz_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
         vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1,
         vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1,
         vaxaz_status>0L ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
@@ -392,6 +393,7 @@ for(stratum in strata){
 
       # get probability of occurrence of realised vaccination status (non-time varying model)
       probvaxaz_realised_fxd = case_when(
+        vaxaz_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
         vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1_fxd,
         vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1_fxd,
         vaxaz_status>0L ~ 1,
@@ -443,6 +445,7 @@ for(stratum in strata){
       # take product of all weights
       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
     )
+
 
   # if(brand=="any"){
   #   data_weights <- data_weights %>%
@@ -536,7 +539,7 @@ for(stratum in strata){
 
 
   msmmod0 <- glm(
-    formula = update(outcome ~ 1, formula_exposure) %>% update(formula_remove_strata_var),
+    formula = msmmod0_par$formula,
     data = data_weights,
     weights = ipweight_stbl,
     family = binomial,
@@ -562,7 +565,7 @@ for(stratum in strata){
 
 
   msmmod1 <- glm(
-    formula = update(outcome ~ 1, formula_demog) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    formula = msmmod1_par$formula,
     data = data_weights,
     weights = ipweight_stbl,
     family = binomial,
@@ -589,7 +592,7 @@ for(stratum in strata){
 
 
   msmmod4 <- glm(
-    formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    formula = msmmod4_par$formula,
     data = data_weights,
     weights = ipweight_stbl,
     family = binomial,
