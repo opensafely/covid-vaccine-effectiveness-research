@@ -124,9 +124,9 @@ for(stratum in strata){
     )
 
 
-  robustSEs0 <- coeftest(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% tidy()
-  robustSEs1 <- coeftest(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% tidy()
-  robustSEs4 <- coeftest(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% tidy()
+  robustSEs0 <- coeftest(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
+  robustSEs1 <- coeftest(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
+  robustSEs4 <- coeftest(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
 
   robustCIs0 <- coefci(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
   robustCIs1 <- coefci(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
