@@ -493,6 +493,19 @@ study = StudyDefinition(
         return_expectations={"rate": "exponential_increase"},
     ),
     
+    # PRIOR COVID-RELATED HOSPITAL ADMISSION
+    prior_covidadmitted_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        on_or_before="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-02-01"},
+            "rate": "exponential_increase",
+            "incidence": 0.01,
+        },
+    ),
     
     
     ################################################
@@ -536,7 +549,7 @@ study = StudyDefinition(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         return_expectations={
             "date": {"earliest": "2021-04-01", "latest" : "2021-05-01"},
             "rate": "uniform",
@@ -565,7 +578,7 @@ study = StudyDefinition(
     covidadmitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -621,7 +634,7 @@ study = StudyDefinition(
     
     admitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -633,7 +646,7 @@ study = StudyDefinition(
 
     discharged_1_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -749,7 +762,7 @@ study = StudyDefinition(
     primary_care_probable_covid_1_date=patients.with_these_clinical_events(
         covid_primary_care_probable_combined,
         returning="date",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -810,7 +823,7 @@ study = StudyDefinition(
     primary_care_suspected_covid_1_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={

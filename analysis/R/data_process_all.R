@@ -72,6 +72,7 @@ data_extract0 <- read_csv(
 
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
+    prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
 
     admitted_1_date = col_date(format="%Y-%m-%d"),
     admitted_2_date = col_date(format="%Y-%m-%d"),
