@@ -607,6 +607,11 @@ for(stratum in strata){
   jtools::summ(msmmod4)
 
 
+
+  ## print warnings
+  warnings()
+
+
   ## Save models as rds ----
 
   write_rds(ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("ipwvaxpfizer1.rds")), compress="gz")
