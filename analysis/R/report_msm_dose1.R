@@ -19,6 +19,8 @@ library('survival')
 library('splines')
 library('parglm')
 library('gtsummary')
+library("sandwich")
+library("lmtest")
 
 ## Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
@@ -39,7 +41,7 @@ if(length(args)==0){
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
-  strata_var <- "all"
+  strata_var <- "sex"
 }
 
 
@@ -70,8 +72,7 @@ postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
 #postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
 ### knot points for calendar time splines ----
-
-knots <- c(21, 28)
+#knots <- c(21, 28)
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
@@ -86,6 +87,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
+
 
 for(stratum in strata){
 
@@ -109,23 +111,53 @@ for(stratum in strata){
   msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex, IMD", strata=stratum)
   msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="2 Fully adjusted", strata=stratum)
 
-  # library('sandwich')
-  # library('lmtest')
   # create table with model estimates
   msmmod_summary <- bind_rows(
     msmmod_tidy0,
     msmmod_tidy1,
     msmmod_tidy4,
   ) %>%
+    mutate(
+      or = exp(estimate),
+      or.ll = exp(conf.low),
+      or.ul = exp(conf.high),
+    )
+
+
+  robustSEs0 <- coeftest(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% tidy()
+  robustSEs1 <- coeftest(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% tidy()
+  robustSEs4 <- coeftest(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% tidy()
+
+  robustCIs0 <- coefci(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
+  robustCIs1 <- coefci(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
+  robustCIs4 <- coefci(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
+
+  robust0 <- inner_join(robustSEs0, robustCIs0, by="term") %>% mutate(model="0 Unadjusted",  strata=stratum)
+  robust1 <- inner_join(robustSEs1, robustCIs1, by="term") %>% mutate(model="1 Age, sex, IMD", strata=stratum)
+  robust4 <- inner_join(robustSEs4, robustCIs4, by="term") %>% mutate(model="2 Fully adjusted", strata=stratum)
+
+
+  robust_summary <- bind_rows(
+    robust0,
+    robust1,
+    robust4,
+  ) %>%
+  rename(
+    estimate.robust=estimate,
+    std.error.robust=std.error,
+    p.value.robust=p.value,
+    statistic.robust=statistic,
+    conf.low.robust=`2.5 %`,
+    conf.high.robust=`97.5 %`
+  ) %>%
   mutate(
-    or = exp(estimate),
-    or.ll = exp(conf.low),
-    or.ul = exp(conf.high),
+    or = exp(estimate.robust),
+    or.ll = exp(conf.low.robust),
+    or.ul = exp(conf.high.robust),
   )
 
-  summary_list[[stratum]] <- msmmod_summary
 
-
+  summary_list[[stratum]] <- robust_summary
 
 }
 
