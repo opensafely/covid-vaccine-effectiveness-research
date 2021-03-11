@@ -68,7 +68,7 @@ list2env(metadata, globalenv())
 
 ### post vax time periods ----
 
-postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
+postvaxcuts <- c(0, 1, 4, 7, 14, 21) # use if coded as days
 #postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
 ### knot points for calendar time splines ----
