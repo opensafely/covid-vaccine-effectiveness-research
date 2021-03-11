@@ -41,7 +41,7 @@ if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   outcome <- "postest"
-  brand <- "pfizer"
+  brand <- "any"
   strata_var <- "sex"
 }
 
@@ -163,16 +163,16 @@ for(stratum in strata){
     model = FALSE
   )
 
-  ipwvaxpfizer1 <- glm(
-    formula = ipwvaxpfizer1_par$formula,
-    data = data_pt_atriskvaxpfizer1,
-    family=binomial,
-    control = list(maxit = 1),
-    na.action = "na.fail",
-    model = FALSE,
-    start = coefficients(ipwvaxpfizer1_par)
-  )
-
+  # ipwvaxpfizer1 <- glm(
+  #   formula = ipwvaxpfizer1_par$formula,
+  #   data = data_pt_atriskvaxpfizer1,
+  #   family=binomial,
+  #   control = list(maxit = 1),
+  #   na.action = "na.fail",
+  #   model = FALSE,
+  #   start = coefficients(ipwvaxpfizer1_par)
+  # )
+  ipwvaxpfizer1<-ipwvaxpfizer1_par
   jtools::summ(ipwvaxpfizer1)
 
 
@@ -223,16 +223,16 @@ for(stratum in strata){
     model = FALSE
   )
 
-  ipwvaxaz1 <- glm(
-    formula = ipwvaxaz1_par$formula,
-    data = data_pt_atriskvaxaz1,
-    family=binomial,
-    control = list(maxit = 1),
-    na.action = "na.fail",
-    model = FALSE,
-    start = coefficients(ipwvaxaz1_par)
-  )
-
+  # ipwvaxaz1 <- glm(
+  #   formula = ipwvaxaz1_par$formula,
+  #   data = data_pt_atriskvaxaz1,
+  #   family=binomial,
+  #   control = list(maxit = 1),
+  #   na.action = "na.fail",
+  #   model = FALSE,
+  #   start = coefficients(ipwvaxaz1_par)
+  # )
+  ipwvaxaz1<-ipwvaxaz1_par
   jtools::summ(ipwvaxaz1)
 
 
@@ -507,6 +507,8 @@ for(stratum in strata){
 
   data_weights <- data_weights %>%
     select(
+      "patient_id",
+      "tstart", "tstop",
       any_of(all.vars(formula_all_rhsvars)),
       "ipweight_stbl",
       "outcome",
@@ -538,17 +540,17 @@ for(stratum in strata){
   )
 
 
-  msmmod0 <- glm(
-    formula = msmmod0_par$formula,
-    data = data_weights,
-    weights = ipweight_stbl,
-    family = binomial,
-    control = list(maxit = 1),
-    na.action = "na.fail",
-    model = FALSE,
-    start = coefficients(msmmod0_par)
-  )
-
+  # msmmod0 <- glm(
+  #   formula = msmmod0_par$formula,
+  #   data = data_weights,
+  #   weights = ipweight_stbl,
+  #   family = binomial,
+  #   control = list(maxit = 1),
+  #   na.action = "na.fail",
+  #   model = FALSE,
+  #   start = coefficients(msmmod0_par)
+  # )
+  msmmod0<- msmmod0_par
   jtools::summ(msmmod0)
 
 
@@ -564,17 +566,17 @@ for(stratum in strata){
   )
 
 
-  msmmod1 <- glm(
-    formula = msmmod1_par$formula,
-    data = data_weights,
-    weights = ipweight_stbl,
-    family = binomial,
-    control = list(maxit = 1),
-    na.action = "na.fail",
-    model = FALSE,
-    start = coefficients(msmmod1_par)
-  )
-
+  # msmmod1 <- glm(
+  #   formula = msmmod1_par$formula,
+  #   data = data_weights,
+  #   weights = ipweight_stbl,
+  #   family = binomial,
+  #   control = list(maxit = 1),
+  #   na.action = "na.fail",
+  #   model = FALSE,
+  #   start = coefficients(msmmod1_par)
+  # )
+  msmmod1<-msmmod1_par
   jtools::summ(msmmod1)
 
 
@@ -591,17 +593,17 @@ for(stratum in strata){
   )
 
 
-  msmmod4 <- glm(
-    formula = msmmod4_par$formula,
-    data = data_weights,
-    weights = ipweight_stbl,
-    family = binomial,
-    control = list(maxit = 1),
-    na.action = "na.fail",
-    model = FALSE,
-    start = coefficients(msmmod4_par)
-  )
-
+  # msmmod4 <- glm(
+  #   formula = msmmod4_par$formula,
+  #   data = data_weights,
+  #   weights = ipweight_stbl,
+  #   family = binomial,
+  #   control = list(maxit = 1),
+  #   na.action = "na.fail",
+  #   model = FALSE,
+  #   start = coefficients(msmmod4_par)
+  # )
+  msmmod4<-msmmod4_par
   jtools::summ(msmmod4)
 
 
