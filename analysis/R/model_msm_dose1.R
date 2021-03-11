@@ -87,7 +87,7 @@ postvaxcuts <- c(0, 3, 7, 14, 21) # use if coded as days
 
 ### knot points for calendar time splines ----
 
-knots <- c(21, 28)
+#knots <- c(21)
 
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
@@ -164,7 +164,7 @@ for(stratum in strata){
   )
 
   ipwvaxpfizer1 <- glm(
-    formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+    formula = ipwvaxpfizer1_par$formula,
     data = data_pt_atriskvaxpfizer1,
     family=binomial,
     control = list(maxit = 1),
@@ -224,7 +224,7 @@ for(stratum in strata){
   )
 
   ipwvaxaz1 <- glm(
-    formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+    formula = ipwvaxaz1_par$formula,
     data = data_pt_atriskvaxaz1,
     family=binomial,
     control = list(maxit = 1),
@@ -459,7 +459,6 @@ for(stratum in strata){
   #       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl) / .[[glue::glue("ipweightvax{brand}_stbl")]]
   #   )
 
-  }
 
   ## report weights ----
 
@@ -492,8 +491,6 @@ for(stratum in strata){
     ) %>%
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
-
-  tiddd <- function(model){cbind(broom::tidy(model, conf.int=FALSE), broom::confint_tidy(model, func = stats::confint.default))}
 
   ipwvaxaz1 %>%
     tbl_regression(

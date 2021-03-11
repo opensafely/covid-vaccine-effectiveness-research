@@ -65,8 +65,8 @@ formula_comorbs <- . ~ . +
   lung_cancer + cancer_excl_lung_and_haem + haematological_cancer +
   flu_vaccine
 
-formula_secular <- . ~ . + ns(tstop, knots=knots)
-formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
+formula_secular <- . ~ . + ns(tstop, df=4)
+formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 formula_timedependent <- . ~ . + hospital_status + probable_covid_status + suspected_covid_status # consider adding local infection rates
 
 
