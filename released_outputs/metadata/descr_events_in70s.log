@@ -1,0 +1,84 @@
+2021-03-11T21:49:27.523613100Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-11T21:49:27.532455600Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-11T21:49:27.532479600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-11T21:49:27.532488000Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-11T21:49:27.532495000Z v readr   1.3.1     v forcats 0.5.0
+2021-03-11T21:49:27.694840900Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-11T21:49:27.694910200Z x dplyr::filter() masks stats::filter()
+2021-03-11T21:49:27.694918400Z x dplyr::lag()    masks stats::lag()
+2021-03-11T21:49:27.709816400Z 
+2021-03-11T21:49:27.709842100Z Attaching package: 'lubridate'
+2021-03-11T21:49:27.709850600Z 
+2021-03-11T21:49:27.711561600Z The following objects are masked from 'package:base':
+2021-03-11T21:49:27.711578700Z 
+2021-03-11T21:49:27.711586400Z     date, intersect, setdiff, union
+2021-03-11T21:49:27.711593600Z 
+2021-03-11T21:55:55.640253000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:55:58.386782700Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:00.850898500Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:03.522362900Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:06.350137700Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:26.204211200Z # A tibble: 5 x 9
+2021-03-11T21:56:26.204372100Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-03-11T21:56:26.204383500Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-03-11T21:56:26.204412600Z 1 <fxd_~ vaxcount~ /works~         10           5 cm       20  13.7  <NULL>     
+2021-03-11T21:56:26.204442200Z 2 <fxd_~ vaxcount~ /works~         10           5 cm       20  29.3  <NULL>     
+2021-03-11T21:56:26.204450800Z 3 <fxd_~ vaxcount~ /works~         10           5 cm       20   8.51 <NULL>     
+2021-03-11T21:56:26.204459000Z 4 <fxd_~ vaxcount~ /works~         10           5 cm       20  29.3  <NULL>     
+2021-03-11T21:56:26.204467000Z 5 <fxd_~ vaxcount~ /works~         10           5 cm       20  50.1  <NULL>     
+2021-03-11T21:56:29.207015500Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:32.390549100Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:35.428247400Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:38.514646000Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-03-11T21:56:41.734716400Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-03-11T21:57:10.751157400Z # A tibble: 5 x 9
+2021-03-11T21:57:10.751331900Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-03-11T21:57:10.751362500Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-03-11T21:57:10.751373900Z 1 <fxd_~ eventcou~ /works~         10           5 cm       20   15.3 <NULL>     
+2021-03-11T21:57:10.751382100Z 2 <fxd_~ eventcou~ /works~         10           5 cm       20   30.8 <NULL>     
+2021-03-11T21:57:10.751389900Z 3 <fxd_~ eventcou~ /works~         10           5 cm       20   10.1 <NULL>     
+2021-03-11T21:57:10.751397600Z 4 <fxd_~ eventcou~ /works~         10           5 cm       20   30.8 <NULL>     
+2021-03-11T21:57:10.751405100Z 5 <fxd_~ eventcou~ /works~         10           5 cm       20   51.6 <NULL>     
+2021-03-11T21:57:22.817360300Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:57:35.694532900Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:57:52.088333600Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:58:04.686813500Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:58:20.879690800Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-03-11T21:58:46.422720100Z # A tibble: 5 x 9
+2021-03-11T21:58:46.422856700Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-03-11T21:58:46.422866800Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-03-11T21:58:46.422877400Z 1 <fxd_~ eventrat~ /works~         10           5 cm       20   15.3 <NULL>     
+2021-03-11T21:58:46.422886200Z 2 <fxd_~ eventrat~ /works~         10           5 cm       20   30.8 <NULL>     
+2021-03-11T21:58:46.422894400Z 3 <fxd_~ eventrat~ /works~         10           5 cm       20   10.1 <NULL>     
+2021-03-11T21:58:46.422903600Z 4 <fxd_~ eventrat~ /works~         10           5 cm       20   30.8 <NULL>     
+2021-03-11T21:58:46.422912100Z 5 <fxd_~ eventrat~ /works~         10           5 cm       20   51.6 <NULL>     
+
+
+state: succeeded
+commit: 9b3a15915a99dd736982594579835af554e19d07
+docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
+exit_code: 0
+job_id: 3uiaboif6f35rdk6
+run_by_user: wjchulme
+created_at: 2021-03-11T21:39:12Z
+started_at: 2021-03-11T21:49:25Z
+completed_at: 2021-03-11T21:59:07Z
+
+Completed successfully
+
+outputs:
+  output/in70s/descr/plots/eventcounts_ageband.svg    - moderately_sensitive
+  output/in70s/descr/plots/eventcounts_ethnicity.svg  - moderately_sensitive
+  output/in70s/descr/plots/eventcounts_imd.svg        - moderately_sensitive
+  output/in70s/descr/plots/eventcounts_region.svg     - moderately_sensitive
+  output/in70s/descr/plots/eventcounts_sex.svg        - moderately_sensitive
+  output/in70s/descr/plots/eventrates_ageband.svg     - moderately_sensitive
+  output/in70s/descr/plots/eventrates_ethnicity.svg   - moderately_sensitive
+  output/in70s/descr/plots/eventrates_imd.svg         - moderately_sensitive
+  output/in70s/descr/plots/eventrates_region.svg      - moderately_sensitive
+  output/in70s/descr/plots/eventrates_sex.svg         - moderately_sensitive
+  output/in70s/descr/plots/vaxcounts_ageband.svg      - moderately_sensitive
+  output/in70s/descr/plots/vaxcounts_ethnicity.svg    - moderately_sensitive
+  output/in70s/descr/plots/vaxcounts_imd.svg          - moderately_sensitive
+  output/in70s/descr/plots/vaxcounts_region.svg       - moderately_sensitive
+  output/in70s/descr/plots/vaxcounts_sex.svg          - moderately_sensitive

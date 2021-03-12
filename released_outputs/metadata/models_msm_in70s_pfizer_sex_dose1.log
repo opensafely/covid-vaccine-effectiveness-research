@@ -1,0 +1,77 @@
+2021-03-11T21:50:37.408095500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-11T21:50:37.416810800Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-11T21:50:37.416827300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-11T21:50:37.416834900Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-11T21:50:37.416842100Z v readr   1.3.1     v forcats 0.5.0
+2021-03-11T21:50:37.580905500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-11T21:50:37.580963900Z x dplyr::filter() masks stats::filter()
+2021-03-11T21:50:37.580972300Z x dplyr::lag()    masks stats::lag()
+2021-03-11T21:50:39.614779200Z 
+2021-03-11T21:50:39.614827600Z Attaching package: 'lubridate'
+2021-03-11T21:50:39.614835700Z 
+2021-03-11T21:50:39.616235300Z The following objects are masked from 'package:base':
+2021-03-11T21:50:39.616258800Z 
+2021-03-11T21:50:39.616267000Z     date, intersect, setdiff, union
+2021-03-11T21:50:39.616274200Z 
+2021-03-11T21:50:39.945354500Z <environment: R_GlobalEnv>
+2021-03-11T21:50:39.945800000Z <environment: R_GlobalEnv>
+2021-03-11T21:51:34.306581800Z data_pt data size = 20496094 
+2021-03-11T21:51:34.307608000Z   memory usage = 5.329 GB 
+2021-03-11T21:51:47.173270700Z   ipwvaxpfizer1 
+2021-03-11T22:08:58.972594000Z ipwvaxpfizer1_fxd 
+2021-03-11T22:24:05.762537000Z ipwvaxaz1 
+2021-03-11T22:36:14.339317300Z ipwvaxaz1_fxd 
+2021-03-11T22:49:09.909840900Z ipwdeath 
+2021-03-11T23:35:40.135565200Z ipwdeath_fxd 
+2021-03-12T00:32:57.154551300Z Saving 7 x 7 in image
+2021-03-12T00:33:09.533166700Z `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+2021-03-12T01:04:51.129607000Z data_weights data size = 9623132 
+2021-03-12T01:04:51.369608700Z   memory usage = 1.232 GB 
+2021-03-12T01:05:20.299039400Z   msmmod0 
+2021-03-12T01:06:14.086576800Z msmmod1 
+2021-03-12T01:07:52.161997500Z msmmod4 
+2021-03-12T01:31:10.392329400Z ipwvaxpfizer1 
+2021-03-12T01:42:06.278613000Z ipwvaxpfizer1_fxd 
+2021-03-12T01:52:23.925587300Z ipwvaxaz1 
+2021-03-12T02:01:16.091874700Z ipwvaxaz1_fxd 
+2021-03-12T02:09:33.953814500Z ipwdeath 
+2021-03-12T02:37:46.234714300Z ipwdeath_fxd 
+2021-03-12T03:18:11.619371200Z Saving 7 x 7 in image
+2021-03-12T03:18:15.676666300Z `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+2021-03-12T03:52:27.283542100Z data_weights data size = 10872962 
+2021-03-12T03:52:27.539683500Z   memory usage = 1.392 GB 
+2021-03-12T03:52:59.537521500Z   msmmod0 
+2021-03-12T03:53:59.432772600Z msmmod1 
+2021-03-12T03:55:32.671539100Z msmmod4 
+
+
+state: succeeded
+commit: 9b3a15915a99dd736982594579835af554e19d07
+docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
+exit_code: 0
+job_id: ucamlhszy4od77uz
+run_by_user: wjchulme
+created_at: 2021-03-11T21:39:13Z
+started_at: 2021-03-11T21:50:34Z
+completed_at: 2021-03-12T04:20:39Z
+
+Completed successfully
+
+outputs:
+  output/in70s/postest/pfizer/sex/Female/data_weights.rds           - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Female/model0.rds                 - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Female/model1.rds                 - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Female/model4.rds                 - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Female/weights_histogram.svg      - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Female/weights_model_az.html      - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Female/weights_model_pfizer.html  - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Female/weights_table.txt          - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Male/data_weights.rds             - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Male/model0.rds                   - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Male/model1.rds                   - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Male/model4.rds                   - highly_sensitive    
+  output/in70s/postest/pfizer/sex/Male/weights_histogram.svg        - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Male/weights_model_az.html        - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Male/weights_model_pfizer.html    - moderately_sensitive
+  output/in70s/postest/pfizer/sex/Male/weights_table.txt            - moderately_sensitive
+  output/in70s/postest/pfizer/sex/strata_vector.rds                 - moderately_sensitive

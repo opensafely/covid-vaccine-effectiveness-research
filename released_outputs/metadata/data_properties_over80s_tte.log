@@ -1,29 +1,29 @@
-2021-03-06T00:13:12.087476500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-06T00:13:12.096283000Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-06T00:13:12.096300900Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-06T00:13:12.096308900Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-06T00:13:12.096315800Z v readr   1.3.1     v forcats 0.5.0
-2021-03-06T00:13:12.259499500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-06T00:13:12.259565900Z x dplyr::filter() masks stats::filter()
-2021-03-06T00:13:12.259574100Z x dplyr::lag()    masks stats::lag()
-2021-03-06T00:13:12.294645100Z 
-2021-03-06T00:13:12.294665900Z Attaching package: 'lubridate'
-2021-03-06T00:13:12.294674000Z 
-2021-03-06T00:13:12.296169100Z The following objects are masked from 'package:base':
-2021-03-06T00:13:12.296185400Z 
-2021-03-06T00:13:12.296192600Z     date, intersect, setdiff, union
-2021-03-06T00:13:12.296199400Z 
+2021-03-11T16:05:58.261205600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-11T16:05:58.270484100Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-11T16:05:58.270535100Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-11T16:05:58.270543300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-11T16:05:58.270550300Z v readr   1.3.1     v forcats 0.5.0
+2021-03-11T16:05:58.437089600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-11T16:05:58.437147500Z x dplyr::filter() masks stats::filter()
+2021-03-11T16:05:58.437156100Z x dplyr::lag()    masks stats::lag()
+2021-03-11T16:05:58.472640000Z 
+2021-03-11T16:05:58.472662200Z Attaching package: 'lubridate'
+2021-03-11T16:05:58.472670600Z 
+2021-03-11T16:05:58.474139200Z The following objects are masked from 'package:base':
+2021-03-11T16:05:58.474157800Z 
+2021-03-11T16:05:58.474165300Z     date, intersect, setdiff, union
+2021-03-11T16:05:58.474172300Z 
 
 
 state: succeeded
-commit: 9456bc1e00f7ce6dc72be69f711f8409e59f569c
+commit: 9b3a15915a99dd736982594579835af554e19d07
 docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
 exit_code: 0
-job_id: wxck4s7twja5vrsf
+job_id: dseb4nhakbcbutbn
 run_by_user: wjchulme
-created_at: 2021-03-05T23:27:30Z
-started_at: 2021-03-06T00:13:09Z
-completed_at: 2021-03-06T00:14:19Z
+created_at: 2021-03-11T13:51:21Z
+started_at: 2021-03-11T16:05:55Z
+completed_at: 2021-03-11T16:06:43Z
 
 Completed successfully
 
