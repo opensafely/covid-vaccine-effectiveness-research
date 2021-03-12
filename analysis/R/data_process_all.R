@@ -66,6 +66,7 @@ data_extract0 <- read_csv(
     age = col_integer(),
     sex = col_character(),
     ethnicity = col_character(),
+    ethnicity_6_sus = col_character(),
     #ethnicity_16 = col_character(),
 
     # dates
@@ -150,6 +151,11 @@ data_extract0 <- read_csv(
   ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
   sample_frac(size=0.2)
 
+# Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
+data_extract0 <- data_extract0 %>%
+  mutate(ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)) %>%
+  select(-ethnicity_6_sus)
+  
 # parse NAs
 data_extract <- data_extract0 %>%
   mutate(across(

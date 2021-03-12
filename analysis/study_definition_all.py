@@ -156,6 +156,16 @@ study = StudyDefinition(
             "incidence": 0.75,
         },
     ),
+    
+    # New ethnicity variable that takes data from SUS
+    ethnicity_6_sus = patients.with_ethnicity_from_sus(
+        returning="group_6",  
+        use_most_frequent_code=True,
+        return_expectations={
+            "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
+            "incidence": 0.4,
+            },
+    ),
 
     ################################################
     ###### PRACTICE AND PATIENT ADDRESS VARIABLES ##
