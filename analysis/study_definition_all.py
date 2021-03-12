@@ -629,8 +629,30 @@ study = StudyDefinition(
     #######################################################
     ## hospital admissions during study period, up to 5  ##
     #######################################################
-    
-    
+
+admitted_0_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_before="index_date - 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_0_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_before="index_date - 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),    
     
     admitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
