@@ -72,6 +72,7 @@ data_extract0 <- read_csv(
 
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
+    prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
 
     admitted_1_date = col_date(format="%Y-%m-%d"),
     admitted_2_date = col_date(format="%Y-%m-%d"),
@@ -139,9 +140,8 @@ data_extract0 <- read_csv(
     permanant_immunosuppression = col_logical(),
     temporary_immunosuppression = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
-    asplenia = col_logical()
-
-    #previous_flu_vax = col_logical(),
+    asplenia = col_logical(),
+    flu_vaccine = col_logical()
   ),
     na = character() # more stable to convert to missing later
 ) %>%
@@ -238,11 +238,11 @@ data_processed <- data_extract_reordered %>%
 
     imd = na_if(imd, "0"),
     imd = fct_case_when(
-      imd == 1 ~ "1 least deprived",
+      imd == 1 ~ "1 most deprived",
       imd == 2 ~ "2",
       imd == 3 ~ "3",
       imd == 4 ~ "4",
-      imd == 5 ~ "5 most deprived",
+      imd == 5 ~ "5 least deprived",
       #TRUE ~ "Unknown",
       TRUE ~ NA_character_
     ),

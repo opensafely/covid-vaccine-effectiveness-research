@@ -21,8 +21,9 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 data_cohorts <- data_all %>%
   transmute(
     patient_id,
-    over80s = (age>=80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date)) & (!is.na(region)),
-    under65s = (age<=64) & (is.na(care_home_type)) & (is.na(prior_positive_test_date))  & (!is.na(region)),
+    over80s = (age>=80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
+    in70s = (age>=70 & age<80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)) ,
+    under65s = (age<=64) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
   )
 
 
@@ -30,8 +31,9 @@ data_cohorts <- data_all %>%
 
 metadata_cohorts <- tribble(
   ~cohort, ~outcome, ~cohort_descr, ~outcome_var, ~outcome_descr, #~postvax_cuts, ~knots,
-  "over80s", "postest", "Aged 80+, non-carehome, no prior positive test", "positive_test_1_date", "Positive test",
-  "under65s", "postest", "Aged <=64, no prior positive test", "positive_test_1_date", "Positive test"
+  "over80s", "postest", "Aged 80+, non-carehome, no prior infection", "positive_test_1_date", "Positive test",
+  "in70s", "postest", "Aged 70-79, non-carehome, no prior infection", "positive_test_1_date", "Positive test",
+  "under65s", "postest", "Aged <=64, no prior infection", "positive_test_1_date", "Positive test"
 ) %>%
 mutate(
   cohort_size = map_int(cohort, ~sum(data_cohorts[[.]]))
@@ -56,12 +58,15 @@ formula_exposure <- . ~ . + timesincevax_pw
 formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
   chronic_cardiac_disease + current_copd + dementia + dialysis +
-  solid_organ_transplantation + chemo_or_radio + sickle_cell_disease +
-  permanant_immunosuppression + temporary_immunosuppression + asplenia +
+  solid_organ_transplantation + chemo_or_radio +
+  permanant_immunosuppression + asplenia +
+  dmards +
   intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
-  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer
-formula_secular <- . ~ . + ns(tstop, knots=knots)
-formula_secular_region <- . ~ . + ns(tstop, knots=knots)*region
+  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer +
+  flu_vaccine
+
+formula_secular <- . ~ . + ns(tstop, df=4)
+formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 formula_timedependent <- . ~ . + hospital_status + probable_covid_status + suspected_covid_status # consider adding local infection rates
 
 

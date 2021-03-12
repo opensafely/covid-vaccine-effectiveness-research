@@ -222,7 +222,7 @@ study = StudyDefinition(
             "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
             "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
             "4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
-            "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
+            "5": """index_of_multiple_deprivation >= 32844*4/5 """,
         },
         index_of_multiple_deprivation=patients.address_as_of(
             "index_date",
@@ -493,6 +493,19 @@ study = StudyDefinition(
         return_expectations={"rate": "exponential_increase"},
     ),
     
+    # PRIOR COVID-RELATED HOSPITAL ADMISSION
+    prior_covidadmitted_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        on_or_before="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-02-01"},
+            "rate": "exponential_increase",
+            "incidence": 0.01,
+        },
+    ),
     
     
     ################################################
@@ -536,7 +549,7 @@ study = StudyDefinition(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         return_expectations={
             "date": {"earliest": "2021-04-01", "latest" : "2021-05-01"},
             "rate": "uniform",
@@ -565,7 +578,7 @@ study = StudyDefinition(
     covidadmitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -621,7 +634,7 @@ study = StudyDefinition(
     
     admitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -633,7 +646,7 @@ study = StudyDefinition(
 
     discharged_1_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -749,7 +762,7 @@ study = StudyDefinition(
     primary_care_probable_covid_1_date=patients.with_these_clinical_events(
         covid_primary_care_probable_combined,
         returning="date",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -810,7 +823,7 @@ study = StudyDefinition(
     primary_care_suspected_covid_1_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -991,4 +1004,51 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.01, },
     ),
     
+    # flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
+    #     target_disease_matches="INFLUENZA",
+    #     between=["index_date - 5 years", "index_date"],  # current flu season
+    #     returning="binary_flag",
+    #     return_expectations={"incidence": 0.5, },
+    # ),
+    # flu_vaccine_med=patients.with_these_medications(
+    #     flu_med_codes,
+    #     between=["index_date - 5 years", "index_date"],  # current flu season
+    #     returning="binary_flag",
+    #     return_expectations={"incidence": 0.5, },
+    # ),
+    # flu_vaccine_clinical=patients.with_these_clinical_events(
+    #     flu_clinical_given_codes,
+    #     ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+    #     between=["index_date - 5 years", "index_date"],  # current flu season
+    #     returning="binary_flag",
+    #     return_expectations={"incidence": 0.5, },
+    # ),
+    
+    flu_vaccine=patients.satisfying(
+        """
+        flu_vaccine_tpp_table>0 OR
+        flu_vaccine_med>0 OR
+        flu_vaccine_clinical>0
+        """,
+        
+        flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
+            target_disease_matches="INFLUENZA",
+            between=["index_date - 5 years", "index_date"],  # current flu season
+            returning="binary_flag",
+        ),
+        
+        flu_vaccine_med=patients.with_these_medications(
+            flu_med_codes,
+            between=["index_date - 5 years", "index_date"],  # current flu season
+            returning="binary_flag",
+        ),
+        flu_vaccine_clinical=patients.with_these_clinical_events(
+            flu_clinical_given_codes,
+            ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+            between=["index_date - 5 years", "index_date"],  # current flu season
+            returning="binary_flag",
+        ),
+        
+        return_expectations={"incidence": 0.5, },
+    ),
 )

@@ -183,3 +183,15 @@ psychosis_schizophrenia_bipolar_affective_disease_codes = codelist_from_csv(
 asplenia_codes = codelist_from_csv(
     "codelists/opensafely-asplenia.csv", system="ctv3", column="CTV3ID"
 )
+
+flu_med_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination.csv",  system="snomed",  column="snomed_id",
+)
+
+flu_clinical_given_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination-clinical-codes-given.csv",  system="ctv3", column="CTV3ID",
+)
+
+flu_clinical_not_given_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination-clinical-codes-not-given.csv",  system="ctv3", column="CTV3ID",
+)
