@@ -176,6 +176,7 @@ for(stratum in strata){
   jtools::summ(ipwvaxpfizer1)
 
 
+
   ### without time-updating covariates ----
   # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
   # used for stabilised ip weights
@@ -203,6 +204,17 @@ for(stratum in strata){
       predvaxpfizer1=predict(ipwvaxpfizer1, type="response"),
       predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
     )
+
+  ## print model
+  ipwvaxpfizer1 %>%
+    tbl_regression(
+      pvalue_fun = ~style_pvalue(.x, digits=3),
+      tidy_fun = tidy_parglm
+    ) %>%
+    as_gt() %>%
+    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
+
+  rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd)
 
 
   # IPW model for az vaccination ----
@@ -264,6 +276,16 @@ for(stratum in strata){
       predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
     )
 
+  ## print model
+  ipwvaxaz1 %>%
+    tbl_regression(
+      pvalue_fun = ~style_pvalue(.x, digits=3),
+      tidy_fun = tidy_parglm
+    ) %>%
+    as_gt() %>%
+    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
+
+  rm(ipwvaxaz1, ipwvaxaz1_fxd)
 
   # IPW model for death ----
 
@@ -297,34 +319,6 @@ for(stratum in strata){
   )
   jtools::summ(ipwdeath_fxd)
 
-
-
-
-
-
-
-  ## get predictions from model ----
-
-  data_predvaxpfizer1 <- data_pt_atriskvaxpfizer1 %>%
-    transmute(
-      patient_id,
-      tstart, tstop,
-
-      # get predicted probabilities from ipw models
-      predvaxpfizer1=predict(ipwvaxpfizer1, type="response"),
-      predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
-    )
-
-  data_predvaxaz1 <- data_pt_atriskvaxaz1 %>%
-    transmute(
-      patient_id,
-      tstart, tstop,
-
-      # get predicted probabilities from ipw models
-      predvaxaz1=predict(ipwvaxaz1, type="response"),
-      predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
-    )
-
   data_preddeath <- data_pt_atriskdeath %>%
     transmute(
       patient_id,
@@ -334,6 +328,20 @@ for(stratum in strata){
       preddeath=predict(ipwdeath, type="response"),
       preddeath_fxd=predict(ipwdeath_fxd, type="response"),
     )
+
+  ## print model
+  ipwdeath1 %>%
+    tbl_regression(
+      pvalue_fun = ~style_pvalue(.x, digits=3),
+      tidy_fun = tidy_parglm
+    ) %>%
+    as_gt() %>%
+    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.html"))
+
+  rm(ipwdeath, ipwdeath_fxd)
+
+
+  ## get predictions from model ----
 
   data_weights <- data_pt_sub %>%
     left_join(data_predvaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
@@ -486,23 +494,6 @@ for(stratum in strata){
   ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
 
 
-  ## print models
-  ipwvaxpfizer1 %>%
-    tbl_regression(
-      pvalue_fun = ~style_pvalue(.x, digits=3),
-      tidy_fun = tidy_parglm
-    ) %>%
-    as_gt() %>%
-    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
-
-  ipwvaxaz1 %>%
-    tbl_regression(
-      pvalue_fun = ~style_pvalue(.x, digits=3),
-      tidy_fun = tidy_parglm
-    ) %>%
-    as_gt() %>%
-    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
-
   ## output weight distribution file ----
 
   data_weights <- data_weights %>%
@@ -614,8 +605,8 @@ for(stratum in strata){
 
   ## Save models as rds ----
 
-  write_rds(ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("ipwvaxpfizer1.rds")), compress="gz")
-  write_rds(ipwvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("ipwvaxaz1.rds")), compress="gz")
+
+
   write_rds(msmmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
   write_rds(msmmod1, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
   write_rds(msmmod4, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
