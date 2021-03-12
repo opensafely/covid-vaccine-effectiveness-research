@@ -1,0 +1,53 @@
+2021-03-11T21:50:23.842977900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-11T21:50:23.852759700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-11T21:50:23.852814500Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-11T21:50:23.852822800Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-11T21:50:23.852829700Z v readr   1.3.1     v forcats 0.5.0
+2021-03-11T21:50:24.047785700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-11T21:50:24.047834400Z x dplyr::filter() masks stats::filter()
+2021-03-11T21:50:24.047842600Z x dplyr::lag()    masks stats::lag()
+2021-03-11T21:50:26.209660800Z 
+2021-03-11T21:50:26.209731400Z Attaching package: 'lubridate'
+2021-03-11T21:50:26.209740100Z 
+2021-03-11T21:50:26.211118900Z The following objects are masked from 'package:base':
+2021-03-11T21:50:26.211162800Z 
+2021-03-11T21:50:26.211171400Z     date, intersect, setdiff, union
+2021-03-11T21:50:26.211178800Z 
+2021-03-11T21:50:26.562469500Z <environment: R_GlobalEnv>
+2021-03-11T21:50:26.563008700Z <environment: R_GlobalEnv>
+2021-03-11T21:51:28.294006500Z data_pt data size = 24955167 
+2021-03-11T21:51:28.294916300Z   memory usage = 6.488 GB 
+2021-03-11T21:51:44.329757800Z   ipwvaxpfizer1 
+2021-03-11T22:14:09.784632600Z ipwvaxpfizer1_fxd 
+2021-03-11T22:34:06.227376800Z ipwvaxaz1 
+2021-03-11T22:47:15.009697400Z ipwvaxaz1_fxd 
+2021-03-11T23:00:29.855902400Z ipwdeath 
+2021-03-11T23:56:24.147610600Z ipwdeath_fxd 
+2021-03-12T00:49:54.571446400Z Saving 7 x 7 in image
+2021-03-12T00:50:01.162853600Z `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+2021-03-12T01:31:55.540624000Z data_weights data size = 11716731 
+2021-03-12T01:31:55.821654500Z   memory usage = 1.5 GB 
+2021-03-12T01:32:30.954137800Z   msmmod0 
+2021-03-12T01:33:36.464864100Z msmmod1 
+2021-03-12T01:35:36.454555500Z msmmod4 
+
+
+state: failed
+commit: 9b3a15915a99dd736982594579835af554e19d07
+docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
+exit_code: 137
+job_id: 5ggj2jqfr57ra2j3
+run_by_user: wjchulme
+created_at: 2021-03-11T21:39:12Z
+started_at: 2021-03-11T21:50:20Z
+completed_at: 2021-03-12T01:38:53Z
+
+Job exited with an error code
+
+outputs:
+  output/in70s/postest/any/sex/Male/data_weights.rds           - highly_sensitive    
+  output/in70s/postest/any/sex/Male/weights_histogram.svg      - moderately_sensitive
+  output/in70s/postest/any/sex/Male/weights_model_az.html      - moderately_sensitive
+  output/in70s/postest/any/sex/Male/weights_model_pfizer.html  - moderately_sensitive
+  output/in70s/postest/any/sex/Male/weights_table.txt          - moderately_sensitive
+  output/in70s/postest/any/sex/strata_vector.rds               - moderately_sensitive
