@@ -60,7 +60,7 @@ study = StudyDefinition(
 
     # https://github.com/opensafely/risk-factors-research/issues/49
     age=patients.age_as_of(
-        "2020-02-01",
+        "2020-03-31",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -630,7 +630,7 @@ study = StudyDefinition(
     ## hospital admissions during study period, up to 5  ##
     #######################################################
 
-admitted_0_date=patients.admitted_to_hospital(
+    admitted_0_date=patients.admitted_to_hospital(
         returning="date_admitted",
         on_or_before="index_date - 1 day",
         date_format="YYYY-MM-DD",
