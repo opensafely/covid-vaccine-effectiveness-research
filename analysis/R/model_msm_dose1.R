@@ -330,7 +330,7 @@ for(stratum in strata){
     )
 
   ## print model
-  ipwdeath1 %>%
+  ipwdeath %>%
     tbl_regression(
       pvalue_fun = ~style_pvalue(.x, digits=3),
       tidy_fun = tidy_parglm
@@ -453,23 +453,6 @@ for(stratum in strata){
       # take product of all weights
       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
     )
-
-
-  # if(brand=="any"){
-  #   data_weights <- data_weights %>%
-  #     mutate(
-  #       ## COMBINE WEIGHTS
-  #       # take product of all weights
-  #       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
-  #     )
-  # } else{
-  #   data_weights <- data_weights %>%
-  #     mutate(
-  #       ## COMBINE WEIGHTS
-  #       # take product of all weights then undo product of actual outcome used
-  #       ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl) / .[[glue::glue("ipweightvax{brand}_stbl")]]
-  #   )
-
 
   ## report weights ----
 
