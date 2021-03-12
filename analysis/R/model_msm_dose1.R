@@ -214,7 +214,7 @@ for(stratum in strata){
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
 
-  rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd)
+  rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
 
 
   # IPW model for az vaccination ----
@@ -285,7 +285,7 @@ for(stratum in strata){
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
 
-  rm(ipwvaxaz1, ipwvaxaz1_fxd)
+  rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
 
   # IPW model for death ----
 
@@ -338,7 +338,7 @@ for(stratum in strata){
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.html"))
 
-  rm(ipwdeath, ipwdeath_fxd)
+  rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
 
 
   ## get predictions from model ----
