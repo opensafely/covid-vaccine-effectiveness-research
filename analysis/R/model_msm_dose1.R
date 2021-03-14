@@ -356,7 +356,7 @@ for(stratum in strata){
       probvaxpfizer_realised = case_when(
         vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1,
         vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1,
-        vaxpfizer_status>0L ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
+        is.na(predvaxpfizer1) ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
         TRUE ~ NA_real_
       ),
       # cumulative product of status probabilities
@@ -370,7 +370,7 @@ for(stratum in strata){
       probvaxpfizer_realised_fxd = case_when(
         vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1_fxd,
         vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1_fxd,
-        vaxpfizer_status>0L ~ 1,
+        is.na(predvaxpfizer1_fxd) ~ 1,
         TRUE ~ NA_real_
       ),
       # cumulative product of status probabilities
@@ -389,7 +389,7 @@ for(stratum in strata){
         vaxaz_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
         vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1,
         vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1,
-        vaxaz_status>0L ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
+        is.na(predvaxaz1) ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
         TRUE ~ NA_real_
       ),
       # cumulative product of status probabilities
@@ -404,7 +404,7 @@ for(stratum in strata){
         vaxaz_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
         vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1_fxd,
         vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1_fxd,
-        vaxaz_status>0L ~ 1,
+        is.na(predvaxaz1_fxd) ~ 1,
         TRUE ~ NA_real_
       ),
       # cumulative product of status probabilities
@@ -524,13 +524,10 @@ for(stratum in strata){
   #   model = FALSE,
   #   start = coefficients(msmmod0_par)
   # )
-  msmmod0<- msmmod0_par
-
-  # report, save, and delete
-  jtools::summ(msmmod0)
-  write_rds(msmmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
-  rm(msmmod0, msmmod0_par)
-
+  #msmmod0<- msmmod0_par
+  jtools::summ(msmmod0_par)
+  write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
+  rm(msmmod0_par)
 
   ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
   cat("msmmod1 \n")
@@ -554,12 +551,10 @@ for(stratum in strata){
   #   model = FALSE,
   #   start = coefficients(msmmod1_par)
   # )
-  msmmod1<-msmmod1_par
-
-  # report, save, and delete
-  jtools::summ(msmmod1)
-  write_rds(msmmod1, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
-  rm(msmmod1, msmmod1_par)
+  #msmmod1<-msmmod1_par
+  jtools::summ(msmmod1_par)
+  write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
+  rm(msmmod1_par)
 
 
   ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
@@ -585,18 +580,13 @@ for(stratum in strata){
   #   model = FALSE,
   #   start = coefficients(msmmod4_par)
   # )
-  msmmod4<-msmmod4_par
-
-  # report, save, and delete
-  jtools::summ(msmmod4)
-  write_rds(msmmod4, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
-  rm(msmmod4, msmmod4_par)
+  #msmmod4<-msmmod4_par
+  jtools::summ(msmmod4_par)
+  write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
+  rm(msmmod4_par)
 
   ## print warnings
   warnings()
-
-
-
 
 }
 
