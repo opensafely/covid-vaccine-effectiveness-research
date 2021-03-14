@@ -525,7 +525,11 @@ for(stratum in strata){
   #   start = coefficients(msmmod0_par)
   # )
   msmmod0<- msmmod0_par
+
+  # report, save, and delete
   jtools::summ(msmmod0)
+  write_rds(msmmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
+  rm(msmmod0, msmmod0_par)
 
 
   ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
@@ -551,7 +555,11 @@ for(stratum in strata){
   #   start = coefficients(msmmod1_par)
   # )
   msmmod1<-msmmod1_par
+
+  # report, save, and delete
   jtools::summ(msmmod1)
+  write_rds(msmmod1, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
+  rm(msmmod1, msmmod1_par)
 
 
   ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
@@ -578,21 +586,17 @@ for(stratum in strata){
   #   start = coefficients(msmmod4_par)
   # )
   msmmod4<-msmmod4_par
+
+  # report, save, and delete
   jtools::summ(msmmod4)
-
-
+  write_rds(msmmod4, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
+  rm(msmmod4, msmmod4_par)
 
   ## print warnings
   warnings()
 
 
-  ## Save models as rds ----
 
-
-
-  write_rds(msmmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
-  write_rds(msmmod1, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
-  write_rds(msmmod4, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
 
 }
 
