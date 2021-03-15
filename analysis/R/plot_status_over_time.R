@@ -121,8 +121,8 @@ data_pt %>%
     region,
     ageband = cut(
       age,
-      breaks=c(-Inf, 80, 85, 90, 95, Inf),
-      labels=c("under 80", "80-84", "85-89", "90-94", "95+"),
+      breaks=c(-Inf, 70, 75, 80, 85, 90, 95, Inf),
+      labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
       right=FALSE
     ),
     postest_status,
@@ -162,8 +162,8 @@ data_pt %>%
   mutate(
     lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
     lag_vaxany_status_onedose = fct_case_when(
-      !vaxany_status_onedose ~ "no vaccination or\n< 14 days post-vaccination",
-      vaxany_status_onedose ~ "> 14 days post-vaccination",
+      !lag_vaxany_status_onedose ~ "No vaccine or\n< 14 days post-vaccine",
+      lag_vaxany_status_onedose ~ ">= 14 days post-vaccine",
       TRUE ~ NA_character_
     )
   ) %>% ungroup()
