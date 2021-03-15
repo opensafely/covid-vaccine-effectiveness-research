@@ -154,7 +154,7 @@ for(stratum in strata){
   ### with time-updating covariates
 
   cat("ipwvaxpfizer1 \n")
-  ipwvaxpfizer1_par <- parglm(
+  ipwvaxpfizer1 <- parglm(
     formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
     data = data_pt_atriskvaxpfizer1,
     family=binomial,
@@ -172,8 +172,10 @@ for(stratum in strata){
   #   model = FALSE,
   #   start = coefficients(ipwvaxpfizer1_par)
   # )
-  ipwvaxpfizer1<-ipwvaxpfizer1_par
+  #ipwvaxpfizer1<-ipwvaxpfizer1_par
   jtools::summ(ipwvaxpfizer1)
+  cat(glue::glue("ipwvaxpfizer1 data size = ", nrow(ipwvaxpfizer1)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n  ")
 
 
 
@@ -192,6 +194,9 @@ for(stratum in strata){
     model = FALSE
   )
   jtools::summ(ipwvaxpfizer1_fxd)
+  cat(glue::glue("ipwvaxpfizer1_fxd data size = ", nrow(ipwvaxpfizer1_fxd)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1_fxd), units="GB", standard="SI", digits=3L)), "\n  ")
+
 
   ## get predictions from model ----
 
@@ -226,7 +231,7 @@ for(stratum in strata){
   ### with time-updating covariates
 
   cat("ipwvaxaz1 \n")
-  ipwvaxaz1_par <- parglm(
+  ipwvaxaz1 <- parglm(
     formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
     data = data_pt_atriskvaxaz1,
     family=binomial,
@@ -244,8 +249,10 @@ for(stratum in strata){
   #   model = FALSE,
   #   start = coefficients(ipwvaxaz1_par)
   # )
-  ipwvaxaz1<-ipwvaxaz1_par
+  #ipwvaxaz1<-ipwvaxaz1_par
   jtools::summ(ipwvaxaz1)
+  cat(glue::glue("ipwvaxaz1 data size = ", nrow(ipwvaxaz1)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1), units="GB", standard="SI", digits=3L)), "\n  ")
 
 
   ### without time-updating covariates ----
@@ -263,6 +270,9 @@ for(stratum in strata){
     model = FALSE
   )
   jtools::summ(ipwvaxaz1_fxd)
+  cat(glue::glue("ipwvaxaz1_fxd data size = ", nrow(ipwvaxaz1_fxd)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1_fxd), units="GB", standard="SI", digits=3L)), "\n  ")
+
 
   ## get predictions from model ----
 
@@ -305,6 +315,9 @@ for(stratum in strata){
     model = FALSE
   )
   jtools::summ(ipwdeath)
+  cat(glue::glue("ipwdeath data size = ", nrow(ipwdeath)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(ipwdeath), units="GB", standard="SI", digits=3L)), "\n  ")
+
 
   ### without time-updating covariates ----
 
@@ -318,6 +331,9 @@ for(stratum in strata){
     model = FALSE
   )
   jtools::summ(ipwdeath_fxd)
+  cat(glue::glue("ipwdeath_fxd data size = ", nrow(ipwdeath_fxd)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(ipwdeath_fxd), units="GB", standard="SI", digits=3L)), "\n  ")
+
 
   data_preddeath <- data_pt_atriskdeath %>%
     transmute(
@@ -526,6 +542,9 @@ for(stratum in strata){
   # )
   #msmmod0<- msmmod0_par
   jtools::summ(msmmod0_par)
+
+  cat(glue::glue("msmmod0_par data size = ", nrow(msmmod0_par)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n  ")
   write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
   rm(msmmod0_par)
 
@@ -553,6 +572,9 @@ for(stratum in strata){
   # )
   #msmmod1<-msmmod1_par
   jtools::summ(msmmod1_par)
+
+  cat(glue::glue("msmmod1_par data size = ", nrow(msmmod1_par)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n  ")
   write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
   rm(msmmod1_par)
 
@@ -582,6 +604,9 @@ for(stratum in strata){
   # )
   #msmmod4<-msmmod4_par
   jtools::summ(msmmod4_par)
+
+  cat(glue::glue("msmmod4_par data size = ", nrow(msmmod4_par)), "\n  ")
+  cat(glue::glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n  ")
   write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
   rm(msmmod4_par)
 
@@ -590,3 +615,4 @@ for(stratum in strata){
 
 }
 
+gc()
