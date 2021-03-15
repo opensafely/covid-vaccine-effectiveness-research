@@ -15,10 +15,14 @@
 library('tidyverse')
 library('lubridate')
 library('survival')
+library('gt')
+library('gtsummary')
 
 ## Import custom user functions from lib
+
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "redaction_functions.R"))
+source(here::here("lib", "survival_functions.R"))
 
 ## import command-line arguments ----
 
@@ -44,8 +48,8 @@ gbl_vars <- jsonlite::fromJSON(
 
 
 data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
-
-data_cp <- read_rds(here::here("output", cohort, "data", glue::glue("data_cp.rds")))
+#data_cp <- read_rds(here::here("output", cohort, "data", glue::glue("data_cp.rds")))
+data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))
 
 # create snapshot data ----
 
@@ -54,43 +58,30 @@ snapshot_days <- c(0, 28, 56)
 
 ## create snapshop format dataset ----
 # ie, one row per person per snapshot date
-
-snapshot_days_expand <- expand(data_cp, patient_id, study_day=snapshot_days)
-
-data_ss <- tmerge(
-  data1 = data_cp,
-  data2 = snapshot_days_expand,
-  id = patient_id,
-  snapshot = event(study_day+1)
-) %>%
-select(-starts_with("tte_"), -ends_with("_date")) %>%
-filter(snapshot==1) %>%
-mutate(snapshot_day = tstop-1) %>%
-arrange(snapshot_day, patient_id) %>%
-left_join(data_fixed, by = "patient_id")
+data_ss <- data_pt %>%
+  filter(tstart %in% snapshot_days) %>%
+  mutate(snapshot_day = tstart) %>%
+  arrange(snapshot_day, patient_id) %>%
+  left_join(data_fixed, by = "patient_id")
 
 
 # create tables ----
-
-
-## overall ----
-
 
 
 data_tab <- data_ss %>%
   mutate(
     date = factor(as.Date(gbl_vars$start_date) + snapshot_day),
     snapshot_day = paste0("day ", snapshot_day),
-    vaxany_status=case_when(
-      vaxany_status==0 ~ "Unvaccinated",
-      vaxany_status>0 ~ "Vaccinated",
+    vaxany_status=fct_case_when(
+      timesincevaxany1<14 ~ "No Vaccine or\n<14 days post-vaccine",
+      timesincevaxany1>=14 ~ ">=14 days post-vaccine",
       TRUE ~ NA_character_
     ),
 
     ageband = cut(
       age,
-      breaks=c(-Inf, 80, 85, 90, 95, Inf),
-      labels=c("under 80", "80-84", "85-89", "90-94", "95+"),
+      breaks=c(-Inf, 70, 75, 80, 85, 90, 95, Inf),
+      labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
       right=FALSE
     ),
 
@@ -107,7 +98,7 @@ data_tab <- data_ss %>%
  #   .fns = ~if_else(.x, "yes", "no")
  # ))
 
-library('gtsummary')
+
 
 tab_summary <- data_tab %>% transmute(
   ageband, sex, imd, region, ethnicity,
@@ -184,46 +175,96 @@ dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE
 
 #gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.png"))
 #gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.rtf"))
-gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.html"))
+gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.html"))
 
 
 
-#library('modelsummary')
-# data_tab %>%
-#   datasummary(
-#     Participants +
-#       ageband + sex + imd + region + ethnicity +
-#
-#       bmi +
-#       dialysis +
-#       chronic_cardiac_disease +
-#       current_copd +
-#       dementia +
-#       dialysis +
-#       solid_organ_transplantation +
-#       #bone_marrow_transplant,
-#       chemo_or_radio +
-#       #sickle_cell_disease +
-#       permanant_immunosuppression +
-#       #temporary_immunosuppression +
-#       asplenia +
-#       intel_dis_incl_downs_syndrome +
-#       psychosis_schiz_bipolar +
-#       lung_cancer +
-#       cancer_excl_lung_and_haem +
-#       haematological_cancer +
-#       flu_vaccine +
-#
-#       postest_status +
-#       covidadmitted_status +
-#       coviddeath_status +
-#       death_status
-#
-#     ~ day * vaxany_status *
-#       ( N + (`%`=Percent(denom="col"))) *
-#       DropEmpty(which="col"),
-#     data = .,
-#     fmt = 1,
-#     #output = "gt"
-#     output = here::here("output", cohort, "descr", "table1.md")
-#   )
+## create person-time table ----
+postvaxcuts <- c(0, 1, 4, 7, 14, 21)
+pt_summary <- data_pt %>%
+  mutate(
+    timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "Unvaccinated"),
+  ) %>%
+  group_by(timesincevax_pw) %>%
+  summarise(
+    postest_yearsatrisk=sum(postest_status==0)/365.25,
+    postest_n=sum(postest),
+    postest_rate=postest_n/postest_yearsatrisk,
+
+    covidadmitted_yearsatrisk=sum(covidadmitted_status==0)/365.25,
+    covidadmitted_n=sum(covidadmitted),
+    covidadmitted_rate=covidadmitted_n/covidadmitted_yearsatrisk,
+
+    coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
+    coviddeath_n=sum(coviddeath),
+    coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
+  ) %>%
+  ungroup()
+
+pt_tab_summary %>%
+  gt() %>%
+   cols_label(
+     timesincevax_pw = "Time since first dose",
+
+     postest_yearsatrisk = "Person-years at risk",
+     covidadmitted_yearsatrisk = "Person-years at risk",
+     coviddeath_yearsatrisk = "Person-years at risk",
+
+     postest_n = "Events",
+     covidadmitted_n = "Events",
+     coviddeath_n = "Events",
+
+     postest_rate = "Rate/year",
+     covidadmitted_rate = "Rate/year",
+     coviddeath_rate = "Rate/year",
+   ) %>%
+  tab_spanner(
+    label = "Positive test",
+    columns = starts_with("postest")
+  ) %>%
+  tab_spanner(
+    label = "Covid-related admission",
+    columns = starts_with("covidadmitted")
+  ) %>%
+  tab_spanner(
+    label = "Covid-related death",
+    columns = starts_with("coviddeath")
+  ) %>%
+  fmt_number(
+    columns = ends_with(c("yearsatrisk")),
+    decimals = 1
+  ) %>%
+  fmt_number(
+    columns = ends_with(c("rate")),
+    decimals = 2
+  ) %>%
+  fmt_missing(
+    everything(),
+    missing_text="--"
+  ) %>%
+  cols_align(
+    align = "right",
+    columns = everything()
+  ) %>%
+  cols_align(
+    align = "left",
+    columns = "timesincevax_pw"
+  )
+
+gtsave(pt_tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
+
+
+## note:
+# the follow poisson model gives the same results eg for postest
+# glm(
+#   formula = postest_n ~ timesincevax_pw + offset(log(postest_daysatrisk)),
+#   family=poisson,
+#   data=pt_summary
+# )
+
+# and the following pyears call gives the same results
+# pyears(
+#  Surv(time=tstart, time2=tstop, event=postest) ~ timesincevax_pw,
+#  data=data_pt %>% filter(postest_status==0),
+#  data.frame = TRUE
+#)

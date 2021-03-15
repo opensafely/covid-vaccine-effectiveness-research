@@ -297,21 +297,6 @@ data_admissions <- data_processed %>%
     select(patient_id, index, admitted_date=admitted, discharged_date = discharged) %>%
     arrange(patient_id, admitted_date)
 
-data_pr_probable_covid <- data_processed %>%
-    select(patient_id, matches("^primary_care_probable_covid\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(NA, "probable_index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_to = "date",
-      values_drop_na = TRUE
-    ) %>%
-  arrange(patient_id, date) %>%
-  # temporary solution to indicator for "X days around covid pc event date"
-  mutate(
-    date_10after = date + 10,
-  )
-
 data_pr_suspected_covid <- data_processed %>%
   select(patient_id, matches("^primary_care_suspected_covid\\_\\d+\\_date")) %>%
   pivot_longer(
@@ -321,11 +306,18 @@ data_pr_suspected_covid <- data_processed %>%
     values_to = "date",
     values_drop_na = TRUE
   ) %>%
-  arrange(patient_id, date) %>%
-  # temporary solution to indicator for "X days around covid pc event date"
-  mutate(
-    date_10after = date + 10,
-  )
+  arrange(patient_id, date)
+
+data_pr_probable_covid <- data_processed %>%
+  select(patient_id, matches("^primary_care_probable_covid\\_\\d+\\_date")) %>%
+  pivot_longer(
+    cols = -patient_id,
+    names_to = c(NA, "probable_index"),
+    names_pattern = "^(.*)_(\\d+)_date",
+    values_to = "date",
+    values_drop_na = TRUE
+  ) %>%
+  arrange(patient_id, date)
 
 
 data_vax <- local({

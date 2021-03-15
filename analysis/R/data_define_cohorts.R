@@ -67,7 +67,7 @@ formula_comorbs <- . ~ . +
 
 formula_secular <- . ~ . + ns(tstop, df=4)
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
-formula_timedependent <- . ~ . + hospital_status + probable_covid_status + suspected_covid_status # consider adding local infection rates
+formula_timedependent <- . ~ . + hospital_status + timesince_probable_covid_pw + timesince_suspected_covid_pw # consider adding local infection rates
 
 
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
