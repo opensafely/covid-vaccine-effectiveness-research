@@ -161,10 +161,10 @@ data_pt %>%
   group_by(patient_id) %>%
   mutate(
     lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
-    lag_vaxany_status_onedose = fct_case_when(
-      !lag_vaxany_status_onedose ~ "No vaccine or\n< 14 days post-vaccine",
-      lag_vaxany_status_onedose ~ ">= 14 days post-vaccine",
-      TRUE ~ NA_character_
+     lag_vaxany_status_onedose = fct_case_when(
+       lag_vaxany_status_onedose==0 ~ "No vaccine or\n< 14 days post-vaccine",
+       lag_vaxany_status_onedose==1 ~ ">= 14 days post-vaccine",
+       TRUE ~ NA_character_
     )
   ) %>% ungroup()
 
@@ -183,17 +183,22 @@ plot_vax_counts <- function(var, var_descr){
     summarise(
       n = n(),
     ) %>%
+    group_by(date, variable) %>%
+    mutate(
+      n_per_10000 = (n/sum(n))*10000
+    ) %>%
     ungroup()
+
 
   plot <- data1 %>%
   ggplot() +
-    geom_area(aes(x=date, y=n, group=vaxany_status, fill=vaxany_status), alpha=0.5)+
+    geom_area(aes(x=date, y=n_per_10000, group=vaxany_status, fill=vaxany_status), alpha=0.5)+
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
     scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
     labs(
       x=NULL,
-      y="Patients",
+      y="Status per 10,000 patients",
       colour=NULL,
       fill=NULL,
       title = glue::glue("Vaccination status over time, by {var_descr}")
@@ -285,7 +290,7 @@ plot_event_rates <- function(var, var_descr){
     scale_color_brewer(palette="Dark2")+
     labs(
       x=NULL,
-      y="Event rate",
+      y="Event rate per week per 10,000 patients",
       colour=NULL,
       title = glue::glue("Outcome rates over time, by {var_descr}")
     ) +
