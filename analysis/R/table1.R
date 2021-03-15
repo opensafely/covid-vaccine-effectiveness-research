@@ -201,7 +201,7 @@ pt_summary <- data_pt %>%
   ) %>%
   ungroup()
 
-pt_tab_summary %>%
+pt_tab_summary <- pt_summary %>%
   gt() %>%
    cols_label(
      timesincevax_pw = "Time since first dose",
