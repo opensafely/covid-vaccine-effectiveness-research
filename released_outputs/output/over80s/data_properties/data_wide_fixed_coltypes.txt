@@ -1,0 +1,69 @@
+$patient_id
+[1] "integer"
+
+$age
+[1] "integer"
+
+$ageband
+[1] "factor"
+
+$sex
+[1] "factor"
+
+$imd
+[1] "factor"
+
+$ethnicity
+[1] "factor"
+
+$region
+[1] "factor"
+
+$bmi
+[1] "factor"
+
+$chronic_cardiac_disease
+[1] "logical"
+
+$current_copd
+[1] "logical"
+
+$dementia
+[1] "logical"
+
+$dialysis
+[1] "logical"
+
+$solid_organ_transplantation
+[1] "logical"
+
+$chemo_or_radio
+[1] "logical"
+
+$permanant_immunosuppression
+[1] "logical"
+
+$asplenia
+[1] "logical"
+
+$intel_dis_incl_downs_syndrome
+[1] "logical"
+
+$psychosis_schiz_bipolar
+[1] "logical"
+
+$lung_cancer
+[1] "logical"
+
+$cancer_excl_lung_and_haem
+[1] "logical"
+
+$haematological_cancer
+[1] "logical"
+
+$dmards
+[1] "logical"
+
+$flu_vaccine
+[1] "logical"
+
