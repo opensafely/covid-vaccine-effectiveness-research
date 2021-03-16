@@ -131,7 +131,7 @@ tab_summary <- data_tab %>% transmute(
 group_split(snapshot_day) %>%
 map(
   ~tbl_summary(
-    .x %>% select(-snapshot_day),
+    .x %>% mutate(vaxany_status=droplevels(vaxany_status)) %>% select(-snapshot_day),
     by=vaxany_status,
     label=list(
       ageband ~ "Age",
@@ -157,12 +157,12 @@ map(
       haematological_cancer ~ "Haemoatological cancer",
       cancer_excl_lung_and_haem ~ "Cancer (excluding lung, haemo)",
 
-      flu_vaccine ~ "Flu vaccine in previous 5 years",
+      flu_vaccine ~ "Flu vaccine in previous 5 years"
 
-      postest_status ~ "Positive test status",
-      covidadmitted_status ~ "Covid-related admission",
-      coviddeath_status ~ "Covid-related death",
-      death_status ~ "Any death"
+      #postest_status ~ "Positive test status",
+      #covidadmitted_status ~ "Covid-related admission",
+      #coviddeath_status ~ "Covid-related death",
+      #death_status ~ "Any death"
     )
   ) %>%
   modify_footnote(starts_with("stat_") ~ NA)
@@ -232,11 +232,11 @@ pt_tab_summary <- pt_summary %>%
   ) %>%
   fmt_number(
     columns = ends_with(c("yearsatrisk")),
-    decimals = 1
+    decimals = 0
   ) %>%
   fmt_number(
     columns = ends_with(c("rate")),
-    decimals = 2
+    decimals = 3
   ) %>%
   fmt_missing(
     everything(),
