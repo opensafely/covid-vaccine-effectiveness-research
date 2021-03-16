@@ -396,13 +396,13 @@ data_tte_pt <- tmerge(
       breaks=c(0, 1, 3, 7, 14, 21, 28, Inf),
       labels=c("[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)"),
       right=FALSE
-    ) %>% forcats::fct_explicit_na(na_level="Not suspected"),
+    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)")),
     timesince_probable_covid_pw = cut(
       timesince_probable_covid,
       breaks=c(0, 1, 3, 7, 14, 21, 28, Inf),
       labels=c("[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)"),
       right=FALSE
-    ) %>% forcats::fct_explicit_na(na_level="Not probable"),
+    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)")),
 
   ) %>%
   ungroup() %>%
