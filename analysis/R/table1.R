@@ -73,8 +73,8 @@ data_tab <- data_ss %>%
     date = factor(as.Date(gbl_vars$start_date) + snapshot_day),
     snapshot_day = paste0("day ", snapshot_day),
     vaxany_status=fct_case_when(
-      timesincevaxany1<14 ~ "No Vaccine or\n<14 days post-vaccine",
-      timesincevaxany1>=14 ~ ">=14 days post-vaccine",
+      timesincevaxany1<=0 ~ "Unvaccinated",
+      timesincevaxany1>0 ~ "Vaccinated",
       TRUE ~ NA_character_
     ),
 
