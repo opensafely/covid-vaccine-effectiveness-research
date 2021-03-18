@@ -140,6 +140,9 @@ data_tte <- data_all  %>%
     #tte_postest_censored = tte(start_date, positive_test_1_date, lastfup_date, na.censor=FALSE),
     #ind_postest = censor_indicator(tte_postest, tte_lastfup),
 
+    # time to any emergency admission
+    tte_emergency = tte(start_date, emergency_1_date, lastfup_date, na.censor=TRUE),
+
     # time to admission
     tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE),
 
@@ -263,6 +266,7 @@ data_tte_cp0 <- tmerge(
   vaxaz2_status = tdc(tte_vaxaz2),
 
   postest_status = tdc(tte_postest),
+  emergency_status = tdc(tte_emergency),
   covidadmitted_status = tdc(tte_covidadmitted),
   coviddeath_status = tdc(tte_coviddeath),
   death_status = tdc(tte_death),
@@ -276,6 +280,7 @@ data_tte_cp0 <- tmerge(
   vaxaz1 = event(tte_vaxaz1),
   vaxaz2 = event(tte_vaxaz2),
   postest = event(tte_postest),
+  emergency = event(tte_emergency),
   covidadmitted = event(tte_covidadmitted),
   coviddeath = event(tte_coviddeath),
   death = event(tte_death),
@@ -328,6 +333,7 @@ mutate(across(
             "vaxaz1",
             "vaxaz2",
             "postest",
+            "emergency",
             "covidadmitted",
             "coviddeath",
             "death",
@@ -418,6 +424,7 @@ data_tte_pt <- tmerge(
               "vaxaz1",
               "vaxaz2",
               "postest",
+              "emergency",
               "covidadmitted",
               "coviddeath",
               "death",

@@ -574,6 +574,32 @@ study = StudyDefinition(
         },
     ),
 
+
+    # ANY EMERGENCY ATTENDANCE
+    emergency_1_date=patients.attended_emergency_care(
+        returning="date_admitted",
+        on_or_after="index_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    emergency_2_date=patients.attended_emergency_care(
+        returning="date_admitted",
+        on_or_after="emergency_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
     # COVID-RELATED HOSPITAL ADMISSION
     covidadmitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
