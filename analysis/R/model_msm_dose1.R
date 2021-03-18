@@ -197,6 +197,7 @@ for(stratum in strata){
     na.action = "na.fail",
     model = FALSE
   )
+
   print(jtools::summ(ipwvaxpfizer1_fxd, digits =3))
   cat(glue::glue("ipwvaxpfizer1_fxd data size = ", length(ipwvaxpfizer1_fxd$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1_fxd), units="GB", standard="SI", digits=3L)), "\n")
@@ -585,6 +586,40 @@ for(stratum in strata){
   rm(msmmod1_par)
 
 
+
+
+
+  ### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
+  cat("  \n")
+  cat("msmmod3 \n")
+  msmmod3_par <- parglm(
+    formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    data = data_weights,
+    family = binomial,
+    control = parglmparams,
+    na.action = "na.fail",
+    model = FALSE
+  )
+
+
+  # msmmod4 <- glm(
+  #   formula = msmmod3_par$formula,
+  #   data = data_weights,
+  #   family = binomial,
+  #   control = list(maxit = 1),
+  #   na.action = "na.fail",
+  #   model = FALSE,
+  #   start = coefficients(msmmod4_par)
+  # )
+  #msmmod3<-msmmod3_par
+  print(jtools::summ(msmmod3_par, digits =3))
+
+  cat(glue::glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
+  cat(glue::glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
+  write_rds(msmmod3_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
+  rm(msmmod3_par)
+
+
   ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted + do not use time-dependent covariates ----
   cat("  \n")
   cat("msmmod4 \n")
@@ -616,6 +651,9 @@ for(stratum in strata){
   cat(glue::glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
   rm(msmmod4_par)
+
+
+
 
   ## print warnings
   warnings()

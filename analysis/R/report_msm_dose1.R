@@ -45,6 +45,13 @@ if(length(args)==0){
 }
 
 
+
+# import global vars ----
+gbl_vars <- jsonlite::fromJSON(
+  txt="./analysis/global-variables.json"
+)
+
+
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
@@ -99,6 +106,7 @@ for(stratum in strata){
 
   msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
   msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
+  msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
   msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
 
 
@@ -108,13 +116,15 @@ for(stratum in strata){
   # tidy model outputs
 
   msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="0 Unadjusted", strata=stratum)
-  msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex, IMD", strata=stratum)
-  msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="2 Fully adjusted", strata=stratum)
+  msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex, IMD, ethnicity", strata=stratum)
+  msmmod_tidy3 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="2 Baseline adjusted", strata=stratum)
+  msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="3 Fully adjusted", strata=stratum)
 
   # create table with model estimates
   msmmod_summary <- bind_rows(
     msmmod_tidy0,
     msmmod_tidy1,
+    msmmod_tidy3,
     msmmod_tidy4,
   ) %>%
     mutate(
@@ -126,20 +136,24 @@ for(stratum in strata){
 
   robustSEs0 <- coeftest(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
   robustSEs1 <- coeftest(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
+  robustSEs3 <- coeftest(msmmod3, vcov. = vcovCL(msmmod3, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
   robustSEs4 <- coeftest(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
 
   robustCIs0 <- coefci(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
   robustCIs1 <- coefci(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
+  robustCIs3 <- coefci(msmmod3, vcov. = vcovCL(msmmod3, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
   robustCIs4 <- coefci(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
 
   robust0 <- inner_join(robustSEs0, robustCIs0, by="term") %>% mutate(model="0 Unadjusted",  strata=stratum)
   robust1 <- inner_join(robustSEs1, robustCIs1, by="term") %>% mutate(model="1 Age, sex, IMD", strata=stratum)
-  robust4 <- inner_join(robustSEs4, robustCIs4, by="term") %>% mutate(model="2 Fully adjusted", strata=stratum)
+  robust3 <- inner_join(robustSEs3, robustCIs3, by="term") %>% mutate(model="2 Baseline adjusted", strata=stratum)
+  robust4 <- inner_join(robustSEs4, robustCIs4, by="term") %>% mutate(model="3 Fully adjusted", strata=stratum)
 
 
   robust_summary <- bind_rows(
     robust0,
     robust1,
+    robust3,
     robust4,
   ) %>%
   rename(
@@ -214,34 +228,18 @@ ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #
-# ## secular trends ----
-#
-#
-# ggsecular4 <- interactions::interact_plot(
-#   msmmod4,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label="Days since 7 Dec 2020",
-#   y.label=glue::glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "secular_trends_region_plot.svg"), ggsecular4, width=20, height=30, units="cm")
+## secular trends ----
+
+
+ggsecular4 <- interactions::interact_plot(
+  msmmod4,
+  pred=as.Date(gbl_vars$start_date) + tstart, modx=region, data=data_weights,
+  colors="Set1", vary.lty=FALSE,
+  x.label="Date",
+  y.label=glue::glue("{outcome_descr} prob.")
+)
+
+ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot.svg"), ggsecular4, width=20, height=15, units="cm")
 
 
