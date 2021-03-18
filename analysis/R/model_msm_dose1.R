@@ -585,7 +585,7 @@ for(stratum in strata){
   rm(msmmod1_par)
 
 
-  ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted ----
+  ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted + do not use time-dependent covariates ----
   cat("  \n")
   cat("msmmod4 \n")
   msmmod4_par <- parglm(
