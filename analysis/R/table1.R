@@ -154,7 +154,7 @@ map(
       intel_dis_incl_downs_syndrome ~ "Intellectual disability incl. Downs'",
       psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
       lung_cancer ~ "Lung Cancer",
-      haematological_cancer ~ "Haemoatological cancer",
+      haematological_cancer ~ "Haematological cancer",
       cancer_excl_lung_and_haem ~ "Cancer (excluding lung, haemo)",
 
       flu_vaccine ~ "Flu vaccine in previous 5 years"
