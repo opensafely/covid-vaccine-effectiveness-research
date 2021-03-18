@@ -107,13 +107,14 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/any/all/strata_vector.rds
         weights: output/over80s/postest/any/all/*/weights*
+        coefs: output/over80s/postest/any/all/*/ipw*
 
   report_msm_over80s_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest any all
     needs: [data_define_cohorts, models_msm_over80s_any_all_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/any/all/forest*.svg
+        plots: output/over80s/postest/any/all/*.svg
         tables: output/over80s/postest/any/all/*.csv
 
 
@@ -128,13 +129,14 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/pfizer/all/strata_vector.rds
         weights: output/over80s/postest/pfizer/all/*/weights*
+        coefs: output/over80s/postest/pfizer/all/*/ipw*
 
   report_msm_over80s_pfizer_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer all
     needs: [data_define_cohorts, models_msm_over80s_pfizer_all_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/pfizer/all/forest*.svg
+        plots: output/over80s/postest/pfizer/all/*.svg
         tables: output/over80s/postest/pfizer/all/*.csv
 
 
@@ -150,6 +152,7 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/az/all/strata_vector.rds
         weights: output/over80s/postest/az/all/*/weights*
+        coefs: output/over80s/postest/az/all/*/ipw*
 
 
   report_msm_over80s_az_all_dose1:
@@ -157,7 +160,7 @@ actions:
     needs: [data_define_cohorts, models_msm_over80s_az_all_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/az/all/forest*.svg
+        plots: output/over80s/postest/az/all/*.svg
         tables: output/over80s/postest/az/all/*.csv
 
 
@@ -177,13 +180,14 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/any/sex/strata_vector.rds
         weights: output/over80s/postest/any/sex/*/weights*
+        coefs: output/over80s/postest/any/sex/*/ipw*
 
   report_msm_over80s_any_sex_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest any sex
     needs: [data_define_cohorts, models_msm_over80s_any_sex_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/any/sex/forest*.svg
+        plots: output/over80s/postest/any/sex/*.svg
         tables: output/over80s/postest/any/sex/*.csv
 
 
@@ -198,13 +202,14 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/pfizer/sex/strata_vector.rds
         weights: output/over80s/postest/pfizer/sex/*/weights*
+        coefs: output/over80s/postest/pfizer/sex/*/ipw*
 
   report_msm_over80s_pfizer_sex_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer sex
     needs: [data_define_cohorts, models_msm_over80s_pfizer_sex_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/pfizer/sex/forest*.svg
+        plots: output/over80s/postest/pfizer/sex/*.svg
         tables: output/over80s/postest/pfizer/sex/*.csv
 
 
@@ -220,6 +225,7 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/az/sex/strata_vector.rds
         weights: output/over80s/postest/az/sex/*/weights*
+        coefs: output/over80s/postest/az/sex/*/ipw*
 
 
   report_msm_over80s_az_sex_dose1:
@@ -227,7 +233,7 @@ actions:
     needs: [data_define_cohorts, models_msm_over80s_az_sex_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/over80s/postest/az/sex/forest*.svg
+        plots: output/over80s/postest/az/sex/*.svg
         tables: output/over80s/postest/az/sex/*.csv
 
 
@@ -298,13 +304,14 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/any/all/strata_vector.rds
         weights: output/in70s/postest/any/all/*/weights*
+        coefs: output/in70s/postest/any/all/*/ipw*
 
   report_msm_in70s_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest any all
     needs: [data_define_cohorts, models_msm_in70s_any_all_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/in70s/postest/any/all/forest*.svg
+        plots: output/in70s/postest/any/all/*.svg
         tables: output/in70s/postest/any/all/*.csv
 
 
@@ -319,13 +326,14 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/pfizer/all/strata_vector.rds
         weights: output/in70s/postest/pfizer/all/*/weights*
+        coefs: output/in70s/postest/pfizer/all/*/ipw*
 
   report_msm_in70s_pfizer_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest pfizer all
     needs: [data_define_cohorts, models_msm_in70s_pfizer_all_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/in70s/postest/pfizer/all/forest*.svg
+        plots: output/in70s/postest/pfizer/all/*.svg
         tables: output/in70s/postest/pfizer/all/*.csv
 
 
@@ -341,6 +349,7 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/az/all/strata_vector.rds
         weights: output/in70s/postest/az/all/*/weights*
+        coefs: output/in70s/postest/az/all/*/ipw*
 
 
   report_msm_in70s_az_all_dose1:
@@ -348,7 +357,7 @@ actions:
     needs: [data_define_cohorts, models_msm_in70s_az_all_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/in70s/postest/az/all/forest*.svg
+        plots: output/in70s/postest/az/all/*.svg
         tables: output/in70s/postest/az/all/*.csv
 
 
@@ -368,13 +377,14 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/any/sex/strata_vector.rds
         weights: output/in70s/postest/any/sex/*/weights*
+        coefs: output/in70s/postest/any/sex/*/ipw*
 
   report_msm_in70s_any_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest any sex
     needs: [data_define_cohorts, models_msm_in70s_any_sex_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/in70s/postest/any/sex/forest*.svg
+        plots: output/in70s/postest/any/sex/*.svg
         tables: output/in70s/postest/any/sex/*.csv
 
 
@@ -389,13 +399,14 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/pfizer/sex/strata_vector.rds
         weights: output/in70s/postest/pfizer/sex/*/weights*
+        coefs: output/in70s/postest/pfizer/sex/*/ipw*
 
   report_msm_in70s_pfizer_sex_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest pfizer sex
     needs: [data_define_cohorts, models_msm_in70s_pfizer_sex_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/in70s/postest/pfizer/sex/forest*.svg
+        plots: output/in70s/postest/pfizer/sex/*.svg
         tables: output/in70s/postest/pfizer/sex/*.csv
 
 
@@ -411,6 +422,7 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/az/sex/strata_vector.rds
         weights: output/in70s/postest/az/sex/*/weights*
+        coefs: output/in70s/postest/az/sex/*/ipw*
 
 
   report_msm_in70s_az_sex_dose1:
@@ -418,7 +430,7 @@ actions:
     needs: [data_define_cohorts, models_msm_in70s_az_sex_dose1]
     outputs:
       moderately_sensitive:
-        forest: output/in70s/postest/az/sex/forest*.svg
+        plots: output/in70s/postest/az/sex/*.svg
         tables: output/in70s/postest/az/sex/*.csv
 
 

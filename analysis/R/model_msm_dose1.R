@@ -178,6 +178,10 @@ for(stratum in strata){
   # )
   #ipwvaxpfizer1<-ipwvaxpfizer1_par
   print(jtools::summ(ipwvaxpfizer1, digits =3))
+  ggsave(
+    here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_pfizer.svg"),
+    plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
+  )
   cat(glue::glue("ipwvaxpfizer1 data size = ", length(ipwvaxpfizer1$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n")
 
@@ -255,6 +259,10 @@ for(stratum in strata){
   #   start = coefficients(ipwvaxaz1_par)
   # )
   #ipwvaxaz1<-ipwvaxaz1_par
+  ggsave(
+    here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_az.svg"),
+    plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
+  )
   print(jtools::summ(ipwvaxaz1, digits =3))
   cat(glue::glue("ipwvaxaz1 data size = ", length(ipwvaxaz1$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1), units="GB", standard="SI", digits=3L)), "\n")
@@ -318,6 +326,10 @@ for(stratum in strata){
     control = parglmparams,
     na.action = "na.fail",
     model = FALSE
+  )
+  ggsave(
+    here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_death.svg"),
+    plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
   )
   print(jtools::summ(ipwdeath, digits =3))
   cat(glue::glue("ipwdeath data size = ", length(ipwdeath$y)), "\n")
@@ -494,7 +506,7 @@ for(stratum in strata){
   ## save weights
   weight_histogram <- ggplot(data_weights) +
     geom_histogram(aes(x=ipweight_stbl)) +
-    scale_x_log10(breaks=c(1/8,1/6,1/4,1/3,1/2,1/1.5,1,1.5,2,3,4,6,8))+
+    scale_x_log10(breaks=c(1/8,1/6,1/4,1/3,1/2,1/1.5,1,1.5,2,3,4,6,8), limits=c(1/8, 8))+
     theme_bw()
 
   ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
