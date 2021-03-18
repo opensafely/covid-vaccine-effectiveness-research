@@ -30,10 +30,10 @@ data_cohorts <- data_all %>%
 ## define different cohorts ----
 
 metadata_cohorts <- tribble(
-  ~cohort, ~outcome, ~cohort_descr, ~outcome_var, ~outcome_descr, #~postvax_cuts, ~knots,
-  "over80s", "postest", "Aged 80+, non-carehome, no prior infection", "positive_test_1_date", "Positive test",
-  "in70s", "postest", "Aged 70-79, non-carehome, no prior infection", "positive_test_1_date", "Positive test",
-  "under65s", "postest", "Aged <=64, no prior infection", "positive_test_1_date", "Positive test"
+  ~cohort, ~cohort_descr, #~postvax_cuts, ~knots,
+  "over80s", "Aged 80+, non-carehome, no prior infection",
+  "in70s", "Aged 70-79, non-carehome, no prior infection",
+  "under65s", "Aged <=64, no prior infection",
 ) %>%
 mutate(
   cohort_size = map_int(cohort, ~sum(data_cohorts[[.]]))
@@ -51,6 +51,20 @@ write_rds(metadata_cohorts, here::here("output", "data", "metadata_cohorts.rds")
 write_csv(metadata_cohorts, here::here("output", "data", "metadata_cohorts.csv"))
 
 
+
+## define different outcomes ----
+
+metadata_outcomes <- tribble(
+  ~outcome, ~outcome_var, ~outcome_descr,
+ "postest", "positive_test_1_date", "Positive test",
+ "emergency", "emergency_1_date", "A&E attendance",
+ "covidadmitted", "covidadmitted_1_date", "COVID-related admission",
+ "coviddeath", "coviddeath_1_date", "COVID-related death",
+ "noncoviddeath", "noncoviddeath_1_date", "Non-COVID-related death",
+ "death", "death_1_date", "Any death",
+)
+
+write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))
 
 ## define outcomes, exposures, and covariates ----
 
