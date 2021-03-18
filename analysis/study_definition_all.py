@@ -577,7 +577,7 @@ study = StudyDefinition(
 
     # ANY EMERGENCY ATTENDANCE
     emergency_1_date=patients.attended_emergency_care(
-        returning="date_admitted",
+        returning="date_arrived",
         on_or_after="index_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -589,7 +589,7 @@ study = StudyDefinition(
     ),
     
     emergency_2_date=patients.attended_emergency_care(
-        returning="date_admitted",
+        returning="date_arrived",
         on_or_after="emergency_1_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
