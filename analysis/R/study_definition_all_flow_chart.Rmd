@@ -2,14 +2,15 @@
 
 ---
 title: "Study definition flow chart"
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, knit_root_dir = here::here(), output_dir = here::here("output")) })
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, knit_root_dir = rprojroot::find_rstudio_root_file(), output_dir = here::here("output")) })
 output: 
   html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
+
 
 $~$
 
