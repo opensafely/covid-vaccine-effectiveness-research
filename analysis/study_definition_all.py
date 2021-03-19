@@ -985,7 +985,7 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.01, },
     ),
     intel_dis_incl_downs_syndrome=patients.with_these_clinical_events(
-        learning_disability_including_downs_syndrome_and_cerebral_palsy_codes,
+        intellectual_disability_including_downs_syndrome_codes,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
