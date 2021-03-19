@@ -73,6 +73,7 @@ data_fixed <- data_all %>%
     current_copd,
     dementia,
     dialysis,
+    diabetes,
     solid_organ_transplantation,
     #bone_marrow_transplant,
     chemo_or_radio,

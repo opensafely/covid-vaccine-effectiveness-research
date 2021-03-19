@@ -914,6 +914,15 @@ study = StudyDefinition(
     #### AND CAN BE UPDATED. PLEASE REVIEW AND CHECK YOU ARE HAPPY
     #### WITH THE CODELIST USED #################################
 
+    diabetes=patients.with_these_clinical_events(
+        diabetes_codes,
+        returning="binary_flag",
+        find_last_match_in_period=True,
+        on_or_before="index_date",
+        return_expectations={"incidence": 0.01},
+    ),
+
+
     chronic_cardiac_disease=patients.with_these_clinical_events(
         chronic_cardiac_disease_codes,
         on_or_before="index_date",
@@ -924,7 +933,7 @@ study = StudyDefinition(
         current_copd_codes,
         on_or_before="index_date",
         returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
+        return_expectations={"incidence": 0.01},
     ),
     # on a dmard - indicative of immunosuppression
     dmards=patients.with_these_medications(

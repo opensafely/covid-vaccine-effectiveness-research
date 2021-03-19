@@ -71,7 +71,7 @@ write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds
 formula_exposure <- . ~ . + timesincevax_pw
 formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
-  chronic_cardiac_disease + current_copd + dementia + dialysis +
+  chronic_cardiac_disease + current_copd + dementia + dialysis + diabetes +
   solid_organ_transplantation + chemo_or_radio +
   permanant_immunosuppression + asplenia +
   dmards +

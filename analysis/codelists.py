@@ -157,6 +157,10 @@ dementia_codes = codelist_from_csv(
     "codelists/opensafely-dementia-complete.csv", system="ctv3", column="code"
 )
 
+diabetes_codes = codelist_from_csv(
+    "codelists/opensafely-diabetes.csv", system="ctv3", column="CTV3ID"
+)
+
 dmards_codes = codelist_from_csv(
     "codelists/opensafely-dmards.csv", system="snomed", column="snomed_id",
 )

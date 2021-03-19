@@ -42,7 +42,7 @@ if(length(args)==0){
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
-  strata_var <- "sex"
+  strata_var <- "all"
 }
 
 
@@ -178,10 +178,10 @@ for(stratum in strata){
   # )
   #ipwvaxpfizer1<-ipwvaxpfizer1_par
   print(jtools::summ(ipwvaxpfizer1, digits =3))
-  ggsave(
-    here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_pfizer.svg"),
-    plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
-  )
+  # ggsave(
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_pfizer.svg"),
+  #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
+  # )
   cat(glue::glue("ipwvaxpfizer1 data size = ", length(ipwvaxpfizer1$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n")
 
@@ -259,10 +259,10 @@ for(stratum in strata){
   #   start = coefficients(ipwvaxaz1_par)
   # )
   #ipwvaxaz1<-ipwvaxaz1_par
-  ggsave(
-    here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_az.svg"),
-    plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
-  )
+  # ggsave(
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_az.svg"),
+  #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
+  # )
   print(jtools::summ(ipwvaxaz1, digits =3))
   cat(glue::glue("ipwvaxaz1 data size = ", length(ipwvaxaz1$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1), units="GB", standard="SI", digits=3L)), "\n")
@@ -327,10 +327,10 @@ for(stratum in strata){
     na.action = "na.fail",
     model = FALSE
   )
-  ggsave(
-    here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_death.svg"),
-    plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
-  )
+  # ggsave(
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_death.svg"),
+  #   jtools::plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
+  # )
   print(jtools::summ(ipwdeath, digits =3))
   cat(glue::glue("ipwdeath data size = ", length(ipwdeath$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwdeath), units="GB", standard="SI", digits=3L)), "\n")
