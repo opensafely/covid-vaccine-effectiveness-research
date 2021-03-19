@@ -129,6 +129,9 @@ data_tte <- data_all  %>%
 
     # time to last follow up day
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
+    
+    # time to deregistration
+    tte_dereg = tte(start_date, dereg_date, dereg_date),
 
     # time to test
     #tte_test = tte(start_date, test_1_date, lastfup_date, na.censor=TRUE),

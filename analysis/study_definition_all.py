@@ -116,6 +116,10 @@ study = StudyDefinition(
         reference_date=end_date,
         return_expectations={"incidence": 0.95},
     ),
+    
+    dereg_date=patients.date_deregistered_from_all_supported_practices(
+        on_or_after="index_date", date_format="YYYY-MM-DD",
+    ),
 
     # ETHNICITY IN 16 CATEGORIES
     # ethnicity_16=patients.with_these_clinical_events(

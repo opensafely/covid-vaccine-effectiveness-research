@@ -71,6 +71,7 @@ data_extract0 <- read_csv(
     #ethnicity_16 = col_character(),
 
     # dates
+    dereg_date = col_date(format="%Y-%m-%d")
 
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
