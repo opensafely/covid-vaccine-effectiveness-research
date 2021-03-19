@@ -119,63 +119,41 @@ for(stratum in strata){
 
   ## report models ----
 
-  # tidy model outputs
+  plr_summary <- function(model, name, stratum){
 
-  msmmod_tidy0 <- tidy_parglm(msmmod0, conf.int=TRUE) %>% mutate(model="0 Unadjusted", strata=stratum)
-  msmmod_tidy1 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="1 Age, sex, IMD, ethnicity", strata=stratum)
-  msmmod_tidy3 <- tidy_parglm(msmmod1, conf.int=TRUE) %>% mutate(model="2 Baseline adjusted", strata=stratum)
-  msmmod_tidy4 <- tidy_parglm(msmmod4, conf.int=TRUE) %>% mutate(model="3 Fully adjusted", strata=stratum)
+    mod_tidy <- tidy_parglm(model, conf.int=TRUE) %>% mutate(model=name, strata=stratum)
+    robustSEs <- coeftest(model, vcov. = vcovCL(model, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
+    robustCIs <- coefci(model, vcov. = vcovCL(model, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
+    robust <- inner_join(robustSEs, robustCIs, by="term") %>% mutate(model=name,  strata=stratum)
 
-  # create table with model estimates
-  msmmod_summary <- bind_rows(
-    msmmod_tidy0,
-    msmmod_tidy1,
-    msmmod_tidy3,
-    msmmod_tidy4,
-  ) %>%
-    mutate(
-      or = exp(estimate),
-      or.ll = exp(conf.low),
-      or.ul = exp(conf.high),
-    )
+    robust %>%
+      rename(
+        estimate.robust=estimate,
+        std.error.robust=std.error,
+        p.value.robust=p.value,
+        statistic.robust=statistic,
+        conf.low.robust=`2.5 %`,
+        conf.high.robust=`97.5 %`
+      ) %>%
+      mutate(
+        or = exp(estimate.robust),
+        or.ll = exp(conf.low.robust),
+        or.ul = exp(conf.high.robust),
+      )
 
+  }
 
-  robustSEs0 <- coeftest(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
-  robustSEs1 <- coeftest(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
-  robustSEs3 <- coeftest(msmmod3, vcov. = vcovCL(msmmod3, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
-  robustSEs4 <- coeftest(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
-
-  robustCIs0 <- coefci(msmmod0, vcov. = vcovCL(msmmod0, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
-  robustCIs1 <- coefci(msmmod1, vcov. = vcovCL(msmmod1, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
-  robustCIs3 <- coefci(msmmod3, vcov. = vcovCL(msmmod3, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
-  robustCIs4 <- coefci(msmmod4, vcov. = vcovCL(msmmod4, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
-
-  robust0 <- inner_join(robustSEs0, robustCIs0, by="term") %>% mutate(model="0 Unadjusted",  strata=stratum)
-  robust1 <- inner_join(robustSEs1, robustCIs1, by="term") %>% mutate(model="1 Age, sex, IMD", strata=stratum)
-  robust3 <- inner_join(robustSEs3, robustCIs3, by="term") %>% mutate(model="2 Baseline adjusted", strata=stratum)
-  robust4 <- inner_join(robustSEs4, robustCIs4, by="term") %>% mutate(model="3 Fully adjusted", strata=stratum)
-
+  robust0 <- plr_summary(msmmod0, "0 Unadjusted", stratum)
+  robust1 <- plr_summary(msmmod1, "1 Age, sex, IMD, ethnicity", stratum)
+  robust3 <- plr_summary(msmmod3, "2 Baseline adjusted", stratum)
+  robust4 <- plr_summary(msmmod4, "3 Fully adjusted", stratum)
 
   robust_summary <- bind_rows(
     robust0,
     robust1,
     robust3,
-    robust4,
-  ) %>%
-  rename(
-    estimate.robust=estimate,
-    std.error.robust=std.error,
-    p.value.robust=p.value,
-    statistic.robust=statistic,
-    conf.low.robust=`2.5 %`,
-    conf.high.robust=`97.5 %`
-  ) %>%
-  mutate(
-    or = exp(estimate.robust),
-    or.ll = exp(conf.low.robust),
-    or.ul = exp(conf.high.robust),
+    robust4
   )
-
 
   summary_list[[stratum]] <- robust_summary
 
