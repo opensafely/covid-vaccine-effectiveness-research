@@ -166,6 +166,9 @@ data_extract <- data_extract0 %>%
 
 
 
+
+
+
 ##  SECTION TO SORT OUT BAD DUMMY DATA ----
 # this rearranges so events are in date order
 
