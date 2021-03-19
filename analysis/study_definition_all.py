@@ -42,6 +42,8 @@ study = StudyDefinition(
         """
         registered
         AND
+        has_follow_up_previous_year
+        AND
         (age >= 18 AND age < 110)
         AND
         (sex = "M" OR sex = "F")
@@ -55,6 +57,7 @@ study = StudyDefinition(
             on_or_before="index_date",
             returning="binary_flag",
         ),
+
     ),
 
 
@@ -967,7 +970,7 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.01, },
     ),
     intel_dis_incl_downs_syndrome=patients.with_these_clinical_events(
-        intellectual_disability_including_downs_syndrome_codes,
+        learning_disability_including_downs_syndrome_and_cerebral_palsy_codes,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
