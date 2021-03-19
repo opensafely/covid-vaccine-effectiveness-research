@@ -234,7 +234,7 @@ for(stratum in strata){
     #   #modelsummary::modelplot(ipwvaxany1, coef_omit = 'Interc|tstop', conf.type="wald", exponentiate=TRUE)
     #   #sjPlot::plot_model(ipwvaxany1)
     # )
-
+    write_rds(ipwvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxany1.rds"), compress="gz")
     rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
 
 
@@ -322,7 +322,7 @@ for(stratum in strata){
     #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
     #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
     # )
-
+    write_rds(ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxpfizer1.rds"), compress="gz")
     rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
 
 
@@ -404,7 +404,7 @@ for(stratum in strata){
     #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.svg"),
     #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
     # )
-
+    write_rds(ipwvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxaz1.rds"), compress="gz")
     rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
 
   }
@@ -471,7 +471,7 @@ for(stratum in strata){
   #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.svg"),
   #   jtools::plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
   # )
-
+  write_rds(ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxdeath.rds"), compress="gz")
   rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
 
 
