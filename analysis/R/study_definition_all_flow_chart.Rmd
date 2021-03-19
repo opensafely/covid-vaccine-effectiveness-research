@@ -2,7 +2,7 @@
 
 ---
 title: "Study definition flow chart"
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = here::here("output")) })
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, knit_root_dir = here::here(), output_dir = here::here("output")) })
 output: 
   html_document
 ---
