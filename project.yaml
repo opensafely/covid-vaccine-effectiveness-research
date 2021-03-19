@@ -18,7 +18,7 @@ actions:
         cohort: output/input_all_flow_chart.csv
         
   flow_chart_all:
-    run: r:latest -e 'rmarkdown::render("analysis/R/study_definition_all_flow_chart.Rmd", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/R/study_definition_all_flow_chart.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [generate_flowchartdata]
     outputs:
       moderately_sensitive:
