@@ -42,7 +42,7 @@ if(length(args)==0){
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
-  strata_var <- "all"
+  strata_var <- "sex"
 }
 
 
@@ -108,11 +108,6 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
     timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
     outcome = .[[outcome]],
   ) %>%
-  rename(
-    vax_status = vaxany_status,
-    vax1 = vaxany1,
-    timesincevax1 = timesincevaxany1,
-  ) %>%
   left_join(
     data_fixed, by="patient_id"
   )
@@ -131,7 +126,7 @@ dir.create(here::here("output", cohort, outcome, brand, strata_var), showWarning
 
 write_rds(strata, here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
 
-
+stratum="Female"
 for(stratum in strata){
 
   cat("  \n")
@@ -149,169 +144,263 @@ for(stratum in strata){
   # subset data
   data_pt_sub <- data_pt %>% filter(.[[strata_var]] == stratum)
 
-  # IPW model for pfizer vaccination ----
-
-  ## models for first vaccination ----
-
-  data_pt_atriskvaxpfizer1 <- data_pt_sub %>% filter(vaxpfizer_status==0)
-
-  ### with time-updating covariates
-  cat("  \n")
-  cat("ipwvaxpfizer1 \n")
-  ipwvaxpfizer1 <- parglm(
-    formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
-    data = data_pt_atriskvaxpfizer1,
-    family=binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  # ipwvaxpfizer1 <- glm(
-  #   formula = ipwvaxpfizer1_par$formula,
-  #   data = data_pt_atriskvaxpfizer1,
-  #   family=binomial,
-  #   control = list(maxit = 1),
-  #   na.action = "na.fail",
-  #   model = FALSE,
-  #   start = coefficients(ipwvaxpfizer1_par)
-  # )
-  #ipwvaxpfizer1<-ipwvaxpfizer1_par
-  print(jtools::summ(ipwvaxpfizer1, digits =3))
-  cat(glue::glue("ipwvaxpfizer1 data size = ", length(ipwvaxpfizer1$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n")
 
 
+  if(stratum=="all"){
 
-  ### without time-updating covariates ----
-  # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
-  # used for stabilised ip weights
+    # IPW model for any vaccination ----
 
-  cat("  \n")
-  cat("ipwvaxpfizer1_fxd \n")
-  ipwvaxpfizer1_fxd <- parglm(
-    formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
-    data = data_pt_atriskvaxpfizer1,
-    family=binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
+    ## models for first vaccination ----
 
-  print(jtools::summ(ipwvaxpfizer1_fxd, digits =3))
-  cat(glue::glue("ipwvaxpfizer1_fxd data size = ", length(ipwvaxpfizer1_fxd$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1_fxd), units="GB", standard="SI", digits=3L)), "\n")
+    data_pt_atriskvaxany1 <- data_pt_sub %>% filter(vaxany_status==0)
 
-
-  ## get predictions from model ----
-
-  data_predvaxpfizer1 <- data_pt_atriskvaxpfizer1 %>%
-    transmute(
-      patient_id,
-      tstart, tstop,
-
-      # get predicted probabilities from ipw models
-      predvaxpfizer1=predict(ipwvaxpfizer1, type="response"),
-      predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
+    ### with time-updating covariates
+    cat("  \n")
+    cat("ipwvaxany1 \n")
+    ipwvaxany1 <- parglm(
+      formula = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+      data = data_pt_atriskvaxany1,
+      family=binomial,
+      control = parglmparams,
+      na.action = "na.fail",
+      model = FALSE
     )
 
-  ## output model coefficients
-  ipwvaxpfizer1 %>%
-    tbl_regression(
-      pvalue_fun = ~style_pvalue(.x, digits=3),
-      tidy_fun = tidy_parglm
-    ) %>%
-    as_gt() %>%
-    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
-
-  # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
-  #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
-  # )
-
-  rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
+    # ipwvaxany1 <- glm(
+    #   formula = ipwvaxany1_par$formula,
+    #   data = data_pt_atriskvaxany1,
+    #   family=binomial,
+    #   control = list(maxit = 1),
+    #   na.action = "na.fail",
+    #   model = FALSE,
+    #   start = coefficients(ipwvaxany1_par)
+    # )
+    #ipwvaxany1<-ipwvaxany1_par
+    print(jtools::summ(ipwvaxany1, digits =3))
+    cat(glue::glue("ipwvaxany1 data size = ", length(ipwvaxany1$y)), "\n")
+    cat(glue::glue("memory usage = ", format(object.size(ipwvaxany1), units="GB", standard="SI", digits=3L)), "\n")
 
 
-  # IPW model for az vaccination ----
 
-  ## models for first vaccination ----
+    ### without time-updating covariates ----
+    # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
+    # used for stabilised ip weights
 
-  data_pt_atriskvaxaz1 <- data_pt_sub %>% filter(vaxaz_status==0, tstart>=28)
-
-  ### with time-updating covariates
-  cat("  \n")
-  cat("ipwvaxaz1 \n")
-  ipwvaxaz1 <- parglm(
-    formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
-    data = data_pt_atriskvaxaz1,
-    family=binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  # ipwvaxaz1 <- glm(
-  #   formula = ipwvaxaz1_par$formula,
-  #   data = data_pt_atriskvaxaz1,
-  #   family=binomial,
-  #   control = list(maxit = 1),
-  #   na.action = "na.fail",
-  #   model = FALSE,
-  #   start = coefficients(ipwvaxaz1_par)
-  # )
-  #ipwvaxaz1<-ipwvaxaz1_par
-
-  print(jtools::summ(ipwvaxaz1, digits =3))
-  cat(glue::glue("ipwvaxaz1 data size = ", length(ipwvaxaz1$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1), units="GB", standard="SI", digits=3L)), "\n")
-
-
-  ### without time-updating covariates ----
-  # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
-  # used for stabilised ip weights
-
-  cat("  \n")
-  cat("ipwvaxaz1_fxd \n")
-  ipwvaxaz1_fxd <- parglm(
-    formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
-    data = data_pt_atriskvaxaz1,
-    family=binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-  print(jtools::summ(ipwvaxaz1_fxd, digits =3))
-  cat(glue::glue("ipwvaxaz1_fxd data size = ", length(ipwvaxaz1_fxd$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1_fxd), units="GB", standard="SI", digits=3L)), "\n")
-
-
-  ## get predictions from model ----
-
-  data_predvaxaz1 <- data_pt_atriskvaxaz1 %>%
-    transmute(
-      patient_id,
-      tstart, tstop,
-
-      # get predicted probabilities from ipw models
-      predvaxaz1=predict(ipwvaxaz1, type="response"),
-      predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
+    cat("  \n")
+    cat("ipwvaxpany1_fxd \n")
+    ipwvaxany1_fxd <- parglm(
+      formula = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      data = data_pt_atriskvaxany1,
+      family=binomial,
+      control = parglmparams,
+      na.action = "na.fail",
+      model = FALSE
     )
 
-  ## output model coefs
-  ipwvaxaz1 %>%
-    tbl_regression(
-      pvalue_fun = ~style_pvalue(.x, digits=3),
-      tidy_fun = tidy_parglm
-    ) %>%
-    as_gt() %>%
-    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
+    print(jtools::summ(ipwvaxany1_fxd, digits =3))
+    cat(glue::glue("ipwvaxany1_fxd data size = ", length(ipwvaxany1_fxd$y)), "\n")
+    cat(glue::glue("memory usage = ", format(object.size(ipwvaxany1_fxd), units="GB", standard="SI", digits=3L)), "\n")
 
-  # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.svg"),
-  #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
-  # )
 
-  rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
+    ## get predictions from model ----
+
+    data_predvaxany1 <- data_pt_atriskvaxany1 %>%
+      transmute(
+        patient_id,
+        tstart, tstop,
+
+        # get predicted probabilities from ipw models
+        predvaxany1=predict(ipwvaxany1, type="response"),
+        predvaxany1_fxd=predict(ipwvaxany1_fxd, type="response"),
+      )
+
+    ## output model coefficients
+    ipwvaxany1 %>%
+      tbl_regression(
+        pvalue_fun = ~style_pvalue(.x, digits=3),
+        tidy_fun = tidy_parglm
+      ) %>%
+      as_gt() %>%
+      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_any.html"))
+
+    # ggsave(
+    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
+    #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
+    # )
+
+    rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
+
+
+
+  }
+
+  if(stratum!="all"){
+
+    # IPW model for pfizer vaccination ----
+
+    ## models for first vaccination ----
+
+    data_pt_atriskvaxpfizer1 <- data_pt_sub %>% filter(vaxpfizer_status==0)
+
+    ### with time-updating covariates
+    cat("  \n")
+    cat("ipwvaxpfizer1 \n")
+    ipwvaxpfizer1 <- parglm(
+      formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+      data = data_pt_atriskvaxpfizer1,
+      family=binomial,
+      control = parglmparams,
+      na.action = "na.fail",
+      model = FALSE
+    )
+
+    # ipwvaxpfizer1 <- glm(
+    #   formula = ipwvaxpfizer1_par$formula,
+    #   data = data_pt_atriskvaxpfizer1,
+    #   family=binomial,
+    #   control = list(maxit = 1),
+    #   na.action = "na.fail",
+    #   model = FALSE,
+    #   start = coefficients(ipwvaxpfizer1_par)
+    # )
+    #ipwvaxpfizer1<-ipwvaxpfizer1_par
+    print(jtools::summ(ipwvaxpfizer1, digits =3))
+    cat(glue::glue("ipwvaxpfizer1 data size = ", length(ipwvaxpfizer1$y)), "\n")
+    cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n")
+
+
+
+    ### without time-updating covariates ----
+    # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
+    # used for stabilised ip weights
+
+    cat("  \n")
+    cat("ipwvaxpfizer1_fxd \n")
+    ipwvaxpfizer1_fxd <- parglm(
+      formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      data = data_pt_atriskvaxpfizer1,
+      family=binomial,
+      control = parglmparams,
+      na.action = "na.fail",
+      model = FALSE
+    )
+
+    print(jtools::summ(ipwvaxpfizer1_fxd, digits =3))
+    cat(glue::glue("ipwvaxpfizer1_fxd data size = ", length(ipwvaxpfizer1_fxd$y)), "\n")
+    cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1_fxd), units="GB", standard="SI", digits=3L)), "\n")
+
+
+    ## get predictions from model ----
+
+    data_predvaxpfizer1 <- data_pt_atriskvaxpfizer1 %>%
+      transmute(
+        patient_id,
+        tstart, tstop,
+
+        # get predicted probabilities from ipw models
+        predvaxpfizer1=predict(ipwvaxpfizer1, type="response"),
+        predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
+      )
+
+    ## output model coefficients
+    ipwvaxpfizer1 %>%
+      tbl_regression(
+        pvalue_fun = ~style_pvalue(.x, digits=3),
+        tidy_fun = tidy_parglm
+      ) %>%
+      as_gt() %>%
+      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
+
+    # ggsave(
+    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
+    #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
+    # )
+
+    rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
+
+
+    # IPW model for az vaccination ----
+
+    ## models for first vaccination ----
+
+    data_pt_atriskvaxaz1 <- data_pt_sub %>% filter(vaxaz_status==0, tstart>=28)
+
+    ### with time-updating covariates
+    cat("  \n")
+    cat("ipwvaxaz1 \n")
+    ipwvaxaz1 <- parglm(
+      formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+      data = data_pt_atriskvaxaz1,
+      family=binomial,
+      control = parglmparams,
+      na.action = "na.fail",
+      model = FALSE
+    )
+
+    # ipwvaxaz1 <- glm(
+    #   formula = ipwvaxaz1_par$formula,
+    #   data = data_pt_atriskvaxaz1,
+    #   family=binomial,
+    #   control = list(maxit = 1),
+    #   na.action = "na.fail",
+    #   model = FALSE,
+    #   start = coefficients(ipwvaxaz1_par)
+    # )
+    #ipwvaxaz1<-ipwvaxaz1_par
+
+    print(jtools::summ(ipwvaxaz1, digits =3))
+    cat(glue::glue("ipwvaxaz1 data size = ", length(ipwvaxaz1$y)), "\n")
+    cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1), units="GB", standard="SI", digits=3L)), "\n")
+
+
+    ### without time-updating covariates ----
+    # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
+    # used for stabilised ip weights
+
+    cat("  \n")
+    cat("ipwvaxaz1_fxd \n")
+    ipwvaxaz1_fxd <- parglm(
+      formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      data = data_pt_atriskvaxaz1,
+      family=binomial,
+      control = parglmparams,
+      na.action = "na.fail",
+      model = FALSE
+    )
+    print(jtools::summ(ipwvaxaz1_fxd, digits =3))
+    cat(glue::glue("ipwvaxaz1_fxd data size = ", length(ipwvaxaz1_fxd$y)), "\n")
+    cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1_fxd), units="GB", standard="SI", digits=3L)), "\n")
+
+
+    ## get predictions from model ----
+
+    data_predvaxaz1 <- data_pt_atriskvaxaz1 %>%
+      transmute(
+        patient_id,
+        tstart, tstop,
+
+        # get predicted probabilities from ipw models
+        predvaxaz1=predict(ipwvaxaz1, type="response"),
+        predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
+      )
+
+    ## output model coefs
+    ipwvaxaz1 %>%
+      tbl_regression(
+        pvalue_fun = ~style_pvalue(.x, digits=3),
+        tidy_fun = tidy_parglm
+      ) %>%
+      as_gt() %>%
+      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
+
+    # ggsave(
+    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.svg"),
+    #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
+    # )
+
+    rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
+
+  }
 
   # IPW model for death ----
 
@@ -381,119 +470,205 @@ for(stratum in strata){
 
   ## get predictions from model ----
 
-  data_weights <- data_pt_sub %>%
-    left_join(data_predvaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
-    left_join(data_predvaxaz1, by=c("patient_id", "tstart", "tstop")) %>%
-    left_join(data_preddeath, by=c("patient_id", "tstart", "tstop")) %>%
-    group_by(patient_id) %>%
-    mutate(
-
-      ## PFIZER
-
-      # get probability of occurrence of realised vaccination status
-      probvaxpfizer_realised = case_when(
-        vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1,
-        vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1,
-        is.na(predvaxpfizer1) ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
-        TRUE ~ NA_real_
-      ),
-      # cumulative product of status probabilities
-      cmlprobvaxpfizer_realised = cumprod(probvaxpfizer_realised),
-      # inverse probability weights
-      ipweightvaxpfizer = 1/cmlprobvaxpfizer_realised,
-
-      #same but for time-independent model
-
-      # get probability of occurrence of realised vaccination status (non-time varying model)
-      probvaxpfizer_realised_fxd = case_when(
-        vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1_fxd,
-        vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1_fxd,
-        is.na(predvaxpfizer1_fxd) ~ 1,
-        TRUE ~ NA_real_
-      ),
-      # cumulative product of status probabilities
-      cmlprobvaxpfizer_realised_fxd = cumprod(probvaxpfizer_realised_fxd),
-      # inverse probability weights
-      ipweightvaxpfizer_fxd = 1/cmlprobvaxpfizer_realised_fxd,
-
-      # stabilised inverse probability weights
-      ipweightvaxpfizer_stbl = cmlprobvaxpfizer_realised_fxd/cmlprobvaxpfizer_realised,
+  if (stratum=="all"){
 
 
-      ## AZ
+    data_weights <- data_pt_sub %>%
+      left_join(data_predvaxany1, by=c("patient_id", "tstart", "tstop")) %>%
+      left_join(data_preddeath, by=c("patient_id", "tstart", "tstop")) %>%
+      group_by(patient_id) %>%
+      mutate(
 
-      # get probability of occurrence of realised vaccination status
-      probvaxaz_realised = case_when(
-        vaxaz_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
-        vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1,
-        vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1,
-        is.na(predvaxaz1) ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
-        TRUE ~ NA_real_
-      ),
-      # cumulative product of status probabilities
-      cmlprobvaxaz_realised = cumprod(probvaxaz_realised),
-      # inverse probability weights
-      ipweightvaxaz = 1/cmlprobvaxaz_realised,
+        ## Any
 
-      #same but for time-independent model
+        # get probability of occurrence of realised vaccination status
+        probvaxany_realised = case_when(
+          is.na(predvaxany1) ~ 1, # if already vaccinated or not at risk of vaccine, by definition prob of status is = 1
+          vaxany_status==0L & vaxany1!=1 ~ 1 - predvaxany1,
+          vaxany_status==0L & vaxany1==1 ~ predvaxany1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobvaxany_realised = cumprod(probvaxany_realised),
+        # inverse probability weights
+        ipweightvaxany = 1/cmlprobvaxany_realised,
 
-      # get probability of occurrence of realised vaccination status (non-time varying model)
-      probvaxaz_realised_fxd = case_when(
-        vaxaz_status==0L & tstart<28 ~ 1, # i.e., when nobody had AZ vaccine
-        vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1_fxd,
-        vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1_fxd,
-        is.na(predvaxaz1_fxd) ~ 1,
-        TRUE ~ NA_real_
-      ),
-      # cumulative product of status probabilities
-      cmlprobvaxaz_realised_fxd = cumprod(probvaxaz_realised_fxd),
-      # inverse probability weights
-      ipweightvaxaz_fxd = 1/cmlprobvaxaz_realised_fxd,
+        #same but for time-independent model
 
-      # stabilised inverse probability weights
-      ipweightvaxaz_stbl = cmlprobvaxaz_realised_fxd/cmlprobvaxaz_realised,
+        # get probability of occurrence of realised vaccination status (non-time varying model)
+        probvaxany_realised_fxd = case_when(
+          is.na(predvaxany1_fxd) ~ 1,
+          vaxany_status==0L & vaxany1!=1 ~ 1 - predvaxany1_fxd,
+          vaxany_status==0L & vaxany1==1 ~ predvaxany1_fxd,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobvaxany_realised_fxd = cumprod(probvaxany_realised_fxd),
+        # inverse probability weights
+        ipweightvaxany_fxd = 1/cmlprobvaxany_realised_fxd,
 
-
-      ##DEATH
-
-      # death censoring
-      probdeath_realised = case_when(
-        death_status==0L & death!=1 ~ 1 - preddeath,
-        death_status==0L & death==1 ~ preddeath,
-        death_status==1L ~ 1,
-        TRUE ~ NA_real_
-      ),
-      # cumulative product of status probabilities
-      cmlprobdeath_realised = cumprod(probdeath_realised),
-      # inverse probability weights
-      ipweightdeath = 1/cmlprobdeath_realised,
-
-      # deathcensoring (fixed)
-      probdeath_realised_fxd = case_when(
-        death_status==0L & death!=1 ~ 1 - preddeath_fxd,
-        death_status==0L & death==1 ~ preddeath_fxd,
-        death_status==1L ~ 1,
-        TRUE ~ NA_real_
-      ),
-      # cumulative product of status probabilities
-      cmlprobdeath_realised_fxd = cumprod(probdeath_realised_fxd),
-      # inverse probability weights
-      ipweightdeath_fxd = 1/cmlprobdeath_realised_fxd,
+        # stabilised inverse probability weights
+        ipweightvaxany_stbl = cmlprobvaxany_realised_fxd/cmlprobvaxany_realised,
 
 
-      # stabilised inverse probability weights
-      ipweightdeath_stbl = cmlprobdeath_realised_fxd/cmlprobdeath_realised,
+        ##DEATH
 
-    ) %>%
-    ungroup()%>%
-    mutate(
-      ## COMBINE WEIGHTS
-      # take product of all weights
-      ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
-    )
+        # death censoring
+        probdeath_realised = case_when(
+          death_status==0L & death!=1 ~ 1 - preddeath,
+          death_status==0L & death==1 ~ preddeath,
+          death_status==1L ~ 1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobdeath_realised = cumprod(probdeath_realised),
+        # inverse probability weights
+        ipweightdeath = 1/cmlprobdeath_realised,
 
-  rm(data_predvaxpfizer1, data_predvaxaz1, data_preddeath)
+        # deathcensoring (fixed)
+        probdeath_realised_fxd = case_when(
+          death_status==0L & death!=1 ~ 1 - preddeath_fxd,
+          death_status==0L & death==1 ~ preddeath_fxd,
+          death_status==1L ~ 1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobdeath_realised_fxd = cumprod(probdeath_realised_fxd),
+        # inverse probability weights
+        ipweightdeath_fxd = 1/cmlprobdeath_realised_fxd,
 
+
+        # stabilised inverse probability weights
+        ipweightdeath_stbl = cmlprobdeath_realised_fxd/cmlprobdeath_realised,
+
+      ) %>%
+      ungroup()%>%
+      mutate(
+        ## COMBINE WEIGHTS
+        # take product of all weights
+        ipweight_stbl = (ipweightvaxany_stbl * ipweightdeath_stbl)
+      )
+
+    rm(data_predvaxany1, data_preddeath)
+
+  }
+
+
+
+  if (stratum!="all"){
+
+
+    data_weights <- data_pt_sub %>%
+      left_join(data_predvaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
+      left_join(data_predvaxaz1, by=c("patient_id", "tstart", "tstop")) %>%
+      left_join(data_preddeath, by=c("patient_id", "tstart", "tstop")) %>%
+      group_by(patient_id) %>%
+      mutate(
+
+        ## PFIZER
+
+        # get probability of occurrence of realised vaccination status
+        probvaxpfizer_realised = case_when(
+          is.na(predvaxpfizer1) ~ 1, # if already vaccinated, by definition prob of vaccine is = 1
+          vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1,
+          vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobvaxpfizer_realised = cumprod(probvaxpfizer_realised),
+        # inverse probability weights
+        ipweightvaxpfizer = 1/cmlprobvaxpfizer_realised,
+
+        #same but for time-independent model
+
+        # get probability of occurrence of realised vaccination status (non-time varying model)
+        probvaxpfizer_realised_fxd = case_when(
+          is.na(predvaxpfizer1_fxd) ~ 1,
+          vaxpfizer_status==0L & vaxpfizer1!=1 ~ 1 - predvaxpfizer1_fxd,
+          vaxpfizer_status==0L & vaxpfizer1==1 ~ predvaxpfizer1_fxd,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobvaxpfizer_realised_fxd = cumprod(probvaxpfizer_realised_fxd),
+        # inverse probability weights
+        ipweightvaxpfizer_fxd = 1/cmlprobvaxpfizer_realised_fxd,
+
+        # stabilised inverse probability weights
+        ipweightvaxpfizer_stbl = cmlprobvaxpfizer_realised_fxd/cmlprobvaxpfizer_realised,
+
+
+        ## AZ
+
+        # get probability of occurrence of realised vaccination status
+        probvaxaz_realised = case_when(
+          is.na(predvaxaz1) ~ 1, # if already vaccinated or not at risk of vaccine, by definition prob of status is = 1
+          vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1,
+          vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobvaxaz_realised = cumprod(probvaxaz_realised),
+        # inverse probability weights
+        ipweightvaxaz = 1/cmlprobvaxaz_realised,
+
+        #same but for time-independent model
+
+        # get probability of occurrence of realised vaccination status (non-time varying model)
+        probvaxaz_realised_fxd = case_when(
+          is.na(predvaxaz1_fxd) ~ 1,
+          vaxaz_status==0L & vaxaz1!=1 ~ 1 - predvaxaz1_fxd,
+          vaxaz_status==0L & vaxaz1==1 ~ predvaxaz1_fxd,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobvaxaz_realised_fxd = cumprod(probvaxaz_realised_fxd),
+        # inverse probability weights
+        ipweightvaxaz_fxd = 1/cmlprobvaxaz_realised_fxd,
+
+        # stabilised inverse probability weights
+        ipweightvaxaz_stbl = cmlprobvaxaz_realised_fxd/cmlprobvaxaz_realised,
+
+        ##DEATH
+
+        # death censoring
+        probdeath_realised = case_when(
+          death_status==0L & death!=1 ~ 1 - preddeath,
+          death_status==0L & death==1 ~ preddeath,
+          death_status==1L ~ 1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobdeath_realised = cumprod(probdeath_realised),
+        # inverse probability weights
+        ipweightdeath = 1/cmlprobdeath_realised,
+
+        # deathcensoring (fixed)
+        probdeath_realised_fxd = case_when(
+          death_status==0L & death!=1 ~ 1 - preddeath_fxd,
+          death_status==0L & death==1 ~ preddeath_fxd,
+          death_status==1L ~ 1,
+          TRUE ~ NA_real_
+        ),
+        # cumulative product of status probabilities
+        cmlprobdeath_realised_fxd = cumprod(probdeath_realised_fxd),
+        # inverse probability weights
+        ipweightdeath_fxd = 1/cmlprobdeath_realised_fxd,
+
+
+        # stabilised inverse probability weights
+        ipweightdeath_stbl = cmlprobdeath_realised_fxd/cmlprobdeath_realised,
+
+      ) %>%
+      ungroup()%>%
+      mutate(
+        ## COMBINE WEIGHTS
+        # take product of all weights
+        ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
+      )
+
+    rm(data_predvaxpfizer1, data_predvaxaz1, data_preddeath)
+
+  }
   ## report weights ----
 
   summarise_weights <-
