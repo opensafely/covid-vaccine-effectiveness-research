@@ -50,7 +50,7 @@ if(length(args)==0){
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort & metadata_cohorts[["outcome"]]==outcome, ]
+metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
@@ -178,10 +178,6 @@ for(stratum in strata){
   # )
   #ipwvaxpfizer1<-ipwvaxpfizer1_par
   print(jtools::summ(ipwvaxpfizer1, digits =3))
-  # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_pfizer.svg"),
-  #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
-  # )
   cat(glue::glue("ipwvaxpfizer1 data size = ", length(ipwvaxpfizer1$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n")
 
@@ -219,7 +215,7 @@ for(stratum in strata){
       predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
     )
 
-  ## print model
+  ## output model coefficients
   ipwvaxpfizer1 %>%
     tbl_regression(
       pvalue_fun = ~style_pvalue(.x, digits=3),
@@ -227,6 +223,11 @@ for(stratum in strata){
     ) %>%
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
+
+  # ggsave(
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
+  #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
+  # )
 
   rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
 
@@ -259,10 +260,7 @@ for(stratum in strata){
   #   start = coefficients(ipwvaxaz1_par)
   # )
   #ipwvaxaz1<-ipwvaxaz1_par
-  # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_az.svg"),
-  #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
-  # )
+
   print(jtools::summ(ipwvaxaz1, digits =3))
   cat(glue::glue("ipwvaxaz1 data size = ", length(ipwvaxaz1$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwvaxaz1), units="GB", standard="SI", digits=3L)), "\n")
@@ -299,7 +297,7 @@ for(stratum in strata){
       predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
     )
 
-  ## print model
+  ## output model coefs
   ipwvaxaz1 %>%
     tbl_regression(
       pvalue_fun = ~style_pvalue(.x, digits=3),
@@ -307,6 +305,11 @@ for(stratum in strata){
     ) %>%
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
+
+  # ggsave(
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.svg"),
+  #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
+  # )
 
   rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
 
@@ -327,10 +330,7 @@ for(stratum in strata){
     na.action = "na.fail",
     model = FALSE
   )
-  # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "ipw_death.svg"),
-  #   jtools::plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
-  # )
+
   print(jtools::summ(ipwdeath, digits =3))
   cat(glue::glue("ipwdeath data size = ", length(ipwdeath$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(ipwdeath), units="GB", standard="SI", digits=3L)), "\n")
@@ -362,7 +362,7 @@ for(stratum in strata){
       preddeath_fxd=predict(ipwdeath_fxd, type="response"),
     )
 
-  ## print model
+  ## output model coefs
   ipwdeath %>%
     tbl_regression(
       pvalue_fun = ~style_pvalue(.x, digits=3),
@@ -370,6 +370,11 @@ for(stratum in strata){
     ) %>%
     as_gt() %>%
     gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.html"))
+
+  # ggsave(
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.svg"),
+  #   jtools::plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
+  # )
 
   rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
 

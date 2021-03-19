@@ -55,7 +55,7 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort & metadata_cohorts[["outcome"]]==outcome, ]
+metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))

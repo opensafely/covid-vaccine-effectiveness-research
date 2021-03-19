@@ -107,7 +107,6 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/any/all/strata_vector.rds
         weights: output/over80s/postest/any/all/*/weights*
-        coefs: output/over80s/postest/any/all/*/ipw*
 
   report_msm_over80s_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest any all
@@ -129,7 +128,6 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/pfizer/all/strata_vector.rds
         weights: output/over80s/postest/pfizer/all/*/weights*
-        coefs: output/over80s/postest/pfizer/all/*/ipw*
 
   report_msm_over80s_pfizer_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer all
@@ -152,7 +150,6 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/az/all/strata_vector.rds
         weights: output/over80s/postest/az/all/*/weights*
-        coefs: output/over80s/postest/az/all/*/ipw*
 
 
   report_msm_over80s_az_all_dose1:
@@ -180,7 +177,6 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/any/sex/strata_vector.rds
         weights: output/over80s/postest/any/sex/*/weights*
-        coefs: output/over80s/postest/any/sex/*/ipw*
 
   report_msm_over80s_any_sex_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest any sex
@@ -202,7 +198,6 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/pfizer/sex/strata_vector.rds
         weights: output/over80s/postest/pfizer/sex/*/weights*
-        coefs: output/over80s/postest/pfizer/sex/*/ipw*
 
   report_msm_over80s_pfizer_sex_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer sex
@@ -225,7 +220,6 @@ actions:
       moderately_sensitive:
         strata: output/over80s/postest/az/sex/strata_vector.rds
         weights: output/over80s/postest/az/sex/*/weights*
-        coefs: output/over80s/postest/az/sex/*/ipw*
 
 
   report_msm_over80s_az_sex_dose1:
@@ -304,7 +298,6 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/any/all/strata_vector.rds
         weights: output/in70s/postest/any/all/*/weights*
-        coefs: output/in70s/postest/any/all/*/ipw*
 
   report_msm_in70s_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest any all
@@ -349,7 +342,6 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/az/all/strata_vector.rds
         weights: output/in70s/postest/az/all/*/weights*
-        coefs: output/in70s/postest/az/all/*/ipw*
 
 
   report_msm_in70s_az_all_dose1:
@@ -377,7 +369,6 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/any/sex/strata_vector.rds
         weights: output/in70s/postest/any/sex/*/weights*
-        coefs: output/in70s/postest/any/sex/*/ipw*
 
   report_msm_in70s_any_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest any sex
@@ -399,7 +390,6 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/pfizer/sex/strata_vector.rds
         weights: output/in70s/postest/pfizer/sex/*/weights*
-        coefs: output/in70s/postest/pfizer/sex/*/ipw*
 
   report_msm_in70s_pfizer_sex_dose1:
     run: r:latest analysis/R/report_msm_dose1.R in70s postest pfizer sex
@@ -422,7 +412,6 @@ actions:
       moderately_sensitive:
         strata: output/in70s/postest/az/sex/strata_vector.rds
         weights: output/in70s/postest/az/sex/*/weights*
-        coefs: output/in70s/postest/az/sex/*/ipw*
 
 
   report_msm_in70s_az_sex_dose1:

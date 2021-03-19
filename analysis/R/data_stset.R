@@ -47,7 +47,7 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
 data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ][1,]
+metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
 
 # Generate different data formats ----
