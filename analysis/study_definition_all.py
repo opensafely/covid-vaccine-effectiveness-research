@@ -49,6 +49,8 @@ study = StudyDefinition(
         (sex = "M" OR sex = "F")
         AND
         NOT has_died
+        AND
+        NOT unknown_vaccine_brand
         """,
         registered=patients.registered_as_of(
             "index_date",
@@ -57,7 +59,17 @@ study = StudyDefinition(
             on_or_before="index_date",
             returning="binary_flag",
         ),
-
+        unknown_vaccine_brand = patients.satisfying(
+        """
+        covid_vax_1_date != ""
+        AND
+        covid_vax_pfizer_1_date = ""
+        AND
+        covid_vax_az_1_date = ""
+        """,
+        return_expectations={"incidence": 0.0001},
+    ),
+    
     ),
 
 
@@ -104,7 +116,6 @@ study = StudyDefinition(
             },
         },
     ),
-
 
     has_follow_up_previous_year=patients.registered_with_one_practice_between(
         start_date="index_date - 1 year",
@@ -1090,4 +1101,5 @@ study = StudyDefinition(
         
         return_expectations={"incidence": 0.5, },
     ),
+    
 )

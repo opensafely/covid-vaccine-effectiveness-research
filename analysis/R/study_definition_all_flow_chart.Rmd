@@ -23,6 +23,7 @@ library(magrittr)
 library(Gmisc)
 library(glue)
 library(crayon)
+library(grid)
 
 ## Import data ----
 data_flow_chart <- read_csv(
@@ -41,7 +42,12 @@ data_flow_chart <- read_csv(
     ethnicity = col_character(),
     ethnicity_6_sus = col_character(),
     imd = col_character(),
-    region = col_character()
+    region = col_character(),
+    covid_vax_1_date = col_date(format="%Y-%m-%d"),
+    covid_vax_pfizer_1_date = col_date(format="%Y-%m-%d"),
+    covid_vax_az_1_date = col_date(format="%Y-%m-%d"),
+    unknown_vaccine_brand = col_logical()
+
 
   ),
   na = character() # more stable to convert to missing later
@@ -123,7 +129,7 @@ criteria_4 %>%
 
 $~$
 
-#### Patients with with non-missing IMD
+#### Patients with non-missing IMD
 ```{r, echo = FALSE}
 criteria_5 <- data_flow_chart %>%
   filter(registered_at_latest == TRUE,
@@ -143,7 +149,7 @@ criteria_5 %>%
 
 $~$
 
-#### Patients with with non-missing region
+#### Patients with non-missing region
 ```{r, echo = FALSE}
 criteria_6 <- data_flow_chart %>%
   filter(registered_at_latest == TRUE,
@@ -152,7 +158,7 @@ criteria_6 <- data_flow_chart %>%
          age >= 18 & age < 110,
          sex %in% c("F", "M"),
          imd > 0,
-         region > 0) 
+         region != "") 
 ```
 
 Excluded = `r nrow(criteria_5) - nrow(criteria_6)`
@@ -164,7 +170,7 @@ criteria_6 %>%
 
 $~$
 
-#### Patients with with non-missing ethnicity
+#### Patients with non-missing ethnicity
 ```{r, echo = FALSE}
 criteria_7 <- data_flow_chart %>%
   filter(registered_at_latest == TRUE,
@@ -181,6 +187,29 @@ Excluded = `r nrow(criteria_6) - nrow(criteria_7)`
 
 ```{r, echo = FALSE}
 criteria_7 %>%
+  nrow()
+```
+
+$~$
+
+#### Patients with non-Pfizer and non-Oxford az vaccine
+```{r, echo = FALSE}
+criteria_8 <- data_flow_chart %>%
+  filter(registered_at_latest == TRUE,
+         has_died == FALSE,
+         has_follow_up_previous_year == TRUE,
+         age >= 18 & age < 110,
+         sex %in% c("F", "M"),
+         imd > 0,
+         region != "",
+         ethnicity != "",
+         unknown_vaccine_brand == "TRUE") 
+```
+
+Excluded = `r nrow(criteria_6) - nrow(criteria_7)`
+
+```{r, echo = FALSE}
+criteria_8 %>%
   nrow()
 ```
 
@@ -204,7 +233,8 @@ criteria1 <- boxGrob(glue_col("Individuals alive and registered with a \n genera
 exclude1 <- boxGrob(glue_col("<1 year of prior follow-up",
                            "n = {pop}",
                            pop = txtInt(nrow(criteria_1) - nrow(criteria_2)),
-                           .sep = "\n"))
+                           .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
 
 criteria2 <- boxGrob(glue("At least 1 year of follow-up \n prior to 7 December 2020",
                           "N = {pop}",
@@ -215,25 +245,29 @@ criteria2 <- boxGrob(glue("At least 1 year of follow-up \n prior to 7 December 2
 exclude2 <- boxGrob(glue_col("Aged less than 18 \n or over 110 years ",
                            "n = {pop}",
                            pop = txtInt(nrow(criteria_2) - nrow(criteria_3)),
-                           .sep = "\n"))
+                           .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
 
 criteria3 <- boxGrob(glue("Individuals aged between \n 18 and 110 years",
                          "N = {pop}",
                          pop = txtInt(nrow(criteria_3)),
                          .sep = "\n"))
 
-## Patients with well defined sex and non-missing IMD, region and ethnicity 
+## Patients with well defined sex,  Pfizer or Oxford az vaccine, and non-missing IMD, region and ethnicity 
 exclude3 <- boxGrob(glue("Missing data (n = {tot})",
                          " - Sex: {sex}",
                          " - Ethnicity: {eth}",
                          " - IMD: {imd}",
                          " - Region: {region}",
-                         tot = txtInt(nrow(criteria_3) - nrow(criteria_7)),
+                         " - Unknown vaccine brand: {brand}",
+                         tot = txtInt(nrow(criteria_3) - nrow(criteria_8)),
                          sex = txtInt(nrow(criteria_3 %>% filter(!(sex %in% c("F", "M"))))),
                          eth = txtInt(nrow(criteria_3 %>% filter(ethnicity == ""))),
                          imd = txtInt(nrow(criteria_3 %>% filter(imd == 0))),
                          region = txtInt(nrow(criteria_3 %>% filter(region == ""))),
+                         brand = txtInt(nrow(criteria_3 %>% filter(unknown_vaccine_brand == "TRUE"))),
                          .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9),
                     just = "left")
 
 final <- boxGrob(glue("Individuals included in study population",

@@ -41,19 +41,21 @@ study = StudyDefinition(
         # """
         # registered
         # AND
+        # has_follow_up_previous_year
+        # AND
         # (age >= 18 AND age < 110)
         # AND
         # (sex = "M" OR sex = "F")
         # AND
         # NOT has_died
+        # AND
+        # NOT unknown_vaccine_brand
+        # AND
+        # imd > 0
+        # AND
+        # region != ""
+        # ethnicity > 0 OR ethnicity_6_sus > 0
         # """,
-        # registered=patients.registered_as_of(
-        #     "index_date",
-        # ),
-        # has_died=patients.died_from_any_cause(
-        #     on_or_before="index_date",
-        #     returning="binary_flag",
-        # ),
     ),
     
     # Inclusion/exclusion variables
@@ -94,6 +96,64 @@ study = StudyDefinition(
             on_or_before="index_date",
             returning="binary_flag",
         ),
+        
+    # First COVID vaccination (any brnad)
+    covid_vax_1_date=patients.with_tpp_vaccination_record(
+        target_disease_matches="SARS-2 CORONAVIRUS",
+        on_or_after="index_date",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+                return_expectations={
+            "date": {
+                "earliest": "2020-12-08",  # first vaccine administered on the 8/12
+                "latest": end_date,
+            }
+        },
+    ),
+    
+    # First Pfizer vaccination
+    covid_vax_pfizer_1_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+        on_or_after="index_date",  # check all december to date
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+                return_expectations={
+            "date": {
+                "earliest": "2020-12-08",  # first vaccine administered on the 8/12
+                "latest": end_date,
+            }
+        },
+    ),
+    
+    # First Oxford AZ vaccination 
+    covid_vax_az_1_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+        on_or_after="index_date",  # check all december to date
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2021-01-04",  # first vaccine administered on the 4/1
+                "latest": end_date,
+            }
+        },
+    ),
+    
+    # Unknown vaccine brand
+    unknown_vaccine_brand = patients.satisfying(
+        """
+        covid_vax_1_date != ""
+        AND
+        covid_vax_pfizer_1_date = ""
+        AND
+        covid_vax_az_1_date = ""
+        """,
+        return_expectations={"incidence": 0.0001},
+    ),
+
 
     # Ethnicity (6 categories)
     ethnicity=patients.with_these_clinical_events(
