@@ -376,11 +376,11 @@ data_tte_pt <- tmerge(
   id = patient_id,
   alltimes = event(times, times)
 ) %>%
-  arrange(patient_id, tstart) %>%
+  arrange(patient_id, tstop) %>%
   group_by(patient_id) %>%
   mutate(
-    suspected_covid_time = if_else(suspected_covid==1, tstart, NA_real_),
-    probable_covid_time = if_else(probable_covid==1, tstart, NA_real_),
+    suspected_covid_time = if_else(suspected_covid==1, tstop, NA_real_),
+    probable_covid_time = if_else(probable_covid==1, tstop, NA_real_),
   ) %>%
   fill(
     suspected_covid_time, probable_covid_time
@@ -396,20 +396,20 @@ data_tte_pt <- tmerge(
     timesincevaxaz2 = cumsum(vaxaz2_status),
 
     # define time since covid primary care event
-    timesince_suspected_covid = tstart - suspected_covid_time,
-    timesince_probable_covid = tstart - probable_covid_time,
+    timesince_suspected_covid = tstop - suspected_covid_time,
+    timesince_probable_covid = tstop - probable_covid_time,
     timesince_suspected_covid_pw = cut(
       timesince_suspected_covid,
-      breaks=c(0, 1, 3, 7, 14, 21, 28, Inf),
-      labels=c("[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)"),
+      breaks=c(1, 3, 7, 14, 21, 28, Inf),
+      labels=c( "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)"),
       right=FALSE
-    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)")),
+    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)")),
     timesince_probable_covid_pw = cut(
       timesince_probable_covid,
-      breaks=c(0, 1, 3, 7, 14, 21, 28, Inf),
-      labels=c("[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)"),
+      breaks=c(1, 3, 7, 14, 21, 28, Inf),
+      labels=c("[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)"),
       right=FALSE
-    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "[0, 1)", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)")),
+    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "[1, 3)", "[3, 7)", "[7, 14)", "[14, 21)", "[21, 28)", "[28, Inf)")),
 
   ) %>%
   ungroup() %>%
