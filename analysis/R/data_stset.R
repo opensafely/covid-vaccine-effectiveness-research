@@ -132,6 +132,9 @@ data_tte <- data_all  %>%
     # time to last follow up day
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
 
+    # time to deregistration
+    tte_dereg = tte(start_date, dereg_date, dereg_date),
+
     # time to test
     #tte_test = tte(start_date, test_1_date, lastfup_date, na.censor=TRUE),
 
@@ -271,7 +274,7 @@ data_tte_cp0 <- tmerge(
   covidadmitted_status = tdc(tte_covidadmitted),
   coviddeath_status = tdc(tte_coviddeath),
   death_status = tdc(tte_death),
-
+  dereg_status= tdc(tte_dereg),
   censored_status = tdc(tte_lastfup),
 
   vaxany1 = event(tte_vaxany1),
@@ -285,6 +288,7 @@ data_tte_cp0 <- tmerge(
   covidadmitted = event(tte_covidadmitted),
   coviddeath = event(tte_coviddeath),
   death = event(tte_death),
+  dereg = event(tte_dereg),
   censored = event(tte_lastfup),
 
   tstart = 0L,
@@ -429,6 +433,7 @@ data_tte_pt <- tmerge(
               "covidadmitted",
               "coviddeath",
               "death",
+              "dereg",
               "censored",
               "hospital_status",
               "probable_covid",

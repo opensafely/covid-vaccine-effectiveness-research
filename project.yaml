@@ -10,6 +10,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_all.csv
+        
+  generate_flowchartdata:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_all_flow_chart
+    outputs:
+      highly_sensitive:
+        cohort: output/input_all_flow_chart.csv
 
   data_process_all:
     run: r:latest analysis/R/data_process_all.R

@@ -42,11 +42,15 @@ study = StudyDefinition(
         """
         registered
         AND
+        has_follow_up_previous_year
+        AND
         (age >= 18 AND age < 110)
         AND
         (sex = "M" OR sex = "F")
         AND
         NOT has_died
+        AND
+        NOT unknown_vaccine_brand
         """,
         registered=patients.registered_as_of(
             "index_date",
@@ -55,12 +59,23 @@ study = StudyDefinition(
             on_or_before="index_date",
             returning="binary_flag",
         ),
+        unknown_vaccine_brand = patients.satisfying(
+        """
+        covid_vax_1_date != ""
+        AND
+        covid_vax_pfizer_1_date = ""
+        AND
+        covid_vax_az_1_date = ""
+        """,
+        return_expectations={"incidence": 0.0001},
+    ),
+    
     ),
 
 
     # https://github.com/opensafely/risk-factors-research/issues/49
     age=patients.age_as_of(
-        "2020-02-01",
+        "2020-03-31",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -102,7 +117,6 @@ study = StudyDefinition(
         },
     ),
 
-
     has_follow_up_previous_year=patients.registered_with_one_practice_between(
         start_date="index_date - 1 year",
         end_date="index_date",
@@ -112,6 +126,10 @@ study = StudyDefinition(
     registered_at_latest=patients.registered_as_of(
         reference_date=end_date,
         return_expectations={"incidence": 0.95},
+    ),
+    
+    dereg_date=patients.date_deregistered_from_all_supported_practices(
+        on_or_after="index_date", date_format="YYYY-MM-DD",
     ),
 
     # ETHNICITY IN 16 CATEGORIES
@@ -155,6 +173,16 @@ study = StudyDefinition(
             "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
             "incidence": 0.75,
         },
+    ),
+    
+    # New ethnicity variable that takes data from SUS
+    ethnicity_6_sus = patients.with_ethnicity_from_sus(
+        returning="group_6",  
+        use_most_frequent_code=True,
+        return_expectations={
+            "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
+            "incidence": 0.4,
+            },
     ),
 
     ################################################
@@ -653,8 +681,30 @@ study = StudyDefinition(
     #######################################################
     ## hospital admissions during study period, up to 5  ##
     #######################################################
-    
-    
+
+    admitted_0_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_before="index_date - 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_0_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_before="index_date - 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),    
     
     admitted_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
@@ -1084,4 +1134,5 @@ study = StudyDefinition(
         
         return_expectations={"incidence": 0.5, },
     ),
+    
 )

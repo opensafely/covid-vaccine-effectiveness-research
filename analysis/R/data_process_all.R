@@ -2,6 +2,7 @@
 
 # This script:
 # imports data extracted by the cohort extractor
+# fills in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
 # tidies missing values
 # re-orders date variables so no negative time differences (only actually does anything for dummy data)
 # standardises some variables (eg convert to factor) and derives some new ones
@@ -66,20 +67,24 @@ data_extract0 <- read_csv(
     age = col_integer(),
     sex = col_character(),
     ethnicity = col_character(),
+    ethnicity_6_sus = col_character(),
     #ethnicity_16 = col_character(),
 
     # dates
+    dereg_date = col_date(format="%Y-%m-%d"),
 
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
     prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
 
+    admitted_0_date = col_date(format="%Y-%m-%d"),
     admitted_1_date = col_date(format="%Y-%m-%d"),
     admitted_2_date = col_date(format="%Y-%m-%d"),
     admitted_3_date = col_date(format="%Y-%m-%d"),
     admitted_4_date = col_date(format="%Y-%m-%d"),
     admitted_5_date = col_date(format="%Y-%m-%d"),
 
+    discharged_0_date = col_date(format="%Y-%m-%d"),
     discharged_1_date = col_date(format="%Y-%m-%d"),
     discharged_2_date = col_date(format="%Y-%m-%d"),
     discharged_3_date = col_date(format="%Y-%m-%d"),
@@ -151,6 +156,11 @@ data_extract0 <- read_csv(
   ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
   sample_frac(size=0.2)
 
+# Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
+data_extract0 <- data_extract0 %>%
+  mutate(ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)) %>%
+  select(-ethnicity_6_sus)
+  
 # parse NAs
 data_extract <- data_extract0 %>%
   mutate(across(
