@@ -41,7 +41,7 @@ if(length(args)==0){
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
-  strata_var <- "sex"
+  strata_var <- "all"
 }
 
 
@@ -55,17 +55,23 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for cohort ----
 
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
-
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
+metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
+list2env(metadata_cohorts, globalenv())
+
+# Import metadata for outcome ----
+
+metadata_outcomes <- read_rds(here::here("output", "data", "metadata_outcomes.rds"))
+stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
+metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
+
+list2env(metadata_outcomes, globalenv())
 
 ## define model hyper-parameters and characteristics ----
 
 ### model names ----
 
-list2env(metadata, globalenv())
 
 ## or equivalently:
 # cohort <- metadata_cohorts$cohort
@@ -234,9 +240,9 @@ ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest
 
 ggsecular4 <- interactions::interact_plot(
   msmmod4,
-  pred=as.Date(gbl_vars$start_date) + tstart, modx=region, data=data_weights,
+  pred=tstop, modx=region, data=data_weights,
   colors="Set1", vary.lty=FALSE,
-  x.label="Date",
+  x.label=glue::glue("Days since {gbl_vars$start_date}"),
   y.label=glue::glue("{outcome_descr} prob.")
 )
 
