@@ -42,7 +42,7 @@ if(length(args)==0){
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
-  strata_var <- "sex"
+  strata_var <- "all"
 }
 
 
@@ -128,6 +128,7 @@ dir.create(here::here("output", cohort, outcome, brand, strata_var), showWarning
 write_rds(strata, here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
 
 stratum="Female"
+
 for(stratum in strata){
 
   cat("  \n")
@@ -225,8 +226,13 @@ for(stratum in strata){
       gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_any.html"))
 
     # ggsave(
-    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
-    #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
+    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_any.svg"),
+    # all these methods use broom to get the coefficients. but tidy.glm only uses profile CIs, not Wald. (yTHO??)
+    # profile CIs will take forever on large datasets.
+    # so need to write custom function for plotting wald CIs. grr
+    #   #jtools::plot_summs(ipwvaxany1)
+    #   #modelsummary::modelplot(ipwvaxany1, coef_omit = 'Interc|tstop', conf.type="wald", exponentiate=TRUE)
+    #   #sjPlot::plot_model(ipwvaxany1)
     # )
 
     rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
