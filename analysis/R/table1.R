@@ -180,10 +180,29 @@ gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "tabl
 
 
 ## create person-time table ----
-postvaxcuts <- c(0, 1, 4, 7, 14, 21)
-pt_summary <- data_pt %>%
+
+
+
+pt_summary_total <- data_pt %>%
+  summarise(
+    postest_yearsatrisk=sum(postest_status==0)/365.25,
+    postest_n=sum(postest),
+    postest_rate=postest_n/postest_yearsatrisk,
+
+    covidadmitted_yearsatrisk=sum(covidadmitted_status==0)/365.25,
+    covidadmitted_n=sum(covidadmitted),
+    covidadmitted_rate=covidadmitted_n/covidadmitted_yearsatrisk,
+
+    coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
+    coviddeath_n=sum(coviddeath),
+    coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
+  )
+
+pt_summary <- function(data, timesince, postvaxcuts){
+data %>%
   mutate(
-    timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "Unvaccinated"),
+    timesincevax = data[[timesince]],
+    timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, "Unvaccinated"),
   ) %>%
   group_by(timesincevax_pw) %>%
   summarise(
@@ -200,8 +219,15 @@ pt_summary <- data_pt %>%
     coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
   ) %>%
   ungroup()
+}
 
-pt_tab_summary <- pt_summary %>%
+postvaxcuts <- c(0, 1, 4, 7, 14, 21)
+
+pt_summary_any <- pt_summary(data_pt, "timesincevaxany1", postvaxcuts)
+pt_summary_pfizer <- pt_summary(data_pt, "timesincevaxpfizer1", postvaxcuts)
+pt_summary_az <- pt_summary(data_pt, "timesincevaxaz1", postvaxcuts)
+
+pt_tab_summary <- pt_summary_any %>%
   gt() %>%
    cols_label(
      timesincevax_pw = "Time since first dose",
