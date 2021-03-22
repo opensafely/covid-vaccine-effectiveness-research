@@ -142,8 +142,7 @@ gt_model_summary <- function(model, cluster) {
       timesince_probable_covid_pw ~ "Time since probable COVID",
       timesince_suspected_covid_pw ~ "Time since suspected COVID"
     )
-  ) %>%
-  as_gt()
+  )
 
 }
 
@@ -156,8 +155,9 @@ forest_from_gt <- function(gt_obj){
   #modelsummary::modelplot(ipwvaxany1, coef_omit = 'Interc|tstop', conf.type="wald", exponentiate=TRUE)
   #sjPlot::plot_model(ipwvaxany1)
 
-
-  gt_obj$`_data` %>%
+  gt_obj %>%
+  as_gt() %>%
+  .$`_data` %>%
     filter(
       !str_detect(variable,"ns"),
       !is.na(term)
@@ -205,10 +205,10 @@ for(stratum in strata){
     ## output model coefficients
 
     tab_ipwvaxany1 <- gt_model_summary(ipwvaxany1, data_pt_atriskvaxany1$patient_id)
-    gtsave(tab_ipwvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.html"))
+    gtsave(tab_ipwvaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.html"))
 
     ##output forest plot
-    plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1)
+    plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1 %>% as_gt())
     ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxany1.svg"),  plot_ipwvaxany1)
 
 
@@ -221,7 +221,7 @@ for(stratum in strata){
     ipwvaxpfizer1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_ipwvaxpfizer1.rds")))
 
     tab_ipwvaxpfizer1 <- gt_model_summary(ipwvaxpfizer1, data_pt_atriskvaxpfizer1$patient_id)
-    gtsave(tab_ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxfizer1.html"))
+    gtsave(tab_ipwvaxpfizer1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxfizer1.html"))
 
     ##output forest plot
     plot_ipwvaxpfizer1 <- forest_from_gt(tab_ipwvaxpfizer1)
@@ -232,7 +232,7 @@ for(stratum in strata){
     ipwvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_ipwvaxaz1.rds")))
 
     tab_ipwvaxaz1 <- gt_model_summary(ipwvaxaz1, data_pt_atriskvaxaz1$patient_id)
-    gtsave(tab_ipwvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxaz1.html"))
+    gtsave(tab_ipwvaxaz1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxaz1.html"))
 
     ##output forest plot
     plot_ipwvaxaz1 <- forest_from_gt(tab_ipwvaxaz1)
@@ -240,6 +240,7 @@ for(stratum in strata){
 
     # combine tables
     tbl_merge(list(tab_ipwvaxpfizer1, tab_ipwvaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
+      as_gt() %>%
       gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
 
   }
@@ -251,11 +252,11 @@ for(stratum in strata){
   ## output model coefficients
 
   tab_ipwdeath <- gt_model_summary(ipwdeath, data_pt_atriskdeath$patient_id)
-  gtsave(tab_ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwdeath.html"))
+  gtsave(tab_ipwdeath %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwdeath.html"))
 
   ##output forest plot
   plot_ipwdeath <- forest_from_gt(tab_ipwdeath)
-  ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwdeath.svg"),  plot_ipwdeath)
+  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwdeath.svg"),  plot_ipwdeath)
 
 
 }
