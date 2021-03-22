@@ -279,7 +279,7 @@ $~$
 # The key boxes that we want to plot
 
 ## Population alive and registered with a general practice using TPP software on 7th December 2020
-criteria1 <- boxGrob(glue_col("Individuals aged over 80 years, \n alive and registered with a general \n practice using TPP software \n on 7 December 2020",
+criteria1 <- boxGrob(glue_col("Individuals aged 80 years and over, \n alive and registered with a general \n practice using TPP software \n on 7 December 2020",
                            "N = {pop}",
                            pop = txtInt(nrow(criteria_1)),
                            .sep = "\n"))
