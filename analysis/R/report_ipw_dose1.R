@@ -239,7 +239,7 @@ for(stratum in strata){
     ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxaz1.svg"),  plot_ipwvaxaz1)
 
     # combine tables
-    tbl_merge(tab_ipwvaxpfizer1, tab_ipwvaxaz1, tab_spanner = c("Pfizer", "AstraZeneca")) %>%
+    tbl_merge(list(tab_ipwvaxpfizer1, tab_ipwvaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
       gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
 
   }
