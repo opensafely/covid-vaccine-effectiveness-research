@@ -246,7 +246,7 @@ study = StudyDefinition(
     # FIRST COVID VACCINATION (any brnad)
     covid_vax_1_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="index_date",
+        between=["index_date", end_date],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -261,7 +261,7 @@ study = StudyDefinition(
     # FIRST PFIZER VACCINATION
     covid_vax_pfizer_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="index_date",  # check all december to date
+        between=["index_date", end_date],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -276,7 +276,7 @@ study = StudyDefinition(
     # FIRST OXFORD AZ VACCINATION 
     covid_vax_az_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="index_date",  # check all december to date
+        between=["index_date", end_date],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
