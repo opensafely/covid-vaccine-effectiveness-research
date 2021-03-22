@@ -41,7 +41,7 @@ if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   outcome <- "postest"
-  brand <- "any"
+  brand <- "az"
   strata_var <- "all"
 }
 
@@ -216,6 +216,8 @@ for(stratum in strata){
 
   if(brand!="any"){
 
+    # pfizer
+    data_pt_atriskvaxpfizer1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxpfizer1.rds"))
     ipwvaxpfizer1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_ipwvaxpfizer1.rds")))
 
     tab_ipwvaxpfizer1 <- gt_model_summary(ipwvaxpfizer1, data_pt_atriskvaxpfizer1$patient_id)
@@ -225,7 +227,8 @@ for(stratum in strata){
     plot_ipwvaxpfizer1 <- forest_from_gt(tab_ipwvaxpfizer1)
     ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxfizer1.svg"),  plot_ipwvaxpfizer1)
 
-
+    # AZ
+    data_pt_atriskvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"))
     ipwvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_ipwvaxaz1.rds")))
 
     tab_ipwvaxaz1 <- gt_model_summary(ipwvaxpaz1, data_pt_atriskvaxaz1$patient_id)
@@ -235,7 +238,7 @@ for(stratum in strata){
     plot_ipwvaxaz1 <- forest_from_gt(tab_ipwvaxaz1)
     ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxaz1.svg"),  plot_ipwvaxaz1)
 
-
+    # combine tables
     tbl_merge(tab_ipwvaxpfizer1, tab_ipwvaxaz1, tab_spanner = c("Pfizer", "AstraZeneca")) %>%
       gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
 
