@@ -138,7 +138,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/postest/pfizer/all/*/model*.rds
-        data: output/over80s/postest/pfizer/all/*/data_weights.rds
+        data: output/over80s/postest/pfizer/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/postest/pfizer/all/strata_vector.rds
         weights: output/over80s/postest/pfizer/all/*/weights*
@@ -168,7 +168,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/postest/az/all/*/model*.rds
-        data: output/over80s/postest/az/all/*/data_weights.rds
+        data: output/over80s/postest/az/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/postest/az/all/strata_vector.rds
         weights: output/over80s/postest/az/all/*/weights*
@@ -206,7 +206,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/coviddeath/any/all/*/model*.rds
-        data: output/over80s/coviddeath/any/all/*/data_weights.rds
+        data: output/over80s/coviddeath/any/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/coviddeath/any/all/strata_vector.rds
         weights: output/over80s/coviddeath/any/all/*/weights*
@@ -237,7 +237,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/coviddeath/pfizer/all/*/model*.rds
-        data: output/over80s/coviddeath/pfizer/all/*/data_weights.rds
+        data: output/over80s/coviddeath/pfizer/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/coviddeath/pfizer/all/strata_vector.rds
         weights: output/over80s/coviddeath/pfizer/all/*/weights*
@@ -267,7 +267,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/coviddeath/az/all/*/model*.rds
-        data: output/over80s/coviddeath/az/all/*/data_weights.rds
+        data: output/over80s/coviddeath/az/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/coviddeath/az/all/strata_vector.rds
         weights: output/over80s/coviddeath/az/all/*/weights*
@@ -302,7 +302,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/emergency/any/all/*/model*.rds
-        data: output/over80s/emergency/any/all/*/data_weights.rds
+        data: output/over80s/emergency/any/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/emergency/any/all/strata_vector.rds
         weights: output/over80s/emergency/any/all/*/weights*
@@ -333,7 +333,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/emergency/pfizer/all/*/model*.rds
-        data: output/over80s/emergency/pfizer/all/*/data_weights.rds
+        data: output/over80s/emergency/pfizer/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/emergency/pfizer/all/strata_vector.rds
         weights: output/over80s/emergency/pfizer/all/*/weights*
@@ -364,7 +364,7 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/emergency/az/all/*/model*.rds
-        data: output/over80s/emergency/az/all/*/data_weights.rds
+        data: output/over80s/emergency/az/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/emergency/az/all/strata_vector.rds
         weights: output/over80s/emergency/az/all/*/weights*
