@@ -111,6 +111,12 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   ) %>%
   left_join(
     data_fixed, by="patient_id"
+  ) %>%
+  mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
+    across(
+      is.logical,
+      ~.x*1L
+    )
   )
 
 
@@ -126,8 +132,6 @@ strata <- unique(data_pt[[strata_var]])
 dir.create(here::here("output", cohort, outcome, brand, strata_var), showWarnings = FALSE, recursive=TRUE)
 
 write_rds(strata, here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
-
-stratum="Female"
 
 for(stratum in strata){
 
@@ -148,7 +152,7 @@ for(stratum in strata){
 
 
 
-  if(stratum=="all"){
+  if(brand=="any"){
 
     # IPW model for any vaccination ----
 
@@ -160,7 +164,7 @@ for(stratum in strata){
     cat("  \n")
     cat("ipwvaxany1 \n")
     ipwvaxany1 <- parglm(
-      formula = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+      formula = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var) ,
       data = data_pt_atriskvaxany1,
       family=binomial,
       control = parglmparams,
@@ -216,24 +220,7 @@ for(stratum in strata){
         predvaxany1_fxd=predict(ipwvaxany1_fxd, type="response"),
       )
 
-    ## output model coefficients
-    ipwvaxany1 %>%
-      tbl_regression(
-        pvalue_fun = ~style_pvalue(.x, digits=3),
-        tidy_fun = tidy_parglm
-      ) %>%
-      as_gt() %>%
-      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_any.html"))
-
-    # ggsave(
-    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_any.svg"),
-    # all these methods use broom to get the coefficients. but tidy.glm only uses profile CIs, not Wald. (yTHO??)
-    # profile CIs will take forever on large datasets.
-    # so need to write custom function for plotting wald CIs. grr
-    #   #jtools::plot_summs(ipwvaxany1)
-    #   #modelsummary::modelplot(ipwvaxany1, coef_omit = 'Interc|tstop', conf.type="wald", exponentiate=TRUE)
-    #   #sjPlot::plot_model(ipwvaxany1)
-    # )
+    write_rds(data_pt_atriskvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxany1.rds"), compress="gz")
     write_rds(ipwvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxany1.rds"), compress="gz")
     rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
 
@@ -241,7 +228,7 @@ for(stratum in strata){
 
   }
 
-  if(stratum!="all"){
+  if(brand!="any"){
 
     # IPW model for pfizer vaccination ----
 
@@ -309,19 +296,7 @@ for(stratum in strata){
         predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
       )
 
-    ## output model coefficients
-    ipwvaxpfizer1 %>%
-      tbl_regression(
-        pvalue_fun = ~style_pvalue(.x, digits=3),
-        tidy_fun = tidy_parglm
-      ) %>%
-      as_gt() %>%
-      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.html"))
-
-    # ggsave(
-    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_pfizer.svg"),
-    #   jtools::plot_summs(ipwvaxpfizer1, scale = TRUE, robust=TRUE)
-    # )
+    write_rds(data_pt_atriskvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxpfizer1.rds"), compress="gz")
     write_rds(ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxpfizer1.rds"), compress="gz")
     rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
 
@@ -391,19 +366,7 @@ for(stratum in strata){
         predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
       )
 
-    ## output model coefs
-    ipwvaxaz1 %>%
-      tbl_regression(
-        pvalue_fun = ~style_pvalue(.x, digits=3),
-        tidy_fun = tidy_parglm
-      ) %>%
-      as_gt() %>%
-      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.html"))
-
-    # ggsave(
-    #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_az.svg"),
-    #   jtools::plot_summs(ipwvaxaz1, scale = TRUE, robust=TRUE)
-    # )
+    write_rds(data_pt_atriskvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"), compress="gz")
     write_rds(ipwvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxaz1.rds"), compress="gz")
     rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
 
@@ -458,26 +421,18 @@ for(stratum in strata){
       preddeath_fxd=predict(ipwdeath_fxd, type="response"),
     )
 
-  ## output model coefs
-  ipwdeath %>%
-    tbl_regression(
-      pvalue_fun = ~style_pvalue(.x, digits=3),
-      tidy_fun = tidy_parglm
-    ) %>%
-    as_gt() %>%
-    gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.html"))
-
   # ggsave(
   #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.svg"),
   #   jtools::plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
   # )
-  write_rds(ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxdeath.rds"), compress="gz")
+  write_rds(data_pt_atriskdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwdeath.rds"), compress="gz")
+  write_rds(ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwdeath.rds"), compress="gz")
   rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
 
 
   ## get predictions from model ----
 
-  if (stratum=="all"){
+  if (brand=="any"){
 
 
     data_weights <- data_pt_sub %>%
@@ -562,7 +517,7 @@ for(stratum in strata){
 
 
 
-  if (stratum!="all"){
+  if (brand!="any"){
 
 
     data_weights <- data_pt_sub %>%
