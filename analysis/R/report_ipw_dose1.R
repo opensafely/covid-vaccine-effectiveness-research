@@ -231,7 +231,7 @@ for(stratum in strata){
     data_pt_atriskvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"))
     ipwvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_ipwvaxaz1.rds")))
 
-    tab_ipwvaxaz1 <- gt_model_summary(ipwvaxpaz1, data_pt_atriskvaxaz1$patient_id)
+    tab_ipwvaxaz1 <- gt_model_summary(ipwvaxaz1, data_pt_atriskvaxaz1$patient_id)
     gtsave(tab_ipwvaxaz1, shere::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxaz1.html"))
 
     ##output forest plot
