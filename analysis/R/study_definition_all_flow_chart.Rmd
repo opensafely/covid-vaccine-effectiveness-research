@@ -1,14 +1,13 @@
 <!-- This rmd imports the population flow chart data (`input_all_flow_chart.csv`) then sequentially drops each of the variables that appears in the population definition logic and counts the remaining population to provide numbers for a flowchart to show inclusion/exclusion of patients in the study. -->
 
 ---
-title: "Study definition flow chart"
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, knit_root_dir = rprojroot::find_rstudio_root_file(), output_dir = here::here("output")) })
+title: "Study definition flow chart" 
 output: 
   html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::opts_knit$set(echo = FALSE)
 ```
 
 
@@ -28,22 +27,31 @@ library(grid)
 
 ## Import data ----
 data_flow_chart <- read_csv(
-  here::here("output", "input_all_flow_chart.csv"),
+  here::here("output", "input_over80s_flow_chart.csv"),
   col_types = cols(
     
     # identifiers
     patient_id = col_integer(),
 
-    # demographic / administrative
+    # study criteria
+    has_died = col_logical(),
     registered_at_latest = col_logical(),
     age = col_integer(),
-    sex = col_character(),
-    has_died = col_logical(),
+    
     has_follow_up_previous_year = col_logical(),
-    ethnicity = col_character(),
-    ethnicity_6_sus = col_character(),
+    
+    care_home_type = col_character(),
+    
+    prior_positive_test_date = col_date(format="%Y-%m-%d"),
+    prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
+    prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
+    
+    sex = col_character(),
     imd = col_character(),
     region = col_character(),
+    ethnicity = col_character(),
+    ethnicity_6_sus = col_character(),
+
     covid_vax_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_pfizer_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_1_date = col_date(format="%Y-%m-%d"),
@@ -64,10 +72,11 @@ data_flow_chart <- data_flow_chart %>%
 
 $~$
 
-#### Population alive and registered with a general practice using TPP software on 7th December 2020
+#### Population aged over 80 years, alive and registered with a general practice using TPP software on 7th December 2020
 ```{r, echo = FALSE}
 criteria_1 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE)
 
 criteria_1 %>%
@@ -79,7 +88,8 @@ $~$
 #### At least 1 year of follow-up prior to 7th December 2020
 ```{r, echo = FALSE}
 criteria_2 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE) 
 ```
@@ -93,13 +103,14 @@ criteria_2 %>%
 
 $~$
 
-#### Adults aged between 18 and 110 years
+#### Non care home
 ```{r, echo = FALSE}
 criteria_3 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         age >= 18 & age < 110) 
+         care_home_type == "") 
 ```
 
 Excluded = `r nrow(criteria_2) - nrow(criteria_3)`
@@ -111,14 +122,18 @@ criteria_3 %>%
 
 $~$
 
-#### Patients with well defined sex
+#### No prior evidence of COVID infection
 ```{r, echo = FALSE}
 criteria_4 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         age >= 18 & age < 110,
-         sex %in% c("F", "M")) 
+         care_home_type == "",
+         is.na(prior_positive_test_date),
+         is.na(prior_primary_care_covid_case_date),
+         is.na(prior_covidadmitted_date)
+         ) 
 ```
 
 Excluded = `r nrow(criteria_3) - nrow(criteria_4)`
@@ -130,15 +145,18 @@ criteria_4 %>%
 
 $~$
 
-#### Patients with non-missing IMD
+#### Patients with non-missing sex
 ```{r, echo = FALSE}
 criteria_5 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         age >= 18 & age < 110,
-         sex %in% c("F", "M"),
-         imd > 0) 
+         care_home_type == "",
+         is.na(prior_positive_test_date),
+         is.na(prior_primary_care_covid_case_date),
+         is.na(prior_covidadmitted_date),
+         sex %in% c("F", "M")) 
 ```
 
 Excluded = `r nrow(criteria_4) - nrow(criteria_5)`
@@ -150,16 +168,19 @@ criteria_5 %>%
 
 $~$
 
-#### Patients with non-missing region
+#### Patients with non-missing IMD
 ```{r, echo = FALSE}
 criteria_6 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         age >= 18 & age < 110,
+         care_home_type == "",
+         is.na(prior_positive_test_date),
+         is.na(prior_primary_care_covid_case_date),
+         is.na(prior_covidadmitted_date),
          sex %in% c("F", "M"),
-         imd > 0,
-         region != "") 
+         imd > 0) 
 ```
 
 Excluded = `r nrow(criteria_5) - nrow(criteria_6)`
@@ -171,17 +192,20 @@ criteria_6 %>%
 
 $~$
 
-#### Patients with non-missing ethnicity
+#### Patients with non-missing region
 ```{r, echo = FALSE}
 criteria_7 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         age >= 18 & age < 110,
+         care_home_type == "",
+         is.na(prior_positive_test_date),
+         is.na(prior_primary_care_covid_case_date),
+         is.na(prior_covidadmitted_date),
          sex %in% c("F", "M"),
          imd > 0,
-         region != "",
-         ethnicity != "") 
+         region != "") 
 ```
 
 Excluded = `r nrow(criteria_6) - nrow(criteria_7)`
@@ -193,24 +217,54 @@ criteria_7 %>%
 
 $~$
 
-#### Patients with non-Pfizer and non-Oxford az vaccine
+#### Patients with non-missing ethnicity
 ```{r, echo = FALSE}
 criteria_8 <- data_flow_chart %>%
-  filter(registered_at_latest == TRUE,
+  filter(age >= 80,
+         registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         age >= 18 & age < 110,
+         care_home_type == "",
+         is.na(prior_positive_test_date),
+         is.na(prior_primary_care_covid_case_date),
+         is.na(prior_covidadmitted_date),
+         sex %in% c("F", "M"),
+         imd > 0,
+         region != "",
+         ethnicity != "") 
+```
+
+Excluded = `r nrow(criteria_7) - nrow(criteria_8)`
+
+```{r, echo = FALSE}
+criteria_8 %>%
+  nrow()
+```
+
+$~$
+
+#### Patients with non-Pfizer and non-Oxford az vaccine
+```{r, echo = FALSE}
+criteria_9 <- data_flow_chart %>%
+  filter(age >= 80,
+         registered_at_latest == TRUE,
+         has_died == FALSE,
+         has_follow_up_previous_year == TRUE,
+         care_home_type == "",
+         is.na(prior_positive_test_date),
+         is.na(prior_primary_care_covid_case_date),
+         is.na(prior_covidadmitted_date),
          sex %in% c("F", "M"),
          imd > 0,
          region != "",
          ethnicity != "",
-         unknown_vaccine_brand == "TRUE") 
+         unknown_vaccine_brand == "FALSE") 
 ```
 
-Excluded = `r nrow(criteria_6) - nrow(criteria_7)`
+Excluded = `r nrow(criteria_8) - nrow(criteria_9)`
 
 ```{r, echo = FALSE}
-criteria_8 %>%
+criteria_9 %>%
   nrow()
 ```
 
@@ -221,11 +275,11 @@ $~$
 
 $~$
 
-``` {r, echo = FALSE, warning= FALSE, message= FALSE, fig.width = 8, fig.height = 6}
+``` {r, echo = FALSE, warning= FALSE, message= FALSE, fig.width = 8, fig.height = 10}
 # The key boxes that we want to plot
 
 ## Population alive and registered with a general practice using TPP software on 7th December 2020
-criteria1 <- boxGrob(glue_col("Individuals alive and registered with a \n general practice using TPP software \n on 7 December 2020",
+criteria1 <- boxGrob(glue_col("Individuals aged over 80 years, \n alive and registered with a general \n practice using TPP software \n on 7 December 2020",
                            "N = {pop}",
                            pop = txtInt(nrow(criteria_1)),
                            .sep = "\n"))
@@ -242,34 +296,56 @@ criteria2 <- boxGrob(glue("At least 1 year of follow-up \n prior to 7 December 2
                            pop = txtInt(nrow(criteria_2)),
                            .sep = "\n"))
 
-## Adults aged between 18 and 110 years
-exclude2 <- boxGrob(glue_col("Aged less than 18 \n or over 110 years ",
+## Non-care home residents
+exclude2 <- boxGrob(glue_col("Care home residents",
                            "n = {pop}",
                            pop = txtInt(nrow(criteria_2) - nrow(criteria_3)),
                            .sep = "\n"),
                     txt_gp = gpar(fontsize = 9))
 
-criteria3 <- boxGrob(glue("Individuals aged between \n 18 and 110 years",
+criteria3 <- boxGrob(glue("Non-care home residents",
                          "N = {pop}",
                          pop = txtInt(nrow(criteria_3)),
                          .sep = "\n"))
 
-## Patients with well defined sex,  Pfizer or Oxford az vaccine, and non-missing IMD, region and ethnicity 
-exclude3 <- boxGrob(glue("Missing data (n = {tot})",
+## No prior evidence of COVID infection
+exclude3 <- boxGrob(glue_col("Prior evidence of \n COVID infection",
+                           "n = {pop}",
+                           pop = txtInt(nrow(criteria_3) - nrow(criteria_4)),
+                           .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
+
+criteria4 <- boxGrob(glue("No prior evidence of \n COVID infection",
+                         "N = {pop}",
+                         pop = txtInt(nrow(criteria_4)),
+                         .sep = "\n"))
+
+## Patients with non-missing sex, IMD, region and ethnicity 
+exclude4 <- boxGrob(glue("Missing data (n = {tot})",
                          " - Sex: {sex}",
                          " - Ethnicity: {eth}",
                          " - IMD: {imd}",
                          " - Region: {region}",
-                         " - Unknown vaccine brand: {brand}",
-                         tot = txtInt(nrow(criteria_3) - nrow(criteria_8)),
-                         sex = txtInt(nrow(criteria_3 %>% filter(!(sex %in% c("F", "M"))))),
-                         eth = txtInt(nrow(criteria_3 %>% filter(ethnicity == ""))),
-                         imd = txtInt(nrow(criteria_3 %>% filter(imd == 0))),
-                         region = txtInt(nrow(criteria_3 %>% filter(region == ""))),
-                         brand = txtInt(nrow(criteria_3 %>% filter(unknown_vaccine_brand == "TRUE"))),
+                         tot = txtInt(nrow(criteria_4) - nrow(criteria_8)),
+                         sex = txtInt(nrow(criteria_4 %>% filter(!(sex %in% c("F", "M"))))),
+                         eth = txtInt(nrow(criteria_4 %>% filter(ethnicity == ""))),
+                         imd = txtInt(nrow(criteria_4 %>% filter(imd == 0))),
+                         region = txtInt(nrow(criteria_4 %>% filter(region == ""))),
                          .sep = "\n"),
                     txt_gp = gpar(fontsize = 9),
                     just = "left")
+
+criteria5 <- boxGrob(glue("Individuals with non-missing data",
+                         "N = {pop}",
+                         pop = txtInt(nrow(criteria_8)),
+                         .sep = "\n"))
+
+## Patients vaccinated with Pfizer of Oxford AZ brand
+exclude5 <- boxGrob(glue_col("Unknown vaccine brand",
+                           "n = {pop}",
+                           pop = txtInt(nrow(criteria_8) - nrow(criteria_9)),
+                           .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
 
 final <- boxGrob(glue("Individuals included in study population",
                          "N = {pop}",
@@ -280,6 +356,8 @@ final <- boxGrob(glue("Individuals included in study population",
 vert <- spreadVertical(criteria1 = criteria1,
                        criteria2 = criteria2,
                        criteria3 = criteria3,
+                       criteria4 = criteria4,
+                       criteria5 = criteria5,
                        final = final)
 
 exclude1 <- moveBox(exclude1,
@@ -293,9 +371,19 @@ exclude2 <- moveBox(exclude2,
                       distance(vert$criteria2, vert$criteria3, half = TRUE, center = FALSE))
 
 exclude3 <- moveBox(exclude3,
+                    x = 0.85,
+                    y = coords(vert$criteria4)$top +
+                      distance(vert$criteria3, vert$criteria3, half = TRUE, center = FALSE))
+
+exclude4 <- moveBox(exclude4,
+                    x = 0.86,
+                    y = coords(vert$criteria5)$top +
+                      distance(vert$criteria4, vert$criteria3, half = TRUE, center = FALSE))
+
+exclude5 <- moveBox(exclude5,
                     x = 0.855,
                     y = coords(vert$final)$top +
-                      distance(vert$criteria3, vert$final, half = TRUE, center = FALSE))
+                      distance(vert$criteria5, vert$final, half = TRUE, center = FALSE))
 
  
 # Connect vertical arrows, skip last box
@@ -308,10 +396,14 @@ for (i in 1:(length(vert) - 1)) {
 connectGrob(vert$criteria1, exclude1, type = "L")
 connectGrob(vert$criteria2, exclude2, type = "L")
 connectGrob(vert$criteria3, exclude3, type = "L")
+connectGrob(vert$criteria4, exclude4, type = "L")
+connectGrob(vert$criteria5, exclude5, type = "L")
 
 # Print boxes
 vert
 exclude1
 exclude2
 exclude3
+exclude4
+exclude5
 ```
