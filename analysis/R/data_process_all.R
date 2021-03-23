@@ -241,10 +241,10 @@ data_processed <- data_extract_reordered %>%
     ),
 
     ethnicity = fct_case_when(
+      ethnicity == "1" ~ "White",
       ethnicity == "4" ~ "Black",
       ethnicity == "2" ~ "Mixed",
       ethnicity == "3" ~ "South Asian",
-      ethnicity == "1" ~ "White",
       ethnicity == "5" ~ "Other",
       #TRUE ~ "Unknown",
       TRUE ~ NA_character_
