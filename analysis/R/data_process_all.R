@@ -160,7 +160,7 @@ data_extract0 <- read_csv(
 data_extract0 <- data_extract0 %>%
   mutate(ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)) %>%
   select(-ethnicity_6_sus)
-  
+
 # parse NAs
 data_extract <- data_extract0 %>%
   mutate(across(
@@ -221,7 +221,7 @@ data_extract_reordered <- left_join(
 data_processed <- data_extract_reordered %>%
   mutate(
 
-    start_date = as.Date(gbl_vars$start_date),
+    start_date = as.Date(gbl_vars$start_date), # i.e., this is interpreted later as [midnight at the _end of_ the start date] = [midnight at the _start of_ start date + 1], So that for example deaths on start_date+1 occur at t=1, not t=0.
     end_date = as.Date(gbl_vars$end_date),
     censor_date = pmin(end_date, death_date, na.rm=TRUE),
 
@@ -241,10 +241,10 @@ data_processed <- data_extract_reordered %>%
     ),
 
     ethnicity = fct_case_when(
-      ethnicity == "4" ~ "Black",
-      ethnicity == "2" ~ "Mixed",
-      ethnicity == "3" ~ "South Asian",
       ethnicity == "1" ~ "White",
+      ethnicity == "4" ~ "Black",
+      ethnicity == "3" ~ "South Asian",
+      ethnicity == "2" ~ "Mixed",
       ethnicity == "5" ~ "Other",
       #TRUE ~ "Unknown",
       TRUE ~ NA_character_
@@ -285,7 +285,9 @@ data_processed <- data_extract_reordered %>%
       !is.na(coviddeath_date) ~ "covid-related",
       !is.na(death_date) ~ "not covid-related",
       TRUE ~ NA_character_
-    )
+    ),
+
+    noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(NA_character_))
 
   ) %>%
   droplevels() %>%

@@ -59,9 +59,9 @@ metadata_outcomes <- tribble(
  "postest", "positive_test_1_date", "Positive test",
  "emergency", "emergency_1_date", "A&E attendance",
  "covidadmitted", "covidadmitted_1_date", "COVID-related admission",
- "coviddeath", "coviddeath_1_date", "COVID-related death",
- "noncoviddeath", "noncoviddeath_1_date", "Non-COVID-related death",
- "death", "death_1_date", "Any death",
+ "coviddeath", "coviddeath_date", "COVID-related death",
+ "noncoviddeath", "noncoviddeath_date", "Non-COVID-related death",
+ "death", "death_date", "Any death",
 )
 
 write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))
@@ -81,7 +81,7 @@ formula_comorbs <- . ~ . +
 
 formula_secular <- . ~ . + ns(tstop, df=4)
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
-formula_timedependent <- . ~ . + hospital_status + timesince_probable_covid_pw + timesince_suspected_covid_pw # consider adding local infection rates
+formula_timedependent <- . ~ . + timesince_hosp_discharge_pw + timesince_probable_covid_pw + timesince_suspected_covid_pw # consider adding local infection rates
 
 
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
@@ -91,6 +91,8 @@ formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_secular_region) %>%
   update(formula_timedependent)
 
+postvaxcuts <- c(0, 1, 4, 7, 14, 21)
+
 list_formula <- lst(
   formula_exposure,
   formula_demog,
@@ -98,7 +100,8 @@ list_formula <- lst(
   formula_secular,
   formula_secular_region,
   formula_timedependent,
-  formula_all_rhsvars
+  formula_all_rhsvars,
+  postvaxcuts
 )
 
 write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rds")))
