@@ -81,7 +81,7 @@ formula_comorbs <- . ~ . +
 
 formula_secular <- . ~ . + ns(tstop, df=4)
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
-formula_timedependent <- . ~ . + hospital_status + timesince_probable_covid_pw + timesince_suspected_covid_pw # consider adding local infection rates
+formula_timedependent <- . ~ . + timesince_hosp_discharge_pw + timesince_probable_covid_pw + timesince_suspected_covid_pw # consider adding local infection rates
 
 
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
@@ -91,6 +91,8 @@ formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_secular_region) %>%
   update(formula_timedependent)
 
+postvaxcuts <- c(0, 1, 4, 7, 14, 21)
+
 list_formula <- lst(
   formula_exposure,
   formula_demog,
@@ -98,7 +100,8 @@ list_formula <- lst(
   formula_secular,
   formula_secular_region,
   formula_timedependent,
-  formula_all_rhsvars
+  formula_all_rhsvars,
+  postvaxcuts
 )
 
 write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rds")))

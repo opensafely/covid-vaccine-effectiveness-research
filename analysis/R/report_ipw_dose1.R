@@ -54,6 +54,7 @@ gbl_vars <- jsonlite::fromJSON(
 
 
 # Import metadata for cohort ----
+## these are created in data_define_cohorts.R script
 
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
@@ -62,31 +63,13 @@ metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 list2env(metadata_cohorts, globalenv())
 
 # Import metadata for outcome ----
+## these are created in data_define_cohorts.R script
 
 metadata_outcomes <- read_rds(here::here("output", "data", "metadata_outcomes.rds"))
 stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
 metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
 
 list2env(metadata_outcomes, globalenv())
-
-## define model hyper-parameters and characteristics ----
-
-### model names ----
-
-
-## or equivalently:
-# cohort <- metadata_cohorts$cohort
-# cohort_descr <- metadata_cohorts$cohort_descr
-# outcome <- metadata_cohorts$outcome
-# outcome_descr <- metadata_cohorts$outcome_descr
-
-### post vax time periods ----
-
-postvaxcuts <- c(0, 1, 4, 7, 14, 21) # use if coded as days
-#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
-
-### knot points for calendar time splines ----
-#knots <- c(21, 28)
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
@@ -96,17 +79,13 @@ list2env(list_formula, globalenv())
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
-##  Create big loop over all categories
-
-strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
-summary_list <- vector("list", length(strata))
-names(summary_list) <- strata
 
 
 
 
 
-## table and plot functions
+
+## table and plot functions ----
 
 gt_model_summary <- function(model, cluster) {
 
@@ -138,7 +117,7 @@ gt_model_summary <- function(model, cluster) {
       haematological_cancer ~ "Haematological cancer",
       cancer_excl_lung_and_haem ~ "Other cancers",
       flu_vaccine ~ "Flu vaccine last 5 years",
-      hospital_status ~ "In-hospital",
+      timesince_hosp_discharge_pw ~ "Time since hospital in-patient",
       timesince_probable_covid_pw ~ "Time since probable COVID",
       timesince_suspected_covid_pw ~ "Time since suspected COVID"
     )
@@ -156,8 +135,8 @@ forest_from_gt <- function(gt_obj){
   #sjPlot::plot_model(ipwvaxany1)
 
   gt_obj %>%
-  as_gt() %>%
-  .$`_data` %>%
+    as_gt() %>%
+    .$`_data` %>%
     filter(
       !str_detect(variable,"ns"),
       !is.na(term)
@@ -192,6 +171,13 @@ forest_from_gt <- function(gt_obj){
     )
 }
 
+
+
+##  Create big loop over all categories
+
+strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
+summary_list <- vector("list", length(strata))
+names(summary_list) <- strata
 
 
 for(stratum in strata){
