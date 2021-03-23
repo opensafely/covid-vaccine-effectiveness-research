@@ -121,6 +121,7 @@ actions:
       moderately_sensitive:
         plots: output/over80s/postest/any/all/*/plot*.svg
         tables: output/over80s/postest/any/all/*/tab*.html
+        data: output/over80s/postest/any/all/*/tab*.csv
 
   report_over80s_postest_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest any all
@@ -150,6 +151,7 @@ actions:
       moderately_sensitive:
         plots: output/over80s/postest/pfizer/all/*/plot*.svg
         tables: output/over80s/postest/pfizer/all/*/tab*.html
+        data: output/over80s/postest/pfizer/all/*/tab*.csv
 
   report_over80s_postest_pfizer_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer all
@@ -180,6 +182,7 @@ actions:
       moderately_sensitive:
         plots: output/over80s/postest/az/all/*/plot*.svg
         tables: output/over80s/postest/az/all/*/tab*.html
+        data: output/over80s/postest/az/all/*/tab*.csv
 
 
   report_over80s_postest_az_all_dose1:
@@ -216,6 +219,7 @@ actions:
       moderately_sensitive:
         plots: output/over80s/noncoviddeath/any/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/any/all/*/tab*.html
+        data: output/over80s/noncoviddeath/any/all/*/tab*.csv
 
   report_over80s_noncoviddeath_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s noncoviddeath any all
@@ -245,6 +249,7 @@ actions:
       moderately_sensitive:
         plots: output/over80s/noncoviddeath/pfizer/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/pfizer/all/*/tab*.html
+        data: output/over80s/noncoviddeath/pfizer/all/*/tab*.csv
 
   report_over80s_noncoviddeath_pfizer_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s noncoviddeath pfizer all
@@ -275,6 +280,7 @@ actions:
       moderately_sensitive:
         plots: output/over80s/noncoviddeath/az/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/az/all/*/tab*.html
+        data: output/over80s/noncoviddeath/az/all/*/tab*.csv
 
 
   report_over80s_noncoviddeath_az_all_dose1:

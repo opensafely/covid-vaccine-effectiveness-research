@@ -41,7 +41,7 @@ if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   outcome <- "postest"
-  brand <- "az"
+  brand <- "any"
   strata_var <- "all"
 }
 
@@ -192,6 +192,7 @@ for(stratum in strata){
 
     tab_ipwvaxany1 <- gt_model_summary(ipwvaxany1, data_pt_atriskvaxany1$patient_id)
     gtsave(tab_ipwvaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.html"))
+    write_csv(tab_ipwvaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.csv"))
 
     ##output forest plot
     plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1)
@@ -208,6 +209,7 @@ for(stratum in strata){
 
     tab_ipwvaxpfizer1 <- gt_model_summary(ipwvaxpfizer1, data_pt_atriskvaxpfizer1$patient_id)
     gtsave(tab_ipwvaxpfizer1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxfizer1.html"))
+    write_csv(tab_ipwvaxpfizer1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxpfizer1.csv"))
 
     ##output forest plot
     plot_ipwvaxpfizer1 <- forest_from_gt(tab_ipwvaxpfizer1)
@@ -219,6 +221,7 @@ for(stratum in strata){
 
     tab_ipwvaxaz1 <- gt_model_summary(ipwvaxaz1, data_pt_atriskvaxaz1$patient_id)
     gtsave(tab_ipwvaxaz1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxaz1.html"))
+    write_csv(tab_ipwvaxaz1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxaz1.csv"))
 
     ##output forest plot
     plot_ipwvaxaz1 <- forest_from_gt(tab_ipwvaxaz1)
@@ -239,6 +242,7 @@ for(stratum in strata){
 
   tab_ipwdeath <- gt_model_summary(ipwdeath, data_pt_atriskdeath$patient_id)
   gtsave(tab_ipwdeath %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwdeath.html"))
+  write_csv(tab_ipwdeath$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwdeath.csv"))
 
   ##output forest plot
   plot_ipwdeath <- forest_from_gt(tab_ipwdeath)
