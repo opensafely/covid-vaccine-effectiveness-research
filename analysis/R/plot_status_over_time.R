@@ -122,6 +122,7 @@ data_by_day <-
 data_pt %>%
   transmute(
     patient_id,
+    all = "all",
     sex,
     imd,
     ethnicity,
