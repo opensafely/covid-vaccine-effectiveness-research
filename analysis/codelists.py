@@ -114,10 +114,25 @@ temporary_immunosuppression_codes = codelist_from_csv(
 chronic_cardiac_disease_codes = codelist_from_csv(
     "codelists/opensafely-chronic-cardiac-disease.csv", system="ctv3", column="CTV3ID",
 )
-intellectual_disability_including_downs_syndrome_codes = codelist_from_csv(
-    "codelists/opensafely-intellectual-disability-including-downs-syndrome.csv",
+learning_disability_codes = codelist_from_csv(
+    "codelists/opensafely-learning-disabilities.csv",
     system="ctv3",
-    column="CTV3ID",
+    column="CTV3Code",
+)
+downs_syndrome_codes = codelist_from_csv(
+    "codelists/opensafely-down-syndrome.csv",
+    system="ctv3",
+    column="code",
+)
+cerebral_palsy_codes = codelist_from_csv(
+    "codelists/opensafely-cerebral-palsy.csv",
+    system="ctv3",
+    column="code",
+)
+learning_disability_including_downs_syndrome_and_cerebral_palsy_codes = combine_codelists(
+    learning_disability_codes,
+    downs_syndrome_codes,
+    cerebral_palsy_codes,
 )
 dialysis_codes = codelist_from_csv(
     "codelists/opensafely-dialysis.csv", system="ctv3", column="CTV3ID",
