@@ -1,47 +1,47 @@
-2021-03-15T20:41:18.102284000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-15T20:41:18.111182600Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-15T20:41:18.111198400Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-15T20:41:18.111206500Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-15T20:41:18.111213500Z v readr   1.3.1     v forcats 0.5.0
-2021-03-15T20:41:18.286209700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-15T20:41:18.286231700Z x dplyr::filter() masks stats::filter()
-2021-03-15T20:41:18.286240700Z x dplyr::lag()    masks stats::lag()
-2021-03-15T20:41:18.323316600Z 
-2021-03-15T20:41:18.323334600Z Attaching package: 'lubridate'
-2021-03-15T20:41:18.323342400Z 
-2021-03-15T20:41:18.324838800Z The following objects are masked from 'package:base':
-2021-03-15T20:41:18.324857300Z 
-2021-03-15T20:41:18.324865000Z     date, intersect, setdiff, union
-2021-03-15T20:41:18.324872000Z 
-2021-03-15T20:42:47.027013200Z Warning messages:
-2021-03-15T20:42:47.218183600Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:42:47.218216200Z   no non-missing arguments to min; returning Inf
-2021-03-15T20:42:47.407204900Z 2: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:42:47.407263200Z   no non-missing arguments to min; returning Inf
-2021-03-15T20:42:47.595977700Z 3: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:42:47.596034400Z   no non-missing arguments to max; returning -Inf
-2021-03-15T20:42:47.784581600Z 4: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:42:47.784638900Z   no non-missing arguments to max; returning -Inf
-2021-03-15T20:45:06.511375800Z Warning messages:
-2021-03-15T20:45:06.703834200Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:45:06.703935900Z   no non-missing arguments to min; returning Inf
-2021-03-15T20:45:06.897363700Z 2: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:45:06.897435400Z   no non-missing arguments to max; returning -Inf
-2021-03-15T20:45:07.086711000Z 3: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:45:07.086771800Z   no non-missing arguments to min; returning Inf
-2021-03-15T20:45:07.277127800Z 4: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-15T20:45:07.277187300Z   no non-missing arguments to max; returning -Inf
+2021-03-23T00:32:33.591194000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-23T00:32:33.599948900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-23T00:32:33.599972100Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-23T00:32:33.599981200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-23T00:32:33.599988400Z v readr   1.3.1     v forcats 0.5.0
+2021-03-23T00:32:33.769548300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-23T00:32:33.769618400Z x dplyr::filter() masks stats::filter()
+2021-03-23T00:32:33.769627200Z x dplyr::lag()    masks stats::lag()
+2021-03-23T00:32:33.805718600Z 
+2021-03-23T00:32:33.805746200Z Attaching package: 'lubridate'
+2021-03-23T00:32:33.805755400Z 
+2021-03-23T00:32:33.807232000Z The following objects are masked from 'package:base':
+2021-03-23T00:32:33.807251400Z 
+2021-03-23T00:32:33.807259300Z     date, intersect, setdiff, union
+2021-03-23T00:32:33.807266300Z 
+2021-03-23T00:34:17.189699800Z Warning messages:
+2021-03-23T00:34:17.396338900Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:34:17.396363300Z   no non-missing arguments to min; returning Inf
+2021-03-23T00:34:17.602882900Z 2: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:34:17.602930600Z   no non-missing arguments to min; returning Inf
+2021-03-23T00:34:17.811569200Z 3: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:34:17.811636700Z   no non-missing arguments to max; returning -Inf
+2021-03-23T00:34:18.025529300Z 4: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:34:18.025606100Z   no non-missing arguments to max; returning -Inf
+2021-03-23T00:37:04.189969200Z Warning messages:
+2021-03-23T00:37:04.396647200Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:37:04.396735400Z   no non-missing arguments to min; returning Inf
+2021-03-23T00:37:04.604248400Z 2: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:37:04.604306300Z   no non-missing arguments to max; returning -Inf
+2021-03-23T00:37:04.813843800Z 3: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:37:04.813935200Z   no non-missing arguments to min; returning Inf
+2021-03-23T00:37:05.024744100Z 4: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
+2021-03-23T00:37:05.024821700Z   no non-missing arguments to max; returning -Inf
 
 
 state: succeeded
-commit: 6b40e3327780aa5432dd4ee80ebcbe9753e8090d
-docker_image_id: sha256:c7cb8c47c64952beb4dc7e1b4b0edaf95b0fa5cc1af3f796e073e4190413ec9e
+commit: ac56ec6a46c0e1b9c597ffa3a664efdfb35bbdf7
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: 3tky6g24rqpwvdwz
+job_id: 3iep3p3v22o5canc
 run_by_user: wjchulme
-created_at: 2021-03-15T19:02:19Z
-started_at: 2021-03-15T20:41:15Z
-completed_at: 2021-03-15T20:45:12Z
+created_at: 2021-03-22T22:51:03Z
+started_at: 2021-03-23T00:32:31Z
+completed_at: 2021-03-23T00:37:11Z
 
 Completed successfully
 
