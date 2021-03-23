@@ -243,8 +243,8 @@ data_processed <- data_extract_reordered %>%
     ethnicity = fct_case_when(
       ethnicity == "1" ~ "White",
       ethnicity == "4" ~ "Black",
-      ethnicity == "2" ~ "Mixed",
       ethnicity == "3" ~ "South Asian",
+      ethnicity == "2" ~ "Mixed",
       ethnicity == "5" ~ "Other",
       #TRUE ~ "Unknown",
       TRUE ~ NA_character_
@@ -287,7 +287,7 @@ data_processed <- data_extract_reordered %>%
       TRUE ~ NA_character_
     ),
 
-    noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(""))
+    noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(NA_character_))
 
   ) %>%
   droplevels() %>%
