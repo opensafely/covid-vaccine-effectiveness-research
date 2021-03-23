@@ -138,7 +138,7 @@ data_extract0 <- read_csv(
     dialysis = col_logical(),
     solid_organ_transplantation = col_logical(),
     chemo_or_radio = col_logical(),
-    intel_dis_incl_downs_syndrome = col_logical(),
+    LD_incl_DS_and_CP = col_logical(),
     lung_cancer = col_logical(),
     cancer_excl_lung_and_haem = col_logical(),
     haematological_cancer = col_logical(),

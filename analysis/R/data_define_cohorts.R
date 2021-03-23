@@ -75,7 +75,7 @@ formula_comorbs <- . ~ . +
   solid_organ_transplantation + chemo_or_radio +
   permanant_immunosuppression + asplenia +
   dmards +
-  intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
+  LD_incl_DS_and_CP + psychosis_schiz_bipolar +
   lung_cancer + cancer_excl_lung_and_haem + haematological_cancer +
   flu_vaccine
 

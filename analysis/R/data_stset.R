@@ -81,7 +81,7 @@ data_fixed <- data_all %>%
     permanant_immunosuppression,
     #temporary_immunosuppression,
     asplenia,
-    intel_dis_incl_downs_syndrome,
+    LD_incl_DS_and_CP,
     psychosis_schiz_bipolar,
     lung_cancer,
     cancer_excl_lung_and_haem,

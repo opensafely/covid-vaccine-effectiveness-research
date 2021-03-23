@@ -133,7 +133,7 @@ gt_model_summary <- function(model, cluster) {
       asplenia ~ "Asplenia",
       dmards ~ "DMARDS",
       psychosis_schiz_bipolar ~ "Pyschosis, Schiz., biploar",
-      # intel_dis_incl_downs_syndrome ~ "Intellectual disability, incl. Down's",
+      # LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
       lung_cancer ~ "Lung cancer",
       haematological_cancer ~ "Haematological cancer",
       cancer_excl_lung_and_haem ~ "Other cancers",
