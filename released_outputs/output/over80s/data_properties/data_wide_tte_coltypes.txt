@@ -46,7 +46,13 @@ $tte_enddate
 $tte_lastfup
 [1] "integer"
 
+$tte_dereg
+[1] "integer"
+
 $tte_postest
+[1] "integer"
+
+$tte_emergency
 [1] "integer"
 
 $tte_covidadmitted

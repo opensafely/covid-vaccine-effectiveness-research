@@ -16,6 +16,9 @@ $has_follow_up_previous_year
 $registered_at_latest
 [1] "logical"
 
+$dereg_date
+[1] "Date"
+
 $ethnicity
 [1] "factor"
 
@@ -51,6 +54,9 @@ $coviddeath_date
 
 $death_date
 [1] "Date"
+
+$diabetes
+[1] "logical"
 
 $chronic_cardiac_disease
 [1] "logical"
@@ -124,6 +130,9 @@ $admitted_4_date
 $admitted_5_date
 [1] "Date"
 
+$admitted_6_date
+[1] "Date"
+
 $covid_vax_1_date
 [1] "Date"
 
@@ -176,6 +185,15 @@ $discharged_4_date
 [1] "Date"
 
 $discharged_5_date
+[1] "Date"
+
+$discharged_6_date
+[1] "Date"
+
+$emergency_1_date
+[1] "Date"
+
+$emergency_2_date
 [1] "Date"
 
 $positive_test_1_date
