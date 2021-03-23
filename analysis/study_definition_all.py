@@ -310,7 +310,7 @@ study = StudyDefinition(
     # any COVID vaccination (first dose)
     covid_vax_1_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="index_date",  # check all december to date
+        on_or_after="index_date + 1 day",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -370,7 +370,7 @@ study = StudyDefinition(
        # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
     covid_vax_pfizer_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="index_date",  # check all december to date
+        on_or_after="index_date + 1 day",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -433,7 +433,7 @@ study = StudyDefinition(
         # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
     covid_vax_az_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="index_date",  # check all december to date
+        on_or_after="index_date + 1 day",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -516,7 +516,7 @@ study = StudyDefinition(
         ),
         returning="date",
         date_format="YYYY-MM-DD",
-        on_or_before="index_date",
+        on_or_before="index_date + 1 day",
         find_first_match_in_period=True,
         return_expectations={"rate": "exponential_increase"},
     ),
@@ -544,7 +544,7 @@ study = StudyDefinition(
     positive_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -684,7 +684,7 @@ study = StudyDefinition(
 
     admitted_0_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_before="index_date - 1 day",
+        on_or_before="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -696,7 +696,7 @@ study = StudyDefinition(
 
     discharged_0_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_before="index_date - 1 day",
+        on_or_before="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
