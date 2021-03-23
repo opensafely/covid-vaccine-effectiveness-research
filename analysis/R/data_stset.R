@@ -115,8 +115,10 @@ data_tte <- data_all  %>%
 
 
     positive_test_1_date,
+    emergency_1_date,
     covidadmitted_1_date,
     coviddeath_date,
+    noncoviddeath_date,
     death_date,
 
     #outcome_date = positive_test_1_date, #change here for different outcomes.
@@ -152,6 +154,7 @@ data_tte <- data_all  %>%
 
     #time to covid death
     tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE),
+    tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE),
 
     #time to death
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),

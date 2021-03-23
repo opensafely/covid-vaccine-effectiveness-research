@@ -285,7 +285,9 @@ data_processed <- data_extract_reordered %>%
       !is.na(coviddeath_date) ~ "covid-related",
       !is.na(death_date) ~ "not covid-related",
       TRUE ~ NA_character_
-    )
+    ),
+
+    noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(""))
 
   ) %>%
   droplevels() %>%
