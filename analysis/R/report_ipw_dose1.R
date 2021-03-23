@@ -260,3 +260,6 @@ for(stratum in strata){
 
 
 }
+
+
+warnings()

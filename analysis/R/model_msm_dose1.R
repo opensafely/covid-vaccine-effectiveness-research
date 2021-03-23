@@ -810,7 +810,7 @@ for(stratum in strata){
 
 
   ## print warnings
-  warnings()
+  print(warnings())
   cat("  \n")
   print(gc(reset=TRUE))
 }

@@ -103,6 +103,13 @@ data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wid
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))
 
 
+# Import metadata for cohort ----
+
+metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
+stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
+metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
+
+list2env(metadata_cohorts, globalenv())
 
 # create plots ----
 
@@ -201,7 +208,8 @@ plot_vax_counts <- function(var, var_descr){
       y="Status per 10,000 patients",
       colour=NULL,
       fill=NULL,
-      title = glue::glue("Vaccination status over time, by {var_descr}")
+      title = "Vaccination status over time",
+      subtitle = var_descr
     ) +
     plot_theme+
     theme(legend.position = "bottom")
@@ -242,7 +250,8 @@ plot_event_counts <- function(var, var_descr){
       x=NULL,
       y="Events per 10,000 patients",
       fill=NULL,
-      title = glue::glue("Outcome status over time, by {var_descr}")
+      title = "Outcome status over time",
+      subtitle = var_descr
     ) +
     plot_theme+
     theme(legend.position = "bottom")+
@@ -292,7 +301,8 @@ plot_event_rates <- function(var, var_descr){
       x=NULL,
       y="Event rate per week per 10,000 patients",
       colour=NULL,
-      title = glue::glue("Outcome rates over time, by {var_descr}")
+      title = "Outcome rates over time",
+      subtitle = var_descr
     ) +
     plot_theme+
     guides(colour = guide_legend(nrow = 2))+
@@ -304,11 +314,12 @@ plot_event_rates <- function(var, var_descr){
 
 vars_df <- tribble(
   ~var, ~var_descr,
+  "all", "",
   "sex", "Sex",
   "imd", "IMD",
   "ageband", "Age",
-  "ethnicity", "ethnicity",
-  "region", "region"
+  "ethnicity", "Ethnicity",
+  "region", "Region"
 ) %>% mutate(
   device="svg",
   units = "cm",
