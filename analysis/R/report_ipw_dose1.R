@@ -208,7 +208,7 @@ for(stratum in strata){
     gtsave(tab_ipwvaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.html"))
 
     ##output forest plot
-    plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1 %>% as_gt())
+    plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1)
     ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxany1.svg"),  plot_ipwvaxany1)
 
 
