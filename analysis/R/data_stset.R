@@ -276,6 +276,7 @@ data_tte_cp0 <- tmerge(
   emergency_status = tdc(tte_emergency),
   covidadmitted_status = tdc(tte_covidadmitted),
   coviddeath_status = tdc(tte_coviddeath),
+  noncoviddeath_status = tdc(tte_noncoviddeath),
   death_status = tdc(tte_death),
   dereg_status= tdc(tte_dereg),
   censored_status = tdc(tte_lastfup),
