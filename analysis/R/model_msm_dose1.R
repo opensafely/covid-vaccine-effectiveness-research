@@ -7,10 +7,11 @@
 # "tte" = "time-to-event"
 #
 # The script should be run via an action in the project.yaml
-# The script must be accompanied by two arguments,
+# The script must be accompanied by four arguments,
 # 1. the name of the cohort defined in data_define_cohorts.R
 # 2. the name of the outcome defined in data_define_cohorts.R
 # 3. the name of the brand (currently "az" or "pfizer")
+# 4. the stratification variable. Use "all" if no stratification
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -61,12 +62,6 @@ stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
 list2env(metadata, globalenv())
 
-## or equivalently:
-# cohort <- metadata_cohorts$cohort
-# cohort_descr <- metadata_cohorts$cohort_descr
-# outcome <- metadata_cohorts$outcome
-# outcome_descr <- metadata_cohorts$outcome_descr
-
 ### define parglm optimisation parameters ----
 
 parglmparams <- parglm.control(
@@ -80,10 +75,6 @@ parglmparams <- parglm.control(
 list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
-### post vax time periods ----
-
-postvaxcuts <- c(0, 1, 4, 7, 14, 21) # use if coded as days
-#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
 
 ### knot points for calendar time splines ----
 
@@ -142,21 +133,13 @@ for(stratum in strata){
   # create output directories ----
   dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum), showWarnings = FALSE, recursive=TRUE)
 
-  # save strata as vector
-
-
-
 
   # subset data
   data_pt_sub <- data_pt %>% filter(.[[strata_var]] == stratum)
 
-
-
   if(brand=="any"){
 
     # IPW model for any vaccination ----
-
-    ## models for first vaccination ----
 
     data_pt_atriskvaxany1 <- data_pt_sub %>% filter(vaxany_status==0)
 
@@ -172,16 +155,7 @@ for(stratum in strata){
       model = FALSE
     )
 
-    # ipwvaxany1 <- glm(
-    #   formula = ipwvaxany1_par$formula,
-    #   data = data_pt_atriskvaxany1,
-    #   family=binomial,
-    #   control = list(maxit = 1),
-    #   na.action = "na.fail",
-    #   model = FALSE,
-    #   start = coefficients(ipwvaxany1_par)
-    # )
-    #ipwvaxany1<-ipwvaxany1_par
+
     print(jtools::summ(ipwvaxany1, digits =3))
     cat(glue::glue("ipwvaxany1 data size = ", length(ipwvaxany1$y)), "\n")
     cat(glue::glue("memory usage = ", format(object.size(ipwvaxany1), units="GB", standard="SI", digits=3L)), "\n")
@@ -189,8 +163,6 @@ for(stratum in strata){
 
 
     ### without time-updating covariates ----
-    # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
-    # used for stabilised ip weights
 
     cat("  \n")
     cat("ipwvaxpany1_fxd \n")
@@ -232,8 +204,6 @@ for(stratum in strata){
 
     # IPW model for pfizer vaccination ----
 
-    ## models for first vaccination ----
-
     data_pt_atriskvaxpfizer1 <- data_pt_sub %>% filter(vaxpfizer_status==0)
 
     ### with time-updating covariates
@@ -248,16 +218,6 @@ for(stratum in strata){
       model = FALSE
     )
 
-    # ipwvaxpfizer1 <- glm(
-    #   formula = ipwvaxpfizer1_par$formula,
-    #   data = data_pt_atriskvaxpfizer1,
-    #   family=binomial,
-    #   control = list(maxit = 1),
-    #   na.action = "na.fail",
-    #   model = FALSE,
-    #   start = coefficients(ipwvaxpfizer1_par)
-    # )
-    #ipwvaxpfizer1<-ipwvaxpfizer1_par
     print(jtools::summ(ipwvaxpfizer1, digits =3))
     cat(glue::glue("ipwvaxpfizer1 data size = ", length(ipwvaxpfizer1$y)), "\n")
     cat(glue::glue("memory usage = ", format(object.size(ipwvaxpfizer1), units="GB", standard="SI", digits=3L)), "\n")
@@ -265,9 +225,6 @@ for(stratum in strata){
 
 
     ### without time-updating covariates ----
-    # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
-    # used for stabilised ip weights
-
     cat("  \n")
     cat("ipwvaxpfizer1_fxd \n")
     ipwvaxpfizer1_fxd <- parglm(
@@ -302,9 +259,6 @@ for(stratum in strata){
 
 
     # IPW model for az vaccination ----
-
-    ## models for first vaccination ----
-
     data_pt_atriskvaxaz1 <- data_pt_sub %>% filter(vaxaz_status==0, tstart>=28)
 
     ### with time-updating covariates
@@ -319,16 +273,6 @@ for(stratum in strata){
       model = FALSE
     )
 
-    # ipwvaxaz1 <- glm(
-    #   formula = ipwvaxaz1_par$formula,
-    #   data = data_pt_atriskvaxaz1,
-    #   family=binomial,
-    #   control = list(maxit = 1),
-    #   na.action = "na.fail",
-    #   model = FALSE,
-    #   start = coefficients(ipwvaxaz1_par)
-    # )
-    #ipwvaxaz1<-ipwvaxaz1_par
 
     print(jtools::summ(ipwvaxaz1, digits =3))
     cat(glue::glue("ipwvaxaz1 data size = ", length(ipwvaxaz1$y)), "\n")
@@ -336,9 +280,6 @@ for(stratum in strata){
 
 
     ### without time-updating covariates ----
-    # exclude time-updating covariates _except_ variables derived from calendar time itself (eg ns(calendar_time,3))
-    # used for stabilised ip weights
-
     cat("  \n")
     cat("ipwvaxaz1_fxd \n")
     ipwvaxaz1_fxd <- parglm(
@@ -373,8 +314,6 @@ for(stratum in strata){
   }
 
   # IPW model for death ----
-
-  ## models death ----
 
   data_pt_atriskdeath <- data_pt_sub %>% filter(death_status==0)
 
@@ -421,10 +360,6 @@ for(stratum in strata){
       preddeath_fxd=predict(ipwdeath_fxd, type="response"),
     )
 
-  # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_model_death.svg"),
-  #   jtools::plot_summs(ipwdeath, scale = TRUE, robust=TRUE)
-  # )
   write_rds(data_pt_atriskdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwdeath.rds"), compress="gz")
   write_rds(ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwdeath.rds"), compress="gz")
   rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
@@ -674,7 +609,7 @@ for(stratum in strata){
 
   # do not use time-dependent covariates as these are accounted for with the weights
   # use cluster standard errors
-  # use quasibinomial to suppress "non-integer #successes in a binomial glm!" warning
+  # use quasibinomial to suppress "non-integer #successes in a binomial glm!" warning (not possible with parglm)
   # use interaction with time terms?
 
   ### model 0 - unadjusted vaccination effect model ----
@@ -691,17 +626,6 @@ for(stratum in strata){
   )
 
 
-  # msmmod0 <- glm(
-  #   formula = msmmod0_par$formula,
-  #   data = data_weights,
-  #   weights = ipweight_stbl,
-  #   family = binomial,
-  #   control = list(maxit = 1),
-  #   na.action = "na.fail",
-  #   model = FALSE,
-  #   start = coefficients(msmmod0_par)
-  # )
-  #msmmod0<- msmmod0_par
   print(jtools::summ(msmmod0_par, digits =3))
   cat(glue::glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
@@ -720,18 +644,6 @@ for(stratum in strata){
     model = FALSE
   )
 
-
-  # msmmod1 <- glm(
-  #   formula = msmmod1_par$formula,
-  #   data = data_weights,
-  #   weights = ipweight_stbl,
-  #   family = binomial,
-  #   control = list(maxit = 1),
-  #   na.action = "na.fail",
-  #   model = FALSE,
-  #   start = coefficients(msmmod1_par)
-  # )
-  #msmmod1<-msmmod1_par
   print(jtools::summ(msmmod1_par, digits =3))
 
   cat(glue::glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
@@ -755,17 +667,6 @@ for(stratum in strata){
     model = FALSE
   )
 
-
-  # msmmod4 <- glm(
-  #   formula = msmmod3_par$formula,
-  #   data = data_weights,
-  #   family = binomial,
-  #   control = list(maxit = 1),
-  #   na.action = "na.fail",
-  #   model = FALSE,
-  #   start = coefficients(msmmod4_par)
-  # )
-  #msmmod3<-msmmod3_par
   print(jtools::summ(msmmod3_par, digits =3))
 
   cat(glue::glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
@@ -787,26 +688,12 @@ for(stratum in strata){
     model = FALSE
   )
 
-
-  # msmmod4 <- glm(
-  #   formula = msmmod4_par$formula,
-  #   data = data_weights,
-  #   weights = ipweight_stbl,
-  #   family = binomial,
-  #   control = list(maxit = 1),
-  #   na.action = "na.fail",
-  #   model = FALSE,
-  #   start = coefficients(msmmod4_par)
-  # )
-  #msmmod4<-msmmod4_par
   print(jtools::summ(msmmod4_par, digits =3))
 
   cat(glue::glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
   rm(msmmod4_par)
-
-
 
 
   ## print warnings
