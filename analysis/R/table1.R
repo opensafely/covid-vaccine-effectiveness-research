@@ -179,7 +179,7 @@ map(
       dementia ~ "Dementia",
       other_neuro_conditions ~ "Other neurological conditions",
 
-      LD_incl_DS_and_CP ~ "Learning disability incl. DS and CP'",
+      LD_incl_DS_and_CP ~ "Learning disability incl. DS and CP",
       psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
 
       flu_vaccine ~ "Flu vaccine in previous 5 years"
