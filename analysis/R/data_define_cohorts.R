@@ -100,7 +100,7 @@ formula_comorbs <- . ~ . +
   dementia +
   other_neuro_conditions +
 
-  intel_dis_incl_downs_syndrome +
+  LD_incl_DS_and_CP +
   psychosis_schiz_bipolar +
 
   flu_vaccine

@@ -144,11 +144,23 @@
       "downloaded_at": "2021-01-18 11:45:42.551315Z",
       "sha": "6139df4911534868bc5ade1ada53395606651064"
     },
-    "opensafely-intellectual-disability-including-downs-syndrome.csv": {
-      "id": "opensafely/intellectual-disability-including-downs-syndrome/2020-08-27",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/intellectual-disability-including-downs-syndrome/2020-08-27/",
-      "downloaded_at": "2021-01-18 11:45:42.726462Z",
-      "sha": "5e629f711c97794523b5c9783775e5364b598ff8"
+    "opensafely-learning-disabilities.csv": {
+      "id": "opensafely/learning-disabilities/2020-07-06",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/learning-disabilities/2020-07-06/",
+      "downloaded_at": "2021-03-23 12:23:37.732057Z",
+      "sha": "ab5b5f60e8525af5898ec1066fc820501b8e5e29"
+    },
+    "opensafely-down-syndrome.csv": {
+      "id": "opensafely/down-syndrome/15832db6",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/down-syndrome/15832db6/",
+      "downloaded_at": "2021-03-23 12:23:37.895612Z",
+      "sha": "0f621ff90caa40b1a88c026078eecf0c4d69d04e"
+    },
+    "opensafely-cerebral-palsy.csv": {
+      "id": "opensafely/cerebral-palsy/1835edac",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/cerebral-palsy/1835edac/",
+      "downloaded_at": "2021-03-23 12:23:38.127061Z",
+      "sha": "45cd282e51831fc7d2827c9d96a1f34c2a32d5b0"
     },
     "opensafely-lung-cancer.csv": {
       "id": "opensafely/lung-cancer/2020-04-15",

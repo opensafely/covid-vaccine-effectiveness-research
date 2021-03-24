@@ -1010,6 +1010,12 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
+    LD_incl_DS_and_CP=patients.with_these_clinical_events(
+        learning_disability_including_downs_syndrome_and_cerebral_palsy_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
     cystic_fibrosis=patients.with_these_clinical_events(
         cystic_fibrosis_codes,
         on_or_before="index_date",

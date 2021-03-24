@@ -132,7 +132,7 @@ gt_model_summary <- function(model, cluster) {
       dementia ~ "Dementia",
       other_neuro_conditions ~ "Other neurological conditions",
 
-      intel_dis_incl_downs_syndrome ~ "Intellectual disability incl. Down's",
+      LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
       psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
 
       flu_vaccine ~ "Flu vaccine in previous 5 years",

@@ -136,6 +136,7 @@ data_extract0 <- read_csv(
     other_heart_disease = col_logical(),
 
     dialysis = col_logical(),
+
     diabetes = col_logical(),
     chronic_liver_disease = col_logical(),
 
@@ -158,7 +159,7 @@ data_extract0 <- read_csv(
 
     dementia = col_logical(),
     other_neuro_conditions = col_logical(),
-    intel_dis_incl_downs_syndrome = col_logical(),
+    LD_incl_DS_and_CP = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
     flu_vaccine = col_logical()
 
