@@ -103,29 +103,38 @@ data_tab <- data_ss %>%
 tab_summary <- data_tab %>% transmute(
   ageband, sex, imd, region, ethnicity,
   bmi,
-  dialysis,
+
   chronic_cardiac_disease,
-  current_copd,
-  dementia,
+  heart_failure,
+  other_heart_disease,
+
   dialysis,
+  diabetes,
+  chronic_liver_disease,
+
+  current_copd,
+  cystic_fibrosis,
+  other_resp_conditions,
+
+  lung_cancer,
+  haematological_cancer,
+  cancer_excl_lung_and_haem,
+
+  chemo_or_radio,
   solid_organ_transplantation,
   #bone_marrow_transplant,
-  chemo_or_radio,
   #sickle_cell_disease,
   permanant_immunosuppression,
   #temporary_immunosuppression,
   asplenia,
+  dmards,
+
+  dementia,
+  other_neuro_conditions,
   LD_incl_DS_and_CP,
   psychosis_schiz_bipolar,
-  lung_cancer,
-  cancer_excl_lung_and_haem,
-  haematological_cancer,
   flu_vaccine,
 
-  postest_status,
-  covidadmitted_status,
-  coviddeath_status,
-  death_status,
   snapshot_day, vaxany_status
 ) %>%
 group_split(snapshot_day) %>%
@@ -139,30 +148,42 @@ map(
       imd ~ "IMD",
       region ~ "Region",
       ethnicity ~ "Ethnicity",
+
       bmi ~ "Body Mass Index",
-      dialysis ~ "Dialysis",
+
       chronic_cardiac_disease ~ "Chronic cardiac disease",
+      heart_failure ~ "Heart failure",
+      other_heart_disease ~ "Other heart disease",
+
+      dialysis ~ "Dialysis",
+      diabetes ~ "Diabetes",
+      chronic_liver_disease ~ "Chronic liver disease",
+
       current_copd ~ "COPD",
-      dementia ~ "Dementia",
-      solid_organ_transplantation ~ "Solid organ transplant",
-      #bone_marrow_transplant ~ "",
-      chemo_or_radio ~ "Chemo- or radio-therapy",
-      #sickle_cell_disease ~ "",
-      permanant_immunosuppression ~ "Permanent Immunosuppression",
-      #temporary_immunosuppression ~ "",
-      asplenia ~ "Aplenia",
-      LD_incl_DS_and_CP ~ "Learning disability incl. DS and CP'",
-      psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
+
+      cystic_fibrosis ~ "Cystic fibrosis",
+      other_resp_conditions ~ "Other respiratory conditions",
       lung_cancer ~ "Lung Cancer",
       haematological_cancer ~ "Haematological cancer",
-      cancer_excl_lung_and_haem ~ "Cancer (excluding lung, haemo)",
+      cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
+
+      chemo_or_radio ~ "Chemo- or radio-therapy",
+      solid_organ_transplantation ~ "Solid organ transplant",
+      #bone_marrow_transplant ~ "Bone marrow transplant",
+      #sickle_cell_disease ~ "Sickle Cell Disease",
+      permanant_immunosuppression ~ "Permanent immunosuppression",
+      #temporary_immunosuppression ~ "Temporary Immunosuppression",
+      asplenia ~ "Asplenia",
+      dmards ~ "DMARDS",
+
+      dementia ~ "Dementia",
+      other_neuro_conditions ~ "Other neurological conditions",
+
+      LD_incl_DS_and_CP ~ "Learning disability incl. DS and CP'",
+      psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
 
       flu_vaccine ~ "Flu vaccine in previous 5 years"
 
-      #postest_status ~ "Positive test status",
-      #covidadmitted_status ~ "Covid-related admission",
-      #coviddeath_status ~ "Covid-related death",
-      #death_status ~ "Any death"
     )
   ) %>%
   modify_footnote(starts_with("stat_") ~ NA)

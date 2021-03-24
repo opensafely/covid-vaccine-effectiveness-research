@@ -1,44 +1,45 @@
 -- Data Summary ------------------------
                            Values
 Name                       data  
-Number of rows             142003
-Number of columns          23    
+Number of rows             183242
+Number of columns          24    
 _______________________          
 Column type frequency:           
   factor                   6     
-  logical                  15    
+  logical                  16    
   numeric                  2     
 ________________________         
 Group variables            None  
 
 -- Variable type: factor -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   skim_variable n_missing complete_rate ordered n_unique top_counts                                    
-1 ageband               0             1 FALSE          1 80+: 142003, 18-: 0, 50s: 0, 60s: 0           
-2 sex                   0             1 FALSE          2 Fem: 82399, Mal: 59604                        
-3 imd                   0             1 FALSE          5 4: 32480, 5 l: 32333, 3: 32209, 2: 24858      
-4 ethnicity             0             1 FALSE          5 Whi: 134465, Sou: 4407, Bla: 1697, Oth: 953   
-5 region                0             1 FALSE          9 Eas: 34683, Eas: 25731, Sou: 21871, Yor: 18798
-6 bmi                   0             1 FALSE          4 Not: 116922, Obe: 18633, Obe: 4935, Obe: 1513 
+1 ageband               0             1 FALSE          1 80+: 183242, 18-: 0, 50s: 0, 60s: 0           
+2 sex                   0             1 FALSE          2 Fem: 106016, Mal: 77226                       
+3 imd                   0             1 FALSE          5 5 l: 43007, 4: 42895, 3: 41709, 2: 31473      
+4 ethnicity             0             1 FALSE          5 Whi: 174728, Sou: 4837, Bla: 1931, Oth: 1155  
+5 region                0             1 FALSE          9 Eas: 44231, Sou: 32038, Eas: 31584, Yor: 23367
+6 bmi                   0             1 FALSE          4 Not: 151504, Obe: 23506, Obe: 6320, Obe: 1912 
 
 -- Variable type: logical ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    skim_variable                 n_missing complete_rate     mean count                  
- 1 chronic_cardiac_disease               0             1 0.312    FAL: 97647, TRU: 44356 
- 2 current_copd                          0             1 0.110    FAL: 126446, TRU: 15557
- 3 dementia                              0             1 0.0860   FAL: 129788, TRU: 12215
- 4 dialysis                              0             1 0.00191  FAL: 141732, TRU: 271  
- 5 solid_organ_transplantation           0             1 0.000507 FAL: 141931, TRU: 72   
- 6 chemo_or_radio                        0             1 0.0330   FAL: 137312, TRU: 4691 
- 7 permanant_immunosuppression           0             1 0.000838 FAL: 141884, TRU: 119  
- 8 asplenia                              0             1 0.00230  FAL: 141676, TRU: 327  
- 9 intel_dis_incl_downs_syndrome         0             1 0.00146  FAL: 141796, TRU: 207  
-10 psychosis_schiz_bipolar               0             1 0.00837  FAL: 140815, TRU: 1188 
-11 lung_cancer                           0             1 0.00655  FAL: 141073, TRU: 930  
-12 cancer_excl_lung_and_haem             0             1 0.179    FAL: 116514, TRU: 25489
-13 haematological_cancer                 0             1 0.0182   FAL: 139418, TRU: 2585 
-14 dmards                                0             1 0.0305   FAL: 137675, TRU: 4328 
-15 flu_vaccine                           0             1 0.907    TRU: 128806, FAL: 13197
+ 1 chronic_cardiac_disease               0             1 0.313    FAL: 125879, TRU: 57363
+ 2 current_copd                          0             1 0.106    FAL: 163730, TRU: 19512
+ 3 dementia                              0             1 0.0821   FAL: 168203, TRU: 15039
+ 4 dialysis                              0             1 0.00192  FAL: 182891, TRU: 351  
+ 5 diabetes                              0             1 0.268    FAL: 134042, TRU: 49200
+ 6 solid_organ_transplantation           0             1 0.000551 FAL: 183141, TRU: 101  
+ 7 chemo_or_radio                        0             1 0.0341   FAL: 176989, TRU: 6253 
+ 8 permanant_immunosuppression           0             1 0.000830 FAL: 183090, TRU: 152  
+ 9 asplenia                              0             1 0.00229  FAL: 182823, TRU: 419  
+10 intel_dis_incl_downs_syndrome         0             1 0.00136  FAL: 182993, TRU: 249  
+11 psychosis_schiz_bipolar               0             1 0.00744  FAL: 181879, TRU: 1363 
+12 lung_cancer                           0             1 0.00667  FAL: 182020, TRU: 1222 
+13 cancer_excl_lung_and_haem             0             1 0.186    FAL: 149200, TRU: 34042
+14 haematological_cancer                 0             1 0.0192   FAL: 179721, TRU: 3521 
+15 dmards                                0             1 0.0318   FAL: 177421, TRU: 5821 
+16 flu_vaccine                           0             1 0.903    TRU: 165472, FAL: 17770
 
 -- Variable type: numeric ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  skim_variable n_missing complete_rate       mean          sd    p0      p25      p50      p75     p100
-1 patient_id            0             1 20789379.  13062449.   10341 10006424 19418172 29722684 54615100
-2 age                   0             1       84.7        4.08    80       81       84       87      109
+  skim_variable n_missing complete_rate       mean          sd    p0     p25      p50       p75     p100
+1 patient_id            0             1 20402198.  12867978.    7276 9822020 18988864 29287374. 54775522
+2 age                   0             1       84.8        4.11    80      82       84       87       109
