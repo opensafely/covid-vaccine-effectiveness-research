@@ -1112,13 +1112,6 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.01},
     ),
     
-    intel_dis_incl_downs_syndrome=patients.with_these_clinical_events(
-        intellectual_disability_including_downs_syndrome_codes,
-        on_or_before="index_date",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
-    ),
-    
     psychosis_schiz_bipolar=patients.with_these_clinical_events(
         psychosis_schizophrenia_bipolar_affective_disease_codes,
         on_or_before="index_date",
