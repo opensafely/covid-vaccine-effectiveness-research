@@ -181,3 +181,30 @@ tidy_plr <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate=FALSE, 
     )
 
 }
+
+
+
+tidy_custom.glm  <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate=FALSE, cluster){
+  # create tidy dataframe for coefficients of pooled logistic regression
+  #mod_tidy <- tidy_parglm(model, conf.int=conf.int, conf.level=conf.level, exponentiate=exponentiate)
+  robustSEs <- coeftest(model, vcov. = vcovCL(model, cluster = cluster, type = "HC0")) %>% broom::tidy()
+  robustCIs <- coefci(model, vcov. = vcovCL(model, cluster = cluster, type = "HC0")) %>% as_tibble(rownames="term")
+  robust <- inner_join(robustSEs, robustCIs, by="term")
+
+  output <- robust %>%
+    rename(
+      conf.low=`2.5 %`,
+      conf.high=`97.5 %`
+    )
+
+  if(exponentiate){
+    output <- output %>%
+      mutate(
+        estimate = exp(estimate),
+        conf.low = exp(conf.low),
+        conf.high = exp(conf.high),
+      )
+  }
+
+  output
+}

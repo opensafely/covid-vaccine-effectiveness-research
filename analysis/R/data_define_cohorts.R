@@ -71,12 +71,38 @@ write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds
 formula_exposure <- . ~ . + timesincevax_pw
 formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
-  chronic_cardiac_disease + current_copd + dementia + dialysis + diabetes +
-  solid_organ_transplantation + chemo_or_radio +
-  permanant_immunosuppression + asplenia +
+  bmi +
+  chronic_cardiac_disease +
+  heart_failure +
+  other_heart_disease +
+
+  dialysis +
+  diabetes +
+  chronic_liver_disease +
+
+  current_copd +
+  cystic_fibrosis +
+  other_resp_conditions +
+
+  lung_cancer +
+  haematological_cancer +
+  cancer_excl_lung_and_haem +
+
+  chemo_or_radio +
+  solid_organ_transplantation +
+  #bone_marrow_transplant +
+  #sickle_cell_disease +
+  permanant_immunosuppression +
+  #temporary_immunosuppression +
+  asplenia +
   dmards +
-  intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
-  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer +
+
+  dementia +
+  other_neuro_conditions +
+
+  intel_dis_incl_downs_syndrome +
+  psychosis_schiz_bipolar +
+
   flu_vaccine
 
 formula_secular <- . ~ . + ns(tstop, df=4)

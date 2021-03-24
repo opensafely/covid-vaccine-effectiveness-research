@@ -48,7 +48,7 @@ print()
 
 data_extract0 <- read_csv(
   here::here("output", "input_all.csv"),
-  col_types = cols(
+  col_types = cols_only(
 
     # identifiers
     patient_id = col_integer(),
@@ -130,26 +130,38 @@ data_extract0 <- read_csv(
     death_date = col_date(format="%Y-%m-%d"),
 
     bmi = col_character(),
+
     chronic_cardiac_disease = col_logical(),
-    current_copd = col_logical(),
-    diabetes = col_logical(),
-    dmards = col_logical(),
-    dementia = col_logical(),
+    heart_failure = col_logical(),
+    other_heart_disease = col_logical(),
+
     dialysis = col_logical(),
-    solid_organ_transplantation = col_logical(),
-    chemo_or_radio = col_logical(),
-    intel_dis_incl_downs_syndrome = col_logical(),
-    lung_cancer = col_logical(),
-    cancer_excl_lung_and_haem = col_logical(),
-    haematological_cancer = col_logical(),
-    bone_marrow_transplant = col_logical(),
+    diabetes = col_logical(),
+    chronic_liver_disease = col_logical(),
+
+    current_copd = col_logical(),
     cystic_fibrosis = col_logical(),
+    other_resp_conditions = col_logical(),
+
+    lung_cancer = col_logical(),
+    haematological_cancer = col_logical(),
+    cancer_excl_lung_and_haem = col_logical(),
+
+    chemo_or_radio = col_logical(),
+    solid_organ_transplantation = col_logical(),
+    bone_marrow_transplant = col_logical(),
     sickle_cell_disease = col_logical(),
     permanant_immunosuppression = col_logical(),
     temporary_immunosuppression = col_logical(),
-    psychosis_schiz_bipolar = col_logical(),
     asplenia = col_logical(),
+    dmards = col_logical(),
+
+    dementia = col_logical(),
+    other_neuro_conditions = col_logical(),
+    intel_dis_incl_downs_syndrome = col_logical(),
+    psychosis_schiz_bipolar = col_logical(),
     flu_vaccine = col_logical()
+
   ),
     na = character() # more stable to convert to missing later
 ) %>%
