@@ -55,46 +55,52 @@ $coviddeath_date
 $death_date
 [1] "Date"
 
-$diabetes
-[1] "logical"
-
 $chronic_cardiac_disease
 [1] "logical"
 
-$current_copd
+$heart_failure
 [1] "logical"
 
-$dmards
+$other_heart_disease
 [1] "logical"
 
-$dementia
+$diabetes
 [1] "logical"
 
 $dialysis
 [1] "logical"
 
-$solid_organ_transplantation
+$chronic_liver_disease
 [1] "logical"
 
-$chemo_or_radio
+$current_copd
 [1] "logical"
 
-$intel_dis_incl_downs_syndrome
+$LD_incl_DS_and_CP
+[1] "logical"
+
+$cystic_fibrosis
+[1] "logical"
+
+$other_resp_conditions
 [1] "logical"
 
 $lung_cancer
 [1] "logical"
 
-$cancer_excl_lung_and_haem
-[1] "logical"
-
 $haematological_cancer
 [1] "logical"
 
-$bone_marrow_transplant
+$cancer_excl_lung_and_haem
 [1] "logical"
 
-$cystic_fibrosis
+$chemo_or_radio
+[1] "logical"
+
+$solid_organ_transplantation
+[1] "logical"
+
+$bone_marrow_transplant
 [1] "logical"
 
 $sickle_cell_disease
@@ -106,10 +112,19 @@ $permanant_immunosuppression
 $temporary_immunosuppression
 [1] "logical"
 
-$psychosis_schiz_bipolar
+$asplenia
 [1] "logical"
 
-$asplenia
+$dmards
+[1] "logical"
+
+$dementia
+[1] "logical"
+
+$other_neuro_conditions
+[1] "logical"
+
+$psychosis_schiz_bipolar
 [1] "logical"
 
 $flu_vaccine
@@ -249,4 +264,7 @@ $ageband
 
 $cause_of_death
 [1] "factor"
+
+$noncoviddeath_date
+[1] "Date"
 

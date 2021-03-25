@@ -1,47 +1,29 @@
-2021-03-23T00:32:33.591194000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-23T00:32:33.599948900Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-23T00:32:33.599972100Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-23T00:32:33.599981200Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-23T00:32:33.599988400Z v readr   1.3.1     v forcats 0.5.0
-2021-03-23T00:32:33.769548300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-23T00:32:33.769618400Z x dplyr::filter() masks stats::filter()
-2021-03-23T00:32:33.769627200Z x dplyr::lag()    masks stats::lag()
-2021-03-23T00:32:33.805718600Z 
-2021-03-23T00:32:33.805746200Z Attaching package: 'lubridate'
-2021-03-23T00:32:33.805755400Z 
-2021-03-23T00:32:33.807232000Z The following objects are masked from 'package:base':
-2021-03-23T00:32:33.807251400Z 
-2021-03-23T00:32:33.807259300Z     date, intersect, setdiff, union
-2021-03-23T00:32:33.807266300Z 
-2021-03-23T00:34:17.189699800Z Warning messages:
-2021-03-23T00:34:17.396338900Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:34:17.396363300Z   no non-missing arguments to min; returning Inf
-2021-03-23T00:34:17.602882900Z 2: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:34:17.602930600Z   no non-missing arguments to min; returning Inf
-2021-03-23T00:34:17.811569200Z 3: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:34:17.811636700Z   no non-missing arguments to max; returning -Inf
-2021-03-23T00:34:18.025529300Z 4: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:34:18.025606100Z   no non-missing arguments to max; returning -Inf
-2021-03-23T00:37:04.189969200Z Warning messages:
-2021-03-23T00:37:04.396647200Z 1: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:37:04.396735400Z   no non-missing arguments to min; returning Inf
-2021-03-23T00:37:04.604248400Z 2: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:37:04.604306300Z   no non-missing arguments to max; returning -Inf
-2021-03-23T00:37:04.813843800Z 3: In min.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:37:04.813935200Z   no non-missing arguments to min; returning Inf
-2021-03-23T00:37:05.024744100Z 4: In max.default(c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_,  :
-2021-03-23T00:37:05.024821700Z   no non-missing arguments to max; returning -Inf
+2021-03-24T18:22:04.268109700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-24T18:22:04.276976000Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-24T18:22:04.277000900Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-24T18:22:04.277009600Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-24T18:22:04.277016700Z v readr   1.3.1     v forcats 0.5.0
+2021-03-24T18:22:04.444169400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-24T18:22:04.444243900Z x dplyr::filter() masks stats::filter()
+2021-03-24T18:22:04.444252200Z x dplyr::lag()    masks stats::lag()
+2021-03-24T18:22:04.480350000Z 
+2021-03-24T18:22:04.480373900Z Attaching package: 'lubridate'
+2021-03-24T18:22:04.480382500Z 
+2021-03-24T18:22:04.481795000Z The following objects are masked from 'package:base':
+2021-03-24T18:22:04.481811800Z 
+2021-03-24T18:22:04.481819200Z     date, intersect, setdiff, union
+2021-03-24T18:22:04.481826000Z 
 
 
 state: succeeded
-commit: ac56ec6a46c0e1b9c597ffa3a664efdfb35bbdf7
+commit: 043669324e32bd76b2afb705602f9cca724a6602
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: 3iep3p3v22o5canc
+job_id: fkzhzu55xzjqsopa
 run_by_user: wjchulme
-created_at: 2021-03-22T22:51:03Z
-started_at: 2021-03-23T00:32:31Z
-completed_at: 2021-03-23T00:37:11Z
+created_at: 2021-03-24T16:58:13Z
+started_at: 2021-03-24T18:22:01Z
+completed_at: 2021-03-24T18:26:54Z
 
 Completed successfully
 
