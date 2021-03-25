@@ -95,6 +95,7 @@ for(stratum in strata){
 
   msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
   msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
+  msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model2.rds")))
   msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
   msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
 
@@ -103,14 +104,16 @@ for(stratum in strata){
 
   robust0 <- tidy_plr(msmmod0, cluster=data_weights$patient_id)
   robust1 <- tidy_plr(msmmod1, cluster=data_weights$patient_id)
+  robust2 <- tidy_plr(msmmod2, cluster=data_weights$patient_id)
   robust3 <- tidy_plr(msmmod3, cluster=data_weights$patient_id)
   robust4 <- tidy_plr(msmmod4, cluster=data_weights$patient_id)
 
   robust_summary <- bind_rows(
     robust0 %>% mutate(model="0 Unadjusted", strata=stratum),
-    robust1 %>% mutate(model="1 Age, sex, IMD, ethnicity", strata=stratum),
-    robust3 %>% mutate(model="2 Baseline adjusted", strata=stratum),
-    robust4 %>% mutate(model="3 Fully adjusted", strata=stratum),
+    robust1 %>% mutate(model="1 Demographics", strata=stratum),
+    robust2 %>% mutate(model="2 Demographics + cinical", strata=stratum),
+    robust3 %>% mutate(model="3 Demographics + cinical + date", strata=stratum),
+    robust4 %>% mutate(model="4 Fully adjusted", strata=stratum),
   )
 
   summary_list[[stratum]] <- robust_summary

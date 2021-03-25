@@ -652,6 +652,24 @@ for(stratum in strata){
   rm(msmmod1_par)
 
 
+  ### model 2 - minimally adjusted vaccination effect model, baseline demographics only ----
+  cat("  \n")
+  cat("msmmod2 \n")
+  msmmod2_par <- parglm(
+    formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    data = data_weights,
+    family = binomial,
+    control = parglmparams,
+    na.action = "na.fail",
+    model = FALSE
+  )
+
+  print(jtools::summ(msmmod2_par, digits =3))
+
+  cat(glue::glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
+  cat(glue::glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
+  write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model2.rds"), compress="gz")
+  rm(msmmod2_par)
 
 
 
