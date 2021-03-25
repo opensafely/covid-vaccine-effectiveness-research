@@ -164,10 +164,9 @@ data_extract0 <- read_csv(
     flu_vaccine = col_logical()
 
   ),
-    na = character() # more stable to convert to missing later
-) %>%
-  ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
-  sample_frac(size=0.2)
+
+  na = character() # more stable to convert to missing later
+)
 
 # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
 data_extract0 <- data_extract0 %>%
@@ -186,10 +185,6 @@ data_extract <- data_extract0 %>%
   )) %>%
   arrange(patient_id) %>%
   select(all_of((names(data_extract0))))
-
-
-
-
 
 
 ##  SECTION TO SORT OUT BAD DUMMY DATA ----
@@ -310,7 +305,9 @@ data_processed <- data_extract_reordered %>%
     !is.na(imd),
     !is.na(ethnicity),
     !is.na(region)
-  )
+  ) %>%
+  ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
+  sample_n(tbl=., size=max(c(100000, nrow(.))))
 
 
 ## create one-row-per-event datasets ----
