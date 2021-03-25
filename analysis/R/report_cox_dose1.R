@@ -115,7 +115,7 @@ for(stratum in strata){
 
 summary_df <- summary_list %>% bind_rows
 
-write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, "estimates.csv"))
+write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, "estimates_cox.csv"))
 
 # create forest plot
 coxmod_forest_data <- summary_df %>%
