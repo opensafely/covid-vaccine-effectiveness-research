@@ -133,8 +133,6 @@ data_tte <- data_all  %>%
     noncoviddeath_date,
     death_date,
 
-    #outcome_date = positive_test_1_date, #change here for different outcomes.
-    #outcome_date = .[[metadata[["outcome_var"]]]],
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
     tte_enddate = tte(start_date, end_date, end_date),
