@@ -105,7 +105,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
   ) %>%
   mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
     across(
-      is.logical,
+      where(is.logical),
       ~.x*1L
     )
   )
