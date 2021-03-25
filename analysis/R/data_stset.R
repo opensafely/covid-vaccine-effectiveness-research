@@ -451,9 +451,9 @@ data_tte_pt <- tmerge(
     timesince_probable_covid = tstop - probable_covid_time,
     timesince_probable_covid_pw = cut(
       timesince_probable_covid,
-      breaks=c(1, 3, 7, 14, 21, 28, Inf),
+      breaks=c(0, 3, 7, 14, 21, 28, Inf),
       labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
-      right=FALSE
+      right=TRUE
     ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
 
   ) %>%

@@ -137,15 +137,15 @@ gt_model_summary <- function(model, cluster) {
 
       flu_vaccine ~ "Flu vaccine in previous 5 years",
 
-      timesince_hosp_discharge_pw ~ "Time since hospital in-patient",
       timesince_probable_covid_pw ~ "Time since probable COVID",
-      timesince_suspected_covid_pw ~ "Time since suspected COVID"
+      timesince_suspected_covid_pw ~ "Time since suspected COVID",
+      timesince_hosp_discharge_pw ~ "Time since hospital discharge"
     )
   )
 
 }
 
-forest_from_gt <- function(gt_obj){
+forest_from_gt <- function(gt_obj, title){
 
   #all these methods use broom to get the coefficients. but tidy.glm only uses profile CIs, not Wald. (yTHO??)
   #profile CIs will take forever on large datasets.
@@ -184,14 +184,14 @@ forest_from_gt <- function(gt_obj){
     geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=label)) +
     geom_vline(aes(xintercept=1), colour='black', alpha=0.8)+
     facet_grid(rows=vars(variable), scales="free_y", switch="y", space="free_y", labeller = labeller(variable = lookup))+
-    scale_x_log10(breaks=c(0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8))+
+    scale_x_log10(breaks=c(0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8), labels=c("1/32", "1/16", "1/8", "/14", "1/2", "1", "2", "4", "8"))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
     scale_alpha_continuous(range=c(0,0.3), guide=FALSE)+
     labs(
       y="",
       x="Hazard ratio",
-      colour=NULL#,
-      #title=glue::glue("{outcome_descr} by time since first {brand} vaccine"),
+      colour=NULL,
+      title=title
       #subtitle=cohort_descr
     ) +
     theme_minimal() +
@@ -228,8 +228,12 @@ for(stratum in strata){
     write_csv(tab_ipwvaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.csv"))
 
     ##output forest plot
-    plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1)
-    ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxany1.svg"),  plot_ipwvaxany1)
+    plot_ipwvaxany1 <- forest_from_gt(tab_ipwvaxany1, "Predicting any vaccine")
+    ggsave(
+      here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxany1.svg"),
+      plot_ipwvaxany1,
+      units=cm, width=20, height=25
+    )
 
 
   }
@@ -245,8 +249,12 @@ for(stratum in strata){
     write_csv(tab_ipwvaxpfizer1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxpfizer1.csv"))
 
     ##output forest plot
-    plot_ipwvaxpfizer1 <- forest_from_gt(tab_ipwvaxpfizer1)
-    ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxfizer1.svg"),  plot_ipwvaxpfizer1)
+    plot_ipwvaxpfizer1 <- forest_from_gt(tab_ipwvaxpfizer1, "Predicting Pfizer vaccine")
+    ggsave(
+      here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxfizer1.svg"),
+      plot_ipwvaxpfizer1,
+      units=cm, width=20, height=25
+    )
 
     # AZ
     data_pt_atriskvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"))
@@ -257,8 +265,12 @@ for(stratum in strata){
     write_csv(tab_ipwvaxaz1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxaz1.csv"))
 
     ##output forest plot
-    plot_ipwvaxaz1 <- forest_from_gt(tab_ipwvaxaz1)
-    ggsave( here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxaz1.svg"),  plot_ipwvaxaz1)
+    plot_ipwvaxaz1 <- forest_from_gt(tab_ipwvaxaz1, "Predicting AZ vaccine")
+    ggsave(
+      here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxaz1.svg"),
+      plot_ipwvaxaz1,
+      units=cm, width=20, height=25
+    )
 
     # combine tables
     tbl_merge(list(tab_ipwvaxpfizer1, tab_ipwvaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
@@ -278,8 +290,12 @@ for(stratum in strata){
   write_csv(tab_ipwdeath$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwdeath.csv"))
 
   ##output forest plot
-  plot_ipwdeath <- forest_from_gt(tab_ipwdeath)
-  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwdeath.svg"),  plot_ipwdeath)
+  plot_ipwdeath <- forest_from_gt(tab_ipwdeath, "Predicting death")
+  ggsave(
+    here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwdeath.svg"),
+    plot_ipwdeath,
+    units=cm, width=20, height=25
+  )
 
 
 }
