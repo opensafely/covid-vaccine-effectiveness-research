@@ -1,44 +1,70 @@
-2021-03-23T04:10:16.223093400Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-23T04:10:16.231675800Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-23T04:10:16.231698000Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-23T04:10:16.231707100Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-23T04:10:16.231714300Z v readr   1.3.1     v forcats 0.5.0
-2021-03-23T04:10:16.394653100Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-23T04:10:16.394725400Z x dplyr::filter() masks stats::filter()
-2021-03-23T04:10:16.394734600Z x dplyr::lag()    masks stats::lag()
-2021-03-23T04:10:16.408300900Z 
-2021-03-23T04:10:16.408325200Z Attaching package: 'lubridate'
-2021-03-23T04:10:16.408334700Z 
-2021-03-23T04:10:16.409666200Z The following objects are masked from 'package:base':
-2021-03-23T04:10:16.409685200Z 
-2021-03-23T04:10:16.409693300Z     date, intersect, setdiff, union
-2021-03-23T04:10:16.409700200Z 
-2021-03-23T04:10:18.442120400Z Loading required package: zoo
-2021-03-23T04:10:18.452728000Z 
-2021-03-23T04:10:18.452810600Z Attaching package: 'zoo'
-2021-03-23T04:10:18.452819700Z 
-2021-03-23T04:10:18.453173100Z The following objects are masked from 'package:base':
-2021-03-23T04:10:18.453193300Z 
-2021-03-23T04:10:18.453201400Z     as.Date, as.Date.numeric
-2021-03-23T04:10:18.453208700Z 
-2021-03-23T04:10:18.818212900Z <environment: R_GlobalEnv>
-2021-03-23T04:10:18.818454400Z <environment: R_GlobalEnv>
-2021-03-23T04:10:18.818798700Z <environment: R_GlobalEnv>
-2021-03-23T04:28:22.174970900Z Saving 7 x 7 in image
-2021-03-23T04:54:17.706033500Z Saving 7 x 7 in image
-2021-03-23T05:39:40.755027600Z Saving 7 x 7 in image
-2021-03-23T05:39:53.662242200Z There were 22 warnings (use warnings() to see them)
+2021-03-24T22:38:23.967383100Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-24T22:38:23.979046700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-24T22:38:23.979127300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-24T22:38:23.979136000Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-24T22:38:23.979143100Z v readr   1.3.1     v forcats 0.5.0
+2021-03-24T22:38:24.182567300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-24T22:38:24.182628400Z x dplyr::filter() masks stats::filter()
+2021-03-24T22:38:24.182636700Z x dplyr::lag()    masks stats::lag()
+2021-03-24T22:38:24.197687300Z 
+2021-03-24T22:38:24.197747500Z Attaching package: 'lubridate'
+2021-03-24T22:38:24.197755800Z 
+2021-03-24T22:38:24.199132600Z The following objects are masked from 'package:base':
+2021-03-24T22:38:24.199166600Z 
+2021-03-24T22:38:24.199174400Z     date, intersect, setdiff, union
+2021-03-24T22:38:24.199181500Z 
+2021-03-24T22:38:26.483913400Z Loading required package: zoo
+2021-03-24T22:38:26.496303500Z 
+2021-03-24T22:38:26.496350100Z Attaching package: 'zoo'
+2021-03-24T22:38:26.496359900Z 
+2021-03-24T22:38:26.496628100Z The following objects are masked from 'package:base':
+2021-03-24T22:38:26.496707000Z 
+2021-03-24T22:38:26.496718000Z     as.Date, as.Date.numeric
+2021-03-24T22:38:26.496726100Z 
+2021-03-24T22:38:26.937479900Z <environment: R_GlobalEnv>
+2021-03-24T22:38:26.938127900Z <environment: R_GlobalEnv>
+2021-03-24T22:38:26.938512500Z <environment: R_GlobalEnv>
+2021-03-24T23:00:30.420386600Z Saving 7 x 7 in image
+2021-03-24T23:37:52.191514900Z Saving 7 x 7 in image
+2021-03-25T00:43:29.342469200Z Saving 7 x 7 in image
+2021-03-25T00:43:39.650970700Z There were 25 warnings (use warnings() to see them)
+2021-03-25T00:43:39.661051900Z Warning messages:
+2021-03-25T00:43:39.661258800Z 1: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.661427500Z 2: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.661513700Z 3: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.661756200Z 4: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.661775300Z 5: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.661854500Z 6: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.661948000Z 7: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.662135600Z 8: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.662347200Z 9: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.662610100Z 10: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.662811000Z 11: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.663008500Z 12: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.663204000Z 13: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.663399700Z 14: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.663646000Z 15: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.663856300Z 16: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.664057400Z 17: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.664255700Z 18: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.664465800Z 19: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.664740300Z 20: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.664942500Z 21: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.665023200Z 22: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.665033800Z 23: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.665044900Z 24: Removed 1 rows containing missing values (geom_segment).
+2021-03-25T00:43:39.665177000Z 25: Removed 1 rows containing missing values (geom_segment).
 
 
 state: succeeded
-commit: ac56ec6a46c0e1b9c597ffa3a664efdfb35bbdf7
+commit: 043669324e32bd76b2afb705602f9cca724a6602
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: pzbyaalbds22agjq
+job_id: acb6lted5head56o
 run_by_user: wjchulme
-created_at: 2021-03-22T22:51:03Z
-started_at: 2021-03-23T04:10:13Z
-completed_at: 2021-03-23T05:40:16Z
+created_at: 2021-03-24T16:58:13Z
+started_at: 2021-03-24T22:38:21Z
+completed_at: 2021-03-25T00:44:10Z
 
 Completed successfully
 
@@ -46,7 +72,10 @@ outputs:
   output/over80s/postest/pfizer/all/all/plot_ipwdeath.svg      - moderately_sensitive
   output/over80s/postest/pfizer/all/all/plot_ipwvaxaz1.svg     - moderately_sensitive
   output/over80s/postest/pfizer/all/all/plot_ipwvaxfizer1.svg  - moderately_sensitive
+  output/over80s/postest/pfizer/all/all/tab_ipwdeath.csv       - moderately_sensitive
   output/over80s/postest/pfizer/all/all/tab_ipwdeath.html      - moderately_sensitive
+  output/over80s/postest/pfizer/all/all/tab_ipwvaxaz1.csv      - moderately_sensitive
   output/over80s/postest/pfizer/all/all/tab_ipwvaxaz1.html     - moderately_sensitive
   output/over80s/postest/pfizer/all/all/tab_ipwvaxfizer1.html  - moderately_sensitive
+  output/over80s/postest/pfizer/all/all/tab_ipwvaxpfizer1.csv  - moderately_sensitive
   output/over80s/postest/pfizer/all/all/tab_pfizer_az.html     - moderately_sensitive

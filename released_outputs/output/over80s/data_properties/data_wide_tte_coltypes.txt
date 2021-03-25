@@ -28,10 +28,16 @@ $covid_vax_az_2_date
 $positive_test_1_date
 [1] "Date"
 
+$emergency_1_date
+[1] "Date"
+
 $covidadmitted_1_date
 [1] "Date"
 
 $coviddeath_date
+[1] "Date"
+
+$noncoviddeath_date
 [1] "Date"
 
 $death_date
@@ -59,6 +65,9 @@ $tte_covidadmitted
 [1] "integer"
 
 $tte_coviddeath
+[1] "integer"
+
+$tte_noncoviddeath
 [1] "integer"
 
 $tte_death

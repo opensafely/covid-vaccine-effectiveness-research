@@ -1,28 +1,28 @@
-2021-03-23T00:32:22.826029900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-23T00:32:22.834940300Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-23T00:32:22.834973600Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-23T00:32:22.834982300Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-23T00:32:22.834989500Z v readr   1.3.1     v forcats 0.5.0
-2021-03-23T00:32:22.999977300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-23T00:32:23.000009100Z x dplyr::filter() masks stats::filter()
-2021-03-23T00:32:23.000017400Z x dplyr::lag()    masks stats::lag()
-2021-03-23T00:32:35.482371000Z # A tibble: 3 x 2
-2021-03-23T00:32:35.482431600Z   cohort   cohort_size
-2021-03-23T00:32:35.482440600Z   <chr>          <int>
-2021-03-23T00:32:35.482448200Z 1 over80s       183242
-2021-03-23T00:32:35.482455000Z 2 in70s         350708
-2021-03-23T00:32:35.482461700Z 3 under65s     2279034
+2021-03-24T18:21:52.178249000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-24T18:21:52.187199700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-24T18:21:52.187224800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-24T18:21:52.187233500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-24T18:21:52.187240400Z v readr   1.3.1     v forcats 0.5.0
+2021-03-24T18:21:52.364383200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-24T18:21:52.364459100Z x dplyr::filter() masks stats::filter()
+2021-03-24T18:21:52.364467000Z x dplyr::lag()    masks stats::lag()
+2021-03-24T18:22:05.285576300Z # A tibble: 3 x 2
+2021-03-24T18:22:05.285636500Z   cohort   cohort_size
+2021-03-24T18:22:05.285645500Z   <chr>          <int>
+2021-03-24T18:22:05.285653800Z 1 over80s       183105
+2021-03-24T18:22:05.285661400Z 2 in70s         350549
+2021-03-24T18:22:05.285668700Z 3 under65s     2279186
 
 
 state: succeeded
-commit: ac56ec6a46c0e1b9c597ffa3a664efdfb35bbdf7
+commit: 043669324e32bd76b2afb705602f9cca724a6602
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: pa6ky2qkqmqozkin
+job_id: ye4ch3lwlvkrw6ku
 run_by_user: wjchulme
-created_at: 2021-03-22T22:51:03Z
-started_at: 2021-03-23T00:32:20Z
-completed_at: 2021-03-23T00:32:39Z
+created_at: 2021-03-24T16:58:13Z
+started_at: 2021-03-24T18:21:49Z
+completed_at: 2021-03-24T18:22:10Z
 
 Completed successfully
 
