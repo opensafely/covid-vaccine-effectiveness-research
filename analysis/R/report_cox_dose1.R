@@ -76,11 +76,11 @@ list2env(metadata_outcomes, globalenv())
 list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
-formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
+formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
+strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector_cox.rds"))
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 

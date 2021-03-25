@@ -140,7 +140,7 @@ actions:
       highly_sensitive:
         models: output/over80s/postest/any/all/*/modelcox*.rds
       moderately_sensitive:
-        strata: output/over80s/postest/any/all/strata_vector.rds
+        strata: output/over80s/postest/any/all/strata_vector_cox.rds
 
   report_cox_over80s_postest_any_all_dose1:
     run: r:latest analysis/R/report_cox_dose1.R over80s postest any all

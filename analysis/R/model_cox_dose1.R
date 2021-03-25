@@ -153,7 +153,7 @@ strata <- unique(data_cox[[strata_var]])
 
 dir.create(here::here("output", cohort, outcome, brand, strata_var), showWarnings = FALSE, recursive=TRUE)
 
-write_rds(strata, here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
+write_rds(strata, here::here("output", cohort, outcome, brand, strata_var, "strata_vector_cox.rds"))
 
 for(stratum in strata){
 
