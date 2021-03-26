@@ -310,7 +310,7 @@ study = StudyDefinition(
     # any COVID vaccination (first dose)
     covid_vax_1_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="index_date",  # check all december to date
+        on_or_after="index_date + 1 day",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -370,7 +370,7 @@ study = StudyDefinition(
        # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
     covid_vax_pfizer_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="index_date",  # check all december to date
+        on_or_after="index_date + 1 day",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -433,7 +433,7 @@ study = StudyDefinition(
         # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
     covid_vax_az_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="index_date",  # check all december to date
+        on_or_after="index_date + 1 day",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -516,7 +516,7 @@ study = StudyDefinition(
         ),
         returning="date",
         date_format="YYYY-MM-DD",
-        on_or_before="index_date",
+        on_or_before="index_date + 1 day",
         find_first_match_in_period=True,
         return_expectations={"rate": "exponential_increase"},
     ),
@@ -544,7 +544,7 @@ study = StudyDefinition(
     positive_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_after="index_date",
+        on_or_after="index_date + 1 day",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -684,7 +684,7 @@ study = StudyDefinition(
 
     admitted_0_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_before="index_date - 1 day",
+        on_or_before="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -696,7 +696,7 @@ study = StudyDefinition(
 
     discharged_0_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_before="index_date - 1 day",
+        on_or_before="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -964,14 +964,6 @@ study = StudyDefinition(
     #### AND CAN BE UPDATED. PLEASE REVIEW AND CHECK YOU ARE HAPPY
     #### WITH THE CODELIST USED #################################
 
-    diabetes=patients.with_these_clinical_events(
-        diabetes_codes,
-        returning="binary_flag",
-        find_last_match_in_period=True,
-        on_or_before="index_date",
-        return_expectations={"incidence": 0.01},
-    ),
-
 
     chronic_cardiac_disease=patients.with_these_clinical_events(
         chronic_cardiac_disease_codes,
@@ -979,25 +971,25 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
-    current_copd=patients.with_these_clinical_events(
-        current_copd_codes,
+    heart_failure=patients.with_these_clinical_events(
+        heart_failure_codes,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
-    # on a dmard - indicative of immunosuppression
-    dmards=patients.with_these_medications(
-        dmards_codes,
+    other_heart_disease=patients.with_these_clinical_events(
+        other_heart_disease_codes,
         on_or_before="index_date",
         returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
+        return_expectations={"incidence": 0.01},
     ),
-    # dementia
-    dementia=patients.with_these_clinical_events(
-        dementia_codes,
-        on_or_before="index_date",
+
+    diabetes=patients.with_these_clinical_events(
+        diabetes_codes,
         returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
+        find_last_match_in_period=True,
+        on_or_before="index_date",
+        return_expectations={"incidence": 0.01},
     ),
     dialysis=patients.with_these_clinical_events(
         dialysis_codes,
@@ -1005,32 +997,41 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
-    solid_organ_transplantation=patients.with_these_clinical_events(
-        solid_organ_transplantation_codes,
+    chronic_liver_disease=patients.with_these_clinical_events(
+        chronic_liver_disease_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01},
+    ),
+    
+    current_copd=patients.with_these_clinical_events(
+        current_copd_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01},
+    ),
+    LD_incl_DS_and_CP=patients.with_these_clinical_events(
+        learning_disability_including_downs_syndrome_and_cerebral_palsy_codes,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
-    chemo_or_radio=patients.with_these_clinical_events(
-        chemotherapy_or_radiotherapy_codes,
+    cystic_fibrosis=patients.with_these_clinical_events(
+        cystic_fibrosis_codes,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
-    intel_dis_incl_downs_syndrome=patients.with_these_clinical_events(
-        intellectual_disability_including_downs_syndrome_codes,
+    other_resp_conditions=patients.with_these_clinical_events(
+        other_respiratory_conditions_codes,
         on_or_before="index_date",
         returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
+        return_expectations={"incidence": 0.01},
     ),
+    
+    
     lung_cancer=patients.with_these_clinical_events(
         lung_cancer_codes,
-        on_or_before="index_date",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
-    ),
-    cancer_excl_lung_and_haem=patients.with_these_clinical_events(
-        cancer_excluding_lung_and_haematological_codes,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
@@ -1041,18 +1042,32 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
+    cancer_excl_lung_and_haem=patients.with_these_clinical_events(
+        cancer_excluding_lung_and_haematological_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
+    
+    chemo_or_radio=patients.with_these_clinical_events(
+        chemotherapy_or_radiotherapy_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
+    solid_organ_transplantation=patients.with_these_clinical_events(
+        solid_organ_transplantation_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
     bone_marrow_transplant=patients.with_these_clinical_events(
         bone_marrow_transplant_codes,
         between=["2020-07-01", "index_date"],
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
-    cystic_fibrosis=patients.with_these_clinical_events(
-        cystic_fibrosis_codes,
-        on_or_before="index_date",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
-    ),
+    
     sickle_cell_disease=patients.with_these_clinical_events(
         sickle_cell_disease_codes,
         on_or_before="index_date",
@@ -1071,7 +1086,32 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
-    #
+    asplenia=patients.with_these_clinical_events(
+        asplenia_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
+    dmards=patients.with_these_medications(
+        dmards_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
+    # dementia
+    dementia=patients.with_these_clinical_events(
+        dementia_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01, },
+    ),
+    other_neuro_conditions=patients.with_these_clinical_events(
+        other_neuro_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01},
+    ),
+    
     psychosis_schiz_bipolar=patients.with_these_clinical_events(
         psychosis_schizophrenia_bipolar_affective_disease_codes,
         on_or_before="index_date",
@@ -1079,34 +1119,6 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.01, },
     ),
 
-    # https://github.com/opensafely/codelist-development/issues/4
-    asplenia=patients.with_these_clinical_events(
-        asplenia_codes,
-        on_or_before="index_date",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.01, },
-    ),
-    
-    # flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
-    #     target_disease_matches="INFLUENZA",
-    #     between=["index_date - 5 years", "index_date"],  # current flu season
-    #     returning="binary_flag",
-    #     return_expectations={"incidence": 0.5, },
-    # ),
-    # flu_vaccine_med=patients.with_these_medications(
-    #     flu_med_codes,
-    #     between=["index_date - 5 years", "index_date"],  # current flu season
-    #     returning="binary_flag",
-    #     return_expectations={"incidence": 0.5, },
-    # ),
-    # flu_vaccine_clinical=patients.with_these_clinical_events(
-    #     flu_clinical_given_codes,
-    #     ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
-    #     between=["index_date - 5 years", "index_date"],  # current flu season
-    #     returning="binary_flag",
-    #     return_expectations={"incidence": 0.5, },
-    # ),
-    
     flu_vaccine=patients.satisfying(
         """
         flu_vaccine_tpp_table>0 OR

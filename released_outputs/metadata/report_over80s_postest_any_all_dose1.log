@@ -1,0 +1,45 @@
+2021-03-24T22:07:24.716072900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-24T22:07:24.724845700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-24T22:07:24.724894200Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-24T22:07:24.724902700Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-24T22:07:24.724909600Z v readr   1.3.1     v forcats 0.5.0
+2021-03-24T22:07:24.893122400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-24T22:07:24.893200000Z x dplyr::filter() masks stats::filter()
+2021-03-24T22:07:24.893208500Z x dplyr::lag()    masks stats::lag()
+2021-03-24T22:07:24.908244100Z 
+2021-03-24T22:07:24.908320700Z Attaching package: 'lubridate'
+2021-03-24T22:07:24.908329300Z 
+2021-03-24T22:07:24.909561400Z The following objects are masked from 'package:base':
+2021-03-24T22:07:24.909585300Z 
+2021-03-24T22:07:24.909594100Z     date, intersect, setdiff, union
+2021-03-24T22:07:24.909601500Z 
+2021-03-24T22:07:26.892210500Z #BlackLivesMatter
+2021-03-24T22:07:26.950422200Z Loading required package: zoo
+2021-03-24T22:07:26.961255500Z 
+2021-03-24T22:07:26.961277800Z Attaching package: 'zoo'
+2021-03-24T22:07:26.961286500Z 
+2021-03-24T22:07:26.961939800Z The following objects are masked from 'package:base':
+2021-03-24T22:07:26.961956800Z 
+2021-03-24T22:07:26.961964400Z     as.Date, as.Date.numeric
+2021-03-24T22:07:26.961971300Z 
+2021-03-24T22:07:27.341026900Z <environment: R_GlobalEnv>
+2021-03-24T22:07:27.341500600Z <environment: R_GlobalEnv>
+2021-03-24T22:07:27.341827700Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: 043669324e32bd76b2afb705602f9cca724a6602
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: 6bdd5axcs5dt5g3b
+run_by_user: wjchulme
+created_at: 2021-03-24T16:58:13Z
+started_at: 2021-03-24T22:07:22Z
+completed_at: 2021-03-24T22:58:51Z
+
+Completed successfully
+
+outputs:
+  output/over80s/postest/any/all/estimates.csv                - moderately_sensitive
+  output/over80s/postest/any/all/forest_plot.svg              - moderately_sensitive
+  output/over80s/postest/any/all/time_trends_region_plot.svg  - moderately_sensitive

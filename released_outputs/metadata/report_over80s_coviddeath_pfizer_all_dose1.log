@@ -1,0 +1,44 @@
+2021-03-20T11:46:02.171437800Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-20T11:46:02.180282800Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-20T11:46:02.180307600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-20T11:46:02.180316700Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-20T11:46:02.180323900Z v readr   1.3.1     v forcats 0.5.0
+2021-03-20T11:46:02.368190900Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-20T11:46:02.368211300Z x dplyr::filter() masks stats::filter()
+2021-03-20T11:46:02.368219800Z x dplyr::lag()    masks stats::lag()
+2021-03-20T11:46:02.382767900Z 
+2021-03-20T11:46:02.382788200Z Attaching package: 'lubridate'
+2021-03-20T11:46:02.382796000Z 
+2021-03-20T11:46:02.384143200Z The following objects are masked from 'package:base':
+2021-03-20T11:46:02.384161800Z 
+2021-03-20T11:46:02.384170700Z     date, intersect, setdiff, union
+2021-03-20T11:46:02.384177800Z 
+2021-03-20T11:46:04.637266300Z Loading required package: zoo
+2021-03-20T11:46:04.653130200Z 
+2021-03-20T11:46:04.653156400Z Attaching package: 'zoo'
+2021-03-20T11:46:04.653165500Z 
+2021-03-20T11:46:04.653987400Z The following objects are masked from 'package:base':
+2021-03-20T11:46:04.654004900Z 
+2021-03-20T11:46:04.654013100Z     as.Date, as.Date.numeric
+2021-03-20T11:46:04.654020100Z 
+2021-03-20T11:46:05.087496900Z <environment: R_GlobalEnv>
+2021-03-20T11:46:05.088143700Z <environment: R_GlobalEnv>
+2021-03-20T11:46:05.088700300Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: 63227c9dabb1579b6387347ff8853e66df52c7fc
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: ypovzazam567da46
+run_by_user: wjchulme
+created_at: 2021-03-20T07:50:08Z
+started_at: 2021-03-20T11:45:59Z
+completed_at: 2021-03-20T12:28:50Z
+
+Completed successfully
+
+outputs:
+  output/over80s/coviddeath/pfizer/all/estimates.csv                - moderately_sensitive
+  output/over80s/coviddeath/pfizer/all/forest_plot.svg              - moderately_sensitive
+  output/over80s/coviddeath/pfizer/all/time_trends_region_plot.svg  - moderately_sensitive

@@ -139,14 +139,14 @@ tidy_parglm <- function(x, conf.int = FALSE, conf.level = .95,
   ret <- as_tibble(summary(x)$coefficients, rownames = "term")
   colnames(ret) <- c("term", "estimate", "std.error", "statistic", "p.value")
 
-  # summary(x)$coefficients misses rank deficient rows (i.e. coefs that
-  # summary.lm() sets to NA), catch them here and add them back
+  # summary(x)$coefficients misses rank deficient rows (i.e. coefs that summary.lm() sets to NA)
+  # catch them here and add them back
 
   coefs <- tibble::enframe(stats::coef(x), name = "term", value = "estimate")
   ret <- left_join(coefs, ret, by = c("term", "estimate"))
 
   if (conf.int) {
-    ci <- confint.default(x, level = conf.level) # not ideal -- change for more robust conf intervals!
+    ci <- confint.default(x, level = conf.level) # not ideal -- change for more robust conf intervals! - see tidy_plr below
     ci <- as_tibble(ci, rownames = "term")
     names(ci) <- c("term", "conf.low", "conf.high")
 
@@ -158,4 +158,53 @@ tidy_parglm <- function(x, conf.int = FALSE, conf.level = .95,
   }
 
   ret
+}
+
+
+
+tidy_plr <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate=FALSE, cluster){
+  # create tidy dataframe for coefficients of pooled logistic regression
+  mod_tidy <- tidy_parglm(model, conf.int=conf.int, conf.level=conf.level, exponentiate=exponentiate)
+  robustSEs <- coeftest(model, vcov. = vcovCL(model, cluster = cluster, type = "HC0")) %>% broom::tidy()
+  robustCIs <- coefci(model, vcov. = vcovCL(model, cluster = cluster, type = "HC0")) %>% as_tibble(rownames="term")
+  robust <- inner_join(robustSEs, robustCIs, by="term")
+
+  robust %>%
+    rename(
+      conf.low=`2.5 %`,
+      conf.high=`97.5 %`
+    ) %>%
+    mutate(
+      or = exp(estimate),
+      or.ll = exp(conf.low),
+      or.ul = exp(conf.high),
+    )
+
+}
+
+
+
+tidy_custom.glm  <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate=FALSE, cluster){
+  # create tidy dataframe for coefficients of pooled logistic regression
+  #mod_tidy <- tidy_parglm(model, conf.int=conf.int, conf.level=conf.level, exponentiate=exponentiate)
+  robustSEs <- coeftest(model, vcov. = vcovCL(model, cluster = cluster, type = "HC0")) %>% broom::tidy()
+  robustCIs <- coefci(model, vcov. = vcovCL(model, cluster = cluster, type = "HC0")) %>% as_tibble(rownames="term")
+  robust <- inner_join(robustSEs, robustCIs, by="term")
+
+  output <- robust %>%
+    rename(
+      conf.low=`2.5 %`,
+      conf.high=`97.5 %`
+    )
+
+  if(exponentiate){
+    output <- output %>%
+      mutate(
+        estimate = exp(estimate),
+        conf.low = exp(conf.low),
+        conf.high = exp(conf.high),
+      )
+  }
+
+  output
 }

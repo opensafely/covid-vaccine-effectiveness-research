@@ -59,9 +59,9 @@ metadata_outcomes <- tribble(
  "postest", "positive_test_1_date", "Positive test",
  "emergency", "emergency_1_date", "A&E attendance",
  "covidadmitted", "covidadmitted_1_date", "COVID-related admission",
- "coviddeath", "coviddeath_1_date", "COVID-related death",
- "noncoviddeath", "noncoviddeath_1_date", "Non-COVID-related death",
- "death", "death_1_date", "Any death",
+ "coviddeath", "coviddeath_date", "COVID-related death",
+ "noncoviddeath", "noncoviddeath_date", "Non-COVID-related death",
+ "death", "death_date", "Any death",
 )
 
 write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))
@@ -71,17 +71,47 @@ write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds
 formula_exposure <- . ~ . + timesincevax_pw
 formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
-  chronic_cardiac_disease + current_copd + dementia + dialysis + diabetes +
-  solid_organ_transplantation + chemo_or_radio +
-  permanant_immunosuppression + asplenia +
+  bmi +
+  chronic_cardiac_disease +
+  heart_failure +
+  other_heart_disease +
+
+  dialysis +
+  diabetes +
+  chronic_liver_disease +
+
+  current_copd +
+  cystic_fibrosis +
+  other_resp_conditions +
+
+  lung_cancer +
+  haematological_cancer +
+  cancer_excl_lung_and_haem +
+
+  chemo_or_radio +
+  solid_organ_transplantation +
+  #bone_marrow_transplant +
+  #sickle_cell_disease +
+  permanant_immunosuppression +
+  #temporary_immunosuppression +
+  asplenia +
   dmards +
-  intel_dis_incl_downs_syndrome + psychosis_schiz_bipolar +
-  lung_cancer + cancer_excl_lung_and_haem + haematological_cancer +
+
+  dementia +
+  other_neuro_conditions +
+
+  LD_incl_DS_and_CP +
+  psychosis_schiz_bipolar +
+
   flu_vaccine
 
 formula_secular <- . ~ . + ns(tstop, df=4)
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
-formula_timedependent <- . ~ . + hospital_status + timesince_probable_covid_pw + timesince_suspected_covid_pw # consider adding local infection rates
+formula_timedependent <- . ~ . +
+  timesince_probable_covid_pw +
+  timesince_suspected_covid_pw +
+  timesince_hosp_discharge_pw
+  # consider adding local infection rates
 
 
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
@@ -91,6 +121,8 @@ formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_secular_region) %>%
   update(formula_timedependent)
 
+postvaxcuts <- c(0, 1, 4, 7, 14, 21)
+
 list_formula <- lst(
   formula_exposure,
   formula_demog,
@@ -98,7 +130,8 @@ list_formula <- lst(
   formula_secular,
   formula_secular_region,
   formula_timedependent,
-  formula_all_rhsvars
+  formula_all_rhsvars,
+  postvaxcuts
 )
 
 write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rds")))

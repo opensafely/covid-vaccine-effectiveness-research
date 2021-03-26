@@ -1,13 +1,13 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports processed data and restricts it to patients in "cohort"
-# fits some marginal structural models for vaccine effectiveness, with different adjustment sets
-# saves model summaries (tables and figures)
-# "tte" = "time-to-event"
+# imports fitted MSMs
+# calculates robust CIs taking into account patient-level clustering
+# outputs forest plots for the primary vaccine-outcome relationship
+# outputs plots showing model-estimated spatio-temporal trends
 #
 # The script should only be run via an action in the project.yaml only
-# The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
+# The script must be accompanied by four arguments: cohort, outcome, brand, and stratum
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -53,6 +53,7 @@ gbl_vars <- jsonlite::fromJSON(
 
 
 # Import metadata for cohort ----
+## these are created in data_define_cohorts.R script
 
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
@@ -61,31 +62,13 @@ metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 list2env(metadata_cohorts, globalenv())
 
 # Import metadata for outcome ----
+## these are created in data_define_cohorts.R script
 
 metadata_outcomes <- read_rds(here::here("output", "data", "metadata_outcomes.rds"))
 stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
 metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
 
 list2env(metadata_outcomes, globalenv())
-
-## define model hyper-parameters and characteristics ----
-
-### model names ----
-
-
-## or equivalently:
-# cohort <- metadata_cohorts$cohort
-# cohort_descr <- metadata_cohorts$cohort_descr
-# outcome <- metadata_cohorts$outcome
-# outcome_descr <- metadata_cohorts$outcome_descr
-
-### post vax time periods ----
-
-postvaxcuts <- c(0, 1, 4, 7, 14, 21) # use if coded as days
-#postvaxcuts <- c(0, 1, 2, 3) # use if coded as weeks
-
-### knot points for calendar time splines ----
-#knots <- c(21, 28)
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
@@ -112,47 +95,25 @@ for(stratum in strata){
 
   msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
   msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
+  msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model2.rds")))
   msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
   msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
 
 
-
   ## report models ----
 
-  plr_summary <- function(model, name, stratum){
-
-    mod_tidy <- tidy_parglm(model, conf.int=TRUE) %>% mutate(model=name, strata=stratum)
-    robustSEs <- coeftest(model, vcov. = vcovCL(model, cluster = data_weights$patient_id, type = "HC0")) %>% broom::tidy()
-    robustCIs <- coefci(model, vcov. = vcovCL(model, cluster = data_weights$patient_id, type = "HC0")) %>% as_tibble(rownames="term")
-    robust <- inner_join(robustSEs, robustCIs, by="term") %>% mutate(model=name,  strata=stratum)
-
-    robust %>%
-      rename(
-        estimate.robust=estimate,
-        std.error.robust=std.error,
-        p.value.robust=p.value,
-        statistic.robust=statistic,
-        conf.low.robust=`2.5 %`,
-        conf.high.robust=`97.5 %`
-      ) %>%
-      mutate(
-        or = exp(estimate.robust),
-        or.ll = exp(conf.low.robust),
-        or.ul = exp(conf.high.robust),
-      )
-
-  }
-
-  robust0 <- plr_summary(msmmod0, "0 Unadjusted", stratum)
-  robust1 <- plr_summary(msmmod1, "1 Age, sex, IMD, ethnicity", stratum)
-  robust3 <- plr_summary(msmmod3, "2 Baseline adjusted", stratum)
-  robust4 <- plr_summary(msmmod4, "3 Fully adjusted", stratum)
+  robust0 <- tidy_plr(msmmod0, cluster=data_weights$patient_id)
+  robust1 <- tidy_plr(msmmod1, cluster=data_weights$patient_id)
+  robust2 <- tidy_plr(msmmod2, cluster=data_weights$patient_id)
+  robust3 <- tidy_plr(msmmod3, cluster=data_weights$patient_id)
+  robust4 <- tidy_plr(msmmod4, cluster=data_weights$patient_id)
 
   robust_summary <- bind_rows(
-    robust0,
-    robust1,
-    robust3,
-    robust4
+    robust0 %>% mutate(model="0 Unadjusted", strata=stratum),
+    robust1 %>% mutate(model="1 Demographics", strata=stratum),
+    robust2 %>% mutate(model="2 Demographics + cinical", strata=stratum),
+    robust3 %>% mutate(model="3 Demographics + cinical + date", strata=stratum),
+    robust4 %>% mutate(model="4 Fully adjusted", strata=stratum),
   )
 
   summary_list[[stratum]] <- robust_summary
@@ -164,23 +125,29 @@ summary_df <- summary_list %>% bind_rows
 write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, "estimates.csv"))
 
 # create forest plot
-msmmod_forest <- summary_df %>%
+msmmod_forest_data <- summary_df %>%
   filter(str_detect(term, "timesincevax")) %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
-    term=str_replace(term, pattern="imd", "IMD "),
-    term=str_replace(term, pattern="sex", "Sex "),
-    term=fct_inorder(term)
-  ) %>%
-  ggplot(aes(colour=as.factor(strata))) +
-  geom_point(aes(y=or, x=factor(term)), position = position_dodge(width = 0.5))+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=factor(term)), position = position_dodge(width = 0.5))+
+    term=fct_inorder(term),
+    term_left = as.numeric(str_extract(term, "\\d+")),
+    term_right = as.numeric(str_remove(str_extract(term, "\\d+]$"), "]")),
+    term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
+    term_midpoint = term_left + (term_right-term_left)/2
+  )
+
+msmmod_forest <-
+  ggplot(data = msmmod_forest_data, aes(colour=as.factor(strata))) +
+  #geom_segment(aes(y=or, yend=or, x=term_left, xend=term_right))+
+  #geom_ribbon(aes(ymin=or.ll, ymax=or.ul, x=term_left), fill=)+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 0.5))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(model), switch="y")+
-  scale_y_log10(breaks=c(0.125, 0.25, 0.5, 1, 2, 4))+
-  scale_x_discrete(na.translate=FALSE)+
+  scale_y_log10(breaks=c(0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4))+
+  scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(ylim=c(0.1,2)) +
+  #coord_cartesian(ylim=c(0.1,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Time since first dose",
@@ -193,9 +160,13 @@ msmmod_forest <- summary_df %>%
     panel.border = element_blank(),
     axis.line.y = element_line(colour = "black"),
 
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
     strip.background = element_blank(),
     strip.placement = "outside",
     strip.text.y.left = element_text(angle = 0),
+
+    panel.spacing = unit(0.8, "lines"),
 
     plot.title = element_text(hjust = 0),
     plot.title.position = "plot",
@@ -207,7 +178,6 @@ msmmod_forest <- summary_df %>%
 
 ## save plot
 ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest_plot.svg"), msmmod_forest, width=20, height=15, units="cm")
-
 
 
 

@@ -25,43 +25,73 @@ $bmi
 $chronic_cardiac_disease
 [1] "logical"
 
-$current_copd
+$heart_failure
 [1] "logical"
 
-$dementia
+$other_heart_disease
 [1] "logical"
 
 $dialysis
 [1] "logical"
 
-$solid_organ_transplantation
+$diabetes
 [1] "logical"
 
-$chemo_or_radio
+$chronic_liver_disease
 [1] "logical"
 
-$permanant_immunosuppression
+$current_copd
 [1] "logical"
 
-$asplenia
+$cystic_fibrosis
 [1] "logical"
 
-$intel_dis_incl_downs_syndrome
-[1] "logical"
-
-$psychosis_schiz_bipolar
+$other_resp_conditions
 [1] "logical"
 
 $lung_cancer
 [1] "logical"
 
-$cancer_excl_lung_and_haem
-[1] "logical"
-
 $haematological_cancer
 [1] "logical"
 
+$cancer_excl_lung_and_haem
+[1] "logical"
+
+$chemo_or_radio
+[1] "logical"
+
+$solid_organ_transplantation
+[1] "logical"
+
+$bone_marrow_transplant
+[1] "logical"
+
+$sickle_cell_disease
+[1] "logical"
+
+$permanant_immunosuppression
+[1] "logical"
+
+$temporary_immunosuppression
+[1] "logical"
+
+$asplenia
+[1] "logical"
+
 $dmards
+[1] "logical"
+
+$dementia
+[1] "logical"
+
+$other_neuro_conditions
+[1] "logical"
+
+$LD_incl_DS_and_CP
+[1] "logical"
+
+$psychosis_schiz_bipolar
 [1] "logical"
 
 $flu_vaccine

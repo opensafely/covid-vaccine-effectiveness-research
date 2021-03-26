@@ -116,10 +116,19 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/postest/any/all/*/model*.rds
-        data: output/over80s/postest/any/all/*/data_weights.rds
+        data: output/over80s/postest/any/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/postest/any/all/strata_vector.rds
         weights: output/over80s/postest/any/all/*/weights*
+
+  report_ipw_over80s_postest_any_all_dose1:
+    run: r:latest analysis/R/report_ipw_dose1.R over80s postest any all
+    needs: [data_define_cohorts, models_over80s_postest_any_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/any/all/*/plot*.svg
+        tables: output/over80s/postest/any/all/*/tab*.html
+        data: output/over80s/postest/any/all/*/tab*.csv
 
   report_over80s_postest_any_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest any all
@@ -130,6 +139,24 @@ actions:
         tables: output/over80s/postest/any/all/*.csv
 
 
+
+  models_cox_over80s_postest_any_all_dose1:
+    run: r:latest analysis/R/model_cox_dose1.R over80s postest any all
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/any/all/*/modelcox*.rds
+      moderately_sensitive:
+        strata: output/over80s/postest/any/all/strata_vector_cox.rds
+
+  report_cox_over80s_postest_any_all_dose1:
+    run: r:latest analysis/R/report_cox_dose1.R over80s postest any all
+    needs: [data_define_cohorts, models_cox_over80s_postest_any_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/any/all/*cox.svg
+        tables: output/over80s/postest/any/all/*cox.csv
+
 ## pfizer vaccine
   models_over80s_postest_pfizer_all_dose1:
     run: r:latest analysis/R/model_msm_dose1.R over80s postest pfizer all
@@ -137,10 +164,19 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/postest/pfizer/all/*/model*.rds
-        data: output/over80s/postest/pfizer/all/*/data_weights.rds
+        data: output/over80s/postest/pfizer/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/postest/pfizer/all/strata_vector.rds
         weights: output/over80s/postest/pfizer/all/*/weights*
+
+  report_ipw_over80s_postest_pfizer_all_dose1:
+    run: r:latest analysis/R/report_ipw_dose1.R over80s postest pfizer all
+    needs: [data_define_cohorts, models_over80s_postest_pfizer_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/pfizer/all/*/plot*.svg
+        tables: output/over80s/postest/pfizer/all/*/tab*.html
+        data: output/over80s/postest/pfizer/all/*/tab*.csv
 
   report_over80s_postest_pfizer_all_dose1:
     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer all
@@ -159,10 +195,19 @@ actions:
     outputs:
       highly_sensitive:
         models: output/over80s/postest/az/all/*/model*.rds
-        data: output/over80s/postest/az/all/*/data_weights.rds
+        data: output/over80s/postest/az/all/*/data*.rds
       moderately_sensitive:
         strata: output/over80s/postest/az/all/strata_vector.rds
         weights: output/over80s/postest/az/all/*/weights*
+
+  report_ipw_over80s_postest_az_all_dose1:
+    run: r:latest analysis/R/report_ipw_dose1.R over80s postest az all
+    needs: [data_define_cohorts, models_over80s_postest_az_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/az/all/*/plot*.svg
+        tables: output/over80s/postest/az/all/*/tab*.html
+        data: output/over80s/postest/az/all/*/tab*.csv
 
 
   report_over80s_postest_az_all_dose1:
@@ -175,226 +220,376 @@ actions:
 
 
 
-
-
 #######################################
- ## OVERALL MODELS: covid death, vax1 only (ignores second dose)
+ ## OVERALL MODELS: non-covid death, vax1 only (ignores second dose)
 #######################################
 
 ## any vaccine
 
-  models_over80s_coviddeath_any_all_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s coviddeath any all
+  models_over80s_noncoviddeath_any_all_dose1:
+    run: r:latest analysis/R/model_msm_dose1.R over80s noncoviddeath any all
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/any/all/*/model*.rds
-        data: output/over80s/coviddeath/any/all/*/data_weights.rds
+        models: output/over80s/noncoviddeath/any/all/*/model*.rds
+        data: output/over80s/noncoviddeath/any/all/*/data*.rds
       moderately_sensitive:
-        strata: output/over80s/coviddeath/any/all/strata_vector.rds
-        weights: output/over80s/coviddeath/any/all/*/weights*
+        strata: output/over80s/noncoviddeath/any/all/strata_vector.rds
+        weights: output/over80s/noncoviddeath/any/all/*/weights*
 
-  report_over80s_coviddeath_any_all_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s coviddeath any all
-    needs: [data_define_cohorts, models_over80s_coviddeath_any_all_dose1]
+  report_ipw_over80s_noncoviddeath_any_all_dose1:
+    run: r:latest analysis/R/report_ipw_dose1.R over80s noncoviddeath any all
+    needs: [data_define_cohorts, models_over80s_noncoviddeath_any_all_dose1]
     outputs:
       moderately_sensitive:
-        plots: output/over80s/coviddeath/any/all/*.svg
-        tables: output/over80s/coviddeath/any/all/*.csv
+        plots: output/over80s/noncoviddeath/any/all/*/plot*.svg
+        tables: output/over80s/noncoviddeath/any/all/*/tab*.html
+        data: output/over80s/noncoviddeath/any/all/*/tab*.csv
+
+  report_over80s_noncoviddeath_any_all_dose1:
+    run: r:latest analysis/R/report_msm_dose1.R over80s noncoviddeath any all
+    needs: [data_define_cohorts, models_over80s_noncoviddeath_any_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/noncoviddeath/any/all/*.svg
+        tables: output/over80s/noncoviddeath/any/all/*.csv
 
 
 ## pfizer vaccine
-  models_over80s_coviddeath_pfizer_all_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s coviddeath pfizer all
+  models_over80s_noncoviddeath_pfizer_all_dose1:
+    run: r:latest analysis/R/model_msm_dose1.R over80s noncoviddeath pfizer all
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/pfizer/all/*/model*.rds
-        data: output/over80s/coviddeath/pfizer/all/*/data_weights.rds
+        models: output/over80s/noncoviddeath/pfizer/all/*/model*.rds
+        data: output/over80s/noncoviddeath/pfizer/all/*/data*.rds
       moderately_sensitive:
-        strata: output/over80s/coviddeath/pfizer/all/strata_vector.rds
-        weights: output/over80s/coviddeath/pfizer/all/*/weights*
+        strata: output/over80s/noncoviddeath/pfizer/all/strata_vector.rds
+        weights: output/over80s/noncoviddeath/pfizer/all/*/weights*
 
-  report_over80s_coviddeath_pfizer_all_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s coviddeath pfizer all
-    needs: [data_define_cohorts, models_over80s_coviddeath_pfizer_all_dose1]
+  report_ipw_over80s_noncoviddeath_pfizer_all_dose1:
+    run: r:latest analysis/R/report_ipw_dose1.R over80s noncoviddeath pfizer all
+    needs: [data_define_cohorts, models_over80s_noncoviddeath_pfizer_all_dose1]
     outputs:
       moderately_sensitive:
-        plots: output/over80s/coviddeath/pfizer/all/*.svg
-        tables: output/over80s/coviddeath/pfizer/all/*.csv
+        plots: output/over80s/noncoviddeath/pfizer/all/*/plot*.svg
+        tables: output/over80s/noncoviddeath/pfizer/all/*/tab*.html
+        data: output/over80s/noncoviddeath/pfizer/all/*/tab*.csv
+
+  report_over80s_noncoviddeath_pfizer_all_dose1:
+    run: r:latest analysis/R/report_msm_dose1.R over80s noncoviddeath pfizer all
+    needs: [data_define_cohorts, models_over80s_noncoviddeath_pfizer_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/noncoviddeath/pfizer/all/*.svg
+        tables: output/over80s/noncoviddeath/pfizer/all/*.csv
 
 
 ## az vaccine
 
-  models_over80s_coviddeath_az_all_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s coviddeath az all
+  models_over80s_noncoviddeath_az_all_dose1:
+    run: r:latest analysis/R/model_msm_dose1.R over80s noncoviddeath az all
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/az/all/*/model*.rds
-        data: output/over80s/coviddeath/az/all/*/data_weights.rds
+        models: output/over80s/noncoviddeath/az/all/*/model*.rds
+        data: output/over80s/noncoviddeath/az/all/*/data*.rds
       moderately_sensitive:
-        strata: output/over80s/coviddeath/az/all/strata_vector.rds
-        weights: output/over80s/coviddeath/az/all/*/weights*
+        strata: output/over80s/noncoviddeath/az/all/strata_vector.rds
+        weights: output/over80s/noncoviddeath/az/all/*/weights*
 
-
-  report_over80s_coviddeath_az_all_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s coviddeath az all
-    needs: [data_define_cohorts, models_over80s_coviddeath_az_all_dose1]
+  report_ipw_over80s_noncoviddeath_az_all_dose1:
+    run: r:latest analysis/R/report_ipw_dose1.R over80s noncoviddeath az all
+    needs: [data_define_cohorts, models_over80s_noncoviddeath_az_all_dose1]
     outputs:
       moderately_sensitive:
-        plots: output/over80s/coviddeath/az/all/*.svg
-        tables: output/over80s/coviddeath/az/all/*.csv
+        plots: output/over80s/noncoviddeath/az/all/*/plot*.svg
+        tables: output/over80s/noncoviddeath/az/all/*/tab*.html
+        data: output/over80s/noncoviddeath/az/all/*/tab*.csv
 
 
-
-#######################################
- ## OVERALL MODELS: emergency attendance, vax1 only (ignores second dose)
-#######################################
-
-## any vaccine
-
-  models_over80s_emergency_any_all_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s emergency any all
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/emergency/any/all/*/model*.rds
-        data: output/over80s/emergency/any/all/*/data_weights.rds
-      moderately_sensitive:
-        strata: output/over80s/emergency/any/all/strata_vector.rds
-        weights: output/over80s/emergency/any/all/*/weights*
-
-  report_over80s_emergency_any_all_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s emergency any all
-    needs: [data_define_cohorts, models_over80s_emergency_any_all_dose1]
+  report_over80s_noncoviddeath_az_all_dose1:
+    run: r:latest analysis/R/report_msm_dose1.R over80s noncoviddeath az all
+    needs: [data_define_cohorts, models_over80s_noncoviddeath_az_all_dose1]
     outputs:
       moderately_sensitive:
-        plots: output/over80s/emergency/any/all/*.svg
-        tables: output/over80s/emergency/any/all/*.csv
-
-
-## pfizer vaccine
-  models_over80s_emergency_pfizer_all_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s emergency pfizer all
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/emergency/pfizer/all/*/model*.rds
-        data: output/over80s/emergency/pfizer/all/*/data_weights.rds
-      moderately_sensitive:
-        strata: output/over80s/emergency/pfizer/all/strata_vector.rds
-        weights: output/over80s/emergency/pfizer/all/*/weights*
-
-  report_over80s_emergency_pfizer_all_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s emergency pfizer all
-    needs: [data_define_cohorts, models_over80s_emergency_pfizer_all_dose1]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/emergency/pfizer/all/*.svg
-        tables: output/over80s/emergency/pfizer/all/*.csv
-
-
-## az vaccine
-
-  models_over80s_emergency_az_all_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s emergency az all
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/emergency/az/all/*/model*.rds
-        data: output/over80s/emergency/az/all/*/data_weights.rds
-      moderately_sensitive:
-        strata: output/over80s/emergency/az/all/strata_vector.rds
-        weights: output/over80s/emergency/az/all/*/weights*
-
-
-  report_over80s_emergency_az_all_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s emergency az all
-    needs: [data_define_cohorts, models_over80s_emergency_az_all_dose1]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/emergency/az/all/*.svg
-        tables: output/over80s/emergency/az/all/*.csv
+        plots: output/over80s/noncoviddeath/az/all/*.svg
+        tables: output/over80s/noncoviddeath/az/all/*.csv
 
 
 
 
-
-#######################################
-#######################################
-## SUBGROUPS
-#######################################
-#######################################
-
-#######################################
- ## sex positive test, vax1 only (ignores second dose)
-#######################################
-
-## any vaccine
-
-  models_over80s_postest_any_sex_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s postest any sex
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/postest/any/sex/*/model*.rds
-        data: output/over80s/postest/any/sex/*/data_weights.rds
-      moderately_sensitive:
-        strata: output/over80s/postest/any/sex/strata_vector.rds
-        weights: output/over80s/postest/any/sex/*/weights*
-
-  report_over80s_postest_any_sex_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s postest any sex
-    needs: [data_define_cohorts, models_over80s_postest_any_sex_dose1]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/postest/any/sex/*.svg
-        tables: output/over80s/postest/any/sex/*.csv
-
-
-## pfizer vaccine
-  models_over80s_postest_pfizer_sex_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s postest pfizer sex
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/postest/pfizer/sex/*/model*.rds
-        data: output/over80s/postest/pfizer/sex/*/data_weights.rds
-      moderately_sensitive:
-        strata: output/over80s/postest/pfizer/sex/strata_vector.rds
-        weights: output/over80s/postest/pfizer/sex/*/weights*
-
-  report_over80s_postest_pfizer_sex_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer sex
-    needs: [data_define_cohorts, models_over80s_postest_pfizer_sex_dose1]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/postest/pfizer/sex/*.svg
-        tables: output/over80s/postest/pfizer/sex/*.csv
-
-
-## az vaccine
-
-  models_over80s_postest_az_sex_dose1:
-    run: r:latest analysis/R/model_msm_dose1.R over80s postest az sex
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/postest/az/sex/*/model*.rds
-        data: output/over80s/postest/az/sex/*/data_weights.rds
-      moderately_sensitive:
-        strata: output/over80s/postest/az/sex/strata_vector.rds
-        weights: output/over80s/postest/az/sex/*/weights*
-
-
-  report_over80s_postest_az_sex_dose1:
-    run: r:latest analysis/R/report_msm_dose1.R over80s postest az sex
-    needs: [data_define_cohorts, models_over80s_postest_az_sex_dose1]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/postest/az/sex/*.svg
-        tables: output/over80s/postest/az/sex/*.csv
-
-
-
+#
+# #######################################
+#  ## OVERALL MODELS: covid death, vax1 only (ignores second dose)
+# #######################################
+#
+# ## any vaccine
+#
+#   models_over80s_coviddeath_any_all_dose1:
+#     run: r:latest analysis/R/model_msm_dose1.R over80s coviddeath any all
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/coviddeath/any/all/*/model*.rds
+#         data: output/over80s/coviddeath/any/all/*/data*.rds
+#       moderately_sensitive:
+#         strata: output/over80s/coviddeath/any/all/strata_vector.rds
+#         weights: output/over80s/coviddeath/any/all/*/weights*
+#
+#
+#   report_ipw_over80s_coviddeath_any_all_dose1:
+#     run: r:latest analysis/R/report_ipw_dose1.R over80s coviddeath any all
+#     needs: [data_define_cohorts, models_over80s_coviddeath_any_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/coviddeath/any/all/*/plot*.svg
+#         tables: output/over80s/coviddeath/any/all/*/tab*.html
+#
+#
+#   report_over80s_coviddeath_any_all_dose1:
+#     run: r:latest analysis/R/report_msm_dose1.R over80s coviddeath any all
+#     needs: [data_define_cohorts, models_over80s_coviddeath_any_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/coviddeath/any/all/*.svg
+#         tables: output/over80s/coviddeath/any/all/*.csv
+#
+#
+# ## pfizer vaccine
+#   models_over80s_coviddeath_pfizer_all_dose1:
+#     run: r:latest analysis/R/model_msm_dose1.R over80s coviddeath pfizer all
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/coviddeath/pfizer/all/*/model*.rds
+#         data: output/over80s/coviddeath/pfizer/all/*/data*.rds
+#       moderately_sensitive:
+#         strata: output/over80s/coviddeath/pfizer/all/strata_vector.rds
+#         weights: output/over80s/coviddeath/pfizer/all/*/weights*
+#
+#   report_ipw_over80s_coviddeath_pfizer_all_dose1:
+#     run: r:latest analysis/R/report_ipw_dose1.R over80s coviddeath pfizer all
+#     needs: [data_define_cohorts, models_over80s_coviddeath_pfizer_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/coviddeath/pfizer/all/*/plot*.svg
+#         tables: output/over80s/coviddeath/pfizer/all/*/tab*.html
+#
+#   report_over80s_coviddeath_pfizer_all_dose1:
+#     run: r:latest analysis/R/report_msm_dose1.R over80s coviddeath pfizer all
+#     needs: [data_define_cohorts, models_over80s_coviddeath_pfizer_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/coviddeath/pfizer/all/*.svg
+#         tables: output/over80s/coviddeath/pfizer/all/*.csv
+#
+#
+# ## az vaccine
+#
+#   models_over80s_coviddeath_az_all_dose1:
+#     run: r:latest analysis/R/model_msm_dose1.R over80s coviddeath az all
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/coviddeath/az/all/*/model*.rds
+#         data: output/over80s/coviddeath/az/all/*/data*.rds
+#       moderately_sensitive:
+#         strata: output/over80s/coviddeath/az/all/strata_vector.rds
+#         weights: output/over80s/coviddeath/az/all/*/weights*
+#
+#   report_ipw_over80s_coviddeath_az_all_dose1:
+#     run: r:latest analysis/R/report_ipw_dose1.R over80s coviddeath az all
+#     needs: [data_define_cohorts, models_over80s_coviddeath_az_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/coviddeath/az/all/*/plot*.svg
+#         tables: output/over80s/coviddeath/az/all/*/tab*.html
+#
+#   report_over80s_coviddeath_az_all_dose1:
+#     run: r:latest analysis/R/report_msm_dose1.R over80s coviddeath az all
+#     needs: [data_define_cohorts, models_over80s_coviddeath_az_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/coviddeath/az/all/*.svg
+#         tables: output/over80s/coviddeath/az/all/*.csv
+#
+#
+#
+# #######################################
+#  ## OVERALL MODELS: emergency attendance, vax1 only (ignores second dose)
+# #######################################
+#
+# ## any vaccine
+#
+#   models_over80s_emergency_any_all_dose1:
+#     run: r:latest analysis/R/model_msm_dose1.R over80s emergency any all
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/emergency/any/all/*/model*.rds
+#         data: output/over80s/emergency/any/all/*/data*.rds
+#       moderately_sensitive:
+#         strata: output/over80s/emergency/any/all/strata_vector.rds
+#         weights: output/over80s/emergency/any/all/*/weights*
+#
+#
+#   report_ipw_over80s_emergency_any_all_dose1:
+#     run: r:latest analysis/R/report_ipw_dose1.R over80s emergency any all
+#     needs: [data_define_cohorts, models_over80s_emergency_any_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/emergency/any/all/*/plot*.svg
+#         tables: output/over80s/emergency/any/all/*/tab*.html
+#
+#
+#   report_over80s_emergency_any_all_dose1:
+#     run: r:latest analysis/R/report_msm_dose1.R over80s emergency any all
+#     needs: [data_define_cohorts, models_over80s_emergency_any_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/emergency/any/all/*.svg
+#         tables: output/over80s/emergency/any/all/*.csv
+#
+#
+# ## pfizer vaccine
+#   models_over80s_emergency_pfizer_all_dose1:
+#     run: r:latest analysis/R/model_msm_dose1.R over80s emergency pfizer all
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/emergency/pfizer/all/*/model*.rds
+#         data: output/over80s/emergency/pfizer/all/*/data*.rds
+#       moderately_sensitive:
+#         strata: output/over80s/emergency/pfizer/all/strata_vector.rds
+#         weights: output/over80s/emergency/pfizer/all/*/weights*
+#
+#   report_ipw_over80s_emergency_pfizer_all_dose1:
+#     run: r:latest analysis/R/report_ipw_dose1.R over80s emergency pfizer all
+#     needs: [data_define_cohorts, models_over80s_emergency_pfizer_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/emergency/pfizer/all/*/plot*.svg
+#         tables: output/over80s/emergency/pfizer/all/*/tab*.html
+#
+#
+#   report_over80s_emergency_pfizer_all_dose1:
+#     run: r:latest analysis/R/report_msm_dose1.R over80s emergency pfizer all
+#     needs: [data_define_cohorts, models_over80s_emergency_pfizer_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/emergency/pfizer/all/*.svg
+#         tables: output/over80s/emergency/pfizer/all/*.csv
+#
+#
+# ## az vaccine
+#
+#   models_over80s_emergency_az_all_dose1:
+#     run: r:latest analysis/R/model_msm_dose1.R over80s emergency az all
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/emergency/az/all/*/model*.rds
+#         data: output/over80s/emergency/az/all/*/data*.rds
+#       moderately_sensitive:
+#         strata: output/over80s/emergency/az/all/strata_vector.rds
+#         weights: output/over80s/emergency/az/all/*/weights*
+#
+#
+#   report_ipw_over80s_emergency_az_all_dose1:
+#     run: r:latest analysis/R/report_ipw_dose1.R over80s emergency az all
+#     needs: [data_define_cohorts, models_over80s_emergency_az_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/emergency/az/all/*/plot*.svg
+#         tables: output/over80s/emergency/az/all/*/tab*.html
+#
+#   report_over80s_emergency_az_all_dose1:
+#     run: r:latest analysis/R/report_msm_dose1.R over80s emergency az all
+#     needs: [data_define_cohorts, models_over80s_emergency_az_all_dose1]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/emergency/az/all/*.svg
+#         tables: output/over80s/emergency/az/all/*.csv
+#
+#
+#
+#
+#
+# #######################################
+# #######################################
+# ## SUBGROUPS
+# #######################################
+# #######################################
+#
+# #######################################
+#  ## sex positive test, vax1 only (ignores second dose)
+# #######################################
+#
+# ## any vaccine
+# #
+# #   models_over80s_postest_any_sex_dose1:
+# #     run: r:latest analysis/R/model_msm_dose1.R over80s postest any sex
+# #     needs: [data_define_cohorts, data_stset_over80s]
+# #     outputs:
+# #       highly_sensitive:
+# #         models: output/over80s/postest/any/sex/*/model*.rds
+# #         data: output/over80s/postest/any/sex/*/data_weights.rds
+# #       moderately_sensitive:
+# #         strata: output/over80s/postest/any/sex/strata_vector.rds
+# #         weights: output/over80s/postest/any/sex/*/weights*
+# #
+# #   report_over80s_postest_any_sex_dose1:
+# #     run: r:latest analysis/R/report_msm_dose1.R over80s postest any sex
+# #     needs: [data_define_cohorts, models_over80s_postest_any_sex_dose1]
+# #     outputs:
+# #       moderately_sensitive:
+# #         plots: output/over80s/postest/any/sex/*.svg
+# #         tables: output/over80s/postest/any/sex/*.csv
+# #
+# #
+# # ## pfizer vaccine
+# #   models_over80s_postest_pfizer_sex_dose1:
+# #     run: r:latest analysis/R/model_msm_dose1.R over80s postest pfizer sex
+# #     needs: [data_define_cohorts, data_stset_over80s]
+# #     outputs:
+# #       highly_sensitive:
+# #         models: output/over80s/postest/pfizer/sex/*/model*.rds
+# #         data: output/over80s/postest/pfizer/sex/*/data_weights.rds
+# #       moderately_sensitive:
+# #         strata: output/over80s/postest/pfizer/sex/strata_vector.rds
+# #         weights: output/over80s/postest/pfizer/sex/*/weights*
+# #
+# #   report_over80s_postest_pfizer_sex_dose1:
+# #     run: r:latest analysis/R/report_msm_dose1.R over80s postest pfizer sex
+# #     needs: [data_define_cohorts, models_over80s_postest_pfizer_sex_dose1]
+# #     outputs:
+# #       moderately_sensitive:
+# #         plots: output/over80s/postest/pfizer/sex/*.svg
+# #         tables: output/over80s/postest/pfizer/sex/*.csv
+# #
+# #
+# # ## az vaccine
+# #
+# #   models_over80s_postest_az_sex_dose1:
+# #     run: r:latest analysis/R/model_msm_dose1.R over80s postest az sex
+# #     needs: [data_define_cohorts, data_stset_over80s]
+# #     outputs:
+# #       highly_sensitive:
+# #         models: output/over80s/postest/az/sex/*/model*.rds
+# #         data: output/over80s/postest/az/sex/*/data_weights.rds
+# #       moderately_sensitive:
+# #         strata: output/over80s/postest/az/sex/strata_vector.rds
+# #         weights: output/over80s/postest/az/sex/*/weights*
+# #
+# #
+# #   report_over80s_postest_az_sex_dose1:
+# #     run: r:latest analysis/R/report_msm_dose1.R over80s postest az sex
+# #     needs: [data_define_cohorts, models_over80s_postest_az_sex_dose1]
+# #     outputs:
+# #       moderately_sensitive:
+# #         plots: output/over80s/postest/az/sex/*.svg
+# #         tables: output/over80s/postest/az/sex/*.csv
+# #
+# #
+#
