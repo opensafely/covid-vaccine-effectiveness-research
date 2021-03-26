@@ -12,31 +12,29 @@
 ######################################
 
 
+# Preliminaries ----
 
-
-# Import libraries ----
+## Import libraries
 library('tidyverse')
 library('lubridate')
 
-# Import custom user functions from lib
+## Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
 
-# import globally defined repo variables from
+# Import globally defined repo variables from
 gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
 gbl_vars$run_date =date(file.info(here::here("metadata","extract_all.log"))$ctime)
 #list2env(gbl_vars, globalenv())
 
-
-
-# output processed data to rds ----
-
+## Output processed data to rds
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
 
-# process ----
+# Process ----
 
+## Print variable names
 read_csv(
   here::here("output", "input_all.csv"),
   n_max=0,
@@ -45,7 +43,7 @@ read_csv(
 names() %>%
 print()
 
-
+## Format columns (don't rely on defaults)
 data_extract0 <- read_csv(
   here::here("output", "input_all.csv"),
   col_types = cols_only(
@@ -129,6 +127,7 @@ data_extract0 <- read_csv(
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
+    # Put into 'category'
     bmi = col_character(),
 
     chronic_cardiac_disease = col_logical(),
@@ -168,12 +167,12 @@ data_extract0 <- read_csv(
   na = character() # more stable to convert to missing later
 )
 
-# Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
+## Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
 data_extract0 <- data_extract0 %>%
   mutate(ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)) %>%
   select(-ethnicity_6_sus)
 
-# parse NAs
+## Parse NAs
 data_extract <- data_extract0 %>%
   mutate(across(
     .cols = where(is.character),
@@ -187,9 +186,11 @@ data_extract <- data_extract0 %>%
   select(all_of((names(data_extract0))))
 
 
-##  SECTION TO SORT OUT BAD DUMMY DATA ----
-# this rearranges so events are in date order
 
+#  SECTION TO SORT OUT BAD DUMMY DATA ----
+
+## Extract all event date columns and collapse into one 'date' and one 'event' column and order by 
+## date (for each patient_id)
 data_dates_reordered_long <- data_extract %>%
   select(patient_id, matches("^(.*)_(\\d+)_date")) %>%
   pivot_longer(
@@ -210,7 +211,7 @@ data_dates_reordered_long <- data_extract %>%
     patient_id, name, event, index, date
   )
 
-
+## Convert back to wide format (columns now in date order)
 data_dates_reordered_wide <- data_dates_reordered_long %>%
   arrange(name, patient_id) %>%
   pivot_wider(
@@ -219,13 +220,14 @@ data_dates_reordered_wide <- data_dates_reordered_long %>%
     values_from = date
   )
 
+## Merge back non-date columns
 data_extract_reordered <- left_join(
   data_extract %>% select(-matches("^(.*)_(\\d+)_date")),
   data_dates_reordered_wide,
   by="patient_id"
 )
 
-
+## Format variables (i.e, set factor levels)
 data_processed <- data_extract_reordered %>%
   mutate(
 
@@ -259,7 +261,6 @@ data_processed <- data_extract_reordered %>%
 
     ),
 
-
     imd = na_if(imd, "0"),
     imd = fct_case_when(
       imd == 1 ~ "1 most deprived",
@@ -284,7 +285,9 @@ data_processed <- data_extract_reordered %>%
                       "Yorkshire and The Humber"
                     )
     ),
+    
     stp = as.factor(stp),
+    
     care_home_type = as.factor(care_home_type),
 
     bmi = as.factor(bmi),
@@ -292,8 +295,7 @@ data_processed <- data_extract_reordered %>%
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",
       !is.na(death_date) ~ "not covid-related",
-      TRUE ~ NA_character_
-    ),
+      TRUE ~ NA_character_),
 
     noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(NA_character_))
 
@@ -310,10 +312,9 @@ data_processed <- data_extract_reordered %>%
   sample_n(tbl=., size=min(c(100000, nrow(.))))
 
 
-## create one-row-per-event datasets ----
-# for vaccination, positive test, hospitalisation/discharge, covid in primary care, death
+# Create one-row-per-event datasets ----
 
-
+## For hospitalisation/discharge
 data_admissions <- data_processed %>%
     select(patient_id, matches("^admitted\\_\\d+\\_date"), matches("^discharged\\_\\d+\\_date")) %>%
     pivot_longer(
@@ -325,6 +326,7 @@ data_admissions <- data_processed %>%
     select(patient_id, index, admitted_date=admitted, discharged_date = discharged) %>%
     arrange(patient_id, admitted_date)
 
+## For covid in primary care
 data_pr_suspected_covid <- data_processed %>%
   select(patient_id, matches("^primary_care_suspected_covid\\_\\d+\\_date")) %>%
   pivot_longer(
@@ -347,7 +349,7 @@ data_pr_probable_covid <- data_processed %>%
   ) %>%
   arrange(patient_id, date)
 
-
+## For vaccination
 data_vax <- local({
 
   data_vax_all <- data_processed %>%
@@ -383,7 +385,6 @@ data_vax <- local({
     ) %>%
     arrange(patient_id, date)
 
-
   data_vax_all %>%
     left_join(data_vax_pf, by=c("patient_id", "date")) %>%
     left_join(data_vax_az, by=c("patient_id", "date")) %>%
@@ -401,6 +402,7 @@ data_vax <- local({
 })
 
 
+# Save datasets as .rds files ----
 write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
 write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
