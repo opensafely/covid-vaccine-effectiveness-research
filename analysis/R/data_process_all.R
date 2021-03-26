@@ -307,7 +307,7 @@ data_processed <- data_extract_reordered %>%
     !is.na(region)
   ) %>%
   ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
-  sample_n(tbl=., size=max(c(100000, nrow(.))))
+  sample_n(tbl=., size=min(c(100000, nrow(.))))
 
 
 ## create one-row-per-event datasets ----
