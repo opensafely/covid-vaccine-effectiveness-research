@@ -35,7 +35,6 @@ actions:
         data4: output/data/data_long_pr_probable_covid_dates.rds
         data5: output/data/data_long_pr_suspected_covid_dates.rds
 
-
   data_properties_all:
     run: r:latest analysis/R/data_properties.R output/data/data_all.rds output/data_properties
     needs: [data_process_all]
