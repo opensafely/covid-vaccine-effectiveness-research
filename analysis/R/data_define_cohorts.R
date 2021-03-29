@@ -139,7 +139,7 @@ formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_timedependent)
 
 ## Cut offs
-postvaxcuts <- c(0, 1, 4, 7, 14, 21)
+postvaxcuts <- c(0, 3, 7, 14, 21)
 
 ## Combine above into list and save
 list_formula <- lst(

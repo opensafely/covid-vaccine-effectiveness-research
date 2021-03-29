@@ -44,6 +44,14 @@ gbl_vars <- jsonlite::fromJSON(
 #list2env(gbl_vars, globalenv())
 
 
+### import outcomes, exposures, and covariate formulae ----
+## these are created in data_define_cohorts.R script
+
+list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list2env(list_formula, globalenv())
+
+
+
 ## Import processed data ----
 
 
@@ -217,10 +225,19 @@ pt_summary_total <- data_pt %>%
     coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
     coviddeath_n=sum(coviddeath),
     coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
+
+    noncoviddeath_yearsatrisk=sum(noncoviddeath_status==0)/365.25,
+    noncoviddeath_n=sum(noncoviddeath),
+    noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
+
+    death_yearsatrisk=sum(death_status==0)/365.25,
+    death_n=sum(death),
+    death_rate=death_n/death_yearsatrisk,
   )
 
 pt_summary <- function(data, timesince, postvaxcuts){
-data %>%
+
+  unredacted <- data %>%
   mutate(
     timesincevax = data[[timesince]],
     timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, "Unvaccinated"),
@@ -238,11 +255,35 @@ data %>%
     coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
     coviddeath_n=sum(coviddeath),
     coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
+
+    noncoviddeath_yearsatrisk=sum(noncoviddeath_status==0)/365.25,
+    noncoviddeath_n=sum(noncoviddeath),
+    noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
+
+    death_yearsatrisk=sum(death_status==0)/365.25,
+    death_n=sum(death),
+    death_rate=death_n/death_yearsatrisk,
   ) %>%
   ungroup()
+
+  redacted <- unredacted %>%
+    mutate(
+      postest_rate = redactor2(postest_n, 5, postest_rate),
+      covidadmitted_rate = redactor2(covidadmitted_n, 5, covidadmitted_rate),
+      coviddeath_rate = redactor2(coviddeath_n, 5, coviddeath_rate),
+      noncoviddeath_rate = redactor2(noncoviddeath_n, 5, noncoviddeath_rate),
+      death_rate = redactor2(death_n, 5, death_rate),
+
+      postest_n = redactor2(postest_n, 5),
+      covidadmitted_n = redactor2(covidadmitted_n, 5),
+      coviddeath_n = redactor2(coviddeath_n, 5),
+      noncoviddeath_n = redactor2(noncoviddeath_n, 5),
+      death_n = redactor2(death_n, 5)
+    )
+
+  redacted
 }
 
-postvaxcuts <- c(0, 1, 4, 7, 14, 21)
 
 pt_summary_any <- pt_summary(data_pt, "timesincevaxany1", postvaxcuts)
 pt_summary_pfizer <- pt_summary(data_pt, "timesincevaxpfizer1", postvaxcuts)
@@ -256,26 +297,40 @@ pt_tab_summary <- pt_summary_any %>%
      postest_yearsatrisk = "Person-years at risk",
      covidadmitted_yearsatrisk = "Person-years at risk",
      coviddeath_yearsatrisk = "Person-years at risk",
+     noncoviddeath_yearsatrisk = "Person-years at risk",
+     death_yearsatrisk = "Person-years at risk",
 
      postest_n = "Events",
      covidadmitted_n = "Events",
      coviddeath_n = "Events",
+     noncoviddeath_n = "Events",
+     death_n = "Events",
 
      postest_rate = "Rate/year",
      covidadmitted_rate = "Rate/year",
      coviddeath_rate = "Rate/year",
+     noncoviddeath_rate = "Rate/year",
+     death_rate = "Rate/year"
    ) %>%
   tab_spanner(
     label = "Positive test",
     columns = starts_with("postest")
   ) %>%
   tab_spanner(
-    label = "Covid-related admission",
+    label = "COVID-related admission",
     columns = starts_with("covidadmitted")
   ) %>%
   tab_spanner(
-    label = "Covid-related death",
+    label = "COVID-related death",
     columns = starts_with("coviddeath")
+  ) %>%
+  tab_spanner(
+    label = "Non-COVID-related death",
+    columns = starts_with("noncoviddeath")
+  ) %>%
+  tab_spanner(
+    label = "Any death",
+    columns = starts_with("death")
   ) %>%
   fmt_number(
     columns = ends_with(c("yearsatrisk")),
