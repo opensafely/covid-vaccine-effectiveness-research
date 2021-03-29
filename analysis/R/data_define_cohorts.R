@@ -81,7 +81,7 @@ formula_comorbs <- . ~ . +
   chronic_liver_disease +
 
   current_copd +
-  cystic_fibrosis +
+  #cystic_fibrosis +
   other_resp_conditions +
 
   lung_cancer +
@@ -89,7 +89,7 @@ formula_comorbs <- . ~ . +
   cancer_excl_lung_and_haem +
 
   chemo_or_radio +
-  solid_organ_transplantation +
+  #solid_organ_transplantation +
   #bone_marrow_transplant +
   #sickle_cell_disease +
   permanant_immunosuppression +
@@ -107,6 +107,7 @@ formula_comorbs <- . ~ . +
 
 formula_secular <- . ~ . + ns(tstop, df=4)
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
+
 formula_timedependent <- . ~ . +
   timesince_probable_covid_pw +
   timesince_suspected_covid_pw +

@@ -118,7 +118,7 @@ data_tte <- data_tte %>%
     ind_covidadmitted = censor_indicator(tte_covidadmitted, tte_lastfup),
 
     tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=FALSE),
-    ind_covideath = censor_indicator(tte_coviddeath, tte_lastfup),
+    ind_coviddeath = censor_indicator(tte_coviddeath, tte_lastfup),
 
     tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=FALSE),
     ind_noncoviddeath = censor_indicator(tte_noncoviddeath, tte_lastfup),
