@@ -232,7 +232,7 @@ for(stratum in strata){
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxany1.svg"),
       plot_ipwvaxany1,
-      units=cm, width=20, height=25
+      units="cm", width=20, height=25
     )
 
 
@@ -253,7 +253,7 @@ for(stratum in strata){
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxfizer1.svg"),
       plot_ipwvaxpfizer1,
-      units=cm, width=20, height=25
+      units="cm", width=20, height=25
     )
 
     # AZ
@@ -269,7 +269,7 @@ for(stratum in strata){
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwvaxaz1.svg"),
       plot_ipwvaxaz1,
-      units=cm, width=20, height=25
+      units="cm", width=20, height=25
     )
 
     # combine tables
@@ -294,7 +294,7 @@ for(stratum in strata){
   ggsave(
     here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_ipwdeath.svg"),
     plot_ipwdeath,
-    units=cm, width=20, height=25
+    units="cm", width=20, height=25
   )
 
 
