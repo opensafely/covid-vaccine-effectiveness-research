@@ -12,6 +12,7 @@
 # The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
 
+
 # Preliminaries ----
 
 ## Import libraries ----
@@ -22,10 +23,8 @@ library('survival')
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
-# import command-line arguments ----
-
+# Import command-line arguments ----
 args <- commandArgs(trailingOnly=TRUE)
-
 
 if(length(args)==0){
   # use for interactive testing
@@ -34,12 +33,10 @@ if(length(args)==0){
   cohort <- args[[1]]
 }
 
-## create output directories ----
+## Create output directories ----
 dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
 
-# Import processed data ----
-
-
+## Import processed data ----
 data_cohorts <- read_rds(here::here("output", "data", "data_cohorts.rds"))
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
@@ -50,10 +47,10 @@ data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
 metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
 
-# Generate different data formats ----
 
-## one-row-per-patient data ----
+# 1. Generate one-row-per-patient data ----
 
+# Fixed data
 data_fixed <- data_all %>%
   filter(
     patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
@@ -102,12 +99,12 @@ data_fixed <- data_all %>%
     flu_vaccine
   )
 
-
-## print dataset size ----
+### Print dataset size
 cat(" \n")
 cat(glue::glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n")
 cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI", digits=3L)), "\n")
 
+## Event data
 data_tte <- data_all  %>%
   filter(
     patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
@@ -124,7 +121,6 @@ data_tte <- data_all  %>%
     covid_vax_pfizer_2_date,
     covid_vax_az_1_date,
     covid_vax_az_2_date,
-
 
     positive_test_1_date,
     emergency_1_date,
@@ -162,13 +158,14 @@ data_tte <- data_all  %>%
     # time to admission
     tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE),
 
-    #time to covid death
+    # time to covid death
     tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE),
     tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE),
 
-    #time to death
+    # time to death
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
-
+    
+    # time to vaccination
     tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
 
@@ -177,7 +174,6 @@ data_tte <- data_all  %>%
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
-
 
   ) %>%
   # convert tte variables to integer to save space. works since we know precision is to nearest day
@@ -188,12 +184,13 @@ data_tte <- data_all  %>%
 
 stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1 != data_tte$tte_vaxany2, na.rm=TRUE))
 
-## print dataset size ----
+### Print dataset size ----
 cat(" \n")
 cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n")
 cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", standard="SI", digits=3L)), "\n")
 
-## convert time-to-event data from daily to weekly ----
+
+## Convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
 
 #choose units to discretise time
@@ -225,11 +222,9 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", stan
 #   )
 
 
-## create counting-process format dataset ----
-# ie, one row per person per event
-# every time an event occurs or a covariate changes, a new row is generated
+# 2. Create counting-process format dataset (ie, one row per person per event) ----
 
-# import hospitalisations data for time-updating "in-hospital" covariate
+## Import hospitalisations data for time-updating "in-hospital" covariate
 data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
@@ -247,6 +242,7 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
     hosp_status = if_else(status=="admitted_date", 1L, 0L)
   )
 
+## Import suspected covid data for time-updating "suspected_covid" covariate
 data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
@@ -257,6 +253,7 @@ data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_susp
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
   )
 
+## Import probable covid data for time-updating "probable_covid" covariate
 data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
@@ -267,7 +264,7 @@ data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_proba
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
   )
 
-# initial call based on events and vaccination status
+## Initial call based on events and vaccination status - every time an event occurs or a vaccination status changes, a new row is generated
 data_tte_cp0 <- tmerge(
   data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
   data2 = data_tte,
@@ -310,10 +307,10 @@ data_tte_cp0 <- tmerge(
   tstop = tte_enddate
 )
 
-
 stopifnot("tstart should be  >= 0 in data_tte_cp0" = data_tte_cp0$tstart>=0)
 stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp0" = data_tte_cp0$tstop - data_tte_cp0$tstart > 0)
 
+## Secondary call based on hospitiliasion and suspected/probable covid status - new row generated for every status change
 data_tte_cp <- data_tte_cp0 %>%
   tmerge(
     data1 = .,
@@ -348,10 +345,10 @@ mutate(
   vaxany_status = vaxany1_status + vaxany2_status,
   vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
   vaxaz_status = vaxaz1_status + vaxaz2_status,
-) %>%
-ungroup() %>%
-# for some reason tmerge converts event indicators to numeric. So convert back to save space
-mutate(across(
+  ) %>%
+  ungroup() %>%
+  # for some reason tmerge converts event indicators to numeric. So convert back to save space
+  mutate(across(
   .cols = c("vaxany1",
             "vaxany2",
             "vaxpfizer1",
@@ -373,27 +370,30 @@ mutate(across(
   .fns = as.integer
 ))
 
-# free up memory
+### Free up memory
 rm(data_tte_cp0)
 rm(data_hospitalised)
 rm(data_suspected_covid)
 rm(data_probable_covid)
 
-
 stopifnot("tstart should be >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
 stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$tstop - data_tte_cp$tstart > 0)
 
-### print dataset size ----
+### Print dataset size
 cat(" \n")
 cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n")
 cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", standard="SI", digits=3L)), "\n")
 
-## create person-time format dataset ----
+
+
+# 3. Create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
 # this format has lots of redundancy but is necessary for MSMs
 
+## Sequence of every day for every patient
 alltimes <- expand(data_tte, patient_id, times=as.integer(full_seq(c(1, tte_enddate),1)))
 
+## 
 # do not use survSplit as this doesn't handle multiple events properly
 # eg, a positive test will be expanded as if a tdc (eg c(0,0,1,1,1,..)) not an event (eg c(0,0,1,0,0,...))
 # also, survSplit is slower!
@@ -488,15 +488,14 @@ data_tte_pt <- tmerge(
 
 stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes == data_tte_pt$tstop))
 
-
-# remove unused columns
+## Remove unused columns
 data_tte_pt <- data_tte_pt %>%
   select(
     -starts_with("tte_"),
     -ends_with("_date")
   )
 
-### print dataset size ----
+### Print dataset size
 cat(" \n")
 cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n")
 cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI", digits=3L)), "\n")
