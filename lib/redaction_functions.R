@@ -64,7 +64,11 @@ redactor2 <- function(n, threshold=5, x=NULL){
     redact[which.min(dplyr::if_else(leq_threshold, n_sum+1L, n))] = TRUE
   }
 
-  redacted <- dplyr::if_else(redact, x+NA, x)
+
+  typedNA <- NA
+  mode(typedNA) <- typeof(x)
+
+  redacted <- dplyr::if_else(redact, typedNA, x)
 
   redacted
 }
@@ -85,7 +89,7 @@ testdata <- tibble(
       type <- typeof(.x)
       typedNA <- NA
       mode(typedNA) <- type
-      ifelse(runif(n())>0.1, ., typedNA) # .x+NA rather than NA to ensure correct type
+      ifelse(runif(n())>0.1, ., typedNA)
     }
   )) %>%
   add_row(
