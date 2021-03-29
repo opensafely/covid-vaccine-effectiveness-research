@@ -3,11 +3,12 @@
 # This script:
 # takes a cohort name as defined in data_define_cohorts.R, and imported as an Arg
 # creates descriptive outputs on patient characteristics by vaccination status at 0, 28, and 56 days.
+# creates event rates for positive covid test, covid related admission, covid-related death, non-covid-related death and any death
 #
 # The script should be run via an action in the project.yaml
-# The script must be accompanied by one argument,
-# 1. the name of the cohort defined in data_define_cohorts.R
+# The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
+
 
 # Preliminaries ----
 
@@ -19,15 +20,12 @@ library('gt')
 library('gtsummary')
 
 ## Import custom user functions from lib
-
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "redaction_functions.R"))
 source(here::here("lib", "survival_functions.R"))
 
-## import command-line arguments ----
-
+## Import command-line arguments ----
 args <- commandArgs(trailingOnly=TRUE)
-
 
 if(length(args)==0){
   # use for interactive testing
@@ -37,45 +35,39 @@ if(length(args)==0){
   cohort <- args[[1]]
 }
 
-## import global vars ----
+## Import global vars ----
 gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
 #list2env(gbl_vars, globalenv())
 
-
-### import outcomes, exposures, and covariate formulae ----
-## these are created in data_define_cohorts.R script
-
+## Import outcomes, exposures, and covariate formulae (these are created in data_define_cohorts.R script)
 list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
-
-
-## Import processed data ----
-
-
+## Import processed data
 data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
 #data_cp <- read_rds(here::here("output", cohort, "data", glue::glue("data_cp.rds")))
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))
 
-# create snapshot data ----
+## Create output directories ----
+dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE, recursive=TRUE)
 
-## choose snapshot times ----
+
+
+# Create descriptive outputs on patient characteristics by vaccination status at 0, 28, and 56 days ----
+
+## Choose snapshot times
 snapshot_days <- c(0, 28, 56)
 
-## create snapshop format dataset ----
-# ie, one row per person per snapshot date
+## Create snapshop format dataset, ie, one row per person per snapshot date
 data_ss <- data_pt %>%
   filter(tstart %in% snapshot_days) %>%
   mutate(snapshot_day = tstart) %>%
   arrange(snapshot_day, patient_id) %>%
   left_join(data_fixed, by = "patient_id")
 
-
-# create tables ----
-
-
+## Create tables data from snapshot data ---
 data_tab <- data_ss %>%
   mutate(
     date = factor(as.Date(gbl_vars$start_date) + snapshot_day),
@@ -106,8 +98,7 @@ data_tab <- data_ss %>%
  #   .fns = ~if_else(.x, "yes", "no")
  # ))
 
-
-
+## Overall summary table
 tab_summary <- data_tab %>% transmute(
   ageband, sex, imd, region, ethnicity,
   bmi,
@@ -144,9 +135,9 @@ tab_summary <- data_tab %>% transmute(
   flu_vaccine,
 
   snapshot_day, vaxany_status
-) %>%
-group_split(snapshot_day) %>%
-map(
+  ) %>%
+  group_split(snapshot_day) %>%
+  map(
   ~tbl_summary(
     .x %>% mutate(vaxany_status=droplevels(vaxany_status)) %>% select(-snapshot_day),
     by=vaxany_status,
@@ -195,23 +186,19 @@ map(
     )
   ) %>%
   modify_footnote(starts_with("stat_") ~ NA)
-) %>%
-tbl_merge(tab_spanner=c("Day 0", "Day 28", "Day 56"))
+  ) %>%
+  tbl_merge(tab_spanner=c("Day 0", "Day 28", "Day 56"))
 
 
-## create output directories ----
-dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE, recursive=TRUE)
-
+### Save table
 #gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.png"))
 #gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.rtf"))
 gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.html"))
 
 
+# Create event rates table for outcomes ----
 
-## create person-time table ----
-
-
-
+## Create person-time table
 pt_summary_total <- data_pt %>%
   summarise(
     postest_yearsatrisk=sum(postest_status==0)/365.25,
@@ -235,6 +222,7 @@ pt_summary_total <- data_pt %>%
     death_rate=death_n/death_yearsatrisk,
   )
 
+## Function to summarise data
 pt_summary <- function(data, timesince, postvaxcuts){
 
   unredacted <- data %>%
@@ -284,11 +272,16 @@ pt_summary <- function(data, timesince, postvaxcuts){
   redacted
 }
 
-
+## Event rates table for any vaccine
 pt_summary_any <- pt_summary(data_pt, "timesincevaxany1", postvaxcuts)
+
+## Event rates table for Pfizer vaccine
 pt_summary_pfizer <- pt_summary(data_pt, "timesincevaxpfizer1", postvaxcuts)
+
+## Event rates table for Oxford az vaccine
 pt_summary_az <- pt_summary(data_pt, "timesincevaxaz1", postvaxcuts)
 
+## Combine all event rate tables and format
 pt_tab_summary <- pt_summary_any %>%
   gt() %>%
    cols_label(
@@ -353,8 +346,8 @@ pt_tab_summary <- pt_summary_any %>%
     columns = "timesincevax_pw"
   )
 
+## Save event-rate table
 gtsave(pt_tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
-
 
 ## note:
 # the follow poisson model gives the same results eg for postest
