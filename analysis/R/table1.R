@@ -228,7 +228,8 @@ pt_summary_total <- data_pt %>%
   )
 
 pt_summary <- function(data, timesince, postvaxcuts){
-data %>%
+
+  unredacted <- data %>%
   mutate(
     timesincevax = data[[timesince]],
     timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, "Unvaccinated"),
@@ -256,6 +257,23 @@ data %>%
     death_rate=death_n/death_yearsatrisk,
   ) %>%
   ungroup()
+
+  redacted <- unredacted %>%
+    mutate(
+      postest_rate = redactor2(postest_n, 5, postest_rate),
+      covidadmitted_rate = redactor2(covidadmitted_n, 5, covidadmitted_rate),
+      coviddeath_rate = redactor2(coviddeath_n, 5, coviddeath_rate),
+      noncoviddeath_rate = redactor2(noncoviddeath_n, 5, noncoviddeath_rate),
+      death_rate = redactor2(death_n, 5, death_rate),
+
+      postest_n = redactor2(postest_n, 5),
+      covidadmitted_n = redactor2(covidadmitted_n, 5),
+      coviddeath_n = redactor2(coviddeath_n, 5),
+      noncoviddeath_n = redactor2(noncoviddeath_n, 5),
+      death_n = redactor2(death_n, 5)
+    )
+
+  redacted
 }
 
 postvaxcuts <- c(0, 1, 4, 7, 14, 21)
@@ -285,7 +303,7 @@ pt_tab_summary <- pt_summary_any %>%
      covidadmitted_rate = "Rate/year",
      coviddeath_rate = "Rate/year",
      noncoviddeath_rate = "Rate/year",
-     death_date = "Rate/year"
+     death_rate = "Rate/year"
    ) %>%
   tab_spanner(
     label = "Positive test",
