@@ -11,14 +11,14 @@ from cohortextractor import (
 # Import Codelists
 from codelists import *
 
-# import json module
+# Import json module
 import json
 
-# import global-variables.json
+# Import global-variables.json
 with open("./analysis/global-variables.json") as f:
     gbl_vars = json.load(f)
 
-# define variables explicitly
+# Define variables explicitly
 start_date = gbl_vars["start_date"] # change this in global-variables.json if necessary
 end_date = gbl_vars["end_date"] # change this in global-variables.json if necessary
 
@@ -29,15 +29,18 @@ end_date = gbl_vars["end_date"] # change this in global-variables.json if necess
 
 # Specifiy study defeinition
 study = StudyDefinition(
+    
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": "1970-01-01", "latest": end_date},
         "rate": "uniform",
         "incidence": 0.2,
     },
-        
+    
+    # Set indext date to start date    
     index_date = start_date,
-    # This line defines the study population
+    
+    # Define the study population
     population=patients.satisfying(
         """
         registered
@@ -71,8 +74,9 @@ study = StudyDefinition(
     ),
     
     ),
-
-
+    
+    # Study measures
+    
     # https://github.com/opensafely/risk-factors-research/issues/49
     age=patients.age_as_of(
         "2020-03-31",

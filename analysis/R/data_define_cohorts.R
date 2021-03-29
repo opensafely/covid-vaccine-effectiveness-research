@@ -1,23 +1,29 @@
-
 # # # # # # # # # # # # # # # # # # # # #
+
 # This script:
 # imports processed data
 # creates indicator variables for each potential cohort/outcome combination of interest
 # creates a metadata df that describes each cohort
+
 # # # # # # # # # # # # # # # # # # # # #
+
+
 
 # Preliminaries ----
 
-## Import libraries ----
+## Import libraries
 library('tidyverse')
 
-## create output directories ----
+## Create output directories
 dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
-## Import processed data ----
-
+## Import processed data
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
+
+# Cohort data ----
+
+## Exclusion criteria (Care home residents & prior covid) 
 data_cohorts <- data_all %>%
   transmute(
     patient_id,
@@ -26,9 +32,7 @@ data_cohorts <- data_all %>%
     under65s = (age<=64) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
   )
 
-
-## define different cohorts ----
-
+## Define different cohorts
 metadata_cohorts <- tribble(
   ~cohort, ~cohort_descr, #~postvax_cuts, ~knots,
   "over80s", "Aged 80+, non-carehome, no prior infection",
@@ -41,19 +45,19 @@ mutate(
 
 metadata_cohorts %>% select(cohort, cohort_size) %>% print(n=100)
 
+## Warnings
 stopifnot("cohort names should match" = names(data_cohorts)[-1] == metadata_cohorts$cohort)
 stopifnot("all cohorts should contain at least 1 patient" = all(metadata_cohorts$cohort_size>0))
 
-
-## Save processed data ----
+## Save processed data
 write_rds(data_cohorts, here::here("output", "data", "data_cohorts.rds"))
 write_rds(metadata_cohorts, here::here("output", "data", "metadata_cohorts.rds"))
 write_csv(metadata_cohorts, here::here("output", "data", "metadata_cohorts.csv"))
 
 
+# Define outcomes ----
 
-## define different outcomes ----
-
+## Define different outcomes
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_var, ~outcome_descr,
  "postest", "positive_test_1_date", "Positive test",
@@ -64,12 +68,20 @@ metadata_outcomes <- tribble(
  "death", "death_date", "Any death",
 )
 
+## Save outcomes
 write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))
 
-## define outcomes, exposures, and covariates ----
 
+# Define exposures and covariates ----
+
+## Exposure time
 formula_exposure <- . ~ . + timesincevax_pw
+
+## Demographics 
 formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
+
+
+## Comorbidities
 formula_comorbs <- . ~ . +
   bmi +
   chronic_cardiac_disease +
@@ -105,15 +117,20 @@ formula_comorbs <- . ~ . +
 
   flu_vaccine
 
+##
 formula_secular <- . ~ . + ns(tstop, df=4)
+
+##
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
+
+## Time dependent covariates
 formula_timedependent <- . ~ . +
   timesince_probable_covid_pw +
   timesince_suspected_covid_pw +
   timesince_hosp_discharge_pw
   # consider adding local infection rates
 
-
+## Combine all
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_demog) %>%
   update(formula_comorbs) %>%
@@ -121,8 +138,10 @@ formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
   update(formula_secular_region) %>%
   update(formula_timedependent)
 
+## Cut offs
 postvaxcuts <- c(0, 3, 7, 14, 21)
 
+## Combine above into list and save
 list_formula <- lst(
   formula_exposure,
   formula_demog,

@@ -13,18 +13,17 @@
 #################
 
 
-# import libraries
+# Import libraries  ----
 library('tidyverse')
 source(here::here("lib", "redaction_functions.R"))
 
-# import command-line arguments ----
-
+# Import command-line arguments ----
 args <- commandArgs(trailingOnly=TRUE)
 
 rds_file <- args[[1]]
 output_dir <- args[[2]]
 
-# rds_file <- "output/data/data_vaccinated.rds"
+# rds_file <- "output/data/data_all.rds" 
 # output_dir <- "output/data_properties"
 
 stopifnot("must pass an .rds file" = fs::path_ext(rds_file)=="rds")
@@ -32,38 +31,35 @@ stopifnot("must pass an .rds file" = fs::path_ext(rds_file)=="rds")
 filenamebase <- fs::path_ext_remove(fs::path_file(rds_file))
 
 # Import processed data ----
-
 data <- readr::read_rds(here::here(rds_file))
 
 # Output summary .txt ----
-
 options(width=200) # set output width for capture.output
 
 dir.create(here::here(output_dir), showWarnings = FALSE, recursive=TRUE)
 
-## high-level variable overview ----
+## High-level variable overview ----
 capture.output(
   skimr::skim_without_charts(data),
   file = here::here(output_dir, paste0(filenamebase, "_skim", ".txt")),
   split=FALSE
 )
 
-## list of column types ----
+## List of column types ----
 capture.output(
   lapply(data, class),
   file = here::here(output_dir, paste0(filenamebase, "_coltypes", ".txt"))
 )
 
 
-## tabulated data ----
+## Tabulated data ----
 
-# delete file if it exists
+### Delete file if it exists
 if(file.exists(here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")))){
   file.remove(here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")))
 }
 
-
-### categorical and logical ----
+### Categorical and logical ----
 sumtabs_cat <-
   data %>%
   select(-ends_with("_id")) %>%
@@ -77,8 +73,7 @@ capture.output(
   append=FALSE
 )
 
-
-### numeric ----
+### Numeric ----
 sumtabs_num <-
   data %>%
   select(-ends_with("_id")) %>%
@@ -92,8 +87,7 @@ capture.output(
   append=TRUE
 )
 
-### dates ----
-
+### Dates ----
 sumtabs_date <-
   data %>%
   select(-ends_with("_id")) %>%
