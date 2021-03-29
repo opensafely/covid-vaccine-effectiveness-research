@@ -168,15 +168,15 @@ map(
       chronic_liver_disease ~ "Chronic liver disease",
 
       current_copd ~ "COPD",
-
-      cystic_fibrosis ~ "Cystic fibrosis",
+      #cystic_fibrosis ~ "Cystic fibrosis",
       other_resp_conditions ~ "Other respiratory conditions",
+
       lung_cancer ~ "Lung Cancer",
       haematological_cancer ~ "Haematological cancer",
       cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
 
       chemo_or_radio ~ "Chemo- or radio-therapy",
-      solid_organ_transplantation ~ "Solid organ transplant",
+      #solid_organ_transplantation ~ "Solid organ transplant",
       #bone_marrow_transplant ~ "Bone marrow transplant",
       #sickle_cell_disease ~ "Sickle Cell Disease",
       permanant_immunosuppression ~ "Permanent immunosuppression",
