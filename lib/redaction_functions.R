@@ -70,8 +70,6 @@ redactor2 <- function(n, threshold=5, x=NULL){
 }
 
 
-redactor2(c(3,1,9,9,9), 6)
-
 ## summary table functions (outputs a data.frame) ----
 
 testdata <- tibble(
