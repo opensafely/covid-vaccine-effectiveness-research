@@ -44,6 +44,14 @@ gbl_vars <- jsonlite::fromJSON(
 #list2env(gbl_vars, globalenv())
 
 
+### import outcomes, exposures, and covariate formulae ----
+## these are created in data_define_cohorts.R script
+
+list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list2env(list_formula, globalenv())
+
+
+
 ## Import processed data ----
 
 
@@ -276,7 +284,6 @@ pt_summary <- function(data, timesince, postvaxcuts){
   redacted
 }
 
-postvaxcuts <- c(0, 1, 4, 7, 14, 21)
 
 pt_summary_any <- pt_summary(data_pt, "timesincevaxany1", postvaxcuts)
 pt_summary_pfizer <- pt_summary(data_pt, "timesincevaxpfizer1", postvaxcuts)
