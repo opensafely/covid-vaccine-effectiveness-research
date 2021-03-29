@@ -217,6 +217,14 @@ pt_summary_total <- data_pt %>%
     coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
     coviddeath_n=sum(coviddeath),
     coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
+
+    noncoviddeath_yearsatrisk=sum(noncoviddeath_status==0)/365.25,
+    noncoviddeath_n=sum(noncoviddeath),
+    noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
+
+    death_yearsatrisk=sum(death_status==0)/365.25,
+    death_n=sum(death),
+    death_rate=death_n/death_yearsatrisk,
   )
 
 pt_summary <- function(data, timesince, postvaxcuts){
@@ -238,6 +246,14 @@ data %>%
     coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
     coviddeath_n=sum(coviddeath),
     coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
+
+    noncoviddeath_yearsatrisk=sum(noncoviddeath_status==0)/365.25,
+    noncoviddeath_n=sum(noncoviddeath),
+    noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
+
+    death_yearsatrisk=sum(death_status==0)/365.25,
+    death_n=sum(death),
+    death_rate=death_n/death_yearsatrisk,
   ) %>%
   ungroup()
 }
@@ -256,26 +272,40 @@ pt_tab_summary <- pt_summary_any %>%
      postest_yearsatrisk = "Person-years at risk",
      covidadmitted_yearsatrisk = "Person-years at risk",
      coviddeath_yearsatrisk = "Person-years at risk",
+     noncoviddeath_yearsatrisk = "Person-years at risk",
+     death_yearsatrisk = "Person-years at risk",
 
      postest_n = "Events",
      covidadmitted_n = "Events",
      coviddeath_n = "Events",
+     noncoviddeath_n = "Events",
+     death_n = "Events",
 
      postest_rate = "Rate/year",
      covidadmitted_rate = "Rate/year",
      coviddeath_rate = "Rate/year",
+     noncoviddeath_rate = "Rate/year",
+     death_date = "Rate/year"
    ) %>%
   tab_spanner(
     label = "Positive test",
     columns = starts_with("postest")
   ) %>%
   tab_spanner(
-    label = "Covid-related admission",
+    label = "COVID-related admission",
     columns = starts_with("covidadmitted")
   ) %>%
   tab_spanner(
-    label = "Covid-related death",
+    label = "COVID-related death",
     columns = starts_with("coviddeath")
+  ) %>%
+  tab_spanner(
+    label = "Non-COVID-related death",
+    columns = starts_with("noncoviddeath")
+  ) %>%
+  tab_spanner(
+    label = "Any death",
+    columns = starts_with("death")
   ) %>%
   fmt_number(
     columns = ends_with(c("yearsatrisk")),
