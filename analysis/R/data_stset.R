@@ -46,7 +46,10 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
-data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
+data_cohorts <- data_cohorts[data_cohorts[[cohort]],] %>%
+  ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
+  sample_n(tbl=., size=min(c(100000, nrow(.))))
+
 metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
 
