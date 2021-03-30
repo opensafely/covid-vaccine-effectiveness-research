@@ -9,9 +9,46 @@
 # 1. the name of the cohort defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
 
+
+# Custom functions ----
+
+## Function to extract total plot height minus panel height
+plotHeight <- function(plot, unit){
+  grob <- ggplot2::ggplotGrob(plot)
+  grid::convertHeight(gtable::gtable_height(grob), unitTo=unit, valueOnly=TRUE)
+}
+
+## Function to extract total plot width minus panel height
+plotWidth <- function(plot, unit){
+  grob <- ggplot2::ggplotGrob(plot)
+  grid::convertWidth(gtable::gtable_width(grob), unitTo=unit, valueOnly=TRUE)
+}
+
+## Function to extract total number of bars plot (strictly this is the number of rows in the build of the plot data)
+plotNbars <- function(plot){
+  length(unique(ggplot2::ggplot_build(plot)$data[[1]]$x))
+}
+
+## Function to extract total number of bars plot (strictly this is the number of rows in the build of the plot data)
+plotNfacetrows <- function(plot){
+  length(levels(ggplot2::ggplot_build(plot)$data[[1]]$PANEL))
+}
+
+##
+plotNyscales <- function(plot){
+  length(ggplot2::ggplot_build(plot)$layout$panel_scales_y[[1]]$range$range)
+}
+
+## Function to extract total number of panels
+plotNpanelrows <- function(plot){
+  length(unique(ggplot2::ggplot_build(plot)$layout$layout$ROW))
+}
+
+
+
 # Preliminaries ----
 
-## Import libraries ----
+## Import libraries
 library('tidyverse')
 library('lubridate')
 
@@ -19,48 +56,8 @@ library('lubridate')
 source(here::here("lib", "utility_functions.R"))
 source(here::here("lib", "redaction_functions.R"))
 
-
-## custom functions ----
-
-
-# function to extract total plot height minus panel height
-plotHeight <- function(plot, unit){
-  grob <- ggplot2::ggplotGrob(plot)
-  grid::convertHeight(gtable::gtable_height(grob), unitTo=unit, valueOnly=TRUE)
-}
-
-# function to extract total plot width minus panel height
-plotWidth <- function(plot, unit){
-  grob <- ggplot2::ggplotGrob(plot)
-  grid::convertWidth(gtable::gtable_width(grob), unitTo=unit, valueOnly=TRUE)
-}
-
-# function to extract total number of bars plot (strictly this is the number of rows in the build of the plot data)
-plotNbars <- function(plot){
-  length(unique(ggplot2::ggplot_build(plot)$data[[1]]$x))
-}
-
-# function to extract total number of bars plot (strictly this is the number of rows in the build of the plot data)
-plotNfacetrows <- function(plot){
-  length(levels(ggplot2::ggplot_build(plot)$data[[1]]$PANEL))
-}
-
-plotNyscales <- function(plot){
-  length(ggplot2::ggplot_build(plot)$layout$panel_scales_y[[1]]$range$range)
-}
-
-
-# function to extract total number of panels
-plotNpanelrows <- function(plot){
-  length(unique(ggplot2::ggplot_build(plot)$layout$layout$ROW))
-}
-
-
-
-## import command-line arguments ----
-
+## Import command-line arguments
 args <- commandArgs(trailingOnly=TRUE)
-
 
 if(length(args)==0){
   # use for interactive testing
@@ -70,18 +67,16 @@ if(length(args)==0){
   cohort <- args[[1]]
 }
 
-## import global vars ----
+## Import global vars
 gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
 #list2env(gbl_vars, globalenv())
 
-
-## create output directories ----
+## Create output directories ----
 dir.create(here::here("output", cohort, "descr", "plots"), showWarnings = FALSE, recursive=TRUE)
 
-## define theme ----
-
+## Define plot theme ----
 plot_theme <-
   theme_minimal()+
   theme(
@@ -96,30 +91,30 @@ plot_theme <-
   )
 
 
-## Import processed data ----
+# Import data ---
 
-
+## Processed data
 data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))
 
-
-# Import metadata for cohort ----
-
+## Metadata for cohort
 metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
 list2env(metadata_cohorts, globalenv())
 
-# create plots ----
 
+# Format data for plots ----
+
+## Data for plotting - filter censored
 data_pt <- data_pt %>%
-left_join(data_fixed, by = "patient_id") %>%
-filter(censored_status==0)
+  left_join(data_fixed, by = "patient_id") %>%
+  filter(censored_status==0)
 
-
+## Format data
 data_by_day <-
-data_pt %>%
+  data_pt %>%
   transmute(
     patient_id,
     all = "all",
@@ -177,12 +172,11 @@ data_pt %>%
   ) %>% ungroup()
 
 
-## cumulative vaccination status ----
 
+# Functions to create plots ----
 
+## Cumulative vaccination status plot
 plot_vax_counts <- function(var, var_descr){
-
-
   data1 <- data_by_day %>%
     mutate(
       variable = data_by_day[[var]]
@@ -196,7 +190,6 @@ plot_vax_counts <- function(var, var_descr){
       n_per_10000 = (n/sum(n))*10000
     ) %>%
     ungroup()
-
 
   plot <- data1 %>%
   ggplot() +
@@ -219,10 +212,7 @@ plot_vax_counts <- function(var, var_descr){
 }
 
 
-## cumulative event status ----
-
-
-
+## Cumulative event status plot
 plot_event_counts <- function(var, var_descr){
 
   data1 <- data_by_day %>%
@@ -261,9 +251,7 @@ plot_event_counts <- function(var, var_descr){
   plot
 }
 
-## event rates ----
-
-
+## Event rates plot
 plot_event_rates <- function(var, var_descr){
 
   data1 <- data_by_day %>%
@@ -291,7 +279,6 @@ plot_event_rates <- function(var, var_descr){
         labels=c("Positive test", "Covid-related admission", "Covid-releated death", "Any death"))
     )
 
-
   plot <- data1 %>%
     ggplot() +
     geom_line(aes(x=date, y=rate, group=outcome, colour=outcome))+
@@ -313,6 +300,11 @@ plot_event_rates <- function(var, var_descr){
 
 }
 
+
+
+# Create plots ----
+
+## List of variables to plot
 vars_df <- tribble(
   ~var, ~var_descr,
   "all", "",
@@ -326,6 +318,7 @@ vars_df <- tribble(
   units = "cm",
 )
 
+## Plot cumulative vaccination status 
 vars_df %>%
 transmute(
   plot = pmap(lst(var, var_descr), plot_vax_counts),
@@ -349,7 +342,7 @@ mutate(
     ggsave)
   )
 
-
+## Plot cumulative event status plot
 vars_df %>%
   transmute(
     plot = pmap(lst(var, var_descr), plot_event_counts),
@@ -374,8 +367,7 @@ vars_df %>%
   )
 
 
-
-
+## Plot event rates
 vars_df %>%
   transmute(
     plot = pmap(lst(var, var_descr), plot_event_rates),
