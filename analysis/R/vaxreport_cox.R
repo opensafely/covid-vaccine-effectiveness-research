@@ -111,8 +111,9 @@ for(stratum in strata){
       units="cm", width=20, height=25
     )
 
+
     tab_coxmod3 <- gtsummary::tbl_regression(coxmod3)
-    gtsave(tab_coxmod3 %>% as_gt(), here::here("output", cohort, outcome, strata_var, stratum, "tab_vaxcoxmod2.html"))
+    gtsave(tab_coxmod3 %>% as_gt(), here::here("output", cohort, outcome, strata_var, stratum, "tab_vaxcoxmod3.html"))
     write_csv(tab_coxmod3$table_body, here::here("output", cohort, outcome, strata_var, stratum, "tab_vaxcoxmod3.csv"))
 
     ##output forest plot
