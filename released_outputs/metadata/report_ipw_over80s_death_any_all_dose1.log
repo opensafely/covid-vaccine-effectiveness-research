@@ -1,0 +1,67 @@
+2021-03-30T19:39:08.206827300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-30T19:39:08.215643700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-30T19:39:08.215664500Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-30T19:39:08.215672300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-30T19:39:08.215679100Z v readr   1.3.1     v forcats 0.5.0
+2021-03-30T19:39:08.395545800Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-30T19:39:08.395642500Z x dplyr::filter() masks stats::filter()
+2021-03-30T19:39:08.395651500Z x dplyr::lag()    masks stats::lag()
+2021-03-30T19:39:08.411767000Z 
+2021-03-30T19:39:08.411785700Z Attaching package: 'lubridate'
+2021-03-30T19:39:08.411793200Z 
+2021-03-30T19:39:08.413235400Z The following objects are masked from 'package:base':
+2021-03-30T19:39:08.413274700Z 
+2021-03-30T19:39:08.413300500Z     date, intersect, setdiff, union
+2021-03-30T19:39:08.413310500Z 
+2021-03-30T19:39:10.733635800Z #BlackLivesMatter
+2021-03-30T19:39:10.817049800Z Loading required package: zoo
+2021-03-30T19:39:10.829414700Z 
+2021-03-30T19:39:10.829437400Z Attaching package: 'zoo'
+2021-03-30T19:39:10.829445400Z 
+2021-03-30T19:39:10.830331100Z The following objects are masked from 'package:base':
+2021-03-30T19:39:10.830347100Z 
+2021-03-30T19:39:10.830360400Z     as.Date, as.Date.numeric
+2021-03-30T19:39:10.830367300Z 
+2021-03-30T19:39:11.209943400Z <environment: R_GlobalEnv>
+2021-03-30T19:39:11.210363300Z <environment: R_GlobalEnv>
+2021-03-30T19:39:11.210834600Z <environment: R_GlobalEnv>
+2021-03-30T20:18:21.185667100Z There were 17 warnings (use warnings() to see them)
+2021-03-30T20:18:21.186129000Z Warning messages:
+2021-03-30T20:18:21.186258700Z 1: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186274800Z 2: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186368500Z 3: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186383000Z 4: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186391200Z 5: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186476900Z 6: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186491500Z 7: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186499300Z 8: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186586800Z 9: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186601400Z 10: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186647700Z 11: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186731300Z 12: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186745900Z 13: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186753200Z 14: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186774300Z 15: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186851600Z 16: Removed 1 rows containing missing values (geom_segment).
+2021-03-30T20:18:21.186865900Z 17: Removed 1 rows containing missing values (geom_segment).
+
+
+state: succeeded
+commit: 6836f3c5f93affbaf06a33695c429e9dae990756
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: 6zwdbr7noqa5e2bz
+run_by_user: wjchulme
+created_at: 2021-03-30T16:38:38Z
+started_at: 2021-03-30T19:39:05Z
+completed_at: 2021-03-30T20:18:41Z
+
+Completed successfully
+
+outputs:
+  output/over80s/death/any/all/all/plot_ipwdeath.svg    - moderately_sensitive
+  output/over80s/death/any/all/all/plot_ipwvaxany1.svg  - moderately_sensitive
+  output/over80s/death/any/all/all/tab_ipwdeath.csv     - moderately_sensitive
+  output/over80s/death/any/all/all/tab_ipwdeath.html    - moderately_sensitive
+  output/over80s/death/any/all/all/tab_ipwvaxany1.csv   - moderately_sensitive
+  output/over80s/death/any/all/all/tab_ipwvaxany1.html  - moderately_sensitive
