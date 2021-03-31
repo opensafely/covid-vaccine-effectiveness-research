@@ -82,7 +82,9 @@
 * output
   * output/data
     * [output/data/list_formula.rds](output/data/list_formula.rds)
+    * [output/data/metadata_cohorts.csv](output/data/metadata_cohorts.csv)
     * [output/data/metadata_cohorts.rds](output/data/metadata_cohorts.rds)
+    * [output/data/metadata_outcomes.rds](output/data/metadata_outcomes.rds)
   * output/data_properties
     * [output/data_properties/data_all_coltypes.txt](output/data_properties/data_all_coltypes.txt)
     * [output/data_properties/data_all_skim.txt](output/data_properties/data_all_skim.txt)
@@ -329,8 +331,11 @@
         * output/over80s/vaccination/all/all
           * [output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg)
           * [output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg)
+          * [output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod1.html](output/over80s/vaccination/all/all/tab_vaxcoxmod1.html)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod2.html](output/over80s/vaccination/all/all/tab_vaxcoxmod2.html)
+          * [output/over80s/vaccination/all/all/tab_vaxcoxmod3.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod3.csv)
+          * [output/over80s/vaccination/all/all/tab_vaxcoxmod3.html](output/over80s/vaccination/all/all/tab_vaxcoxmod3.html)
         * [output/over80s/vaccination/all/strata_vector_cox.rds](output/over80s/vaccination/all/strata_vector_cox.rds)
