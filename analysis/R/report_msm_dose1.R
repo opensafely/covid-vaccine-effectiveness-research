@@ -186,6 +186,18 @@ ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest
 ## secular trends ----
 
 
+
+ggsecular3 <- interactions::interact_plot(
+  msmmod3,
+  pred=tstop, modx=region, data=data_weights,
+  colors="Set1", vary.lty=FALSE,
+  x.label=glue::glue("Days since {gbl_vars$start_date}"),
+  y.label=glue::glue("{outcome_descr} prob.")
+)
+
+ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot3.svg"), ggsecular3, width=20, height=15, units="cm")
+
+
 ggsecular4 <- interactions::interact_plot(
   msmmod4,
   pred=tstop, modx=region, data=data_weights,
@@ -194,6 +206,6 @@ ggsecular4 <- interactions::interact_plot(
   y.label=glue::glue("{outcome_descr} prob.")
 )
 
-ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot.svg"), ggsecular4, width=20, height=15, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot4.svg"), ggsecular4, width=20, height=15, units="cm")
 
 
