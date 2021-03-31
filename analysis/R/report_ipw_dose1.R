@@ -101,7 +101,6 @@ gt_model_summary <- function(model, cluster) {
       sex ~ "Sex",
       imd ~ "Deprivation",
       ethnicity ~ "Ethnicity",
-      region ~ "Region",
 
       bmi ~ "Body Mass Index",
       chronic_cardiac_disease ~ "Chronic cardiac disease",
@@ -159,6 +158,7 @@ forest_from_gt <- function(gt_obj, title){
     .$`_data` %>%
     filter(
       !str_detect(variable,fixed("ns(tstop")),
+      !str_detect(variable,fixed("region")),
       !is.na(term)
     ) %>%
     mutate(
@@ -212,7 +212,6 @@ strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "str
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
-
 for(stratum in strata){
 
   # import models ----
@@ -236,6 +235,17 @@ for(stratum in strata){
     )
 
 
+    ggsecular_vaxany <- interactions::interact_plot(
+      ipwvaxany1,
+      pred=tstop, modx=region, data=data_pt_atriskvaxany1,
+      colors="Set1", vary.lty=FALSE,
+      x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
+      y.label=glue::glue("Death rate (mean-centered)")
+    )
+    ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxany1_trends.svg"), ggsecular_vaxany, width=20, height=15, units="cm")
+
+
+
   }
 
   if(brand!="any"){
@@ -256,6 +266,16 @@ for(stratum in strata){
       units="cm", width=20, height=25
     )
 
+    ggsecular_vaxpfizer1 <- interactions::interact_plot(
+      ipwvaxpfizer1,
+      pred=tstop, modx=region, data=data_pt_atriskvaxpfizer1,
+      colors="Set1", vary.lty=FALSE,
+      x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
+      y.label=glue::glue("Death rate (mean-centered)")
+    )
+    ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxpfizer1_trends.svg"), ggsecular_vaxpfizer1, width=20, height=15, units="cm")
+
+
     # AZ
     data_pt_atriskvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"))
     ipwvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_ipwvaxaz1.rds")))
@@ -272,10 +292,22 @@ for(stratum in strata){
       units="cm", width=20, height=25
     )
 
+
+    ggsecular_vaxaz1 <- interactions::interact_plot(
+      ipwvaxaz1,
+      pred=tstop, modx=region, data=data_pt_atriskvaxaz1,
+      colors="Set1", vary.lty=FALSE,
+      x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
+      y.label=glue::glue("Death rate (mean-centered)")
+    )
+    ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxaz1_trends.svg"), ggsecular_vaxaz1, width=20, height=15, units="cm")
+
+
     # combine tables
     tbl_merge(list(tab_ipwvaxpfizer1, tab_ipwvaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
       as_gt() %>%
       gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
+
 
   }
 
@@ -297,8 +329,17 @@ for(stratum in strata){
     units="cm", width=20, height=25
   )
 
+  ggsecular_death <- interactions::interact_plot(
+    ipwdeath,
+    pred=tstop, modx=region, data=data_pt_atriskdeath,
+    colors="Set1", vary.lty=FALSE,
+    x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
+    y.label=glue::glue("Death rate (mean-centered)")
+  )
+
+  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwdeath_trends.svg"), ggsecular_death, width=20, height=15, units="cm")
+
 
 }
-
 
 warnings()
