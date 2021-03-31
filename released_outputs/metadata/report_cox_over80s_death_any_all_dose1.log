@@ -1,0 +1,44 @@
+2021-03-31T09:50:18.084864500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-31T09:50:18.094059900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-31T09:50:18.094114000Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-31T09:50:18.094122800Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-31T09:50:18.094129700Z v readr   1.3.1     v forcats 0.5.0
+2021-03-31T09:50:18.260422500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-31T09:50:18.260502800Z x dplyr::filter() masks stats::filter()
+2021-03-31T09:50:18.260511500Z x dplyr::lag()    masks stats::lag()
+2021-03-31T09:50:18.275409400Z 
+2021-03-31T09:50:18.275435700Z Attaching package: 'lubridate'
+2021-03-31T09:50:18.275444100Z 
+2021-03-31T09:50:18.276821600Z The following objects are masked from 'package:base':
+2021-03-31T09:50:18.276838600Z 
+2021-03-31T09:50:18.276846000Z     date, intersect, setdiff, union
+2021-03-31T09:50:18.276852900Z 
+2021-03-31T09:50:20.363655600Z #BlackLivesMatter
+2021-03-31T09:50:20.426296000Z Loading required package: zoo
+2021-03-31T09:50:20.437603500Z 
+2021-03-31T09:50:20.437629200Z Attaching package: 'zoo'
+2021-03-31T09:50:20.437637600Z 
+2021-03-31T09:50:20.438250500Z The following objects are masked from 'package:base':
+2021-03-31T09:50:20.438267400Z 
+2021-03-31T09:50:20.438275200Z     as.Date, as.Date.numeric
+2021-03-31T09:50:20.438282200Z 
+2021-03-31T09:50:20.814652400Z <environment: R_GlobalEnv>
+2021-03-31T09:50:20.815018800Z <environment: R_GlobalEnv>
+2021-03-31T09:50:20.815326800Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: 2f1293a9d16087f628fb5801aeead17c32437680
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: ogkwijazfo4cpkoz
+run_by_user: wjchulme
+created_at: 2021-03-31T08:50:12Z
+started_at: 2021-03-31T09:50:15Z
+completed_at: 2021-03-31T09:55:26Z
+
+Completed successfully
+
+outputs:
+  output/over80s/death/any/all/estimates_cox.csv    - moderately_sensitive
+  output/over80s/death/any/all/forest_plot_cox.svg  - moderately_sensitive
