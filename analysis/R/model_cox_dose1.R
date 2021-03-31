@@ -109,22 +109,22 @@ data_tte <- data_tte %>%
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
 
     tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=FALSE),
-    ind_postest = censor_indicator(tte_postest, tte_lastfup),
+    ind_postest = censor_indicator(positive_test_1_date, lastfup_date),
 
     tte_emergency = tte(start_date, emergency_1_date, lastfup_date, na.censor=FALSE),
-    ind_emergency = censor_indicator(tte_emergency, tte_lastfup),
+    ind_emergency = censor_indicator(emergency_1_date, lastfup_date),
 
     tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=FALSE),
-    ind_covidadmitted = censor_indicator(tte_covidadmitted, tte_lastfup),
+    ind_covidadmitted = censor_indicator(covidadmitted_1_date, lastfup_date),
 
     tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=FALSE),
-    ind_coviddeath = censor_indicator(tte_coviddeath, tte_lastfup),
+    ind_coviddeath = censor_indicator(coviddeath_date, lastfup_date),
 
     tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=FALSE),
-    ind_noncoviddeath = censor_indicator(tte_noncoviddeath, tte_lastfup),
+    ind_noncoviddeath = censor_indicator(noncoviddeath_date, lastfup_date),
 
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=FALSE),
-    ind_death = censor_indicator(tte_death, tte_lastfup),
+    ind_death = censor_indicator(death_date, lastfup_date),
 
     all = factor("all",levels=c("all")),
   )
