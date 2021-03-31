@@ -152,7 +152,7 @@ for(stratum in strata){
   write_rds(coxmod0, here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox0.rds"), compress="gz")
   #rm(coxmod0)
 
-  ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
+  ### model 1 - minimally adjusted vaccination model, baseline demographics only ----
   cat("  \n")
   cat("coxmod1 \n")
 
@@ -161,14 +161,12 @@ for(stratum in strata){
     data = data_cox_sub
   )
 
-  cat(glue::glue("coxmod1 data size = ", coxmod1$n), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(coxmod1), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(coxmod1, here::here("output", cohort, outcome, strata_var, stratum,"vaxmodelcox1.rds"), compress="gz")
   #rm(coxmod1)
 
 
 
-  ### model 2 - baseline, demographics, comorbs adjusted vaccination effect model ----
+  ### model 2 - baseline, demographics, comorbs adjusted vaccination model ----
   cat("  \n")
   cat("coxmod2 \n")
 
@@ -177,18 +175,26 @@ for(stratum in strata){
     data = data_cox_sub
   )
 
-  cat(glue::glue("coxmod2 data size = ", coxmod2$n), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(coxmod2), units="GB", standard="SI", digits=3L)), "\n")
-
   write_rds(coxmod2, here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox2.rds"), compress="gz")
   #rm(coxmod2)
 
+
+  ### model 2 - baseline, demographics, comorbs, region adjusted vaccination model ----
+  cat("  \n")
+  cat("coxmod3 \n")
+
+  coxmod3 <- coxph(
+    formula = formula_unadjusted %>% update(formula_demog) %>% update(formula_comorbs) %>% update(. ~ . + region) %>% update(formula_remove_strata_var),
+    data = data_cox_sub
+  )
+
+  write_rds(coxmod3, here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox3.rds"), compress="gz")
+  #rm(coxmod3)
 
 
   ## print warnings
   print(warnings())
   cat("  \n")
-  print(gc(reset=TRUE))
 }
 
 
