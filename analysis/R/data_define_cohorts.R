@@ -62,6 +62,7 @@ metadata_outcomes <- tribble(
  "coviddeath", "coviddeath_date", "COVID-related death",
  "noncoviddeath", "noncoviddeath_date", "Non-COVID-related death",
  "death", "death_date", "Any death",
+ "vaccine", "covid_vax_1_date", "First vaccination date"
 )
 
 write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))

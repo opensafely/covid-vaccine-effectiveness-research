@@ -97,6 +97,31 @@ actions:
         plots: output/over80s/descr/plots/*.svg
 
 
+
+
+#######################################
+ ## COX VACCINE MODELS
+#######################################
+
+
+  vaxmodels_cox_over80s_all_dose1:
+    run: r:latest analysis/R/vaxmodel_cox.R over80s all
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/vaccination/all/*/vaxmodelcox*.rds
+      moderately_sensitive:
+        strata: output/over80s/vaccination/all/strata_vector_cox.rds
+
+  vaxreport_over80s_all_dose1:
+    run: r:latest analysis/R/vaxreport_cox.R over80s all
+    needs: [data_define_cohorts, vaxmodels_cox_over80s_all_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/vaccination/all/*/plot*.svg
+        tables: output/over80s/vaccination/all/*/tab*.html
+        data: output/over80s/vaccination/all/*/tab*.csv
+
 #######################################
  ## OVERALL MODELS: positive test, vax1 only (ignores second dose)
 #######################################
