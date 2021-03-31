@@ -109,6 +109,7 @@ actions:
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
+        data: output/over80s/vaccination/all/*/data_cox_sub.rds
         models: output/over80s/vaccination/all/*/vaxmodelcox*.rds
       moderately_sensitive:
         strata: output/over80s/vaccination/all/strata_vector_cox.rds
