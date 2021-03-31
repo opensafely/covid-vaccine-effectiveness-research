@@ -83,6 +83,7 @@ for(stratum in strata){
   # import models ----
     coxmod1 <- read_rds(here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox1.rds"))
     coxmod2 <- read_rds(here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox2.rds"))
+    coxmod3 <- read_rds(here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox3.rds"))
 
     ## output model coefficients
 
