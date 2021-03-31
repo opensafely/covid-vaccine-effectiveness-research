@@ -106,6 +106,8 @@ formula_comorbs <- . ~ . +
 
   flu_vaccine
 
+
+formula_region <- . ~ . + region
 formula_secular <- . ~ . + ns(tstop, df=4)
 formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 

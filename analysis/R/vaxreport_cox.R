@@ -111,6 +111,19 @@ for(stratum in strata){
       units="cm", width=20, height=25
     )
 
+
+    tab_coxmod3 <- gtsummary::tbl_regression(coxmod3)
+    gtsave(tab_coxmod3 %>% as_gt(), here::here("output", cohort, outcome, strata_var, stratum, "tab_vaxcoxmod3.html"))
+    write_csv(tab_coxmod3$table_body, here::here("output", cohort, outcome, strata_var, stratum, "tab_vaxcoxmod3.csv"))
+
+    ##output forest plot
+    plot_coxmod3 <- survminer::ggforest(coxmod3, data=data_cox_sub)
+    ggsave(
+      here::here("output", cohort, outcome, strata_var, stratum, "plot_vaxcoxmod3.svg"),
+      plot_coxmod3,
+      units="cm", width=20, height=30
+    )
+
 }
 
 
