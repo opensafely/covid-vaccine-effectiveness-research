@@ -1,0 +1,18 @@
+variable,var_label,var_type,reference_row,row_type,label,N,term,var_class,var_nlevels,header_row,contrasts,contrasts_type,estimate,std.error,statistic,n,conf.low,conf.high,ci,p.value
+age,age,continuous,NA,label,age,100000,age,numeric,NA,NA,NA,NA,0.20626233238467218,0.027368622111414463,7.536452933034126,NA,0.15262081873981326,0.2599038460295311,"0.15, 0.26",4.8292716010887314e-14
+I(age * age),I(age * age),continuous,NA,label,I(age * age),100000,I(age * age),numeric,NA,NA,NA,NA,-0.0013363433305272217,1.577755897534491e-4,-8.46989913088256,NA,-0.0016455778040835487,-0.0010271088569708947,"0.00, 0.00",2.4560562750805388e-17
+sex,sex,dichotomous,NA,label,sex,100000,NA,factor,2,TRUE,contr.treatment,treatment,NA,NA,NA,NA,NA,NA,NA,NA
+sex,sex,dichotomous,TRUE,level,Female,100000,sexFemale,factor,2,FALSE,contr.treatment,treatment,NA,NA,NA,NA,NA,NA,NA,NA
+sex,sex,dichotomous,FALSE,level,Male,100000,sexMale,factor,2,FALSE,contr.treatment,treatment,0.08569472935403297,0.006677125242523482,12.834075480310506,NA,0.07260780435842368,0.09878165434964226,"0.07, 0.10",1.0565669684631114e-37
+imd,imd,categorical,NA,label,imd,100000,NA,factor,5,TRUE,contr.treatment,treatment,NA,NA,NA,NA,NA,NA,NA,NA
+imd,imd,categorical,TRUE,level,1 most deprived,100000,imd1 most deprived,factor,5,FALSE,contr.treatment,treatment,NA,NA,NA,NA,NA,NA,NA,NA
+imd,imd,categorical,FALSE,level,2,100000,imd2,factor,5,FALSE,contr.treatment,treatment,0.057679660136803805,0.012224789006271306,4.71825404162102,NA,0.03371951396591086,0.08163980630769675,"0.03, 0.08",2.37877334268586e-6
+imd,imd,categorical,FALSE,level,3,100000,imd3,factor,5,FALSE,contr.treatment,treatment,0.11868355243582543,0.011575810761904629,10.252720511500295,NA,0.0959953802506412,0.14137172462100966,"0.10, 0.14",1.1505867742392358e-24
+imd,imd,categorical,FALSE,level,4,100000,imd4,factor,5,FALSE,contr.treatment,treatment,0.1705031274006322,0.011496477853915327,14.83090121750327,NA,0.14797044485789584,0.19303580994336855,"0.15, 0.19",9.248293894683217e-50
+imd,imd,categorical,FALSE,level,5 least deprived,100000,imd5 least deprived,factor,5,FALSE,contr.treatment,treatment,0.2536545376409268,0.01150687024479659,22.043747104529096,NA,0.23110148638634992,0.27620758889550373,"0.23, 0.28",1.0967420017421621e-107
+ethnicity,ethnicity,categorical,NA,label,ethnicity,100000,NA,factor,5,TRUE,contr.treatment,treatment,NA,NA,NA,NA,NA,NA,NA,NA
+ethnicity,ethnicity,categorical,TRUE,level,White,100000,ethnicityWhite,factor,5,FALSE,contr.treatment,treatment,NA,NA,NA,NA,NA,NA,NA,NA
+ethnicity,ethnicity,categorical,FALSE,level,Black,100000,ethnicityBlack,factor,5,FALSE,contr.treatment,treatment,-0.9962029146333391,0.03927353808995035,-25.365754222389658,NA,-1.0731776348351039,-0.9192281944315744,"-1.1, -0.92",6.023087572447837e-142
+ethnicity,ethnicity,categorical,FALSE,level,South Asian,100000,ethnicitySouth Asian,factor,5,FALSE,contr.treatment,treatment,-0.5176482718806666,0.02243658310007826,-23.071617882798787,NA,-0.5616231666929601,-0.4736733770683732,"-0.56, -0.47",8.92628823929269e-118
+ethnicity,ethnicity,categorical,FALSE,level,Mixed,100000,ethnicityMixed,factor,5,FALSE,contr.treatment,treatment,-0.6809949352019792,0.06592230134317494,-10.330266409494575,NA,-0.8102002716125984,-0.5517895987913599,"-0.81, -0.55",5.141758060584812e-25
+ethnicity,ethnicity,categorical,FALSE,level,Other,100000,ethnicityOther,factor,5,FALSE,contr.treatment,treatment,-0.6000087915251314,0.044177927474157386,-13.581641915549717,NA,-0.6865959382861024,-0.5134216447641604,"-0.69, -0.51",5.145977549739777e-42

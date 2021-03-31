@@ -77,6 +77,8 @@
   * [metadata/reportmodels_msm_over80s_az_dose1.log](metadata/reportmodels_msm_over80s_az_dose1.log)
   * [metadata/reportmodels_msm_over80s_pfizer.log](metadata/reportmodels_msm_over80s_pfizer.log)
   * [metadata/reportmodels_msm_over80s_pfizer_dose1.log](metadata/reportmodels_msm_over80s_pfizer_dose1.log)
+  * [metadata/vaxmodels_cox_over80s_all_dose1.log](metadata/vaxmodels_cox_over80s_all_dose1.log)
+  * [metadata/vaxreport_over80s_all_dose1.log](metadata/vaxreport_over80s_all_dose1.log)
 * output
   * output/data
     * [output/data/list_formula.rds](output/data/list_formula.rds)
@@ -322,3 +324,13 @@
           * [output/over80s/postest/pfizer/all/forest_plot.svg](output/over80s/postest/pfizer/all/forest_plot.svg)
           * [output/over80s/postest/pfizer/all/strata_vector.rds](output/over80s/postest/pfizer/all/strata_vector.rds)
           * [output/over80s/postest/pfizer/all/time_trends_region_plot.svg](output/over80s/postest/pfizer/all/time_trends_region_plot.svg)
+    * output/over80s/vaccination
+      * output/over80s/vaccination/all
+        * output/over80s/vaccination/all/all
+          * [output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg)
+          * [output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg)
+          * [output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv)
+          * [output/over80s/vaccination/all/all/tab_vaxcoxmod1.html](output/over80s/vaccination/all/all/tab_vaxcoxmod1.html)
+          * [output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv)
+          * [output/over80s/vaccination/all/all/tab_vaxcoxmod2.html](output/over80s/vaccination/all/all/tab_vaxcoxmod2.html)
+        * [output/over80s/vaccination/all/strata_vector_cox.rds](output/over80s/vaccination/all/strata_vector_cox.rds)
