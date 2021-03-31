@@ -1,0 +1,59 @@
+2021-03-31T12:07:27.532515900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-03-31T12:07:27.541435900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-03-31T12:07:27.541459900Z v tibble  3.0.3     v dplyr   1.0.2
+2021-03-31T12:07:27.541468300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-03-31T12:07:27.541475300Z v readr   1.3.1     v forcats 0.5.0
+2021-03-31T12:07:27.707469000Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-03-31T12:07:27.707500600Z x dplyr::filter() masks stats::filter()
+2021-03-31T12:07:27.707509200Z x dplyr::lag()    masks stats::lag()
+2021-03-31T12:07:29.718653600Z 
+2021-03-31T12:07:29.718690700Z Attaching package: 'lubridate'
+2021-03-31T12:07:29.718699400Z 
+2021-03-31T12:07:29.720241000Z The following objects are masked from 'package:base':
+2021-03-31T12:07:29.720293900Z 
+2021-03-31T12:07:29.720302700Z     date, intersect, setdiff, union
+2021-03-31T12:07:29.720309900Z 
+2021-03-31T12:07:30.036248200Z <environment: R_GlobalEnv>
+2021-03-31T12:07:30.036692200Z <environment: R_GlobalEnv>
+2021-03-31T12:07:31.785971700Z data_cox data size = 100000 
+2021-03-31T12:07:31.787132600Z   memory usage = 0.035 GB 
+2021-03-31T12:07:31.885826200Z     
+2021-03-31T12:07:31.885883700Z all   
+2021-03-31T12:07:31.885892100Z   
+2021-03-31T12:07:33.383492000Z   
+2021-03-31T12:07:33.383559800Z coxmod0 
+2021-03-31T12:07:34.261488500Z coxmod0 data size = 100000 
+2021-03-31T12:07:34.323899700Z memory usage = 0.016 GB 
+2021-03-31T12:07:34.513381900Z   
+2021-03-31T12:07:34.513439200Z coxmod1 
+2021-03-31T12:07:36.129157700Z coxmod1 data size = 100000 
+2021-03-31T12:07:36.190006200Z memory usage = 0.016 GB 
+2021-03-31T12:07:36.401389500Z   
+2021-03-31T12:07:36.401427300Z coxmod2 
+2021-03-31T12:07:43.054809400Z coxmod2 data size = 100000 
+2021-03-31T12:07:43.126299600Z memory usage = 0.016 GB 
+2021-03-31T12:07:43.388326100Z NULL
+2021-03-31T12:07:43.388350700Z   
+2021-03-31T12:07:43.822871100Z            used  (Mb) gc trigger  (Mb) max used  (Mb)
+2021-03-31T12:07:43.822931600Z Ncells  2245260 120.0    4256432 227.4  2245260 120.0
+2021-03-31T12:07:43.822940900Z Vcells 18626748 142.2   37895965 289.2 18626748 142.2
+
+
+state: succeeded
+commit: 325161634f1b9eee845aef198eabda90801c8a69
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: 2ttucsxzj53vv22n
+run_by_user: wjchulme
+created_at: 2021-03-31T11:59:17Z
+started_at: 2021-03-31T12:07:25Z
+completed_at: 2021-03-31T12:08:09Z
+
+Completed successfully
+
+outputs:
+  output/over80s/vaccination/all/all/data_cox_sub.rds   - highly_sensitive    
+  output/over80s/vaccination/all/all/vaxmodelcox0.rds   - highly_sensitive    
+  output/over80s/vaccination/all/all/vaxmodelcox1.rds   - highly_sensitive    
+  output/over80s/vaccination/all/all/vaxmodelcox2.rds   - highly_sensitive    
+  output/over80s/vaccination/all/strata_vector_cox.rds  - moderately_sensitive

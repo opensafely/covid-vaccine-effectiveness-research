@@ -1764,6 +1764,50 @@
       "created_by_action": "models_msm_over80s_pfizer_sex_dose1",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/vaccination/all/all/data_cox_sub.rds": {
+      "created_by_action": "vaxmodels_cox_over80s_all_dose1",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg": {
+      "created_by_action": "vaxreport_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg": {
+      "created_by_action": "vaxreport_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv": {
+      "created_by_action": "vaxreport_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/vaccination/all/all/tab_vaxcoxmod1.html": {
+      "created_by_action": "vaxreport_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv": {
+      "created_by_action": "vaxreport_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/vaccination/all/all/tab_vaxcoxmod2.html": {
+      "created_by_action": "vaxreport_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/vaccination/all/all/vaxmodelcox0.rds": {
+      "created_by_action": "vaxmodels_cox_over80s_all_dose1",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/vaccination/all/all/vaxmodelcox1.rds": {
+      "created_by_action": "vaxmodels_cox_over80s_all_dose1",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/vaccination/all/all/vaxmodelcox2.rds": {
+      "created_by_action": "vaxmodels_cox_over80s_all_dose1",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/vaccination/all/strata_vector_cox.rds": {
+      "created_by_action": "vaxmodels_cox_over80s_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/study_definition_over80s_flow_chart.html": {
       "created_by_action": "flow_chart_over80s",
       "privacy_level": "moderately_sensitive"
@@ -2444,6 +2488,24 @@
       "run_by_user": "wjchulme",
       "created_at": "2021-03-31T08:50:12Z",
       "completed_at": "2021-03-31T09:55:26Z"
+    },
+    "vaxmodels_cox_over80s_all_dose1": {
+      "state": "succeeded",
+      "commit": "325161634f1b9eee845aef198eabda90801c8a69",
+      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
+      "job_id": "2ttucsxzj53vv22n",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-03-31T11:59:17Z",
+      "completed_at": "2021-03-31T12:08:09Z"
+    },
+    "vaxreport_over80s_all_dose1": {
+      "state": "succeeded",
+      "commit": "325161634f1b9eee845aef198eabda90801c8a69",
+      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
+      "job_id": "b4qjmytxktzwwnd5",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-03-31T11:59:17Z",
+      "completed_at": "2021-03-31T12:08:57Z"
     }
   },
   "workspace": "covid-vaccine-effectiveness-research_main",
