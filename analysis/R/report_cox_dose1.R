@@ -35,6 +35,7 @@ cohort <- args[[1]]
 outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
+cox_strata_var <- args[[5]]
 
 if(length(args)==0){
   # use for interactive testing
@@ -42,6 +43,7 @@ if(length(args)==0){
   outcome <- "postest"
   brand <- "any"
   strata_var <- "all"
+  cox_strata_var <- "region"
 }
 
 
@@ -78,6 +80,12 @@ list2env(list_formula, globalenv())
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
+if(cox_strata_var=="all"){
+  formula_cox_strata_var <- . ~ .
+} else{
+  formula_cox_strata_var <- as.formula(paste0(". ~ . + strata(",cox_strata_var,")"))
+}
+
 ##  Create big loop over all categories
 
 strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector_cox.rds"))
@@ -91,9 +99,9 @@ for(stratum in strata){
 
   # import models ----
 
-  coxmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("modelcox0.rds")))
-  coxmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("modelcox1.rds")))
-  coxmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("modelcox2.rds")))
+  coxmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox0.rds"))
+  coxmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox1.rds"))
+  coxmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox2.rds"))
 
 
 
@@ -115,7 +123,9 @@ for(stratum in strata){
 
 summary_df <- summary_list %>% bind_rows
 
-write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, "estimates_cox.csv"))
+
+
+write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, glue::glue("estimates_cox_{cox_strata_var}.csv")))
 
 # create forest plot
 coxmod_forest_data <- summary_df %>%
@@ -170,7 +180,7 @@ coxmod_forest <-
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest_plot_cox.svg"), coxmod_forest, width=20, height=15, units="cm")
+ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, glue::glue("forest_plot_cox_{cox_strata_var}.svg")), coxmod_forest, width=20, height=15, units="cm")
 
 
 

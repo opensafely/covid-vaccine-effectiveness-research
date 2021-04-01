@@ -141,3 +141,16 @@ list_formula <- lst(
 write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rds")))
 
 
+
+## define stratification variables ----
+
+list_strata <- data_all %>%
+  mutate(
+    all=factor("all")
+  ) %>%
+  select(
+    all, sex
+  ) %>%
+  lapply(levels)
+
+write_rds(list_strata, here::here("output", "data", glue::glue("list_strata.rds")))

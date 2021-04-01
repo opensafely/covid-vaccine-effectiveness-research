@@ -37,6 +37,7 @@ cohort <- args[[1]]
 outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
+cox_strata_var <- args[[5]]
 
 if(length(args)==0){
   # use for interactive testing
@@ -44,6 +45,7 @@ if(length(args)==0){
   outcome <- "postest"
   brand <- "any"
   strata_var <- "all"
+  cox_strata_var <- "region"
 }
 
 
@@ -62,12 +64,6 @@ stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
 list2env(metadata, globalenv())
 
-### define parglm optimisation parameters ----
-
-parglmparams <- parglm.control(
-  method = "LINPACK",
-  nthreads = 8
-)
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
@@ -76,13 +72,13 @@ list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 
-### knot points for calendar time splines ----
-
-#knots <- c(21)
-
-
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
+if(cox_strata_var=="all"){
+  formula_cox_strata_var <- . ~ .
+} else{
+  formula_cox_strata_var <- as.formula(paste0(". ~ . + strata(",cox_strata_var,")"))
+}
 # Import processed data ----
 
 data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
@@ -149,11 +145,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_cox), units="GB", stan
 
 ##  Create big loop over all categories
 
-strata <- unique(data_cox[[strata_var]])
-
-dir.create(here::here("output", cohort, outcome, brand, strata_var), showWarnings = FALSE, recursive=TRUE)
-
-write_rds(strata, here::here("output", cohort, outcome, brand, strata_var, "strata_vector_cox.rds"))
+strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
 
 for(stratum in strata){
 
@@ -162,7 +154,7 @@ for(stratum in strata){
   cat("  \n")
 
   # create output directories ----
-  dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum), showWarnings = FALSE, recursive=TRUE)
+  dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var), showWarnings = FALSE, recursive=TRUE)
 
 
   # subset data
@@ -183,7 +175,7 @@ for(stratum in strata){
   cat("  \n")
   cat("coxmod0 \n")
   coxmod0 <- coxph(
-    formula = formula_vaxonly %>% update(formula_remove_strata_var),
+    formula = formula_vaxonly %>% update(formula_remove_strata_var) %>% update(formula_cox_strata_var),
     data = data_cox_sub,
     #robust = TRUE,
     tt = tt_vax
@@ -191,7 +183,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod0 data size = ", coxmod0$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod0), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, "modelcox0.rds"), compress="gz")
+  write_rds(coxmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox0.rds"), compress="gz")
   #rm(coxmod0)
 
   ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
@@ -199,7 +191,7 @@ for(stratum in strata){
   cat("coxmod1 \n")
 
   coxmod1 <- coxph(
-    formula = formula_vaxonly %>% update(formula_demog) %>% update(formula_remove_strata_var),
+    formula = formula_vaxonly %>% update(formula_demog) %>% update(formula_remove_strata_var) %>% update(formula_cox_strata_var),
     data = data_cox_sub,
     robust = TRUE,
     tt = tt_vax
@@ -207,7 +199,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod1 data size = ", coxmod1$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod1), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod1, here::here("output", cohort, outcome, brand, strata_var, stratum,"modelcox1.rds"), compress="gz")
+  write_rds(coxmod1, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox1.rds"), compress="gz")
   #rm(coxmod1)
 
 
@@ -217,7 +209,7 @@ for(stratum in strata){
   cat("coxmod2 \n")
 
   coxmod2 <- coxph(
-    formula = formula_vaxonly %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var),
+    formula = formula_vaxonly %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var) %>% update(formula_cox_strata_var),
     data = data_cox_sub,
     robust = TRUE,
     tt = tt_vax
@@ -225,7 +217,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod2 data size = ", coxmod2$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod2), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod2, here::here("output", cohort, outcome, brand, strata_var, stratum, "modelcox2.rds"), compress="gz")
+  write_rds(coxmod2, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox2.rds"), compress="gz")
   #rm(coxmod2)
 
 

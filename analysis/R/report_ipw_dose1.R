@@ -36,9 +36,11 @@ cohort <- args[[1]]
 outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
+removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
@@ -208,9 +210,7 @@ forest_from_gt <- function(gt_obj, title){
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector.rds"))
-summary_list <- vector("list", length(strata))
-names(summary_list) <- strata
+strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
 
 for(stratum in strata){
 
@@ -235,16 +235,16 @@ for(stratum in strata){
     )
 
 
-    ggsecular_vaxany <- interactions::interact_plot(
+    ggsecular_vaxany1 <- interactions::interact_plot(
       ipwvaxany1,
       pred=tstop, modx=region, data=data_pt_atriskvaxany1,
       colors="Set1", vary.lty=FALSE,
       x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
       y.label=glue::glue("Death rate (mean-centered)")
     )
-    ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxany1_trends.svg"), ggsecular_vaxany, width=20, height=15, units="cm")
+    ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxany1_trends.svg"), ggsecular_vaxany1, width=20, height=15, units="cm")
 
-
+    if(removeobs) rm(data_pt_atriskvaxany1, ipwvaxany1, tab_ipwvaxany1, plot_ipwvaxany1, ggsecular_vaxany1)
 
   }
 
@@ -275,6 +275,7 @@ for(stratum in strata){
     )
     ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxpfizer1_trends.svg"), ggsecular_vaxpfizer1, width=20, height=15, units="cm")
 
+    if(removeobs) rm(data_pt_atriskvaxpfizer1, ipwvaxpfizer1, plot_ipwvaxpfizer1, ggsecular_vaxpfizer1)
 
     # AZ
     data_pt_atriskvaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"))
@@ -302,11 +303,13 @@ for(stratum in strata){
     )
     ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwvaxaz1_trends.svg"), ggsecular_vaxaz1, width=20, height=15, units="cm")
 
+    if(removeobs) rm(data_pt_atriskvaxaz1, ipwvaxaz1, plot_ipwvaxaz1, ggsecular_vaxaz1)
 
     # combine tables
     tbl_merge(list(tab_ipwvaxpfizer1, tab_ipwvaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
       as_gt() %>%
       gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
+
 
 
   }
@@ -339,6 +342,7 @@ for(stratum in strata){
 
   ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_ipwdeath_trends.svg"), ggsecular_death, width=20, height=15, units="cm")
 
+  if(removeobs) rm(data_pt_atriskdeath, ipwdeath, tab_ipwdeath, plot_ipwdeath, ggsecular_death)
 
 }
 
