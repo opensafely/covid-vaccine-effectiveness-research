@@ -115,11 +115,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_cox), units="GB", stan
 
 ##  Create big loop over all categories
 
-strata <- unique(data_cox[[strata_var]])
-
-dir.create(here::here("output", cohort, outcome, strata_var), showWarnings = FALSE, recursive=TRUE)
-
-write_rds(strata, here::here("output", cohort, outcome, strata_var, "strata_vector_cox.rds"))
+strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
 
 for(stratum in strata){
 

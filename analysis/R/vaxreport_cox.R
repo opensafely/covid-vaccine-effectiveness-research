@@ -70,7 +70,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", cohort, outcome, strata_var, "strata_vector_cox.rds"))
+strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
