@@ -1,38 +1,77 @@
-2021-03-31T12:59:31.454005700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-31T12:59:31.462808600Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-31T12:59:31.462829800Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-31T12:59:31.462838000Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-31T12:59:31.462845000Z v readr   1.3.1     v forcats 0.5.0
-2021-03-31T12:59:31.633294700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-31T12:59:31.633314900Z x dplyr::filter() masks stats::filter()
-2021-03-31T12:59:31.633323200Z x dplyr::lag()    masks stats::lag()
-2021-03-31T12:59:31.647179200Z 
-2021-03-31T12:59:31.647199900Z Attaching package: 'lubridate'
-2021-03-31T12:59:31.647208400Z 
-2021-03-31T12:59:31.648560200Z The following objects are masked from 'package:base':
-2021-03-31T12:59:31.648576800Z 
-2021-03-31T12:59:31.648584200Z     date, intersect, setdiff, union
-2021-03-31T12:59:31.648591100Z 
-2021-03-31T12:59:33.885113800Z <environment: R_GlobalEnv>
-2021-03-31T12:59:33.885394000Z <environment: R_GlobalEnv>
+2021-04-01T14:42:43.707895300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-01T14:42:43.717226200Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-01T14:42:43.717278600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-01T14:42:43.717287200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-01T14:42:43.717294200Z v readr   1.3.1     v forcats 0.5.0
+2021-04-01T14:42:43.882350000Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-01T14:42:43.882390200Z x dplyr::filter() masks stats::filter()
+2021-04-01T14:42:43.882398300Z x dplyr::lag()    masks stats::lag()
+2021-04-01T14:42:43.896384300Z 
+2021-04-01T14:42:43.896412700Z Attaching package: 'lubridate'
+2021-04-01T14:42:43.896421100Z 
+2021-04-01T14:42:43.897840400Z The following objects are masked from 'package:base':
+2021-04-01T14:42:43.897856700Z 
+2021-04-01T14:42:43.897865100Z     date, intersect, setdiff, union
+2021-04-01T14:42:43.897872200Z 
+2021-04-01T14:42:46.195614400Z <environment: R_GlobalEnv>
+2021-04-01T14:42:46.195861100Z <environment: R_GlobalEnv>
+2021-04-01T14:43:11.957737500Z Error: Can't subset columns that don't exist.
+2021-04-01T14:43:11.957807300Z x Column `strata(region)` doesn't exist.
+2021-04-01T14:43:11.971160500Z Backtrace:
+2021-04-01T14:43:11.971187500Z      x
+2021-04-01T14:43:11.971196400Z   1. \-survminer::ggforest(coxmod3, data = data_cox_sub)
+2021-04-01T14:43:11.971204200Z   2.   \-base::lapply(...)
+2021-04-01T14:43:11.971211500Z   3.     \-survminer:::FUN(X[[i]], ...)
+2021-04-01T14:43:11.971219100Z   4.       +-base::as.data.frame(table(data[, var]))
+2021-04-01T14:43:11.971226400Z   5.       +-base::table(data[, var])
+2021-04-01T14:43:11.971233800Z   6.       +-data[, var]
+2021-04-01T14:43:11.971241000Z   7.       \-tibble:::`[.tbl_df`(data, , var)
+2021-04-01T14:43:11.971248500Z   8.         \-tibble:::vectbl_as_col_location(...)
+2021-04-01T14:43:11.971255800Z   9.           +-tibble:::subclass_col_index_errors(...)
+2021-04-01T14:43:11.971263300Z  10.           | \-base::withCallingHandlers(...)
+2021-04-01T14:43:11.971270700Z  11.           \-vctrs::vec_as_location(j, n, names)
+2021-04-01T14:43:11.971278200Z  12.             \-(function () ...
+2021-04-01T14:43:11.971285500Z  13.               \-vctrs:::stop_subscript_oob(...)
+2021-04-01T14:43:11.971299400Z  14.                 \-vctrs:::stop_subscript(...)
+2021-04-01T14:43:12.008804200Z Backtrace:
+2021-04-01T14:43:12.008991200Z 1: stop(fallback)
+2021-04-01T14:43:12.009062700Z 2: rlang:::signal_abort(x)
+2021-04-01T14:43:12.009208300Z 3: cnd_signal(cnd)
+2021-04-01T14:43:12.009356300Z 4: (function (cnd) 
+2021-04-01T14:43:12.009424100Z 5: signalCondition(cnd)
+2021-04-01T14:43:12.009565300Z 6: signal_abort(cnd)
+2021-04-01T14:43:12.009625600Z 7: abort(class = c(class, "vctrs_error_subscript"), i = i, ...)
+2021-04-01T14:43:12.009849000Z 8: stop_subscript(class = "vctrs_error_subscript_oob", i = i, subscript_type = subscript_type, 
+2021-04-01T14:43:12.009927300Z 9: stop_subscript_oob(i = i, subscript_type = subscript_type, names = names, 
+2021-04-01T14:43:12.010074000Z 10: (function () 
+2021-04-01T14:43:12.010092800Z 11: vec_as_location(j, n, names)
+2021-04-01T14:43:12.010268800Z 12: withCallingHandlers(expr, vctrs_error_subscript = function(cnd) {
+2021-04-01T14:43:12.010387300Z 13: subclass_col_index_errors(vec_as_location(j, n, names), j_arg = j_arg, 
+2021-04-01T14:43:12.010510200Z 14: vectbl_as_col_location(j, length(xo), names(xo), j_arg = j_arg, 
+2021-04-01T14:43:12.010628000Z 15: `[.tbl_df`(data, , var)
+2021-04-01T14:43:12.010688100Z 16: data[, var]
+2021-04-01T14:43:12.010879500Z 17: table(data[, var])
+2021-04-01T14:43:12.010952500Z 18: as.data.frame(table(data[, var]))
+2021-04-01T14:43:12.011073300Z 19: FUN(X[[i]], ...)
+2021-04-01T14:43:12.011195200Z 20: lapply(seq_along(terms), function(i) {
+2021-04-01T14:43:12.011356600Z 21: survminer::ggforest(coxmod3, data = data_cox_sub)
 
 
-state: succeeded
-commit: b44a00e320c39503b08692af096a8d7d7f703aea
+state: failed
+commit: 88a28c696482b81c284c32343c76199e9de87090
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
-exit_code: 0
-job_id: ryl7af3vldm7dvlk
+exit_code: 1
+job_id: fjiaithtm6gsv6hb
 run_by_user: wjchulme
-created_at: 2021-03-31T12:59:08Z
-started_at: 2021-03-31T12:59:29Z
-completed_at: 2021-03-31T13:00:04Z
+created_at: 2021-04-01T14:26:07Z
+started_at: 2021-04-01T14:42:41Z
+completed_at: 2021-04-01T14:43:16Z
 
-Completed successfully
+Job exited with an error code
 
 outputs:
   output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg  - moderately_sensitive
   output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg  - moderately_sensitive
-  output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg  - moderately_sensitive
   output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv   - moderately_sensitive
   output/over80s/vaccination/all/all/tab_vaxcoxmod1.html  - moderately_sensitive
   output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv   - moderately_sensitive
