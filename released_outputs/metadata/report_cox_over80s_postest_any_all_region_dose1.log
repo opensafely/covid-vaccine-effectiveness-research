@@ -1,0 +1,43 @@
+2021-04-01T16:28:38.635729500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-01T16:28:38.644445500Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-01T16:28:38.644467900Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-01T16:28:38.644476500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-01T16:28:38.644483400Z v readr   1.3.1     v forcats 0.5.0
+2021-04-01T16:28:38.804082700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-01T16:28:38.804102700Z x dplyr::filter() masks stats::filter()
+2021-04-01T16:28:38.804111000Z x dplyr::lag()    masks stats::lag()
+2021-04-01T16:28:38.818139700Z 
+2021-04-01T16:28:38.818157600Z Attaching package: 'lubridate'
+2021-04-01T16:28:38.818165000Z 
+2021-04-01T16:28:38.819546700Z The following objects are masked from 'package:base':
+2021-04-01T16:28:38.819561200Z 
+2021-04-01T16:28:38.819568600Z     date, intersect, setdiff, union
+2021-04-01T16:28:38.819575300Z 
+2021-04-01T16:28:40.880158600Z Loading required package: zoo
+2021-04-01T16:28:40.890740100Z 
+2021-04-01T16:28:40.890760500Z Attaching package: 'zoo'
+2021-04-01T16:28:40.890768700Z 
+2021-04-01T16:28:40.891357900Z The following objects are masked from 'package:base':
+2021-04-01T16:28:40.891373300Z 
+2021-04-01T16:28:40.891381100Z     as.Date, as.Date.numeric
+2021-04-01T16:28:40.891388100Z 
+2021-04-01T16:28:41.253298100Z <environment: R_GlobalEnv>
+2021-04-01T16:28:41.253697600Z <environment: R_GlobalEnv>
+2021-04-01T16:28:41.254059700Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: 3dc0dd65c7d8794152a18161cead9aadad9ea12d
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: o4fbdoazd4w3zoqt
+run_by_user: wjchulme
+created_at: 2021-04-01T16:04:52Z
+started_at: 2021-04-01T16:28:35Z
+completed_at: 2021-04-01T16:33:03Z
+
+Completed successfully
+
+outputs:
+  output/over80s/postest/any/all/estimates_cox_region.csv    - moderately_sensitive
+  output/over80s/postest/any/all/forest_plot_cox_region.svg  - moderately_sensitive

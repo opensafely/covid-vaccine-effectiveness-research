@@ -1,55 +1,54 @@
-2021-03-31T12:54:34.371167000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-31T12:54:34.379743100Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-31T12:54:34.379767000Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-31T12:54:34.379775400Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-31T12:54:34.379782400Z v readr   1.3.1     v forcats 0.5.0
-2021-03-31T12:54:34.539309000Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-31T12:54:34.539333800Z x dplyr::filter() masks stats::filter()
-2021-03-31T12:54:34.539342800Z x dplyr::lag()    masks stats::lag()
-2021-03-31T12:54:36.552711400Z 
-2021-03-31T12:54:36.552778900Z Attaching package: 'lubridate'
-2021-03-31T12:54:36.552787900Z 
-2021-03-31T12:54:36.554105200Z The following objects are masked from 'package:base':
-2021-03-31T12:54:36.554132200Z 
-2021-03-31T12:54:36.554140900Z     date, intersect, setdiff, union
-2021-03-31T12:54:36.554148100Z 
-2021-03-31T12:54:36.881511400Z <environment: R_GlobalEnv>
-2021-03-31T12:54:36.881941100Z <environment: R_GlobalEnv>
-2021-03-31T12:54:38.651369300Z data_cox data size = 100000 
-2021-03-31T12:54:38.652472800Z   memory usage = 0.035 GB 
-2021-03-31T12:54:38.731572600Z     
-2021-03-31T12:54:38.731606600Z all   
-2021-03-31T12:54:38.731615100Z   
-2021-03-31T12:54:40.213370000Z   
-2021-03-31T12:54:40.213425400Z coxmod0 
-2021-03-31T12:54:41.121201400Z coxmod0 data size = 100000 
-2021-03-31T12:54:41.183946000Z memory usage = 0.016 GB 
-2021-03-31T12:54:41.363633400Z   
-2021-03-31T12:54:41.363658800Z coxmod1 
-2021-03-31T12:54:43.219877800Z   
-2021-03-31T12:54:43.219921300Z coxmod2 
-2021-03-31T12:54:50.190633300Z   
-2021-03-31T12:54:50.190691500Z coxmod3 
-2021-03-31T12:54:59.836597800Z NULL
-2021-03-31T12:54:59.836661600Z   
+2021-04-01T14:41:38.173838800Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-01T14:41:38.182598500Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-01T14:41:38.182622500Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-01T14:41:38.182631200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-01T14:41:38.182638300Z v readr   1.3.1     v forcats 0.5.0
+2021-04-01T14:41:38.350092900Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-01T14:41:38.350117500Z x dplyr::filter() masks stats::filter()
+2021-04-01T14:41:38.350126200Z x dplyr::lag()    masks stats::lag()
+2021-04-01T14:41:40.368200800Z 
+2021-04-01T14:41:40.368240100Z Attaching package: 'lubridate'
+2021-04-01T14:41:40.368248800Z 
+2021-04-01T14:41:40.369629700Z The following objects are masked from 'package:base':
+2021-04-01T14:41:40.369653400Z 
+2021-04-01T14:41:40.369662100Z     date, intersect, setdiff, union
+2021-04-01T14:41:40.369669500Z 
+2021-04-01T14:41:40.692466000Z <environment: R_GlobalEnv>
+2021-04-01T14:41:40.693648500Z <environment: R_GlobalEnv>
+2021-04-01T14:41:42.484238500Z data_cox data size = 100000 
+2021-04-01T14:41:42.485364800Z   memory usage = 0.036 GB 
+2021-04-01T14:41:42.573305300Z     
+2021-04-01T14:41:42.573386400Z all   
+2021-04-01T14:41:42.573395400Z   
+2021-04-01T14:41:44.112505800Z   
+2021-04-01T14:41:44.112564400Z coxmod0 
+2021-04-01T14:41:45.013120100Z coxmod0 data size = 100000 
+2021-04-01T14:41:45.074438400Z memory usage = 0.016 GB 
+2021-04-01T14:41:45.260176100Z   
+2021-04-01T14:41:45.260214400Z coxmod1 
+2021-04-01T14:41:47.143458300Z   
+2021-04-01T14:41:47.143528300Z coxmod2 
+2021-04-01T14:41:54.113267300Z   
+2021-04-01T14:41:54.113334200Z coxmod3 
+2021-04-01T14:42:01.255194100Z NULL
+2021-04-01T14:42:01.255260600Z   
 
 
 state: succeeded
-commit: 820503e463cedc32e1d6ffb21fe088d330704141
+commit: 88a28c696482b81c284c32343c76199e9de87090
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: cgxytdbyx6xahfk6
+job_id: 5sgvdqhmi6sq3lpy
 run_by_user: wjchulme
-created_at: 2021-03-31T12:54:11Z
-started_at: 2021-03-31T12:54:31Z
-completed_at: 2021-03-31T12:55:03Z
+created_at: 2021-04-01T14:26:07Z
+started_at: 2021-04-01T14:41:35Z
+completed_at: 2021-04-01T14:42:04Z
 
 Completed successfully
 
 outputs:
-  output/over80s/vaccination/all/all/data_cox_sub.rds   - highly_sensitive    
-  output/over80s/vaccination/all/all/vaxmodelcox0.rds   - highly_sensitive    
-  output/over80s/vaccination/all/all/vaxmodelcox1.rds   - highly_sensitive    
-  output/over80s/vaccination/all/all/vaxmodelcox2.rds   - highly_sensitive    
-  output/over80s/vaccination/all/all/vaxmodelcox3.rds   - highly_sensitive    
-  output/over80s/vaccination/all/strata_vector_cox.rds  - moderately_sensitive
+  output/over80s/vaccination/all/all/data_cox_sub.rds  - highly_sensitive
+  output/over80s/vaccination/all/all/vaxmodelcox0.rds  - highly_sensitive
+  output/over80s/vaccination/all/all/vaxmodelcox1.rds  - highly_sensitive
+  output/over80s/vaccination/all/all/vaxmodelcox2.rds  - highly_sensitive
+  output/over80s/vaccination/all/all/vaxmodelcox3.rds  - highly_sensitive
