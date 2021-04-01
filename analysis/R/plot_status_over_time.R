@@ -139,10 +139,16 @@ data_pt %>%
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
     date = week,
     vaxany_status_onedose = vaxany_status!=0,
-    vaxany_status=fct_case_when(
+    vaxany_status = fct_case_when(
       vaxany_status==0 ~ "Not vaccinated",
       vaxany_status==1 ~ "One dose",
       vaxany_status==2 ~ "Two doses",
+      TRUE ~ NA_character_
+    ),
+    vaxbrand_status = fct_case_when(
+      vaxpfizer_status==0 & vaxaz_status==0 ~ "Not vaccinated",
+      vaxpfizer_status>0 ~ "Pfizer",
+      vaxaz_status>0 ~ "AZ",
       TRUE ~ NA_character_
     ),
 
@@ -174,7 +180,7 @@ data_pt %>%
        lag_vaxany_status_onedose==1 ~ ">= 14 days post-vaccine",
        TRUE ~ NA_character_
     )
-  ) %>% ungroup()
+  ) %>% ungroup() %>% droplevels()
 
 
 ## cumulative vaccination status ----
@@ -187,7 +193,7 @@ plot_vax_counts <- function(var, var_descr){
     mutate(
       variable = data_by_day[[var]]
     ) %>%
-    group_by(date, variable, vaxany_status) %>%
+    group_by(date, variable, vaxany_status, .drop=FALSE) %>%
     summarise(
       n = n(),
     ) %>%
@@ -201,6 +207,46 @@ plot_vax_counts <- function(var, var_descr){
   plot <- data1 %>%
   ggplot() +
     geom_area(aes(x=date, y=n_per_10000, group=vaxany_status, fill=vaxany_status), alpha=0.5)+
+    facet_grid(rows=vars(variable))+
+    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
+    labs(
+      x=NULL,
+      y="Status per 10,000 patients",
+      colour=NULL,
+      fill=NULL,
+      title = "Vaccination status over time",
+      subtitle = var_descr
+    ) +
+    plot_theme+
+    theme(legend.position = "bottom")
+
+  plot
+}
+
+
+
+plot_brand_counts <- function(var, var_descr){
+
+
+  data1 <- data_by_day %>%
+    mutate(
+      variable = data_by_day[[var]]
+    ) %>%
+    group_by(date, variable, vaxbrand_status, .drop=FALSE) %>%
+    summarise(
+      n = n(),
+    ) %>%
+    group_by(date, variable) %>%
+    mutate(
+      n_per_10000 = (n/sum(n))*10000
+    ) %>%
+    ungroup()
+
+
+  plot <- data1 %>%
+    ggplot() +
+    geom_area(aes(x=date, y=n_per_10000, group=vaxbrand_status, fill=vaxbrand_status), alpha=0.5)+
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
     scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
@@ -332,11 +378,11 @@ transmute(
   plot = patchwork::align_patches(plot),
   filename = paste0("vaxcounts_",var,".svg"),
   path=here::here("output", cohort, "descr", "plots"),
-  panelwidth = 10,
-  panelheight = 5,
+  panelwidth = 15,
+  panelheight = 7,
   #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
   units="cm",
-  width = 20,
+  width = 25,
   height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
 ) %>%
 mutate(
@@ -344,7 +390,32 @@ mutate(
       filename=filename,
       plot=plot,
       path=path,
-      width=width, height=height, units=units, limitsize=FALSE, scale=0.7
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.8
+    ),
+    ggsave)
+  )
+
+
+
+vars_df %>%
+  transmute(
+    plot = pmap(lst(var, var_descr), plot_brand_counts),
+    plot = patchwork::align_patches(plot),
+    filename = paste0("brandcounts_",var,".svg"),
+    path=here::here("output", cohort, "descr", "plots"),
+    panelwidth = 15,
+    panelheight = 7,
+    #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+    units="cm",
+    width = 25,
+    height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
+  ) %>%
+  mutate(
+    pmap(list(
+      filename=filename,
+      plot=plot,
+      path=path,
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.8
     ),
     ggsave)
   )
@@ -356,11 +427,11 @@ vars_df %>%
     plot = patchwork::align_patches(plot),
     filename = paste0("eventcounts_",var,".svg"),
     path=here::here("output", cohort, "descr", "plots"),
-    panelwidth = 10,
-    panelheight = 5,
+    panelwidth = 15,
+    panelheight = 7,
     units="cm",
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
-    width = 20,
+    width = 25,
     height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
   ) %>%
   mutate(
@@ -368,7 +439,7 @@ vars_df %>%
       filename=filename,
       path=path,
       plot=plot,
-      width=width, height=height, units=units, limitsize=FALSE, scale=0.7
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.8
     ),
     ggsave)
   )
@@ -382,11 +453,11 @@ vars_df %>%
     plot = patchwork::align_patches(plot),
     filename = paste0("eventrates_",var,".svg"),
     path=here::here("output", cohort, "descr", "plots"),
-    panelwidth = 10,
-    panelheight = 5,
+    panelwidth = 15,
+    panelheight = 7,
     units="cm",
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
-    width = 20,
+    width = 25,
     height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
   ) %>%
   mutate(
@@ -394,7 +465,7 @@ vars_df %>%
       filename=filename,
       path=path,
       plot=plot,
-      width=width, height=height, units=units, limitsize=FALSE, scale=0.7
+      width=width, height=height, units=units, limitsize=FALSE, scale=0.8
     ),
     ggsave)
   )
