@@ -70,6 +70,7 @@ data_fixed <- data_all %>%
     ethnicity,
 
     region,
+    stp,
 
     bmi,
     chronic_cardiac_disease,
