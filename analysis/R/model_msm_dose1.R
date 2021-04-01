@@ -37,9 +37,11 @@ cohort <- args[[1]]
 outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
+removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
@@ -190,7 +192,7 @@ for(stratum in strata){
 
     write_rds(data_pt_atriskvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxany1.rds"), compress="gz")
     write_rds(ipwvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxany1.rds"), compress="gz")
-    rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
+    if(removeobs) rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
 
 
 
@@ -251,7 +253,7 @@ for(stratum in strata){
 
     write_rds(data_pt_atriskvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxpfizer1.rds"), compress="gz")
     write_rds(ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxpfizer1.rds"), compress="gz")
-    rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
+    if(removeobs) rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
 
 
     # IPW model for az vaccination ----
@@ -305,7 +307,7 @@ for(stratum in strata){
 
     write_rds(data_pt_atriskvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"), compress="gz")
     write_rds(ipwvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxaz1.rds"), compress="gz")
-    rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
+    if(removeobs) rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
 
   }
 
@@ -358,7 +360,7 @@ for(stratum in strata){
 
   write_rds(data_pt_atriskdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwdeath.rds"), compress="gz")
   write_rds(ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwdeath.rds"), compress="gz")
-  rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
+  if(removeobs) rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
 
 
   ## get predictions from model ----
@@ -442,7 +444,7 @@ for(stratum in strata){
         ipweight_stbl = (ipweightvaxany_stbl * ipweightdeath_stbl)
       )
 
-    rm(data_predvaxany1, data_preddeath)
+    if(removeobs) rm(data_predvaxany1, data_preddeath)
 
   }
 
@@ -559,7 +561,7 @@ for(stratum in strata){
         ipweight_stbl = (ipweightvaxpfizer_stbl * ipweightvaxaz_stbl * ipweightdeath_stbl)
       )
 
-    rm(data_predvaxpfizer1, data_predvaxaz1, data_preddeath)
+    if(removeobs) rm(data_predvaxpfizer1, data_predvaxaz1, data_preddeath)
 
   }
   ## report weights ----
@@ -583,7 +585,7 @@ for(stratum in strata){
     theme_bw()
 
   ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
-  rm(weight_histogram)
+  if(removeobs) rm(weight_histogram)
 
   ## output weight distribution file ----
 
@@ -626,7 +628,7 @@ for(stratum in strata){
   cat(glue::glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
-  rm(msmmod0_par)
+  if(removeobs) rm(msmmod0_par)
 
   ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
   cat("  \n")
@@ -645,7 +647,7 @@ for(stratum in strata){
   cat(glue::glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
-  rm(msmmod1_par)
+  if(removeobs) rm(msmmod1_par)
 
 
   ### model 2 - minimally adjusted vaccination effect model, baseline demographics only ----
@@ -665,7 +667,7 @@ for(stratum in strata){
   cat(glue::glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model2.rds"), compress="gz")
-  rm(msmmod2_par)
+  if(removeobs) rm(msmmod2_par)
 
 
 
@@ -686,7 +688,7 @@ for(stratum in strata){
   cat(glue::glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod3_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
-  rm(msmmod3_par)
+  if(removeobs) rm(msmmod3_par)
 
 
   ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted + do not use time-dependent covariates ----
@@ -707,7 +709,7 @@ for(stratum in strata){
   cat(glue::glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
-  rm(msmmod4_par)
+  if(removeobs) rm(msmmod4_par)
 
 
   ## print warnings

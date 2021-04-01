@@ -36,9 +36,11 @@ outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
 cox_strata_var <- args[[5]]
+removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
@@ -123,7 +125,7 @@ for(stratum in strata){
 
 summary_df <- summary_list %>% bind_rows
 
-
+if(removeobs) rm(coxmod0, coxmod1, coxmod2)
 
 write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, glue::glue("estimates_cox_{cox_strata_var}.csv")))
 

@@ -38,9 +38,11 @@ outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
 cox_strata_var <- args[[5]]
+removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
@@ -184,7 +186,7 @@ for(stratum in strata){
   cat(glue::glue("coxmod0 data size = ", coxmod0$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod0), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(coxmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox0.rds"), compress="gz")
-  #rm(coxmod0)
+  if(removeobs) rm(coxmod0)
 
   ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
   cat("  \n")
@@ -200,7 +202,7 @@ for(stratum in strata){
   cat(glue::glue("coxmod1 data size = ", coxmod1$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod1), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(coxmod1, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox1.rds"), compress="gz")
-  #rm(coxmod1)
+  if(removeobs) rm(coxmod1)
 
 
 
@@ -218,7 +220,7 @@ for(stratum in strata){
   cat(glue::glue("coxmod2 data size = ", coxmod2$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod2), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(coxmod2, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox2.rds"), compress="gz")
-  #rm(coxmod2)
+  if(removeobs) rm(coxmod2)
 
 
 

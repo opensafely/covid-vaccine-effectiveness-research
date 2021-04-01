@@ -35,9 +35,11 @@ cohort <- args[[1]]
 outcome <- args[[2]]
 brand <- args[[3]]
 strata_var <- args[[4]]
+removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"

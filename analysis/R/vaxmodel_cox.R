@@ -29,8 +29,11 @@ args <- commandArgs(trailingOnly=TRUE)
 
 cohort <- args[[1]]
 strata_var <- args[[2]]
+removeobs <- TRUE
+
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
 }
@@ -146,7 +149,7 @@ for(stratum in strata){
   cat(glue::glue("coxmod0 data size = ", coxmod0$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod0), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(coxmod0, here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox0.rds"), compress="gz")
-  #rm(coxmod0)
+  if(removeobs) rm(coxmod0)
 
   ### model 1 - minimally adjusted vaccination model, baseline demographics only ----
   cat("  \n")
@@ -158,7 +161,7 @@ for(stratum in strata){
   )
 
   write_rds(coxmod1, here::here("output", cohort, outcome, strata_var, stratum,"vaxmodelcox1.rds"), compress="gz")
-  #rm(coxmod1)
+  if(removeobs) rm(coxmod1)
 
 
 
@@ -172,7 +175,7 @@ for(stratum in strata){
   )
 
   write_rds(coxmod2, here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox2.rds"), compress="gz")
-  #rm(coxmod2)
+  if(removeobs) rm(coxmod2)
 
 
   ### model 2 - baseline, demographics, comorbs, region adjusted vaccination model ----
@@ -180,12 +183,12 @@ for(stratum in strata){
   cat("coxmod3 \n")
 
   coxmod3 <- coxph(
-    formula = formula_unadjusted %>% update(formula_demog) %>% update(formula_comorbs) %>% update(. ~ . + region) %>% update(formula_remove_strata_var),
+    formula = formula_unadjusted %>% update(formula_demog) %>% update(formula_comorbs) %>% update(. ~ . + strata(region)) %>% update(formula_remove_strata_var),
     data = data_cox_sub
   )
 
   write_rds(coxmod3, here::here("output", cohort, outcome, strata_var, stratum, "vaxmodelcox3.rds"), compress="gz")
-  #rm(coxmod3)
+  if(removeobs) rm(coxmod3)
 
 
   ## print warnings
