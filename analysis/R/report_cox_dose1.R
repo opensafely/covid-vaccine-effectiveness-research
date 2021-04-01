@@ -90,7 +90,7 @@ if(cox_strata_var=="all"){
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "strata_vector_cox.rds"))
+strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
