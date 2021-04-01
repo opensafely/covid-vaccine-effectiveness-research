@@ -168,8 +168,8 @@ actions:
     needs: [data_define_cohorts, models_cox_over80s_postest_any_all_all_dose1]
     outputs:
       moderately_sensitive:
-        plots: output/over80s/postest/any/all/*cox.svg
-        tables: output/over80s/postest/any/all/*cox.csv
+        plots: output/over80s/postest/any/all/*cox_all.svg
+        tables: output/over80s/postest/any/all/*cox_all.csv
 
   models_cox_over80s_postest_any_all_region_dose1:
     run: r:latest analysis/R/model_cox_dose1.R over80s postest any all region
