@@ -201,6 +201,22 @@ actions:
         plots: output/over80s/postest/any/all/*cox_stp.svg
         tables: output/over80s/postest/any/all/*cox_stp.csv
 
+  models_cox_over80s_postest_any_all_msoa_dose1:
+    run: r:latest analysis/R/model_cox_dose1.R over80s postest any all msoa
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/any/all/*/msoa/modelcox*.rds
+
+  report_cox_over80s_postest_any_all_msoa_dose1:
+    run: r:latest analysis/R/report_cox_dose1.R over80s postest any all msoa
+    needs: [data_define_cohorts, models_cox_over80s_postest_any_all_msoa_dose1]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/any/all/*cox_msoa.svg
+        tables: output/over80s/postest/any/all/*cox_msoa.csv
+
+
 
 ## pfizer vaccine
   models_over80s_postest_pfizer_all_dose1:

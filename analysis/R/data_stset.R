@@ -71,6 +71,7 @@ data_fixed <- data_all %>%
 
     region,
     stp,
+    msoa,
 
     bmi,
     chronic_cardiac_disease,

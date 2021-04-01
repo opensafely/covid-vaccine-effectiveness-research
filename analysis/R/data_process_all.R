@@ -55,6 +55,7 @@ data_extract0 <- read_csv(
     practice_id = col_integer(),
 
     # demographic / administrative
+    msoa = col_character(),
     stp = col_character(),
     region = col_character(),
     imd = col_character(),
@@ -285,6 +286,7 @@ data_processed <- data_extract_reordered %>%
                     )
     ),
     stp = as.factor(stp),
+    msoa = as.factor(msoa),
     care_home_type = as.factor(care_home_type),
 
     bmi = as.factor(bmi),

@@ -197,6 +197,19 @@ study = StudyDefinition(
             "incidence": 1,
         },
     ),
+    
+    # msoa
+    msoa=patients.address_as_of(
+        "index_date",
+        returning="msoa",
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"E02000001": 0.0625, "E02000002": 0.0625, "E02000003": 0.0625, "E02000004": 0.0625,
+                                    "E02000005": 0.0625, "E02000007": 0.0625, "E02000008": 0.0625, "E02000009": 0.0625, 
+                                    "E02000010": 0.0625, "E02000011": 0.0625, "E02000012": 0.0625, "E02000013": 0.0625, 
+                                    "E02000014": 0.0625, "E02000015": 0.0625, "E02000016": 0.0625, "E02000017": 0.0625}},
+        },
+    ),    
 
     # stp is an NHS administration region based on geography
     stp=patients.registered_practice_as_of(
