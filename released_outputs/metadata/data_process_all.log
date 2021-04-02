@@ -1,73 +1,73 @@
-2021-03-30T09:38:45.583152600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-30T09:38:45.591889400Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-30T09:38:45.591910900Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-30T09:38:45.591919700Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-30T09:38:45.591926700Z v readr   1.3.1     v forcats 0.5.0
-2021-03-30T09:38:45.760553500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-30T09:38:45.760575900Z x dplyr::filter() masks stats::filter()
-2021-03-30T09:38:45.760584100Z x dplyr::lag()    masks stats::lag()
-2021-03-30T09:38:45.774952700Z 
-2021-03-30T09:38:45.774973700Z Attaching package: 'lubridate'
-2021-03-30T09:38:45.774982200Z 
-2021-03-30T09:38:45.776347600Z The following objects are masked from 'package:base':
-2021-03-30T09:38:45.776364900Z 
-2021-03-30T09:38:45.776372700Z     date, intersect, setdiff, union
-2021-03-30T09:38:45.776379800Z 
-2021-03-30T09:38:45.842704000Z  [1] "patient_id"                          "age"                                
-2021-03-30T09:38:45.842725500Z  [3] "sex"                                 "bmi"                                
-2021-03-30T09:38:45.842733900Z  [5] "has_follow_up_previous_year"         "registered_at_latest"               
-2021-03-30T09:38:45.842741400Z  [7] "dereg_date"                          "ethnicity"                          
-2021-03-30T09:38:45.842748700Z  [9] "ethnicity_6_sus"                     "practice_id"                        
-2021-03-30T09:38:45.842755900Z [11] "stp"                                 "region"                             
-2021-03-30T09:38:45.842763100Z [13] "imd"                                 "care_home_type"                     
-2021-03-30T09:38:45.842770300Z [15] "care_home"                           "covid_vax_1_date"                   
-2021-03-30T09:38:45.842777400Z [17] "covid_vax_2_date"                    "covid_vax_3_date"                   
-2021-03-30T09:38:45.842809800Z [19] "covid_vax_4_date"                    "covid_vax_pfizer_1_date"            
-2021-03-30T09:38:45.842821800Z [21] "covid_vax_pfizer_2_date"             "covid_vax_pfizer_3_date"            
-2021-03-30T09:38:45.842829400Z [23] "covid_vax_pfizer_4_date"             "covid_vax_az_1_date"                
-2021-03-30T09:38:45.842836600Z [25] "covid_vax_az_2_date"                 "covid_vax_az_3_date"                
-2021-03-30T09:38:45.842843900Z [27] "covid_vax_az_4_date"                 "prior_positive_test_date"           
-2021-03-30T09:38:45.842851200Z [29] "prior_primary_care_covid_case_date"  "prior_covidadmitted_date"           
-2021-03-30T09:38:45.842862700Z [31] "positive_test_1_date"                "positive_test_2_date"               
-2021-03-30T09:38:45.842870400Z [33] "primary_care_covid_case_1_date"      "primary_care_covid_case_2_date"     
-2021-03-30T09:38:45.842891100Z [35] "emergency_1_date"                    "emergency_2_date"                   
-2021-03-30T09:38:45.842899200Z [37] "covidadmitted_1_date"                "covidadmitted_2_date"               
-2021-03-30T09:38:45.842906500Z [39] "coviddeath_date"                     "death_date"                         
-2021-03-30T09:38:45.842913600Z [41] "admitted_0_date"                     "discharged_0_date"                  
-2021-03-30T09:38:45.842920900Z [43] "admitted_1_date"                     "discharged_1_date"                  
-2021-03-30T09:38:45.842931100Z [45] "admitted_2_date"                     "discharged_2_date"                  
-2021-03-30T09:38:45.842938900Z [47] "admitted_3_date"                     "discharged_3_date"                  
-2021-03-30T09:38:45.842946000Z [49] "admitted_4_date"                     "discharged_4_date"                  
-2021-03-30T09:38:45.842953200Z [51] "admitted_5_date"                     "discharged_5_date"                  
-2021-03-30T09:38:45.842960200Z [53] "primary_care_probable_covid_1_date"  "primary_care_probable_covid_2_date" 
-2021-03-30T09:38:45.842967400Z [55] "primary_care_probable_covid_3_date"  "primary_care_probable_covid_4_date" 
-2021-03-30T09:38:45.842974500Z [57] "primary_care_probable_covid_5_date"  "primary_care_suspected_covid_1_date"
-2021-03-30T09:38:45.842981700Z [59] "primary_care_suspected_covid_2_date" "primary_care_suspected_covid_3_date"
-2021-03-30T09:38:45.842988700Z [61] "primary_care_suspected_covid_4_date" "primary_care_suspected_covid_5_date"
-2021-03-30T09:38:45.842995900Z [63] "chronic_cardiac_disease"             "heart_failure"                      
-2021-03-30T09:38:45.843003000Z [65] "other_heart_disease"                 "diabetes"                           
-2021-03-30T09:38:45.843010300Z [67] "dialysis"                            "chronic_liver_disease"              
-2021-03-30T09:38:45.843017400Z [69] "current_copd"                        "LD_incl_DS_and_CP"                  
-2021-03-30T09:38:45.843025700Z [71] "cystic_fibrosis"                     "other_resp_conditions"              
-2021-03-30T09:38:45.843032900Z [73] "lung_cancer"                         "haematological_cancer"              
-2021-03-30T09:38:45.843040100Z [75] "cancer_excl_lung_and_haem"           "chemo_or_radio"                     
-2021-03-30T09:38:45.843047200Z [77] "solid_organ_transplantation"         "bone_marrow_transplant"             
-2021-03-30T09:38:45.843054400Z [79] "sickle_cell_disease"                 "permanant_immunosuppression"        
-2021-03-30T09:38:45.843061400Z [81] "temporary_immunosuppression"         "asplenia"                           
-2021-03-30T09:38:45.843068400Z [83] "dmards"                              "dementia"                           
-2021-03-30T09:38:45.843075500Z [85] "other_neuro_conditions"              "psychosis_schiz_bipolar"            
-2021-03-30T09:38:45.843107900Z [87] "flu_vaccine"                        
+2021-04-01T22:53:28.087930100Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-01T22:53:28.096693800Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-01T22:53:28.096717200Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-01T22:53:28.096725800Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-01T22:53:28.096732900Z v readr   1.3.1     v forcats 0.5.0
+2021-04-01T22:53:28.258922400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-01T22:53:28.258941500Z x dplyr::filter() masks stats::filter()
+2021-04-01T22:53:28.258949600Z x dplyr::lag()    masks stats::lag()
+2021-04-01T22:53:28.273688800Z 
+2021-04-01T22:53:28.273707600Z Attaching package: 'lubridate'
+2021-04-01T22:53:28.273716100Z 
+2021-04-01T22:53:28.275146100Z The following objects are masked from 'package:base':
+2021-04-01T22:53:28.275165100Z 
+2021-04-01T22:53:28.275173900Z     date, intersect, setdiff, union
+2021-04-01T22:53:28.275181000Z 
+2021-04-01T22:53:28.340991000Z  [1] "patient_id"                          "age"                                
+2021-04-01T22:53:28.341010800Z  [3] "sex"                                 "bmi"                                
+2021-04-01T22:53:28.341018900Z  [5] "has_follow_up_previous_year"         "registered_at_latest"               
+2021-04-01T22:53:28.341026300Z  [7] "dereg_date"                          "ethnicity"                          
+2021-04-01T22:53:28.341033600Z  [9] "ethnicity_6_sus"                     "practice_id"                        
+2021-04-01T22:53:28.341041200Z [11] "msoa"                                "stp"                                
+2021-04-01T22:53:28.341048400Z [13] "region"                              "imd"                                
+2021-04-01T22:53:28.341055600Z [15] "care_home_type"                      "care_home"                          
+2021-04-01T22:53:28.341062800Z [17] "covid_vax_1_date"                    "covid_vax_2_date"                   
+2021-04-01T22:53:28.341069800Z [19] "covid_vax_3_date"                    "covid_vax_4_date"                   
+2021-04-01T22:53:28.341077100Z [21] "covid_vax_pfizer_1_date"             "covid_vax_pfizer_2_date"            
+2021-04-01T22:53:28.341084300Z [23] "covid_vax_pfizer_3_date"             "covid_vax_pfizer_4_date"            
+2021-04-01T22:53:28.341091400Z [25] "covid_vax_az_1_date"                 "covid_vax_az_2_date"                
+2021-04-01T22:53:28.341098300Z [27] "covid_vax_az_3_date"                 "covid_vax_az_4_date"                
+2021-04-01T22:53:28.341105400Z [29] "prior_positive_test_date"            "prior_primary_care_covid_case_date" 
+2021-04-01T22:53:28.341112600Z [31] "prior_covidadmitted_date"            "positive_test_1_date"               
+2021-04-01T22:53:28.341119900Z [33] "positive_test_2_date"                "primary_care_covid_case_1_date"     
+2021-04-01T22:53:28.341142600Z [35] "primary_care_covid_case_2_date"      "emergency_1_date"                   
+2021-04-01T22:53:28.341152200Z [37] "emergency_2_date"                    "covidadmitted_1_date"               
+2021-04-01T22:53:28.341159400Z [39] "covidadmitted_2_date"                "coviddeath_date"                    
+2021-04-01T22:53:28.341167200Z [41] "death_date"                          "admitted_0_date"                    
+2021-04-01T22:53:28.341174400Z [43] "discharged_0_date"                   "admitted_1_date"                    
+2021-04-01T22:53:28.341181700Z [45] "discharged_1_date"                   "admitted_2_date"                    
+2021-04-01T22:53:28.341192100Z [47] "discharged_2_date"                   "admitted_3_date"                    
+2021-04-01T22:53:28.341199700Z [49] "discharged_3_date"                   "admitted_4_date"                    
+2021-04-01T22:53:28.341206900Z [51] "discharged_4_date"                   "admitted_5_date"                    
+2021-04-01T22:53:28.341214000Z [53] "discharged_5_date"                   "primary_care_probable_covid_1_date" 
+2021-04-01T22:53:28.341221200Z [55] "primary_care_probable_covid_2_date"  "primary_care_probable_covid_3_date" 
+2021-04-01T22:53:28.341228400Z [57] "primary_care_probable_covid_4_date"  "primary_care_probable_covid_5_date" 
+2021-04-01T22:53:28.341235500Z [59] "primary_care_suspected_covid_1_date" "primary_care_suspected_covid_2_date"
+2021-04-01T22:53:28.341242700Z [61] "primary_care_suspected_covid_3_date" "primary_care_suspected_covid_4_date"
+2021-04-01T22:53:28.341249900Z [63] "primary_care_suspected_covid_5_date" "chronic_cardiac_disease"            
+2021-04-01T22:53:28.341257100Z [65] "heart_failure"                       "other_heart_disease"                
+2021-04-01T22:53:28.341264300Z [67] "diabetes"                            "dialysis"                           
+2021-04-01T22:53:28.341271500Z [69] "chronic_liver_disease"               "current_copd"                       
+2021-04-01T22:53:28.341278800Z [71] "LD_incl_DS_and_CP"                   "cystic_fibrosis"                    
+2021-04-01T22:53:28.341286000Z [73] "other_resp_conditions"               "lung_cancer"                        
+2021-04-01T22:53:28.341293200Z [75] "haematological_cancer"               "cancer_excl_lung_and_haem"          
+2021-04-01T22:53:28.341300400Z [77] "chemo_or_radio"                      "solid_organ_transplantation"        
+2021-04-01T22:53:28.341307600Z [79] "bone_marrow_transplant"              "sickle_cell_disease"                
+2021-04-01T22:53:28.341314900Z [81] "permanant_immunosuppression"         "temporary_immunosuppression"        
+2021-04-01T22:53:28.341322100Z [83] "asplenia"                            "dmards"                             
+2021-04-01T22:53:28.341329200Z [85] "dementia"                            "other_neuro_conditions"             
+2021-04-01T22:53:28.341336500Z [87] "psychosis_schiz_bipolar"             "flu_vaccine"                        
 
 
 state: succeeded
-commit: 6836f3c5f93affbaf06a33695c429e9dae990756
+commit: 16547ad6c0640a5eda982387794a88056462cfd7
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: qrtxskgwf76kq27a
+job_id: vpogwpyp6kc7n6ia
 run_by_user: wjchulme
-created_at: 2021-03-30T09:37:16Z
-started_at: 2021-03-30T09:38:43Z
-completed_at: 2021-03-30T10:26:32Z
+created_at: 2021-04-01T21:15:21Z
+started_at: 2021-04-01T22:53:25Z
+completed_at: 2021-04-01T23:44:38Z
 
 Completed successfully
 
