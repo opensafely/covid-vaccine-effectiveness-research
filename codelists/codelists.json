@@ -233,6 +233,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination-clinical-codes-not-given/2020-05-19/",
       "downloaded_at": "2021-03-10 12:51:04.764964Z",
       "sha": "db68fd1368358f1ecbbc006c83419b3b47bcb82c"
+    },
+    "primis-covid19-vacc-uptake-longres.csv": {
+      "id": "primis-covid19-vacc-uptake/longres/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/longres/v1/",
+      "downloaded_at": "2021-04-06 10:43:36.634532Z",
+      "sha": "4d4c94b9c6aa267c6a60657150bbc5ec7d2d7625"
     }
   }
 }

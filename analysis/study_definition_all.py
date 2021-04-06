@@ -309,12 +309,19 @@ study = StudyDefinition(
     ),
 
     # simple care home flag
-    care_home=patients.satisfying(
+    care_home_tpp=patients.satisfying(
         """care_home_type""",
         return_expectations={
             "category": {"ratios": {"1": 0.15, "0": 0.85}},
             "incidence": 1,
         },
+    ),
+    
+    care_home_primis=patients.with_these_clinical_events(
+        carehome_primis_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.1},
     ),
 
     ###############################################################################
