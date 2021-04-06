@@ -92,7 +92,7 @@ data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wid
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   filter(
     .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
-    censored_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death))
+    lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
     death_status == 0, # follow up ends at (day after) occurrence of death
     dereg_status == 0, # follow up ends at (day after) practce deregistration
     vaxany_status == .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0

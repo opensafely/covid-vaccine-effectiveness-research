@@ -130,7 +130,7 @@ data_tte <- data_all  %>%
     covid_vax_az_1_date,
     covid_vax_az_2_date,
 
-
+    covid_test_1_date,
     positive_test_1_date,
     emergency_1_date,
     covidadmitted_1_date,
@@ -153,7 +153,7 @@ data_tte <- data_all  %>%
     tte_dereg = tte(start_date, dereg_date, dereg_date),
 
     # time to test
-    #tte_test = tte(start_date, test_1_date, lastfup_date, na.censor=TRUE),
+    tte_covidtest = tte(start_date, covid_test_1_date, lastfup_date, na.censor=TRUE),
 
     # time to positive test
     tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE),
@@ -287,6 +287,7 @@ data_tte_cp0 <- tmerge(
   vaxaz1_status = tdc(tte_vaxaz1),
   vaxaz2_status = tdc(tte_vaxaz2),
 
+  covidtest_status = tdc(tte_covidtest),
   postest_status = tdc(tte_postest),
   emergency_status = tdc(tte_emergency),
   covidadmitted_status = tdc(tte_covidadmitted),
@@ -294,7 +295,7 @@ data_tte_cp0 <- tmerge(
   noncoviddeath_status = tdc(tte_noncoviddeath),
   death_status = tdc(tte_death),
   dereg_status= tdc(tte_dereg),
-  censored_status = tdc(tte_lastfup),
+  lastfup_status = tdc(tte_lastfup),
 
   vaxany1 = event(tte_vaxany1),
   vaxany2 = event(tte_vaxany2),
@@ -302,6 +303,7 @@ data_tte_cp0 <- tmerge(
   vaxpfizer2 = event(tte_vaxpfizer2),
   vaxaz1 = event(tte_vaxaz1),
   vaxaz2 = event(tte_vaxaz2),
+  covidtest = event(tte_covidtest),
   postest = event(tte_postest),
   emergency = event(tte_emergency),
   covidadmitted = event(tte_covidadmitted),
@@ -309,7 +311,7 @@ data_tte_cp0 <- tmerge(
   noncoviddeath = event(tte_noncoviddeath),
   death = event(tte_death),
   dereg = event(tte_dereg),
-  censored = event(tte_lastfup),
+  lastfup = event(tte_lastfup),
 
   tstart = 0L,
   tstop = tte_enddate
@@ -363,13 +365,14 @@ mutate(across(
             "vaxpfizer2",
             "vaxaz1",
             "vaxaz2",
+            "covidtest",
             "postest",
             "emergency",
             "covidadmitted",
             "coviddeath",
             "noncoviddeath",
             "death",
-            "censored",
+            "lastfup",
             "hospital_status",
             "hosp_discharge",
             "suspected_covid",
@@ -475,6 +478,7 @@ data_tte_pt <- tmerge(
               "vaxpfizer2",
               "vaxaz1",
               "vaxaz2",
+              "covidtest",
               "postest",
               "emergency",
               "covidadmitted",
@@ -482,7 +486,7 @@ data_tte_pt <- tmerge(
               "noncoviddeath",
               "death",
               "dereg",
-              "censored",
+              "lastfup",
               "hospital_status",
               "hosp_discharge",
               "probable_covid",

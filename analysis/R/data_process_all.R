@@ -77,6 +77,7 @@ data_extract0 <- read_csv(
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
     prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
+    prior_covidadmittedordinary_date = col_date(format="%Y-%m-%d"),
 
     admitted_0_date = col_date(format="%Y-%m-%d"),
     admitted_1_date = col_date(format="%Y-%m-%d"),
@@ -119,6 +120,8 @@ data_extract0 <- read_csv(
     covid_vax_az_3_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_4_date = col_date(format="%Y-%m-%d"),
 
+    covid_test_1_date = col_date(format="%Y-%m-%d"),
+    covid_test_2_date = col_date(format="%Y-%m-%d"),
     positive_test_1_date = col_date(format="%Y-%m-%d"),
     positive_test_2_date = col_date(format="%Y-%m-%d"),
     primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
@@ -127,6 +130,8 @@ data_extract0 <- read_csv(
     emergency_2_date = col_date(format="%Y-%m-%d"),
     covidadmitted_1_date = col_date(format="%Y-%m-%d"),
     covidadmitted_2_date = col_date(format="%Y-%m-%d"),
+    covidadmittedunplanned_1_date = col_date(format="%Y-%m-%d"),
+    covidadmittedunplanned_2_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 

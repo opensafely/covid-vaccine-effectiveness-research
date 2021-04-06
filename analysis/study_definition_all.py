@@ -309,12 +309,19 @@ study = StudyDefinition(
     ),
 
     # simple care home flag
-    care_home=patients.satisfying(
+    care_home_tpp=patients.satisfying(
         """care_home_type""",
         return_expectations={
             "category": {"ratios": {"1": 0.15, "0": 0.85}},
             "incidence": 1,
         },
+    ),
+    
+    care_home_primis=patients.with_these_clinical_events(
+        carehome_primis_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.1},
     ),
 
     ###############################################################################
@@ -548,10 +555,50 @@ study = StudyDefinition(
         },
     ),
     
+        prior_covidadmittedordinary_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        with_patient_classification="1",
+        on_or_before="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-02-01"},
+            "rate": "exponential_increase",
+            "incidence": 0.01,
+        },
+    ),
+    
     
     ################################################
     ############ events during study period ########
     ################################################
+    
+    # SGSS POSITIVE    
+    covid_test_1_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="any",
+        on_or_after="index_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-01-01",  "latest" : "2021-02-01"},
+            "rate": "exponential_increase",
+        },
+    ),
+    covid_test_2_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="any",
+        on_or_after="covid_test_1_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-02-01", "latest" : "2021-04-01"},
+            "rate": "uniform",
+        },
+    ),
     
     # SGSS POSITIVE    
     positive_test_1_date=patients.with_test_result_in_sgss(
@@ -658,6 +705,35 @@ study = StudyDefinition(
     covidadmitted_2_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
+        on_or_after="covidadmitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-07-01", "latest" : "2021-08-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    # COVID-RELATED UNPLANNED HOSPITAL ADMISSION
+    covidadmittedunplanned_1_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        on_or_after="index_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    covidadmittedunplanned_2_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         on_or_after="covidadmitted_1_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -1141,19 +1217,19 @@ study = StudyDefinition(
         
         flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
             target_disease_matches="INFLUENZA",
-            between=["index_date - 5 years", "index_date"],  # current flu season
+            between=["2015-04-01", "2020-03-31"], 
             returning="binary_flag",
         ),
         
         flu_vaccine_med=patients.with_these_medications(
             flu_med_codes,
-            between=["index_date - 5 years", "index_date"],  # current flu season
+            between=["2015-04-01", "2020-03-31"], 
             returning="binary_flag",
         ),
         flu_vaccine_clinical=patients.with_these_clinical_events(
             flu_clinical_given_codes,
             ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
-            between=["index_date - 5 years", "index_date"],  # current flu season
+            between=["2015-04-01", "2020-03-31"], 
             returning="binary_flag",
         ),
         

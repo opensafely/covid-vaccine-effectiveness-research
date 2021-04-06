@@ -115,7 +115,7 @@ list2env(metadata_cohorts, globalenv())
 
 data_pt <- data_pt %>%
 left_join(data_fixed, by = "patient_id") %>%
-filter(censored_status==0)
+filter(lastfup_status==0)
 
 
 data_by_day <-
@@ -133,31 +133,35 @@ data_pt %>%
       labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
       right=FALSE
     ),
-    postest_status,
     day = tstop-1,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
     date = week,
+
     vaxany_status_onedose = vaxany_status!=0,
     vaxany_status = fct_case_when(
       vaxany_status==0 ~ "Not vaccinated",
       vaxany_status==1 ~ "One dose",
       vaxany_status==2 ~ "Two doses",
+      lastfup_status==1 ~ "Died/deregistered",
       TRUE ~ NA_character_
     ),
     vaxbrand_status = fct_case_when(
       vaxpfizer_status==0 & vaxaz_status==0 ~ "Not vaccinated",
       vaxpfizer_status>0 ~ "Pfizer",
       vaxaz_status>0 ~ "AZ",
+      lastfup_status==1 ~ "Died/deregistered",
       TRUE ~ NA_character_
     ),
 
+    lastfup,
     death,
     noncoviddeath=death & !coviddeath,
     coviddeath,
     covidadmitted,
     postest,
 
+    lastfup_status,
     death_status,
     noncoviddeath_status=death_status & !coviddeath_status,
     coviddeath_status,
@@ -470,3 +474,27 @@ vars_df %>%
     ggsave)
   )
 
+
+## end-date status ----
+
+tab_end_status <- data_pt %>%
+  filter(lastfup == 1) %>%
+  summarise(
+    n = n(),
+    alive_unvax = sum(vaxany_status==0 & death_status==0),
+    vaxany = sum(vaxany_status>0 & death_status==0),
+    vaxpfizer = sum(vaxpfizer_status>0 & death_status==0),
+    vaxaz = sum(vaxaz_status>0 & death_status==0),
+    dead_unvax = sum(vaxany_status==0 & death_status==0),
+    dereg_unvax = sum(vaxany_status==0 & dereg_status==0),
+
+    pt_days = sum(tstop),
+    pt_years = sum(tstop)/365.25,
+    fup_min = min(tstop),
+    fup_q1 = quantile(tstop, 0.25),
+    fup_median = median(tstop),
+    fup_q3 = quantile(tstop, 0.75),
+    max_fup = max(tstop),
+  )
+
+write_csv(tab_end_status, here::here("output", cohort, "descr", "tables", "end_status.csv"))
