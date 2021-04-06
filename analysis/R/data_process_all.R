@@ -119,6 +119,8 @@ data_extract0 <- read_csv(
     covid_vax_az_3_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_4_date = col_date(format="%Y-%m-%d"),
 
+    covid_test_1_date = col_date(format="%Y-%m-%d"),
+    covid_test_2_date = col_date(format="%Y-%m-%d"),
     positive_test_1_date = col_date(format="%Y-%m-%d"),
     positive_test_2_date = col_date(format="%Y-%m-%d"),
     primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
