@@ -130,7 +130,7 @@ data_tte <- data_all  %>%
     covid_vax_az_1_date,
     covid_vax_az_2_date,
 
-    covid_test_1_sate,
+    covid_test_1_date,
     positive_test_1_date,
     emergency_1_date,
     covidadmitted_1_date,
