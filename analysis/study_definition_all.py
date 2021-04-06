@@ -1141,19 +1141,19 @@ study = StudyDefinition(
         
         flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
             target_disease_matches="INFLUENZA",
-            between=["index_date - 5 years", "index_date"],  # current flu season
+            between=["2015-04-01", "2020-03-31"], 
             returning="binary_flag",
         ),
         
         flu_vaccine_med=patients.with_these_medications(
             flu_med_codes,
-            between=["index_date - 5 years", "index_date"],  # current flu season
+            between=["2015-04-01", "2020-03-31"], 
             returning="binary_flag",
         ),
         flu_vaccine_clinical=patients.with_these_clinical_events(
             flu_clinical_given_codes,
             ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
-            between=["index_date - 5 years", "index_date"],  # current flu season
+            between=["2015-04-01", "2020-03-31"], 
             returning="binary_flag",
         ),
         
