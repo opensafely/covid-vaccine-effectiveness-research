@@ -96,6 +96,7 @@ actions:
     outputs:
       moderately_sensitive:
         plots: output/over80s/descr/plots/*.svg
+        tables: output/over80s/descr/tables/*.csv
 
 
 
