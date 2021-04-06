@@ -561,6 +561,32 @@ study = StudyDefinition(
     ################################################
     
     # SGSS POSITIVE    
+    covid_test_1_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="any",
+        on_or_after="index_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-01-01",  "latest" : "2021-02-01"},
+            "rate": "exponential_increase",
+        },
+    ),
+    covid_test_2_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="any",
+        on_or_after="covid_test_1_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-02-01", "latest" : "2021-04-01"},
+            "rate": "uniform",
+        },
+    ),
+    
+    # SGSS POSITIVE    
     positive_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",

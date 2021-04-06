@@ -106,6 +106,9 @@ data_tte <- data_tte %>%
     # time to last follow up day
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
 
+    tte_covidtest =tte(start_date, covid_test_1_date, lastfup_date, na.censor=FALSE),
+    ind_covidtest = censor_indicator(covid_test_1_date, lastfup_date),
+
     tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=FALSE),
     ind_postest = censor_indicator(positive_test_1_date, lastfup_date),
 

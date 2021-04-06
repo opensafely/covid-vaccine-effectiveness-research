@@ -56,13 +56,14 @@ write_csv(metadata_cohorts, here::here("output", "data", "metadata_cohorts.csv")
 
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_var, ~outcome_descr,
- "postest", "positive_test_1_date", "Positive test",
- "emergency", "emergency_1_date", "A&E attendance",
- "covidadmitted", "covidadmitted_1_date", "COVID-related admission",
- "coviddeath", "coviddeath_date", "COVID-related death",
- "noncoviddeath", "noncoviddeath_date", "Non-COVID-related death",
- "death", "death_date", "Any death",
- "vaccine", "covid_vax_1_date", "First vaccination date"
+  "test", "covid_test_1_date", "Covid test",
+  "postest", "positive_test_1_date", "Positive test",
+  "emergency", "emergency_1_date", "A&E attendance",
+  "covidadmitted", "covidadmitted_1_date", "COVID-related admission",
+  "coviddeath", "coviddeath_date", "COVID-related death",
+  "noncoviddeath", "noncoviddeath_date", "Non-COVID-related death",
+  "death", "death_date", "Any death",
+  "vaccine", "covid_vax_1_date", "First vaccination date"
 )
 
 write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))
