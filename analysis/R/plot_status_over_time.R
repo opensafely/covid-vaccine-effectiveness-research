@@ -115,7 +115,7 @@ list2env(metadata_cohorts, globalenv())
 
 data_pt <- data_pt %>%
 left_join(data_fixed, by = "patient_id") %>%
-filter(censored_status==0)
+filter(lastfup_status==0)
 
 
 data_by_day <-
@@ -143,12 +143,14 @@ data_pt %>%
       vaxany_status==0 ~ "Not vaccinated",
       vaxany_status==1 ~ "One dose",
       vaxany_status==2 ~ "Two doses",
+      lastfup_status==1 ~ "Died/deregistered"
       TRUE ~ NA_character_
     ),
     vaxbrand_status = fct_case_when(
       vaxpfizer_status==0 & vaxaz_status==0 ~ "Not vaccinated",
       vaxpfizer_status>0 ~ "Pfizer",
       vaxaz_status>0 ~ "AZ",
+      lastfup_status==1 ~ "Died/deregistered"
       TRUE ~ NA_character_
     ),
 

@@ -294,7 +294,7 @@ data_tte_cp0 <- tmerge(
   noncoviddeath_status = tdc(tte_noncoviddeath),
   death_status = tdc(tte_death),
   dereg_status= tdc(tte_dereg),
-  censored_status = tdc(tte_lastfup),
+  lastfup_status = tdc(tte_lastfup),
 
   vaxany1 = event(tte_vaxany1),
   vaxany2 = event(tte_vaxany2),
@@ -309,7 +309,7 @@ data_tte_cp0 <- tmerge(
   noncoviddeath = event(tte_noncoviddeath),
   death = event(tte_death),
   dereg = event(tte_dereg),
-  censored = event(tte_lastfup),
+  lastfup = event(tte_lastfup),
 
   tstart = 0L,
   tstop = tte_enddate
@@ -369,7 +369,7 @@ mutate(across(
             "coviddeath",
             "noncoviddeath",
             "death",
-            "censored",
+            "lastfup",
             "hospital_status",
             "hosp_discharge",
             "suspected_covid",
@@ -482,7 +482,7 @@ data_tte_pt <- tmerge(
               "noncoviddeath",
               "death",
               "dereg",
-              "censored",
+              "lastfup",
               "hospital_status",
               "hosp_discharge",
               "probable_covid",
