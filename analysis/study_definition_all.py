@@ -555,6 +555,20 @@ study = StudyDefinition(
         },
     ),
     
+        prior_covidadmittedordinary_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        with_patient_classification="1",
+        on_or_before="index_date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-02-01"},
+            "rate": "exponential_increase",
+            "incidence": 0.01,
+        },
+    ),
+    
     
     ################################################
     ############ events during study period ########
@@ -691,6 +705,35 @@ study = StudyDefinition(
     covidadmitted_2_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
+        on_or_after="covidadmitted_1_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-07-01", "latest" : "2021-08-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    # COVID-RELATED UNPLANNED HOSPITAL ADMISSION
+    covidadmittedunplanned_1_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        on_or_after="index_date + 1 day",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+    
+    covidadmittedunplanned_2_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        with_these_diagnoses=covid_codes,
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         on_or_after="covidadmitted_1_date + 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
