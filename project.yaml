@@ -370,14 +370,14 @@ actions:
 
 
   models_cox_over80s_covidadmitted_any_all_dose1:
-    run: r:latest analysis/R/model_cox_dose1.R over80s covidadmitted any all
+    run: r:latest analysis/R/model_cox_dose1.R over80s covidadmitted any all region
     needs: [data_define_cohorts, data_stset_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/covidadmitted/any/all/*/modelcox*.rds
 
   report_cox_over80s_covidadmitted_any_all_dose1:
-    run: r:latest analysis/R/report_cox_dose1.R over80s covidadmitted any all
+    run: r:latest analysis/R/report_cox_dose1.R over80s covidadmitted any all region
     needs: [data_define_cohorts, models_cox_over80s_covidadmitted_any_all_dose1]
     outputs:
       moderately_sensitive:
