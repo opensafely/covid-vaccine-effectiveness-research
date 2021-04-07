@@ -79,21 +79,20 @@ data_extract0 <- read_csv(
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
     prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
-    prior_covidadmittedordinary_date = col_date(format="%Y-%m-%d"),
 
-    admitted_0_date = col_date(format="%Y-%m-%d"),
-    admitted_1_date = col_date(format="%Y-%m-%d"),
-    admitted_2_date = col_date(format="%Y-%m-%d"),
-    admitted_3_date = col_date(format="%Y-%m-%d"),
-    admitted_4_date = col_date(format="%Y-%m-%d"),
-    admitted_5_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_0_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_1_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_2_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_3_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_4_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_5_date = col_date(format="%Y-%m-%d"),
 
-    discharged_0_date = col_date(format="%Y-%m-%d"),
-    discharged_1_date = col_date(format="%Y-%m-%d"),
-    discharged_2_date = col_date(format="%Y-%m-%d"),
-    discharged_3_date = col_date(format="%Y-%m-%d"),
-    discharged_4_date = col_date(format="%Y-%m-%d"),
-    discharged_5_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_0_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_1_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_2_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_3_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_4_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_5_date = col_date(format="%Y-%m-%d"),
 
     primary_care_probable_covid_1_date = col_date(format="%Y-%m-%d"),
     primary_care_probable_covid_2_date = col_date(format="%Y-%m-%d"),
@@ -132,8 +131,6 @@ data_extract0 <- read_csv(
     emergency_2_date = col_date(format="%Y-%m-%d"),
     covidadmitted_1_date = col_date(format="%Y-%m-%d"),
     covidadmitted_2_date = col_date(format="%Y-%m-%d"),
-    covidadmittedunplanned_1_date = col_date(format="%Y-%m-%d"),
-    covidadmittedunplanned_2_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
@@ -322,14 +319,14 @@ data_processed <- data_extract_reordered %>%
 
 
 data_admissions <- data_processed %>%
-    select(patient_id, matches("^admitted\\_\\d+\\_date"), matches("^discharged\\_\\d+\\_date")) %>%
+    select(patient_id, matches("^admitted\\_unplanned\\_\\d+\\_date"), matches("^discharged\\_unplanned\\_\\d+\\_date")) %>%
     pivot_longer(
       cols = -patient_id,
       names_to = c(".value", "index"),
       names_pattern = "^(.*)_(\\d+)_date",
       values_drop_na = TRUE
     ) %>%
-    select(patient_id, index, admitted_date=admitted, discharged_date = discharged) %>%
+    select(patient_id, index, admitted_date=admitted_unplanned, discharged_date = discharged_unplanned) %>%
     arrange(patient_id, admitted_date)
 
 data_pr_suspected_covid <- data_processed %>%
