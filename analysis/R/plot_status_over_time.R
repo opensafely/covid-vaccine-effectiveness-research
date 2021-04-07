@@ -115,9 +115,7 @@ list2env(metadata_cohorts, globalenv())
 # create plots ----
 
 data_pt <- data_pt %>%
-left_join(data_fixed, by = "patient_id") %>%
-filter(lastfup_status==0)
-
+left_join(data_fixed, by = "patient_id")
 
 data_by_day <-
 data_pt %>%
@@ -141,17 +139,17 @@ data_pt %>%
 
     vaxany_status_onedose = vaxany_status!=0,
     vaxany_status = fct_case_when(
-      vaxany_status==0 ~ "Not vaccinated",
+      vaxany_status==0 & death_status==0 & dereg_status==0 ~ "Not vaccinated",
       vaxany_status==1 ~ "One dose",
       vaxany_status==2 ~ "Two doses",
-      lastfup_status==1 ~ "Died/deregistered",
+      death_status==1 | dereg_status==1 ~ "Died/deregistered",
       TRUE ~ NA_character_
     ),
     vaxbrand_status = fct_case_when(
-      vaxpfizer_status==0 & vaxaz_status==0 ~ "Not vaccinated",
+      vaxpfizer_status==0 & vaxaz_status==0  & death_status==0 & dereg_status==0 ~ "Not vaccinated",
       vaxpfizer_status>0 ~ "Pfizer",
       vaxaz_status>0 ~ "AZ",
-      lastfup_status==1 ~ "Died/deregistered",
+      death_status==1 | dereg_status==1 ~ "Died/deregistered",
       TRUE ~ NA_character_
     ),
 
@@ -185,7 +183,9 @@ data_pt %>%
        lag_vaxany_status_onedose==1 ~ ">= 14 days post-vaccine",
        TRUE ~ NA_character_
     )
-  ) %>% ungroup() %>% droplevels()
+  ) %>%
+  ungroup() %>%
+  droplevels()
 
 
 ## cumulative vaccination status ----
@@ -214,7 +214,7 @@ plot_vax_counts <- function(var, var_descr){
     geom_area(aes(x=date, y=n_per_10000, group=vaxany_status, fill=vaxany_status), alpha=0.5)+
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
-    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77", "grey"))+
     labs(
       x=NULL,
       y="Status per 10,000 patients",
@@ -254,7 +254,7 @@ plot_brand_counts <- function(var, var_descr){
     geom_area(aes(x=date, y=n_per_10000, group=vaxbrand_status, fill=vaxbrand_status), alpha=0.5)+
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
-    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77", "grey"))+
     labs(
       x=NULL,
       y="Status per 10,000 patients",
@@ -399,7 +399,6 @@ mutate(
     ),
     ggsave)
   )
-
 
 
 vars_df %>%
