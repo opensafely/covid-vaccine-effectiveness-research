@@ -284,6 +284,15 @@ study = StudyDefinition(
             },
         },
     ),
+    
+    rural_urban=patients.address_as_of(
+        "2020-03-01",
+        returning="rural_urban_classification",
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {1: 0.125, 2: 0.125, 3: 0.125, 4: 0.125, 5: 0.125, 6: 0.125, 7: 0.125, 8: 0.125}},
+        },
+    ),
 
     # CAREHOME STATUS
     care_home_type=patients.care_home_status_as_of(
@@ -311,10 +320,7 @@ study = StudyDefinition(
     # simple care home flag
     care_home_tpp=patients.satisfying(
         """care_home_type""",
-        return_expectations={
-            "category": {"ratios": {"1": 0.15, "0": 0.85}},
-            "incidence": 1,
-        },
+        return_expectations={"incidence": 0.1},
     ),
     
     care_home_primis=patients.with_these_clinical_events(

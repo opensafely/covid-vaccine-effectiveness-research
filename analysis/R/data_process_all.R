@@ -59,8 +59,10 @@ data_extract0 <- read_csv(
     stp = col_character(),
     region = col_character(),
     imd = col_character(),
+    rural_urban = col_integer(),
     care_home_type = col_character(),
-    care_home = col_logical(),
+    care_home_tpp = col_logical(),
+    care_home_primis = col_logical(),
 
     registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),

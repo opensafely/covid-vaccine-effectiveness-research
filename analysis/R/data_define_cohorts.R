@@ -21,8 +21,8 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 data_cohorts <- data_all %>%
   transmute(
     patient_id,
-    over80s = (age>=80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
-    in70s = (age>=70 & age<80) & (is.na(care_home_type)) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)) ,
+    over80s = (age>=80) & (!care_home_tpp) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
+    in70s = (age>=70 & age<80) & (!care_home_tpp) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)) ,
     under65s = (age<=64) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
   )
 
