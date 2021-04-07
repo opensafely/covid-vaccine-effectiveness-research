@@ -79,6 +79,7 @@ gbl_vars <- jsonlite::fromJSON(
 
 ## create output directories ----
 dir.create(here::here("output", cohort, "descr", "plots"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE, recursive=TRUE)
 
 ## define theme ----
 
