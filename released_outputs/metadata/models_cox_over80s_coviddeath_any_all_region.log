@@ -1,0 +1,60 @@
+2021-04-08T01:59:39.607124500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-08T01:59:39.617866100Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-08T01:59:39.617985300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-08T01:59:39.617995500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-08T01:59:39.618002700Z v readr   1.3.1     v forcats 0.5.0
+2021-04-08T01:59:39.866210800Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-08T01:59:39.866289000Z x dplyr::filter() masks stats::filter()
+2021-04-08T01:59:39.866297800Z x dplyr::lag()    masks stats::lag()
+2021-04-08T01:59:42.316295600Z 
+2021-04-08T01:59:42.316360100Z Attaching package: 'lubridate'
+2021-04-08T01:59:42.316369200Z 
+2021-04-08T01:59:42.318050000Z The following objects are masked from 'package:base':
+2021-04-08T01:59:42.318081600Z 
+2021-04-08T01:59:42.318089900Z     date, intersect, setdiff, union
+2021-04-08T01:59:42.318097000Z 
+2021-04-08T01:59:42.714892300Z <environment: R_GlobalEnv>
+2021-04-08T01:59:42.715036700Z <environment: R_GlobalEnv>
+2021-04-08T01:59:46.154621400Z data_cox data size = 100000 
+2021-04-08T01:59:46.157055600Z   memory usage = 0.046 GB 
+2021-04-08T01:59:46.282196900Z     
+2021-04-08T01:59:46.282244400Z all   
+2021-04-08T01:59:46.282252700Z   
+2021-04-08T01:59:46.865722100Z   
+2021-04-08T01:59:46.865781500Z coxmod0 
+2021-04-08T02:01:10.263829100Z coxmod0 data size = 100000 
+2021-04-08T02:01:11.241017800Z memory usage = 0.46 GB 
+2021-04-08T02:01:56.178004500Z   
+2021-04-08T02:01:56.178141800Z coxmod1 
+2021-04-08T02:05:25.908538200Z coxmod1 data size = 100000 
+2021-04-08T02:05:26.931379400Z memory usage = 0.46 GB 
+2021-04-08T02:07:13.965325700Z   
+2021-04-08T02:07:13.965410400Z coxmod2 
+2021-04-08T02:14:34.436476100Z coxmod2 data size = 100000 
+2021-04-08T02:14:35.488544000Z memory usage = 0.46 GB 
+2021-04-08T02:17:26.653228000Z NULL
+2021-04-08T02:17:26.653300000Z   
+2021-04-08T02:17:33.251694800Z Warning message:
+2021-04-08T02:17:33.251792200Z In fitter(X, Y, istrat, offset, init, control, weights = weights,  :
+2021-04-08T02:17:33.251801900Z   Loglik converged before variable  32 ; coefficient may be infinite. 
+2021-04-08T02:17:33.251828400Z            used  (Mb) gc trigger   (Mb) max used  (Mb)
+2021-04-08T02:17:33.251839400Z Ncells  2166453 115.8   24587447 1313.2  2166453 115.8
+2021-04-08T02:17:33.251847200Z Vcells 28501434 217.5 1039329975 7929.5 28501434 217.5
+
+
+state: succeeded
+commit: d47632fa4f9ec6616e4e80cda80d946594612eee
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: rnolajw62i4aryqb
+run_by_user: wjchulme
+created_at: 2021-04-07T20:48:06Z
+started_at: 2021-04-08T01:59:36Z
+completed_at: 2021-04-08T02:17:42Z
+
+Completed successfully
+
+outputs:
+  output/over80s/coviddeath/any/all/all/region/modelcox0.rds  - highly_sensitive
+  output/over80s/coviddeath/any/all/all/region/modelcox1.rds  - highly_sensitive
+  output/over80s/coviddeath/any/all/all/region/modelcox2.rds  - highly_sensitive

@@ -1,0 +1,486 @@
+2021-04-07T08:55:04.676925200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-07T08:55:04.686081900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-07T08:55:04.686165800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-07T08:55:04.686174500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-07T08:55:04.686181500Z v readr   1.3.1     v forcats 0.5.0
+2021-04-07T08:55:04.854517100Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-07T08:55:04.854596700Z x dplyr::filter() masks stats::filter()
+2021-04-07T08:55:04.854605200Z x dplyr::lag()    masks stats::lag()
+2021-04-07T08:55:06.953263300Z 
+2021-04-07T08:55:06.953315000Z Attaching package: 'lubridate'
+2021-04-07T08:55:06.953324400Z 
+2021-04-07T08:55:06.954817500Z The following objects are masked from 'package:base':
+2021-04-07T08:55:06.954850900Z 
+2021-04-07T08:55:06.954859600Z     date, intersect, setdiff, union
+2021-04-07T08:55:06.954866900Z 
+2021-04-07T08:55:07.324714000Z <environment: R_GlobalEnv>
+2021-04-07T08:55:07.324859600Z <environment: R_GlobalEnv>
+2021-04-07T08:55:10.444202800Z data_cox data size = 100000 
+2021-04-07T08:55:10.446297800Z   memory usage = 0.046 GB 
+2021-04-07T08:55:10.560703300Z     
+2021-04-07T08:55:10.560768300Z all   
+2021-04-07T08:55:10.560776900Z   
+2021-04-07T08:55:11.051489300Z   
+2021-04-07T08:55:11.051540000Z coxmod0 
+2021-04-07T08:56:32.933261200Z coxmod0 data size = 100000 
+2021-04-07T08:56:35.107154200Z memory usage = 0.586 GB 
+2021-04-07T08:57:30.327081700Z   
+2021-04-07T08:57:30.327175200Z coxmod1 
+2021-04-07T09:00:55.634145900Z coxmod1 data size = 100000 
+2021-04-07T09:00:56.642069800Z memory usage = 0.586 GB 
+2021-04-07T09:03:07.385430700Z   
+2021-04-07T09:03:07.385505700Z coxmod2 
+2021-04-07T09:10:09.459479300Z coxmod2 data size = 100000 
+2021-04-07T09:10:10.475303800Z memory usage = 0.586 GB 
+2021-04-07T09:13:40.684842600Z NULL
+2021-04-07T09:13:40.684931100Z   
+2021-04-07T09:13:46.499478500Z            used  (Mb) gc trigger    (Mb) max used  (Mb)
+2021-04-07T09:13:46.499558400Z Ncells  2166267 115.7   23217312  1240.0  2166267 115.7
+2021-04-07T09:13:46.499567500Z Vcells 28500855 217.5 1310984947 10002.1 28500855 217.5
+
+
+state: failed
+commit: 6cf778757d527dee94fbd7085b734ad91535462c
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: ehprm6wskhclnmoh
+run_by_user: wjchulme
+created_at: 2021-04-07T08:45:58Z
+started_at: 2021-04-07T08:55:02Z
+completed_at: 2021-04-07T09:13:54Z
+
+No outputs found matching patterns:
+ - output/over80s/covidadmitted/any/all/*/modelcox*.rds
+
+Did you mean to match one of these files instead?
+ - .github/workflows/test_runner.yaml
+ - .gitignore
+ - Dockerfile
+ - README.md
+ - analysis/R/data_define_cohorts.R
+ - analysis/R/data_doses_process_period.R
+ - analysis/R/data_process_all.R
+ - analysis/R/data_properties.R
+ - analysis/R/data_stset.R
+ - analysis/R/format_codelists.R
+ - analysis/R/model_cox_dose1.R
+ - analysis/R/model_msm_dose1.R
+ - analysis/R/models_msms_dose12.R
+ - analysis/R/plot_outcomes_per_day.R
+ - analysis/R/plot_status_over_time.R
+ - analysis/R/report_cox_dose1.R
+ - analysis/R/report_ipw_dose1.R
+ - analysis/R/report_msm_dose1.R
+ - analysis/R/report_msm_dose12.R
+ - analysis/R/study_definition_over80s_flow_chart.Rmd
+ - analysis/R/table1.R
+ - analysis/R/vaxmodel_cox.R
+ - analysis/R/vaxreport_cox.R
+ - analysis/codelists.py
+ - analysis/global-variables.json
+ - analysis/r_codelists.py
+ - analysis/study_definition_all.py
+ - analysis/study_definition_over80s_flow_chart.py
+ - codelists/codelists.json
+ - codelists/codelists.txt
+ - codelists/opensafely-asplenia.csv
+ - codelists/opensafely-bone-marrow-transplant.csv
+ - codelists/opensafely-cancer-excluding-lung-and-haematological.csv
+ - codelists/opensafely-cerebral-palsy.csv
+ - codelists/opensafely-chemotherapy-or-radiotherapy.csv
+ - codelists/opensafely-chronic-cardiac-disease.csv
+ - codelists/opensafely-chronic-liver-disease.csv
+ - codelists/opensafely-covid-identification-in-primary-care-exposure-to-disease.csv
+ - codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv
+ - codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv
+ - codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv
+ - codelists/opensafely-covid-identification-in-primary-care-suspected-covid-advice.csv
+ - codelists/opensafely-covid-identification-in-primary-care-suspected-covid-had-test.csv
+ - codelists/opensafely-covid-identification-in-primary-care-suspected-covid-isolation-code.csv
+ - codelists/opensafely-covid-identification-in-primary-care-suspected-covid-nonspecific-clinical-assessment.csv
+ - codelists/opensafely-covid-identification.csv
+ - codelists/opensafely-current-copd.csv
+ - codelists/opensafely-cystic-fibrosis.csv
+ - codelists/opensafely-dementia-complete.csv
+ - codelists/opensafely-diabetes.csv
+ - codelists/opensafely-dialysis.csv
+ - codelists/opensafely-dmards.csv
+ - codelists/opensafely-down-syndrome.csv
+ - codelists/opensafely-ethnicity.csv
+ - codelists/opensafely-haematological-cancer.csv
+ - codelists/opensafely-heart-failure.csv
+ - codelists/opensafely-influenza-vaccination-clinical-codes-given.csv
+ - codelists/opensafely-influenza-vaccination-clinical-codes-not-given.csv
+ - codelists/opensafely-influenza-vaccination.csv
+ - codelists/opensafely-learning-disabilities.csv
+ - codelists/opensafely-lung-cancer.csv
+ - codelists/opensafely-other-heart-disease.csv
+ - codelists/opensafely-other-neurological-conditions.csv
+ - codelists/opensafely-other-respiratory-conditions.csv
+ - codelists/opensafely-permanent-immunosuppression.csv
+ - codelists/opensafely-psychosis-schizophrenia-bipolar-affective-disease.csv
+ - codelists/opensafely-sickle-cell-disease.csv
+ - codelists/opensafely-solid-organ-transplantation.csv
+ - codelists/opensafely-temporary-immunosuppression.csv
+ - codelists/primis-covid19-vacc-uptake-longres.csv
+ - config/jupyter_notebook_config.py
+ - config/kernel.json
+ - config/nbval_sanitize_file.conf
+ - docs/.gitkeep
+ - lib/.gitkeep
+ - lib/ethnicity_16_lookup.csv
+ - lib/export_package_names.R
+ - lib/functions.py
+ - lib/html_output_functions.R
+ - lib/redaction_functions.R
+ - lib/survival_functions.R
+ - lib/utility_functions.R
+ - logs/.gitkeep
+ - output/.gitignore
+ - output/data/data_cohorts.rds
+ - output/data/list_formula.rds
+ - output/data/list_strata.rds
+ - output/data/metadata_cohorts.csv
+ - output/data/metadata_cohorts.rds
+ - output/data/metadata_outcomes.rds
+ - output/over80s/covidadmitted/any/all/all/region/modelcox0.rds
+ - output/over80s/covidadmitted/any/all/all/region/modelcox1.rds
+ - output/over80s/covidadmitted/any/all/all/region/modelcox2.rds
+ - output/over80s/data/data_cp.rds
+ - output/over80s/data/data_pt.rds
+ - output/over80s/data/data_wide_fixed.rds
+ - output/over80s/data/data_wide_tte.rds
+ - output/plots/folder_fil.txt
+ - output/plots/folder_fil2.txt
+ - output/tables/folder_fil.txt
+ - project.yaml
+ - released_outputs/README.md
+ - released_outputs/metadata/data_define_cohorts.log
+ - released_outputs/metadata/data_process_all.log
+ - released_outputs/metadata/data_properties_all.log
+ - released_outputs/metadata/data_properties_over80s_fixed.log
+ - released_outputs/metadata/data_properties_over80s_tte.log
+ - released_outputs/metadata/data_stset_over80s.log
+ - released_outputs/metadata/descr_events_over80s.log
+ - released_outputs/metadata/descr_eventsperday_over80s.log
+ - released_outputs/metadata/descr_table1_over80s.log
+ - released_outputs/metadata/extract_all.log
+ - released_outputs/metadata/flow_chart_over80s.log
+ - released_outputs/metadata/generate_flowchartdata.log
+ - released_outputs/metadata/generate_over80s_flow_chart_data.log
+ - released_outputs/metadata/manifest.json
+ - released_outputs/metadata/models_cox_over80s_coviddeath_any_all_dose1.log
+ - released_outputs/metadata/models_cox_over80s_death_any_all_dose1.log
+ - released_outputs/metadata/models_cox_over80s_emergency_any_all_dose1.log
+ - released_outputs/metadata/models_cox_over80s_noncoviddeath_any_all_dose1.log
+ - released_outputs/metadata/models_cox_over80s_postest_any_all_all_dose1.log
+ - released_outputs/metadata/models_cox_over80s_postest_any_all_dose1.log
+ - released_outputs/metadata/models_cox_over80s_postest_any_all_msoa_dose1.log
+ - released_outputs/metadata/models_cox_over80s_postest_any_all_region_dose1.log
+ - released_outputs/metadata/models_cox_over80s_postest_any_all_stp_dose1.log
+ - released_outputs/metadata/models_msm_over80s.log
+ - released_outputs/metadata/models_msm_over80s_any_all_dose1.log
+ - released_outputs/metadata/models_msm_over80s_any_dose1.log
+ - released_outputs/metadata/models_msm_over80s_any_sex_dose1.log
+ - released_outputs/metadata/models_msm_over80s_az.log
+ - released_outputs/metadata/models_msm_over80s_az_all_dose1.log
+ - released_outputs/metadata/models_msm_over80s_az_dose1.log
+ - released_outputs/metadata/models_msm_over80s_az_sex_dose1.log
+ - released_outputs/metadata/models_msm_over80s_pfizer.log
+ - released_outputs/metadata/models_msm_over80s_pfizer_all_dose1.log
+ - released_outputs/metadata/models_msm_over80s_pfizer_dose1.log
+ - released_outputs/metadata/models_msm_over80s_pfizer_sex_dose1.log
+ - released_outputs/metadata/models_over80s_coviddeath_any_all_dose1.log
+ - released_outputs/metadata/models_over80s_coviddeath_az_all_dose1.log
+ - released_outputs/metadata/models_over80s_coviddeath_pfizer_all_dose1.log
+ - released_outputs/metadata/models_over80s_death_any_all_dose1.log
+ - released_outputs/metadata/models_over80s_emergency_any_all_dose1.log
+ - released_outputs/metadata/models_over80s_noncoviddeath_any_all_dose1.log
+ - released_outputs/metadata/models_over80s_noncoviddeath_az_all_dose1.log
+ - released_outputs/metadata/models_over80s_noncoviddeath_pfizer_all_dose1.log
+ - released_outputs/metadata/models_over80s_postest_any_all_dose1.log
+ - released_outputs/metadata/models_over80s_postest_az_all_dose1.log
+ - released_outputs/metadata/models_over80s_postest_pfizer_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_coviddeath_any_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_death_any_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_emergency_any_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_noncoviddeath_any_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_postest_any_all_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_postest_any_all_dose1.log
+ - released_outputs/metadata/report_cox_over80s_postest_any_all_msoa_dose1.log
+ - released_outputs/metadata/report_cox_over80s_postest_any_all_region_dose1.log
+ - released_outputs/metadata/report_cox_over80s_postest_any_all_stp_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_coviddeath_any_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_death_any_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_emergency_any_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_noncoviddeath_any_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_noncoviddeath_az_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_noncoviddeath_pfizer_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_postest_any_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_postest_az_all_dose1.log
+ - released_outputs/metadata/report_ipw_over80s_postest_pfizer_all_dose1.log
+ - released_outputs/metadata/report_msm_over80s_any_all_dose1.log
+ - released_outputs/metadata/report_msm_over80s_az_all_dose1.log
+ - released_outputs/metadata/report_msm_over80s_pfizer_all_dose1.log
+ - released_outputs/metadata/report_over80s_coviddeath_any_all_dose1.log
+ - released_outputs/metadata/report_over80s_coviddeath_az_all_dose1.log
+ - released_outputs/metadata/report_over80s_coviddeath_pfizer_all_dose1.log
+ - released_outputs/metadata/report_over80s_death_any_all_dose1.log
+ - released_outputs/metadata/report_over80s_emergency_any_all_dose1.log
+ - released_outputs/metadata/report_over80s_noncoviddeath_any_all_dose1.log
+ - released_outputs/metadata/report_over80s_noncoviddeath_az_all_dose1.log
+ - released_outputs/metadata/report_over80s_noncoviddeath_pfizer_all_dose1.log
+ - released_outputs/metadata/report_over80s_postest_any_all_dose1.log
+ - released_outputs/metadata/report_over80s_postest_az_all_dose1.log
+ - released_outputs/metadata/report_over80s_postest_pfizer_all_dose1.log
+ - released_outputs/metadata/reportmodels_msm_over80s.log
+ - released_outputs/metadata/reportmodels_msm_over80s_any_dose1.log
+ - released_outputs/metadata/reportmodels_msm_over80s_az.log
+ - released_outputs/metadata/reportmodels_msm_over80s_az_dose1.log
+ - released_outputs/metadata/reportmodels_msm_over80s_pfizer.log
+ - released_outputs/metadata/reportmodels_msm_over80s_pfizer_dose1.log
+ - released_outputs/metadata/vaxmodels_cox_over80s_all_dose1.log
+ - released_outputs/metadata/vaxreport_over80s_all_dose1.log
+ - released_outputs/output/data/list_formula.rds
+ - released_outputs/output/data/list_strata.rds
+ - released_outputs/output/data/metadata_cohorts.csv
+ - released_outputs/output/data/metadata_cohorts.rds
+ - released_outputs/output/data/metadata_outcomes.rds
+ - released_outputs/output/data_properties/data_all_coltypes.txt
+ - released_outputs/output/data_properties/data_all_skim.txt
+ - released_outputs/output/data_properties/data_all_tabulate.txt
+ - released_outputs/output/over80s/coviddeath/any/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/coviddeath/any/all/all/plot_ipwvaxany1.svg
+ - released_outputs/output/over80s/coviddeath/any/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/coviddeath/any/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.csv
+ - released_outputs/output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.html
+ - released_outputs/output/over80s/coviddeath/any/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/coviddeath/any/all/all/weights_model_any.html
+ - released_outputs/output/over80s/coviddeath/any/all/all/weights_model_death.html
+ - released_outputs/output/over80s/coviddeath/any/all/all/weights_table.txt
+ - released_outputs/output/over80s/coviddeath/any/all/estimates.csv
+ - released_outputs/output/over80s/coviddeath/any/all/estimates_cox.csv
+ - released_outputs/output/over80s/coviddeath/any/all/forest_plot.svg
+ - released_outputs/output/over80s/coviddeath/any/all/forest_plot_cox.svg
+ - released_outputs/output/over80s/coviddeath/any/all/strata_vector.rds
+ - released_outputs/output/over80s/coviddeath/any/all/strata_vector_cox.rds
+ - released_outputs/output/over80s/coviddeath/any/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/coviddeath/any/all/time_trends_region_plot3.svg
+ - released_outputs/output/over80s/coviddeath/any/all/time_trends_region_plot4.svg
+ - released_outputs/output/over80s/coviddeath/az/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/coviddeath/az/all/all/weights_model_any.html
+ - released_outputs/output/over80s/coviddeath/az/all/all/weights_model_death.html
+ - released_outputs/output/over80s/coviddeath/az/all/all/weights_table.txt
+ - released_outputs/output/over80s/coviddeath/az/all/estimates.csv
+ - released_outputs/output/over80s/coviddeath/az/all/forest_plot.svg
+ - released_outputs/output/over80s/coviddeath/az/all/strata_vector.rds
+ - released_outputs/output/over80s/coviddeath/az/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/coviddeath/pfizer/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/coviddeath/pfizer/all/all/weights_model_any.html
+ - released_outputs/output/over80s/coviddeath/pfizer/all/all/weights_model_death.html
+ - released_outputs/output/over80s/coviddeath/pfizer/all/all/weights_table.txt
+ - released_outputs/output/over80s/coviddeath/pfizer/all/estimates.csv
+ - released_outputs/output/over80s/coviddeath/pfizer/all/forest_plot.svg
+ - released_outputs/output/over80s/coviddeath/pfizer/all/strata_vector.rds
+ - released_outputs/output/over80s/coviddeath/pfizer/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/data_properties/data_wide_fixed_coltypes.txt
+ - released_outputs/output/over80s/data_properties/data_wide_fixed_skim.txt
+ - released_outputs/output/over80s/data_properties/data_wide_fixed_tabulate.txt
+ - released_outputs/output/over80s/data_properties/data_wide_tte_coltypes.txt
+ - released_outputs/output/over80s/data_properties/data_wide_tte_skim.txt
+ - released_outputs/output/over80s/data_properties/data_wide_tte_tabulate.txt
+ - released_outputs/output/over80s/death/any/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/death/any/all/all/plot_ipwvaxany1.svg
+ - released_outputs/output/over80s/death/any/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/death/any/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/death/any/all/all/tab_ipwvaxany1.csv
+ - released_outputs/output/over80s/death/any/all/all/tab_ipwvaxany1.html
+ - released_outputs/output/over80s/death/any/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/death/any/all/all/weights_table.txt
+ - released_outputs/output/over80s/death/any/all/estimates.csv
+ - released_outputs/output/over80s/death/any/all/estimates_cox.csv
+ - released_outputs/output/over80s/death/any/all/forest_plot.svg
+ - released_outputs/output/over80s/death/any/all/forest_plot_cox.svg
+ - released_outputs/output/over80s/death/any/all/strata_vector.rds
+ - released_outputs/output/over80s/death/any/all/strata_vector_cox.rds
+ - released_outputs/output/over80s/death/any/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/death/any/all/time_trends_region_plot3.svg
+ - released_outputs/output/over80s/death/any/all/time_trends_region_plot4.svg
+ - released_outputs/output/over80s/descr/plots/brandcounts_ageband.svg
+ - released_outputs/output/over80s/descr/plots/brandcounts_all.svg
+ - released_outputs/output/over80s/descr/plots/brandcounts_ethnicity.svg
+ - released_outputs/output/over80s/descr/plots/brandcounts_imd.svg
+ - released_outputs/output/over80s/descr/plots/brandcounts_region.svg
+ - released_outputs/output/over80s/descr/plots/brandcounts_sex.svg
+ - released_outputs/output/over80s/descr/plots/eventcounts_ageband.svg
+ - released_outputs/output/over80s/descr/plots/eventcounts_all.svg
+ - released_outputs/output/over80s/descr/plots/eventcounts_ethnicity.svg
+ - released_outputs/output/over80s/descr/plots/eventcounts_imd.svg
+ - released_outputs/output/over80s/descr/plots/eventcounts_region.svg
+ - released_outputs/output/over80s/descr/plots/eventcounts_sex.svg
+ - released_outputs/output/over80s/descr/plots/eventrates_ageband.svg
+ - released_outputs/output/over80s/descr/plots/eventrates_all.svg
+ - released_outputs/output/over80s/descr/plots/eventrates_ethnicity.svg
+ - released_outputs/output/over80s/descr/plots/eventrates_imd.svg
+ - released_outputs/output/over80s/descr/plots/eventrates_region.svg
+ - released_outputs/output/over80s/descr/plots/eventrates_sex.svg
+ - released_outputs/output/over80s/descr/plots/vaxcounts_ageband.svg
+ - released_outputs/output/over80s/descr/plots/vaxcounts_all.svg
+ - released_outputs/output/over80s/descr/plots/vaxcounts_ethnicity.svg
+ - released_outputs/output/over80s/descr/plots/vaxcounts_imd.svg
+ - released_outputs/output/over80s/descr/plots/vaxcounts_region.svg
+ - released_outputs/output/over80s/descr/plots/vaxcounts_sex.svg
+ - released_outputs/output/over80s/descr/tables/table1.html
+ - released_outputs/output/over80s/descr/tables/table_pt.html
+ - released_outputs/output/over80s/emergency/any/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/emergency/any/all/all/plot_ipwvaxany1.svg
+ - released_outputs/output/over80s/emergency/any/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/emergency/any/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/emergency/any/all/all/tab_ipwvaxany1.csv
+ - released_outputs/output/over80s/emergency/any/all/all/tab_ipwvaxany1.html
+ - released_outputs/output/over80s/emergency/any/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/emergency/any/all/all/weights_model_any.html
+ - released_outputs/output/over80s/emergency/any/all/all/weights_model_death.html
+ - released_outputs/output/over80s/emergency/any/all/all/weights_table.txt
+ - released_outputs/output/over80s/emergency/any/all/estimates.csv
+ - released_outputs/output/over80s/emergency/any/all/estimates_cox.csv
+ - released_outputs/output/over80s/emergency/any/all/forest_plot.svg
+ - released_outputs/output/over80s/emergency/any/all/forest_plot_cox.svg
+ - released_outputs/output/over80s/emergency/any/all/strata_vector.rds
+ - released_outputs/output/over80s/emergency/any/all/strata_vector_cox.rds
+ - released_outputs/output/over80s/emergency/any/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/emergency/any/all/time_trends_region_plot3.svg
+ - released_outputs/output/over80s/emergency/any/all/time_trends_region_plot4.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/plot_ipwvaxany1.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/tab_ipwvaxany1.csv
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/tab_ipwvaxany1.html
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/all/weights_table.txt
+ - released_outputs/output/over80s/noncoviddeath/any/all/estimates.csv
+ - released_outputs/output/over80s/noncoviddeath/any/all/estimates_cox.csv
+ - released_outputs/output/over80s/noncoviddeath/any/all/forest_plot.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/forest_plot_cox.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/strata_vector.rds
+ - released_outputs/output/over80s/noncoviddeath/any/all/strata_vector_cox.rds
+ - released_outputs/output/over80s/noncoviddeath/any/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/time_trends_region_plot3.svg
+ - released_outputs/output/over80s/noncoviddeath/any/all/time_trends_region_plot4.svg
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/plot_ipwvaxaz1.svg
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/plot_ipwvaxfizer1.svg
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_ipwvaxaz1.csv
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_ipwvaxaz1.html
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_ipwvaxfizer1.html
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_ipwvaxpfizer1.csv
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/tab_pfizer_az.html
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/noncoviddeath/az/all/all/weights_table.txt
+ - released_outputs/output/over80s/noncoviddeath/az/all/estimates.csv
+ - released_outputs/output/over80s/noncoviddeath/az/all/forest_plot.svg
+ - released_outputs/output/over80s/noncoviddeath/az/all/strata_vector.rds
+ - released_outputs/output/over80s/noncoviddeath/az/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/plot_ipwvaxaz1.svg
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/plot_ipwvaxfizer1.svg
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_ipwvaxaz1.csv
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_ipwvaxaz1.html
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_ipwvaxfizer1.html
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_ipwvaxpfizer1.csv
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/tab_pfizer_az.html
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/all/weights_table.txt
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/estimates.csv
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/forest_plot.svg
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/strata_vector.rds
+ - released_outputs/output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/postest/any/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/postest/any/all/all/plot_ipwvaxany1.svg
+ - released_outputs/output/over80s/postest/any/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/postest/any/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/postest/any/all/all/tab_ipwvaxany1.csv
+ - released_outputs/output/over80s/postest/any/all/all/tab_ipwvaxany1.html
+ - released_outputs/output/over80s/postest/any/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/postest/any/all/all/weights_model_az.html
+ - released_outputs/output/over80s/postest/any/all/all/weights_model_death.html
+ - released_outputs/output/over80s/postest/any/all/all/weights_model_pfizer.html
+ - released_outputs/output/over80s/postest/any/all/all/weights_table.txt
+ - released_outputs/output/over80s/postest/any/all/estimates.csv
+ - released_outputs/output/over80s/postest/any/all/estimates_cox.csv
+ - released_outputs/output/over80s/postest/any/all/estimates_cox_all.csv
+ - released_outputs/output/over80s/postest/any/all/estimates_cox_msoa.csv
+ - released_outputs/output/over80s/postest/any/all/estimates_cox_region.csv
+ - released_outputs/output/over80s/postest/any/all/estimates_cox_stp.csv
+ - released_outputs/output/over80s/postest/any/all/forest_plot.svg
+ - released_outputs/output/over80s/postest/any/all/forest_plot_cox.svg
+ - released_outputs/output/over80s/postest/any/all/forest_plot_cox_msoa.svg
+ - released_outputs/output/over80s/postest/any/all/forest_plot_cox_region.svg
+ - released_outputs/output/over80s/postest/any/all/forest_plot_cox_stp.svg
+ - released_outputs/output/over80s/postest/any/all/strata_vector.rds
+ - released_outputs/output/over80s/postest/any/all/strata_vector_cox.rds
+ - released_outputs/output/over80s/postest/any/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/postest/any/all/time_trends_region_plot3.svg
+ - released_outputs/output/over80s/postest/any/all/time_trends_region_plot4.svg
+ - released_outputs/output/over80s/postest/az/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/postest/az/all/all/plot_ipwvaxaz1.svg
+ - released_outputs/output/over80s/postest/az/all/all/plot_ipwvaxfizer1.svg
+ - released_outputs/output/over80s/postest/az/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/postest/az/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/postest/az/all/all/tab_ipwvaxaz1.csv
+ - released_outputs/output/over80s/postest/az/all/all/tab_ipwvaxaz1.html
+ - released_outputs/output/over80s/postest/az/all/all/tab_ipwvaxfizer1.html
+ - released_outputs/output/over80s/postest/az/all/all/tab_ipwvaxpfizer1.csv
+ - released_outputs/output/over80s/postest/az/all/all/tab_pfizer_az.html
+ - released_outputs/output/over80s/postest/az/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/postest/az/all/all/weights_model_az.html
+ - released_outputs/output/over80s/postest/az/all/all/weights_model_death.html
+ - released_outputs/output/over80s/postest/az/all/all/weights_model_pfizer.html
+ - released_outputs/output/over80s/postest/az/all/all/weights_table.txt
+ - released_outputs/output/over80s/postest/az/all/estimates.csv
+ - released_outputs/output/over80s/postest/az/all/forest_plot.svg
+ - released_outputs/output/over80s/postest/az/all/strata_vector.rds
+ - released_outputs/output/over80s/postest/az/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/postest/pfizer/all/all/plot_ipwdeath.svg
+ - released_outputs/output/over80s/postest/pfizer/all/all/plot_ipwvaxaz1.svg
+ - released_outputs/output/over80s/postest/pfizer/all/all/plot_ipwvaxfizer1.svg
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_ipwdeath.csv
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_ipwdeath.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_ipwvaxaz1.csv
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_ipwvaxaz1.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_ipwvaxfizer1.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_ipwvaxpfizer1.csv
+ - released_outputs/output/over80s/postest/pfizer/all/all/tab_pfizer_az.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/weights_histogram.svg
+ - released_outputs/output/over80s/postest/pfizer/all/all/weights_model_az.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/weights_model_death.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/weights_model_pfizer.html
+ - released_outputs/output/over80s/postest/pfizer/all/all/weights_table.txt
+ - released_outputs/output/over80s/postest/pfizer/all/estimates.csv
+ - released_outputs/output/over80s/postest/pfizer/all/forest_plot.svg
+ - released_outputs/output/over80s/postest/pfizer/all/strata_vector.rds
+ - released_outputs/output/over80s/postest/pfizer/all/time_trends_region_plot.svg
+ - released_outputs/output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg
+ - released_outputs/output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg
+ - released_outputs/output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg
+ - released_outputs/output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv
+ - released_outputs/output/over80s/vaccination/all/all/tab_vaxcoxmod1.html
+ - released_outputs/output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv
+ - released_outputs/output/over80s/vaccination/all/all/tab_vaxcoxmod2.html
+ - released_outputs/output/over80s/vaccination/all/all/tab_vaxcoxmod3.csv
+ - released_outputs/output/over80s/vaccination/all/all/tab_vaxcoxmod3.html
+ - released_outputs/output/over80s/vaccination/all/strata_vector_cox.rds
+ - released_outputs/output/study_definition_over80s_flow_chart.html
+ - requirements.in
+ - requirements.txt
+ - run.exe
+ - run.py
+
+outputs:
+  (no outputs)

@@ -1,0 +1,46 @@
+2021-04-08T02:28:48.224535400Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-08T02:28:48.239080100Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-08T02:28:48.239109500Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-08T02:28:48.239118400Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-08T02:28:48.239125200Z v readr   1.3.1     v forcats 0.5.0
+2021-04-08T02:28:48.475565700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-08T02:28:48.475636800Z x dplyr::filter() masks stats::filter()
+2021-04-08T02:28:48.475645500Z x dplyr::lag()    masks stats::lag()
+2021-04-08T02:28:48.490204900Z 
+2021-04-08T02:28:48.490228400Z Attaching package: 'lubridate'
+2021-04-08T02:28:48.490237000Z 
+2021-04-08T02:28:48.491625400Z The following objects are masked from 'package:base':
+2021-04-08T02:28:48.491642300Z 
+2021-04-08T02:28:48.491649700Z     date, intersect, setdiff, union
+2021-04-08T02:28:48.491656900Z 
+2021-04-08T02:28:50.561147700Z #BlackLivesMatter
+2021-04-08T02:28:50.627736700Z Loading required package: zoo
+2021-04-08T02:28:50.639231200Z 
+2021-04-08T02:28:50.639256900Z Attaching package: 'zoo'
+2021-04-08T02:28:50.639265600Z 
+2021-04-08T02:28:50.639917800Z The following objects are masked from 'package:base':
+2021-04-08T02:28:50.639935700Z 
+2021-04-08T02:28:50.639943800Z     as.Date, as.Date.numeric
+2021-04-08T02:28:50.639950800Z 
+2021-04-08T02:28:51.027202300Z <environment: R_GlobalEnv>
+2021-04-08T02:28:51.027607200Z <environment: R_GlobalEnv>
+2021-04-08T02:28:51.028012500Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: d47632fa4f9ec6616e4e80cda80d946594612eee
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: dh6pgtx6zlwsvcyw
+run_by_user: wjchulme
+created_at: 2021-04-07T20:48:06Z
+started_at: 2021-04-08T02:28:45Z
+completed_at: 2021-04-08T02:57:01Z
+
+Completed successfully
+
+outputs:
+  output/over80s/noncoviddeath/any/all/estimates.csv                 - moderately_sensitive
+  output/over80s/noncoviddeath/any/all/forest_plot.svg               - moderately_sensitive
+  output/over80s/noncoviddeath/any/all/time_trends_region_plot3.svg  - moderately_sensitive
+  output/over80s/noncoviddeath/any/all/time_trends_region_plot4.svg  - moderately_sensitive
