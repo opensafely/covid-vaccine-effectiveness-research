@@ -25,6 +25,9 @@ $ethnicity
 $practice_id
 [1] "integer"
 
+$msoa
+[1] "factor"
+
 $stp
 [1] "factor"
 
@@ -34,10 +37,16 @@ $region
 $imd
 [1] "factor"
 
+$rural_urban
+[1] "integer"
+
 $care_home_type
 [1] "factor"
 
-$care_home
+$care_home_tpp
+[1] "logical"
+
+$care_home_primis
 [1] "logical"
 
 $prior_positive_test_date
@@ -130,22 +139,28 @@ $psychosis_schiz_bipolar
 $flu_vaccine
 [1] "logical"
 
-$admitted_1_date
+$admitted_unplanned_1_date
 [1] "Date"
 
-$admitted_2_date
+$admitted_unplanned_2_date
 [1] "Date"
 
-$admitted_3_date
+$admitted_unplanned_3_date
 [1] "Date"
 
-$admitted_4_date
+$admitted_unplanned_4_date
 [1] "Date"
 
-$admitted_5_date
+$admitted_unplanned_5_date
 [1] "Date"
 
-$admitted_6_date
+$admitted_unplanned_6_date
+[1] "Date"
+
+$covid_test_1_date
+[1] "Date"
+
+$covid_test_2_date
 [1] "Date"
 
 $covid_vax_1_date
@@ -169,6 +184,9 @@ $covid_vax_az_2_date
 $covid_vax_az_3_date
 [1] "Date"
 
+$covid_vax_az_4_date
+[1] "Date"
+
 $covid_vax_pfizer_1_date
 [1] "Date"
 
@@ -187,22 +205,22 @@ $covidadmitted_1_date
 $covidadmitted_2_date
 [1] "Date"
 
-$discharged_1_date
+$discharged_unplanned_1_date
 [1] "Date"
 
-$discharged_2_date
+$discharged_unplanned_2_date
 [1] "Date"
 
-$discharged_3_date
+$discharged_unplanned_3_date
 [1] "Date"
 
-$discharged_4_date
+$discharged_unplanned_4_date
 [1] "Date"
 
-$discharged_5_date
+$discharged_unplanned_5_date
 [1] "Date"
 
-$discharged_6_date
+$discharged_unplanned_6_date
 [1] "Date"
 
 $emergency_1_date

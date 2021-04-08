@@ -1,0 +1,45 @@
+2021-04-08T01:24:14.813934500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-08T01:24:14.824967100Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-08T01:24:14.825070200Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-08T01:24:14.825085500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-08T01:24:14.825092800Z v readr   1.3.1     v forcats 0.5.0
+2021-04-08T01:24:15.087445200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-08T01:24:15.087529500Z x dplyr::filter() masks stats::filter()
+2021-04-08T01:24:15.087538400Z x dplyr::lag()    masks stats::lag()
+2021-04-08T01:24:15.113003300Z 
+2021-04-08T01:24:15.113091900Z Attaching package: 'lubridate'
+2021-04-08T01:24:15.113099800Z 
+2021-04-08T01:24:15.114706800Z The following objects are masked from 'package:base':
+2021-04-08T01:24:15.114848500Z 
+2021-04-08T01:24:15.114858500Z     date, intersect, setdiff, union
+2021-04-08T01:24:15.114865800Z 
+2021-04-08T01:24:17.781676500Z Loading required package: zoo
+2021-04-08T01:24:17.808379100Z 
+2021-04-08T01:24:17.808736200Z Attaching package: 'zoo'
+2021-04-08T01:24:17.808749600Z 
+2021-04-08T01:24:17.809578600Z The following objects are masked from 'package:base':
+2021-04-08T01:24:17.809593200Z 
+2021-04-08T01:24:17.809600700Z     as.Date, as.Date.numeric
+2021-04-08T01:24:17.809608300Z 
+2021-04-08T01:24:18.307621200Z <environment: R_GlobalEnv>
+2021-04-08T01:24:18.308176900Z <environment: R_GlobalEnv>
+2021-04-08T01:24:18.308870900Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: d47632fa4f9ec6616e4e80cda80d946594612eee
+docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+exit_code: 0
+job_id: gbmc6a4frucctr4u
+run_by_user: wjchulme
+created_at: 2021-04-07T20:48:06Z
+started_at: 2021-04-08T01:24:11Z
+completed_at: 2021-04-08T01:55:54Z
+
+Completed successfully
+
+outputs:
+  output/over80s/covidadmitted/any/all/estimates.csv                 - moderately_sensitive
+  output/over80s/covidadmitted/any/all/forest_plot.svg               - moderately_sensitive
+  output/over80s/covidadmitted/any/all/time_trends_region_plot3.svg  - moderately_sensitive
+  output/over80s/covidadmitted/any/all/time_trends_region_plot4.svg  - moderately_sensitive

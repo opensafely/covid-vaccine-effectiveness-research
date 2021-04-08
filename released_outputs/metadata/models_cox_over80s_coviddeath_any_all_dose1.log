@@ -1,61 +1,33 @@
-2021-03-31T08:51:12.833661200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-03-31T08:51:12.842289300Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-03-31T08:51:12.842315400Z v tibble  3.0.3     v dplyr   1.0.2
-2021-03-31T08:51:12.842323700Z v tidyr   1.1.2     v stringr 1.4.0
-2021-03-31T08:51:12.842330900Z v readr   1.3.1     v forcats 0.5.0
-2021-03-31T08:51:13.006609300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-03-31T08:51:13.006691300Z x dplyr::filter() masks stats::filter()
-2021-03-31T08:51:13.006700100Z x dplyr::lag()    masks stats::lag()
-2021-03-31T08:51:15.010706300Z 
-2021-03-31T08:51:15.010741000Z Attaching package: 'lubridate'
-2021-03-31T08:51:15.010749300Z 
-2021-03-31T08:51:15.012180000Z The following objects are masked from 'package:base':
-2021-03-31T08:51:15.012201300Z 
-2021-03-31T08:51:15.012210100Z     date, intersect, setdiff, union
-2021-03-31T08:51:15.012217100Z 
-2021-03-31T08:51:15.339259100Z <environment: R_GlobalEnv>
-2021-03-31T08:51:15.339769700Z <environment: R_GlobalEnv>
-2021-03-31T08:51:17.803161200Z data_cox data size = 100000 
-2021-03-31T08:51:17.804379500Z   memory usage = 0.042 GB 
-2021-03-31T08:51:17.891681200Z     
-2021-03-31T08:51:17.891715100Z all   
-2021-03-31T08:51:17.891723900Z   
-2021-03-31T08:51:18.366675700Z   
-2021-03-31T08:51:18.366731300Z coxmod0 
-2021-03-31T08:53:11.177687900Z coxmod0 data size = 100000 
-2021-03-31T08:53:12.686670600Z memory usage = 0.775 GB 
-2021-03-31T08:54:14.607615700Z   
-2021-03-31T08:54:14.607663300Z coxmod1 
-2021-03-31T08:58:50.664503300Z coxmod1 data size = 100000 
-2021-03-31T08:58:52.242441100Z memory usage = 0.775 GB 
-2021-03-31T09:01:41.645108700Z   
-2021-03-31T09:01:41.645171900Z coxmod2 
-2021-03-31T09:13:20.241428400Z coxmod2 data size = 100000 
-2021-03-31T09:13:21.747959500Z memory usage = 0.776 GB 
-2021-03-31T09:17:45.843854300Z NULL
-2021-03-31T09:17:45.843901600Z   
-2021-03-31T09:17:52.689826100Z Warning message:
-2021-03-31T09:17:52.689899600Z In fitter(X, Y, istrat, offset, init, control, weights = weights,  :
-2021-03-31T09:17:52.689913200Z   Loglik converged before variable  32 ; coefficient may be infinite. 
-2021-03-31T09:17:52.689864400Z              used    (Mb) gc trigger    (Mb)   max used    (Mb)
-2021-03-31T09:17:52.689934100Z Ncells    9742263   520.3   39880121  2129.9    9742263   520.3
-2021-03-31T09:17:52.689941900Z Vcells 1323641082 10098.6 3257259668 24851.0 1323641082 10098.6
+2021-04-07T11:32:37.144653600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-07T11:32:37.155159400Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-07T11:32:37.155243400Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-07T11:32:37.155252200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-07T11:32:37.155259400Z v readr   1.3.1     v forcats 0.5.0
+2021-04-07T11:32:37.381838200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-07T11:32:37.381933000Z x dplyr::filter() masks stats::filter()
+2021-04-07T11:32:37.381941500Z x dplyr::lag()    masks stats::lag()
+2021-04-07T11:32:39.832418300Z #BlackLivesMatter
+2021-04-07T11:32:39.921398600Z 
+2021-04-07T11:32:39.921465100Z Attaching package: 'lubridate'
+2021-04-07T11:32:39.921473700Z 
+2021-04-07T11:32:39.923140100Z The following objects are masked from 'package:base':
+2021-04-07T11:32:39.923171500Z 
+2021-04-07T11:32:39.923180300Z     date, intersect, setdiff, union
+2021-04-07T11:32:39.923188000Z 
+2021-04-07T11:32:40.334408900Z Error in args[[5]] : subscript out of bounds
 
 
-state: succeeded
-commit: 2f1293a9d16087f628fb5801aeead17c32437680
+state: failed
+commit: 657dee090fcfc8b1ce6c787d6c21abf728c310bd
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
-exit_code: 0
-job_id: zborqk26b3upbgfm
+exit_code: 1
+job_id: uk43ok2bodyj6cdg
 run_by_user: wjchulme
-created_at: 2021-03-31T08:50:12Z
-started_at: 2021-03-31T08:51:10Z
-completed_at: 2021-03-31T09:18:03Z
+created_at: 2021-04-07T11:31:02Z
+started_at: 2021-04-07T11:32:34Z
+completed_at: 2021-04-07T11:32:47Z
 
-Completed successfully
+Job exited with an error code
 
 outputs:
-  output/over80s/coviddeath/any/all/all/modelcox0.rds      - highly_sensitive    
-  output/over80s/coviddeath/any/all/all/modelcox1.rds      - highly_sensitive    
-  output/over80s/coviddeath/any/all/all/modelcox2.rds      - highly_sensitive    
-  output/over80s/coviddeath/any/all/strata_vector_cox.rds  - moderately_sensitive
+  (no outputs)

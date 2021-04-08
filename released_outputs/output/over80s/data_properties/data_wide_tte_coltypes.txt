@@ -25,6 +25,9 @@ $covid_vax_az_1_date
 $covid_vax_az_2_date
 [1] "Date"
 
+$covid_test_1_date
+[1] "Date"
+
 $positive_test_1_date
 [1] "Date"
 
@@ -53,6 +56,9 @@ $tte_lastfup
 [1] "integer"
 
 $tte_dereg
+[1] "integer"
+
+$tte_covidtest
 [1] "integer"
 
 $tte_postest
