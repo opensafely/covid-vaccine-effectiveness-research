@@ -613,7 +613,31 @@ study = StudyDefinition(
         returning="date",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": "2021-02-01", "latest" : "2021-04-01"},
+            "date": {"earliest": "2021-02-01", "latest" : "2021-03-01"},
+            "rate": "uniform",
+        },
+    ),
+    positive_test_3_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="positive_test_2_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-04-01", "latest" : "2021-05-01"},
+            "rate": "uniform",
+        },
+    ),
+    positive_test_4_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="positive_test_3_date + 1 day",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2021-05-01", "latest" : "2021-06-01"},
             "rate": "uniform",
         },
     ),
