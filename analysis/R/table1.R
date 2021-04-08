@@ -121,7 +121,7 @@ tab_summary <- data_tab %>% transmute(
   chronic_liver_disease,
 
   current_copd,
-  cystic_fibrosis,
+  #cystic_fibrosis,
   other_resp_conditions,
 
   lung_cancer,
@@ -129,7 +129,7 @@ tab_summary <- data_tab %>% transmute(
   cancer_excl_lung_and_haem,
 
   chemo_or_radio,
-  solid_organ_transplantation,
+  #solid_organ_transplantation,
   #bone_marrow_transplant,
   #sickle_cell_disease,
   permanant_immunosuppression,
