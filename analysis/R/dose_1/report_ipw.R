@@ -81,6 +81,12 @@ list2env(list_formula, globalenv())
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
+## if outcome is positive test, remove time-varying positive test info from covariate set
+if(outcome=="postest"){
+  formula_remove_timedependent <- as.formula(". ~ . - timesince_postest_pw")
+} else{
+  formula_remove_timedependent <- as.formula(". ~ .")
+}
 
 
 
@@ -92,56 +98,64 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 gt_model_summary <- function(model, cluster) {
 
 
+  covar_labels = list(
+    age ~ "Age",
+    `I(age * age)` ~ "Age-squared",
+    sex ~ "Sex",
+    imd ~ "Deprivation",
+    ethnicity ~ "Ethnicity",
+
+    bmi ~ "Body Mass Index",
+    chronic_cardiac_disease ~ "Chronic cardiac disease",
+    heart_failure ~ "Heart failure",
+    other_heart_disease ~ "Other heart disease",
+
+    dialysis ~ "Dialysis",
+    diabetes ~ "Diabetes",
+    chronic_liver_disease ~ "Chronic liver disease",
+
+    current_copd ~ "COPD",
+    #cystic_fibrosis ~ "Cystic fibrosis",
+    other_resp_conditions ~ "Other respiratory conditions",
+
+    lung_cancer ~ "Lung Cancer",
+    haematological_cancer ~ "Haematological cancer",
+    cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
+
+    chemo_or_radio ~ "Chemo- or radio-therapy",
+    #solid_organ_transplantation ~ "Solid organ transplant",
+    #bone_marrow_transplant ~ "Bone marrow transplant",
+    #sickle_cell_disease ~ "Sickle Cell Disease",
+    permanant_immunosuppression ~ "Permanent immunosuppression",
+    #temporary_immunosuppression ~ "Temporary Immunosuppression",
+    asplenia ~ "Asplenia",
+    dmards ~ "DMARDS",
+
+    dementia ~ "Dementia",
+    other_neuro_conditions ~ "Other neurological conditions",
+
+    LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
+    psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
+
+    flu_vaccine ~ "Flu vaccine in previous 5 years",
+
+    timesince_hosp_discharge_pw ~ "Time since hospital discharge",
+    #timesince_probable_covid_pw ~ "Time since probable COVID",
+    timesince_suspected_covid_pw ~ "Time since suspected COVID",
+    timesince_postest_pw ~ "Time since positive SARS-CoV-2 test"
+  )
+
+  ## if outcome is positive test, remove positive test label assumes it is the last one)
+  if(outcome=="postest"){
+    covar_labels <- covar_labels[-length(covar_labels)]
+  }
+
   tbl_regression(
     x = model,
     pvalue_fun = ~style_pvalue(.x, digits=3),
     tidy_fun = partial(tidy_plr, cluster = cluster),
     include = -contains("ns(tstop"),
-    label = list(
-      age ~ "Age",
-      `I(age * age)` ~ "Age-squared",
-      sex ~ "Sex",
-      imd ~ "Deprivation",
-      ethnicity ~ "Ethnicity",
-
-      bmi ~ "Body Mass Index",
-      chronic_cardiac_disease ~ "Chronic cardiac disease",
-      heart_failure ~ "Heart failure",
-      other_heart_disease ~ "Other heart disease",
-
-      dialysis ~ "Dialysis",
-      diabetes ~ "Diabetes",
-      chronic_liver_disease ~ "Chronic liver disease",
-
-      current_copd ~ "COPD",
-      #cystic_fibrosis ~ "Cystic fibrosis",
-      other_resp_conditions ~ "Other respiratory conditions",
-
-      lung_cancer ~ "Lung Cancer",
-      haematological_cancer ~ "Haematological cancer",
-      cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
-
-      chemo_or_radio ~ "Chemo- or radio-therapy",
-      #solid_organ_transplantation ~ "Solid organ transplant",
-      #bone_marrow_transplant ~ "Bone marrow transplant",
-      #sickle_cell_disease ~ "Sickle Cell Disease",
-      permanant_immunosuppression ~ "Permanent immunosuppression",
-      #temporary_immunosuppression ~ "Temporary Immunosuppression",
-      asplenia ~ "Asplenia",
-      dmards ~ "DMARDS",
-
-      dementia ~ "Dementia",
-      other_neuro_conditions ~ "Other neurological conditions",
-
-      LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
-      psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
-
-      flu_vaccine ~ "Flu vaccine in previous 5 years",
-
-      #timesince_probable_covid_pw ~ "Time since probable COVID",
-      timesince_suspected_covid_pw ~ "Time since suspected COVID",
-      timesince_hosp_discharge_pw ~ "Time since hospital discharge"
-    )
+    label = covar_labels
   )
 
 }

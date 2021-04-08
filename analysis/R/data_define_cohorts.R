@@ -114,6 +114,7 @@ formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 
 formula_timedependent <- . ~ . +
   #timesince_probable_covid_pw +
+  timesince_postest_pw +
   timesince_suspected_covid_pw +
   timesince_hosp_discharge_pw
   # consider adding local infection rates

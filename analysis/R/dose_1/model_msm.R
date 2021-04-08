@@ -77,11 +77,12 @@ parglmparams <- parglm.control(
 list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
-
-### knot points for calendar time splines ----
-
-#knots <- c(21)
-
+## if outcome is positive test, remove time-varying positive test info from covariate set
+if(outcome=="postest"){
+  formula_remove_timedependent <- as.formula(". ~ . - timesince_postest_pw")
+} else{
+  formula_remove_timedependent <- as.formula(". ~ .")
+}
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
@@ -145,7 +146,7 @@ for(stratum in strata){
     cat("  \n")
     cat("ipwvaxany1 \n")
     ipwvaxany1 <- parglm(
-      formula = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var) ,
+      formula = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_timedependent) %>% update(formula_remove_strata_var) ,
       data = data_pt_atriskvaxany1,
       family=binomial,
       control = parglmparams,
@@ -208,7 +209,7 @@ for(stratum in strata){
     cat("  \n")
     cat("ipwvaxpfizer1 \n")
     ipwvaxpfizer1 <- parglm(
-      formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+      formula = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_timedependent) %>% update(formula_remove_strata_var),
       data = data_pt_atriskvaxpfizer1,
       family=binomial,
       control = parglmparams,
@@ -263,7 +264,7 @@ for(stratum in strata){
     cat("  \n")
     cat("ipwvaxaz1 \n")
     ipwvaxaz1 <- parglm(
-      formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+      formula = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_timedependent) %>% update(formula_remove_strata_var),
       data = data_pt_atriskvaxaz1,
       family=binomial,
       control = parglmparams,
@@ -319,7 +320,7 @@ for(stratum in strata){
   cat("  \n")
   cat("ipwdeath \n")
   ipwdeath <- parglm(
-    formula = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+    formula = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_timedependent) %>% update(formula_remove_strata_var),
     data = data_pt_atriskdeath,
     family=binomial,
     control = parglmparams,

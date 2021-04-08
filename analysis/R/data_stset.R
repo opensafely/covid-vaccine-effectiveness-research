@@ -272,6 +272,16 @@ data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_proba
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
   )
 
+data_postest <- read_rds(here::here("output", "data", "data_long_postest_dates.rds")) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+  )
+
 # initial call based on events and vaccination status
 data_tte_cp0 <- tmerge(
   data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
@@ -347,6 +357,12 @@ data_tte_cp <- data_tte_cp0 %>%
     id = patient_id,
     probable_covid = event(tte)
   ) %>%
+  tmerge(
+    data1 = .,
+    data2 = data_postest,
+    id = patient_id,
+    postest_tdc = event(tte)
+  ) %>%
 arrange(
   patient_id, tstart
 ) %>%
@@ -376,7 +392,8 @@ mutate(across(
             "hospital_status",
             "hosp_discharge",
             "suspected_covid",
-            "probable_covid"
+            "probable_covid",
+            "postest_tdc"
           ),
   .fns = as.integer
 ))
@@ -386,6 +403,7 @@ rm(data_tte_cp0)
 rm(data_hospitalised)
 rm(data_suspected_covid)
 rm(data_probable_covid)
+rm(data_postest)
 
 
 stopifnot("tstart should be >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
@@ -417,6 +435,7 @@ data_tte_pt <- tmerge(
     hosp_discharge_time = if_else(hosp_discharge==1, tstop, NA_real_),
     suspected_covid_time = if_else(suspected_covid==1, tstop, NA_real_),
     probable_covid_time = if_else(probable_covid==1, tstop, NA_real_),
+    postest_time = if_else(postest_tdc==1, tstop, NA_real_),
   ) %>%
   fill(
     hosp_discharge_time, suspected_covid_time, probable_covid_time
@@ -461,14 +480,23 @@ data_tte_pt <- tmerge(
       labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
       right=TRUE
     ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
+    # define time since positive SGSS test
+    timesince_postest = tstop - postest_time,
+    timesince_postest_pw = cut(
+      timesince_postest,
+      breaks=c(0, 3, 7, 14, 21, 28, Inf),
+      labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
+      right=TRUE
+    ) %>% fct_explicit_na(na_level="No positive test")  %>% factor(c("No positive test", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
+
 
   ) %>%
   ungroup() %>%
   select(
     -hosp_discharge_time, -timesince_hosp_discharge,
     -suspected_covid_time, -timesince_suspected_covid,
-    -suspected_covid_time, -timesince_suspected_covid,
     -probable_covid_time, -timesince_probable_covid,
+    -postest_time, -timesince_postest,
   ) %>%
   # for some reason tmerge converts event indicators to numeric. So convert back to save space
   mutate(across(
@@ -491,6 +519,7 @@ data_tte_pt <- tmerge(
               "hosp_discharge",
               "probable_covid",
               "suspected_covid",
+              "postest_tdc"
     ),
     .fns = as.integer
   ))

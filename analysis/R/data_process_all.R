@@ -125,12 +125,16 @@ data_extract0 <- read_csv(
     covid_test_2_date = col_date(format="%Y-%m-%d"),
     positive_test_1_date = col_date(format="%Y-%m-%d"),
     positive_test_2_date = col_date(format="%Y-%m-%d"),
+    positive_test_3_date = col_date(format="%Y-%m-%d"),
+    positive_test_4_date = col_date(format="%Y-%m-%d"),
     primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
     primary_care_covid_case_2_date = col_date(format="%Y-%m-%d"),
     emergency_1_date = col_date(format="%Y-%m-%d"),
     emergency_2_date = col_date(format="%Y-%m-%d"),
     covidadmitted_1_date = col_date(format="%Y-%m-%d"),
     covidadmitted_2_date = col_date(format="%Y-%m-%d"),
+    covidadmitted_3_date = col_date(format="%Y-%m-%d"),
+    covidadmitted_4_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
@@ -351,6 +355,16 @@ data_pr_probable_covid <- data_processed %>%
   ) %>%
   arrange(patient_id, date)
 
+data_postest <- data_processed %>%
+  select(patient_id, matches("^positive\\_test\\_\\d+\\_date")) %>%
+  pivot_longer(
+    cols = -patient_id,
+    names_to = c(NA, "postest_index"),
+    names_pattern = "^(.*)_(\\d+)_date",
+    values_to = "date",
+    values_drop_na = TRUE
+  ) %>%
+  arrange(patient_id, date)
 
 data_vax <- local({
 
@@ -410,4 +424,5 @@ write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), com
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
 write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
 write_rds(data_pr_suspected_covid, here::here("output", "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
+write_rds(data_postest, here::here("output", "data", "data_long_postest_dates.rds"), compress="gz")
 
