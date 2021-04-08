@@ -133,6 +133,8 @@ data_extract0 <- read_csv(
     emergency_2_date = col_date(format="%Y-%m-%d"),
     covidadmitted_1_date = col_date(format="%Y-%m-%d"),
     covidadmitted_2_date = col_date(format="%Y-%m-%d"),
+    covidadmitted_3_date = col_date(format="%Y-%m-%d"),
+    covidadmitted_4_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
