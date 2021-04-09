@@ -116,7 +116,7 @@ for(stratum in strata){
   tidy_summary <- bind_rows(
     tidy0 %>% mutate(model="0 Unadjusted", strata=stratum),
     tidy1 %>% mutate(model="1 Demographics", strata=stratum),
-    tidy2 %>% mutate(model="2 Demographics + cinical", strata=stratum),
+    tidy2 %>% mutate(model="2 Demographics + clinical", strata=stratum),
   )
 
   summary_list[[stratum]] <- tidy_summary
