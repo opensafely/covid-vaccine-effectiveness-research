@@ -27,11 +27,15 @@ source(here::here("lib", "survival_functions.R"))
 args <- commandArgs(trailingOnly=TRUE)
 
 
+
+
 if(length(args)==0){
   # use for interactive testing
+  removeobs <- FALSE
   cohort <- "over80s"
 } else{
   cohort <- args[[1]]
+  removeobs <- TRUE
 }
 
 ## create output directories ----
@@ -399,11 +403,9 @@ mutate(across(
 ))
 
 # free up memory
-rm(data_tte_cp0)
-rm(data_hospitalised)
-rm(data_suspected_covid)
-rm(data_probable_covid)
-rm(data_postest)
+if(removeobs){
+  rm(data_tte_cp0, data_hospitalised, data_suspected_covid, data_probable_covid, data_postest)
+}
 
 
 stopifnot("tstart should be >= 0 in data_tte_cp" = data_tte_cp$tstart>=0)
@@ -438,7 +440,7 @@ data_tte_pt <- tmerge(
     postest_time = if_else(postest_tdc==1, tstop, NA_real_),
   ) %>%
   fill(
-    hosp_discharge_time, suspected_covid_time, probable_covid_time
+    hosp_discharge_time, suspected_covid_time, probable_covid_time, postest_time
   ) %>%
   mutate(
 
