@@ -112,8 +112,8 @@ for(stratum in strata){
   robust_summary <- bind_rows(
     robust0 %>% mutate(model="0 Unadjusted", strata=stratum),
     robust1 %>% mutate(model="1 Demographics", strata=stratum),
-    robust2 %>% mutate(model="2 Demographics + cinical", strata=stratum),
-    robust3 %>% mutate(model="3 Demographics + cinical + date", strata=stratum),
+    robust2 %>% mutate(model="2 Demographics + clinical", strata=stratum),
+    robust3 %>% mutate(model="3 Demographics + clinical + date", strata=stratum),
     robust4 %>% mutate(model="4 Fully adjusted", strata=stratum),
   )
 
