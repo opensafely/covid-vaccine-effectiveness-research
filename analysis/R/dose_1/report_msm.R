@@ -78,6 +78,7 @@ list2env(metadata_outcomes, globalenv())
 list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
+formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ##  Create big loop over all categories

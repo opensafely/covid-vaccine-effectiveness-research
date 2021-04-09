@@ -84,6 +84,7 @@ if(outcome=="postest"){
   formula_remove_timedependent <- as.formula(". ~ .")
 }
 
+formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 # Import processed data ----
@@ -616,7 +617,7 @@ for(stratum in strata){
   cat("  \n")
   cat("msmmod0 \n")
   msmmod0_par <- parglm(
-    formula = update(outcome ~ 1, formula_exposure) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     control = parglmparams,
@@ -635,7 +636,7 @@ for(stratum in strata){
   cat("  \n")
   cat("msmmod1 \n")
   msmmod1_par <- parglm(
-    formula = update(outcome ~ 1, formula_demog) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     control = parglmparams,
@@ -655,7 +656,7 @@ for(stratum in strata){
   cat("  \n")
   cat("msmmod2 \n")
   msmmod2_par <- parglm(
-    formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>%  update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     control = parglmparams,
@@ -676,7 +677,7 @@ for(stratum in strata){
   cat("  \n")
   cat("msmmod3 \n")
   msmmod3_par <- parglm(
-    formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     control = parglmparams,
@@ -696,7 +697,7 @@ for(stratum in strata){
   cat("  \n")
   cat("msmmod4 \n")
   msmmod4_par <- parglm(
-    formula = update(outcome ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure)  %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
     weights = ipweight_stbl,
     family = binomial,
