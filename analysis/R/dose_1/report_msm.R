@@ -146,7 +146,7 @@ msmmod_forest <-
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(model), switch="y")+
-  scale_y_log10(breaks=c(0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4))+
+  scale_y_log10(breaks=c(0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4), labels=c("1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4"))+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
   #coord_cartesian(ylim=c(0.1,2)) +

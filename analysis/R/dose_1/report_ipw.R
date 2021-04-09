@@ -200,7 +200,7 @@ forest_from_gt <- function(gt_obj, title){
     geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=label)) +
     geom_vline(aes(xintercept=1), colour='black', alpha=0.8)+
     facet_grid(rows=vars(variable), scales="free_y", switch="y", space="free_y", labeller = labeller(variable = lookup))+
-    scale_x_log10(breaks=c(0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8), labels=c("1/32", "1/16", "1/8", "/14", "1/2", "1", "2", "4", "8"))+
+    scale_x_log10(breaks=c(0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8), labels=c("1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4", "8"))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
     scale_alpha_continuous(range=c(0,0.3), guide=FALSE)+
     labs(
