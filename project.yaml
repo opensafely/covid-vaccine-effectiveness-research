@@ -618,3 +618,18 @@ actions:
 # #
 # #
 #
+
+
+
+#######################################
+ ## COMBINE OVERALL MODELS:
+#######################################
+
+  report_over80s_any_all:
+    run: r:latest analysis/R/dose_1/report_alloutcomes.R over80s any all
+    needs: [data_define_cohorts, report_over80s_postest_any_all, report_over80s_covidadmitted_any_all, report_over80s_coviddeath_any_all, report_over80s_noncoviddeath_any_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/*any_all.svg
+        tables: output/over80s/*any_all.csv
+

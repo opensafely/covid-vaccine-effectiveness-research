@@ -118,7 +118,8 @@ for(stratum in strata){
     write_csv(tab_coxmod3$table_body, here::here("output", cohort, outcome, strata_var, stratum, "tab_vaxcoxmod3.csv"))
 
     ##output forest plot
-    plot_coxmod3 <- survminer::ggforest(coxmod3, data=data_cox_sub)
+    plot_coxmod3 <- survminer::ggforest(coxmod3, data=data_cox_sub %>% mutate(`strata(region)`=region))
+
     ggsave(
       here::here("output", cohort, outcome, strata_var, stratum, "plot_vaxcoxmod3.svg"),
       plot_coxmod3,
@@ -126,6 +127,11 @@ for(stratum in strata){
     )
 
 }
+
+#data_cox_sub$`strata(region)` <- data_cox_sub$region
+#Greg::plotHR(coxmod2, term="age", xlim=c(80,110), cntrst=FALSE)
+
+#test <- predict(coxmod2, , terms="age", type="terms", se.fit=TRUE, reference="sample")
 
 
 warnings()

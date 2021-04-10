@@ -84,7 +84,6 @@ if(outcome=="postest"){
   formula_remove_timedependent <- as.formula(". ~ .")
 }
 
-formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 # Import processed data ----
@@ -605,119 +604,12 @@ for(stratum in strata){
 
   write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_weights.rds")), compress="gz")
 
-  # MSM model ----
-
-  # do not use time-dependent covariates as these are accounted for with the weights
-  # use cluster standard errors
-  # use quasibinomial to suppress "non-integer #successes in a binomial glm!" warning (not possible with parglm)
-  # use interaction with time terms?
-
-  ### model 0 - unadjusted vaccination effect model ----
-  ## no adjustment variables
-  cat("  \n")
-  cat("msmmod0 \n")
-  msmmod0_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-
-  print(jtools::summ(msmmod0_par, digits =3))
-  cat(glue::glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
-  if(removeobs) rm(msmmod0_par)
-
-  ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
-  cat("  \n")
-  cat("msmmod1 \n")
-  msmmod1_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  print(jtools::summ(msmmod1_par, digits =3))
-
-  cat(glue::glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
-  if(removeobs) rm(msmmod1_par)
-
-
-  ### model 2 - minimally adjusted vaccination effect model, baseline demographics only ----
-  cat("  \n")
-  cat("msmmod2 \n")
-  msmmod2_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>%  update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  print(jtools::summ(msmmod2_par, digits =3))
-
-  cat(glue::glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model2.rds"), compress="gz")
-  if(removeobs) rm(msmmod2_par)
-
-
-
-  ### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
-  cat("  \n")
-  cat("msmmod3 \n")
-  msmmod3_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  print(jtools::summ(msmmod3_par, digits =3))
-
-  cat(glue::glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod3_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
-  if(removeobs) rm(msmmod3_par)
-
-
-  ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted + do not use time-dependent covariates ----
-  cat("  \n")
-  cat("msmmod4 \n")
-  msmmod4_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure)  %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    weights = ipweight_stbl,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  print(jtools::summ(msmmod4_par, digits =3))
-
-  cat(glue::glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
-  if(removeobs) rm(msmmod4_par)
-
-
   ## print warnings
   print(warnings())
   cat("  \n")
   print(gc(reset=TRUE))
 }
+
+
 
 
