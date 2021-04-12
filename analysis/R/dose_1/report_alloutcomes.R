@@ -127,7 +127,7 @@ msmmod_forest <-
   #geom_segment(aes(y=or, yend=or, x=term_left, xend=term_right))+
   #geom_ribbon(aes(ymin=or.ll, ymax=or.ul, x=term_left), fill=)+
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1))+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.5))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1))+
   geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(outcome_descr), cols=vars(as.factor(strata)), switch="y")+
   scale_y_log10(breaks=2^(-7:2), labels=c("1/128", "1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4"))+
