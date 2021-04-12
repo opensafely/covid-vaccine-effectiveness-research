@@ -89,6 +89,7 @@
   * [metadata/report_msm_over80s_any_all_dose1.log](metadata/report_msm_over80s_any_all_dose1.log)
   * [metadata/report_msm_over80s_az_all_dose1.log](metadata/report_msm_over80s_az_all_dose1.log)
   * [metadata/report_msm_over80s_pfizer_all_dose1.log](metadata/report_msm_over80s_pfizer_all_dose1.log)
+  * [metadata/report_over80s_any_all.log](metadata/report_over80s_any_all.log)
   * [metadata/report_over80s_covidadmitted_any_all.log](metadata/report_over80s_covidadmitted_any_all.log)
   * [metadata/report_over80s_covidadmitted_any_all_dose1.log](metadata/report_over80s_covidadmitted_any_all_dose1.log)
   * [metadata/report_over80s_coviddeath_any_all.log](metadata/report_over80s_coviddeath_any_all.log)
@@ -272,6 +273,8 @@
           * [output/over80s/emergency/any/all/time_trends_region_plot.svg](output/over80s/emergency/any/all/time_trends_region_plot.svg)
           * [output/over80s/emergency/any/all/time_trends_region_plot3.svg](output/over80s/emergency/any/all/time_trends_region_plot3.svg)
           * [output/over80s/emergency/any/all/time_trends_region_plot4.svg](output/over80s/emergency/any/all/time_trends_region_plot4.svg)
+    * [output/over80s/estimates_any_all.csv](output/over80s/estimates_any_all.csv)
+    * [output/over80s/forest_plot_any_all.svg](output/over80s/forest_plot_any_all.svg)
     * output/over80s/noncoviddeath
       * output/over80s/noncoviddeath/any
         * output/over80s/noncoviddeath/any/all
