@@ -1,55 +1,57 @@
-2021-04-08T06:54:14.330197300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-08T06:54:14.338999700Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-08T06:54:14.339016700Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-08T06:54:14.339024300Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-08T06:54:14.339031000Z v readr   1.3.1     v forcats 0.5.0
-2021-04-08T06:54:14.503874200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-08T06:54:14.503910900Z x dplyr::filter() masks stats::filter()
-2021-04-08T06:54:14.503919500Z x dplyr::lag()    masks stats::lag()
-2021-04-08T06:54:14.518888700Z 
-2021-04-08T06:54:14.518923300Z Attaching package: 'lubridate'
-2021-04-08T06:54:14.518931500Z 
-2021-04-08T06:54:14.520310400Z The following objects are masked from 'package:base':
-2021-04-08T06:54:14.520329500Z 
-2021-04-08T06:54:14.520337800Z     date, intersect, setdiff, union
-2021-04-08T06:54:14.520345000Z 
-2021-04-08T06:54:16.651425500Z Loading required package: zoo
-2021-04-08T06:54:16.662071000Z 
-2021-04-08T06:54:16.662095600Z Attaching package: 'zoo'
-2021-04-08T06:54:16.662103900Z 
-2021-04-08T06:54:16.662732600Z The following objects are masked from 'package:base':
-2021-04-08T06:54:16.662749000Z 
-2021-04-08T06:54:16.662756400Z     as.Date, as.Date.numeric
-2021-04-08T06:54:16.662763500Z 
-2021-04-08T06:54:17.063641200Z <environment: R_GlobalEnv>
-2021-04-08T06:54:17.064046200Z <environment: R_GlobalEnv>
-2021-04-08T06:54:17.064361200Z <environment: R_GlobalEnv>
-2021-04-08T07:33:28.355807500Z There were 13 warnings (use warnings() to see them)
-2021-04-08T07:33:28.356707400Z Warning messages:
-2021-04-08T07:33:28.356752000Z 1: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356761800Z 2: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356769600Z 3: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356777200Z 4: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356830200Z 5: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356855800Z 6: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356938500Z 7: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.356953200Z 8: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.357085500Z 9: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.357111400Z 10: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.357158600Z 11: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.357286100Z 12: Removed 1 rows containing missing values (geom_segment).
-2021-04-08T07:33:28.357301200Z 13: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:01:46.182883200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-09T13:01:46.192970400Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-09T13:01:46.193146800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-09T13:01:46.193159500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-09T13:01:46.193166900Z v readr   1.3.1     v forcats 0.5.0
+2021-04-09T13:01:46.425491000Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-09T13:01:46.425574000Z x dplyr::filter() masks stats::filter()
+2021-04-09T13:01:46.425582600Z x dplyr::lag()    masks stats::lag()
+2021-04-09T13:01:46.450168800Z 
+2021-04-09T13:01:46.450260000Z Attaching package: 'lubridate'
+2021-04-09T13:01:46.450268800Z 
+2021-04-09T13:01:46.451895400Z The following objects are masked from 'package:base':
+2021-04-09T13:01:46.451920400Z 
+2021-04-09T13:01:46.451929400Z     date, intersect, setdiff, union
+2021-04-09T13:01:46.451938100Z 
+2021-04-09T13:01:49.265528000Z Loading required package: zoo
+2021-04-09T13:01:49.286481500Z 
+2021-04-09T13:01:49.286564500Z Attaching package: 'zoo'
+2021-04-09T13:01:49.286575500Z 
+2021-04-09T13:01:49.287229500Z The following objects are masked from 'package:base':
+2021-04-09T13:01:49.287270400Z 
+2021-04-09T13:01:49.287278700Z     as.Date, as.Date.numeric
+2021-04-09T13:01:49.287286500Z 
+2021-04-09T13:01:49.758344100Z <environment: R_GlobalEnv>
+2021-04-09T13:01:49.758692800Z <environment: R_GlobalEnv>
+2021-04-09T13:01:49.759044100Z <environment: R_GlobalEnv>
+2021-04-09T13:42:43.589794700Z There were 15 warnings (use warnings() to see them)
+2021-04-09T13:42:43.590652300Z Warning messages:
+2021-04-09T13:42:43.590693000Z 1: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590702500Z 2: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590729700Z 3: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590846700Z 4: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590864500Z 5: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590899300Z 6: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590966200Z 7: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.590982600Z 8: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591076700Z 9: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591184900Z 10: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591212000Z 11: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591246400Z 12: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591294900Z 13: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591310000Z 14: Removed 1 rows containing missing values (geom_segment).
+2021-04-09T13:42:43.591371700Z 15: Removed 1 rows containing missing values (geom_segment).
 
 
 state: succeeded
-commit: 5c3a293ae1601b6eef17f201c6a496677ee38ea0
+commit: 570c13968d415fc57f7705d1d900f5efa4c7e5b6
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: 55ij2lynmcqbjj47
+job_id: twlt422rhw5pwvom
 run_by_user: wjchulme
-created_at: 2021-04-08T06:50:58Z
-started_at: 2021-04-08T06:54:11Z
-completed_at: 2021-04-08T07:34:00Z
+created_at: 2021-04-09T10:54:44Z
+started_at: 2021-04-09T13:01:42Z
+completed_at: 2021-04-09T13:43:13Z
 
 Completed successfully
 

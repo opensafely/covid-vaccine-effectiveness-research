@@ -1,56 +1,53 @@
-2021-04-08T00:00:07.671947200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-08T00:00:07.682658700Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-08T00:00:07.682748800Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-08T00:00:07.682757200Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-08T00:00:07.682764300Z v readr   1.3.1     v forcats 0.5.0
-2021-04-08T00:00:07.914803300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-08T00:00:07.914885600Z x dplyr::filter() masks stats::filter()
-2021-04-08T00:00:07.914893800Z x dplyr::lag()    masks stats::lag()
-2021-04-08T00:00:10.839282900Z 
-2021-04-08T00:00:10.839369700Z Attaching package: 'lubridate'
-2021-04-08T00:00:10.839378600Z 
-2021-04-08T00:00:10.841333500Z The following objects are masked from 'package:base':
-2021-04-08T00:00:10.841406100Z 
-2021-04-08T00:00:10.841414900Z     date, intersect, setdiff, union
-2021-04-08T00:00:10.841422300Z 
-2021-04-08T00:00:11.288612400Z <environment: R_GlobalEnv>
-2021-04-08T00:00:11.288851100Z <environment: R_GlobalEnv>
-2021-04-08T00:00:15.197334500Z data_cox data size = 100000 
-2021-04-08T00:00:15.200998500Z   memory usage = 0.046 GB 
-2021-04-08T00:00:15.345531800Z     
-2021-04-08T00:00:15.345690500Z all   
-2021-04-08T00:00:15.345702000Z   
-2021-04-08T00:00:16.076154200Z   
-2021-04-08T00:00:16.076210800Z coxmod0 
-2021-04-08T00:02:29.384094900Z coxmod0 data size = 100000 
-2021-04-08T00:02:30.956841900Z memory usage = 0.688 GB 
-2021-04-08T00:03:33.385386100Z   
-2021-04-08T00:03:33.385466700Z coxmod1 
-2021-04-08T00:08:24.218131000Z coxmod1 data size = 100000 
-2021-04-08T00:08:25.680062800Z memory usage = 0.688 GB 
-2021-04-08T00:10:59.254035000Z   
-2021-04-08T00:10:59.254105800Z coxmod2 
-2021-04-08T00:22:53.546946100Z coxmod2 data size = 100000 
-2021-04-08T00:22:55.105978100Z memory usage = 0.688 GB 
-2021-04-08T00:27:03.230006500Z NULL
-2021-04-08T00:27:03.230072800Z   
-2021-04-08T00:27:10.408971300Z Warning message:
-2021-04-08T00:27:10.409058200Z In fitter(X, Y, istrat, offset, init, control, weights = weights,  :
-2021-04-08T00:27:10.409052400Z            used  (Mb) gc trigger    (Mb) max used  (Mb)
-2021-04-08T00:27:10.409102300Z Ncells  2166453 115.8   38092852  2034.4  2166453 115.8
-2021-04-08T00:27:10.409112700Z Vcells 28501434 217.5 1530035108 11673.3 28501434 217.5
-2021-04-08T00:27:10.409067900Z   Loglik converged before variable  32 ; coefficient may be infinite. 
+2021-04-09T01:20:25.111168700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-09T01:20:25.121662500Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-09T01:20:25.121743700Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-09T01:20:25.121752500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-09T01:20:25.121759600Z v readr   1.3.1     v forcats 0.5.0
+2021-04-09T01:20:25.342449700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-09T01:20:25.342531900Z x dplyr::filter() masks stats::filter()
+2021-04-09T01:20:25.342540800Z x dplyr::lag()    masks stats::lag()
+2021-04-09T01:20:27.522658800Z 
+2021-04-09T01:20:27.522707600Z Attaching package: 'lubridate'
+2021-04-09T01:20:27.522716400Z 
+2021-04-09T01:20:27.524042400Z The following objects are masked from 'package:base':
+2021-04-09T01:20:27.524062800Z 
+2021-04-09T01:20:27.524071300Z     date, intersect, setdiff, union
+2021-04-09T01:20:27.524078500Z 
+2021-04-09T01:20:27.855565100Z <environment: R_GlobalEnv>
+2021-04-09T01:20:27.855728700Z <environment: R_GlobalEnv>
+2021-04-09T01:20:31.503544300Z data_cox data size = 100000 
+2021-04-09T01:20:31.506653600Z   memory usage = 0.046 GB 
+2021-04-09T01:20:31.625711600Z     
+2021-04-09T01:20:31.625794200Z all   
+2021-04-09T01:20:31.625802900Z   
+2021-04-09T01:20:32.236491400Z   
+2021-04-09T01:20:32.236575700Z coxmod0 
+2021-04-09T01:22:35.231952400Z coxmod0 data size = 100000 
+2021-04-09T01:22:36.605355500Z memory usage = 0.688 GB 
+2021-04-09T01:23:37.185031600Z   
+2021-04-09T01:23:37.185115300Z coxmod1 
+2021-04-09T01:27:51.371986300Z coxmod1 data size = 100000 
+2021-04-09T01:27:52.935314800Z memory usage = 0.688 GB 
+2021-04-09T01:30:28.885936100Z   
+2021-04-09T01:30:28.886017000Z coxmod2 
+2021-04-09T01:39:28.939932100Z coxmod2 data size = 100000 
+2021-04-09T01:39:30.359114400Z memory usage = 0.688 GB 
+2021-04-09T01:43:37.025618000Z NULL
+2021-04-09T01:43:37.025710600Z   
+2021-04-09T01:43:44.316094200Z            used  (Mb) gc trigger    (Mb) max used  (Mb)
+2021-04-09T01:43:44.316169100Z Ncells  2166267 115.7   38108241  2035.2  2166267 115.7
+2021-04-09T01:43:44.316178400Z Vcells 28500855 217.5 1530687523 11678.3 28500855 217.5
 
 
 state: succeeded
-commit: d47632fa4f9ec6616e4e80cda80d946594612eee
+commit: a4269e24910a5f37c21a0df4c2da92f7e3611caa
 docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
 exit_code: 0
-job_id: tho7woxich5dv2wk
+job_id: 7cmgtenktu4t6ovu
 run_by_user: wjchulme
-created_at: 2021-04-07T20:48:06Z
-started_at: 2021-04-08T00:00:04Z
-completed_at: 2021-04-08T00:27:18Z
+created_at: 2021-04-08T22:20:12Z
+started_at: 2021-04-09T01:20:22Z
+completed_at: 2021-04-09T01:43:51Z
 
 Completed successfully
 
