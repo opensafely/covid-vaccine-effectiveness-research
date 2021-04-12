@@ -89,7 +89,9 @@ estimates <-
   metadata_outcomes %>%
   filter(outcome %in% c(
     "postest",
-    "covidadmitted"
+    "covidadmitted",
+    "coviddeath",
+    "noncoviddeath"
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
@@ -161,7 +163,7 @@ msmmod_forest <-
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{brand}_{strata_var}.svg")), msmmod_forest, width=20, height=15, units="cm")
+ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{brand}_{strata_var}.svg")), msmmod_forest, width=20, height=25, units="cm")
 
 
 
