@@ -1,5 +1,28 @@
 
 
+specify_decimal <- function(x, k, trim=FALSE) {
+
+  fmtd <- format(round(x, k), nsmall = k)
+  if (trim) {fmtd <- trimws(fmtd)}
+  return(fmtd)
+}
+
+print_est1bracket <- function(x, b, round=1){
+  paste0(specify_decimal(x, round), " (", specify_decimal(b, round), ")")
+}
+
+print_est2bracket <- function(x, b1, b2, round=1){
+  paste0(specify_decimal(x, round), " (", specify_decimal(b1, round), ", ", specify_decimal(b2, round), ")")
+}
+
+print_2bracket <- function(b1, b2, round=1){
+  paste0("(", specify_decimal(b1, round), ", ", specify_decimal(b2, round), ")")
+}
+
+print_pval <- function(pval, k=3){
+  ifelse(pval < 1/(10^k), paste0("p<", 1/(10^k)), paste0("p=", specify_decimal(pval, k = 3)))
+}
+
 
 fct_case_when <- function(...) {
   # uses dplyr::case_when but converts the output to a factor,

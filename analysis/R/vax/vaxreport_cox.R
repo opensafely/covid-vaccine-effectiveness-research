@@ -75,7 +75,6 @@ summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
 
-stratum="all"
 for(stratum in strata){
 
   data_cox_sub <- read_rds(here::here("output", cohort, outcome, strata_var, stratum, "data_cox_sub.rds"))
@@ -126,12 +125,51 @@ for(stratum in strata){
       units="cm", width=20, height=30
     )
 
+    age_contrast <- termplot(
+      coxmod3,
+      #data=data_cox_sub,
+      terms="poly(age, degree = 2, raw = TRUE)",
+      se=TRUE, reference="sample", xlabs="Age", ylabs="log hazard ratio",
+      plot=FALSE
+    ) %>% as.data.frame() %>%
+      mutate(
+        age.y.ll = age.y-(age.se*1.96),
+        age.y.ul = age.y+(age.se*1.96),
+        centre = first(age.y),
+        hr = exp(age.y - centre),
+        hr.ll = exp(age.y.ll - centre),
+        hr.ul = exp(age.y.ul - centre),
+      )
+
+    age_plot <- ggplot(age_contrast) +
+      geom_line(aes(x=age.x, y=hr))+
+      geom_ribbon(aes(x=age.x, ymin=hr.ll, ymax=hr.ul), colour="transparent", fill="grey", alpha=0.3)+
+      scale_y_log10()+
+      labs(x="age", y="hazard ratio")+
+      theme_bw()
+
+
+    ggsave(
+      here::here("output", cohort, outcome, strata_var, stratum, "plot_vaxcoxmod3_age.svg"),
+      plot=age_plot,
+
+    )
 }
 
-#data_cox_sub$`strata(region)` <- data_cox_sub$region
-#Greg::plotHR(coxmod2, term="age", xlim=c(80,110), cntrst=FALSE)
 
-#test <- predict(coxmod2, , terms="age", type="terms", se.fit=TRUE, reference="sample")
+## plot HR contrast by age ----
+
+# Greg::plotHR(coxmod2, term="age", xlim=c(80,110), cntrst=FALSE)
+
+# png(filename=here::here("output", cohort, outcome, strata_var, stratum, "plot_vaxcoxmod3_age.png"))
+# termplot(
+#   coxmod3,
+#   #data=data_cox_sub,
+#   terms="poly(age, degree = 2, raw = TRUE)",
+#   se=TRUE, reference="sample", xlabs="Age", ylabs="log hazard ratio",
+#   plot=TRUE
+# )
+# dev.off()
 
 
 warnings()

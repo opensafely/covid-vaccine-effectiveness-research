@@ -71,7 +71,8 @@ write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds
 ## define outcomes, exposures, and covariates ----
 
 formula_exposure <- . ~ . + timesincevax_pw
-formula_demog <- . ~ . + age + I(age*age) + sex + imd + ethnicity
+#formula_demog <- . ~ . + age + I(age * age) + sex + imd + ethnicity
+formula_demog <- . ~ . + poly(age, degree=2, raw=TRUE) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
   bmi +
   chronic_cardiac_disease +
