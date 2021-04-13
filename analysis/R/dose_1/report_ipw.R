@@ -83,9 +83,9 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ## if outcome is positive test, remove time-varying positive test info from covariate set
 if(outcome=="postest"){
-  formula_remove_timedependent <- as.formula(". ~ . - timesince_postest_pw")
+  formula_remove_postest <- as.formula(". ~ . - timesince_postest_pw")
 } else{
-  formula_remove_timedependent <- as.formula(". ~ .")
+  formula_remove_postest <- as.formula(". ~ .")
 }
 
 
