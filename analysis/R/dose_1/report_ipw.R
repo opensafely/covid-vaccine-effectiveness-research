@@ -98,8 +98,8 @@ gt_model_summary <- function(model, cluster) {
 
 
   covar_labels = list(
-    age ~ "Age",
-    `I(age * age)` ~ "Age-squared",
+    `poly(age, degree = 2, raw = TRUE)1` ~ "Age",
+    `poly(age, degree = 2, raw = TRUE)2` ~ "Age-squared",
     sex ~ "Sex",
     imd ~ "Deprivation",
     ethnicity ~ "Ethnicity",
