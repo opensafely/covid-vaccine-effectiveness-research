@@ -21,6 +21,7 @@ library('parglm')
 library('gtsummary')
 library("sandwich")
 library("lmtest")
+library('gt')
 
 ## Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
@@ -165,5 +166,27 @@ msmmod_forest <-
 ## save plot
 ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{brand}_{strata_var}.svg")), msmmod_forest, width=20, height=25, units="cm")
 
+
+tab_forest <-
+msmmod_forest_data %>%
+  transmute(
+    outcome_descr, model, term,
+    `HR` = specify_decimal(or, 3),
+    `95% CI` = print_2bracket(or.ll, or.ul, round=3),
+    `P value` = print_pval(p.value, 3),
+  ) %>%
+  pivot_wider(
+    id_cols = c(outcome_descr, term),
+    names_from = model,
+    values_from = c(HR, `95% CI`, `P value`),
+    names_glue = "{model}_{.value}"
+    ) %>%
+  select(Outcome=outcome_descr, `Time since first dose`=term, contains("Standard"), contains("Marginal")) %>%
+  gt(
+    groupname_col = "Outcome"
+  ) %>%
+  tab_spanner_delim("_")
+
+gtsave(tab_forest, here::here("output", cohort, glue::glue("estimates_{brand}_{strata_var}.html")))
 
 
