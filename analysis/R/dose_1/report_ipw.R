@@ -161,12 +161,13 @@ gt_model_summary <- function(model, cluster) {
 
 forest_from_gt <- function(gt_obj, title){
 
-  #all these methods use broom to get the coefficients. but tidy.glm only uses profile CIs, not Wald. (yTHO??)
-  #profile CIs will take forever on large datasets.
-  #so need to write custom function for plotting wald CIs. grr
   #jtools::plot_summs(ipwvaxany1)
   #modelsummary::modelplot(ipwvaxany1, coef_omit = 'Interc|tstop', conf.type="wald", exponentiate=TRUE)
   #sjPlot::plot_model(ipwvaxany1)
+  #all these methods use broom::tidy to get the coefficients. but tidy.glm only uses profile CIs, not Wald. (yTHO??)
+  #profile CIs will take forever on large datasets.
+  #so need to write custom function for plotting wald CIs. grr
+
 
   plot_data <- gt_obj %>%
   as_gt() %>%
@@ -236,8 +237,8 @@ for(stratum in strata){
     ## output model coefficients
 
     tab_vaxany1 <- gt_model_summary(model_vaxany1, data_atrisk_vaxany1$patient_id)
-    gtsave(tab_vaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.html"))
-    write_csv(tab_vaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_ipwvaxany1.csv"))
+    gtsave(tab_vaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.html"))
+    write_csv(tab_vaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.csv"))
 
     ##output forest plot
     plot_vaxany1 <- forest_from_gt(tab_vaxany1, "Predicting any vaccine")
