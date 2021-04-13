@@ -1,0 +1,43 @@
+2021-04-13T20:00:12.152818200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-13T20:00:12.161648900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-13T20:00:12.161672800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-13T20:00:12.161681200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-13T20:00:12.161688200Z v readr   1.3.1     v forcats 0.5.0
+2021-04-13T20:00:12.325458700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-13T20:00:12.325529200Z x dplyr::filter() masks stats::filter()
+2021-04-13T20:00:12.325537600Z x dplyr::lag()    masks stats::lag()
+2021-04-13T20:00:12.338947300Z 
+2021-04-13T20:00:12.338969800Z Attaching package: 'lubridate'
+2021-04-13T20:00:12.338978000Z 
+2021-04-13T20:00:12.340286500Z The following objects are masked from 'package:base':
+2021-04-13T20:00:12.340302700Z 
+2021-04-13T20:00:12.340310400Z     date, intersect, setdiff, union
+2021-04-13T20:00:12.340317400Z 
+2021-04-13T20:00:14.615479500Z <environment: R_GlobalEnv>
+2021-04-13T20:00:14.615639000Z <environment: R_GlobalEnv>
+2021-04-13T20:00:41.874110500Z Saving 7 x 7 in image
+
+
+state: succeeded
+commit: 8a529d1b684d120622f1e6106ce4ac5117ccff85
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+exit_code: 0
+job_id: 7u7op3q2ij22nzmn
+run_by_user: wjchulme
+created_at: 2021-04-13T17:06:50Z
+started_at: 2021-04-13T20:00:09Z
+completed_at: 2021-04-13T20:00:45Z
+
+Completed successfully
+
+outputs:
+  output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg      - moderately_sensitive
+  output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg      - moderately_sensitive
+  output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg      - moderately_sensitive
+  output/over80s/vaccination/all/all/plot_vaxcoxmod3_age.svg  - moderately_sensitive
+  output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv       - moderately_sensitive
+  output/over80s/vaccination/all/all/tab_vaxcoxmod1.html      - moderately_sensitive
+  output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv       - moderately_sensitive
+  output/over80s/vaccination/all/all/tab_vaxcoxmod2.html      - moderately_sensitive
+  output/over80s/vaccination/all/all/tab_vaxcoxmod3.csv       - moderately_sensitive
+  output/over80s/vaccination/all/all/tab_vaxcoxmod3.html      - moderately_sensitive

@@ -112,7 +112,9 @@
   * [metadata/reportmodels_msm_over80s_az_dose1.log](metadata/reportmodels_msm_over80s_az_dose1.log)
   * [metadata/reportmodels_msm_over80s_pfizer.log](metadata/reportmodels_msm_over80s_pfizer.log)
   * [metadata/reportmodels_msm_over80s_pfizer_dose1.log](metadata/reportmodels_msm_over80s_pfizer_dose1.log)
+  * [metadata/vaxmodels_cox_over80s_all.log](metadata/vaxmodels_cox_over80s_all.log)
   * [metadata/vaxmodels_cox_over80s_all_dose1.log](metadata/vaxmodels_cox_over80s_all_dose1.log)
+  * [metadata/vaxreport_over80s_all.log](metadata/vaxreport_over80s_all.log)
   * [metadata/vaxreport_over80s_all_dose1.log](metadata/vaxreport_over80s_all_dose1.log)
 * output
   * output/data
@@ -130,8 +132,12 @@
       * output/over80s/covidadmitted/any
         * output/over80s/covidadmitted/any/all
           * output/over80s/covidadmitted/any/all/all
+            * [output/over80s/covidadmitted/any/all/all/plot_death.svg](output/over80s/covidadmitted/any/all/all/plot_death.svg)
             * [output/over80s/covidadmitted/any/all/all/plot_ipwdeath.svg](output/over80s/covidadmitted/any/all/all/plot_ipwdeath.svg)
             * [output/over80s/covidadmitted/any/all/all/plot_ipwvaxany1.svg](output/over80s/covidadmitted/any/all/all/plot_ipwvaxany1.svg)
+            * [output/over80s/covidadmitted/any/all/all/plot_vaxany1.svg](output/over80s/covidadmitted/any/all/all/plot_vaxany1.svg)
+            * [output/over80s/covidadmitted/any/all/all/tab_death.csv](output/over80s/covidadmitted/any/all/all/tab_death.csv)
+            * [output/over80s/covidadmitted/any/all/all/tab_death.html](output/over80s/covidadmitted/any/all/all/tab_death.html)
             * [output/over80s/covidadmitted/any/all/all/tab_ipwdeath.csv](output/over80s/covidadmitted/any/all/all/tab_ipwdeath.csv)
             * [output/over80s/covidadmitted/any/all/all/tab_ipwdeath.html](output/over80s/covidadmitted/any/all/all/tab_ipwdeath.html)
             * [output/over80s/covidadmitted/any/all/all/tab_ipwvaxany1.csv](output/over80s/covidadmitted/any/all/all/tab_ipwvaxany1.csv)
@@ -148,12 +154,18 @@
       * output/over80s/coviddeath/any
         * output/over80s/coviddeath/any/all
           * output/over80s/coviddeath/any/all/all
+            * [output/over80s/coviddeath/any/all/all/plot_death.svg](output/over80s/coviddeath/any/all/all/plot_death.svg)
             * [output/over80s/coviddeath/any/all/all/plot_ipwdeath.svg](output/over80s/coviddeath/any/all/all/plot_ipwdeath.svg)
             * [output/over80s/coviddeath/any/all/all/plot_ipwvaxany1.svg](output/over80s/coviddeath/any/all/all/plot_ipwvaxany1.svg)
+            * [output/over80s/coviddeath/any/all/all/plot_vaxany1.svg](output/over80s/coviddeath/any/all/all/plot_vaxany1.svg)
+            * [output/over80s/coviddeath/any/all/all/tab_death.csv](output/over80s/coviddeath/any/all/all/tab_death.csv)
+            * [output/over80s/coviddeath/any/all/all/tab_death.html](output/over80s/coviddeath/any/all/all/tab_death.html)
             * [output/over80s/coviddeath/any/all/all/tab_ipwdeath.csv](output/over80s/coviddeath/any/all/all/tab_ipwdeath.csv)
             * [output/over80s/coviddeath/any/all/all/tab_ipwdeath.html](output/over80s/coviddeath/any/all/all/tab_ipwdeath.html)
             * [output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.csv](output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.csv)
             * [output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.html](output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.html)
+            * [output/over80s/coviddeath/any/all/all/tab_vaxany1.csv](output/over80s/coviddeath/any/all/all/tab_vaxany1.csv)
+            * [output/over80s/coviddeath/any/all/all/tab_vaxany1.html](output/over80s/coviddeath/any/all/all/tab_vaxany1.html)
             * [output/over80s/coviddeath/any/all/all/weights_histogram.svg](output/over80s/coviddeath/any/all/all/weights_histogram.svg)
             * [output/over80s/coviddeath/any/all/all/weights_model_any.html](output/over80s/coviddeath/any/all/all/weights_model_any.html)
             * [output/over80s/coviddeath/any/all/all/weights_model_death.html](output/over80s/coviddeath/any/all/all/weights_model_death.html)
@@ -279,8 +291,12 @@
       * output/over80s/noncoviddeath/any
         * output/over80s/noncoviddeath/any/all
           * output/over80s/noncoviddeath/any/all/all
+            * [output/over80s/noncoviddeath/any/all/all/plot_death.svg](output/over80s/noncoviddeath/any/all/all/plot_death.svg)
             * [output/over80s/noncoviddeath/any/all/all/plot_ipwdeath.svg](output/over80s/noncoviddeath/any/all/all/plot_ipwdeath.svg)
             * [output/over80s/noncoviddeath/any/all/all/plot_ipwvaxany1.svg](output/over80s/noncoviddeath/any/all/all/plot_ipwvaxany1.svg)
+            * [output/over80s/noncoviddeath/any/all/all/plot_vaxany1.svg](output/over80s/noncoviddeath/any/all/all/plot_vaxany1.svg)
+            * [output/over80s/noncoviddeath/any/all/all/tab_death.csv](output/over80s/noncoviddeath/any/all/all/tab_death.csv)
+            * [output/over80s/noncoviddeath/any/all/all/tab_death.html](output/over80s/noncoviddeath/any/all/all/tab_death.html)
             * [output/over80s/noncoviddeath/any/all/all/tab_ipwdeath.csv](output/over80s/noncoviddeath/any/all/all/tab_ipwdeath.csv)
             * [output/over80s/noncoviddeath/any/all/all/tab_ipwdeath.html](output/over80s/noncoviddeath/any/all/all/tab_ipwdeath.html)
             * [output/over80s/noncoviddeath/any/all/all/tab_ipwvaxany1.csv](output/over80s/noncoviddeath/any/all/all/tab_ipwvaxany1.csv)
@@ -340,8 +356,12 @@
       * output/over80s/postest/any
         * output/over80s/postest/any/all
           * output/over80s/postest/any/all/all
+            * [output/over80s/postest/any/all/all/plot_death.svg](output/over80s/postest/any/all/all/plot_death.svg)
             * [output/over80s/postest/any/all/all/plot_ipwdeath.svg](output/over80s/postest/any/all/all/plot_ipwdeath.svg)
             * [output/over80s/postest/any/all/all/plot_ipwvaxany1.svg](output/over80s/postest/any/all/all/plot_ipwvaxany1.svg)
+            * [output/over80s/postest/any/all/all/plot_vaxany1.svg](output/over80s/postest/any/all/all/plot_vaxany1.svg)
+            * [output/over80s/postest/any/all/all/tab_death.csv](output/over80s/postest/any/all/all/tab_death.csv)
+            * [output/over80s/postest/any/all/all/tab_death.html](output/over80s/postest/any/all/all/tab_death.html)
             * [output/over80s/postest/any/all/all/tab_ipwdeath.csv](output/over80s/postest/any/all/all/tab_ipwdeath.csv)
             * [output/over80s/postest/any/all/all/tab_ipwdeath.html](output/over80s/postest/any/all/all/tab_ipwdeath.html)
             * [output/over80s/postest/any/all/all/tab_ipwvaxany1.csv](output/over80s/postest/any/all/all/tab_ipwvaxany1.csv)
@@ -418,6 +438,7 @@
           * [output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod1.svg)
           * [output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod2.svg)
           * [output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod3.svg)
+          * [output/over80s/vaccination/all/all/plot_vaxcoxmod3_age.svg](output/over80s/vaccination/all/all/plot_vaxcoxmod3_age.svg)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod1.csv)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod1.html](output/over80s/vaccination/all/all/tab_vaxcoxmod1.html)
           * [output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv](output/over80s/vaccination/all/all/tab_vaxcoxmod2.csv)

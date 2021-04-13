@@ -1,28 +1,28 @@
-2021-04-10T23:24:43.517879600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-10T23:24:43.526814300Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-10T23:24:43.526833800Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-10T23:24:43.526841700Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-10T23:24:43.526848500Z v readr   1.3.1     v forcats 0.5.0
-2021-04-10T23:24:43.703474800Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-10T23:24:43.703535700Z x dplyr::filter() masks stats::filter()
-2021-04-10T23:24:43.703544300Z x dplyr::lag()    masks stats::lag()
-2021-04-10T23:25:42.327934400Z # A tibble: 3 x 2
-2021-04-10T23:25:42.328008700Z   cohort   cohort_size
-2021-04-10T23:25:42.328017900Z   <chr>          <int>
-2021-04-10T23:25:42.328026100Z 1 over80s       916976
-2021-04-10T23:25:42.328033500Z 2 in70s        1754426
-2021-04-10T23:25:42.328040800Z 3 under65s    11418791
+2021-04-13T19:44:21.095527100Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-13T19:44:21.104384400Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-13T19:44:21.104412100Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-13T19:44:21.104420600Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-13T19:44:21.104427500Z v readr   1.3.1     v forcats 0.5.0
+2021-04-13T19:44:21.272441400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-13T19:44:21.272502800Z x dplyr::filter() masks stats::filter()
+2021-04-13T19:44:21.272511200Z x dplyr::lag()    masks stats::lag()
+2021-04-13T19:45:20.977124100Z # A tibble: 3 x 2
+2021-04-13T19:45:20.977217000Z   cohort   cohort_size
+2021-04-13T19:45:20.977226900Z   <chr>          <int>
+2021-04-13T19:45:20.977235600Z 1 over80s       917262
+2021-04-13T19:45:20.977243100Z 2 in70s        1754735
+2021-04-13T19:45:20.977250600Z 3 under65s    11422404
 
 
 state: succeeded
-commit: ef7094bf0dbbe27b2185c4e06ad03145b7791cf2
-docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+commit: 8a529d1b684d120622f1e6106ce4ac5117ccff85
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: 44vx3y45qdaoishq
+job_id: ltmnzha2a462z7oc
 run_by_user: wjchulme
-created_at: 2021-04-10T20:59:19Z
-started_at: 2021-04-10T23:24:40Z
-completed_at: 2021-04-10T23:25:53Z
+created_at: 2021-04-13T17:06:50Z
+started_at: 2021-04-13T19:44:18Z
+completed_at: 2021-04-13T19:45:31Z
 
 Completed successfully
 
