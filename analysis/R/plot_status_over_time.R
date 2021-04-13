@@ -101,6 +101,7 @@ plot_theme <-
 
 
 data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+data_tte <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_tte.rds")))
 data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds")))
 
 
@@ -115,7 +116,8 @@ list2env(metadata_cohorts, globalenv())
 # create plots ----
 
 data_pt <- data_pt %>%
-left_join(data_fixed, by = "patient_id")
+  left_join(data_fixed, by = "patient_id") %>%
+  left_join(data_tte %>% select(patient_id, tte_vaxany1), "patient_id")
 
 data_by_day <-
 data_pt %>%
@@ -166,6 +168,8 @@ data_pt %>%
     coviddeath_status,
     covidadmitted_status,
     postest_status,
+
+    tte_vaxany1,
 
     outcome_status = fct_case_when(
       noncoviddeath_status==1 ~ "Non-covid death",
@@ -485,11 +489,15 @@ tab_end_status <- data_pt %>%
     vaxany = sum(vaxany_status>0 & death_status==0),
     vaxpfizer = sum(vaxpfizer_status>0 & death_status==0),
     vaxaz = sum(vaxaz_status>0 & death_status==0),
-    dead_unvax = sum(vaxany_status==0 & death_status==0),
-    dereg_unvax = sum(vaxany_status==0 & dereg_status==0),
+    dead_unvax = sum(vaxany_status==0 & death_status==1),
+    dereg_unvax = sum(vaxany_status==0 & dereg_status==1),
 
     pt_days = sum(tstop),
     pt_years = sum(tstop)/365.25,
+
+    pt_days_vax = sum(tstop)-sum(pmin(tte_vaxany1, tstop, na.rm=TRUE)),
+    pt_years_vax = (sum(tstop)-sum(pmin(tte_vaxany1, tstop, na.rm=TRUE)))/365.25,
+
     fup_min = min(tstop),
     fup_q1 = quantile(tstop, 0.25),
     fup_median = median(tstop),
