@@ -106,6 +106,8 @@ formula_comorbs <- . ~ . +
   LD_incl_DS_and_CP +
   psychosis_schiz_bipolar +
 
+  multimorb +
+
   flu_vaccine
 
 

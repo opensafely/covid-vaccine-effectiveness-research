@@ -299,6 +299,20 @@ data_processed <- data_extract_reordered %>%
 
     bmi = as.factor(bmi),
 
+    multimorb =
+      (bmi %in% c("Obese II (35-39.9)", "Obese III (40+)")) +
+      (chronic_cardiac_disease | heart_failure | other_heart_disease) +
+      (dialysis) +
+      (diabetes) +
+      (chronic_liver_disease)+
+      (current_copd | other_resp_conditions)+
+      (lung_cancer | haematological_cancer | cancer_excl_lung_and_haem | chemo_or_radio)+
+      (permanant_immunosuppression | asplenia | dmards)+
+      (dementia | other_neuro_conditions)+
+      (LD_incl_DS_and_CP)+
+      (psychosis_schiz_bipolar),
+    multimorb = cut(multimorb, breaks = c(0, 1, 2, 3, 4, Inf), labels=c("0", "1", "2", "3", "4+"), right=TRUE),
+
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",
       !is.na(death_date) ~ "not covid-related",
