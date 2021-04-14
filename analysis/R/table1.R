@@ -195,6 +195,8 @@ map(
 
       multimorb ~ "Morbidity count",
 
+      shielded ~ "Shielding criteria met",
+
       flu_vaccine ~ "Flu vaccine in previous 5 years"
 
     )

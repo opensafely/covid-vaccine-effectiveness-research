@@ -108,6 +108,8 @@ formula_comorbs <- . ~ . +
 
   multimorb +
 
+  shielded +
+
   flu_vaccine
 
 

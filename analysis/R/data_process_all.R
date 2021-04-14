@@ -170,7 +170,8 @@ data_extract0 <- read_csv(
     other_neuro_conditions = col_logical(),
     LD_incl_DS_and_CP = col_logical(),
     psychosis_schiz_bipolar = col_logical(),
-    flu_vaccine = col_logical()
+    flu_vaccine = col_logical(),
+    shielded = col_logical()
 
   ),
 

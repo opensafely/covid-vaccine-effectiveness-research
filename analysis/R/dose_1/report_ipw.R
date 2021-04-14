@@ -136,6 +136,7 @@ gt_model_summary <- function(model, cluster) {
     psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
 
     multimorb ~ "Morbidity count",
+    shileded ~ "Shielding criteria met",
 
     flu_vaccine ~ "Flu vaccine in previous 5 years",
 
