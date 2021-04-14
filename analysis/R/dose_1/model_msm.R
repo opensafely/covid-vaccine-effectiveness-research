@@ -117,7 +117,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   mutate(
     vaxany1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
     vaxpfizer1_atrisk = (vaxpfizer1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
-    vaxaz1_atrisk = (vaxaz1_status==0 & death_status==0  & dereg_status==0 & tstart>=28 & lastfup_status==0),
+    vaxaz1_atrisk = (vaxaz1_status==0 & death_status==0  & dereg_status==0 & lastfup_status==0 & tstart>=28),
     death_atrisk = (death_status==0 & dereg_status==0 & lastfup_status==0),
   )
 
@@ -224,6 +224,7 @@ get_ipw_weights <- function(
       pred_event=predict(event_model, type="response"),
       pred_event_fxd=predict(event_model_fxd, type="response"),
     ) %>%
+    arrange(patient_id, tstop) %>%
     group_by(patient_id) %>%
     mutate(
       probevent_realised = case_when(
@@ -294,7 +295,7 @@ for(stratum in strata){
     # IPW model for any vaccination ----
     weights_vaxany1 <- get_ipw_weights(
       data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk", "vaxany1",
-      ipw_formula =     update(event ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_postest) %>% update(formula_remove_timedependent) %>% update(formula_remove_strata_var),
+      ipw_formula =     update(event ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(event ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
@@ -315,7 +316,7 @@ for(stratum in strata){
 
   # IPW model for death ----
 
-  ## if outcome is not death, then just reweight by any cause death
+  ## if outcome is not death, then need to account for censoring by any cause death
   if(!(outcome %in% c("death", "coviddeath", "noncoviddeath"))){
     weights_death <- get_ipw_weights(
       data_pt_sub, "death", "death_status", "death_atrisk", "death",
@@ -323,7 +324,7 @@ for(stratum in strata){
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-  ## if outcome is covid death, then need to reweight by non-covid deaths
+  ## if outcome is covid death, then need to account for censoring by non-covid deaths
   if(outcome=="coviddeath"){
     weights_death <- get_ipw_weights(
       data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk", "death",
@@ -331,7 +332,7 @@ for(stratum in strata){
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-  ## if outcome is noncovid death, then need to reweight by covid deaths
+  ## if outcome is noncovid death, then need to account for censoring by covid deaths
   if(outcome=="noncoviddeath"){
     weights_death <- get_ipw_weights(
       data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk", "death",
@@ -339,7 +340,7 @@ for(stratum in strata){
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-  ## if outcome is death, then no reweighting by death is needed
+  ## if outcome is death, then no accounting for censoring by death is needed
   if(outcome=="death"){
     weights_death <- data_pt_sub %>% filter(death_atrisk) %>% transmute(patient_id, tstart, tstop, ipweight_stbl_death=1)
   }
