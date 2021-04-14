@@ -1446,6 +1446,14 @@ study = StudyDefinition(
     ######### PRIMIS CODELIST DERIVED CLINICAL VARIABLES     ###
     ############################################################
 
+
+    shielded_ever = patients.with_these_clinical_events(
+            shield_codes,
+            returning="binary_flag",
+            on_or_before = "index_date",
+            find_last_match_in_period = True,
+        ),
+
     shielded = patients.satisfying(
         """severely_clinically_vulnerable AND NOT less_vulnerable""", 
 
