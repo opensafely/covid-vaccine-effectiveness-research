@@ -251,7 +251,7 @@ get_ipw_weights <- function(
       ipweight_fxd = 1/cmlprobevent_realised_fxd,
 
       # stabilised inverse probability weights
-      ipweight_stbl = ipweight_fxd/ipweight,
+      ipweight_stbl = cmlprobevent_realised_fxd/cmlprobevent_realised_fxd,
     ) %>%
     ungroup()
 
