@@ -18,6 +18,7 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('glue')
 library('survival')
 library('splines')
 library('parglm')
@@ -89,15 +90,15 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 # Import processed data ----
 
-data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
+data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_wide_fixed.rds")))
 
-data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
+data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   filter(
-    .[[glue::glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
+    .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
     death_status == 0, # follow up ends at (day after) occurrence of death
     dereg_status == 0, # follow up ends at (day after) practce deregistration
-    vaxany_status == .[[glue::glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
+    vaxany_status == .[[glue("vax{brand}_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
   ) %>%
   mutate(
     all = factor("all",levels=c("all")),
@@ -114,24 +115,24 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue::glue("data_pt.rds
     )
   ) %>%
   mutate(
-    vaxany1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0),
-    vaxpfizer1_atrisk = (vaxpfizer1_status==0 & death_status==0 & dereg_status==0),
-    vaxaz1_atrisk = (vaxaz1_status==0 & death_status==0  & dereg_status==0 & tstart>=28),
-    death_atrisk = (death_status==0 & dereg_status==0),
+    vaxany1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
+    vaxpfizer1_atrisk = (vaxpfizer1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
+    vaxaz1_atrisk = (vaxaz1_status==0 & death_status==0  & dereg_status==0 & lastfup_status==0 & tstart>=28),
+    death_atrisk = (death_status==0 & dereg_status==0 & lastfup_status==0),
   )
 
 
 
 ### print dataset size ----
-cat(glue::glue("data_pt data size = ", nrow(data_pt)), "\n  ")
-cat(glue::glue("memory usage = ", format(object.size(data_pt), units="GB", standard="SI", digits=3L)), "\n  ")
+cat(glue("data_pt data size = ", nrow(data_pt)), "\n  ")
+cat(glue("memory usage = ", format(object.size(data_pt), units="GB", standard="SI", digits=3L)), "\n  ")
 
 
 
 
 get_ipw_weights <- function(
   data, event, event_status, event_atrisk,
-  name, title,
+  name,
   ipw_formula,
   ipw_formula_fxd
 ){
@@ -148,7 +149,7 @@ get_ipw_weights <- function(
 
   ### with time-updating covariates
   cat("  \n")
-  cat(glue::glue("{name}  \n"))
+  cat(glue("{name}  \n"))
 
   event_model <- parglm(
     formula = ipw_formula,
@@ -159,14 +160,14 @@ get_ipw_weights <- function(
     model = TRUE # true so that it can be used in report_ipw model table function
   )
 
-  cat(glue::glue("{name} data size = ", length(event_model$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(event_model), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("{name} data size = ", length(event_model$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(event_model), units="GB", standard="SI", digits=3L)), "\n")
 
 
   ### without time-updating covariates ----
 
   cat("  \n")
-  cat(glue::glue("{name}_fxd  \n"))
+  cat(glue("{name}_fxd  \n"))
   event_model_fxd <- parglm(
     formula = ipw_formula_fxd,
     data = data_atrisk,
@@ -176,24 +177,24 @@ get_ipw_weights <- function(
     model = FALSE
   )
 
-  cat(glue::glue("{name}_fxd data size = ", length(event_model_fxd$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("{name}_fxd data size = ", length(event_model_fxd$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
 
-  write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_atrisk_{name}.rds")), compress="gz")
-  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_{name}.rds")), compress="gz")
-  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_formula_{name}.rds")), compress="gz")
+  write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{name}.rds")), compress="gz")
+  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
+  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
 
   ## output models ----
 
 
   # tab_summary <- gt_model_summary(event_model, data_atrisk$patient_id)
-  # gtsave(tab_summary %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("tab_{name}.html")))
-  # write_csv(tab_summary$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("tab_{name}.csv")))
+  # gtsave(tab_summary %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, glue("tab_{name}.html")))
+  # write_csv(tab_summary$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("tab_{name}.csv")))
   #
   # ##output forest plot
   # plot_summary <- forest_from_gt(tab_summary, title)
   # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("plot_{name}.svg")),
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, glue("plot_{name}.svg")),
   #   plot_summary,
   #   units="cm", width=20, height=25
   # )
@@ -202,10 +203,10 @@ get_ipw_weights <- function(
   #   event_model,
   #   pred=tstop, modx=region, data=data_atrisk,
   #   colors="Set1", vary.lty=FALSE,
-  #   x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
-  #   y.label=glue::glue("Death rate (mean-centered)")
+  #   x.label=glue("Days since {as.Date(gbl_vars$start_date)+1}"),
+  #   y.label=glue("Death rate (mean-centered)")
   # )
-  # ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, glue::glue("plot_{name}_region_trends.svg")), plot_region_trends, width=20, height=15, units="cm")
+  # ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, glue("plot_{name}_region_trends.svg")), plot_region_trends, width=20, height=15, units="cm")
 
 
 
@@ -223,6 +224,7 @@ get_ipw_weights <- function(
       pred_event=predict(event_model, type="response"),
       pred_event_fxd=predict(event_model_fxd, type="response"),
     ) %>%
+    arrange(patient_id, tstop) %>%
     group_by(patient_id) %>%
     mutate(
       probevent_realised = case_when(
@@ -249,7 +251,7 @@ get_ipw_weights <- function(
       ipweight_fxd = 1/cmlprobevent_realised_fxd,
 
       # stabilised inverse probability weights
-      ipweight_stbl = ipweight_fxd/ipweight,
+      ipweight_stbl = cmlprobevent_realised_fxd/cmlprobevent_realised_fxd,
     ) %>%
     ungroup()
 
@@ -263,7 +265,7 @@ get_ipw_weights <- function(
       ipweight_stbl
     )
 
-  weight_name <- glue::glue("ipweight_stbl_{name}")
+  weight_name <- glue("ipweight_stbl_{name}")
 
   weights_out[[weight_name]] <- weights_out$ipweight_stbl
   weights_out$ipweight_stbl <- NULL
@@ -293,7 +295,7 @@ for(stratum in strata){
     # IPW model for any vaccination ----
     weights_vaxany1 <- get_ipw_weights(
       data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk", "vaxany1",
-      ipw_formula =     update(event ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_postest) %>% update(formula_remove_timedependent) %>% update(formula_remove_strata_var),
+      ipw_formula =     update(event ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(event ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
@@ -314,7 +316,7 @@ for(stratum in strata){
 
   # IPW model for death ----
 
-  ## if outcome is not death, then just reweight by any cause death
+  ## if outcome is not death, then need to account for censoring by any cause death
   if(!(outcome %in% c("death", "coviddeath", "noncoviddeath"))){
     weights_death <- get_ipw_weights(
       data_pt_sub, "death", "death_status", "death_atrisk", "death",
@@ -322,7 +324,7 @@ for(stratum in strata){
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-  ## if outcome is covid death, then need to reweight by non-covid deaths
+  ## if outcome is covid death, then need to account for censoring by non-covid deaths
   if(outcome=="coviddeath"){
     weights_death <- get_ipw_weights(
       data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk", "death",
@@ -330,7 +332,7 @@ for(stratum in strata){
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-  ## if outcome is noncovid death, then need to reweight by covid deaths
+  ## if outcome is noncovid death, then need to account for censoring by covid deaths
   if(outcome=="noncoviddeath"){
     weights_death <- get_ipw_weights(
       data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk", "death",
@@ -338,7 +340,7 @@ for(stratum in strata){
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-  ## if outcome is death, then no reweighting by death is needed
+  ## if outcome is death, then no accounting for censoring by death is needed
   if(outcome=="death"){
     weights_death <- data_pt_sub %>% filter(death_atrisk) %>% transmute(patient_id, tstart, tstop, ipweight_stbl_death=1)
   }
@@ -424,10 +426,10 @@ for(stratum in strata){
       "outcome",
     )
   cat("  \n")
-  cat(glue::glue("data_weights data size = ", nrow(data_weights)), "  \n")
-  cat(glue::glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
+  cat(glue("data_weights data size = ", nrow(data_weights)), "  \n")
+  cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
 
-  write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_weights.rds")), compress="gz")
+  write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")), compress="gz")
 
   # MSM model ----
 
@@ -451,8 +453,8 @@ for(stratum in strata){
 
 
   print(jtools::summ(msmmod0_par, digits =3))
-  cat(glue::glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
   if(removeobs) rm(msmmod0_par)
 
@@ -470,8 +472,8 @@ for(stratum in strata){
 
   print(jtools::summ(msmmod1_par, digits =3))
 
-  cat(glue::glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
   if(removeobs) rm(msmmod1_par)
 
@@ -490,8 +492,8 @@ for(stratum in strata){
 
   print(jtools::summ(msmmod2_par, digits =3))
 
-  cat(glue::glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model2.rds"), compress="gz")
   if(removeobs) rm(msmmod2_par)
 
@@ -511,8 +513,8 @@ for(stratum in strata){
 
   print(jtools::summ(msmmod3_par, digits =3))
 
-  cat(glue::glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod3_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
   if(removeobs) rm(msmmod3_par)
 
@@ -532,8 +534,8 @@ for(stratum in strata){
 
   print(jtools::summ(msmmod4_par, digits =3))
 
-  cat(glue::glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
-  cat(glue::glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
+  cat(glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
   if(removeobs) rm(msmmod4_par)
 
