@@ -868,3 +868,21 @@ actions:
         tables: output/over80s/*any_all.csv
         html: output/over80s/*any_all.html
 
+  report_over80s_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_alloutcomes.R over80s pfizer all
+    needs: [data_define_cohorts, report_over80s_postest_pfizer_all, report_over80s_covidadmitted_pfizer_all, report_over80s_coviddeath_pfizer_all, report_over80s_noncoviddeath_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/*pfizer_all.svg
+        tables: output/over80s/*pfizer_all.csv
+        html: output/over80s/*pfizer_all.html
+
+  report_over80s_az_all:
+    run: r:latest analysis/R/dose_1/report_alloutcomes.R over80s az all
+    needs: [data_define_cohorts, report_over80s_postest_az_all, report_over80s_covidadmitted_az_all, report_over80s_coviddeath_az_all, report_over80s_noncoviddeath_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/*az_all.svg
+        tables: output/over80s/*az_all.csv
+        html: output/over80s/*az_all.html
+
