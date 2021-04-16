@@ -52,6 +52,7 @@ data_extract0 <- read_csv(
 
     # identifiers
     patient_id = col_integer(),
+    household_id = col_integer(),
     practice_id = col_integer(),
 
     # demographic / administrative
@@ -62,7 +63,9 @@ data_extract0 <- read_csv(
     rural_urban = col_integer(),
     care_home_type = col_character(),
     care_home_tpp = col_logical(),
-    care_home_primis = col_logical(),
+    care_home_code = col_logical(),
+    nontpp_household = col_logical(),
+    tpp_coverage = col_numeric(),
 
     registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
@@ -177,10 +180,29 @@ data_extract0 <- read_csv(
   na = character() # more stable to convert to missing later
 )
 
-# Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
+
+
 data_extract0 <- data_extract0 %>%
-  mutate(ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)) %>%
-  select(-ethnicity_6_sus)
+
+  # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
+  mutate(
+    ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)
+  ) %>%
+  select(-ethnicity_6_sus) %>%
+
+  # calculate care home status using household ID, if more than 5 over 70s living in same household
+  mutate(
+    household_id = na_if(household_id, 0), #if household_id=0 then make NA
+  ) %>%
+  group_by(household_id) %>%
+  mutate(
+    household_n = n(),
+    oldhousehold_n = sum(age>=70, na.rm=TRUE),
+  ) %>%
+  ungroup() %>%
+  mutate(
+    care_home_household = if_else(!is.na(household_id), oldhousehold_n>5, FALSE)
+  )
 
 # parse NAs
 data_extract <- data_extract0 %>%
@@ -296,6 +318,7 @@ data_processed <- data_extract_reordered %>%
     stp = as.factor(stp),
     msoa = as.factor(msoa),
     care_home_type = as.factor(care_home_type),
+    care_home_combined = care_home_household | care_home_tpp | care_home_code, # any carehome flag
 
     bmi = as.factor(bmi),
 
