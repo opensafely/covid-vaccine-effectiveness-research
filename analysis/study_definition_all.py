@@ -333,23 +333,23 @@ study = StudyDefinition(
     
     
     household_id = patients.household_as_of(
-        "index_date",
+        "2020-02-01",
         returning="pseudo_id",
         return_expectations = {
             "int": {"distribution": "normal", "mean": 1000, "stddev": 200},
             "incidence": 1,
         },
-    )
+    ),
     
     # mixed household flag 
     nontpp_household = patients.household_as_of(
-        "index_date",
+        "2020-02-01",
         returning="has_members_in_other_ehr_systems",
         return_expectations={"incidence": 0.75},
     ),
     # mixed household percentage 
     tpp_coverage = patients.household_as_of(
-        "index_date", 
+        "2020-02-01", 
         returning="percentage_of_members_with_data_in_this_backend", 
         return_expectations={
             "int": {"distribution": "normal", "mean": 75, "stddev": 10},
