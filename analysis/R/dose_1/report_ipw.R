@@ -240,7 +240,7 @@ for(stratum in strata){
     write_csv(tab_vaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.csv"))
 
     ##output forest plot
-    plot_vaxany1 <- forest_from_gt(tab_vaxany1, "Predicting any vaccine")
+    plot_vaxany1 <- forest_from_gt(tab_vaxany1, "Predicting vaccination by any brand")
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxany1.svg"),
       plot_vaxany1,
@@ -271,7 +271,7 @@ for(stratum in strata){
     write_csv(tab_vaxpfizer1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxpfizer1.csv"))
 
     ##output forest plot
-    plot_vaxpfizer1 <- forest_from_gt(tab_vaxpfizer1, "Predicting Pfizer vaccine")
+    plot_vaxpfizer1 <- forest_from_gt(tab_vaxpfizer1, "Predicting P-BNT vaccine")
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxfizer1.svg"),
       plot_vaxpfizer1,
@@ -294,13 +294,13 @@ for(stratum in strata){
     model_vaxaz1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model_vaxaz1.rds")))
 
     tab_vaxaz1 <- gt_model_summary(model_vaxaz1, data_atrisk_vaxaz1$patient_id)
-    gtsave(tab_vaxaz1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxfizer1.html"))
+    gtsave(tab_vaxaz1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxaz1.html"))
     write_csv(tab_vaxaz1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxaz1.csv"))
 
     ##output forest plot
-    plot_vaxaz1 <- forest_from_gt(tab_vaxaz1, "Predicting az vaccine")
+    plot_vaxaz1 <- forest_from_gt(tab_vaxaz1, "Predicting Ox-AZ vaccine")
     ggsave(
-      here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxfizer1.svg"),
+      here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxaz1.svg"),
       plot_vaxaz1,
       units="cm", width=20, height=25
     )
@@ -315,6 +315,7 @@ for(stratum in strata){
     ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "plot_vaxaz1_trends.svg"), ggsecular_vaxaz1, width=20, height=15, units="cm")
 
     if(removeobs) rm(data_atrisk_vaxaz1, model_vaxaz1, plot_vaxaz1, ggsecular_vaxaz1)
+
 
     # combine tables
     tbl_merge(list(tab_vaxpfizer1, tab_vaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%

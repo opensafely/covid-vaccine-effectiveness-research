@@ -210,7 +210,53 @@ gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "tabl
 
 ## create person-time table ----
 
+format_ratio = function(numer,denom){
+  paste0(
+    replace_na(scales::comma_format(accuracy=1)(numer), "--"),
+    "/",
+    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=6, pad=" ")
+  )
+}
 
+# rrCI <- function(n, pt, ref_n, ref_pt){
+#   rate <- n/pt
+#   ref_rate <- ref_n/ref_pt
+#   rr <- rate/ref_rate
+#   log_rr <- log(rr)
+#   selog_rr <- sqrt((1/n)+(1/ref_n))
+#   log_ll <- log_rr - qnorm(0.975)*selog_rr
+#   log_ul <- log_rr + qnorm(0.975)*selog_rr
+#   ll <- exp(log_ll)
+#   ul <- exp(log_ul)
+#
+#   paste0("(", scales::number_format(accuracy=0.0001)(ll), "-", scales::number_format(accuracy=0.0001)(ul), ")")
+# }
+
+# get confidence intervals for rate ratio using unadjusted poisson GLM
+# uses gtsummary not broom::tidy to make it easier to paste onto original data
+
+rrCI <- function(n, pt, x, accuracy=0.001){
+
+  dat<-tibble(n=n, pt=pt, x=x)
+
+  poismod <- glm(
+    formula = n ~ x + offset(log(pt*365.25)),
+    family=poisson,
+    data=dat
+  )
+
+  gtmodel <- tbl_regression(poismod, exponentiate=TRUE)$table_body %>%
+    filter(reference_row %in% FALSE) %>%
+    select(label, conf.low, conf.high)
+
+  dat2 <- left_join(dat, gtmodel, by=c("x"="label"))
+
+  if_else(
+    dat2$x==first(dat2$x),
+    "-",
+    paste0("(", scales::number_format(accuracy=accuracy)(dat2$conf.low), "-", scales::number_format(accuracy=accuracy)(dat2$conf.high), ")")
+  )
+}
 
 pt_summary_total <- data_pt %>%
   summarise(
@@ -230,6 +276,7 @@ pt_summary_total <- data_pt %>%
     noncoviddeath_n=sum(noncoviddeath),
     noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
 
+
     # death_yearsatrisk=sum(death_status==0)/365.25,
     # death_n=sum(death),
     # death_rate=death_n/death_yearsatrisk,
@@ -244,22 +291,21 @@ pt_summary <- function(data, timesince, postvaxcuts){
   ) %>%
   group_by(timesincevax_pw) %>%
   summarise(
-    postest_yearsatrisk=sum(postest_status==0)/365.25,
+    postest_yearsatrisk=sum(postest_status==0 & death_status==0 & dereg_status==0)/365.25,
     postest_n=sum(postest),
     postest_rate=postest_n/postest_yearsatrisk,
 
-    covidadmitted_yearsatrisk=sum(covidadmitted_status==0)/365.25,
+    covidadmitted_yearsatrisk=sum(covidadmitted_status==0 & death_status==0 & dereg_status==0)/365.25,
     covidadmitted_n=sum(covidadmitted),
     covidadmitted_rate=covidadmitted_n/covidadmitted_yearsatrisk,
 
-    coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
+    coviddeath_yearsatrisk=sum(death_status==0 & dereg_status==0)/365.25,
     coviddeath_n=sum(coviddeath),
     coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
 
-    noncoviddeath_yearsatrisk=sum(noncoviddeath_status==0)/365.25,
+    noncoviddeath_yearsatrisk=sum(death_status==0 & dereg_status==0)/365.25,
     noncoviddeath_n=sum(noncoviddeath),
     noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
-
 
     # death_yearsatrisk=sum(death_status==0)/365.25,
     # death_n=sum(death),
@@ -271,6 +317,11 @@ pt_summary <- function(data, timesince, postvaxcuts){
     covidadmitted_rr=covidadmitted_rate/first(covidadmitted_rate),
     coviddeath_rr=coviddeath_rate/first(coviddeath_rate),
     noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
+
+    postest_rrCI = rrCI(postest_n, postest_yearsatrisk, timesincevax_pw),
+    covidadmitted_rrCI = rrCI(covidadmitted_n, covidadmitted_yearsatrisk, timesincevax_pw),
+    coviddeath_rrCI = rrCI(coviddeath_n, coviddeath_yearsatrisk, timesincevax_pw),
+    noncoviddeath_rrCI = rrCI(noncoviddeath_n, noncoviddeath_yearsatrisk, timesincevax_pw),
   )
 
   redacted <- unredacted %>%
@@ -302,35 +353,54 @@ pt_summary_any <-
   bind_rows(
     pt_summary(data_pt, "timesincevaxany1", postvaxcuts),
     pt_summary_total %>% mutate(timesincevax_pw="Total")
-  )
+  ) %>%
+  mutate(
+    postest_q = format_ratio(postest_n,postest_yearsatrisk),
+    covidadmitted_q = format_ratio(covidadmitted_n,covidadmitted_yearsatrisk),
+    coviddeath_q = format_ratio(coviddeath_n,coviddeath_yearsatrisk),
+    noncoviddeath_q = format_ratio(noncoviddeath_n,noncoviddeath_yearsatrisk),
+  ) %>%
+  select(starts_with("timesince"), ends_with(c("_q","_rr", "_rrCI")))
 
 pt_tab_summary <- pt_summary_any %>%
   gt() %>%
    cols_label(
      timesincevax_pw = "Time since first dose",
 
-     postest_yearsatrisk = "Person-years at risk",
-     covidadmitted_yearsatrisk = "Person-years at risk",
-     coviddeath_yearsatrisk = "Person-years at risk",
-     noncoviddeath_yearsatrisk = "Person-years at risk",
-     #death_yearsatrisk = "Person-years at risk",
 
-     postest_n = "Events",
-     covidadmitted_n = "Events",
-     coviddeath_n = "Events",
-     noncoviddeath_n = "Events",
-     #death_n = "Events",
+     postest_q = "Events / person-years",
+     covidadmitted_q = "Events / person-years",
+     coviddeath_q = "Events / person-years",
+     noncoviddeath_q = "Events / person-years",
+     #death_q = "Events per person-years at risk",
 
-     postest_rate = "Rate/year",
-     covidadmitted_rate = "Rate/year",
-     coviddeath_rate = "Rate/year",
-     noncoviddeath_rate = "Rate/year",
-     #death_rate = "Rate/year"
+     # postest_yearsatrisk = "Person-years at risk",
+     # covidadmitted_yearsatrisk = "Person-years at risk",
+     # coviddeath_yearsatrisk = "Person-years at risk",
+     # noncoviddeath_yearsatrisk = "Person-years at risk",
+     # #death_yearsatrisk = "Person-years at risk",
+     #
+     # postest_n = "Events",
+     # covidadmitted_n = "Events",
+     # coviddeath_n = "Events",
+     # noncoviddeath_n = "Events",
+     # #death_n = "Events",
+     #
+     # postest_rate = "Rate/year",
+     # covidadmitted_rate = "Rate/year",
+     # coviddeath_rate = "Rate/year",
+     # noncoviddeath_rate = "Rate/year",
+     # #death_rate = "Rate/year"
 
-     postest_rr = "Relative risk",
-     covidadmitted_rr = "Relative risk",
-     coviddeath_rr = "Relative risk",
-     noncoviddeath_rr = "Relative risk",
+     postest_rr = "Rate ratio",
+     covidadmitted_rr = "Rate ratio",
+     coviddeath_rr = "Rate ratio",
+     noncoviddeath_rr = "Rate ratio",
+
+     postest_rrCI = "95% CI",
+     covidadmitted_rrCI = "95% CI",
+     coviddeath_rrCI = "95% CI",
+     noncoviddeath_rrCI = "95% CI"
    ) %>%
   tab_spanner(
     label = "Positive test",
@@ -352,12 +422,12 @@ pt_tab_summary <- pt_summary_any %>%
   #   label = "Any death",
   #   columns = starts_with("death")
   # ) %>%
+  # fmt_number(
+  #   columns = ends_with(c("yearsatrisk")),
+  #   decimals = 0
+  # ) %>%
   fmt_number(
-    columns = ends_with(c("yearsatrisk")),
-    decimals = 0
-  ) %>%
-  fmt_number(
-    columns = ends_with(c("rate", "rr")),
+    columns = ends_with(c("rr")),
     decimals = 3
   ) %>%
   fmt_missing(
@@ -378,10 +448,17 @@ gtsave(pt_tab_summary, here::here("output", cohort, "descr", "tables", "table_pt
 
 ## note:
 # the follow poisson model gives the same results eg for postest
-# glm(
+# poismod <- glm(
 #   formula = postest_n ~ timesincevax_pw + offset(log(postest_yearsatrisk*365.25)),
 #   family=poisson,
 #   data=pt_summary(data_pt, "timesincevaxany1", postvaxcuts)
+# )
+
+# same but with person-time data
+# poismod2 <- glm(
+#   formula = postest ~ timesincevax_pw ,
+#   family=poisson,
+#   data=data_pt %>% mutate(timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "Unvaccinated")) %>% filter(postest_status==0, death_status==0, dereg_status==0)
 # )
 
 # and the following pyears call gives the same results
@@ -390,3 +467,4 @@ gtsave(pt_tab_summary, here::here("output", cohort, "descr", "tables", "table_pt
 #  data=data_pt %>% filter(postest_status==0),
 #  data.frame = TRUE
 # )
+
