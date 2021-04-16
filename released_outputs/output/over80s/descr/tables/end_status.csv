@@ -1,2 +1,2 @@
-n,alive_unvax,vaxany,vaxpfizer,vaxaz,dead_unvax,dereg_unvax,pt_days,pt_years,fup_min,fup_q1,fup_median,fup_q3,max_fup
-100000,7443,92557,68682,23927,7443,7443,7599563,20806.46954140999,1,77,77,77,77
+n,alive_unvax,vaxany,vaxpfizer,vaxaz,dead_unvax,dereg_unvax,pt_days,pt_years,pt_days_vax,pt_years_vax,fup_min,fup_q1,fup_median,fup_q3,max_fup
+100000,7497,92503,68452,24106,0,0,7598317,20803.058179329226,3884462,10635.077344284737,1,77,77,77,77

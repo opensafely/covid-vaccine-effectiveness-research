@@ -148,11 +148,11 @@
       "created_by_action": "report_ipw_over80s_covidadmitted_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/covidadmitted/any/all/all/tab_ipwvaxany1.csv": {
+    "output/over80s/covidadmitted/any/all/all/tab_vaxany1.csv": {
       "created_by_action": "report_ipw_over80s_covidadmitted_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/covidadmitted/any/all/all/tab_ipwvaxany1.html": {
+    "output/over80s/covidadmitted/any/all/all/tab_vaxany1.html": {
       "created_by_action": "report_ipw_over80s_covidadmitted_any_all",
       "privacy_level": "moderately_sensitive"
     },
@@ -186,6 +186,238 @@
     },
     "output/over80s/covidadmitted/any/all/time_trends_region_plot4.svg": {
       "created_by_action": "report_over80s_covidadmitted_any_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/data_weights.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model0.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model2.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model3.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model4.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/tab_pfizer_az.html": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/weights_histogram.svg": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/all/weights_table.txt": {
+      "created_by_action": "models_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/estimates.csv": {
+      "created_by_action": "report_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/forest_plot.svg": {
+      "created_by_action": "report_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/az/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_covidadmitted_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/data_weights.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model0.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model2.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model3.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model4.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/tab_pfizer_az.html": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/weights_histogram.svg": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/all/weights_table.txt": {
+      "created_by_action": "models_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/estimates.csv": {
+      "created_by_action": "report_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/forest_plot.svg": {
+      "created_by_action": "report_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_covidadmitted_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/covidadmitted/pfizer/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_covidadmitted_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/any/all/all/data_atrisk_death.rds": {
@@ -264,11 +496,11 @@
       "created_by_action": "report_ipw_over80s_coviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.csv": {
+    "output/over80s/coviddeath/any/all/all/tab_vaxany1.csv": {
       "created_by_action": "report_ipw_over80s_coviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.html": {
+    "output/over80s/coviddeath/any/all/all/tab_vaxany1.html": {
       "created_by_action": "report_ipw_over80s_coviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
@@ -312,24 +544,56 @@
       "created_by_action": "report_over80s_coviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/coviddeath/az/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
     "output/over80s/coviddeath/az/all/all/data_weights.rds": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/model0.rds": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/model1.rds": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/model2.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/model3.rds": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/model4.rds": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/model_ipwvaxany1.rds": {
@@ -340,8 +604,48 @@
       "created_by_action": "models_over80s_coviddeath_az_all_dose1",
       "privacy_level": "highly_sensitive"
     },
+    "output/over80s/coviddeath/az/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_coviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/tab_pfizer_az.html": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/coviddeath/az/all/all/weights_histogram.svg": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/weights_model_any.html": {
@@ -353,15 +657,15 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/az/all/all/weights_table.txt": {
-      "created_by_action": "models_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/az/all/estimates.csv": {
-      "created_by_action": "report_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "report_over80s_coviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/az/all/forest_plot.svg": {
-      "created_by_action": "report_over80s_coviddeath_az_all_dose1",
+      "created_by_action": "report_over80s_coviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/az/all/strata_vector.rds": {
@@ -372,24 +676,64 @@
       "created_by_action": "report_over80s_coviddeath_az_all_dose1",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/coviddeath/az/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/az/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_coviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
     "output/over80s/coviddeath/pfizer/all/all/data_weights.rds": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/model0.rds": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/model1.rds": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/model2.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/model3.rds": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/model4.rds": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/model_ipwvaxany1.rds": {
@@ -400,8 +744,36 @@
       "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
       "privacy_level": "highly_sensitive"
     },
+    "output/over80s/coviddeath/pfizer/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_coviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/tab_pfizer_az.html": {
+      "created_by_action": "report_ipw_over80s_coviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_coviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_coviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_coviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/coviddeath/pfizer/all/all/weights_histogram.svg": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/weights_model_any.html": {
@@ -413,15 +785,15 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/all/weights_table.txt": {
-      "created_by_action": "models_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_coviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/estimates.csv": {
-      "created_by_action": "report_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "report_over80s_coviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/forest_plot.svg": {
-      "created_by_action": "report_over80s_coviddeath_pfizer_all_dose1",
+      "created_by_action": "report_over80s_coviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/pfizer/all/strata_vector.rds": {
@@ -430,6 +802,14 @@
     },
     "output/over80s/coviddeath/pfizer/all/time_trends_region_plot.svg": {
       "created_by_action": "report_over80s_coviddeath_pfizer_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_coviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/coviddeath/pfizer/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_coviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/data/data_cp.rds": {
@@ -816,8 +1196,36 @@
       "created_by_action": "report_over80s_any_all",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/estimates_any_all.html": {
+      "created_by_action": "report_over80s_any_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/estimates_az_all.csv": {
+      "created_by_action": "report_over80s_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/estimates_az_all.html": {
+      "created_by_action": "report_over80s_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/estimates_pfizer_all.csv": {
+      "created_by_action": "report_over80s_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/estimates_pfizer_all.html": {
+      "created_by_action": "report_over80s_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/forest_plot_any_all.svg": {
       "created_by_action": "report_over80s_any_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/forest_plot_az_all.svg": {
+      "created_by_action": "report_over80s_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/forest_plot_pfizer_all.svg": {
+      "created_by_action": "report_over80s_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/any/all/all/data_atrisk_death.rds": {
@@ -896,11 +1304,11 @@
       "created_by_action": "report_ipw_over80s_noncoviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/noncoviddeath/any/all/all/tab_ipwvaxany1.csv": {
+    "output/over80s/noncoviddeath/any/all/all/tab_vaxany1.csv": {
       "created_by_action": "report_ipw_over80s_noncoviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/noncoviddeath/any/all/all/tab_ipwvaxany1.html": {
+    "output/over80s/noncoviddeath/any/all/all/tab_vaxany1.html": {
       "created_by_action": "report_ipw_over80s_noncoviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
@@ -944,6 +1352,18 @@
       "created_by_action": "report_over80s_noncoviddeath_any_all",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/noncoviddeath/az/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
     "output/over80s/noncoviddeath/az/all/all/data_ipwdeath.rds": {
       "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
       "privacy_level": "highly_sensitive"
@@ -957,23 +1377,43 @@
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/data_weights.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/model0.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/model1.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/model2.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/model3.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/model4.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/model_ipwdeath.rds": {
@@ -988,6 +1428,18 @@
       "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
       "privacy_level": "highly_sensitive"
     },
+    "output/over80s/noncoviddeath/az/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/noncoviddeath/az/all/all/plot_ipwdeath.svg": {
       "created_by_action": "report_ipw_over80s_noncoviddeath_az_all_dose1",
       "privacy_level": "moderately_sensitive"
@@ -998,6 +1450,18 @@
     },
     "output/over80s/noncoviddeath/az/all/all/plot_ipwvaxfizer1.svg": {
       "created_by_action": "report_ipw_over80s_noncoviddeath_az_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/tab_ipwdeath.csv": {
@@ -1025,23 +1489,35 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/tab_pfizer_az.html": {
-      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/weights_histogram.svg": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/all/weights_table.txt": {
-      "created_by_action": "models_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/estimates.csv": {
-      "created_by_action": "report_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "report_over80s_noncoviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/forest_plot.svg": {
-      "created_by_action": "report_over80s_noncoviddeath_az_all_dose1",
+      "created_by_action": "report_over80s_noncoviddeath_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/az/all/strata_vector.rds": {
@@ -1051,6 +1527,26 @@
     "output/over80s/noncoviddeath/az/all/time_trends_region_plot.svg": {
       "created_by_action": "report_over80s_noncoviddeath_az_all_dose1",
       "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/az/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_noncoviddeath_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/data_ipwdeath.rds": {
       "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
@@ -1065,23 +1561,43 @@
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/data_weights.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/model0.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/model1.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/model2.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/model3.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/model4.rds": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/model_ipwdeath.rds": {
@@ -1096,6 +1612,18 @@
       "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
       "privacy_level": "highly_sensitive"
     },
+    "output/over80s/noncoviddeath/pfizer/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/noncoviddeath/pfizer/all/all/plot_ipwdeath.svg": {
       "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all_dose1",
       "privacy_level": "moderately_sensitive"
@@ -1106,6 +1634,18 @@
     },
     "output/over80s/noncoviddeath/pfizer/all/all/plot_ipwvaxfizer1.svg": {
       "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/tab_ipwdeath.csv": {
@@ -1133,23 +1673,35 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/tab_pfizer_az.html": {
-      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/weights_histogram.svg": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/all/weights_table.txt": {
-      "created_by_action": "models_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "models_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/estimates.csv": {
-      "created_by_action": "report_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "report_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/forest_plot.svg": {
-      "created_by_action": "report_over80s_noncoviddeath_pfizer_all_dose1",
+      "created_by_action": "report_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/noncoviddeath/pfizer/all/strata_vector.rds": {
@@ -1158,6 +1710,14 @@
     },
     "output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot.svg": {
       "created_by_action": "report_over80s_noncoviddeath_pfizer_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_noncoviddeath_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_noncoviddeath_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/any/all/all/all/modelcox0.rds": {
@@ -1260,10 +1820,6 @@
       "created_by_action": "models_cox_over80s_postest_any_all_region",
       "privacy_level": "highly_sensitive"
     },
-    "output/over80s/postest/any/all/all/region/modelcox2.rds": {
-      "created_by_action": "models_cox_over80s_postest_any_all_region",
-      "privacy_level": "highly_sensitive"
-    },
     "output/over80s/postest/any/all/all/stp/modelcox0.rds": {
       "created_by_action": "models_cox_over80s_postest_any_all_stp_dose1",
       "privacy_level": "highly_sensitive"
@@ -1284,11 +1840,11 @@
       "created_by_action": "report_ipw_over80s_postest_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/postest/any/all/all/tab_ipwvaxany1.csv": {
+    "output/over80s/postest/any/all/all/tab_vaxany1.csv": {
       "created_by_action": "report_ipw_over80s_postest_any_all",
       "privacy_level": "moderately_sensitive"
     },
-    "output/over80s/postest/any/all/all/tab_ipwvaxany1.html": {
+    "output/over80s/postest/any/all/all/tab_vaxany1.html": {
       "created_by_action": "report_ipw_over80s_postest_any_all",
       "privacy_level": "moderately_sensitive"
     },
@@ -1508,6 +2064,18 @@
       "created_by_action": "models_msm_over80s_any_sex_dose1",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/postest/az/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
     "output/over80s/postest/az/all/all/data_ipwdeath.rds": {
       "created_by_action": "models_over80s_postest_az_all_dose1",
       "privacy_level": "highly_sensitive"
@@ -1521,23 +2089,43 @@
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/az/all/all/data_weights.rds": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/az/all/all/model0.rds": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/az/all/all/model1.rds": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/model2.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/az/all/all/model3.rds": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/az/all/all/model4.rds": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/az/all/all/model_ipwdeath.rds": {
@@ -1552,6 +2140,18 @@
       "created_by_action": "models_over80s_postest_az_all_dose1",
       "privacy_level": "highly_sensitive"
     },
+    "output/over80s/postest/az/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_postest_az_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/az/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/postest/az/all/all/plot_ipwdeath.svg": {
       "created_by_action": "report_ipw_over80s_postest_az_all_dose1",
       "privacy_level": "moderately_sensitive"
@@ -1562,6 +2162,18 @@
     },
     "output/over80s/postest/az/all/all/plot_ipwvaxfizer1.svg": {
       "created_by_action": "report_ipw_over80s_postest_az_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/all/tab_ipwdeath.csv": {
@@ -1589,11 +2201,23 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/all/tab_pfizer_az.html": {
-      "created_by_action": "report_ipw_over80s_postest_az_all_dose1",
+      "created_by_action": "report_ipw_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/all/weights_histogram.svg": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/all/weights_model_az.html": {
@@ -1605,15 +2229,15 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/all/weights_table.txt": {
-      "created_by_action": "models_over80s_postest_az_all_dose1",
+      "created_by_action": "models_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/estimates.csv": {
-      "created_by_action": "report_over80s_postest_az_all_dose1",
+      "created_by_action": "report_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/forest_plot.svg": {
-      "created_by_action": "report_over80s_postest_az_all_dose1",
+      "created_by_action": "report_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/all/strata_vector.rds": {
@@ -1622,6 +2246,14 @@
     },
     "output/over80s/postest/az/all/time_trends_region_plot.svg": {
       "created_by_action": "report_over80s_postest_az_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_postest_az_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/az/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_postest_az_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/az/dose1/data_weights.rds": {
@@ -1788,6 +2420,18 @@
       "created_by_action": "descr_eventsperday_over80s",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/postest/pfizer/all/all/data_atrisk_death.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/data_atrisk_vaxaz1.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/data_atrisk_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
     "output/over80s/postest/pfizer/all/all/data_ipwdeath.rds": {
       "created_by_action": "models_over80s_postest_pfizer_all_dose1",
       "privacy_level": "highly_sensitive"
@@ -1801,23 +2445,43 @@
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/data_weights.rds": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/model0.rds": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/model1.rds": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/model2.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/model3.rds": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/model4.rds": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/model_death.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/model_formula_death.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/model_formula_vaxaz1.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/model_formula_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "highly_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/model_ipwdeath.rds": {
@@ -1832,6 +2496,18 @@
       "created_by_action": "models_over80s_postest_pfizer_all_dose1",
       "privacy_level": "highly_sensitive"
     },
+    "output/over80s/postest/pfizer/all/all/model_vaxaz1.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/model_vaxpfizer1.rds": {
+      "created_by_action": "models_over80s_postest_pfizer_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/plot_death.svg": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/postest/pfizer/all/all/plot_ipwdeath.svg": {
       "created_by_action": "report_ipw_over80s_postest_pfizer_all_dose1",
       "privacy_level": "moderately_sensitive"
@@ -1842,6 +2518,18 @@
     },
     "output/over80s/postest/pfizer/all/all/plot_ipwvaxfizer1.svg": {
       "created_by_action": "report_ipw_over80s_postest_pfizer_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/plot_vaxfizer1.svg": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/tab_death.csv": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/tab_death.html": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/tab_ipwdeath.csv": {
@@ -1869,11 +2557,23 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/tab_pfizer_az.html": {
-      "created_by_action": "report_ipw_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/tab_vaxaz1.csv": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/tab_vaxfizer1.html": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/all/tab_vaxpfizer1.csv": {
+      "created_by_action": "report_ipw_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/weights_histogram.svg": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/weights_model_az.html": {
@@ -1885,15 +2585,15 @@
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/all/weights_table.txt": {
-      "created_by_action": "models_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "models_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/estimates.csv": {
-      "created_by_action": "report_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "report_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/forest_plot.svg": {
-      "created_by_action": "report_over80s_postest_pfizer_all_dose1",
+      "created_by_action": "report_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/all/strata_vector.rds": {
@@ -1902,6 +2602,14 @@
     },
     "output/over80s/postest/pfizer/all/time_trends_region_plot.svg": {
       "created_by_action": "report_over80s_postest_pfizer_all_dose1",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/time_trends_region_plot3.svg": {
+      "created_by_action": "report_over80s_postest_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/pfizer/all/time_trends_region_plot4.svg": {
+      "created_by_action": "report_over80s_postest_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/postest/pfizer/dose1/data_weights.rds": {
@@ -2848,33 +3556,6 @@
       "created_at": "2021-04-07T11:31:02Z",
       "completed_at": "2021-04-07T14:05:27Z"
     },
-    "data_properties_over80s_tte": {
-      "state": "succeeded",
-      "commit": "a4269e24910a5f37c21a0df4c2da92f7e3611caa",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "q7em2hjckg4svn5x",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-08T22:20:12Z",
-      "completed_at": "2021-04-09T01:03:41Z"
-    },
-    "data_properties_over80s_fixed": {
-      "state": "succeeded",
-      "commit": "a4269e24910a5f37c21a0df4c2da92f7e3611caa",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "vglmqrrcl67g3pud",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-08T22:20:12Z",
-      "completed_at": "2021-04-09T01:03:49Z"
-    },
-    "descr_events_over80s": {
-      "state": "succeeded",
-      "commit": "a4269e24910a5f37c21a0df4c2da92f7e3611caa",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "m6ocng7ok5h7d6hj",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-08T22:20:12Z",
-      "completed_at": "2021-04-09T01:08:05Z"
-    },
     "data_properties_all": {
       "state": "succeeded",
       "commit": "a4269e24910a5f37c21a0df4c2da92f7e3611caa",
@@ -2883,15 +3564,6 @@
       "run_by_user": "wjchulme",
       "created_at": "2021-04-08T22:20:12Z",
       "completed_at": "2021-04-09T01:18:13Z"
-    },
-    "descr_table1_over80s": {
-      "state": "succeeded",
-      "commit": "5a05ec4e1d4e770501c76960bfd81bf3b1b0f581",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "lisykaivaec6ne3k",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T08:45:31Z",
-      "completed_at": "2021-04-12T08:47:15Z"
     },
     "models_cox_over80s_coviddeath_any_all_region": {
       "state": "succeeded",
@@ -2938,15 +3610,6 @@
       "created_at": "2021-04-12T17:00:29Z",
       "completed_at": "2021-04-12T21:11:50Z"
     },
-    "models_over80s_coviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "dev4qxssnlbqltfh",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T21:36:36Z"
-    },
     "report_cox_over80s_covidadmitted_any_all_region": {
       "state": "succeeded",
       "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
@@ -2956,78 +3619,6 @@
       "created_at": "2021-04-12T17:00:29Z",
       "completed_at": "2021-04-12T21:45:33Z"
     },
-    "models_over80s_noncoviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "jwi4cikoxumu7owg",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T21:59:49Z"
-    },
-    "models_over80s_covidadmitted_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "ylx5qhihmzfoge74",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:03:45Z"
-    },
-    "report_ipw_over80s_coviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "iqh2fa7p6mho2jkc",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:07:17Z"
-    },
-    "report_over80s_coviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "ut7qgbwb6hnaasum",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:13:15Z"
-    },
-    "report_ipw_over80s_noncoviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "37zutjum3zn6ektp",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:23:40Z"
-    },
-    "report_ipw_over80s_covidadmitted_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "cxrd3obgx4a2yfgd",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:27:59Z"
-    },
-    "models_cox_over80s_postest_any_all_region": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "xfjyt67xg32jr6zw",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:28:11Z"
-    },
-    "report_over80s_noncoviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "37poa5jokpsopiyf",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:32:10Z"
-    },
     "report_cox_over80s_postest_any_all_region": {
       "state": "succeeded",
       "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
@@ -3036,51 +3627,6 @@
       "run_by_user": "wjchulme",
       "created_at": "2021-04-12T17:00:29Z",
       "completed_at": "2021-04-12T22:33:53Z"
-    },
-    "report_over80s_covidadmitted_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "qr26jo7a2xltyxh7",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:34:59Z"
-    },
-    "models_over80s_postest_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "6jr3av3g7qeyug3i",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T22:44:38Z"
-    },
-    "report_ipw_over80s_postest_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "icdxyvvkthmct7eg",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T23:05:03Z"
-    },
-    "report_over80s_postest_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "xpvn2edpioixgtmf",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T23:12:35Z"
-    },
-    "report_over80s_any_all": {
-      "state": "succeeded",
-      "commit": "99361402ba73f388420ff53f87cc7e7d1c949cf8",
-      "docker_image_id": "sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624",
-      "job_id": "wxr246duujtyxmph",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-12T17:00:29Z",
-      "completed_at": "2021-04-12T23:13:20Z"
     },
     "extract_all": {
       "state": "succeeded",
@@ -3111,30 +3657,426 @@
     },
     "data_stset_over80s": {
       "state": "succeeded",
-      "commit": "8a529d1b684d120622f1e6106ce4ac5117ccff85",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "px64ie3f23ut4psb",
+      "job_id": "hb6oltmvdpr5f5ex",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-13T17:06:50Z",
-      "completed_at": "2021-04-13T19:58:38Z"
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T12:17:15Z"
+    },
+    "descr_table1_over80s": {
+      "state": "succeeded",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "ti66nljpzsfpvj3e",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T12:22:14Z"
     },
     "vaxmodels_cox_over80s_all": {
       "state": "succeeded",
-      "commit": "8a529d1b684d120622f1e6106ce4ac5117ccff85",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "c2xqrph5md2nafqf",
+      "job_id": "43z7tzwcgvjmo4iy",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-13T17:06:50Z",
-      "completed_at": "2021-04-13T19:59:37Z"
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T12:23:07Z"
+    },
+    "data_properties_over80s_fixed": {
+      "state": "succeeded",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "glerch3d3yj3v3om",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T12:23:19Z"
+    },
+    "data_properties_over80s_tte": {
+      "state": "succeeded",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "psvruw5gcj7k74c4",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T12:24:16Z"
     },
     "vaxreport_over80s_all": {
       "state": "succeeded",
-      "commit": "8a529d1b684d120622f1e6106ce4ac5117ccff85",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "7u7op3q2ij22nzmn",
+      "job_id": "hhl4t6vws3r4nn5y",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-13T17:06:50Z",
-      "completed_at": "2021-04-13T20:00:45Z"
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T13:22:07Z"
+    },
+    "models_cox_over80s_postest_any_all_region": {
+      "state": "failed",
+      "commit": "d68dd63032897fbf37c9855d4248683e88a66622",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "hxt3xgpsgaec34vk",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-14T11:05:31Z",
+      "completed_at": "2021-04-14T17:23:17Z"
+    },
+    "descr_events_over80s": {
+      "state": "succeeded",
+      "commit": "f616ef66a5405e72c5554d7703ae1cdea0af6a7e",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "swo63yltq3fibrga",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-14T16:16:10Z",
+      "completed_at": "2021-04-14T18:03:31Z"
+    },
+    "models_over80s_postest_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "poulo6v5ujghm5ro",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T14:24:30Z"
+    },
+    "models_over80s_postest_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "tigrghjkxlw4cg7o",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T15:05:54Z"
+    },
+    "models_over80s_noncoviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "fsdhh34imrkjzroi",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T15:07:27Z"
+    },
+    "models_over80s_noncoviddeath_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "iqjfb7mxwdfhpd7s",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T15:45:25Z"
+    },
+    "report_over80s_noncoviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "mlrgyxdpc7fi426a",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T16:24:17Z"
+    },
+    "report_over80s_postest_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "stothpxvwywbgkyo",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T16:25:50Z"
+    },
+    "models_over80s_coviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "usifgiyk6jv3jwnl",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T16:47:19Z"
+    },
+    "report_over80s_postest_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "v4w2namvyujsh5xw",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T16:48:30Z"
+    },
+    "report_ipw_over80s_postest_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "ygchex4stu7yut3g",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T16:49:15Z"
+    },
+    "report_ipw_over80s_noncoviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "vvszqn3hnpgzoay3",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T17:07:09Z"
+    },
+    "report_ipw_over80s_postest_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "sru5pdegxkyutrq5",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T17:09:17Z"
+    },
+    "report_over80s_noncoviddeath_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "ocvslum7vvrg3tzk",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T17:13:50Z"
+    },
+    "report_ipw_over80s_coviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "sist4hsgvh2y3ww6",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T17:36:03Z"
+    },
+    "report_ipw_over80s_noncoviddeath_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "qlibzxekxus7oym2",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T17:37:29Z"
+    },
+    "report_over80s_coviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "5josahgthu3l7ahq",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T17:45:47Z"
+    },
+    "models_over80s_noncoviddeath_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "4x6stz52gf7ypixh",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T18:22:43Z"
+    },
+    "report_over80s_noncoviddeath_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "mcchbvh72xebvc3q",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T18:46:23Z"
+    },
+    "report_ipw_over80s_noncoviddeath_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "pp3aq5azzvvwoej7",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T19:09:41Z"
+    },
+    "models_over80s_coviddeath_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "qewgqm27ebp55ohb",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T19:32:24Z"
+    },
+    "models_over80s_covidadmitted_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "hdmuiwludtpm2plx",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T19:52:31Z"
+    },
+    "report_over80s_coviddeath_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "bvwefp7og4jg6fzx",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:06:09Z"
+    },
+    "models_over80s_coviddeath_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "tzrbymudylj5zkms",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:07:37Z"
+    },
+    "report_ipw_over80s_coviddeath_pfizer_all": {
+      "state": "failed",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "bxkyy6frbfwzbdga",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:22:07Z"
+    },
+    "report_ipw_over80s_covidadmitted_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "2n7na5p26ivop6ql",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:24:39Z"
+    },
+    "report_over80s_covidadmitted_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "jnde4nw27kfqctna",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:27:27Z"
+    },
+    "report_over80s_pfizer_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "xyluvlfbe6swyhsk",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:28:53Z"
+    },
+    "report_over80s_coviddeath_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "zbjoocvnwzngspw7",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:29:08Z"
+    },
+    "report_ipw_over80s_coviddeath_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "hkomsyormafzsfib",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T20:31:59Z"
+    },
+    "models_over80s_covidadmitted_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "yamjim6zorbm37h7",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T21:01:15Z"
+    },
+    "report_over80s_covidadmitted_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "usbq65m6moyfoybs",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T21:21:24Z"
+    },
+    "report_ipw_over80s_covidadmitted_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "fp2esu2rbclnj2yl",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T21:22:26Z"
+    },
+    "report_over80s_az_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "nnkcb5ssig7dxa6s",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T21:22:43Z"
+    },
+    "models_over80s_covidadmitted_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "evygpy3lfd2zifd5",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T21:56:02Z"
+    },
+    "models_over80s_postest_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "4tur7buxy5ncetzu",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T22:13:14Z"
+    },
+    "report_ipw_over80s_covidadmitted_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "rl2k3dwp5cn4tero",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T22:21:00Z"
+    },
+    "report_over80s_covidadmitted_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "kfciijfuqkdqmha6",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T22:27:58Z"
+    },
+    "report_ipw_over80s_postest_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "xnyv7tczp647rxp3",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T22:35:58Z"
+    },
+    "report_over80s_postest_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "sds7psvbhqz2xc6f",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:03Z",
+      "completed_at": "2021-04-15T22:43:13Z"
+    },
+    "report_over80s_any_all": {
+      "state": "succeeded",
+      "commit": "25565b402803e6d31019351e0ac564dfbec95993",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "cxxujvmam7lviz7v",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-15T12:46:04Z",
+      "completed_at": "2021-04-15T22:44:05Z"
     }
   },
   "workspace": "covid-vaccine-effectiveness-research_main",

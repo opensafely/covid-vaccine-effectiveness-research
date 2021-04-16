@@ -1,64 +1,64 @@
-2021-04-12T21:44:16.700593800Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-12T21:44:16.711486800Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-12T21:44:16.711578300Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-12T21:44:16.711587200Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-12T21:44:16.711594400Z v readr   1.3.1     v forcats 0.5.0
-2021-04-12T21:44:16.960343600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-12T21:44:16.960461600Z x dplyr::filter() masks stats::filter()
-2021-04-12T21:44:16.960470100Z x dplyr::lag()    masks stats::lag()
-2021-04-12T21:44:16.986540900Z 
-2021-04-12T21:44:16.986625400Z Attaching package: 'lubridate'
-2021-04-12T21:44:16.986634200Z 
-2021-04-12T21:44:16.988448900Z The following objects are masked from 'package:base':
-2021-04-12T21:44:16.988549700Z 
-2021-04-12T21:44:16.988560600Z     date, intersect, setdiff, union
-2021-04-12T21:44:16.988568200Z 
-2021-04-12T21:44:19.736291500Z Loading required package: zoo
-2021-04-12T21:44:19.761133700Z 
-2021-04-12T21:44:19.761240300Z Attaching package: 'zoo'
-2021-04-12T21:44:19.761249300Z 
-2021-04-12T21:44:19.761789600Z The following objects are masked from 'package:base':
-2021-04-12T21:44:19.761804900Z 
-2021-04-12T21:44:19.761812300Z     as.Date, as.Date.numeric
-2021-04-12T21:44:19.761820400Z 
-2021-04-12T21:44:20.286008800Z <environment: R_GlobalEnv>
-2021-04-12T21:44:20.286415200Z <environment: R_GlobalEnv>
-2021-04-12T21:44:20.286879100Z <environment: R_GlobalEnv>
-2021-04-12T22:06:42.820603400Z There were 15 warnings (use warnings() to see them)
-2021-04-12T22:06:42.821176200Z Warning messages:
-2021-04-12T22:06:42.821263900Z 1: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821280800Z 2: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821365800Z 3: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821502900Z 4: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821553200Z 5: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821636600Z 6: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821661600Z 7: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821671300Z 8: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821745000Z 9: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821767100Z 10: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821850200Z 11: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821882700Z 12: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.821891300Z 13: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.822020400Z 14: Removed 1 rows containing missing values (geom_segment).
-2021-04-12T22:06:42.822036700Z 15: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:12:56.960231200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-15T17:12:56.971300400Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-15T17:12:56.971337700Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-15T17:12:56.971346100Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-15T17:12:56.971353100Z v readr   1.3.1     v forcats 0.5.0
+2021-04-15T17:12:57.223129300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-15T17:12:57.223231700Z x dplyr::filter() masks stats::filter()
+2021-04-15T17:12:57.223240300Z x dplyr::lag()    masks stats::lag()
+2021-04-15T17:12:57.272480400Z 
+2021-04-15T17:12:57.272622300Z Attaching package: 'lubridate'
+2021-04-15T17:12:57.272635500Z 
+2021-04-15T17:12:57.272643400Z The following objects are masked from 'package:base':
+2021-04-15T17:12:57.272652600Z 
+2021-04-15T17:12:57.272659600Z     date, intersect, setdiff, union
+2021-04-15T17:12:57.272666700Z 
+2021-04-15T17:13:00.081679100Z Loading required package: zoo
+2021-04-15T17:13:00.106732000Z 
+2021-04-15T17:13:00.106834800Z Attaching package: 'zoo'
+2021-04-15T17:13:00.106843500Z 
+2021-04-15T17:13:00.107353200Z The following objects are masked from 'package:base':
+2021-04-15T17:13:00.107371700Z 
+2021-04-15T17:13:00.107378900Z     as.Date, as.Date.numeric
+2021-04-15T17:13:00.107401100Z 
+2021-04-15T17:13:00.621510600Z <environment: R_GlobalEnv>
+2021-04-15T17:13:00.623315000Z <environment: R_GlobalEnv>
+2021-04-15T17:13:00.623364600Z <environment: R_GlobalEnv>
+2021-04-15T17:35:19.249337000Z There were 15 warnings (use warnings() to see them)
+2021-04-15T17:35:19.250057700Z Warning messages:
+2021-04-15T17:35:19.250100000Z 1: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250229700Z 2: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250246500Z 3: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250254500Z 4: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250535500Z 5: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250592500Z 6: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250603600Z 7: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250612200Z 8: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250858500Z 9: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250894100Z 10: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250904300Z 11: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250965100Z 12: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.250973800Z 13: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.251046000Z 14: Removed 1 rows containing missing values (geom_segment).
+2021-04-15T17:35:19.251061800Z 15: Removed 1 rows containing missing values (geom_segment).
 
 
 state: succeeded
-commit: 99361402ba73f388420ff53f87cc7e7d1c949cf8
-docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+commit: 25565b402803e6d31019351e0ac564dfbec95993
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: iqh2fa7p6mho2jkc
+job_id: sist4hsgvh2y3ww6
 run_by_user: wjchulme
-created_at: 2021-04-12T17:00:29Z
-started_at: 2021-04-12T21:44:13Z
-completed_at: 2021-04-12T22:07:17Z
+created_at: 2021-04-15T12:46:04Z
+started_at: 2021-04-15T17:12:53Z
+completed_at: 2021-04-15T17:36:03Z
 
 Completed successfully
 
 outputs:
-  output/over80s/coviddeath/any/all/all/plot_death.svg       - moderately_sensitive
-  output/over80s/coviddeath/any/all/all/plot_vaxany1.svg     - moderately_sensitive
-  output/over80s/coviddeath/any/all/all/tab_death.csv        - moderately_sensitive
-  output/over80s/coviddeath/any/all/all/tab_death.html       - moderately_sensitive
-  output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.csv   - moderately_sensitive
-  output/over80s/coviddeath/any/all/all/tab_ipwvaxany1.html  - moderately_sensitive
+  output/over80s/coviddeath/any/all/all/plot_death.svg    - moderately_sensitive
+  output/over80s/coviddeath/any/all/all/plot_vaxany1.svg  - moderately_sensitive
+  output/over80s/coviddeath/any/all/all/tab_death.csv     - moderately_sensitive
+  output/over80s/coviddeath/any/all/all/tab_death.html    - moderately_sensitive
+  output/over80s/coviddeath/any/all/all/tab_vaxany1.csv   - moderately_sensitive
+  output/over80s/coviddeath/any/all/all/tab_vaxany1.html  - moderately_sensitive
