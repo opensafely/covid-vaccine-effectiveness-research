@@ -65,7 +65,7 @@ data_extract0 <- read_csv(
     care_home_tpp = col_logical(),
     care_home_code = col_logical(),
     nontpp_household = col_logical(),
-    tpp_coverage = col_numeric(),
+    tpp_coverage = col_double(),
 
     registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
