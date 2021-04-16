@@ -1,90 +1,90 @@
-2021-04-09T01:04:23.704620900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-09T01:04:23.714595600Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-09T01:04:23.714657000Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-09T01:04:23.714665700Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-09T01:04:23.714672800Z v readr   1.3.1     v forcats 0.5.0
-2021-04-09T01:04:23.898584500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-09T01:04:23.898663900Z x dplyr::filter() masks stats::filter()
-2021-04-09T01:04:23.898672400Z x dplyr::lag()    masks stats::lag()
-2021-04-09T01:04:23.916162800Z 
-2021-04-09T01:04:23.916240400Z Attaching package: 'lubridate'
-2021-04-09T01:04:23.916248500Z 
-2021-04-09T01:04:23.917609800Z The following objects are masked from 'package:base':
-2021-04-09T01:04:23.917639900Z 
-2021-04-09T01:04:23.917648100Z     date, intersect, setdiff, union
-2021-04-09T01:04:23.917659700Z 
-2021-04-09T01:04:35.662239900Z <environment: R_GlobalEnv>
-2021-04-09T01:06:25.157890000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:25.807659600Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:26.471254100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:27.151443300Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:27.808720700Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:28.497408500Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:42.747297900Z # A tibble: 6 x 9
-2021-04-09T01:06:42.748778000Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
-2021-04-09T01:06:42.748797300Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
-2021-04-09T01:06:42.748810600Z 1 <fxd_~ vaxcount~ /works~         15           7 cm       25   11.1 <NULL>     
-2021-04-09T01:06:42.748818600Z 2 <fxd_~ vaxcount~ /works~         15           7 cm       25   18.3 <NULL>     
-2021-04-09T01:06:42.748826800Z 3 <fxd_~ vaxcount~ /works~         15           7 cm       25   39.8 <NULL>     
-2021-04-09T01:06:42.748834900Z 4 <fxd_~ vaxcount~ /works~         15           7 cm       25   32.6 <NULL>     
-2021-04-09T01:06:42.748843000Z 5 <fxd_~ vaxcount~ /works~         15           7 cm       25   39.8 <NULL>     
-2021-04-09T01:06:42.748850800Z 6 <fxd_~ vaxcount~ /works~         15           7 cm       25   68.6 <NULL>     
-2021-04-09T01:06:43.470290500Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:44.116477600Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:44.775600000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:45.436605600Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:46.144480300Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:06:46.871370000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:01.231973000Z # A tibble: 6 x 9
-2021-04-09T01:07:01.232065200Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
-2021-04-09T01:07:01.232074600Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
-2021-04-09T01:07:01.232084300Z 1 <fxd_~ brandcou~ /works~         15           7 cm       25   11.1 <NULL>     
-2021-04-09T01:07:01.232092200Z 2 <fxd_~ brandcou~ /works~         15           7 cm       25   18.3 <NULL>     
-2021-04-09T01:07:01.232100100Z 3 <fxd_~ brandcou~ /works~         15           7 cm       25   39.8 <NULL>     
-2021-04-09T01:07:01.232107800Z 4 <fxd_~ brandcou~ /works~         15           7 cm       25   32.6 <NULL>     
-2021-04-09T01:07:01.232115800Z 5 <fxd_~ brandcou~ /works~         15           7 cm       25   39.8 <NULL>     
-2021-04-09T01:07:01.232123500Z 6 <fxd_~ brandcou~ /works~         15           7 cm       25   68.6 <NULL>     
-2021-04-09T01:07:02.009432100Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:02.803861900Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:03.607611500Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:04.377421000Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:05.109627000Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:05.936422100Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:28.596006800Z # A tibble: 6 x 9
-2021-04-09T01:07:28.596068100Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
-2021-04-09T01:07:28.596077800Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
-2021-04-09T01:07:28.596087100Z 1 <fxd_~ eventcou~ /works~         15           7 cm       25   12.6 <NULL>     
-2021-04-09T01:07:28.596095100Z 2 <fxd_~ eventcou~ /works~         15           7 cm       25   19.8 <NULL>     
-2021-04-09T01:07:28.596127300Z 3 <fxd_~ eventcou~ /works~         15           7 cm       25   41.4 <NULL>     
-2021-04-09T01:07:28.596135700Z 4 <fxd_~ eventcou~ /works~         15           7 cm       25   34.2 <NULL>     
-2021-04-09T01:07:28.596142800Z 5 <fxd_~ eventcou~ /works~         15           7 cm       25   41.4 <NULL>     
-2021-04-09T01:07:28.596150100Z 6 <fxd_~ eventcou~ /works~         15           7 cm       25   70.2 <NULL>     
-2021-04-09T01:07:30.979178400Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:33.759351900Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:36.704135500Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:39.069467800Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:41.599315400Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:44.416837100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
-2021-04-09T01:07:58.378637900Z # A tibble: 6 x 9
-2021-04-09T01:07:58.378721200Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
-2021-04-09T01:07:58.378730900Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
-2021-04-09T01:07:58.378740500Z 1 <fxd_~ eventrat~ /works~         15           7 cm       25   12.6 <NULL>     
-2021-04-09T01:07:58.378748600Z 2 <fxd_~ eventrat~ /works~         15           7 cm       25   19.8 <NULL>     
-2021-04-09T01:07:58.378756500Z 3 <fxd_~ eventrat~ /works~         15           7 cm       25   41.4 <NULL>     
-2021-04-09T01:07:58.378764400Z 4 <fxd_~ eventrat~ /works~         15           7 cm       25   34.2 <NULL>     
-2021-04-09T01:07:58.378772400Z 5 <fxd_~ eventrat~ /works~         15           7 cm       25   41.4 <NULL>     
-2021-04-09T01:07:58.378780200Z 6 <fxd_~ eventrat~ /works~         15           7 cm       25   70.2 <NULL>     
+2021-04-14T17:24:06.797507700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-14T17:24:06.806254500Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-14T17:24:06.806279000Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-14T17:24:06.806287500Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-14T17:24:06.806294600Z v readr   1.3.1     v forcats 0.5.0
+2021-04-14T17:24:06.981313300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-14T17:24:06.981360600Z x dplyr::filter() masks stats::filter()
+2021-04-14T17:24:06.981369100Z x dplyr::lag()    masks stats::lag()
+2021-04-14T17:24:07.003963600Z 
+2021-04-14T17:24:07.003995800Z Attaching package: 'lubridate'
+2021-04-14T17:24:07.004004200Z 
+2021-04-14T17:24:07.005630100Z The following objects are masked from 'package:base':
+2021-04-14T17:24:07.005649900Z 
+2021-04-14T17:24:07.005661400Z     date, intersect, setdiff, union
+2021-04-14T17:24:07.005668800Z 
+2021-04-14T17:24:19.431795000Z <environment: R_GlobalEnv>
+2021-04-14T17:26:27.192507100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:27.849044600Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:28.563695900Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:29.259640100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:29.979447400Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:30.790618800Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:45.081146200Z # A tibble: 6 x 9
+2021-04-14T17:26:45.081199800Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-04-14T17:26:45.081208900Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-04-14T17:26:45.081223600Z 1 <fxd_~ vaxcount~ /works~         15           7 cm       25   11.1 <NULL>     
+2021-04-14T17:26:45.081231700Z 2 <fxd_~ vaxcount~ /works~         15           7 cm       25   18.3 <NULL>     
+2021-04-14T17:26:45.081239400Z 3 <fxd_~ vaxcount~ /works~         15           7 cm       25   39.8 <NULL>     
+2021-04-14T17:26:45.081246900Z 4 <fxd_~ vaxcount~ /works~         15           7 cm       25   32.6 <NULL>     
+2021-04-14T17:26:45.081254600Z 5 <fxd_~ vaxcount~ /works~         15           7 cm       25   39.8 <NULL>     
+2021-04-14T17:26:45.081262300Z 6 <fxd_~ vaxcount~ /works~         15           7 cm       25   68.6 <NULL>     
+2021-04-14T17:26:45.744012500Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:46.375823000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:47.013500100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:47.655419400Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:48.307950100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:26:49.026636300Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:02.378593100Z # A tibble: 6 x 9
+2021-04-14T17:27:02.378665400Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-04-14T17:27:02.378675000Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-04-14T17:27:02.378685100Z 1 <fxd_~ brandcou~ /works~         15           7 cm       25   11.1 <NULL>     
+2021-04-14T17:27:02.378693000Z 2 <fxd_~ brandcou~ /works~         15           7 cm       25   18.3 <NULL>     
+2021-04-14T17:27:02.378700600Z 3 <fxd_~ brandcou~ /works~         15           7 cm       25   39.8 <NULL>     
+2021-04-14T17:27:02.378708500Z 4 <fxd_~ brandcou~ /works~         15           7 cm       25   32.6 <NULL>     
+2021-04-14T17:27:02.378716100Z 5 <fxd_~ brandcou~ /works~         15           7 cm       25   39.8 <NULL>     
+2021-04-14T17:27:02.378723700Z 6 <fxd_~ brandcou~ /works~         15           7 cm       25   68.6 <NULL>     
+2021-04-14T17:27:03.141434100Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:03.852076400Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:04.597456400Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:05.339181200Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:06.119512900Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:06.928777500Z `summarise()` regrouping output by 'date', 'outcome_status', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:29.888573400Z # A tibble: 6 x 9
+2021-04-14T17:27:29.888638400Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-04-14T17:27:29.888647800Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-04-14T17:27:29.888657600Z 1 <fxd_~ eventcou~ /works~         15           7 cm       25   12.6 <NULL>     
+2021-04-14T17:27:29.888665800Z 2 <fxd_~ eventcou~ /works~         15           7 cm       25   19.8 <NULL>     
+2021-04-14T17:27:29.888693700Z 3 <fxd_~ eventcou~ /works~         15           7 cm       25   41.4 <NULL>     
+2021-04-14T17:27:29.888702500Z 4 <fxd_~ eventcou~ /works~         15           7 cm       25   34.2 <NULL>     
+2021-04-14T17:27:29.888709900Z 5 <fxd_~ eventcou~ /works~         15           7 cm       25   41.4 <NULL>     
+2021-04-14T17:27:29.888947500Z 6 <fxd_~ eventcou~ /works~         15           7 cm       25   70.2 <NULL>     
+2021-04-14T17:27:32.216329300Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:34.471309600Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:37.055090700Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:39.293785000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:41.526727100Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:43.913199000Z `summarise()` regrouping output by 'date', 'variable' (override with `.groups` argument)
+2021-04-14T17:27:58.061503800Z # A tibble: 6 x 9
+2021-04-14T17:27:58.061573400Z   plot   filename  path    panelwidth panelheight units width height `pmap(...)`
+2021-04-14T17:27:58.061582500Z   <list> <chr>     <chr>        <dbl>       <dbl> <chr> <dbl>  <dbl> <list>     
+2021-04-14T17:27:58.061591700Z 1 <fxd_~ eventrat~ /works~         15           7 cm       25   12.6 <NULL>     
+2021-04-14T17:27:58.061599600Z 2 <fxd_~ eventrat~ /works~         15           7 cm       25   19.8 <NULL>     
+2021-04-14T17:27:58.061607300Z 3 <fxd_~ eventrat~ /works~         15           7 cm       25   41.4 <NULL>     
+2021-04-14T17:27:58.061615400Z 4 <fxd_~ eventrat~ /works~         15           7 cm       25   34.2 <NULL>     
+2021-04-14T17:27:58.061623700Z 5 <fxd_~ eventrat~ /works~         15           7 cm       25   41.4 <NULL>     
+2021-04-14T17:27:58.061631700Z 6 <fxd_~ eventrat~ /works~         15           7 cm       25   70.2 <NULL>     
 
 
 state: succeeded
-commit: a4269e24910a5f37c21a0df4c2da92f7e3611caa
-docker_image_id: sha256:876a994cdafb8d3fb4b710249fd7716a31efd3ea26cb3faf7aa2187853c6c624
+commit: f616ef66a5405e72c5554d7703ae1cdea0af6a7e
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: m6ocng7ok5h7d6hj
+job_id: swo63yltq3fibrga
 run_by_user: wjchulme
-created_at: 2021-04-08T22:20:12Z
-started_at: 2021-04-09T01:04:20Z
-completed_at: 2021-04-09T01:08:05Z
+created_at: 2021-04-14T16:16:10Z
+started_at: 2021-04-14T17:24:04Z
+completed_at: 2021-04-14T18:03:31Z
 
 Completed successfully
 
