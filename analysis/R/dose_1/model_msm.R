@@ -116,8 +116,8 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   ) %>%
   mutate(
     vaxany1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
-    vaxpfizer1_atrisk = (vaxpfizer1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
-    vaxaz1_atrisk = (vaxaz1_status==0 & death_status==0  & dereg_status==0 & lastfup_status==0 & tstart>=28),
+    vaxpfizer1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
+    vaxaz1_atrisk = (vaxany1_status==0 & death_status==0  & dereg_status==0 & lastfup_status==0 & tstart>=28),
     death_atrisk = (death_status==0 & dereg_status==0 & lastfup_status==0),
   )
 
@@ -129,7 +129,10 @@ cat(glue("memory usage = ", format(object.size(data_pt), units="GB", standard="S
 
 
 
-
+# function to calculate weights for treatment model ----
+## if exposure is any vaccine, then create model for vaccination by any brand + model for death for censoring weights
+## if exposure is pfizer vaccine, then create model for vaccination by pfizer + model for az and model for death for censoring weights
+## if exposure is az vaccine, then create model for vaccination by az + model for pfizer and model death for censoring weights
 get_ipw_weights <- function(
   data, event, event_status, event_atrisk,
   name,
