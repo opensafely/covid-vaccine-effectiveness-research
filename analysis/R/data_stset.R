@@ -146,6 +146,11 @@ data_tte <- data_all  %>%
 
     tte_enddate = tte(start_date, end_date, end_date),
 
+    # events are considered to occur at midnight at the end of each day.
+    # The study start date is the end of 7 december 2020 / start of 8 december 2020 = tstart=0
+    # The first possible vaccination date is 8 december 2020, ie between tstart=0 and tstop=1, so all patients are "unvaccinated" for at least 1 day of follow-up
+    # the first possible AZ accine date is 4 Jan 2021, ie between tstart=27 and tstop=28
+
     # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
     # -- see section 3.3 of the timedep vignette in survival package
     # not necessary when ties are handled appropriately (eg with tmerge)
