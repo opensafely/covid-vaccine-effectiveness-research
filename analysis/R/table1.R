@@ -210,11 +210,11 @@ gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "tabl
 
 ## create person-time table ----
 
-format_ratio = function(numer,denom){
+format_ratio = function(numer,denom, width=7){
   paste0(
     replace_na(scales::comma_format(accuracy=1)(numer), "--"),
     "/",
-    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=6, pad=" ")
+    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=width, pad=" ")
   )
 }
 
