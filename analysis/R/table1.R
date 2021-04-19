@@ -236,7 +236,6 @@ rrCI_normal <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
   )
 }
 
-
 rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
 
   # use exact methods if incidence is very low for immediate post-vaccine outcomes
@@ -255,6 +254,7 @@ rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
   )
 
 }
+
 
 
 # get confidence intervals for rate ratio using unadjusted poisson GLM
