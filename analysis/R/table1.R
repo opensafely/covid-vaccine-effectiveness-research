@@ -218,7 +218,7 @@ format_ratio = function(numer,denom, width=7){
   )
 }
 
-rrCI_normal <- function(n, pt, ref_n, ref_pt,  group, accuracy=0.0001){
+rrCI_normal <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
   rate <- n/pt
   ref_rate <- ref_n/ref_pt
   rr <- rate/ref_rate
@@ -231,30 +231,31 @@ rrCI_normal <- function(n, pt, ref_n, ref_pt,  group, accuracy=0.0001){
 
   if_else(
     group==levels(group)[1],
-    "-",
+    NA_character_,
     paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
   )
 }
 
-rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.0001){
 
-  # use exact methods because incidence is very low for immediate post-vaccine outcomes
+rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
 
+  # use exact methods if incidence is very low for immediate post-vaccine outcomes
 
   rate <- n/pt
   ref_rate <- ref_n/ref_pt
   rr <- rate/ref_rate
 
-  ll = ref_n/n * (pt/(ref_pt+1)) * 1/qf(2*(ref_pt+1), 2*pt, p = 0.05/2, lower.tail = FALSE)
-  ul = ref_n/n * ((pt+1)/ref_pt) * qf(2*(pt+1), 2*ref_pt, p = 0.05/2, lower.tail = FALSE)
+  ll = ref_pt/pt * (n/(ref_n+1)) * 1/qf(2*(ref_n+1), 2*n, p = 0.05/2, lower.tail = FALSE)
+  ul = ref_pt/pt * ((n+1)/ref_n) * qf(2*(n+1), 2*ref_n, p = 0.05/2, lower.tail = FALSE)
 
   if_else(
     group==levels(group)[1],
-    "-",
+    NA_character_,
     paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
   )
 
 }
+
 
 # get confidence intervals for rate ratio using unadjusted poisson GLM
 # uses gtsummary not broom::tidy to make it easier to paste onto original data
@@ -277,41 +278,17 @@ rrCI_glm <- function(n, pt, x, accuracy=0.001){
 
   if_else(
     dat2$x==first(dat2$x),
-    "-",
+    NA_character_,
     paste0("(", scales::number_format(accuracy=accuracy)(dat2$conf.low), "-", scales::number_format(accuracy=accuracy)(dat2$conf.high), ")")
   )
 }
 
-pt_summary_total <- data_pt %>%
-  summarise(
-    postest_yearsatrisk=sum(postest_status==0)/365.25,
-    postest_n=sum(postest),
-    postest_rate=postest_n/postest_yearsatrisk,
-
-    covidadmitted_yearsatrisk=sum(covidadmitted_status==0)/365.25,
-    covidadmitted_n=sum(covidadmitted),
-    covidadmitted_rate=covidadmitted_n/covidadmitted_yearsatrisk,
-
-    coviddeath_yearsatrisk=sum(coviddeath_status==0)/365.25,
-    coviddeath_n=sum(coviddeath),
-    coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
-
-    noncoviddeath_yearsatrisk=sum(noncoviddeath_status==0)/365.25,
-    noncoviddeath_n=sum(noncoviddeath),
-    noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
-
-
-    # death_yearsatrisk=sum(death_status==0)/365.25,
-    # death_n=sum(death),
-    # death_rate=death_n/death_yearsatrisk,
-  )
-
-pt_summary <- function(data, timesince, postvaxcuts){
+pt_summary <- function(data, timesince, postvaxcuts, baseline){
 
   unredacted <- data %>%
   mutate(
     timesincevax = data[[timesince]],
-    timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, "Unvaccinated"),
+    timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, baseline),
   ) %>%
   group_by(timesincevax_pw) %>%
   summarise(
@@ -343,8 +320,8 @@ pt_summary <- function(data, timesince, postvaxcuts){
     noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
 
     postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.001),
-    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk), timesincevax_pw, 0.001),
-    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk), timesincevax_pw, 0.001),
+    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk),  timesincevax_pw, 0.001),
+    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk),  timesincevax_pw, 0.001),
     noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.001),
   )
 
@@ -368,6 +345,12 @@ pt_summary <- function(data, timesince, postvaxcuts){
       noncoviddeath_n = redactor2(noncoviddeath_n, 5),
       #death_n = redactor2(death_n, 5)
 
+
+      postest_rrCI = redactor2(postest_n, 5, postest_rrCI),
+      covidadmitted_rrCI = redactor2(covidadmitted_n, 5, covidadmitted_rrCI),
+      coviddeath_rrCI = redactor2(coviddeath_n, 5, coviddeath_rrCI),
+      noncoviddeath_rrCI = redactor2(noncoviddeath_n, 5, noncoviddeath_rrCI),
+
     )
 
   redacted
@@ -375,8 +358,8 @@ pt_summary <- function(data, timesince, postvaxcuts){
 
 pt_summary_any <-
   bind_rows(
-    pt_summary(data_pt, "timesincevaxany1", postvaxcuts),
-    pt_summary_total %>% mutate(timesincevax_pw="Total")
+    pt_summary(data_pt, "timesincevaxany1", postvaxcuts, "Unvaccinated"),
+    pt_summary(data_pt %>% mutate(all=0), "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
   ) %>%
   mutate(
     postest_q = format_ratio(postest_n,postest_yearsatrisk),
