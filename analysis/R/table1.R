@@ -213,24 +213,28 @@ gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "tabl
 format_ratio = function(numer,denom, width=7){
   paste0(
     replace_na(scales::comma_format(accuracy=1)(numer), "--"),
-    "/",
+    " /",
     str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=width, pad=" ")
   )
 }
 
-# rrCI <- function(n, pt, ref_n, ref_pt){
-#   rate <- n/pt
-#   ref_rate <- ref_n/ref_pt
-#   rr <- rate/ref_rate
-#   log_rr <- log(rr)
-#   selog_rr <- sqrt((1/n)+(1/ref_n))
-#   log_ll <- log_rr - qnorm(0.975)*selog_rr
-#   log_ul <- log_rr + qnorm(0.975)*selog_rr
-#   ll <- exp(log_ll)
-#   ul <- exp(log_ul)
-#
-#   paste0("(", scales::number_format(accuracy=0.0001)(ll), "-", scales::number_format(accuracy=0.0001)(ul), ")")
-# }
+rrCI_normal <- function(n, pt, ref_n, ref_pt,  group, accuracy=0.0001){
+  rate <- n/pt
+  ref_rate <- ref_n/ref_pt
+  rr <- rate/ref_rate
+  log_rr <- log(rr)
+  selog_rr <- sqrt((1/n)+(1/ref_n))
+  log_ll <- log_rr - qnorm(0.975)*selog_rr
+  log_ul <- log_rr + qnorm(0.975)*selog_rr
+  ll <- exp(log_ll)
+  ul <- exp(log_ul)
+
+  if_else(
+    group==levels(group)[1],
+    "-",
+    paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
+  )
+}
 
 # get confidence intervals for rate ratio using unadjusted poisson GLM
 # uses gtsummary not broom::tidy to make it easier to paste onto original data
