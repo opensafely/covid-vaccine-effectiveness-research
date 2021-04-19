@@ -210,27 +210,31 @@ gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "tabl
 
 ## create person-time table ----
 
-format_ratio = function(numer,denom){
+format_ratio = function(numer,denom, width=7){
   paste0(
     replace_na(scales::comma_format(accuracy=1)(numer), "--"),
     " /",
-    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=7, pad=" ")
+    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=width, pad=" ")
   )
 }
 
-# rrCI_normal <- function(n, pt, ref_n, ref_pt){
-#   rate <- n/pt
-#   ref_rate <- ref_n/ref_pt
-#   rr <- rate/ref_rate
-#   log_rr <- log(rr)
-#   selog_rr <- sqrt((1/n)+(1/ref_n))
-#   log_ll <- log_rr - qnorm(0.975)*selog_rr
-#   log_ul <- log_rr + qnorm(0.975)*selog_rr
-#   ll <- exp(log_ll)
-#   ul <- exp(log_ul)
-#
-#   paste0("(", scales::number_format(accuracy=0.0001)(ll), "-", scales::number_format(accuracy=0.0001)(ul), ")")
-# }
+rrCI_normal <- function(n, pt, ref_n, ref_pt,  group, accuracy=0.0001){
+  rate <- n/pt
+  ref_rate <- ref_n/ref_pt
+  rr <- rate/ref_rate
+  log_rr <- log(rr)
+  selog_rr <- sqrt((1/n)+(1/ref_n))
+  log_ll <- log_rr - qnorm(0.975)*selog_rr
+  log_ul <- log_rr + qnorm(0.975)*selog_rr
+  ll <- exp(log_ll)
+  ul <- exp(log_ul)
+
+  if_else(
+    group==levels(group)[1],
+    "-",
+    paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
+  )
+}
 
 rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.0001){
 
