@@ -338,10 +338,10 @@ pt_summary <- function(data, timesince, postvaxcuts){
     coviddeath_rr=coviddeath_rate/first(coviddeath_rate),
     noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
 
-    postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.0001),
-    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk), timesincevax_pw, 0.0001),
-    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk), timesincevax_pw, 0.0001),
-    noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.0001),
+    postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.001),
+    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk), timesincevax_pw, 0.001),
+    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk), timesincevax_pw, 0.001),
+    noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.001),
   )
 
   redacted <- unredacted %>%
