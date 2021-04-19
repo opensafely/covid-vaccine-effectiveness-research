@@ -236,30 +236,10 @@ rrCI_normal <- function(n, pt, ref_n, ref_pt,  group, accuracy=0.0001){
   )
 }
 
-rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.0001){
-
-  # use exact methods because incidence is very low for immediate post-vaccine outcomes
-
-
-  rate <- n/pt
-  ref_rate <- ref_n/ref_pt
-  rr <- rate/ref_rate
-
-  ll = ref_n/n * (pt/(ref_pt+1)) * 1/qf(2*(ref_pt+1), 2*pt, p = 0.05/2, lower.tail = FALSE)
-  ul = ref_n/n * ((pt+1)/ref_pt) * qf(2*(pt+1), 2*ref_pt, p = 0.05/2, lower.tail = FALSE)
-
-  if_else(
-    group==levels(group)[1],
-    "-",
-    paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
-  )
-
-}
-
 # get confidence intervals for rate ratio using unadjusted poisson GLM
 # uses gtsummary not broom::tidy to make it easier to paste onto original data
 
-rrCI_glm <- function(n, pt, x, accuracy=0.001){
+rrCI <- function(n, pt, x, accuracy=0.001){
 
   dat<-tibble(n=n, pt=pt, x=x)
 
@@ -342,10 +322,10 @@ pt_summary <- function(data, timesince, postvaxcuts){
     coviddeath_rr=coviddeath_rate/first(coviddeath_rate),
     noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
 
-    postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.001),
-    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk), timesincevax_pw, 0.001),
-    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk), timesincevax_pw, 0.001),
-    noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.001),
+    postest_rrCI = rrCI(postest_n, postest_yearsatrisk, timesincevax_pw),
+    covidadmitted_rrCI = rrCI(covidadmitted_n, covidadmitted_yearsatrisk, timesincevax_pw),
+    coviddeath_rrCI = rrCI(coviddeath_n, coviddeath_yearsatrisk, timesincevax_pw),
+    noncoviddeath_rrCI = rrCI(noncoviddeath_n, noncoviddeath_yearsatrisk, timesincevax_pw),
   )
 
   redacted <- unredacted %>%
