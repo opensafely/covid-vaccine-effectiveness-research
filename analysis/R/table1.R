@@ -341,18 +341,16 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
       noncoviddeath_rr = redactor2(noncoviddeath_n, 5, noncoviddeath_rr),
       #death_rr = redactor2(death_n, 5, death_rr)
 
-      postest_n = redactor2(postest_n, 5),
-      covidadmitted_n = redactor2(covidadmitted_n, 5),
-      coviddeath_n = redactor2(coviddeath_n, 5),
-      noncoviddeath_n = redactor2(noncoviddeath_n, 5),
-      #death_n = redactor2(death_n, 5)
-
-
       postest_rrCI = redactor2(postest_n, 5, postest_rrCI),
       covidadmitted_rrCI = redactor2(covidadmitted_n, 5, covidadmitted_rrCI),
       coviddeath_rrCI = redactor2(coviddeath_n, 5, coviddeath_rrCI),
       noncoviddeath_rrCI = redactor2(noncoviddeath_n, 5, noncoviddeath_rrCI),
 
+      postest_n = redactor2(postest_n, 5),
+      covidadmitted_n = redactor2(covidadmitted_n, 5),
+      coviddeath_n = redactor2(coviddeath_n, 5),
+      noncoviddeath_n = redactor2(noncoviddeath_n, 5),
+      #death_n = redactor2(death_n, 5)
     )
 
   redacted
