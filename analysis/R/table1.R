@@ -51,6 +51,8 @@ list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 
+postvaxcuts <- c(0, 7, 14, 21, 28)
+
 
 ## Import processed data ----
 
