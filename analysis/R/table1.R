@@ -51,6 +51,8 @@ list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 
+postvaxcuts <- c(0, 7, 14, 21, 28)
+
 
 ## Import processed data ----
 
@@ -365,21 +367,21 @@ mutate(
 )
 
 
-pt_summary_any <-
+data_summary_any <-
   bind_rows(
     pt_summary(data_pt_fup, "fup_any", "timesincevaxany1", postvaxcuts, "Unvaccinated"),
     pt_summary(data_pt_fup, "fup_any", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
   ) %>%
   mutate(brand ="Any")
 
-pt_summary_pfizer <-
+data_summary_pfizer <-
   bind_rows(
     pt_summary(data_pt_fup, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated"),
     pt_summary(data_pt_fup, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
   ) %>%
   mutate(brand ="P-BNT")
 
-pt_summary_az <-
+data_summary_az <-
   bind_rows(
     pt_summary(data_pt_fup, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated"),
     pt_summary(data_pt_fup, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
@@ -387,10 +389,10 @@ pt_summary_az <-
   mutate(brand ="Ox-AZ")
 
 
-pt_summary <- bind_rows(
-  pt_summary_any,
-  pt_summary_pfizer,
-  pt_summary_az
+data_summary <- bind_rows(
+  data_summary_any,
+  data_summary_pfizer,
+  data_summary_az
 ) %>%
 mutate(
   postest_q = format_ratio(postest_n,postest_yearsatrisk),
@@ -401,7 +403,7 @@ mutate(
 select(brand, starts_with("timesince"), ends_with(c("_q","_rr", "_rrCI")))
 
 
-pt_tab_summary <- pt_summary %>%
+tab_summary <- data_summary %>%
   gt(
     groupname_col = "brand",
   ) %>%
@@ -485,7 +487,7 @@ pt_tab_summary <- pt_summary %>%
     columns = "timesincevax_pw"
   )
 
-gtsave(pt_tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
+gtsave(tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
 
 
 ## note:
