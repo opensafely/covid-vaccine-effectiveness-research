@@ -51,6 +51,8 @@ list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 
+postvaxcuts <- c(0, 7, 14, 21, 28)
+
 
 ## Import processed data ----
 
@@ -210,32 +212,57 @@ gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "tabl
 
 ## create person-time table ----
 
-format_ratio = function(numer,denom){
+format_ratio = function(numer,denom, width=7){
   paste0(
     replace_na(scales::comma_format(accuracy=1)(numer), "--"),
-    "/",
-    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=6, pad=" ")
+    " /",
+    str_pad(replace_na(scales::comma_format(accuracy=1)(denom),"--"), width=width, pad=" ")
   )
 }
 
-# rrCI <- function(n, pt, ref_n, ref_pt){
-#   rate <- n/pt
-#   ref_rate <- ref_n/ref_pt
-#   rr <- rate/ref_rate
-#   log_rr <- log(rr)
-#   selog_rr <- sqrt((1/n)+(1/ref_n))
-#   log_ll <- log_rr - qnorm(0.975)*selog_rr
-#   log_ul <- log_rr + qnorm(0.975)*selog_rr
-#   ll <- exp(log_ll)
-#   ul <- exp(log_ul)
-#
-#   paste0("(", scales::number_format(accuracy=0.0001)(ll), "-", scales::number_format(accuracy=0.0001)(ul), ")")
-# }
+rrCI_normal <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
+  rate <- n/pt
+  ref_rate <- ref_n/ref_pt
+  rr <- rate/ref_rate
+  log_rr <- log(rr)
+  selog_rr <- sqrt((1/n)+(1/ref_n))
+  log_ll <- log_rr - qnorm(0.975)*selog_rr
+  log_ul <- log_rr + qnorm(0.975)*selog_rr
+  ll <- exp(log_ll)
+  ul <- exp(log_ul)
+
+  if_else(
+    group==levels(group)[1],
+    NA_character_,
+    paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
+  )
+}
+
+rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
+
+  # use exact methods if incidence is very low for immediate post-vaccine outcomes
+
+  rate <- n/pt
+  ref_rate <- ref_n/ref_pt
+  rr <- rate/ref_rate
+
+  ll = ref_pt/pt * (n/(ref_n+1)) * 1/qf(2*(ref_n+1), 2*n, p = 0.05/2, lower.tail = FALSE)
+  ul = ref_pt/pt * ((n+1)/ref_n) * qf(2*(n+1), 2*ref_n, p = 0.05/2, lower.tail = FALSE)
+
+  if_else(
+    group==levels(group)[1],
+    NA_character_,
+    paste0("(", scales::number_format(accuracy=accuracy)(ll), "-", scales::number_format(accuracy=accuracy)(ul), ")")
+  )
+
+}
+
+
 
 # get confidence intervals for rate ratio using unadjusted poisson GLM
 # uses gtsummary not broom::tidy to make it easier to paste onto original data
 
-rrCI <- function(n, pt, x, accuracy=0.001){
+rrCI_glm <- function(n, pt, x, accuracy=0.001){
 
   dat<-tibble(n=n, pt=pt, x=x)
 
@@ -253,12 +280,21 @@ rrCI <- function(n, pt, x, accuracy=0.001){
 
   if_else(
     dat2$x==first(dat2$x),
-    "-",
+    NA_character_,
     paste0("(", scales::number_format(accuracy=accuracy)(dat2$conf.low), "-", scales::number_format(accuracy=accuracy)(dat2$conf.high), ")")
   )
 }
 
-pt_summary_total <- data_pt %>%
+pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
+
+  unredacted <- data %>%
+  mutate(
+    timesincevax = data[[timesince]],
+    fup = data[[fup]],
+    timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, baseline),
+  ) %>%
+  filter(fup==1) %>%
+  group_by(timesincevax_pw) %>%
   summarise(
     postest_yearsatrisk=sum(postest_status==0)/365.25,
     postest_n=sum(postest),
@@ -276,37 +312,6 @@ pt_summary_total <- data_pt %>%
     noncoviddeath_n=sum(noncoviddeath),
     noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
 
-
-    # death_yearsatrisk=sum(death_status==0)/365.25,
-    # death_n=sum(death),
-    # death_rate=death_n/death_yearsatrisk,
-  )
-
-pt_summary <- function(data, timesince, postvaxcuts){
-
-  unredacted <- data %>%
-  mutate(
-    timesincevax = data[[timesince]],
-    timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, "Unvaccinated"),
-  ) %>%
-  group_by(timesincevax_pw) %>%
-  summarise(
-    postest_yearsatrisk=sum(postest_status==0 & death_status==0 & dereg_status==0)/365.25,
-    postest_n=sum(postest),
-    postest_rate=postest_n/postest_yearsatrisk,
-
-    covidadmitted_yearsatrisk=sum(covidadmitted_status==0 & death_status==0 & dereg_status==0)/365.25,
-    covidadmitted_n=sum(covidadmitted),
-    covidadmitted_rate=covidadmitted_n/covidadmitted_yearsatrisk,
-
-    coviddeath_yearsatrisk=sum(death_status==0 & dereg_status==0)/365.25,
-    coviddeath_n=sum(coviddeath),
-    coviddeath_rate=coviddeath_n/coviddeath_yearsatrisk,
-
-    noncoviddeath_yearsatrisk=sum(death_status==0 & dereg_status==0)/365.25,
-    noncoviddeath_n=sum(noncoviddeath),
-    noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
-
     # death_yearsatrisk=sum(death_status==0)/365.25,
     # death_n=sum(death),
     # death_rate=death_n/death_yearsatrisk,
@@ -318,10 +323,10 @@ pt_summary <- function(data, timesince, postvaxcuts){
     coviddeath_rr=coviddeath_rate/first(coviddeath_rate),
     noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
 
-    postest_rrCI = rrCI(postest_n, postest_yearsatrisk, timesincevax_pw),
-    covidadmitted_rrCI = rrCI(covidadmitted_n, covidadmitted_yearsatrisk, timesincevax_pw),
-    coviddeath_rrCI = rrCI(coviddeath_n, coviddeath_yearsatrisk, timesincevax_pw),
-    noncoviddeath_rrCI = rrCI(noncoviddeath_n, noncoviddeath_yearsatrisk, timesincevax_pw),
+    postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.001),
+    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk),  timesincevax_pw, 0.001),
+    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk),  timesincevax_pw, 0.001),
+    noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.001),
   )
 
   redacted <- unredacted %>%
@@ -338,33 +343,72 @@ pt_summary <- function(data, timesince, postvaxcuts){
       noncoviddeath_rr = redactor2(noncoviddeath_n, 5, noncoviddeath_rr),
       #death_rr = redactor2(death_n, 5, death_rr)
 
+      postest_rrCI = redactor2(postest_n, 5, postest_rrCI),
+      covidadmitted_rrCI = redactor2(covidadmitted_n, 5, covidadmitted_rrCI),
+      coviddeath_rrCI = redactor2(coviddeath_n, 5, coviddeath_rrCI),
+      noncoviddeath_rrCI = redactor2(noncoviddeath_n, 5, noncoviddeath_rrCI),
+
       postest_n = redactor2(postest_n, 5),
       covidadmitted_n = redactor2(covidadmitted_n, 5),
       coviddeath_n = redactor2(coviddeath_n, 5),
       noncoviddeath_n = redactor2(noncoviddeath_n, 5),
       #death_n = redactor2(death_n, 5)
-
     )
 
   redacted
 }
 
-pt_summary_any <-
-  bind_rows(
-    pt_summary(data_pt, "timesincevaxany1", postvaxcuts),
-    pt_summary_total %>% mutate(timesincevax_pw="Total")
-  ) %>%
-  mutate(
-    postest_q = format_ratio(postest_n,postest_yearsatrisk),
-    covidadmitted_q = format_ratio(covidadmitted_n,covidadmitted_yearsatrisk),
-    coviddeath_q = format_ratio(coviddeath_n,coviddeath_yearsatrisk),
-    noncoviddeath_q = format_ratio(noncoviddeath_n,noncoviddeath_yearsatrisk),
-  ) %>%
-  select(starts_with("timesince"), ends_with(c("_q","_rr", "_rrCI")))
+data_pt_fup <- data_pt %>%
+mutate(
+  fup_any = (death_status==0 & dereg_status==0),
+  fup_pfizer = (death_status==0 & dereg_status==0 & vaxaz1_status==0),
+  fup_az = (death_status==0 & dereg_status==0 & vaxpfizer1_status==0 & tstart>=27),
+  all=0
+)
 
-pt_tab_summary <- pt_summary_any %>%
-  gt() %>%
+
+data_summary_any <-
+  bind_rows(
+    pt_summary(data_pt_fup, "fup_any", "timesincevaxany1", postvaxcuts, "Unvaccinated"),
+    pt_summary(data_pt_fup, "fup_any", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
+  ) %>%
+  mutate(brand ="Any")
+
+data_summary_pfizer <-
+  bind_rows(
+    pt_summary(data_pt_fup, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated"),
+    pt_summary(data_pt_fup, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
+  ) %>%
+  mutate(brand ="P-BNT")
+
+data_summary_az <-
+  bind_rows(
+    pt_summary(data_pt_fup, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated"),
+    pt_summary(data_pt_fup, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
+  ) %>%
+  mutate(brand ="Ox-AZ")
+
+
+data_summary <- bind_rows(
+  data_summary_any,
+  data_summary_pfizer,
+  data_summary_az
+) %>%
+mutate(
+  postest_q = format_ratio(postest_n,postest_yearsatrisk),
+  covidadmitted_q = format_ratio(covidadmitted_n,covidadmitted_yearsatrisk),
+  coviddeath_q = format_ratio(coviddeath_n,coviddeath_yearsatrisk),
+  noncoviddeath_q = format_ratio(noncoviddeath_n,noncoviddeath_yearsatrisk),
+) %>%
+select(brand, starts_with("timesince"), ends_with(c("_q","_rr", "_rrCI")))
+
+
+tab_summary <- data_summary %>%
+  gt(
+    groupname_col = "brand",
+  ) %>%
    cols_label(
+     brand = "Vaccine brand",
      timesincevax_pw = "Time since first dose",
 
 
@@ -443,7 +487,7 @@ pt_tab_summary <- pt_summary_any %>%
     columns = "timesincevax_pw"
   )
 
-gtsave(pt_tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
+gtsave(tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
 
 
 ## note:
