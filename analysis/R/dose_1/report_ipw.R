@@ -135,6 +135,9 @@ gt_model_summary <- function(model, cluster) {
     LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
     psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
 
+    multimorb ~ "Morbidity count",
+    shileded ~ "Shielding criteria met",
+
     flu_vaccine ~ "Flu vaccine in previous 5 years",
 
     timesince_hosp_discharge_pw ~ "Time since hospital discharge",
