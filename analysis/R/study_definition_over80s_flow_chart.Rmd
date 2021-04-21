@@ -28,7 +28,7 @@ library(grid)
 ## Import data ----
 data_flow_chart <- read_csv(
   here::here("output", "input_over80s_flow_chart.csv"),
-  col_types = cols(
+  col_types = cols_only(
     
     # identifiers
     patient_id = col_integer(),
@@ -40,7 +40,9 @@ data_flow_chart <- read_csv(
     
     has_follow_up_previous_year = col_logical(),
     
-    care_home_type = col_character(),
+    household_id = col_integer(),
+    care_home_tpp = col_logical(),
+    care_home_code = col_logical(),
     
     prior_positive_test_date = col_date(format="%Y-%m-%d"),
     prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
@@ -65,7 +67,21 @@ data_flow_chart <- read_csv(
 # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
 data_flow_chart <- data_flow_chart %>%
   mutate(ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)) %>%
-  select(-ethnicity_6_sus)
+  select(-ethnicity_6_sus) %>%
+  mutate(
+    household_id = na_if(household_id, 0), #if household_id=0 then make NA
+  ) %>%
+  group_by(household_id) %>%
+  mutate(
+    household_n = n(),
+    oldhousehold_n = sum(age>=70, na.rm=TRUE),
+  ) %>%
+  ungroup() %>%
+  mutate(
+    care_home_household = if_else(!is.na(household_id), oldhousehold_n>5, FALSE),
+    care_home_combined = care_home_household | care_home_tpp | care_home_code, # any carehome flag
+  )
+  
 ```
 
 ### Inclusion/exclusion numbers
@@ -101,19 +117,63 @@ criteria_2 %>%
   nrow()
 ```
 
+
 $~$
 
-#### Non care home
+#### Non care home (tpp flag only)
+```{r, echo = FALSE}
+criteria_3tpp <- data_flow_chart %>%
+  filter(age >= 80,
+         registered_at_latest == TRUE,
+         has_died == FALSE,
+         has_follow_up_previous_year == TRUE,
+         care_home_tpp == FALSE) 
+```
+
+Excluded = `r nrow(criteria_2) - nrow(criteria_3tpp)`
+
+```{r, echo = FALSE}
+criteria_3tpp %>%
+  nrow()
+```
+
+
+
+#### Non care home (+ code only)
+```{r, echo = FALSE}
+criteria_3code <- data_flow_chart %>%
+  filter(age >= 80,
+         registered_at_latest == TRUE,
+         has_died == FALSE,
+         has_follow_up_previous_year == TRUE,
+         care_home_tpp == FALSE,
+         care_home_code == FALSE) 
+```
+
+Excluded = `r nrow(criteria_3tpp) - nrow(criteria_3code)`
+
+```{r, echo = FALSE}
+criteria_3code %>%
+  nrow()
+```
+
+
+
+$~$
+
+#### Non care home (all)
 ```{r, echo = FALSE}
 criteria_3 <- data_flow_chart %>%
   filter(age >= 80,
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "") 
+         care_home_tpp == FALSE,
+         care_home_code == FALSE,
+         care_home_household == FALSE) 
 ```
 
-Excluded = `r nrow(criteria_2) - nrow(criteria_3)`
+Excluded = `r nrow(criteria_3code) - nrow(criteria_3)`
 
 ```{r, echo = FALSE}
 criteria_3 %>%
@@ -129,7 +189,7 @@ criteria_4 <- data_flow_chart %>%
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "",
+         care_home_combined == FALSE,
          is.na(prior_positive_test_date),
          is.na(prior_primary_care_covid_case_date),
          is.na(prior_covidadmitted_date)
@@ -152,7 +212,7 @@ criteria_5 <- data_flow_chart %>%
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "",
+         care_home_combined == FALSE,
          is.na(prior_positive_test_date),
          is.na(prior_primary_care_covid_case_date),
          is.na(prior_covidadmitted_date),
@@ -175,7 +235,7 @@ criteria_6 <- data_flow_chart %>%
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "",
+         care_home_combined == FALSE,
          is.na(prior_positive_test_date),
          is.na(prior_primary_care_covid_case_date),
          is.na(prior_covidadmitted_date),
@@ -199,7 +259,7 @@ criteria_7 <- data_flow_chart %>%
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "",
+         care_home_combined == FALSE,
          is.na(prior_positive_test_date),
          is.na(prior_primary_care_covid_case_date),
          is.na(prior_covidadmitted_date),
@@ -224,7 +284,7 @@ criteria_8 <- data_flow_chart %>%
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "",
+         care_home_combined == FALSE,
          is.na(prior_positive_test_date),
          is.na(prior_primary_care_covid_case_date),
          is.na(prior_covidadmitted_date),
@@ -250,7 +310,7 @@ criteria_9 <- data_flow_chart %>%
          registered_at_latest == TRUE,
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
-         care_home_type == "",
+         care_home_combined == FALSE,
          is.na(prior_positive_test_date),
          is.na(prior_primary_care_covid_case_date),
          is.na(prior_covidadmitted_date),
