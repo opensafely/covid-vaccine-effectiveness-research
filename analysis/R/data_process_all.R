@@ -97,6 +97,21 @@ data_extract0 <- read_csv(
     discharged_unplanned_4_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_5_date = col_date(format="%Y-%m-%d"),
 
+    admitted_unplanned_infectious_0_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_infectious_1_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_infectious_2_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_infectious_3_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_infectious_4_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_infectious_5_date = col_date(format="%Y-%m-%d"),
+
+    discharged_unplanned_infectious_0_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_infectious_1_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_infectious_2_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_infectious_3_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_infectious_4_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_infectious_5_date = col_date(format="%Y-%m-%d"),
+
+
     primary_care_probable_covid_1_date = col_date(format="%Y-%m-%d"),
     primary_care_probable_covid_2_date = col_date(format="%Y-%m-%d"),
     primary_care_probable_covid_3_date = col_date(format="%Y-%m-%d"),
@@ -356,6 +371,25 @@ data_admissions <- data_processed %>%
     select(patient_id, index, admitted_date=admitted_unplanned, discharged_date = discharged_unplanned) %>%
     arrange(patient_id, admitted_date)
 
+data_admissions_infectious <- data_processed %>%
+  select(patient_id, matches("^admitted\\_unplanned\\_infectious\\_\\d+\\_date"), matches("^discharged\\_unplanned\\_infectious\\_\\d+\\_date")) %>%
+  pivot_longer(
+    cols = -patient_id,
+    names_to = c(".value", "index"),
+    names_pattern = "^(.*)_(\\d+)_date",
+    values_drop_na = TRUE
+  ) %>%
+  select(patient_id, index, admitted_date=admitted_unplanned_infectious, discharged_date = discharged_unplanned_infectious) %>%
+  arrange(patient_id, admitted_date)
+
+#remove infeectious admissions from all admissions data
+data_admissions_noninfectious <- anti_join(
+  data_admissions,
+  data_admissions_infectious,
+  by = c("patient_id", "admitted_date", "discharged_date")
+)
+
+
 data_pr_suspected_covid <- data_processed %>%
   select(patient_id, matches("^primary_care_suspected_covid\\_\\d+\\_date")) %>%
   pivot_longer(
@@ -445,6 +479,8 @@ data_vax <- local({
 write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
 write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
 write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
+write_rds(data_admissions_infectious, here::here("output", "data", "data_long_admission_infectious_dates.rds"), compress="gz")
+write_rds(data_admissions_noninfectious, here::here("output", "data", "data_long_admission_noninfectious_dates.rds"), compress="gz")
 write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
 write_rds(data_pr_suspected_covid, here::here("output", "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
 write_rds(data_postest, here::here("output", "data", "data_long_postest_dates.rds"), compress="gz")

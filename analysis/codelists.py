@@ -223,6 +223,6 @@ carehome_primis_codes = codelist_from_csv(
 
 ICD10_I_codes = codelist_from_csv(
     "codelists/opensafely-icd-10-chapter-i.csv",
-    system="snomed",
+    system="icd10",
     column="code",
 )
