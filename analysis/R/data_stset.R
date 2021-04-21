@@ -50,6 +50,8 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
+set.seed(20201208)
+
 data_cohorts <- data_cohorts[data_cohorts[[cohort]],] %>%
   ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
   sample_n(tbl=., size=min(c(100000, nrow(.))))
@@ -243,8 +245,8 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", stan
 # ie, one row per person per event
 # every time an event occurs or a covariate changes, a new row is generated
 
-# import hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_dates.rds")) %>%
+# import infectious hospitalisations data for time-updating "in-hospital" covariate
+data_hospitalised_infectious <- read_rds(here::here("output", "data", "data_long_admission_infectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -258,8 +260,27 @@ data_hospitalised <- read_rds(here::here("output", "data", "data_long_admission_
   ) %>%
   mutate(
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
-    hosp_status = if_else(status=="admitted_date", 1L, 0L)
+    hospinfectious_status = if_else(status=="admitted_infectious_date", 1L, 0L)
   )
+
+# import non infectious hospitalisations data for time-updating "in-hospital" covariate
+data_hospitalised_noninfectious <- read_rds(here::here("output", "data", "data_long_admission_noninfectious_dates.rds")) %>%
+  pivot_longer(
+    cols=c(admitted_date, discharged_date),
+    names_to="status",
+    values_to="date",
+    values_drop_na = TRUE
+  ) %>%
+  inner_join(
+    data_tte %>% select(patient_id, start_date, lastfup_date),
+    .,
+    by =c("patient_id")
+  ) %>%
+  mutate(
+    tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
+    hospnoninfectious_status = if_else(status=="admitted_noninfectious_date", 1L, 0L)
+  )
+
 
 data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
   inner_join(
@@ -343,16 +364,29 @@ stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp0" = data_tte_cp0
 data_tte_cp <- data_tte_cp0 %>%
   tmerge(
     data1 = .,
-    data2 = data_hospitalised,
+    data2 = data_hospitalised_infectious,
     id = patient_id,
-    hospital_status = tdc(tte, hosp_status),
+    hospitalinfectious_status = tdc(tte, hospinfectious_status),
     options = list(tdcstart = 0L)
   ) %>%
   tmerge(
     data1 = .,
-    data2 = data_hospitalised %>% filter(status=="discharged_date"),
+    data2 = data_hospitalised_infectious %>% filter(status=="discharged_date"),
     id = patient_id,
-    hosp_discharge = event(tte)
+    hospinfectious_discharge = event(tte)
+  ) %>%
+  tmerge(
+    data1 = .,
+    data2 = data_hospitalised_noninfectious,
+    id = patient_id,
+    hospitalnoninfectious_status = tdc(tte, hospnoninfectious_status),
+    options = list(tdcstart = 0L)
+  ) %>%
+  tmerge(
+    data1 = .,
+    data2 = data_hospitalised_noninfectious %>% filter(status=="discharged_date"),
+    id = patient_id,
+    hospnoninfectious_discharge = event(tte)
   ) %>%
   tmerge(
     data1 = .,
@@ -398,8 +432,10 @@ mutate(across(
             "noncoviddeath",
             "death",
             "lastfup",
-            "hospital_status",
-            "hosp_discharge",
+            "hospitalinfectious_status",
+            "hospitalnoninfectious_status",
+            "hospinfectious_discharge",
+            "hospnoninfectious_discharge",
             "suspected_covid",
             "probable_covid",
             "postest_tdc"
@@ -409,7 +445,7 @@ mutate(across(
 
 # free up memory
 if(removeobs){
-  rm(data_tte_cp0, data_hospitalised, data_suspected_covid, data_probable_covid, data_postest)
+  rm(data_tte_cp0, data_hospitalised_infectious, data_hospitalised_noninfectious, data_suspected_covid, data_probable_covid, data_postest)
 }
 
 
@@ -439,13 +475,14 @@ data_tte_pt <- tmerge(
   arrange(patient_id, tstop) %>%
   group_by(patient_id) %>%
   mutate(
-    hosp_discharge_time = if_else(hosp_discharge==1, tstop, NA_real_),
+    hospinfectious_discharge_time = if_else(hospinfectious_discharge==1, tstop, NA_real_),
+    hospnoninfectious_discharge_time = if_else(hospnoninfectious_discharge==1, tstop, NA_real_),
     suspected_covid_time = if_else(suspected_covid==1, tstop, NA_real_),
     probable_covid_time = if_else(probable_covid==1, tstop, NA_real_),
     postest_time = if_else(postest_tdc==1, tstop, NA_real_),
   ) %>%
   fill(
-    hosp_discharge_time, suspected_covid_time, probable_covid_time, postest_time
+    hospinfectious_discharge_time, hospnoninfectious_discharge_time, suspected_covid_time, probable_covid_time, postest_time
   ) %>%
   mutate(
 
@@ -457,20 +494,39 @@ data_tte_pt <- tmerge(
     timesincevaxaz1 = cumsum(vaxaz1_status),
     timesincevaxaz2 = cumsum(vaxaz2_status),
 
-    # define time since hospitalisation
-    timesince_hosp_discharge = tstop - hosp_discharge_time,
-    timesince_hosp_discharge_pw = cut(
-      timesince_hosp_discharge,
+
+    # define time since infectious hospitalisation
+    timesince_hospinfectious_discharge = tstop - hospinfectious_discharge_time,
+    timesince_hospinfectious_discharge_pw = cut(
+      timesince_hospinfectious_discharge,
       breaks=c(0, 7, 14, 21, 28),
       labels=c( "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]"),
       right=TRUE
     ),
-    timesince_hosp_discharge_pw = case_when(
-      is.na(timesince_hosp_discharge_pw) & hospital_status==0 ~ "Not in hospital",
-      hospital_status==1 ~ "In hospital",
-      !is.na(timesince_hosp_discharge_pw) ~ as.character(timesince_hosp_discharge_pw),
+    timesince_hospinfectious_discharge_pw = case_when(
+      is.na(timesince_hospinfectious_discharge_pw) & hospitalinfectious_status==0 ~ "Not in hospital",
+      hospitalinfectious_status==1 ~ "In hospital",
+      !is.na(timesince_hospinfectious_discharge_pw) ~ as.character(timesince_hospinfectious_discharge_pw),
       TRUE ~ NA_character_
     ) %>% factor(c("Not in hospital", "In hospital", "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]")),
+
+
+    # define time since non infectious hospitalisation
+    timesince_hospnoninfectious_discharge = tstop - hospnoninfectious_discharge_time,
+    timesince_hospnoninfectious_discharge_pw = cut(
+      timesince_hospnoninfectious_discharge,
+      breaks=c(0, 7, 14, 21, 28),
+      labels=c( "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]"),
+      right=TRUE
+    ),
+    timesince_hospnoninfectious_discharge_pw = case_when(
+      is.na(timesince_hospnoninfectious_discharge_pw) & hospitalnoninfectious_status==0 ~ "Not in hospital",
+      hospitalnoninfectious_status==1 ~ "In hospital",
+      !is.na(timesince_hospnoninfectious_discharge_pw) ~ as.character(timesince_hospnoninfectious_discharge_pw),
+      TRUE ~ NA_character_
+    ) %>% factor(c("Not in hospital", "In hospital", "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]")),
+
+
 
     # define time since covid primary care event
     timesince_suspected_covid = tstop - suspected_covid_time,
@@ -500,7 +556,8 @@ data_tte_pt <- tmerge(
   ) %>%
   ungroup() %>%
   select(
-    -hosp_discharge_time, -timesince_hosp_discharge,
+    -hospinfectious_discharge_time, -timesince_hospinfectious_discharge,
+    -hospnoninfectious_discharge_time, -timesince_hospnoninfectious_discharge,
     -suspected_covid_time, -timesince_suspected_covid,
     -probable_covid_time, -timesince_probable_covid,
     -postest_time, -timesince_postest,
@@ -522,8 +579,10 @@ data_tte_pt <- tmerge(
               "death",
               "dereg",
               "lastfup",
-              "hospital_status",
-              "hosp_discharge",
+              "hospitalinfectious_status",
+              "hospitalnoninfectious_status",
+              "hospinfectious_discharge",
+              "hospnoninfectious_discharge",
               "probable_covid",
               "suspected_covid",
               "postest_tdc"

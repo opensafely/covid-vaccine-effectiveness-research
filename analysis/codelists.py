@@ -215,6 +215,12 @@ flu_clinical_not_given_codes = codelist_from_csv(
     "codelists/opensafely-influenza-vaccination-clinical-codes-not-given.csv",  system="ctv3", column="CTV3ID",
 )
 
+ICD10_I_codes = codelist_from_csv(
+    "codelists/opensafely-icd-10-chapter-i.csv",
+    system="icd10",
+    column="code",
+)
+
 ## PRIMIS
 
 carehome_primis_codes = codelist_from_csv(

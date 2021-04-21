@@ -140,7 +140,8 @@ gt_model_summary <- function(model, cluster) {
 
     flu_vaccine ~ "Flu vaccine in previous 5 years",
 
-    timesince_hosp_discharge_pw ~ "Time since hospital discharge",
+    timesince_hospinfectious_discharge_pw ~ "Time since discharge from infectious hosp admission",
+    timesince_hospnoninfectious_discharge_pw ~ "Time since discharge from non-infectious hosp admission",
     #timesince_probable_covid_pw ~ "Time since probable COVID",
     timesince_suspected_covid_pw ~ "Time since suspected COVID",
     timesince_postest_pw ~ "Time since positive SARS-CoV-2 test"

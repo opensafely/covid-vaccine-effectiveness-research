@@ -32,9 +32,11 @@ actions:
         data1: output/data/data_all.rds
         data2: output/data/data_long_vax_dates.rds
         data3: output/data/data_long_admission_dates.rds
-        data4: output/data/data_long_pr_probable_covid_dates.rds
-        data5: output/data/data_long_pr_suspected_covid_dates.rds
-        data6: output/data/data_long_postest_dates.rds
+        data4: output/data/data_long_admission_infectious_dates.rds
+        data5: output/data/data_long_admission_noninfectious_dates.rds
+        data6: output/data/data_long_pr_probable_covid_dates.rds
+        data7: output/data/data_long_pr_suspected_covid_dates.rds
+        data8: output/data/data_long_postest_dates.rds
 
 
   data_properties_all:
