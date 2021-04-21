@@ -220,3 +220,9 @@ carehome_primis_codes = codelist_from_csv(
     system="snomed", 
     column="code",
 )
+
+ICD10_I_codes = codelist_from_csv(
+    "codelists/opensafely-icd-10-chapter-i.csv",
+    system="snomed",
+    column="code",
+)

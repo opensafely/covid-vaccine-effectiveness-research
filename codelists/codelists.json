@@ -239,6 +239,11 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/longres/v1/",
       "downloaded_at": "2021-04-06 10:43:36.634532Z",
       "sha": "4d4c94b9c6aa267c6a60657150bbc5ec7d2d7625"
+    "opensafely-icd-10-chapter-i.csv": {
+      "id": "opensafely/icd-10-chapter-i/10e46159",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/icd-10-chapter-i/10e46159/",
+      "downloaded_at": "2021-04-21 14:56:32.127410Z",
+      "sha": "7aca1aa8a92cace55d48ddd5a62a5d13a41888e9"
     }
   }
 }
