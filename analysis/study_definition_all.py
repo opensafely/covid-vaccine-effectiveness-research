@@ -1658,4 +1658,43 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.5, },
     ),
     
+    
+    ############################################################
+    ######### PRIMIS CODELIST DERIVED CLINICAL VARIABLES     ###
+    ############################################################
+
+
+    shielded_ever = patients.with_these_clinical_events(
+            shield_codes,
+            returning="binary_flag",
+            on_or_before = "index_date",
+            find_last_match_in_period = True,
+        ),
+
+    shielded = patients.satisfying(
+        """severely_clinically_vulnerable AND NOT less_vulnerable""", 
+
+        ### SHIELDED GROUP - first flag all patients with "high risk" codes
+        severely_clinically_vulnerable=patients.with_these_clinical_events(
+            shield_codes,
+            returning="binary_flag",
+            on_or_before = "index_date",
+            find_last_match_in_period = True,
+        ),
+
+        # find date at which the high risk code was added
+        date_severely_clinically_vulnerable=patients.date_of(
+            "severely_clinically_vulnerable", 
+            date_format="YYYY-MM-DD",   
+        ),
+
+        ### NOT SHIELDED GROUP (medium and low risk) - only flag if later than 'shielded'
+        less_vulnerable=patients.with_these_clinical_events(
+            nonshield_codes, 
+            between=["date_severely_clinically_vulnerable + 1 day", "index_date"],
+        ),
+        
+        return_expectations={"incidence": 0.01},
+    ),
+    
 )

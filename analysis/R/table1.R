@@ -143,6 +143,9 @@ tab_summary <- data_tab %>% transmute(
   other_neuro_conditions,
   LD_incl_DS_and_CP,
   psychosis_schiz_bipolar,
+
+  multimorb,
+
   flu_vaccine,
 
   snapshot_day, vaxany_status
@@ -191,6 +194,10 @@ map(
 
       LD_incl_DS_and_CP ~ "Learning disability incl. DS and CP",
       psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
+
+      multimorb ~ "Morbidity count",
+
+      shielded ~ "Shielding criteria met",
 
       flu_vaccine ~ "Flu vaccine in previous 5 years"
 
