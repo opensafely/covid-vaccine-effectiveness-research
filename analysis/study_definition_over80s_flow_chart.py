@@ -119,6 +119,28 @@ study = StudyDefinition(
         },
     ),
     
+    # simple care home flag
+    care_home_tpp=patients.satisfying(
+        """care_home_type""",
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    care_home_code=patients.with_these_clinical_events(
+        carehome_primis_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    household_id = patients.household_as_of(
+        "2020-02-01", 
+        returning="pseudo_id",
+        return_expectations = {
+            "int": {"distribution": "normal", "mean": 1000, "stddev": 200},
+            "incidence": 1,
+        },
+    ),
+    
     # FIRST EVER SGSS POSITIVE
     prior_positive_test_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
