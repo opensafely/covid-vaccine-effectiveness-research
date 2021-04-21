@@ -215,8 +215,22 @@ flu_clinical_not_given_codes = codelist_from_csv(
     "codelists/opensafely-influenza-vaccination-clinical-codes-not-given.csv",  system="ctv3", column="CTV3ID",
 )
 
+## PRIMIS
+
 carehome_primis_codes = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-longres.csv", 
     system="snomed", 
+    column="code",
+)
+
+shield_codes = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-shield.csv",
+    system="snomed",
+    column="code",
+)
+
+nonshield_codes = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-nonshield.csv",
+    system="snomed",
     column="code",
 )
