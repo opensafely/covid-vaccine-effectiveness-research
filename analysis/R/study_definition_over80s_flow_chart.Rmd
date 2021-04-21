@@ -138,6 +138,27 @@ criteria_3tpp %>%
 ```
 
 
+
+#### Non care home (+ code only)
+```{r, echo = FALSE}
+criteria_3code <- data_flow_chart %>%
+  filter(age >= 80,
+         registered_at_latest == TRUE,
+         has_died == FALSE,
+         has_follow_up_previous_year == TRUE,
+         care_home_tpp == FALSE,
+         care_home_code == FALSE) 
+```
+
+Excluded = `r nrow(criteria_3tpp) - nrow(criteria_3code)`
+
+```{r, echo = FALSE}
+criteria_3code %>%
+  nrow()
+```
+
+
+
 $~$
 
 #### Non care home (all)
@@ -148,10 +169,11 @@ criteria_3 <- data_flow_chart %>%
          has_died == FALSE,
          has_follow_up_previous_year == TRUE,
          care_home_tpp == FALSE,
-         care_home_combined == FALSE) 
+         care_home_code == FALSE,
+         care_home_household == FALSE) 
 ```
 
-Excluded = `r nrow(criteria_3tpp) - nrow(criteria_3)`
+Excluded = `r nrow(criteria_3code) - nrow(criteria_3)`
 
 ```{r, echo = FALSE}
 criteria_3 %>%
