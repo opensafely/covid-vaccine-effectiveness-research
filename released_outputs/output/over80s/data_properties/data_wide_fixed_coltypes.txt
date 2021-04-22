@@ -100,6 +100,12 @@ $LD_incl_DS_and_CP
 $psychosis_schiz_bipolar
 [1] "logical"
 
+$multimorb
+[1] "factor"
+
+$shielded
+[1] "logical"
+
 $flu_vaccine
 [1] "logical"
 
