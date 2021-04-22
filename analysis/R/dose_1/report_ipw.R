@@ -42,8 +42,8 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  outcome <- "death"
-  brand <- "az"
+  outcome <- "postest"
+  brand <- "any"
   strata_var <- "all"
 }
 
@@ -136,7 +136,7 @@ gt_model_summary <- function(model, cluster) {
     psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
 
     multimorb ~ "Morbidity count",
-    shileded ~ "Shielding criteria met",
+    shielded ~ "Shielding criteria met",
 
     flu_vaccine ~ "Flu vaccine in previous 5 years",
 
