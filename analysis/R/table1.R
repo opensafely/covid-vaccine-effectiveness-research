@@ -146,6 +146,8 @@ tab_summary <- data_tab %>% transmute(
 
   multimorb,
 
+  shielded,
+
   flu_vaccine,
 
   snapshot_day, vaxany_status

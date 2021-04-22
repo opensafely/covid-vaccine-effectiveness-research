@@ -351,7 +351,7 @@ data_processed <- data_extract_reordered %>%
       (dementia | other_neuro_conditions)+
       (LD_incl_DS_and_CP)+
       (psychosis_schiz_bipolar),
-    multimorb = cut(multimorb, breaks = c(0, 1, 2, 3, 4, Inf), labels=c("0", "1", "2", "3", "4+"), right=TRUE),
+    multimorb = cut(multimorb, breaks = c(0, 1, 2, 3, 4, Inf), labels=c("0", "1", "2", "3", "4+"), right=FALSE),
 
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",

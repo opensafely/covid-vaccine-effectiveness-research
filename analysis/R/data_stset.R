@@ -110,6 +110,9 @@ data_fixed <- data_all %>%
     LD_incl_DS_and_CP,
     psychosis_schiz_bipolar,
 
+    multimorb,
+    shielded,
+
     flu_vaccine
   )
 
