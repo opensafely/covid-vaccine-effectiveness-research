@@ -1,123 +1,145 @@
 -- Data Summary ------------------------
                            Values  
 Name                       data    
-Number of rows             15552473
-Number of columns          98      
+Number of rows             15556881
+Number of columns          120     
 _______________________            
 Column type frequency:             
-  Date                     55      
-  factor                   10      
-  logical                  29      
-  numeric                  4       
+  Date                     67      
+  factor                   11      
+  logical                  34      
+  numeric                  8       
 ________________________           
 Group variables            None    
 
 -- Variable type: Date ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   skim_variable                       n_missing complete_rate min        max        median     n_unique
- 1 dereg_date                                  0  1            2020-12-08 9999-12-31 9999-12-31      115
- 2 prior_positive_test_date             15198302  0.0228       2020-02-05 2020-12-07 2020-10-26      290
- 3 prior_primary_care_covid_case_date   15224897  0.0211       1900-01-01 2020-12-08 2020-10-27      554
- 4 prior_covidadmitted_date             15508301  0.00284      2017-06-25 2020-12-07 2020-09-30      354
- 5 coviddeath_date                      15532247  0.00130      2020-12-08 2021-03-21 2021-01-20      104
- 6 death_date                           15490209  0.00400      2020-12-08 2021-03-22 2021-01-22      105
- 7 admitted_unplanned_1_date            12084428  0.223        1987-07-23 2021-02-28 2018-05-28     2323
- 8 admitted_unplanned_2_date            15364976  0.0121       2020-12-08 2021-02-28 2021-01-12       83
- 9 admitted_unplanned_3_date            15516984  0.00228      2020-12-09 2021-02-28 2021-01-24       82
-10 admitted_unplanned_4_date            15544501  0.000513     2020-12-10 2021-02-28 2021-01-31       81
-11 admitted_unplanned_5_date            15550286  0.000141     2020-12-14 2021-02-28 2021-02-05       77
-12 admitted_unplanned_6_date            15551779  0.0000446    2020-12-15 2021-02-28 2021-02-06       74
-13 covid_test_1_date                    13141676  0.155        2020-12-08 2021-03-26 2021-01-19      109
-14 covid_test_2_date                    15551114  0.0000874    2020-12-10 2021-03-25 2021-02-02      106
-15 covid_vax_1_date                      6301227  0.595        2020-12-08 2021-04-01 2021-02-14      115
-16 covid_vax_2_date                     14367047  0.0762       2020-12-27 2021-03-31 2021-03-23       95
-17 covid_vax_3_date                     15551291  0.0000760    2021-01-04 2021-03-31 2021-03-15       78
-18 covid_vax_4_date                     15552466  0.000000450  2021-01-09 2021-03-31 2021-03-09        6
-19 covid_vax_az_1_date                   9594222  0.383        2020-12-08 2021-04-01 2021-03-02      108
-20 covid_vax_az_2_date                  15335626  0.0139       2021-01-11 2021-03-31 2021-03-26       73
-21 covid_vax_az_3_date                  15552188  0.0000183    2021-01-22 2021-03-31 2021-03-25       33
-22 covid_vax_az_4_date                  15552472  0.0000000643 2021-03-31 2021-03-31 2021-03-31        1
-23 covid_vax_pfizer_1_date              12251461  0.212        2020-12-08 2021-03-31 2021-01-27      114
-24 covid_vax_pfizer_2_date              14588789  0.0620       2020-12-27 2021-03-31 2021-03-19       95
-25 covid_vax_pfizer_3_date              15551730  0.0000478    2021-01-04 2021-03-31 2021-03-04       73
-26 covid_vax_pfizer_4_date              15552469  0.000000257  2021-01-09 2021-03-21 2021-02-08        4
-27 covidadmitted_1_date                 15504364  0.00309      2020-12-08 2021-02-28 2021-01-10       83
-28 covidadmitted_2_date                 15547999  0.000288     2020-12-09 2021-02-28 2021-01-20       82
-29 covidadmitted_3_date                 15552129  0.0000221    2020-12-15 2021-02-27 2021-01-27       68
-30 covidadmitted_4_date                 15552440  0.00000212   2020-12-31 2021-02-19 2021-01-28       22
-31 discharged_unplanned_1_date          12084428  0.223        1900-01-01 2021-02-28 2018-05-31     1796
-32 discharged_unplanned_2_date          15364976  0.0121       2020-12-08 2021-02-28 2021-01-19       83
-33 discharged_unplanned_3_date          15516984  0.00228      2020-12-09 2021-02-28 2021-01-30       82
-34 discharged_unplanned_4_date          15544501  0.000513     2020-12-10 2021-02-28 2021-02-05       81
-35 discharged_unplanned_5_date          15550286  0.000141     2020-12-14 2021-02-28 2021-02-09       75
-36 discharged_unplanned_6_date          15551779  0.0000446    2020-12-15 2021-02-28 2021-02-10       73
-37 emergency_1_date                     14779222  0.0497       2020-12-08 2021-03-25 2021-01-27      108
-38 emergency_2_date                     15419436  0.00855      2020-12-09 2021-03-25 2021-02-08      107
-39 positive_test_1_date                 15026750  0.0338       2020-12-08 2021-03-25 2021-01-10      108
-40 positive_test_2_date                 15552433  0.00000257   2020-12-10 2021-02-25 2021-01-05       25
-41 primary_care_covid_case_1_date       15474369  0.00502      2020-12-08 2021-12-01 2021-01-19      116
-42 primary_care_probable_covid_1_date   15474369  0.00502      2020-12-08 2021-12-01 2021-01-17      116
-43 primary_care_probable_covid_2_date   15542229  0.000659     2020-12-09 2021-12-01 2021-01-23      114
-44 primary_care_probable_covid_3_date   15550413  0.000132     2020-12-10 2021-03-31 2021-01-28      110
-45 primary_care_probable_covid_4_date   15551825  0.0000417    2020-12-13 2021-03-31 2021-02-01       89
-46 primary_care_probable_covid_5_date   15552221  0.0000162    2020-12-17 2021-03-31 2021-02-02       71
-47 primary_care_suspected_covid_1_date  15356138  0.0126       2020-12-08 2021-04-01 2021-01-16      115
-48 primary_care_suspected_covid_2_date  15528552  0.00154      2020-12-09 2021-03-31 2021-02-10      113
-49 primary_care_suspected_covid_3_date  15546300  0.000397     2020-12-11 2021-03-31 2021-02-17      110
-50 primary_care_suspected_covid_4_date  15550026  0.000157     2020-12-13 2021-04-01 2021-02-18      107
-51 primary_care_suspected_covid_5_date  15551267  0.0000775    2020-12-15 2021-03-31 2021-02-22       93
-52 start_date                                  0  1            2020-12-07 2020-12-07 2020-12-07        1
-53 end_date                                    0  1            2021-02-22 2021-02-22 2021-02-22        1
-54 censor_date                                 0  1            2020-12-08 2021-02-22 2021-02-22       77
-55 noncoviddeath_date                   15510435  0.00270      2020-12-08 2021-03-22 2021-01-24      105
+   skim_variable                          n_missing complete_rate min        max        median     n_unique
+ 1 dereg_date                                     0   1           2020-12-08 9999-12-31 9999-12-31      129
+ 2 prior_positive_test_date                15202471   0.0228      2020-02-05 2020-12-07 2020-10-26      290
+ 3 prior_primary_care_covid_case_date      15229174   0.0211      1900-01-01 2020-12-08 2020-10-27      554
+ 4 prior_covidadmitted_date                15512714   0.00284     2017-06-25 2020-12-07 2020-09-30      354
+ 5 coviddeath_date                         15536418   0.00132     2020-12-08 2021-03-29 2021-01-20      111
+ 6 death_date                              15491707   0.00419     2020-12-08 2021-03-29 2021-01-24      112
+ 7 admitted_unplanned_1_date               12089212   0.223       1987-07-23 2021-02-28 2018-05-28     2323
+ 8 admitted_unplanned_2_date               15369396   0.0121      2020-12-08 2021-02-28 2021-01-12       83
+ 9 admitted_unplanned_3_date               15521401   0.00228     2020-12-09 2021-02-28 2021-01-24       82
+10 admitted_unplanned_4_date               15548913   0.000512    2020-12-10 2021-02-28 2021-01-31       81
+11 admitted_unplanned_5_date               15554696   0.000140    2020-12-14 2021-02-28 2021-02-05       77
+12 admitted_unplanned_6_date               15556188   0.0000445   2020-12-15 2021-02-28 2021-02-06       74
+13 admitted_unplanned_infectious_1_date    13785744   0.114       2003-05-28 2021-02-28 2018-08-01     2020
+14 admitted_unplanned_infectious_2_date    15444258   0.00724     2020-12-08 2021-02-28 2021-01-10       83
+15 admitted_unplanned_infectious_3_date    15536429   0.00131     2020-12-09 2021-02-28 2021-01-22       82
+16 admitted_unplanned_infectious_4_date    15552750   0.000266    2020-12-11 2021-02-28 2021-01-30       79
+17 admitted_unplanned_infectious_5_date    15555903   0.0000629   2020-12-14 2021-02-28 2021-02-03       72
+18 admitted_unplanned_infectious_6_date    15556616   0.0000170   2020-12-15 2021-02-28 2021-02-06       63
+19 covid_test_1_date                       12989361   0.165       2020-12-08 2021-04-08 2021-01-21      122
+20 covid_test_2_date                       15555239   0.000106    2020-12-10 2021-04-08 2021-02-15      120
+21 covid_vax_1_date                         6036861   0.612       2020-12-08 2021-04-14 2021-02-16      128
+22 covid_vax_2_date                        13086524   0.159       2020-12-27 2021-04-14 2021-04-01      109
+23 covid_vax_3_date                        15554704   0.000140    2021-01-04 2021-04-14 2021-03-28       92
+24 covid_vax_4_date                        15556863   0.00000116  2021-01-09 2021-04-12 2021-03-31       11
+25 covid_vax_az_1_date                      9353947   0.399       2020-12-08 2021-04-14 2021-03-03      121
+26 covid_vax_az_2_date                     14812113   0.0479      2021-01-11 2021-04-14 2021-04-08       87
+27 covid_vax_az_3_date                     15556144   0.0000474   2021-01-22 2021-04-14 2021-04-01       47
+28 covid_vax_az_4_date                     15556878   0.000000193 2021-03-31 2021-04-12 2021-04-10        3
+29 covid_vax_pfizer_1_date                 12227264   0.214       2020-12-08 2021-04-14 2021-01-27      128
+30 covid_vax_pfizer_2_date                 13840068   0.110       2020-12-27 2021-04-14 2021-03-30      109
+31 covid_vax_pfizer_3_date                 15555732   0.0000739   2021-01-04 2021-04-14 2021-03-23       88
+32 covid_vax_pfizer_4_date                 15556872   0.000000579 2021-01-09 2021-04-11 2021-03-31        8
+33 covidadmitted_1_date                    15508778   0.00309     2020-12-08 2021-02-28 2021-01-10       83
+34 covidadmitted_2_date                    15552410   0.000287    2020-12-09 2021-02-28 2021-01-20       82
+35 covidadmitted_3_date                    15556537   0.0000221   2020-12-15 2021-02-27 2021-01-27       68
+36 covidadmitted_4_date                    15556848   0.00000212  2020-12-31 2021-02-19 2021-01-28       22
+37 discharged_unplanned_1_date             12089212   0.223       1900-01-01 2021-02-28 2018-05-31     1796
+38 discharged_unplanned_2_date             15369396   0.0121      2020-12-08 2021-02-28 2021-01-19       83
+39 discharged_unplanned_3_date             15521401   0.00228     2020-12-09 2021-02-28 2021-01-30       82
+40 discharged_unplanned_4_date             15548913   0.000512    2020-12-10 2021-02-28 2021-02-05       81
+41 discharged_unplanned_5_date             15554696   0.000140    2020-12-14 2021-02-28 2021-02-09       75
+42 discharged_unplanned_6_date             15556188   0.0000445   2020-12-15 2021-02-28 2021-02-10       73
+43 discharged_unplanned_infectious_1_date  13785744   0.114       2016-04-01 2021-02-28 2018-08-07     1795
+44 discharged_unplanned_infectious_2_date  15444258   0.00724     2020-12-08 2021-02-28 2021-01-18       83
+45 discharged_unplanned_infectious_3_date  15536429   0.00131     2020-12-09 2021-02-28 2021-01-29       82
+46 discharged_unplanned_infectious_4_date  15552750   0.000266    2020-12-11 2021-02-28 2021-02-05       79
+47 discharged_unplanned_infectious_5_date  15555903   0.0000629   2020-12-14 2021-02-28 2021-02-09       70
+48 discharged_unplanned_infectious_6_date  15556616   0.0000170   2020-12-15 2021-02-28 2021-02-09       60
+49 emergency_1_date                        14681264   0.0563      2020-12-08 2021-04-08 2021-02-03      122
+50 emergency_2_date                        15399186   0.0101      2020-12-09 2021-04-08 2021-02-17      121
+51 positive_test_1_date                    15022505   0.0343      2020-12-08 2021-04-08 2021-01-10      122
+52 positive_test_2_date                    15556840   0.00000264  2020-12-10 2021-04-02 2021-01-05       26
+53 primary_care_covid_case_1_date          15477274   0.00512     2020-12-08 2021-12-01 2021-01-19      129
+54 primary_care_probable_covid_1_date      15477274   0.00512     2020-12-08 2021-12-01 2021-01-18      129
+55 primary_care_probable_covid_2_date      15546344   0.000677    2020-12-09 2021-12-01 2021-01-24      128
+56 primary_care_probable_covid_3_date      15554728   0.000138    2020-12-10 2021-04-14 2021-01-29      121
+57 primary_care_probable_covid_4_date      15556192   0.0000443   2020-12-13 2021-04-14 2021-02-02       98
+58 primary_care_probable_covid_5_date      15556606   0.0000177   2020-12-17 2021-04-14 2021-02-04       79
+59 primary_care_suspected_covid_1_date     15350605   0.0133      2020-12-08 2021-04-15 2021-01-19      129
+60 primary_care_suspected_covid_2_date     15530366   0.00170     2020-12-09 2021-04-15 2021-02-15      128
+61 primary_care_suspected_covid_3_date     15549699   0.000462    2020-12-11 2021-04-14 2021-02-24      124
+62 primary_care_suspected_covid_4_date     15554009   0.000185    2020-12-13 2021-04-15 2021-02-26      121
+63 primary_care_suspected_covid_5_date     15555453   0.0000918   2020-12-15 2021-04-14 2021-03-02      107
+64 start_date                                     0   1           2020-12-07 2020-12-07 2020-12-07        1
+65 end_date                                       0   1           2021-02-22 2021-02-22 2021-02-22        1
+66 censor_date                                    0   1           2020-12-08 2021-02-22 2021-02-22       77
+67 noncoviddeath_date                      15512170   0.00287     2020-12-08 2021-03-29 2021-01-27      112
 
 -- Variable type: factor -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    skim_variable  n_missing complete_rate ordered n_unique top_counts                                            
- 1 sex                    0       1       FALSE          2 Fem: 8004718, Mal: 7547755                            
- 2 bmi                    0       1       FALSE          4 Not: 12330442, Obe: 1948249, Obe: 789074, Obe: 484708 
- 3 ethnicity              0       1       FALSE          5 Whi: 13423332, Sou: 1153473, Bla: 387105, Oth: 386356 
- 4 msoa                   0       1       FALSE       6578 E02: 17390, E02: 14166, E02: 13834, E02: 12474        
- 5 stp                    0       1       FALSE         31 E54: 1490835, E54: 1127774, E54: 1050775, E54: 747974 
- 6 region                 0       1       FALSE          9 Eas: 3620554, Eas: 2752894, Yor: 2160201, Sou: 2137552
- 7 imd                    0       1       FALSE          5 3: 3334026, 4: 3142537, 2: 3125057, 1 m: 3073937      
- 8 care_home_type  15486075       0.00427 FALSE          3 Car: 36771, Nur: 28103, Mix: 1524                     
- 9 ageband                0       1       FALSE          5 18-: 7869243, 50s: 2739336, 60s: 2174284, 70s: 1789197
-10 cause_of_death  15490209       0.00400 FALSE          2 not: 42038, cov: 20226                                
+ 1 sex                    0       1       FALSE          2 Fem: 8006201, Mal: 7550680                            
+ 2 bmi                    0       1       FALSE          4 Not: 12327901, Obe: 1951655, Obe: 790794, Obe: 486531 
+ 3 ethnicity              0       1       FALSE          5 Whi: 13426901, Sou: 1153860, Bla: 387243, Oth: 386598 
+ 4 msoa                   0       1       FALSE       6579 E02: 17390, E02: 14168, E02: 13842, E02: 12476        
+ 5 stp                    0       1       FALSE         31 E54: 1491454, E54: 1128197, E54: 1051118, E54: 748446 
+ 6 region                 0       1       FALSE          9 Eas: 3621762, Eas: 2753413, Yor: 2160991, Sou: 2138472
+ 7 imd                    0       1       FALSE          5 3: 3334955, 4: 3143672, 2: 3125595, 1 m: 3074835      
+ 8 care_home_type  15490458       0.00427 FALSE          3 Car: 36756, Nur: 28147, Mix: 1520                     
+ 9 ageband                0       1       FALSE          5 18-: 7871332, 50s: 2740252, 60s: 2174895, 70s: 1789640
+10 multimorb              0       1       FALSE          5 0: 10749057, 1: 3251953, 2: 1143902, 3: 330282        
+11 cause_of_death  15491707       0.00419 FALSE          2 not: 44711, cov: 20463                                
 
 -- Variable type: logical ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    skim_variable               n_missing complete_rate      mean count                      
- 1 has_follow_up_previous_year         0             1 1         TRU: 15552473              
- 2 registered_at_latest                0             1 0.990     TRU: 15396027, FAL: 156446 
- 3 care_home_tpp                       0             1 0.00427   FAL: 15486075, TRU: 66398  
- 4 care_home_primis                    0             1 0.00567   FAL: 15464347, TRU: 88126  
- 5 chronic_cardiac_disease             0             1 0.0725    FAL: 14424170, TRU: 1128303
- 6 heart_failure                       0             1 0.0192    FAL: 15253204, TRU: 299269 
- 7 other_heart_disease                 0             1 0.0643    FAL: 14551720, TRU: 1000753
- 8 diabetes                            0             1 0.110     FAL: 13848483, TRU: 1703990
- 9 dialysis                            0             1 0.00125   FAL: 15533056, TRU: 19417  
-10 chronic_liver_disease               0             1 0.00652   FAL: 15451133, TRU: 101340 
-11 current_copd                        0             1 0.0349    FAL: 15009621, TRU: 542852 
-12 LD_incl_DS_and_CP                   0             1 0.00700   FAL: 15443644, TRU: 108829 
-13 cystic_fibrosis                     0             1 0.000282  FAL: 15548084, TRU: 4389   
-14 other_resp_conditions               0             1 0.0145    FAL: 15326370, TRU: 226103 
-15 lung_cancer                         0             1 0.00191   FAL: 15522699, TRU: 29774  
-16 haematological_cancer               0             1 0.00637   FAL: 15453431, TRU: 99042  
-17 cancer_excl_lung_and_haem           0             1 0.0530    FAL: 14728520, TRU: 823953 
-18 chemo_or_radio                      0             1 0.0142    FAL: 15331768, TRU: 220705 
-19 solid_organ_transplantation         0             1 0.00129   FAL: 15532388, TRU: 20085  
-20 bone_marrow_transplant              0             1 0.0000139 FAL: 15552257, TRU: 216    
-21 sickle_cell_disease                 0             1 0.000214  FAL: 15549151, TRU: 3322   
-22 permanant_immunosuppression         0             1 0.000855  FAL: 15539168, TRU: 13305  
-23 temporary_immunosuppression         0             1 0.00284   FAL: 15508348, TRU: 44125  
-24 asplenia                            0             1 0.00152   FAL: 15528910, TRU: 23563  
-25 dmards                              0             1 0.0210    FAL: 15225447, TRU: 327026 
-26 dementia                            0             1 0.0115    FAL: 15373576, TRU: 178897 
-27 other_neuro_conditions              0             1 0.0105    FAL: 15389095, TRU: 163378 
-28 psychosis_schiz_bipolar             0             1 0.0120    FAL: 15365169, TRU: 187304 
-29 flu_vaccine                         0             1 0.361     FAL: 9935188, TRU: 5617285 
+ 1 has_follow_up_previous_year         0             1 1         TRU: 15556881              
+ 2 registered_at_latest                0             1 0.990     TRU: 15400313, FAL: 156568 
+ 3 care_home_tpp                       0             1 0.00427   FAL: 15490458, TRU: 66423  
+ 4 care_home_code                      0             1 0.00567   FAL: 15468744, TRU: 88137  
+ 5 nontpp_household                    0             1 0.124     FAL: 13627693, TRU: 1929188
+ 6 chronic_cardiac_disease             0             1 0.0725    FAL: 14428535, TRU: 1128346
+ 7 heart_failure                       0             1 0.0192    FAL: 15257506, TRU: 299375 
+ 8 other_heart_disease                 0             1 0.0643    FAL: 14556138, TRU: 1000743
+ 9 diabetes                            0             1 0.110     FAL: 13852459, TRU: 1704422
+10 dialysis                            0             1 0.00125   FAL: 15537457, TRU: 19424  
+11 chronic_liver_disease               0             1 0.00652   FAL: 15455509, TRU: 101372 
+12 current_copd                        0             1 0.0349    FAL: 15013941, TRU: 542940 
+13 LD_incl_DS_and_CP                   0             1 0.00700   FAL: 15447970, TRU: 108911 
+14 cystic_fibrosis                     0             1 0.000282  FAL: 15552491, TRU: 4390   
+15 other_resp_conditions               0             1 0.0145    FAL: 15330727, TRU: 226154 
+16 lung_cancer                         0             1 0.00191   FAL: 15527093, TRU: 29788  
+17 haematological_cancer               0             1 0.00637   FAL: 15457825, TRU: 99056  
+18 cancer_excl_lung_and_haem           0             1 0.0530    FAL: 14732757, TRU: 824124 
+19 chemo_or_radio                      0             1 0.0142    FAL: 15336120, TRU: 220761 
+20 solid_organ_transplantation         0             1 0.00129   FAL: 15536792, TRU: 20089  
+21 bone_marrow_transplant              0             1 0.0000139 FAL: 15556664, TRU: 217    
+22 sickle_cell_disease                 0             1 0.000214  FAL: 15553559, TRU: 3322   
+23 permanant_immunosuppression         0             1 0.000855  FAL: 15543581, TRU: 13300  
+24 temporary_immunosuppression         0             1 0.00284   FAL: 15512751, TRU: 44130  
+25 asplenia                            0             1 0.00152   FAL: 15533309, TRU: 23572  
+26 dmards                              0             1 0.0210    FAL: 15229854, TRU: 327027 
+27 dementia                            0             1 0.0115    FAL: 15377852, TRU: 179029 
+28 other_neuro_conditions              0             1 0.0105    FAL: 15393474, TRU: 163407 
+29 psychosis_schiz_bipolar             0             1 0.0120    FAL: 15369527, TRU: 187354 
+30 flu_vaccine                         0             1 0.361     FAL: 9938864, TRU: 5618017 
+31 shielded_ever                       0             1 0.0582    FAL: 14651198, TRU: 905683 
+32 shielded                            0             1 0.0534    FAL: 14726447, TRU: 830434 
+33 care_home_household                 0             1 0.00315   FAL: 15507849, TRU: 49032  
+34 care_home_combined                  0             1 0.00691   FAL: 15449309, TRU: 107572 
 
 -- Variable type: numeric ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  skim_variable n_missing complete_rate        mean          sd    p0     p25      p50      p75     p100
-1 patient_id            0          1    22102926.   14354773.    7276 9887110 20534513 32955921 54906788
-2 age                   0          1          49.8        18.5     18      34       49       64      109
-3 practice_id           0          1      286923.      53385.      16  297093   298187   301220   395964
-4 rural_urban        4062          1.00        3.11        1.69    -1       2        3        3        8
+  skim_variable  n_missing complete_rate        mean          sd    p0      p25       p50       p75     p100
+1 patient_id             0         1     22101607.   14354962.    7276 9885658  20533489  32953706  54906788
+2 age                    0         1           49.8        18.5     18      34        49        64       109
+3 practice_id            0         1       286910.      53376.      16  297093    298187    301222    395964
+4 rural_urban         4073         1.00         3.11        1.69    -1       2         3         3         8
+5 household_id     1870625         0.880  4843636.    2799363.       1 2404869.  4835810.  7229955.  9765187
+6 tpp_coverage     1878826         0.879       94.9        14.8      1     100       100       100       100
+7 household_n            0         1       288043.     779113.       1       2         2         3   2395455
+8 oldhousehold_n  10511213         0.324   131547.     171379.       1       1         2    354822    354822

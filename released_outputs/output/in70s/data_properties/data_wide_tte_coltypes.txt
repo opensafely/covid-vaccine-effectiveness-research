@@ -1,0 +1,99 @@
+$patient_id
+[1] "integer"
+
+$start_date
+[1] "Date"
+
+$end_date
+[1] "Date"
+
+$covid_vax_1_date
+[1] "Date"
+
+$covid_vax_2_date
+[1] "Date"
+
+$covid_vax_pfizer_1_date
+[1] "Date"
+
+$covid_vax_pfizer_2_date
+[1] "Date"
+
+$covid_vax_az_1_date
+[1] "Date"
+
+$covid_vax_az_2_date
+[1] "Date"
+
+$covid_test_1_date
+[1] "Date"
+
+$positive_test_1_date
+[1] "Date"
+
+$emergency_1_date
+[1] "Date"
+
+$covidadmitted_1_date
+[1] "Date"
+
+$coviddeath_date
+[1] "Date"
+
+$noncoviddeath_date
+[1] "Date"
+
+$death_date
+[1] "Date"
+
+$lastfup_date
+[1] "Date"
+
+$tte_enddate
+[1] "integer"
+
+$tte_lastfup
+[1] "integer"
+
+$tte_dereg
+[1] "integer"
+
+$tte_covidtest
+[1] "integer"
+
+$tte_postest
+[1] "integer"
+
+$tte_emergency
+[1] "integer"
+
+$tte_covidadmitted
+[1] "integer"
+
+$tte_coviddeath
+[1] "integer"
+
+$tte_noncoviddeath
+[1] "integer"
+
+$tte_death
+[1] "integer"
+
+$tte_vaxany1
+[1] "integer"
+
+$tte_vaxany2
+[1] "integer"
+
+$tte_vaxpfizer1
+[1] "integer"
+
+$tte_vaxpfizer2
+[1] "integer"
+
+$tte_vaxaz1
+[1] "integer"
+
+$tte_vaxaz2
+[1] "integer"
+

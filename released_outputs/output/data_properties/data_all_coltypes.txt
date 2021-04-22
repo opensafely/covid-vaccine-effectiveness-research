@@ -46,8 +46,17 @@ $care_home_type
 $care_home_tpp
 [1] "logical"
 
-$care_home_primis
+$care_home_code
 [1] "logical"
+
+$household_id
+[1] "integer"
+
+$nontpp_household
+[1] "logical"
+
+$tpp_coverage
+[1] "numeric"
 
 $prior_positive_test_date
 [1] "Date"
@@ -139,6 +148,21 @@ $psychosis_schiz_bipolar
 $flu_vaccine
 [1] "logical"
 
+$shielded_ever
+[1] "logical"
+
+$shielded
+[1] "logical"
+
+$household_n
+[1] "integer"
+
+$oldhousehold_n
+[1] "integer"
+
+$care_home_household
+[1] "logical"
+
 $admitted_unplanned_1_date
 [1] "Date"
 
@@ -155,6 +179,24 @@ $admitted_unplanned_5_date
 [1] "Date"
 
 $admitted_unplanned_6_date
+[1] "Date"
+
+$admitted_unplanned_infectious_1_date
+[1] "Date"
+
+$admitted_unplanned_infectious_2_date
+[1] "Date"
+
+$admitted_unplanned_infectious_3_date
+[1] "Date"
+
+$admitted_unplanned_infectious_4_date
+[1] "Date"
+
+$admitted_unplanned_infectious_5_date
+[1] "Date"
+
+$admitted_unplanned_infectious_6_date
 [1] "Date"
 
 $covid_test_1_date
@@ -229,6 +271,24 @@ $discharged_unplanned_5_date
 $discharged_unplanned_6_date
 [1] "Date"
 
+$discharged_unplanned_infectious_1_date
+[1] "Date"
+
+$discharged_unplanned_infectious_2_date
+[1] "Date"
+
+$discharged_unplanned_infectious_3_date
+[1] "Date"
+
+$discharged_unplanned_infectious_4_date
+[1] "Date"
+
+$discharged_unplanned_infectious_5_date
+[1] "Date"
+
+$discharged_unplanned_infectious_6_date
+[1] "Date"
+
 $emergency_1_date
 [1] "Date"
 
@@ -284,6 +344,12 @@ $censor_date
 [1] "Date"
 
 $ageband
+[1] "factor"
+
+$care_home_combined
+[1] "logical"
+
+$multimorb
 [1] "factor"
 
 $cause_of_death
