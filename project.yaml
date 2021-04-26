@@ -863,7 +863,7 @@ actions:
 
   report_over80s_any_all:
     run: r:latest analysis/R/dose_1/report_alloutcomes.R over80s any all
-    needs: [data_define_cohorts, report_over80s_postest_any_all, report_over80s_covidadmitted_any_all, report_over80s_coviddeath_any_all, report_over80s_noncoviddeath_any_all]
+    needs: [data_define_cohorts, report_over80s_postest_any_all, report_over80s_covidadmitted_any_all, report_over80s_coviddeath_any_all, report_over80s_noncoviddeath_any_all, report_over80s_death_any_all]
     outputs:
       moderately_sensitive:
         plots: output/over80s/*any_all.svg
@@ -872,7 +872,7 @@ actions:
 
   report_over80s_pfizer_all:
     run: r:latest analysis/R/dose_1/report_alloutcomes.R over80s pfizer all
-    needs: [data_define_cohorts, report_over80s_postest_pfizer_all, report_over80s_covidadmitted_pfizer_all, report_over80s_coviddeath_pfizer_all, report_over80s_noncoviddeath_pfizer_all]
+    needs: [data_define_cohorts, report_over80s_postest_pfizer_all, report_over80s_covidadmitted_pfizer_all, report_over80s_coviddeath_pfizer_all, report_over80s_noncoviddeath_pfizer_all, report_over80s_death_pfizer_all]
     outputs:
       moderately_sensitive:
         plots: output/over80s/*pfizer_all.svg
@@ -881,7 +881,7 @@ actions:
 
   report_over80s_az_all:
     run: r:latest analysis/R/dose_1/report_alloutcomes.R over80s az all
-    needs: [data_define_cohorts, report_over80s_postest_az_all, report_over80s_covidadmitted_az_all, report_over80s_coviddeath_az_all, report_over80s_noncoviddeath_az_all]
+    needs: [data_define_cohorts, report_over80s_postest_az_all, report_over80s_covidadmitted_az_all, report_over80s_coviddeath_az_all, report_over80s_noncoviddeath_az_all, report_over80s_death_az_all]
     outputs:
       moderately_sensitive:
         plots: output/over80s/*az_all.svg
