@@ -143,7 +143,7 @@ msmmod_forest <-
     title=glue::glue("Outcomes by time since first {brand} vaccine"),
     subtitle=cohort_descr
   ) +
-  guides(colour=fill=guide_legend(nrow=1))+
+  guides(colour=guide_legend(nrow=1))+
   theme_bw()+
   theme(
     panel.border = element_blank(),
