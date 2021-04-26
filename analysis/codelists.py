@@ -240,3 +240,9 @@ nonshield_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+eol_codes = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-palcare_cod.csv",
+    system="snomed",
+    column="code",
+)
