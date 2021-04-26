@@ -92,7 +92,8 @@ estimates <-
     "postest",
     "covidadmitted",
     "coviddeath",
-    "noncoviddeath"
+    "noncoviddeath",
+    "death"
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
@@ -118,8 +119,8 @@ msmmod_forest_data <- estimates %>%
     term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
     term_midpoint = term_left + (term_right-term_left)/2,
     model = fct_case_when(
-      str_sub(model, 1, 1) == 3 ~ "Standard\nCox",
-      str_sub(model, 1, 1) == 4 ~ "Marginal\nstructural\nCox"
+      str_sub(model, 1, 1) == 3 ~ "Standard Cox",
+      str_sub(model, 1, 1) == 4 ~ "Marginal structural Cox"
     )
   )
 
@@ -142,6 +143,7 @@ msmmod_forest <-
     title=glue::glue("Outcomes by time since first {brand} vaccine"),
     subtitle=cohort_descr
   ) +
+  guides(colour=fill=guide_legend(nrow=1))+
   theme_bw()+
   theme(
     panel.border = element_blank(),
@@ -160,11 +162,11 @@ msmmod_forest <-
     plot.caption.position = "plot",
     plot.caption = element_text(hjust = 0, face= "italic"),
 
-    legend.position = "right"
+    legend.position = "bottom"
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{brand}_{strata_var}.svg")), msmmod_forest, width=20, height=25, units="cm")
+ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{brand}_{strata_var}.svg")), msmmod_forest, width=20, height=30, units="cm")
 
 
 tab_forest <-
