@@ -50,11 +50,15 @@ data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
 stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
 
-set.seed(20201208)
-
 data_cohorts <- data_cohorts[data_cohorts[[cohort]],] %>%
   ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
-  sample_n(tbl=., size=min(c(100000, nrow(.))))
+  # take the first N patient IDs by rank. This depends on patient_id being
+  # a) consistent between cohort extracts
+  # b) unique
+  # c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
+  filter(
+    rank(patient_id) <= min(c(100000, nrow(.)))
+  )
 
 metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
