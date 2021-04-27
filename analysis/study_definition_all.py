@@ -1679,7 +1679,7 @@ study = StudyDefinition(
             find_last_match_in_period = True,
         ),
         
-        return_expectations={"incidence": 0.1},
+        return_expectations={"incidence": 0.001},
     
     )
     
