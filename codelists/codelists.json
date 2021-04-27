@@ -240,12 +240,6 @@
       "downloaded_at": "2021-04-06 10:43:36.634532Z",
       "sha": "4d4c94b9c6aa267c6a60657150bbc5ec7d2d7625"
     },
-    "opensafely-icd-10-chapter-i.csv": {
-      "id": "opensafely/icd-10-chapter-i/10e46159",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/icd-10-chapter-i/10e46159/",
-      "downloaded_at": "2021-04-21 14:56:32.127410Z",
-      "sha": "7aca1aa8a92cace55d48ddd5a62a5d13a41888e9"
-    },
     "primis-covid19-vacc-uptake-shield.csv": {
       "id": "primis-covid19-vacc-uptake/shield/v1",
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/shield/v1/",
@@ -257,6 +251,24 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/nonshield/v1/",
       "downloaded_at": "2021-04-14 16:11:07.325338Z",
       "sha": "fb1e019781d5a58c5512d71e9cd6cf47c05e72c5"
+    },
+    "opensafely-icd-10-chapter-i.csv": {
+      "id": "opensafely/icd-10-chapter-i/10e46159",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/icd-10-chapter-i/10e46159/",
+      "downloaded_at": "2021-04-21 14:56:32.127410Z",
+      "sha": "7aca1aa8a92cace55d48ddd5a62a5d13a41888e9"
+    },
+    "nhsd-primary-care-domain-refsets-palcare_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/palcare_cod/5fce98cf",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/palcare_cod/5fce98cf/",
+      "downloaded_at": "2021-04-26 15:12:30.661097Z",
+      "sha": "777b61f976301db98e5da0c5b9ceebe48222558f"
+    },
+    "opensafely-midazolam-end-of-life.csv": {
+      "id": "opensafely/midazolam-end-of-life/4c1b3c89",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/midazolam-end-of-life/4c1b3c89/",
+      "downloaded_at": "2021-04-27 12:53:57.955891Z",
+      "sha": "6478270c4b76768366bcf585622905154fb32d91"
     }
   }
 }

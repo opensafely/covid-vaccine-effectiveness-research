@@ -190,7 +190,8 @@ data_extract0 <- read_csv(
     psychosis_schiz_bipolar = col_logical(),
     flu_vaccine = col_logical(),
     shielded_ever = col_logical(),
-    shielded = col_logical()
+    shielded = col_logical(),
+    endoflife = col_logical()
 
   ),
 

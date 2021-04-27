@@ -1659,6 +1659,32 @@ study = StudyDefinition(
     ),
     
     
+
+    endoflife = patients.satisfying(
+        """
+        midazolam OR
+        endoflife_coding
+        """,
+        
+        midazolam = patients.with_these_medications(
+            midazolam_codes,
+            returning="binary_flag",
+            on_or_before = "index_date",
+        ),
+    
+        endoflife_coding = patients.with_these_clinical_events(
+            eol_codes,
+            returning="binary_flag",
+            on_or_before = "index_date",
+            find_last_match_in_period = True,
+        ),
+        
+        return_expectations={"incidence": 0.001},
+    
+    ),
+    
+    
+    
     ############################################################
     ######### PRIMIS CODELIST DERIVED CLINICAL VARIABLES     ###
     ############################################################
