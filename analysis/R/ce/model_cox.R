@@ -32,11 +32,7 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
-cohort <- args[[1]]
-outcome <- args[[2]]
-strata_var <- args[[3]]
-cox_strata_var <- args[[4]]
-removeobs <- TRUE
+
 
 if(length(args)==0){
   # use for interactive testing
@@ -45,6 +41,12 @@ if(length(args)==0){
   outcome <- "postest"
   strata_var <- "all"
   cox_strata_var <- "region"
+} else {
+  removeobs <- TRUE
+  cohort <- args[[1]]
+  outcome <- args[[2]]
+  strata_var <- args[[3]]
+  cox_strata_var <- args[[4]]
 }
 
 brand <- "compare"
@@ -120,6 +122,9 @@ data_tte <- data_tte %>%
     ind_death = censor_indicator(death_date, lastfup_date),
 
     all = factor("all",levels=c("all")),
+
+    week = floor((covid_vax_1_date - start_date)/7),
+
   )
 
 data_cox <- data_fixed %>%
@@ -133,6 +138,9 @@ data_cox <- data_fixed %>%
       where(is.logical),
       ~.x*1L
     )
+  ) %>%
+  mutate(
+    week_region = paste0(week, "__", region)
   ) %>%
   filter(
     !is.na(covid_vax_1_date),
@@ -187,7 +195,7 @@ for(stratum in strata){
   # should think about converting this to spline
 
 
-  formula_vaxonly <- Surv(tstart, tstop, ind_outcome) ~ region*tt(vax_day) + vax_az:strata(timesincevax)
+  formula_vaxonly <- Surv(tstart, tstop, ind_outcome) ~ tt(vax_day) #+ vax_az:strata(week_region)
   #formula_vaxonly <- Surv(tstart, tstop, ind_outcome) ~ vax_az:strata(timesincevax)
 
 
