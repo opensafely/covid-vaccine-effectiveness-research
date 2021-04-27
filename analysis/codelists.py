@@ -246,3 +246,9 @@ eol_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+midazolam_codes = codelist_from_csv(
+    "codelists/opensafely-midazolam-end-of-life.csv",
+    system="snomed",
+    column="dmd_id",   
+)
