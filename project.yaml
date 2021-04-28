@@ -890,10 +890,24 @@ actions:
 
 
 
+#######################################
+ ## COMPARATIVE EFFECTIVENESS MODELS:
+#######################################
 
+  cemodels_cox_over80s_postest_compare_all:
+    run: r:latest analysis/R/ce/model_cox.R over80s postest all
+    needs: [data_define_cohorts, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/compare/all/*/modelcox*.rds
 
-
-
+  cereport_over80s_postest_compare_all:
+    run: r:latest analysis/R/ce/report_cox.R over80s postest all
+    needs: [data_define_cohorts, cemodels_cox_over80s_postest_compare_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/compare/all/*.svg
+        tables: output/over80s/postest/compare/all/*.csv
 
 ##############################################################################
 ##############################################################################
