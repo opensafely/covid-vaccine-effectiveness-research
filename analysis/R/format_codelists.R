@@ -1,5 +1,5 @@
 library('tidyverse')
-
+library('gt')
 
 # import codelists from json
 codelists <- jsonlite::fromJSON(
@@ -25,3 +25,4 @@ codelists_formatted %>%
       downloaded_at = "Accessed on"
     ) %>%
     gtsave(here::here("output", "codelists.html"))
+
