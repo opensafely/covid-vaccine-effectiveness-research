@@ -40,13 +40,11 @@ if(length(args)==0){
   cohort <- "over80s"
   outcome <- "postest"
   strata_var <- "all"
-  cox_strata_var <- "region"
 } else {
   removeobs <- TRUE
   cohort <- args[[1]]
   outcome <- args[[2]]
   strata_var <- args[[3]]
-  cox_strata_var <- args[[4]]
 }
 
 brand <- "compare"
@@ -75,11 +73,6 @@ list2env(list_formula, globalenv())
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
-if(cox_strata_var=="all"){
-  formula_cox_strata_var <- . ~ .
-} else{
-  formula_cox_strata_var <- as.formula(paste0(". ~ . + strata(",cox_strata_var,")"))
-}
 # Import processed data ----
 
 data_fixed <- read_rds(here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")))
@@ -168,7 +161,7 @@ for(stratum in strata){
   cat("  \n")
 
   # create output directories ----
-  dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var), showWarnings = FALSE, recursive=TRUE)
+  dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum), showWarnings = FALSE, recursive=TRUE)
 
 
   # subset data
@@ -255,7 +248,7 @@ for(stratum in strata){
   cat("  \n")
   cat("coxmod0 \n")
   coxmod0 <- coxph(
-    formula = formula_vaxonly %>% update(formula_remove_strata_var),# %>% update(formula_cox_strata_var),
+    formula = formula_vaxonly %>% update(formula_remove_strata_var),
     data = data_cox_sub_split,
     robust = TRUE,
     #tt = tt_week,
@@ -264,7 +257,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod0 data size = ", coxmod0$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod0), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox0.rds"), compress="gz")
+  write_rds(coxmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, "modelcox0.rds"), compress="gz")
   if(removeobs) rm(coxmod0)
 
 
@@ -283,7 +276,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod1 data size = ", coxmod1$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod1), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod1, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox1.rds"), compress="gz")
+  write_rds(coxmod1, here::here("output", cohort, outcome, brand, strata_var, stratum, "modelcox1.rds"), compress="gz")
   if(removeobs) rm(coxmod1)
 
 
@@ -294,7 +287,7 @@ for(stratum in strata){
   cat("coxmod2 \n")
 
   coxmod2 <- coxph(
-    formula = formula_vaxonly %>% update(formula_spacetime) %>% update(formula_demog) %>% update(formula_remove_strata_var),# %>% update(formula_cox_strata_var),
+    formula = formula_vaxonly %>% update(formula_spacetime) %>% update(formula_demog) %>% update(formula_remove_strata_var),
     data = data_cox_sub_split,
     robust = TRUE,
     #tt = tt_week,
@@ -303,7 +296,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod2 data size = ", coxmod2$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod2), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod2, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox2.rds"), compress="gz")
+  write_rds(coxmod2, here::here("output", cohort, outcome, brand, strata_var, stratum, "modelcox2.rds"), compress="gz")
   if(removeobs) rm(coxmod2)
 
 
@@ -313,7 +306,7 @@ for(stratum in strata){
   # cat("coxmod3 \n")
   #
   # coxmod3 <- coxph(
-  #   formula = formula_vaxonly %>% update(formula_spacetime) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var),# %>% update(formula_cox_strata_var),
+  #   formula = formula_vaxonly %>% update(formula_spacetime) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var),
   #   data = data_cox_sub_split,
   #   robust = TRUE,
   #   #tt = tt_week,
@@ -322,7 +315,7 @@ for(stratum in strata){
   #
   # cat(glue::glue("coxmod3 data size = ", coxmod3$n), "\n")
   # cat(glue::glue("memory usage = ", format(object.size(coxmod3), units="GB", standard="SI", digits=3L)), "\n")
-  # write_rds(coxmod3, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox3.rds"), compress="gz")
+  # write_rds(coxmod3, here::here("output", cohort, outcome, brand, strata_var, stratum, "modelcox3.rds"), compress="gz")
   # if(removeobs) rm(coxmod3)
   #
   #
