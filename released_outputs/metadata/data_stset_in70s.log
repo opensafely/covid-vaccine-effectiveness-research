@@ -1,0 +1,39 @@
+2021-04-18T20:35:12.389692300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-18T20:35:12.400871900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-18T20:35:12.400899400Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-18T20:35:12.400929900Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-18T20:35:12.400938700Z v readr   1.3.1     v forcats 0.5.0
+2021-04-18T20:35:12.567096300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-18T20:35:12.567121300Z x dplyr::filter() masks stats::filter()
+2021-04-18T20:35:12.567130000Z x dplyr::lag()    masks stats::lag()
+2021-04-18T20:36:08.915346500Z  
+2021-04-18T20:36:08.916609800Z one-row-per-patient (time-independent) data size = 100000 
+2021-04-18T20:36:08.918427400Z memory usage = 0.015 GB 
+2021-04-18T20:36:10.473891900Z  
+2021-04-18T20:36:10.473934600Z one-row-per-patient (tte) data size = 100000 
+2021-04-18T20:36:10.474330100Z memory usage = 19.609 MB 
+2021-04-18T20:36:42.952254100Z  
+2021-04-18T20:36:42.952693800Z one-row-per-patient-per-event data size = 211724 
+2021-04-18T20:36:42.953465900Z memory usage = 0.053 GB 
+2021-04-18T20:46:22.777216800Z  
+2021-04-18T20:46:22.777534500Z one-row-per-patient-per-time-unit data size = 7700000 
+2021-04-18T20:46:22.778308100Z memory usage = 1.756 GB 
+
+
+state: succeeded
+commit: 33f52791c8cce80c6c198db74da25e5b695f71d1
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+exit_code: 0
+job_id: 6wqgyjljeeioayqn
+run_by_user: wjchulme
+created_at: 2021-04-18T20:34:38Z
+started_at: 2021-04-18T20:35:09Z
+completed_at: 2021-04-18T20:47:05Z
+
+Completed successfully
+
+outputs:
+  output/in70s/data/data_cp.rds          - highly_sensitive
+  output/in70s/data/data_pt.rds          - highly_sensitive
+  output/in70s/data/data_wide_fixed.rds  - highly_sensitive
+  output/in70s/data/data_wide_tte.rds    - highly_sensitive

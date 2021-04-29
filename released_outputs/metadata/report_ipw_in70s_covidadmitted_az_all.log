@@ -1,0 +1,75 @@
+2021-04-19T04:38:09.979266600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-19T04:38:09.990922000Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-19T04:38:09.991037200Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-19T04:38:09.991046000Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-19T04:38:09.991053400Z v readr   1.3.1     v forcats 0.5.0
+2021-04-19T04:38:10.274172600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-19T04:38:10.274281000Z x dplyr::filter() masks stats::filter()
+2021-04-19T04:38:10.274289700Z x dplyr::lag()    masks stats::lag()
+2021-04-19T04:38:10.309576400Z 
+2021-04-19T04:38:10.309676500Z Attaching package: 'lubridate'
+2021-04-19T04:38:10.309685100Z 
+2021-04-19T04:38:10.311945500Z The following objects are masked from 'package:base':
+2021-04-19T04:38:10.312049000Z 
+2021-04-19T04:38:10.312057700Z     date, intersect, setdiff, union
+2021-04-19T04:38:10.312064800Z 
+2021-04-19T04:38:13.297895900Z Loading required package: zoo
+2021-04-19T04:38:13.326712100Z 
+2021-04-19T04:38:13.326833500Z Attaching package: 'zoo'
+2021-04-19T04:38:13.326842200Z 
+2021-04-19T04:38:13.327460300Z The following objects are masked from 'package:base':
+2021-04-19T04:38:13.327481000Z 
+2021-04-19T04:38:13.327502300Z     as.Date, as.Date.numeric
+2021-04-19T04:38:13.327510900Z 
+2021-04-19T04:38:13.916287700Z <environment: R_GlobalEnv>
+2021-04-19T04:38:13.916885700Z <environment: R_GlobalEnv>
+2021-04-19T04:38:13.917333200Z <environment: R_GlobalEnv>
+2021-04-19T05:06:50.994912700Z There were 22 warnings (use warnings() to see them)
+2021-04-19T05:06:50.995432900Z Warning messages:
+2021-04-19T05:06:50.995484400Z 1: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995692500Z 2: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995710500Z 3: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995719100Z 4: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995814100Z 5: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995828800Z 6: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995930300Z 7: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.995944700Z 8: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996073000Z 9: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996099200Z 10: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996205800Z 11: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996266000Z 12: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996342200Z 13: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996358000Z 14: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996422600Z 15: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996460600Z 16: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996598300Z 17: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996612500Z 18: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996620300Z 19: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996746000Z 20: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996759600Z 21: Removed 1 rows containing missing values (geom_segment).
+2021-04-19T05:06:50.996767400Z 22: Removed 1 rows containing missing values (geom_segment).
+
+
+state: succeeded
+commit: 33f52791c8cce80c6c198db74da25e5b695f71d1
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+exit_code: 0
+job_id: xu5id75ovt47qkrj
+run_by_user: wjchulme
+created_at: 2021-04-18T20:34:39Z
+started_at: 2021-04-19T04:38:06Z
+completed_at: 2021-04-19T05:07:27Z
+
+Completed successfully
+
+outputs:
+  output/in70s/covidadmitted/az/all/all/plot_death.svg      - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/plot_vaxaz1.svg     - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/plot_vaxfizer1.svg  - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_death.csv       - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_death.html      - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_pfizer_az.html  - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_vaxaz1.csv      - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_vaxaz1.html     - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_vaxfizer1.html  - moderately_sensitive
+  output/in70s/covidadmitted/az/all/all/tab_vaxpfizer1.csv  - moderately_sensitive

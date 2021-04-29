@@ -2052,10 +2052,6 @@
       "created_by_action": "models_over80s_coviddeath_any_all",
       "privacy_level": "highly_sensitive"
     },
-    "output/over80s/coviddeath/any/all/all/plot_death.svg": {
-      "created_by_action": "report_ipw_over80s_coviddeath_any_all",
-      "privacy_level": "moderately_sensitive"
-    },
     "output/over80s/coviddeath/any/all/all/plot_vaxany1.svg": {
       "created_by_action": "report_ipw_over80s_coviddeath_any_all",
       "privacy_level": "moderately_sensitive"
@@ -2071,14 +2067,6 @@
     "output/over80s/coviddeath/any/all/all/region/modelcox2.rds": {
       "created_by_action": "models_cox_over80s_coviddeath_any_all_region",
       "privacy_level": "highly_sensitive"
-    },
-    "output/over80s/coviddeath/any/all/all/tab_death.csv": {
-      "created_by_action": "report_ipw_over80s_coviddeath_any_all",
-      "privacy_level": "moderately_sensitive"
-    },
-    "output/over80s/coviddeath/any/all/all/tab_death.html": {
-      "created_by_action": "report_ipw_over80s_coviddeath_any_all",
-      "privacy_level": "moderately_sensitive"
     },
     "output/over80s/coviddeath/any/all/all/tab_vaxany1.csv": {
       "created_by_action": "report_ipw_over80s_coviddeath_any_all",
@@ -4056,6 +4044,26 @@
       "created_by_action": "models_msm_over80s_az_sex_dose1",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/postest/compare/all/all/modelcox0.rds": {
+      "created_by_action": "cemodels_cox_over80s_postest_compare_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/compare/all/all/modelcox1.rds": {
+      "created_by_action": "cemodels_cox_over80s_postest_compare_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/compare/all/all/modelcox2.rds": {
+      "created_by_action": "cemodels_cox_over80s_postest_compare_all",
+      "privacy_level": "highly_sensitive"
+    },
+    "output/over80s/postest/compare/all/estimates_cox.csv": {
+      "created_by_action": "cereport_over80s_postest_compare_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/postest/compare/all/forest_plot_cox.svg": {
+      "created_by_action": "cereport_over80s_postest_compare_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/postest/descr/events_perday_n.svg": {
       "created_by_action": "descr_eventsperday_over80s",
       "privacy_level": "moderately_sensitive"
@@ -5946,228 +5954,246 @@
     },
     "extract_all": {
       "state": "succeeded",
-      "commit": "f1fd270c0518dd34d87dddd6887c60798415b647",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:a8644f2122ebe4472dab45af2b99850f7511992d5557e29b9a654f2ea25bd82b",
-      "job_id": "yy43kfxnjrq52uf4",
+      "job_id": "bdpkbfprlwlrxjwf",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-21T19:25:37Z",
-      "completed_at": "2021-04-22T02:22:39Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T04:42:10Z"
     },
     "data_process_all": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "uojmzwoaglbfxwls",
+      "job_id": "44tqvpqw55invnao",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:10Z",
-      "completed_at": "2021-04-22T08:05:27Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T05:52:43Z"
     },
     "data_define_cohorts": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "yrp2plyz5nk24zcp",
+      "job_id": "vs4362q7gq4zc3g2",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T08:07:33Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T05:54:54Z"
     },
     "data_stset_over80s": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "etytjx2wkraw7xe7",
+      "job_id": "qr3o2554275vb7an",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T08:22:52Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T06:23:14Z"
     },
     "data_properties_over80s_tte": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "xpf5pxqcdydiqqet",
+      "job_id": "zophl6ucp35imp76",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T08:25:07Z"
-    },
-    "descr_table1_over80s": {
-      "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
-      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "7bconj25odeoczob",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T08:25:21Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T06:25:36Z"
     },
     "data_properties_over80s_fixed": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "x6urakijmyrgck7y",
+      "job_id": "s7pgu2beayxsvvuq",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T08:25:28Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T06:25:47Z"
     },
-    "descr_events_over80s": {
+    "descr_table1_over80s": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "yktwbsk2bdhz6o3k",
+      "job_id": "ijynqruppfq23woi",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T08:28:05Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T06:28:08Z"
     },
     "data_properties_all": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "bzewrizgum5gkqow",
+      "job_id": "6oasi4qanw5z2bmb",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:10Z",
-      "completed_at": "2021-04-22T08:46:05Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T06:32:26Z"
     },
-    "models_over80s_postest_any_all": {
+    "descr_events_over80s": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "rcpyljvzethzdf54",
+      "job_id": "b3iaodpysaaonozc",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T10:48:09Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T06:33:50Z"
     },
     "models_over80s_covidadmitted_any_all": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "ylwj74uefe5j4kob",
+      "job_id": "gy2sjawblbugykjs",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T11:15:48Z"
-    },
-    "models_over80s_noncoviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
-      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "oigisiifnfwuqiug",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T11:19:07Z"
-    },
-    "report_over80s_postest_any_all": {
-      "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
-      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "iww4eg76df6ep3gz",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T11:29:44Z"
-    },
-    "report_over80s_noncoviddeath_any_all": {
-      "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
-      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "kkjvoypvieszwebd",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T11:56:35Z"
-    },
-    "report_over80s_covidadmitted_any_all": {
-      "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
-      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "2sbo7ipgvp27lu23",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T11:57:02Z"
-    },
-    "models_over80s_death_any_all": {
-      "state": "succeeded",
-      "commit": "2be962179303ce8a3c3d5d241fb9cf791e9d572f",
-      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "vn7oxmpebswb4rwx",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T10:38:02Z",
-      "completed_at": "2021-04-22T12:06:44Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T12:09:33Z"
     },
     "models_over80s_coviddeath_any_all": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "g7gjryxsjlozndvf",
+      "job_id": "4pwsybwlakjqltkp",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T13:23:42Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T13:01:17Z"
     },
-    "report_over80s_coviddeath_any_all": {
+    "models_over80s_postest_any_all": {
       "state": "succeeded",
-      "commit": "c40035625547015a2a89c056178f87bff93a0389",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "znicnchvw5rlmhkv",
+      "job_id": "lmkeg5czpqpjqzgq",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T07:00:11Z",
-      "completed_at": "2021-04-22T14:52:38Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T13:03:13Z"
     },
-    "report_ipw_over80s_covidadmitted_any_all": {
+    "report_over80s_covidadmitted_any_all": {
       "state": "succeeded",
-      "commit": "44e58659d2a07a13b2783c133bc25e8039a3cf82",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "w2b3o6rqv6uzn2bn",
+      "job_id": "ubzujnvyugqmgefs",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T14:34:50Z",
-      "completed_at": "2021-04-22T15:16:02Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T14:02:46Z"
     },
-    "report_ipw_over80s_coviddeath_any_all": {
+    "report_over80s_postest_any_all": {
       "state": "succeeded",
-      "commit": "44e58659d2a07a13b2783c133bc25e8039a3cf82",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "rqho2do6nqalotdq",
+      "job_id": "zjwxz7oz6j23dziq",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T14:34:50Z",
-      "completed_at": "2021-04-22T21:18:50Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T14:27:51Z"
     },
-    "report_ipw_over80s_postest_any_all": {
+    "cemodels_cox_over80s_postest_compare_all": {
       "state": "succeeded",
-      "commit": "44e58659d2a07a13b2783c133bc25e8039a3cf82",
+      "commit": "a01d9f624b4ed5b132d0b794f06b0da8f3c6176f",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "72hcnnyzipmnqq63",
+      "job_id": "jvts6ib3opdpdqzu",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T14:34:50Z",
-      "completed_at": "2021-04-22T23:18:35Z"
+      "created_at": "2021-04-28T14:04:01Z",
+      "completed_at": "2021-04-28T14:31:27Z"
     },
-    "report_ipw_over80s_death_any_all": {
+    "cereport_over80s_postest_compare_all": {
       "state": "succeeded",
-      "commit": "44e58659d2a07a13b2783c133bc25e8039a3cf82",
+      "commit": "a01d9f624b4ed5b132d0b794f06b0da8f3c6176f",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "7aim46zncsjwrc4x",
+      "job_id": "avriwo7euqsu2e5b",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T21:01:59Z",
-      "completed_at": "2021-04-22T23:42:34Z"
+      "created_at": "2021-04-28T14:04:01Z",
+      "completed_at": "2021-04-28T14:32:19Z"
+    },
+    "models_over80s_death_any_all": {
+      "state": "succeeded",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "f4zvpljvz6ncifss",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T16:41:30Z"
     },
     "report_over80s_death_any_all": {
       "state": "succeeded",
-      "commit": "2be962179303ce8a3c3d5d241fb9cf791e9d572f",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "icdyopz4jot6ch52",
+      "job_id": "vqvgv34575hy233l",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T10:38:02Z",
-      "completed_at": "2021-04-23T00:03:02Z"
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T18:11:42Z"
     },
-    "report_ipw_over80s_noncoviddeath_any_all": {
+    "report_over80s_coviddeath_any_all": {
       "state": "succeeded",
-      "commit": "44e58659d2a07a13b2783c133bc25e8039a3cf82",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "jtczh6qcdyhzcwx6",
+      "job_id": "tlbiutbilhqjayqn",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-22T14:34:50Z",
-      "completed_at": "2021-04-23T00:08:53Z"
+      "created_at": "2021-04-28T20:35:00Z",
+      "completed_at": "2021-04-28T22:00:01Z"
+    },
+    "models_over80s_noncoviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "mxoortgmi4g5fiaw",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-28T22:42:23Z"
+    },
+    "report_over80s_noncoviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "d63ac7b7e4fc85ba424510244fdccdf533016b04",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "tcog3cvmnodmdx4j",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-27T20:50:46Z",
+      "completed_at": "2021-04-29T00:04:28Z"
     },
     "report_over80s_any_all": {
       "state": "succeeded",
-      "commit": "55f1f4b102949b2ea1056e137ce64d71e0ac9a3e",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
       "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
-      "job_id": "nwlk5cdc42o5ex56",
+      "job_id": "jubif6umo3l74kye",
       "run_by_user": "wjchulme",
-      "created_at": "2021-04-26T10:28:03Z",
-      "completed_at": "2021-04-26T12:09:30Z"
+      "created_at": "2021-04-29T08:13:49Z",
+      "completed_at": "2021-04-29T10:46:27Z"
+    },
+    "report_ipw_over80s_postest_any_all": {
+      "state": "failed",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "k7hyv5qefirdam64",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-29T08:13:49Z",
+      "completed_at": "2021-04-29T10:46:35Z"
+    },
+    "report_ipw_over80s_death_any_all": {
+      "state": "succeeded",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "tkr7gsg45pcfevpg",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-29T08:13:49Z",
+      "completed_at": "2021-04-29T10:51:26Z"
+    },
+    "report_ipw_over80s_covidadmitted_any_all": {
+      "state": "failed",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "unzrnzm6uvzrk6dr",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-29T08:13:49Z",
+      "completed_at": "2021-04-29T10:56:08Z"
+    },
+    "report_ipw_over80s_coviddeath_any_all": {
+      "state": "failed",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "6shgbxmipbfohe6s",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-29T08:13:49Z",
+      "completed_at": "2021-04-29T11:08:33Z"
+    },
+    "report_ipw_over80s_noncoviddeath_any_all": {
+      "state": "succeeded",
+      "commit": "6c61ac4a4f96006388ebde71bb2060ebab2f701f",
+      "docker_image_id": "sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981",
+      "job_id": "3hu6gtd37lwc4de5",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-04-29T08:13:49Z",
+      "completed_at": "2021-04-29T11:38:19Z"
     }
   },
   "workspace": "covid-vaccine-effectiveness-research_main",

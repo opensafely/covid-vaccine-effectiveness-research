@@ -1,40 +1,40 @@
-2021-04-22T11:25:15.287928000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-22T11:25:15.299096100Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-22T11:25:15.299172400Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-22T11:25:15.299180900Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-22T11:25:15.299188100Z v readr   1.3.1     v forcats 0.5.0
-2021-04-22T11:25:15.538616100Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-22T11:25:15.538704400Z x dplyr::filter() masks stats::filter()
-2021-04-22T11:25:15.538712900Z x dplyr::lag()    masks stats::lag()
-2021-04-22T11:25:15.563031200Z 
-2021-04-22T11:25:15.563124500Z Attaching package: 'lubridate'
-2021-04-22T11:25:15.563133300Z 
-2021-04-22T11:25:15.564731200Z The following objects are masked from 'package:base':
-2021-04-22T11:25:15.564747800Z 
-2021-04-22T11:25:15.564755500Z     date, intersect, setdiff, union
-2021-04-22T11:25:15.564762900Z 
-2021-04-22T11:25:18.319947600Z Loading required package: zoo
-2021-04-22T11:25:18.349669000Z 
-2021-04-22T11:25:18.349823900Z Attaching package: 'zoo'
-2021-04-22T11:25:18.349837200Z 
-2021-04-22T11:25:18.350269600Z The following objects are masked from 'package:base':
-2021-04-22T11:25:18.350295500Z 
-2021-04-22T11:25:18.350303500Z     as.Date, as.Date.numeric
-2021-04-22T11:25:18.350310800Z 
-2021-04-22T11:25:18.912687600Z <environment: R_GlobalEnv>
-2021-04-22T11:25:18.913211400Z <environment: R_GlobalEnv>
-2021-04-22T11:25:18.913634700Z <environment: R_GlobalEnv>
+2021-04-28T12:15:23.417398400Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-28T12:15:23.428050200Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-28T12:15:23.428126000Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-28T12:15:23.428135100Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-28T12:15:23.428142100Z v readr   1.3.1     v forcats 0.5.0
+2021-04-28T12:15:23.672313100Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-28T12:15:23.672386300Z x dplyr::filter() masks stats::filter()
+2021-04-28T12:15:23.672395500Z x dplyr::lag()    masks stats::lag()
+2021-04-28T12:15:23.697684300Z 
+2021-04-28T12:15:23.697756100Z Attaching package: 'lubridate'
+2021-04-28T12:15:23.697763900Z 
+2021-04-28T12:15:23.699259500Z The following objects are masked from 'package:base':
+2021-04-28T12:15:23.699277800Z 
+2021-04-28T12:15:23.699285300Z     date, intersect, setdiff, union
+2021-04-28T12:15:23.699292300Z 
+2021-04-28T12:15:26.261217400Z Loading required package: zoo
+2021-04-28T12:15:26.284494200Z 
+2021-04-28T12:15:26.284589000Z Attaching package: 'zoo'
+2021-04-28T12:15:26.284597600Z 
+2021-04-28T12:15:26.285117000Z The following objects are masked from 'package:base':
+2021-04-28T12:15:26.285142900Z 
+2021-04-28T12:15:26.285151700Z     as.Date, as.Date.numeric
+2021-04-28T12:15:26.285159000Z 
+2021-04-28T12:15:26.859597500Z <environment: R_GlobalEnv>
+2021-04-28T12:15:26.860018200Z <environment: R_GlobalEnv>
+2021-04-28T12:15:26.860436900Z <environment: R_GlobalEnv>
 
 
 state: succeeded
-commit: c40035625547015a2a89c056178f87bff93a0389
+commit: d63ac7b7e4fc85ba424510244fdccdf533016b04
 docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: 2sbo7ipgvp27lu23
+job_id: ubzujnvyugqmgefs
 run_by_user: wjchulme
-created_at: 2021-04-22T07:00:11Z
-started_at: 2021-04-22T11:25:11Z
-completed_at: 2021-04-22T11:57:02Z
+created_at: 2021-04-27T20:50:46Z
+started_at: 2021-04-28T12:15:19Z
+completed_at: 2021-04-28T14:02:46Z
 
 Completed successfully
 

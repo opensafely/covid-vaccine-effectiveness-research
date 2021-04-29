@@ -1,36 +1,36 @@
-2021-04-22T08:23:23.829169000Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-22T08:23:23.838015100Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-22T08:23:23.838043200Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-22T08:23:23.838051200Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-22T08:23:23.838058000Z v readr   1.3.1     v forcats 0.5.0
-2021-04-22T08:23:24.023819200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-22T08:23:24.023882200Z x dplyr::filter() masks stats::filter()
-2021-04-22T08:23:24.023891400Z x dplyr::lag()    masks stats::lag()
-2021-04-22T08:23:24.038285800Z 
-2021-04-22T08:23:24.038312800Z Attaching package: 'lubridate'
-2021-04-22T08:23:24.038321200Z 
-2021-04-22T08:23:24.039787800Z The following objects are masked from 'package:base':
-2021-04-22T08:23:24.039804500Z 
-2021-04-22T08:23:24.039812200Z     date, intersect, setdiff, union
-2021-04-22T08:23:24.039819100Z 
-2021-04-22T08:23:26.619605800Z <environment: R_GlobalEnv>
-2021-04-22T08:24:44.576320500Z `summarise()` ungrouping output (override with `.groups` argument)
-2021-04-22T08:24:49.717844800Z `summarise()` ungrouping output (override with `.groups` argument)
-2021-04-22T08:24:55.450861200Z `summarise()` ungrouping output (override with `.groups` argument)
-2021-04-22T08:24:59.698932000Z `summarise()` ungrouping output (override with `.groups` argument)
-2021-04-22T08:25:02.216773800Z `summarise()` ungrouping output (override with `.groups` argument)
-2021-04-22T08:25:04.716386400Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-28T06:24:43.038050500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-28T06:24:43.047114600Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-28T06:24:43.047161800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-28T06:24:43.047170200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-28T06:24:43.047177300Z v readr   1.3.1     v forcats 0.5.0
+2021-04-28T06:24:43.213786200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-28T06:24:43.213862500Z x dplyr::filter() masks stats::filter()
+2021-04-28T06:24:43.213870300Z x dplyr::lag()    masks stats::lag()
+2021-04-28T06:24:43.228087900Z 
+2021-04-28T06:24:43.228129700Z Attaching package: 'lubridate'
+2021-04-28T06:24:43.228138600Z 
+2021-04-28T06:24:43.229621000Z The following objects are masked from 'package:base':
+2021-04-28T06:24:43.229639400Z 
+2021-04-28T06:24:43.229647100Z     date, intersect, setdiff, union
+2021-04-28T06:24:43.229654200Z 
+2021-04-28T06:24:45.682117700Z <environment: R_GlobalEnv>
+2021-04-28T06:26:47.937083000Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-28T06:27:04.617896600Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-28T06:27:21.663693900Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-28T06:27:37.962907000Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-28T06:27:49.204861800Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-28T06:27:56.280075200Z `summarise()` ungrouping output (override with `.groups` argument)
 
 
 state: succeeded
-commit: c40035625547015a2a89c056178f87bff93a0389
+commit: d63ac7b7e4fc85ba424510244fdccdf533016b04
 docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: 7bconj25odeoczob
+job_id: ijynqruppfq23woi
 run_by_user: wjchulme
-created_at: 2021-04-22T07:00:11Z
-started_at: 2021-04-22T08:23:21Z
-completed_at: 2021-04-22T08:25:21Z
+created_at: 2021-04-27T20:50:46Z
+started_at: 2021-04-28T06:24:40Z
+completed_at: 2021-04-28T06:28:08Z
 
 Completed successfully
 
