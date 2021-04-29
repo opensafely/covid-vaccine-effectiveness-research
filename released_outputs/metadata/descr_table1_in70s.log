@@ -1,0 +1,56 @@
+2021-04-20T07:10:12.323055200Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-20T07:10:12.331908600Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-20T07:10:12.331930500Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-20T07:10:12.331938600Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-20T07:10:12.331945500Z v readr   1.3.1     v forcats 0.5.0
+2021-04-20T07:10:12.504001400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-20T07:10:12.504071600Z x dplyr::filter() masks stats::filter()
+2021-04-20T07:10:12.504080300Z x dplyr::lag()    masks stats::lag()
+2021-04-20T07:10:12.519007500Z 
+2021-04-20T07:10:12.519030800Z Attaching package: 'lubridate'
+2021-04-20T07:10:12.519039400Z 
+2021-04-20T07:10:12.520492000Z The following objects are masked from 'package:base':
+2021-04-20T07:10:12.520509900Z 
+2021-04-20T07:10:12.520517600Z     date, intersect, setdiff, union
+2021-04-20T07:10:12.520524700Z 
+2021-04-20T07:10:14.804840100Z <environment: R_GlobalEnv>
+2021-04-20T07:11:23.620411900Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-20T07:11:28.900696400Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-20T07:11:34.091163800Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-20T07:11:39.012045400Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-20T07:11:39.049208500Z Warning messages:
+2021-04-20T07:11:39.049237200Z 1: Problem with `mutate()` input `coviddeath_rrCI`.
+2021-04-20T07:11:39.049246600Z i NaNs produced
+2021-04-20T07:11:39.049254200Z i Input `coviddeath_rrCI` is `rrCI_exact(...)`. 
+2021-04-20T07:11:39.049262000Z 2: In qf(2 * (ref_n + 1), 2 * n, p = 0.05/2, lower.tail = FALSE) :
+2021-04-20T07:11:39.049269600Z   NaNs produced
+2021-04-20T07:11:42.227068900Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-20T07:11:45.237727600Z `summarise()` ungrouping output (override with `.groups` argument)
+2021-04-20T07:11:45.275279300Z Warning messages:
+2021-04-20T07:11:45.275302400Z 1: Problem with `mutate()` input `covidadmitted_rrCI`.
+2021-04-20T07:11:45.275311400Z i NaNs produced
+2021-04-20T07:11:45.275318900Z i Input `covidadmitted_rrCI` is `rrCI_exact(...)`. 
+2021-04-20T07:11:45.275326600Z 2: In qf(2 * (ref_n + 1), 2 * n, p = 0.05/2, lower.tail = FALSE) :
+2021-04-20T07:11:45.275334100Z   NaNs produced
+2021-04-20T07:11:45.275342400Z 3: Problem with `mutate()` input `coviddeath_rrCI`.
+2021-04-20T07:11:45.275350400Z i NaNs produced
+2021-04-20T07:11:45.275358300Z i Input `coviddeath_rrCI` is `rrCI_exact(...)`. 
+2021-04-20T07:11:45.275365700Z 4: In qf(2 * (ref_n + 1), 2 * n, p = 0.05/2, lower.tail = FALSE) :
+2021-04-20T07:11:45.275392600Z   NaNs produced
+
+
+state: succeeded
+commit: fb0f45f8d173a930c83083cf6d7b9bdc17465c3d
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+exit_code: 0
+job_id: 4rdq5u2zqz3uyj42
+run_by_user: wjchulme
+created_at: 2021-04-20T07:09:26Z
+started_at: 2021-04-20T07:10:09Z
+completed_at: 2021-04-20T07:11:52Z
+
+Completed successfully
+
+outputs:
+  output/in70s/descr/tables/table1.html    - moderately_sensitive
+  output/in70s/descr/tables/table_pt.html  - moderately_sensitive

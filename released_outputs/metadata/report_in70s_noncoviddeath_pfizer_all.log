@@ -1,0 +1,46 @@
+2021-04-18T23:55:43.243077800Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-04-18T23:55:43.252801900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-04-18T23:55:43.252830300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-04-18T23:55:43.252839200Z v tidyr   1.1.2     v stringr 1.4.0
+2021-04-18T23:55:43.252846400Z v readr   1.3.1     v forcats 0.5.0
+2021-04-18T23:55:43.468633600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-04-18T23:55:43.468737000Z x dplyr::filter() masks stats::filter()
+2021-04-18T23:55:43.468746000Z x dplyr::lag()    masks stats::lag()
+2021-04-18T23:55:43.487977500Z 
+2021-04-18T23:55:43.488079400Z Attaching package: 'lubridate'
+2021-04-18T23:55:43.488088100Z 
+2021-04-18T23:55:43.489443500Z The following objects are masked from 'package:base':
+2021-04-18T23:55:43.489470900Z 
+2021-04-18T23:55:43.489480400Z     date, intersect, setdiff, union
+2021-04-18T23:55:43.489487600Z 
+2021-04-18T23:55:45.843527600Z #Uighur
+2021-04-18T23:55:45.930420800Z Loading required package: zoo
+2021-04-18T23:55:45.948099300Z 
+2021-04-18T23:55:45.948196900Z Attaching package: 'zoo'
+2021-04-18T23:55:45.948205100Z 
+2021-04-18T23:55:45.948646600Z The following objects are masked from 'package:base':
+2021-04-18T23:55:45.948669200Z 
+2021-04-18T23:55:45.948678200Z     as.Date, as.Date.numeric
+2021-04-18T23:55:45.948685700Z 
+2021-04-18T23:55:46.436156100Z <environment: R_GlobalEnv>
+2021-04-18T23:55:46.436233500Z <environment: R_GlobalEnv>
+2021-04-18T23:55:46.436396900Z <environment: R_GlobalEnv>
+
+
+state: succeeded
+commit: 33f52791c8cce80c6c198db74da25e5b695f71d1
+docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+exit_code: 0
+job_id: g75lzv6z2gzgl3ea
+run_by_user: wjchulme
+created_at: 2021-04-18T20:34:39Z
+started_at: 2021-04-18T23:55:40Z
+completed_at: 2021-04-19T00:24:12Z
+
+Completed successfully
+
+outputs:
+  output/in70s/noncoviddeath/pfizer/all/estimates.csv                 - moderately_sensitive
+  output/in70s/noncoviddeath/pfizer/all/forest_plot.svg               - moderately_sensitive
+  output/in70s/noncoviddeath/pfizer/all/time_trends_region_plot3.svg  - moderately_sensitive
+  output/in70s/noncoviddeath/pfizer/all/time_trends_region_plot4.svg  - moderately_sensitive
