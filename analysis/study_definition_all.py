@@ -42,8 +42,6 @@ study = StudyDefinition(
         """
         registered
         AND
-        has_follow_up_previous_year
-        AND
         (age >= 18 AND age < 110)
         AND
         (sex = "M" OR sex = "F")
@@ -51,6 +49,8 @@ study = StudyDefinition(
         NOT has_died
         AND
         NOT unknown_vaccine_brand
+        AND
+        has_follow_up_previous_year
         """,
         registered=patients.registered_as_of(
             "index_date",
@@ -59,17 +59,6 @@ study = StudyDefinition(
             on_or_before="index_date",
             returning="binary_flag",
         ),
-        unknown_vaccine_brand = patients.satisfying(
-        """
-        covid_vax_1_date != ""
-        AND
-        covid_vax_pfizer_1_date = ""
-        AND
-        covid_vax_az_1_date = ""
-        """,
-        return_expectations={"incidence": 0.0001},
-    ),
-    
     ),
 
 
@@ -361,6 +350,8 @@ study = StudyDefinition(
     ###############################################################################
     # COVID VACCINATION
     ###############################################################################
+    
+    
     # any COVID vaccination (first dose)
     covid_vax_1_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
@@ -403,22 +394,7 @@ study = StudyDefinition(
             }
         },
     ),
-    # 4th DOSE COVID VACCINATION - any type
-    covid_vax_4_date=patients.with_tpp_vaccination_record(
-        target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="covid_vax_3_date + 1 day",
-        find_first_match_in_period=True,
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {
-                "earliest": "2021-12-29",  
-                "latest": "2022-01-31",
-            }
-        },
-    ),
-    
-    
+
     
     # COVID VACCINATION TYPE = Pfizer BioNTech - first record of a pfizer vaccine 
        # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
@@ -466,21 +442,6 @@ study = StudyDefinition(
         },
     ),
     
-    # 4th DOSE COVID VACCINATION, TYPE = Pfizer (after patient's second dose of same vaccine type)
-    covid_vax_pfizer_4_date=patients.with_tpp_vaccination_record(
-        product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="covid_vax_pfizer_3_date + 1 day",
-        find_first_match_in_period=True,
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {
-                "earliest": "2020-12-29",  # first reported second dose administered on the 29/12
-                "latest": "2021-02-01",
-            }
-        },
-    ),
-
 
 
     # COVID VACCINATION TYPE = Oxford AZ - first record of an Oxford AZ vaccine 
@@ -529,19 +490,16 @@ study = StudyDefinition(
         },
     ),
     
-    # 4th DOSE COVID VACCINATION, TYPE = Oxford AZ
-    covid_vax_az_4_date=patients.with_tpp_vaccination_record(
-        product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="covid_vax_az_3_date + 1 day",
-        find_first_match_in_period=True,
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {
-                "earliest": "2021-04-02",  
-                "latest": "2021-05-01",
-            }
-        },
+
+    unknown_vaccine_brand = patients.satisfying(
+        """
+        covid_vax_1_date != ""
+        AND
+        covid_vax_pfizer_1_date = ""
+        AND
+        covid_vax_az_1_date = ""
+        """,
+        return_expectations={"incidence": 0.0001},
     ),
 
     ################################################
