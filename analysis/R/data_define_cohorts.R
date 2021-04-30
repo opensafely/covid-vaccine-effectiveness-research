@@ -36,14 +36,14 @@ data_criteria <- data_all %>%
       has_age & has_sex & has_imd & has_ethnicity & has_region &
       has_follow_up_previous_year &
       !unknown_vaccine_brand &
-      care_home_combined &
-      endoflife &
+      !care_home_combined &
+      !endoflife &
       nopriorcovid
     ),
 
-    is_over80s = age>=80 & (!is.na(age)),
-    is_in70s = (age>=70 & age<80) & (!is.na(age)),
-    is_under65s = (age<=64) & (!is.na(age)),
+    is_over80s = age>=80 & has_age,
+    is_in70s = (age>=70 & age<80) & has_age,
+    is_under65s = (age<=64) & has_age,
   )
 
 data_cohorts <- data_criteria %>%
@@ -155,14 +155,15 @@ formula_comorbs <- . ~ . +
   haematological_cancer +
   cancer_excl_lung_and_haem +
 
-  chemo_or_radio +
+  #chemo_or_radio +
   #solid_organ_transplantation +
   #bone_marrow_transplant +
   #sickle_cell_disease +
-  permanant_immunosuppression +
+  #permanant_immunosuppression +
   #temporary_immunosuppression +
-  asplenia +
-  dmards +
+  #asplenia +
+  #dmards +
+  any_immunosuppression +
 
   dementia +
   other_neuro_conditions +
@@ -183,10 +184,10 @@ formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 
 formula_timedependent <- . ~ . +
   #timesince_probable_covid_pw +
-  timesince_postest_pw +
-  timesince_suspected_covid_pw +
-  timesince_hospinfectious_discharge_pw +
-  timesince_hospnoninfectious_discharge_pw
+  timesince_postesttdc_pw +
+  timesince_suspectedcovid_pw +
+  timesince_hospinfectiousdischarge_pw +
+  timesince_hospnoninfectiousdischarge_pw
 
 
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%
@@ -217,7 +218,7 @@ write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rd
 
 list_strata <- data_all %>%
   mutate(
-    all=factor("all")
+    all=factor("")
   ) %>%
   select(
     all, sex

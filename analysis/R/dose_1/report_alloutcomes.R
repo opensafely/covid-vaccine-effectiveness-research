@@ -109,7 +109,7 @@ write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_{
 msmmod_forest_data <- estimates %>%
   filter(
     str_detect(term, "timesincevax"),
-    str_sub(model, 1, 1) %in% c(3,4)
+    str_sub(model, 1, 1) %in% c(2,3,4)
   ) %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
@@ -119,8 +119,9 @@ msmmod_forest_data <- estimates %>%
     term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
     term_midpoint = term_left + (term_right-term_left)/2,
     model = fct_case_when(
-      str_sub(model, 1, 1) == 3 ~ "Standard Cox",
-      str_sub(model, 1, 1) == 4 ~ "Marginal structural Cox"
+      str_sub(model, 1, 1) == 2 ~ "Region-stratified",
+      str_sub(model, 1, 1) == 3 ~ " + baseline adjustment",
+      str_sub(model, 1, 1) == 4 ~ " + time-varying adjustment"
     )
   )
 
@@ -134,7 +135,7 @@ msmmod_forest <-
   facet_grid(rows=vars(outcome_descr), cols=vars(as.factor(strata)), switch="y")+
   scale_y_log10(breaks=2^(-7:2), labels=c("1/128", "1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4"))+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
-  scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
+  scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
   coord_cartesian(ylim=c(2^-7,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
@@ -143,7 +144,6 @@ msmmod_forest <-
     title=glue::glue("Outcomes by time since first {brand} vaccine"),
     subtitle=cohort_descr
   ) +
-  guides(colour=guide_legend(nrow=1))+
   theme_bw()+
   theme(
     panel.border = element_blank(),
@@ -183,7 +183,7 @@ msmmod_forest_data %>%
     values_from = c(HR, `95% CI`, `P value`),
     names_glue = "{model}_{.value}"
     ) %>%
-  select(Outcome=outcome_descr, `Time since first dose`=term, contains("Standard"), contains("Marginal")) %>%
+  select(Outcome=outcome_descr, `Time since first dose`=term, contains("adjustment"), contains("stratified")) %>%
   gt(
     groupname_col = "Outcome"
   ) %>%

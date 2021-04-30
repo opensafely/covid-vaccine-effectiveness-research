@@ -64,8 +64,8 @@ data_extract0 <- read_csv(
     care_home_type = col_character(),
     care_home_tpp = col_logical(),
     care_home_code = col_logical(),
-    nontpp_household = col_logical(),
-    tpp_coverage = col_double(),
+    #nontpp_household = col_logical(),
+    #tpp_coverage = col_double(),
 
     registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
@@ -339,6 +339,8 @@ data_processed <- data_extract_reordered %>%
 
     bmi = as.factor(bmi),
 
+    any_immunosuppression = (permanant_immunosuppression | asplenia | dmards | solid_organ_transplantation | sickle_cell_disease | temporary_immunosuppression | bone_marrow_transplant | chemo_or_radio),
+
     multimorb =
       (bmi %in% c("Obese II (35-39.9)", "Obese III (40+)")) +
       (chronic_cardiac_disease | heart_failure | other_heart_disease) +
@@ -346,8 +348,8 @@ data_processed <- data_extract_reordered %>%
       (diabetes) +
       (chronic_liver_disease)+
       (current_copd | other_resp_conditions)+
-      (lung_cancer | haematological_cancer | cancer_excl_lung_and_haem | chemo_or_radio)+
-      (permanant_immunosuppression | asplenia | dmards)+
+      (lung_cancer | haematological_cancer | cancer_excl_lung_and_haem)+
+      (any_immunosuppression)+
       (dementia | other_neuro_conditions)+
       (LD_incl_DS_and_CP)+
       (psychosis_schiz_bipolar),

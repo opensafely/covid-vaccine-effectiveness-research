@@ -120,31 +120,32 @@ gt_model_summary <- function(model, cluster) {
     haematological_cancer ~ "Haematological cancer",
     cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
 
-    chemo_or_radio ~ "Chemo- or radio-therapy",
+    #chemo_or_radio ~ "Chemo- or radio-therapy",
     #solid_organ_transplantation ~ "Solid organ transplant",
     #bone_marrow_transplant ~ "Bone marrow transplant",
     #sickle_cell_disease ~ "Sickle Cell Disease",
-    permanant_immunosuppression ~ "Permanent immunosuppression",
+    #permanant_immunosuppression ~ "Permanent immunosuppression",
     #temporary_immunosuppression ~ "Temporary Immunosuppression",
-    asplenia ~ "Asplenia",
-    dmards ~ "DMARDS",
+    #asplenia ~ "Asplenia",
+    #dmards ~ "DMARDS",
+    any_immunosuppresion ~ "Immunosuppressed",
 
     dementia ~ "Dementia",
     other_neuro_conditions ~ "Other neurological conditions",
 
-    LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
-    psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
+    LD_incl_DS_and_CP ~ "Learning disabilities",
+    psychosis_schiz_bipolar ~ "Serious mental illness",
 
     multimorb ~ "Morbidity count",
     shielded ~ "Shielding criteria met",
 
     flu_vaccine ~ "Flu vaccine in previous 5 years",
 
-    timesince_hospinfectious_discharge_pw ~ "Time since discharge from infectious hosp admission",
-    timesince_hospnoninfectious_discharge_pw ~ "Time since discharge from non-infectious hosp admission",
-    #timesince_probable_covid_pw ~ "Time since probable COVID",
-    timesince_suspected_covid_pw ~ "Time since suspected COVID",
-    timesince_postest_pw ~ "Time since positive SARS-CoV-2 test"
+    timesince_hospinfectiousdischarge_pw ~ "Time since discharge from infectious hosp admission",
+    timesince_hospnoninfectiousdischarge_pw ~ "Time since discharge from non-infectious hosp admission",
+    #timesince_probablecovid_pw ~ "Time since probable COVID",
+    timesince_suspectedcovid_pw ~ "Time since suspected COVID",
+    timesince_postesttdc_pw ~ "Time since positive SARS-CoV-2 test"
   )
 
   ## if outcome is positive test, remove positive test label assumes it is the last one)
@@ -237,9 +238,10 @@ for(stratum in strata){
     data_atrisk_vaxany1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_atrisk_vaxany1.rds"))
     model_vaxany1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_vaxany1.rds"))
     ipw_formula <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_formula_vaxany1.rds"))
-    ## output model coefficients
 
+    ## output model coefficients
     tab_vaxany1 <- gt_model_summary(model_vaxany1, data_atrisk_vaxany1$patient_id)
+    write_rds(tab_vaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxany1.rds"))
     gtsave(tab_vaxany1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.html"))
     write_csv(tab_vaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.csv"))
 
@@ -272,9 +274,9 @@ for(stratum in strata){
 
     tab_vaxpfizer1 <- gt_model_summary(model_vaxpfizer1, data_atrisk_vaxpfizer1$patient_id)
     gtsave(tab_vaxpfizer1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxfizer1.html"))
+    write_rds(tab_vaxpfizer1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxpfizer1.rds"))
     write_csv(tab_vaxpfizer1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxpfizer1.csv"))
 
-    ##output forest plot
     plot_vaxpfizer1 <- forest_from_gt(tab_vaxpfizer1, "Predicting P-BNT vaccine")
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxfizer1.svg"),
@@ -299,9 +301,9 @@ for(stratum in strata){
 
     tab_vaxaz1 <- gt_model_summary(model_vaxaz1, data_atrisk_vaxaz1$patient_id)
     gtsave(tab_vaxaz1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxaz1.html"))
+    write_rds(tab_vaxaz1 %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxaz1.rds"))
     write_csv(tab_vaxaz1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxaz1.csv"))
 
-    ##output forest plot
     plot_vaxaz1 <- forest_from_gt(tab_vaxaz1, "Predicting Ox-AZ vaccine")
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxaz1.svg"),

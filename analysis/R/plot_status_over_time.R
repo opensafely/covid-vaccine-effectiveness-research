@@ -480,8 +480,7 @@ vars_df %>%
 
 
 ## end-date status ----
-
-tab_end_status <- data_pt %>%
+tab_end_status2 <- data_pt %>%
   filter(lastfup == 1) %>%
   summarise(
     n = n(),
@@ -489,14 +488,18 @@ tab_end_status <- data_pt %>%
     vaxany = sum(vaxany_status>0 & death_status==0),
     vaxpfizer = sum(vaxpfizer_status>0 & death_status==0),
     vaxaz = sum(vaxaz_status>0 & death_status==0),
-    dead_unvax = sum(vaxany_status==0 & death_status==1),
-    dereg_unvax = sum(vaxany_status==0 & dereg_status==1),
+    vaxpfizer_pct = vaxpfizer / vaxany,
+    vaxaz_pct = vaxaz / vaxany,
+    dead_unvax = sum(vaxany_status==0 & death==1),
+    dereg_unvax = sum(vaxany_status==0 & dereg==1),
 
     pt_days = sum(tstop),
     pt_years = sum(tstop)/365.25,
 
     pt_days_vax = sum(tstop)-sum(pmin(tte_vaxany1, tstop, na.rm=TRUE)),
     pt_years_vax = (sum(tstop)-sum(pmin(tte_vaxany1, tstop, na.rm=TRUE)))/365.25,
+
+    pt_pct_vax = pt_days_vax / pt_days,
 
     fup_min = min(tstop),
     fup_q1 = quantile(tstop, 0.25),

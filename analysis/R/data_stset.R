@@ -98,14 +98,15 @@ data_fixed <- data_all %>%
     haematological_cancer,
     cancer_excl_lung_and_haem,
 
-    chemo_or_radio,
-    solid_organ_transplantation,
-    bone_marrow_transplant,
-    sickle_cell_disease,
-    permanant_immunosuppression,
-    temporary_immunosuppression,
-    asplenia,
-    dmards,
+    # chemo_or_radio,
+    # solid_organ_transplantation,
+    # bone_marrow_transplant,
+    # sickle_cell_disease,
+    # permanant_immunosuppression,
+    # temporary_immunosuppression,
+    # asplenia,
+    # dmards,
+    any_immunosuppression,
 
     dementia,
     other_neuro_conditions,
@@ -265,7 +266,7 @@ data_hospitalised_infectious <- read_rds(here::here("output", "data", "data_long
   ) %>%
   mutate(
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
-    hospinfectious_status = if_else(status=="admitted_infectious_date", 1L, 0L)
+    hospinfectious_status = if_else(status=="admitted_date", 1L, 0L)
   )
 
 # import non infectious hospitalisations data for time-updating "in-hospital" covariate
@@ -283,7 +284,7 @@ data_hospitalised_noninfectious <- read_rds(here::here("output", "data", "data_l
   ) %>%
   mutate(
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE) %>% as.integer(),
-    hospnoninfectious_status = if_else(status=="admitted_noninfectious_date", 1L, 0L)
+    hospnoninfectious_status = if_else(status=="admitted_date", 1L, 0L)
   )
 
 
@@ -371,45 +372,45 @@ data_tte_cp <- data_tte_cp0 %>%
     data1 = .,
     data2 = data_hospitalised_infectious,
     id = patient_id,
-    hospitalinfectious_status = tdc(tte, hospinfectious_status),
+    hospinfectious_status = tdc(tte, hospinfectious_status),
     options = list(tdcstart = 0L)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_hospitalised_infectious %>% filter(status=="discharged_date"),
     id = patient_id,
-    hospinfectious_discharge = event(tte)
+    hospinfectiousdischarge = event(tte)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_hospitalised_noninfectious,
     id = patient_id,
-    hospitalnoninfectious_status = tdc(tte, hospnoninfectious_status),
+    hospnoninfectious_status = tdc(tte, hospnoninfectious_status),
     options = list(tdcstart = 0L)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_hospitalised_noninfectious %>% filter(status=="discharged_date"),
     id = patient_id,
-    hospnoninfectious_discharge = event(tte)
+    hospnoninfectiousdischarge = event(tte)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_suspected_covid,
     id = patient_id,
-    suspected_covid = event(tte)
+    suspectedcovid = event(tte)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_probable_covid,
     id = patient_id,
-    probable_covid = event(tte)
+    probablecovid = event(tte)
   ) %>%
   tmerge(
     data1 = .,
     data2 = data_postest,
     id = patient_id,
-    postest_tdc = event(tte)
+    postesttdc = event(tte)
   ) %>%
 arrange(
   patient_id, tstart
@@ -437,13 +438,13 @@ mutate(across(
             "noncoviddeath",
             "death",
             "lastfup",
-            "hospitalinfectious_status",
-            "hospitalnoninfectious_status",
-            "hospinfectious_discharge",
-            "hospnoninfectious_discharge",
-            "suspected_covid",
-            "probable_covid",
-            "postest_tdc"
+            "hospinfectious_status",
+            "hospnoninfectious_status",
+            "hospinfectiousdischarge",
+            "hospnoninfectiousdischarge",
+            "suspectedcovid",
+            "probablecovid",
+            "postesttdc"
           ),
   .fns = as.integer
 ))
@@ -480,14 +481,14 @@ data_tte_pt <- tmerge(
   arrange(patient_id, tstop) %>%
   group_by(patient_id) %>%
   mutate(
-    hospinfectious_discharge_time = if_else(hospinfectious_discharge==1, tstop, NA_real_),
-    hospnoninfectious_discharge_time = if_else(hospnoninfectious_discharge==1, tstop, NA_real_),
-    suspected_covid_time = if_else(suspected_covid==1, tstop, NA_real_),
-    probable_covid_time = if_else(probable_covid==1, tstop, NA_real_),
-    postest_time = if_else(postest_tdc==1, tstop, NA_real_),
+    hospinfectiousdischarge_time = if_else(hospinfectiousdischarge==1, tstop, NA_real_),
+    hospnoninfectiousdischarge_time = if_else(hospnoninfectiousdischarge==1, tstop, NA_real_),
+    suspectedcovid_time = if_else(suspectedcovid==1, tstop, NA_real_),
+    probablecovid_time = if_else(probablecovid==1, tstop, NA_real_),
+    postesttdc_time = if_else(postesttdc==1, tstop, NA_real_),
   ) %>%
   fill(
-    hospinfectious_discharge_time, hospnoninfectious_discharge_time, suspected_covid_time, probable_covid_time, postest_time
+    hospinfectiousdischarge_time, hospnoninfectiousdischarge_time, suspectedcovid_time, probablecovid_time, postesttdc_time
   ) %>%
   mutate(
 
@@ -501,57 +502,52 @@ data_tte_pt <- tmerge(
 
 
     # define time since infectious hospitalisation
-    timesince_hospinfectious_discharge = tstop - hospinfectious_discharge_time,
-    timesince_hospinfectious_discharge_pw = cut(
-      timesince_hospinfectious_discharge,
+    timesince_hospinfectiousdischarge_pw = cut(
+      tstop - hospinfectiousdischarge_time,
       breaks=c(0, 7, 14, 21, 28),
       labels=c( "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]"),
       right=TRUE
     ),
-    timesince_hospinfectious_discharge_pw = case_when(
-      is.na(timesince_hospinfectious_discharge_pw) & hospitalinfectious_status==0 ~ "Not in hospital",
-      hospitalinfectious_status==1 ~ "In hospital",
-      !is.na(timesince_hospinfectious_discharge_pw) ~ as.character(timesince_hospinfectious_discharge_pw),
+    timesince_hospinfectiousdischarge_pw = case_when(
+      is.na(timesince_hospinfectiousdischarge_pw) & hospinfectious_status==0 ~ "Not in hospital",
+      hospinfectious_status==1 ~ "In hospital",
+      !is.na(timesince_hospinfectiousdischarge_pw) ~ as.character(timesince_hospinfectiousdischarge_pw),
       TRUE ~ NA_character_
     ) %>% factor(c("Not in hospital", "In hospital", "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]")),
 
 
     # define time since non infectious hospitalisation
-    timesince_hospnoninfectious_discharge = tstop - hospnoninfectious_discharge_time,
-    timesince_hospnoninfectious_discharge_pw = cut(
-      timesince_hospnoninfectious_discharge,
+    timesince_hospnoninfectiousdischarge_pw = cut(
+      tstop - hospnoninfectiousdischarge_time,
       breaks=c(0, 7, 14, 21, 28),
       labels=c( "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]"),
       right=TRUE
     ),
-    timesince_hospnoninfectious_discharge_pw = case_when(
-      is.na(timesince_hospnoninfectious_discharge_pw) & hospitalnoninfectious_status==0 ~ "Not in hospital",
-      hospitalnoninfectious_status==1 ~ "In hospital",
-      !is.na(timesince_hospnoninfectious_discharge_pw) ~ as.character(timesince_hospnoninfectious_discharge_pw),
+    timesince_hospnoninfectiousdischarge_pw = case_when(
+      is.na(timesince_hospnoninfectiousdischarge_pw) & hospnoninfectious_status==0 ~ "Not in hospital",
+      hospnoninfectious_status==1 ~ "In hospital",
+      !is.na(timesince_hospnoninfectiousdischarge_pw) ~ as.character(timesince_hospnoninfectiousdischarge_pw),
       TRUE ~ NA_character_
     ) %>% factor(c("Not in hospital", "In hospital", "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]")),
 
-
-
     # define time since covid primary care event
-    timesince_suspected_covid = tstop - suspected_covid_time,
-    timesince_suspected_covid_pw = cut(
-      timesince_suspected_covid,
+    timesince_suspectedcovid_pw = cut(
+      tstop - suspectedcovid_time,
       breaks=c(0, 3, 7, 14, 21, 28, Inf),
       labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
       right=TRUE
     ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
-    timesince_probable_covid = tstop - probable_covid_time,
-    timesince_probable_covid_pw = cut(
-      timesince_probable_covid,
+
+    timesince_probablecovid_pw = cut(
+      tstop - probablecovid_time,
       breaks=c(0, 3, 7, 14, 21, 28, Inf),
       labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
       right=TRUE
     ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
+
     # define time since positive SGSS test
-    timesince_postest = tstop - postest_time,
-    timesince_postest_pw = cut(
-      timesince_postest,
+    timesince_postesttdc_pw = cut(
+      tstop - postesttdc_time,
       breaks=c(0, 3, 7, 14, 21, 28, Inf),
       labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
       right=TRUE
@@ -561,11 +557,11 @@ data_tte_pt <- tmerge(
   ) %>%
   ungroup() %>%
   select(
-    -hospinfectious_discharge_time, -timesince_hospinfectious_discharge,
-    -hospnoninfectious_discharge_time, -timesince_hospnoninfectious_discharge,
-    -suspected_covid_time, -timesince_suspected_covid,
-    -probable_covid_time, -timesince_probable_covid,
-    -postest_time, -timesince_postest,
+    -hospinfectiousdischarge_time,
+    -hospnoninfectiousdischarge_time,
+    -suspectedcovid_time,
+    -probablecovid_time,
+    -postesttdc_time,
   ) %>%
   # for some reason tmerge converts event indicators to numeric. So convert back to save space
   mutate(across(
@@ -584,13 +580,13 @@ data_tte_pt <- tmerge(
               "death",
               "dereg",
               "lastfup",
-              "hospitalinfectious_status",
-              "hospitalnoninfectious_status",
-              "hospinfectious_discharge",
-              "hospnoninfectious_discharge",
-              "probable_covid",
-              "suspected_covid",
-              "postest_tdc"
+              "hospinfectious_status",
+              "hospnoninfectious_status",
+              "hospinfectiousdischarge",
+              "hospnoninfectiousdischarge",
+              "probablecovid",
+              "suspectedcovid",
+              "postesttdc"
     ),
     .fns = as.integer
   ))
