@@ -68,7 +68,7 @@ study = StudyDefinition(
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
-            "incidence" : 0.001
+            "incidence" : 1
         },
     ),
     
@@ -109,12 +109,12 @@ study = StudyDefinition(
     has_follow_up_previous_year=patients.registered_with_one_practice_between(
         start_date="index_date - 1 year",
         end_date="index_date",
-        return_expectations={"incidence": 0.95},
+        return_expectations={"incidence": 0.99},
     ),
 
     registered_at_latest=patients.registered_as_of(
         reference_date=end_date,
-        return_expectations={"incidence": 0.95},
+        return_expectations={"incidence": 0.99},
     ),
     
     dereg_date=patients.date_deregistered_from_all_supported_practices(
@@ -170,7 +170,7 @@ study = StudyDefinition(
         use_most_frequent_code=True,
         return_expectations={
             "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
-            "incidence": 0.4,
+            "incidence": 0.8,
             },
     ),
 
@@ -231,14 +231,14 @@ study = StudyDefinition(
             "category": {
                 "ratios": {
                     "North East": 0.1,
-                    "North West": 0.1,
+                    "North West": 0.2,
                     "Yorkshire and the Humber": 0.2,
                     "East Midlands": 0.1,
                     "West Midlands": 0.1,
                     "East of England": 0.1,
                     "London": 0.1,
-                    "South East": 0.1,
-                    "" : 0.1
+                    "South East": 0.09,
+                    "" : 0.01
                 },
             },
         },
@@ -309,17 +309,15 @@ study = StudyDefinition(
     # simple care home flag
     care_home_tpp=patients.satisfying(
         """care_home_type""",
-        return_expectations={"incidence": 0.1},
+        return_expectations={"incidence": 0.01},
     ),
     
     care_home_code=patients.with_these_clinical_events(
         carehome_primis_codes,
         on_or_before="index_date",
         returning="binary_flag",
-        return_expectations={"incidence": 0.1},
+        return_expectations={"incidence": 0.01},
     ),
-    
-    
     
     household_id = patients.household_as_of(
         "2020-02-01",
@@ -331,20 +329,20 @@ study = StudyDefinition(
     ),
     
     # mixed household flag 
-    nontpp_household = patients.household_as_of(
-        "2020-02-01",
-        returning="has_members_in_other_ehr_systems",
-        return_expectations={"incidence": 0.75},
-    ),
-    # mixed household percentage 
-    tpp_coverage = patients.household_as_of(
-        "2020-02-01", 
-        returning="percentage_of_members_with_data_in_this_backend", 
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 75, "stddev": 10},
-            "incidence": 1,
-        },
-    ),
+    # nontpp_household = patients.household_as_of(
+    #     "2020-02-01",
+    #     returning="has_members_in_other_ehr_systems",
+    #     return_expectations={"incidence": 0.75},
+    # ),
+    # # mixed household percentage 
+    # tpp_coverage = patients.household_as_of(
+    #     "2020-02-01", 
+    #     returning="percentage_of_members_with_data_in_this_backend", 
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 75, "stddev": 10},
+    #         "incidence": 1,
+    #     },
+    # ),
 
 
     ###############################################################################
@@ -530,7 +528,11 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         on_or_before="index_date + 1 day",
         find_first_match_in_period=True,
-        return_expectations={"rate": "exponential_increase"},
+        return_expectations={
+            "date": {"earliest": "2020-02-01"},
+            "rate": "exponential_increase",
+            "incidence": 0.01
+        },
     ),
     
     # PRIOR COVID-RELATED HOSPITAL ADMISSION
