@@ -56,9 +56,7 @@ data_cohorts <- data_cohorts[data_cohorts[[cohort]],] %>%
   # a) consistent between cohort extracts
   # b) unique
   # c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
-  filter(
-    rank(patient_id) <= 200000
-  )
+  filter( rank(patient_id) <= 200000 )
 
 metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 
