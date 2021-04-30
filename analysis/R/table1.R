@@ -113,7 +113,6 @@ data_tab <- data_ss %>%
 tab_summary <- data_tab %>% transmute(
   ageband, sex, imd, region, ethnicity,
   bmi,
-
   chronic_cardiac_disease,
   heart_failure,
   other_heart_disease,
