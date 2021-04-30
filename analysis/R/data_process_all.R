@@ -339,7 +339,7 @@ data_processed <- data_extract_reordered %>%
 
     bmi = as.factor(bmi),
 
-    any_immunosuppresion = (permanant_immunosuppression | asplenia | dmards | solid_organ_transplantation | sickle_cell_disease | temporary_immunosuppression | bone_marrow_transplant | chemo_or_radio),
+    any_immunosuppression = (permanant_immunosuppression | asplenia | dmards | solid_organ_transplantation | sickle_cell_disease | temporary_immunosuppression | bone_marrow_transplant | chemo_or_radio),
 
     multimorb =
       (bmi %in% c("Obese II (35-39.9)", "Obese III (40+)")) +
@@ -349,7 +349,7 @@ data_processed <- data_extract_reordered %>%
       (chronic_liver_disease)+
       (current_copd | other_resp_conditions)+
       (lung_cancer | haematological_cancer | cancer_excl_lung_and_haem)+
-      (any_immunosuppresion)+
+      (any_immunosuppression)+
       (dementia | other_neuro_conditions)+
       (LD_incl_DS_and_CP)+
       (psychosis_schiz_bipolar),
