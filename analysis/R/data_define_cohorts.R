@@ -155,14 +155,15 @@ formula_comorbs <- . ~ . +
   haematological_cancer +
   cancer_excl_lung_and_haem +
 
-  chemo_or_radio +
+  #chemo_or_radio +
   #solid_organ_transplantation +
   #bone_marrow_transplant +
   #sickle_cell_disease +
-  permanant_immunosuppression +
+  #permanant_immunosuppression +
   #temporary_immunosuppression +
-  asplenia +
-  dmards +
+  #asplenia +
+  #dmards +
+  any_immunosuppresion +
 
   dementia +
   other_neuro_conditions +
@@ -183,10 +184,10 @@ formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 
 formula_timedependent <- . ~ . +
   #timesince_probable_covid_pw +
-  timesince_postest_pw +
-  timesince_suspected_covid_pw +
-  timesince_hospinfectious_discharge_pw +
-  timesince_hospnoninfectious_discharge_pw
+  timesince_postesttdc_pw +
+  timesince_suspected_ovid_pw +
+  timesince_hospinfectiousdischarge_pw +
+  timesince_hospnoninfectiousdischarge_pw
 
 
 formula_all_rhsvars <- update(1 ~ 1, formula_exposure) %>%

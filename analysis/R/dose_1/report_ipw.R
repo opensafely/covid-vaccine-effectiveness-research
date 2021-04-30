@@ -120,31 +120,32 @@ gt_model_summary <- function(model, cluster) {
     haematological_cancer ~ "Haematological cancer",
     cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
 
-    chemo_or_radio ~ "Chemo- or radio-therapy",
+    #chemo_or_radio ~ "Chemo- or radio-therapy",
     #solid_organ_transplantation ~ "Solid organ transplant",
     #bone_marrow_transplant ~ "Bone marrow transplant",
     #sickle_cell_disease ~ "Sickle Cell Disease",
-    permanant_immunosuppression ~ "Permanent immunosuppression",
+    #permanant_immunosuppression ~ "Permanent immunosuppression",
     #temporary_immunosuppression ~ "Temporary Immunosuppression",
-    asplenia ~ "Asplenia",
-    dmards ~ "DMARDS",
+    #asplenia ~ "Asplenia",
+    #dmards ~ "DMARDS",
+    any_immunosuppresion ~ "Immunosuppressed",
 
     dementia ~ "Dementia",
     other_neuro_conditions ~ "Other neurological conditions",
 
-    LD_incl_DS_and_CP ~ "Learning disability, incl. DS and CP",
-    psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
+    LD_incl_DS_and_CP ~ "Learning disabilities",
+    psychosis_schiz_bipolar ~ "Serious mental illness",
 
     multimorb ~ "Morbidity count",
     shielded ~ "Shielding criteria met",
 
     flu_vaccine ~ "Flu vaccine in previous 5 years",
 
-    timesince_hospinfectious_discharge_pw ~ "Time since discharge from infectious hosp admission",
-    timesince_hospnoninfectious_discharge_pw ~ "Time since discharge from non-infectious hosp admission",
+    timesince_hospinfectiousdischarge_pw ~ "Time since discharge from infectious hosp admission",
+    timesince_hospnoninfectiousdischarge_pw ~ "Time since discharge from non-infectious hosp admission",
     #timesince_probable_covid_pw ~ "Time since probable COVID",
-    timesince_suspected_covid_pw ~ "Time since suspected COVID",
-    timesince_postest_pw ~ "Time since positive SARS-CoV-2 test"
+    timesince_suspectedcovid_pw ~ "Time since suspected COVID",
+    timesince_postesttdc_pw ~ "Time since positive SARS-CoV-2 test"
   )
 
   ## if outcome is positive test, remove positive test label assumes it is the last one)

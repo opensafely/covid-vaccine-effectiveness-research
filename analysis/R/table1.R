@@ -181,20 +181,22 @@ map(
       haematological_cancer ~ "Haematological cancer",
       cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
 
-      chemo_or_radio ~ "Chemo- or radio-therapy",
+      #chemo_or_radio ~ "Chemo- or radio-therapy",
       #solid_organ_transplantation ~ "Solid organ transplant",
       #bone_marrow_transplant ~ "Bone marrow transplant",
       #sickle_cell_disease ~ "Sickle Cell Disease",
-      permanant_immunosuppression ~ "Permanent immunosuppression",
+      #permanant_immunosuppression ~ "Permanent immunosuppression",
       #temporary_immunosuppression ~ "Temporary Immunosuppression",
-      asplenia ~ "Asplenia",
-      dmards ~ "DMARDS",
+      #asplenia ~ "Asplenia",
+      #dmards ~ "DMARDS",
+
+      any_immunosuppresion ~ "Immunosuppressed",
 
       dementia ~ "Dementia",
       other_neuro_conditions ~ "Other neurological conditions",
 
-      LD_incl_DS_and_CP ~ "Learning disability incl. DS and CP",
-      psychosis_schiz_bipolar ~ "Psychosis, Schizophrenia, Bipolar",
+      LD_incl_DS_and_CP ~ "Learning disabilities",
+      psychosis_schiz_bipolar ~ "Serious mental illness",
 
       multimorb ~ "Morbidity count",
 
