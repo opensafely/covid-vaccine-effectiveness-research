@@ -163,7 +163,7 @@ formula_comorbs <- . ~ . +
   #temporary_immunosuppression +
   #asplenia +
   #dmards +
-  any_immunosuppresion +
+  any_immunosuppression +
 
   dementia +
   other_neuro_conditions +
