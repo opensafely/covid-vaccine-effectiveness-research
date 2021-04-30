@@ -36,14 +36,14 @@ data_criteria <- data_all %>%
       has_age & has_sex & has_imd & has_ethnicity & has_region &
       has_follow_up_previous_year &
       !unknown_vaccine_brand &
-      care_home_combined &
-      endoflife &
+      !care_home_combined &
+      !endoflife &
       nopriorcovid
     ),
 
-    is_over80s = age>=80 & (!is.na(age)),
-    is_in70s = (age>=70 & age<80) & (!is.na(age)),
-    is_under65s = (age<=64) & (!is.na(age)),
+    is_over80s = age>=80 & has_age,
+    is_in70s = (age>=70 & age<80) & has_age,
+    is_under65s = (age<=64) & has_age,
   )
 
 data_cohorts <- data_criteria %>%
