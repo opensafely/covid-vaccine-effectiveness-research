@@ -34,19 +34,21 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
-cohort <- args[[1]]
-outcome <- args[[2]]
-brand <- args[[3]]
-strata_var <- args[[4]]
-removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
-  brand <- "az"
+  brand <- "any"
   strata_var <- "all"
+} else {
+  cohort <- args[[1]]
+  outcome <- args[[2]]
+  brand <- args[[3]]
+  strata_var <- args[[4]]
+  removeobs <- TRUE
+
 }
 
 
@@ -80,7 +82,7 @@ list2env(list_formula, globalenv())
 
 ## if outcome is positive test, remove time-varying positive test info from covariate set
 if(outcome=="postest"){
-  formula_remove_postest <- as.formula(". ~ . - timesince_postest_pw")
+  formula_remove_postest <- as.formula(". ~ . - timesince_postesttdc_pw")
 } else{
   formula_remove_postest <- as.formula(". ~ .")
 }

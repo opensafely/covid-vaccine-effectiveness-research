@@ -185,7 +185,7 @@ formula_secular_region <- . ~ . + ns(tstop, df=4)*region
 formula_timedependent <- . ~ . +
   #timesince_probable_covid_pw +
   timesince_postesttdc_pw +
-  timesince_suspected_ovid_pw +
+  timesince_suspectedcovid_pw +
   timesince_hospinfectiousdischarge_pw +
   timesince_hospnoninfectiousdischarge_pw
 
@@ -218,7 +218,7 @@ write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rd
 
 list_strata <- data_all %>%
   mutate(
-    all=factor("all")
+    all=factor("")
   ) %>%
   select(
     all, sex
