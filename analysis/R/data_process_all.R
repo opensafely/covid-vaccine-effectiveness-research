@@ -127,17 +127,16 @@ data_extract0 <- read_csv(
     covid_vax_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_3_date = col_date(format="%Y-%m-%d"),
-    covid_vax_4_date = col_date(format="%Y-%m-%d"),
 
     covid_vax_pfizer_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_pfizer_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_pfizer_3_date = col_date(format="%Y-%m-%d"),
-    covid_vax_pfizer_4_date = col_date(format="%Y-%m-%d"),
 
     covid_vax_az_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_3_date = col_date(format="%Y-%m-%d"),
-    covid_vax_az_4_date = col_date(format="%Y-%m-%d"),
+
+    unknown_vaccine_brand = col_logical(),
 
     covid_test_1_date = col_date(format="%Y-%m-%d"),
     covid_test_2_date = col_date(format="%Y-%m-%d"),
@@ -363,15 +362,7 @@ data_processed <- data_extract_reordered %>%
     noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(NA_character_))
 
   ) %>%
-  droplevels() %>%
-  filter(
-    !is.na(age),
-    !is.na(sex),
-    !is.na(imd),
-    !is.na(ethnicity),
-    !is.na(region)
-  )
-
+  droplevels()
 
 ## create one-row-per-event datasets ----
 # for vaccination, positive test, hospitalisation/discharge, covid in primary care, death

@@ -18,16 +18,44 @@ dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
-data_cohorts <- data_all %>%
+data_criteria <- data_all %>%
   transmute(
     patient_id,
-    over80s = (age>=80) & (!care_home_combined) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)) & !endoflife,
-    in70s = (age>=70 & age<80) & (!care_home_combined) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)) & !endoflife,
-    under65s = (age<=64) & (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)) & !endoflife,
+    has_age = !is.na(age),
+    has_sex = !is.na(sex),
+    has_imd = !is.na(imd),
+    has_ethnicity = !is.na(ethnicity),
+    has_region = !is.na(region),
+    has_follow_up_previous_year,
+    unknown_vaccine_brand,
+    care_home_combined,
+    endoflife,
+    nopriorcovid = (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
+
+    include = (
+      has_age & has_sex & has_imd & has_ethnicity & has_region &
+      has_follow_up_previous_year &
+      !unknown_vaccine_brand &
+      care_home_combined &
+      endoflife &
+      nopriorcovid
+    ),
+
+    is_over80s = age>=80 & (!is.na(age)),
+    is_in70s = (age>=70 & age<80) & (!is.na(age)),
+    is_under65s = (age<=64) & (!is.na(age)),
+  )
+
+data_cohorts <- data_criteria %>%
+  transmute(
+    patient_id,
+    over80s = include & is_over80s,
+    in70s = include & is_in70s,
+    under65s = include & is_under65s,
   )
 
 
-## define different cohorts ----
+# define different cohorts ----
 
 metadata_cohorts <- tribble(
   ~cohort, ~cohort_descr, #~postvax_cuts, ~knots,
@@ -52,7 +80,43 @@ write_csv(metadata_cohorts, here::here("output", "data", "metadata_cohorts.csv")
 
 
 
-## define different outcomes ----
+## create flowchart data ----
+
+for(cohort in metadata_cohorts$cohort){
+
+
+  data_flowchart <- data_criteria[data_criteria[[paste0("is_",cohort)]], ] %>%
+    transmute(
+      c0_all = TRUE,
+      c1_1yearfup = c0_all & (has_follow_up_previous_year),
+      c2_notmissing = c1_1yearfup & (has_age & has_sex & has_imd & has_ethnicity & has_region),
+      c3_knownbrand = c2_notmissing & (!unknown_vaccine_brand),
+      c4_noncarehome = c3_knownbrand & (!care_home_combined),
+      c5_nonendoflife = c4_noncarehome & (!endoflife),
+      c6_nopriorcovid = c5_nonendoflife & (nopriorcovid),
+    ) %>%
+    summarise(
+      across(.fns=sum)
+    ) %>%
+    pivot_longer(
+      cols=everything(),
+      names_to="criteria",
+      values_to="n"
+    ) %>%
+    mutate(
+      n_exclude = lag(n) - n,
+      pct_exclude = n_exclude/lag(n),
+      pct_all = n / first(n),
+      pct_step = n / lag(n),
+    )
+
+  dir.create(here::here("output", cohort), showWarnings = FALSE, recursive=TRUE)
+  write_csv(data_flowchart, here::here("output", cohort, glue::glue("flowchart_{cohort}.csv")))
+
+}
+
+
+# define different outcomes ----
 
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_var, ~outcome_descr,
@@ -68,7 +132,7 @@ metadata_outcomes <- tribble(
 
 write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds"))
 
-## define outcomes, exposures, and covariates ----
+# define exposures and covariates ----
 
 formula_exposure <- . ~ . + timesincevax_pw
 #formula_demog <- . ~ . + age + I(age * age) + sex + imd + ethnicity
