@@ -101,7 +101,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     vaxany1_status == .[[glue("vax{brand}1_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
   ) %>%
   mutate(
-    all = factor("all",levels=c("all")),
+    all = factor("",levels=c("")),
     timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
     outcome = .[[outcome]],
   ) %>%
@@ -441,49 +441,49 @@ for(stratum in strata){
 
   ### model 0 - unadjusted vaccination effect model ----
   ## no adjustment variables
-  cat("  \n")
-  cat("msmmod0 \n")
-  msmmod0_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
+  # cat("  \n")
+  # cat("msmmod0 \n")
+  # msmmod0_par <- parglm(
+  #   formula = formula_1 %>% update(formula_exposure) %>% update(formula_remove_strata_var),
+  #   data = data_weights,
+  #   family = binomial,
+  #   control = parglmparams,
+  #   na.action = "na.fail",
+  #   model = FALSE
+  # )
+  #
+  #
+  # print(jtools::summ(msmmod0_par, digits =3))
+  # cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
+  # cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
+  # write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
+  # if(removeobs) rm(msmmod0_par)
 
+  # ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
+  # cat("  \n")
+  # cat("msmmod1 \n")
+  # msmmod1_par <- parglm(
+  #   formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_remove_strata_var),
+  #   data = data_weights,
+  #   family = binomial,
+  #   control = parglmparams,
+  #   na.action = "na.fail",
+  #   model = FALSE
+  # )
+  #
+  # print(jtools::summ(msmmod1_par, digits =3))
+  #
+  # cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
+  # cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
+  # write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
+  # if(removeobs) rm(msmmod1_par)
+  #
 
-  print(jtools::summ(msmmod0_par, digits =3))
-  cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
-  cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
-  if(removeobs) rm(msmmod0_par)
-
-  ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
-  cat("  \n")
-  cat("msmmod1 \n")
-  msmmod1_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_remove_strata_var),
-    data = data_weights,
-    family = binomial,
-    control = parglmparams,
-    na.action = "na.fail",
-    model = FALSE
-  )
-
-  print(jtools::summ(msmmod1_par, digits =3))
-
-  cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
-  cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
-  if(removeobs) rm(msmmod1_par)
-
-
-  ### model 2 - minimally adjusted vaccination effect model, baseline demographics only ----
+  ### model 2 - adjusted vaccination effect model and region/time only ----
   cat("  \n")
   cat("msmmod2 \n")
   msmmod2_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>%  update(formula_demog) %>% update(formula_comorbs) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     control = parglmparams,
