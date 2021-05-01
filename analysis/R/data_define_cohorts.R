@@ -218,7 +218,7 @@ write_rds(list_formula, here::here("output", "data", glue::glue("list_formula.rd
 
 list_strata <- data_all %>%
   mutate(
-    all=factor("")
+    all=factor("all")
   ) %>%
   select(
     all, sex

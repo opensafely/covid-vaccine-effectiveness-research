@@ -32,10 +32,13 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
+  sample_size <- 10000
   cohort <- "over80s"
+
 } else{
-  cohort <- args[[1]]
   removeobs <- TRUE
+  sample_size <- 2000000
+  cohort <- args[[1]]
 }
 
 ## create output directories ----
@@ -56,7 +59,7 @@ data_cohorts <- data_cohorts[data_cohorts[[cohort]],] %>%
   # a) consistent between cohort extracts
   # b) unique
   # c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
-  filter( rank(patient_id) <= 200000 )
+  filter( rank(patient_id) <= sample_size )
 
 metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 

@@ -95,8 +95,8 @@ for(stratum in strata){
 
   # import models ----
 
-  msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
-  msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
+  #msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
+  #msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
   msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model2.rds")))
   msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
   msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
@@ -104,15 +104,15 @@ for(stratum in strata){
 
   ## report models ----
 
-  robust0 <- tidy_plr(msmmod0, cluster=data_weights$patient_id)
-  robust1 <- tidy_plr(msmmod1, cluster=data_weights$patient_id)
+  #robust0 <- tidy_plr(msmmod0, cluster=data_weights$patient_id)
+  #robust1 <- tidy_plr(msmmod1, cluster=data_weights$patient_id)
   robust2 <- tidy_plr(msmmod2, cluster=data_weights$patient_id)
   robust3 <- tidy_plr(msmmod3, cluster=data_weights$patient_id)
   robust4 <- tidy_plr(msmmod4, cluster=data_weights$patient_id)
 
   robust_summary <- bind_rows(
-    robust0 %>% mutate(model="0 Unadjusted", strata=stratum),
-    robust1 %>% mutate(model="1 Demographics", strata=stratum),
+    #robust0 %>% mutate(model="0 Unadjusted", strata=stratum),
+    #robust1 %>% mutate(model="1 Demographics", strata=stratum),
     robust2 %>% mutate(model="2 Demographics + clinical", strata=stratum),
     robust3 %>% mutate(model="3 Demographics + clinical + date", strata=stratum),
     robust4 %>% mutate(model="4 Fully adjusted", strata=stratum),
@@ -187,6 +187,15 @@ ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest
 #
 ## secular trends ----
 
+ggsecular2 <- interactions::interact_plot(
+  msmmod2,
+  pred=tstop, modx=region, data=data_weights,
+  colors="Set1", vary.lty=FALSE,
+  x.label=glue::glue("Days since {gbl_vars$start_date}"),
+  y.label=glue::glue("{outcome_descr} prob.")
+)
+
+ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot2.svg"), ggsecular2, width=20, height=15, units="cm")
 
 
 ggsecular3 <- interactions::interact_plot(

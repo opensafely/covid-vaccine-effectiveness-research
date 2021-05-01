@@ -126,7 +126,7 @@ msmmod_forest_data <- estimates %>%
   )
 
 msmmod_forest <-
-  ggplot(data = msmmod_forest_data, aes(colour=model)) +
+  ggplot(data = msmmod_forest_data %>% mutate(strata = if_else(strata=="all", "", strata)), aes(colour=model)) +
   #geom_segment(aes(y=or, yend=or, x=term_left, xend=term_right))+
   #geom_ribbon(aes(ymin=or.ll, ymax=or.ul, x=term_left), fill=)+
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1))+

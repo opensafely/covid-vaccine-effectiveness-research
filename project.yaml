@@ -1,7 +1,7 @@
 version: '3.0'
 
 expectations:
-  population_size: 1000000
+  population_size: 500000
 
 actions:
 
@@ -150,6 +150,7 @@ actions:
         plots: output/over80s/postest/any/all/*/plot*.svg
         tables: output/over80s/postest/any/all/*/tab*.html
         data: output/over80s/postest/any/all/*/tab*.csv
+        gt: output/over80s/postest/any/all/*/gt*.rds
 
   report_over80s_postest_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest any all
@@ -242,6 +243,7 @@ actions:
         plots: output/over80s/postest/pfizer/all/*/plot*.svg
         tables: output/over80s/postest/pfizer/all/*/tab*.html
         data: output/over80s/postest/pfizer/all/*/tab*.csv
+        gt: output/over80s/postest/pfizer/all/*/gt*.rds
 
   report_over80s_postest_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest pfizer all
@@ -271,6 +273,7 @@ actions:
         plots: output/over80s/postest/az/all/*/plot*.svg
         tables: output/over80s/postest/az/all/*/tab*.html
         data: output/over80s/postest/az/all/*/tab*.csv
+        gt: output/over80s/postest/az/all/*/gt*.rds
 
   report_over80s_postest_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest az all
@@ -308,6 +311,7 @@ actions:
         plots: output/over80s/emergency/any/all/*/plot*.svg
         tables: output/over80s/emergency/any/all/*/tab*.html
         data: output/over80s/emergency/any/all/*/tab*.csv
+        gt: output/over80s/emergency/any/all/*/gt*.rds
 
   report_over80s_emergency_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s emergency any all
@@ -361,6 +365,7 @@ actions:
         plots: output/over80s/covidadmitted/any/all/*/plot*.svg
         tables: output/over80s/covidadmitted/any/all/*/tab*.html
         data: output/over80s/covidadmitted/any/all/*/tab*.csv
+        gt: output/over80s/covidadmitted/any/all/*/gt*.rds
 
   report_over80s_covidadmitted_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted any all
@@ -408,6 +413,7 @@ actions:
         plots: output/over80s/covidadmitted/pfizer/all/*/plot*.svg
         tables: output/over80s/covidadmitted/pfizer/all/*/tab*.html
         data: output/over80s/covidadmitted/pfizer/all/*/tab*.csv
+        gt: output/over80s/covidadmitted/pfizer/all/*/gt*.rds
 
   report_over80s_covidadmitted_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted pfizer all
@@ -437,6 +443,7 @@ actions:
         plots: output/over80s/covidadmitted/az/all/*/plot*.svg
         tables: output/over80s/covidadmitted/az/all/*/tab*.html
         data: output/over80s/covidadmitted/az/all/*/tab*.csv
+        gt: output/over80s/covidadmitted/az/all/*/gt*.rds
 
   report_over80s_covidadmitted_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted az all
@@ -475,6 +482,7 @@ actions:
         plots: output/over80s/noncoviddeath/any/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/any/all/*/tab*.html
         data: output/over80s/noncoviddeath/any/all/*/tab*.csv
+        gt: output/over80s/noncoviddeath/any/all/*/gt*.rds
 
   report_over80s_noncoviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath any all
@@ -522,6 +530,7 @@ actions:
         plots: output/over80s/noncoviddeath/pfizer/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/pfizer/all/*/tab*.html
         data: output/over80s/noncoviddeath/pfizer/all/*/tab*.csv
+        gt: output/over80s/noncoviddeath/pfizer/all/*/gt*.rds
 
   report_over80s_noncoviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath pfizer all
@@ -551,6 +560,7 @@ actions:
         plots: output/over80s/noncoviddeath/az/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/az/all/*/tab*.html
         data: output/over80s/noncoviddeath/az/all/*/tab*.csv
+        gt: output/over80s/noncoviddeath/az/all/*/gt*.rds
 
   report_over80s_noncoviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath az all
@@ -586,6 +596,7 @@ actions:
         plots: output/over80s/coviddeath/any/all/*/plot*.svg
         tables: output/over80s/coviddeath/any/all/*/tab*.html
         data: output/over80s/coviddeath/any/all/*/tab*.csv
+        gt: output/over80s/coviddeath/any/all/*/gt*.rds
 
   report_over80s_coviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath any all
@@ -632,6 +643,7 @@ actions:
         plots: output/over80s/coviddeath/pfizer/all/*/plot*.svg
         tables: output/over80s/coviddeath/pfizer/all/*/tab*.html
         data: output/over80s/coviddeath/pfizer/all/*/tab*.csv
+        gt: output/over80s/coviddeath/pfizer/all/*/gt*.rds
 
   report_over80s_coviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath pfizer all
@@ -661,6 +673,7 @@ actions:
         plots: output/over80s/coviddeath/az/all/*/plot*.svg
         tables: output/over80s/coviddeath/az/all/*/tab*.html
         data: output/over80s/coviddeath/az/all/*/tab*.csv
+        gt: output/over80s/coviddeath/az/all/*/gt*.rds
 
   report_over80s_coviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath az all
@@ -685,6 +698,7 @@ actions:
       highly_sensitive:
         models: output/over80s/death/any/all/*/model*.rds
         data: output/over80s/death/any/all/*/data*.rds
+      moderately_sensitive:
         weights: output/over80s/death/any/all/*/weights*
 
   report_ipw_over80s_death_any_all:
@@ -695,6 +709,7 @@ actions:
         plots: output/over80s/death/any/all/*/plot*.svg
         tables: output/over80s/death/any/all/*/tab*.html
         data: output/over80s/death/any/all/*/tab*.csv
+        gt: output/over80s/death/any/all/*/gt*.rds
 
   report_over80s_death_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death any all
@@ -741,6 +756,7 @@ actions:
         plots: output/over80s/death/pfizer/all/*/plot*.svg
         tables: output/over80s/death/pfizer/all/*/tab*.html
         data: output/over80s/death/pfizer/all/*/tab*.csv
+        gt: output/over80s/death/pfizer/all/*/gt*.rds
 
   report_over80s_death_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death pfizer all
@@ -770,6 +786,7 @@ actions:
         plots: output/over80s/death/az/all/*/plot*.svg
         tables: output/over80s/death/az/all/*/tab*.html
         data: output/over80s/death/az/all/*/tab*.csv
+        gt: output/over80s/death/az/all/*/gt*.rds
 
   report_over80s_death_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death az all
