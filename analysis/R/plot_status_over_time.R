@@ -480,7 +480,7 @@ vars_df %>%
 
 
 ## end-date status ----
-tab_end_status2 <- data_pt %>%
+tab_end_status <- data_pt %>%
   filter(lastfup == 1) %>%
   summarise(
     n = n(),

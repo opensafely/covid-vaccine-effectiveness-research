@@ -129,14 +129,15 @@ tab_summary <- data_tab %>% transmute(
   haematological_cancer,
   cancer_excl_lung_and_haem,
 
-  chemo_or_radio,
+  #chemo_or_radio,
   #solid_organ_transplantation,
   #bone_marrow_transplant,
   #sickle_cell_disease,
-  permanant_immunosuppression,
+  #permanant_immunosuppression,
   #temporary_immunosuppression,
-  asplenia,
-  dmards,
+  #asplenia,
+  #dmards,
+  any_immunosuppression,
 
   dementia,
   other_neuro_conditions,
@@ -190,7 +191,7 @@ map(
       #asplenia ~ "Asplenia",
       #dmards ~ "DMARDS",
 
-      any_immunosuppresion ~ "Immunosuppressed",
+      any_immunosuppression ~ "Immunosuppressed",
 
       dementia ~ "Dementia",
       other_neuro_conditions ~ "Other neurological conditions",

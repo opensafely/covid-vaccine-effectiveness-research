@@ -32,10 +32,7 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
-cohort <- args[[1]]
-brand <- args[[2]]
-strata_var <- args[[3]]
-removeobs <- TRUE
+
 
 if(length(args)==0){
   # use for interactive testing
@@ -43,6 +40,11 @@ if(length(args)==0){
   cohort <- "over80s"
   brand <- "any"
   strata_var <- "all"
+} else{
+  removeobs <- TRUE
+  cohort <- args[[1]]
+  brand <- args[[2]]
+  strata_var <- args[[3]]
 }
 
 
@@ -99,7 +101,7 @@ if(brand=="any"){
     mutate(
       outcome = fct_inorder(outcome),
       outcome_descr = fct_inorder(outcome_descr),
-      gt = map(outcome, ~read_csv(here::here("output", cohort, .x, brand, strata_var, "all", glue::glue("gt_vaxany1.rds"))))
+      gt = map(outcome, ~read_rds(here::here("output", cohort, .x, brand, strata_var, "all", glue::glue("gt_vaxany1.rds"))))
     )
 
   gt_vax <- tbl_merge(gts$gt)
@@ -119,7 +121,7 @@ if(brand!="any"){
     mutate(
       outcome = fct_inorder(outcome),
       outcome_descr = fct_inorder(outcome_descr),
-      gt = map(outcome, ~read_csv(here::here("output", cohort, .x, brand, strata_var, "all", glue::glue("gt_vax{brand}1.rds"))))
+      gt = map(outcome, ~read_rds(here::here("output", cohort, .x, brand, strata_var, "all", glue::glue("gt_vax{brand}1.rds"))))
     )
 
   gt_vax <- tbl_merge(gts$gt)
