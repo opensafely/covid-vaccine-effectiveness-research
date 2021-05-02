@@ -56,6 +56,7 @@ actions:
         metadata: output/data/metadata*
         formula: output/data/list_formula.rds
         strata: output/data/list_strata.rds
+        flow: output/data/flowchart*.csv
 
 
 

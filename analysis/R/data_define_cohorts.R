@@ -110,8 +110,7 @@ for(cohort in metadata_cohorts$cohort){
       pct_step = n / lag(n),
     )
 
-  dir.create(here::here("output", cohort), showWarnings = FALSE, recursive=TRUE)
-  write_csv(data_flowchart, here::here("output", cohort, glue::glue("flowchart_{cohort}.csv")))
+  write_csv(data_flowchart, here::here("output", "data", glue::glue("flowchart_{cohort}.csv")))
 
 }
 
