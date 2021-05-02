@@ -44,13 +44,7 @@ study = StudyDefinition(
         AND
         (age >= 18 AND age < 110)
         AND
-        (sex = "M" OR sex = "F")
-        AND
         NOT has_died
-        AND
-        NOT unknown_vaccine_brand
-        AND
-        has_follow_up_previous_year
         """,
         registered=patients.registered_as_of(
             "index_date",
