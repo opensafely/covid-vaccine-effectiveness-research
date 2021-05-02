@@ -37,7 +37,7 @@ if(length(args)==0){
 
 } else{
   removeobs <- TRUE
-  sample_size <- 1500000
+  sample_size <- 200000
   cohort <- args[[1]]
 }
 
