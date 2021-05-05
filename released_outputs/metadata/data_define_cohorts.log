@@ -1,35 +1,38 @@
-2021-04-28T05:53:32.206078500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-28T05:53:32.215010900Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-28T05:53:32.215032100Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-28T05:53:32.215041100Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-28T05:53:32.215048100Z v readr   1.3.1     v forcats 0.5.0
-2021-04-28T05:53:32.386597200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-28T05:53:32.386669300Z x dplyr::filter() masks stats::filter()
-2021-04-28T05:53:32.386677700Z x dplyr::lag()    masks stats::lag()
-2021-04-28T05:54:45.141572900Z # A tibble: 3 x 2
-2021-04-28T05:54:45.141640500Z   cohort   cohort_size
-2021-04-28T05:54:45.141649600Z   <chr>          <int>
-2021-04-28T05:54:45.141658200Z 1 over80s       873016
-2021-04-28T05:54:45.141666000Z 2 in70s        1729583
-2021-04-28T05:54:45.141673300Z 3 under65s    11396249
+2021-05-03T03:25:54.135001600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-03T03:25:54.150785900Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-03T03:25:54.150880000Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-03T03:25:54.150890100Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-03T03:25:54.150897200Z v readr   1.3.1     v forcats 0.5.0
+2021-05-03T03:25:54.316475600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-03T03:25:54.316513200Z x dplyr::filter() masks stats::filter()
+2021-05-03T03:25:54.316522100Z x dplyr::lag()    masks stats::lag()
+2021-05-03T03:27:10.946480800Z # A tibble: 3 x 2
+2021-05-03T03:27:10.946554700Z   cohort   cohort_size
+2021-05-03T03:27:10.946564100Z   <chr>          <int>
+2021-05-03T03:27:10.946572300Z 1 over80s       872964
+2021-05-03T03:27:10.946579700Z 2 in70s        1729557
+2021-05-03T03:27:10.946586900Z 3 under65s    11373490
 
 
 state: succeeded
-commit: d63ac7b7e4fc85ba424510244fdccdf533016b04
+commit: 51a4ede907245327eb9788e4c65335feff83e426
 docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: vs4362q7gq4zc3g2
+job_id: xwlq4hnj43d2iufd
 run_by_user: wjchulme
-created_at: 2021-04-27T20:50:46Z
-started_at: 2021-04-28T05:53:29Z
-completed_at: 2021-04-28T05:54:54Z
+created_at: 2021-05-02T19:22:00Z
+started_at: 2021-05-03T03:25:51Z
+completed_at: 2021-05-03T03:27:29Z
 
 Completed successfully
 
 outputs:
-  output/data/data_cohorts.rds       - highly_sensitive    
-  output/data/list_formula.rds       - moderately_sensitive
-  output/data/list_strata.rds        - moderately_sensitive
-  output/data/metadata_cohorts.csv   - moderately_sensitive
-  output/data/metadata_cohorts.rds   - moderately_sensitive
-  output/data/metadata_outcomes.rds  - moderately_sensitive
+  output/data/data_cohorts.rds        - highly_sensitive    
+  output/data/flowchart_in70s.csv     - moderately_sensitive
+  output/data/flowchart_over80s.csv   - moderately_sensitive
+  output/data/flowchart_under65s.csv  - moderately_sensitive
+  output/data/list_formula.rds        - moderately_sensitive
+  output/data/list_strata.rds         - moderately_sensitive
+  output/data/metadata_cohorts.csv    - moderately_sensitive
+  output/data/metadata_cohorts.rds    - moderately_sensitive
+  output/data/metadata_outcomes.rds   - moderately_sensitive

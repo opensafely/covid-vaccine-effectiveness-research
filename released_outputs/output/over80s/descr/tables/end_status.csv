@@ -1,2 +1,2 @@
-n,alive_unvax,vaxany,vaxpfizer,vaxaz,dead_unvax,dereg_unvax,pt_days,pt_years,pt_days_vax,pt_years_vax,fup_min,fup_q1,fup_median,fup_q3,max_fup
-200000,12890,187110,141038,46200,0,0,15246173,41741.746748802194,7912250,21662.55989048597,1,77,77,77,77
+n,alive_unvax,vaxany,vaxpfizer,vaxaz,vaxpfizer_pct,vaxaz_pct,dead_unvax,dereg_unvax,pt_days,pt_years,pt_days_vax,pt_years_vax,pt_pct_vax,fup_min,fup_q1,fup_median,fup_q3,max_fup
+200000,12890,187110,141039,46199,0.7537758537758538,0.24690823579712468,2750,661,15246218,41741.86995208761,7912284,21662.65297741273,0.5189669988976938,1,77,77,77,77

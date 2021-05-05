@@ -1,45 +1,47 @@
-2021-04-28T13:06:43.224390700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-28T13:06:43.233624600Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-28T13:06:43.233686000Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-28T13:06:43.233694600Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-28T13:06:43.233701600Z v readr   1.3.1     v forcats 0.5.0
-2021-04-28T13:06:43.412469100Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-28T13:06:43.412518800Z x dplyr::filter() masks stats::filter()
-2021-04-28T13:06:43.412527000Z x dplyr::lag()    masks stats::lag()
-2021-04-28T13:06:43.428479800Z 
-2021-04-28T13:06:43.428555500Z Attaching package: 'lubridate'
-2021-04-28T13:06:43.428564500Z 
-2021-04-28T13:06:43.429965000Z The following objects are masked from 'package:base':
-2021-04-28T13:06:43.430001100Z 
-2021-04-28T13:06:43.430009300Z     date, intersect, setdiff, union
-2021-04-28T13:06:43.430016700Z 
-2021-04-28T13:06:45.634630600Z Loading required package: zoo
-2021-04-28T13:06:45.647595400Z 
-2021-04-28T13:06:45.647647800Z Attaching package: 'zoo'
-2021-04-28T13:06:45.647656400Z 
-2021-04-28T13:06:45.648160000Z The following objects are masked from 'package:base':
-2021-04-28T13:06:45.648185900Z 
-2021-04-28T13:06:45.648194500Z     as.Date, as.Date.numeric
-2021-04-28T13:06:45.648201900Z 
-2021-04-28T13:06:46.051602900Z <environment: R_GlobalEnv>
-2021-04-28T13:06:46.051900900Z <environment: R_GlobalEnv>
-2021-04-28T13:06:46.052312600Z <environment: R_GlobalEnv>
+2021-05-03T09:11:51.241600900Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-03T09:11:51.251661000Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-03T09:11:51.251742300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-03T09:11:51.251750800Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-03T09:11:51.251757700Z v readr   1.3.1     v forcats 0.5.0
+2021-05-03T09:11:51.446672300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-03T09:11:51.446761900Z x dplyr::filter() masks stats::filter()
+2021-05-03T09:11:51.446770500Z x dplyr::lag()    masks stats::lag()
+2021-05-03T09:11:51.464909800Z 
+2021-05-03T09:11:51.464989200Z Attaching package: 'lubridate'
+2021-05-03T09:11:51.464996600Z 
+2021-05-03T09:11:51.466394800Z The following objects are masked from 'package:base':
+2021-05-03T09:11:51.466423800Z 
+2021-05-03T09:11:51.466432700Z     date, intersect, setdiff, union
+2021-05-03T09:11:51.466439900Z 
+2021-05-03T09:11:54.486494000Z #BlackLivesMatter
+2021-05-03T09:11:54.633517000Z Loading required package: zoo
+2021-05-03T09:11:54.665338300Z 
+2021-05-03T09:11:54.665425300Z Attaching package: 'zoo'
+2021-05-03T09:11:54.665434400Z 
+2021-05-03T09:11:54.666238200Z The following objects are masked from 'package:base':
+2021-05-03T09:11:54.666255800Z 
+2021-05-03T09:11:54.666263100Z     as.Date, as.Date.numeric
+2021-05-03T09:11:54.666270100Z 
+2021-05-03T09:11:55.503202500Z <environment: R_GlobalEnv>
+2021-05-03T09:11:55.503834000Z <environment: R_GlobalEnv>
+2021-05-03T09:11:55.504480500Z <environment: R_GlobalEnv>
 
 
 state: succeeded
-commit: d63ac7b7e4fc85ba424510244fdccdf533016b04
+commit: 51a4ede907245327eb9788e4c65335feff83e426
 docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: zjwxz7oz6j23dziq
+job_id: wu4pw7l5mxukjlst
 run_by_user: wjchulme
-created_at: 2021-04-27T20:50:46Z
-started_at: 2021-04-28T13:06:40Z
-completed_at: 2021-04-28T14:27:51Z
+created_at: 2021-05-02T19:22:00Z
+started_at: 2021-05-03T09:11:48Z
+completed_at: 2021-05-03T10:28:32Z
 
 Completed successfully
 
 outputs:
   output/over80s/postest/any/all/estimates.csv                 - moderately_sensitive
   output/over80s/postest/any/all/forest_plot.svg               - moderately_sensitive
+  output/over80s/postest/any/all/time_trends_region_plot2.svg  - moderately_sensitive
   output/over80s/postest/any/all/time_trends_region_plot3.svg  - moderately_sensitive
   output/over80s/postest/any/all/time_trends_region_plot4.svg  - moderately_sensitive
