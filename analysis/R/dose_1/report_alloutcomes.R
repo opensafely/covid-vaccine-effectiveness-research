@@ -32,17 +32,19 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
-cohort <- args[[1]]
-brand <- args[[2]]
-strata_var <- args[[3]]
-removeobs <- TRUE
+
 
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  brand <- "any"
+  brand <- "az"
   strata_var <- "all"
+} else{
+  removeobs <- TRUE
+  cohort <- args[[1]]
+  brand <- args[[2]]
+  strata_var <- args[[3]]
 }
 
 
@@ -91,8 +93,8 @@ estimates <-
   filter(outcome %in% c(
     "postest",
     "covidadmitted",
-    "coviddeath",
-    "noncoviddeath",
+    #"coviddeath",
+    #"noncoviddeath",
     "death"
   )) %>%
   mutate(

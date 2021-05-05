@@ -193,20 +193,25 @@ forest_from_gt <- function(gt_obj, title){
     group_by(variable) %>%
     mutate(
       variable_card = if_else(row_number()!=1, 0, variable_card),
-      label=fct_rev(fct_inorder(label)),
+      level = fct_rev(fct_inorder(paste(variable, label, sep="__"))),
+      level_label = label
     ) %>%
     ungroup() %>%
     droplevels()
 
-  lookup <- plot_data$var_label
-  names(lookup) <- plot_data$variable
+  var_lookup <- plot_data$var_label
+  names(var_lookup) <- plot_data$variable
+
+  level_lookup <- plot_data$level
+  names(level_lookup) <- plot_data$level_label
 
   ggplot(plot_data) +
-    geom_point(aes(x=or, y=label)) +
-    geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=label)) +
+    geom_point(aes(x=or, y=level)) +
+    geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=level)) +
     geom_vline(aes(xintercept=1), colour='black', alpha=0.8)+
-    facet_grid(rows=vars(variable), scales="free_y", switch="y", space="free_y", labeller = labeller(variable = lookup))+
+    facet_grid(rows=vars(variable), scales="free_y", switch="y", space="free_y", labeller = labeller(variable = var_lookup))+
     scale_x_log10(breaks=c(0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8), labels=c("1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4", "8"))+
+    scale_y_discrete(breaks=level_lookup, labels=names(level_lookup))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
     scale_alpha_continuous(range=c(0,0.3), guide=FALSE)+
     labs(
