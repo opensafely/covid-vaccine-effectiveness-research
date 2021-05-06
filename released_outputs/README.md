@@ -193,6 +193,7 @@
   * [metadata/vaxreport_over80s_all_dose1.log](metadata/vaxreport_over80s_all_dose1.log)
 * output
   * output/data
+    * [output/data/flowchart_over80s.csv](output/data/flowchart_over80s.csv)
     * [output/data/list_formula.rds](output/data/list_formula.rds)
     * [output/data/list_strata.rds](output/data/list_strata.rds)
     * [output/data/metadata_cohorts.csv](output/data/metadata_cohorts.csv)
@@ -486,6 +487,7 @@
           * [output/over80s/covidadmitted/any/all/estimates_cox_region.csv](output/over80s/covidadmitted/any/all/estimates_cox_region.csv)
           * [output/over80s/covidadmitted/any/all/forest_plot.svg](output/over80s/covidadmitted/any/all/forest_plot.svg)
           * [output/over80s/covidadmitted/any/all/forest_plot_cox_region.svg](output/over80s/covidadmitted/any/all/forest_plot_cox_region.svg)
+          * [output/over80s/covidadmitted/any/all/time_trends_region_plot2.svg](output/over80s/covidadmitted/any/all/time_trends_region_plot2.svg)
           * [output/over80s/covidadmitted/any/all/time_trends_region_plot3.svg](output/over80s/covidadmitted/any/all/time_trends_region_plot3.svg)
           * [output/over80s/covidadmitted/any/all/time_trends_region_plot4.svg](output/over80s/covidadmitted/any/all/time_trends_region_plot4.svg)
       * output/over80s/covidadmitted/az
@@ -505,6 +507,7 @@
             * [output/over80s/covidadmitted/az/all/all/weights_table.txt](output/over80s/covidadmitted/az/all/all/weights_table.txt)
           * [output/over80s/covidadmitted/az/all/estimates.csv](output/over80s/covidadmitted/az/all/estimates.csv)
           * [output/over80s/covidadmitted/az/all/forest_plot.svg](output/over80s/covidadmitted/az/all/forest_plot.svg)
+          * [output/over80s/covidadmitted/az/all/time_trends_region_plot2.svg](output/over80s/covidadmitted/az/all/time_trends_region_plot2.svg)
           * [output/over80s/covidadmitted/az/all/time_trends_region_plot3.svg](output/over80s/covidadmitted/az/all/time_trends_region_plot3.svg)
           * [output/over80s/covidadmitted/az/all/time_trends_region_plot4.svg](output/over80s/covidadmitted/az/all/time_trends_region_plot4.svg)
       * output/over80s/covidadmitted/pfizer
@@ -524,6 +527,7 @@
             * [output/over80s/covidadmitted/pfizer/all/all/weights_table.txt](output/over80s/covidadmitted/pfizer/all/all/weights_table.txt)
           * [output/over80s/covidadmitted/pfizer/all/estimates.csv](output/over80s/covidadmitted/pfizer/all/estimates.csv)
           * [output/over80s/covidadmitted/pfizer/all/forest_plot.svg](output/over80s/covidadmitted/pfizer/all/forest_plot.svg)
+          * [output/over80s/covidadmitted/pfizer/all/time_trends_region_plot2.svg](output/over80s/covidadmitted/pfizer/all/time_trends_region_plot2.svg)
           * [output/over80s/covidadmitted/pfizer/all/time_trends_region_plot3.svg](output/over80s/covidadmitted/pfizer/all/time_trends_region_plot3.svg)
           * [output/over80s/covidadmitted/pfizer/all/time_trends_region_plot4.svg](output/over80s/covidadmitted/pfizer/all/time_trends_region_plot4.svg)
     * output/over80s/coviddeath
@@ -555,6 +559,7 @@
           * [output/over80s/coviddeath/any/all/strata_vector.rds](output/over80s/coviddeath/any/all/strata_vector.rds)
           * [output/over80s/coviddeath/any/all/strata_vector_cox.rds](output/over80s/coviddeath/any/all/strata_vector_cox.rds)
           * [output/over80s/coviddeath/any/all/time_trends_region_plot.svg](output/over80s/coviddeath/any/all/time_trends_region_plot.svg)
+          * [output/over80s/coviddeath/any/all/time_trends_region_plot2.svg](output/over80s/coviddeath/any/all/time_trends_region_plot2.svg)
           * [output/over80s/coviddeath/any/all/time_trends_region_plot3.svg](output/over80s/coviddeath/any/all/time_trends_region_plot3.svg)
           * [output/over80s/coviddeath/any/all/time_trends_region_plot4.svg](output/over80s/coviddeath/any/all/time_trends_region_plot4.svg)
       * output/over80s/coviddeath/az
@@ -578,6 +583,7 @@
           * [output/over80s/coviddeath/az/all/forest_plot.svg](output/over80s/coviddeath/az/all/forest_plot.svg)
           * [output/over80s/coviddeath/az/all/strata_vector.rds](output/over80s/coviddeath/az/all/strata_vector.rds)
           * [output/over80s/coviddeath/az/all/time_trends_region_plot.svg](output/over80s/coviddeath/az/all/time_trends_region_plot.svg)
+          * [output/over80s/coviddeath/az/all/time_trends_region_plot2.svg](output/over80s/coviddeath/az/all/time_trends_region_plot2.svg)
           * [output/over80s/coviddeath/az/all/time_trends_region_plot3.svg](output/over80s/coviddeath/az/all/time_trends_region_plot3.svg)
           * [output/over80s/coviddeath/az/all/time_trends_region_plot4.svg](output/over80s/coviddeath/az/all/time_trends_region_plot4.svg)
       * output/over80s/coviddeath/pfizer
@@ -601,6 +607,7 @@
           * [output/over80s/coviddeath/pfizer/all/forest_plot.svg](output/over80s/coviddeath/pfizer/all/forest_plot.svg)
           * [output/over80s/coviddeath/pfizer/all/strata_vector.rds](output/over80s/coviddeath/pfizer/all/strata_vector.rds)
           * [output/over80s/coviddeath/pfizer/all/time_trends_region_plot.svg](output/over80s/coviddeath/pfizer/all/time_trends_region_plot.svg)
+          * [output/over80s/coviddeath/pfizer/all/time_trends_region_plot2.svg](output/over80s/coviddeath/pfizer/all/time_trends_region_plot2.svg)
           * [output/over80s/coviddeath/pfizer/all/time_trends_region_plot3.svg](output/over80s/coviddeath/pfizer/all/time_trends_region_plot3.svg)
           * [output/over80s/coviddeath/pfizer/all/time_trends_region_plot4.svg](output/over80s/coviddeath/pfizer/all/time_trends_region_plot4.svg)
     * output/over80s/data_properties
@@ -632,8 +639,43 @@
           * [output/over80s/death/any/all/strata_vector.rds](output/over80s/death/any/all/strata_vector.rds)
           * [output/over80s/death/any/all/strata_vector_cox.rds](output/over80s/death/any/all/strata_vector_cox.rds)
           * [output/over80s/death/any/all/time_trends_region_plot.svg](output/over80s/death/any/all/time_trends_region_plot.svg)
+          * [output/over80s/death/any/all/time_trends_region_plot2.svg](output/over80s/death/any/all/time_trends_region_plot2.svg)
           * [output/over80s/death/any/all/time_trends_region_plot3.svg](output/over80s/death/any/all/time_trends_region_plot3.svg)
           * [output/over80s/death/any/all/time_trends_region_plot4.svg](output/over80s/death/any/all/time_trends_region_plot4.svg)
+      * output/over80s/death/az
+        * output/over80s/death/az/all
+          * output/over80s/death/az/all/all
+            * [output/over80s/death/az/all/all/plot_vaxaz1.svg](output/over80s/death/az/all/all/plot_vaxaz1.svg)
+            * [output/over80s/death/az/all/all/plot_vaxfizer1.svg](output/over80s/death/az/all/all/plot_vaxfizer1.svg)
+            * [output/over80s/death/az/all/all/tab_pfizer_az.html](output/over80s/death/az/all/all/tab_pfizer_az.html)
+            * [output/over80s/death/az/all/all/tab_vaxaz1.csv](output/over80s/death/az/all/all/tab_vaxaz1.csv)
+            * [output/over80s/death/az/all/all/tab_vaxaz1.html](output/over80s/death/az/all/all/tab_vaxaz1.html)
+            * [output/over80s/death/az/all/all/tab_vaxfizer1.html](output/over80s/death/az/all/all/tab_vaxfizer1.html)
+            * [output/over80s/death/az/all/all/tab_vaxpfizer1.csv](output/over80s/death/az/all/all/tab_vaxpfizer1.csv)
+            * [output/over80s/death/az/all/all/weights_histogram.svg](output/over80s/death/az/all/all/weights_histogram.svg)
+            * [output/over80s/death/az/all/all/weights_table.txt](output/over80s/death/az/all/all/weights_table.txt)
+          * [output/over80s/death/az/all/estimates.csv](output/over80s/death/az/all/estimates.csv)
+          * [output/over80s/death/az/all/forest_plot.svg](output/over80s/death/az/all/forest_plot.svg)
+          * [output/over80s/death/az/all/time_trends_region_plot2.svg](output/over80s/death/az/all/time_trends_region_plot2.svg)
+          * [output/over80s/death/az/all/time_trends_region_plot3.svg](output/over80s/death/az/all/time_trends_region_plot3.svg)
+          * [output/over80s/death/az/all/time_trends_region_plot4.svg](output/over80s/death/az/all/time_trends_region_plot4.svg)
+      * output/over80s/death/pfizer
+        * output/over80s/death/pfizer/all
+          * output/over80s/death/pfizer/all/all
+            * [output/over80s/death/pfizer/all/all/plot_vaxaz1.svg](output/over80s/death/pfizer/all/all/plot_vaxaz1.svg)
+            * [output/over80s/death/pfizer/all/all/plot_vaxfizer1.svg](output/over80s/death/pfizer/all/all/plot_vaxfizer1.svg)
+            * [output/over80s/death/pfizer/all/all/tab_pfizer_az.html](output/over80s/death/pfizer/all/all/tab_pfizer_az.html)
+            * [output/over80s/death/pfizer/all/all/tab_vaxaz1.csv](output/over80s/death/pfizer/all/all/tab_vaxaz1.csv)
+            * [output/over80s/death/pfizer/all/all/tab_vaxaz1.html](output/over80s/death/pfizer/all/all/tab_vaxaz1.html)
+            * [output/over80s/death/pfizer/all/all/tab_vaxfizer1.html](output/over80s/death/pfizer/all/all/tab_vaxfizer1.html)
+            * [output/over80s/death/pfizer/all/all/tab_vaxpfizer1.csv](output/over80s/death/pfizer/all/all/tab_vaxpfizer1.csv)
+            * [output/over80s/death/pfizer/all/all/weights_histogram.svg](output/over80s/death/pfizer/all/all/weights_histogram.svg)
+            * [output/over80s/death/pfizer/all/all/weights_table.txt](output/over80s/death/pfizer/all/all/weights_table.txt)
+          * [output/over80s/death/pfizer/all/estimates.csv](output/over80s/death/pfizer/all/estimates.csv)
+          * [output/over80s/death/pfizer/all/forest_plot.svg](output/over80s/death/pfizer/all/forest_plot.svg)
+          * [output/over80s/death/pfizer/all/time_trends_region_plot2.svg](output/over80s/death/pfizer/all/time_trends_region_plot2.svg)
+          * [output/over80s/death/pfizer/all/time_trends_region_plot3.svg](output/over80s/death/pfizer/all/time_trends_region_plot3.svg)
+          * [output/over80s/death/pfizer/all/time_trends_region_plot4.svg](output/over80s/death/pfizer/all/time_trends_region_plot4.svg)
     * output/over80s/descr
       * output/over80s/descr/plots
         * [output/over80s/descr/plots/brandcounts_ageband.svg](output/over80s/descr/plots/brandcounts_ageband.svg)
@@ -724,6 +766,7 @@
           * [output/over80s/noncoviddeath/any/all/strata_vector.rds](output/over80s/noncoviddeath/any/all/strata_vector.rds)
           * [output/over80s/noncoviddeath/any/all/strata_vector_cox.rds](output/over80s/noncoviddeath/any/all/strata_vector_cox.rds)
           * [output/over80s/noncoviddeath/any/all/time_trends_region_plot.svg](output/over80s/noncoviddeath/any/all/time_trends_region_plot.svg)
+          * [output/over80s/noncoviddeath/any/all/time_trends_region_plot2.svg](output/over80s/noncoviddeath/any/all/time_trends_region_plot2.svg)
           * [output/over80s/noncoviddeath/any/all/time_trends_region_plot3.svg](output/over80s/noncoviddeath/any/all/time_trends_region_plot3.svg)
           * [output/over80s/noncoviddeath/any/all/time_trends_region_plot4.svg](output/over80s/noncoviddeath/any/all/time_trends_region_plot4.svg)
       * output/over80s/noncoviddeath/az
@@ -754,6 +797,7 @@
           * [output/over80s/noncoviddeath/az/all/forest_plot.svg](output/over80s/noncoviddeath/az/all/forest_plot.svg)
           * [output/over80s/noncoviddeath/az/all/strata_vector.rds](output/over80s/noncoviddeath/az/all/strata_vector.rds)
           * [output/over80s/noncoviddeath/az/all/time_trends_region_plot.svg](output/over80s/noncoviddeath/az/all/time_trends_region_plot.svg)
+          * [output/over80s/noncoviddeath/az/all/time_trends_region_plot2.svg](output/over80s/noncoviddeath/az/all/time_trends_region_plot2.svg)
           * [output/over80s/noncoviddeath/az/all/time_trends_region_plot3.svg](output/over80s/noncoviddeath/az/all/time_trends_region_plot3.svg)
           * [output/over80s/noncoviddeath/az/all/time_trends_region_plot4.svg](output/over80s/noncoviddeath/az/all/time_trends_region_plot4.svg)
       * output/over80s/noncoviddeath/pfizer
@@ -784,6 +828,7 @@
           * [output/over80s/noncoviddeath/pfizer/all/forest_plot.svg](output/over80s/noncoviddeath/pfizer/all/forest_plot.svg)
           * [output/over80s/noncoviddeath/pfizer/all/strata_vector.rds](output/over80s/noncoviddeath/pfizer/all/strata_vector.rds)
           * [output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot.svg](output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot.svg)
+          * [output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot2.svg](output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot2.svg)
           * [output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot3.svg](output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot3.svg)
           * [output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot4.svg](output/over80s/noncoviddeath/pfizer/all/time_trends_region_plot4.svg)
     * output/over80s/postest
@@ -822,6 +867,7 @@
           * [output/over80s/postest/any/all/strata_vector.rds](output/over80s/postest/any/all/strata_vector.rds)
           * [output/over80s/postest/any/all/strata_vector_cox.rds](output/over80s/postest/any/all/strata_vector_cox.rds)
           * [output/over80s/postest/any/all/time_trends_region_plot.svg](output/over80s/postest/any/all/time_trends_region_plot.svg)
+          * [output/over80s/postest/any/all/time_trends_region_plot2.svg](output/over80s/postest/any/all/time_trends_region_plot2.svg)
           * [output/over80s/postest/any/all/time_trends_region_plot3.svg](output/over80s/postest/any/all/time_trends_region_plot3.svg)
           * [output/over80s/postest/any/all/time_trends_region_plot4.svg](output/over80s/postest/any/all/time_trends_region_plot4.svg)
       * output/over80s/postest/az
@@ -855,6 +901,7 @@
           * [output/over80s/postest/az/all/forest_plot.svg](output/over80s/postest/az/all/forest_plot.svg)
           * [output/over80s/postest/az/all/strata_vector.rds](output/over80s/postest/az/all/strata_vector.rds)
           * [output/over80s/postest/az/all/time_trends_region_plot.svg](output/over80s/postest/az/all/time_trends_region_plot.svg)
+          * [output/over80s/postest/az/all/time_trends_region_plot2.svg](output/over80s/postest/az/all/time_trends_region_plot2.svg)
           * [output/over80s/postest/az/all/time_trends_region_plot3.svg](output/over80s/postest/az/all/time_trends_region_plot3.svg)
           * [output/over80s/postest/az/all/time_trends_region_plot4.svg](output/over80s/postest/az/all/time_trends_region_plot4.svg)
       * output/over80s/postest/compare
@@ -892,6 +939,7 @@
           * [output/over80s/postest/pfizer/all/forest_plot.svg](output/over80s/postest/pfizer/all/forest_plot.svg)
           * [output/over80s/postest/pfizer/all/strata_vector.rds](output/over80s/postest/pfizer/all/strata_vector.rds)
           * [output/over80s/postest/pfizer/all/time_trends_region_plot.svg](output/over80s/postest/pfizer/all/time_trends_region_plot.svg)
+          * [output/over80s/postest/pfizer/all/time_trends_region_plot2.svg](output/over80s/postest/pfizer/all/time_trends_region_plot2.svg)
           * [output/over80s/postest/pfizer/all/time_trends_region_plot3.svg](output/over80s/postest/pfizer/all/time_trends_region_plot3.svg)
           * [output/over80s/postest/pfizer/all/time_trends_region_plot4.svg](output/over80s/postest/pfizer/all/time_trends_region_plot4.svg)
     * output/over80s/vaccination
