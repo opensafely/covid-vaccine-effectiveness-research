@@ -38,7 +38,7 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  brand <- "az"
+  brand <- "any"
   strata_var <- "all"
 } else{
   removeobs <- TRUE
@@ -122,8 +122,8 @@ msmmod_forest_data <- estimates %>%
     term_midpoint = term_left + (term_right-term_left)/2,
     model = fct_case_when(
       str_sub(model, 1, 1) == 2 ~ "Region-stratified",
-      str_sub(model, 1, 1) == 3 ~ " + baseline adjustment",
-      str_sub(model, 1, 1) == 4 ~ " + time-varying adjustment"
+      str_sub(model, 1, 1) == 3 ~ "Baseline adjusted",
+      str_sub(model, 1, 1) == 4 ~ "Fully adjusted"
     )
   )
 
@@ -185,7 +185,7 @@ msmmod_forest_data %>%
     values_from = c(HR, `95% CI`, `P value`),
     names_glue = "{model}_{.value}"
     ) %>%
-  select(Outcome=outcome_descr, `Time since first dose`=term, contains("adjustment"), contains("stratified")) %>%
+  select(Outcome=outcome_descr, `Time since first dose`=term, starts_with("Region"), starts_with("Baseline adjusted"), starts_with("Fully adjusted")) %>%
   gt(
     groupname_col = "Outcome"
   ) %>%
