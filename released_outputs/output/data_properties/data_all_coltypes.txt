@@ -52,11 +52,8 @@ $care_home_code
 $household_id
 [1] "integer"
 
-$nontpp_household
+$unknown_vaccine_brand
 [1] "logical"
-
-$tpp_coverage
-[1] "numeric"
 
 $prior_positive_test_date
 [1] "Date"
@@ -217,9 +214,6 @@ $covid_vax_2_date
 $covid_vax_3_date
 [1] "Date"
 
-$covid_vax_4_date
-[1] "Date"
-
 $covid_vax_az_1_date
 [1] "Date"
 
@@ -229,9 +223,6 @@ $covid_vax_az_2_date
 $covid_vax_az_3_date
 [1] "Date"
 
-$covid_vax_az_4_date
-[1] "Date"
-
 $covid_vax_pfizer_1_date
 [1] "Date"
 
@@ -239,9 +230,6 @@ $covid_vax_pfizer_2_date
 [1] "Date"
 
 $covid_vax_pfizer_3_date
-[1] "Date"
-
-$covid_vax_pfizer_4_date
 [1] "Date"
 
 $covidadmitted_1_date
@@ -350,6 +338,9 @@ $ageband
 [1] "factor"
 
 $care_home_combined
+[1] "logical"
+
+$any_immunosuppression
 [1] "logical"
 
 $multimorb

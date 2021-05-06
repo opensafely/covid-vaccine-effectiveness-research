@@ -64,28 +64,7 @@ $haematological_cancer
 $cancer_excl_lung_and_haem
 [1] "logical"
 
-$chemo_or_radio
-[1] "logical"
-
-$solid_organ_transplantation
-[1] "logical"
-
-$bone_marrow_transplant
-[1] "logical"
-
-$sickle_cell_disease
-[1] "logical"
-
-$permanant_immunosuppression
-[1] "logical"
-
-$temporary_immunosuppression
-[1] "logical"
-
-$asplenia
-[1] "logical"
-
-$dmards
+$any_immunosuppression
 [1] "logical"
 
 $dementia

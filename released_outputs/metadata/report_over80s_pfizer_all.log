@@ -1,100 +1,84 @@
-2021-04-18T04:43:19.930302300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-18T04:43:19.939216400Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-18T04:43:19.939240800Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-18T04:43:19.939249400Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-18T04:43:19.939256900Z v readr   1.3.1     v forcats 0.5.0
-2021-04-18T04:43:20.107618700Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-18T04:43:20.107686600Z x dplyr::filter() masks stats::filter()
-2021-04-18T04:43:20.107695200Z x dplyr::lag()    masks stats::lag()
-2021-04-18T04:43:20.122174400Z 
-2021-04-18T04:43:20.122198500Z Attaching package: 'lubridate'
-2021-04-18T04:43:20.122207400Z 
-2021-04-18T04:43:20.123558700Z The following objects are masked from 'package:base':
-2021-04-18T04:43:20.123574400Z 
-2021-04-18T04:43:20.123582000Z     date, intersect, setdiff, union
-2021-04-18T04:43:20.123589200Z 
-2021-04-18T04:43:22.155210900Z #BlackLivesMatter
-2021-04-18T04:43:22.213174700Z Loading required package: zoo
-2021-04-18T04:43:22.223951100Z 
-2021-04-18T04:43:22.225116100Z Attaching package: 'zoo'
-2021-04-18T04:43:22.225131000Z 
-2021-04-18T04:43:22.225144600Z The following objects are masked from 'package:base':
-2021-04-18T04:43:22.225152300Z 
-2021-04-18T04:43:22.225159300Z     as.Date, as.Date.numeric
-2021-04-18T04:43:22.225166300Z 
-2021-04-18T04:43:22.621968400Z <environment: R_GlobalEnv>
-2021-04-18T04:43:22.622273100Z <environment: R_GlobalEnv>
-2021-04-18T04:43:22.680074600Z Parsed with column specification:
-2021-04-18T04:43:22.680144700Z cols(
-2021-04-18T04:43:22.680152700Z   term = col_character(),
-2021-04-18T04:43:22.680160100Z   estimate = col_double(),
-2021-04-18T04:43:22.680166900Z   std.error = col_double(),
-2021-04-18T04:43:22.680173700Z   statistic = col_double(),
-2021-04-18T04:43:22.680180500Z   p.value = col_double(),
-2021-04-18T04:43:22.680187400Z   conf.low = col_double(),
-2021-04-18T04:43:22.680194100Z   conf.high = col_double(),
-2021-04-18T04:43:22.680200800Z   or = col_double(),
-2021-04-18T04:43:22.680207500Z   or.ll = col_double(),
-2021-04-18T04:43:22.680214100Z   or.ul = col_double(),
-2021-04-18T04:43:22.680220800Z   model = col_character(),
-2021-04-18T04:43:22.680227600Z   strata = col_character()
-2021-04-18T04:43:22.680234400Z )
-2021-04-18T04:43:22.844882000Z Parsed with column specification:
-2021-04-18T04:43:22.844955900Z cols(
-2021-04-18T04:43:22.844964700Z   term = col_character(),
-2021-04-18T04:43:22.845008800Z   estimate = col_double(),
-2021-04-18T04:43:22.845017000Z   std.error = col_double(),
-2021-04-18T04:43:22.845023700Z   statistic = col_double(),
-2021-04-18T04:43:22.845030600Z   p.value = col_double(),
-2021-04-18T04:43:22.845037300Z   conf.low = col_double(),
-2021-04-18T04:43:22.845044100Z   conf.high = col_double(),
-2021-04-18T04:43:22.845050700Z   or = col_double(),
-2021-04-18T04:43:22.845057500Z   or.ll = col_double(),
-2021-04-18T04:43:22.845064100Z   or.ul = col_double(),
-2021-04-18T04:43:22.845071000Z   model = col_character(),
-2021-04-18T04:43:22.845077700Z   strata = col_character()
-2021-04-18T04:43:22.845084700Z )
-2021-04-18T04:43:22.854304700Z Parsed with column specification:
-2021-04-18T04:43:22.854370100Z cols(
-2021-04-18T04:43:22.854378400Z   term = col_character(),
-2021-04-18T04:43:22.854385600Z   estimate = col_double(),
-2021-04-18T04:43:22.854392400Z   std.error = col_double(),
-2021-04-18T04:43:22.854399400Z   statistic = col_double(),
-2021-04-18T04:43:22.854406200Z   p.value = col_double(),
-2021-04-18T04:43:22.854413100Z   conf.low = col_double(),
-2021-04-18T04:43:22.854419900Z   conf.high = col_double(),
-2021-04-18T04:43:22.854426900Z   or = col_double(),
-2021-04-18T04:43:22.854433900Z   or.ll = col_double(),
-2021-04-18T04:43:22.854440700Z   or.ul = col_double(),
-2021-04-18T04:43:22.854447500Z   model = col_character(),
-2021-04-18T04:43:22.854454300Z   strata = col_character()
-2021-04-18T04:43:22.854461100Z )
-2021-04-18T04:43:22.863166400Z Parsed with column specification:
-2021-04-18T04:43:22.863222600Z cols(
-2021-04-18T04:43:22.863230300Z   term = col_character(),
-2021-04-18T04:43:22.863237200Z   estimate = col_double(),
-2021-04-18T04:43:22.863243900Z   std.error = col_double(),
-2021-04-18T04:43:22.863250700Z   statistic = col_double(),
-2021-04-18T04:43:22.863257400Z   p.value = col_double(),
-2021-04-18T04:43:22.863264100Z   conf.low = col_double(),
-2021-04-18T04:43:22.863270900Z   conf.high = col_double(),
-2021-04-18T04:43:22.863277800Z   or = col_double(),
-2021-04-18T04:43:22.863284400Z   or.ll = col_double(),
-2021-04-18T04:43:22.863291500Z   or.ul = col_double(),
-2021-04-18T04:43:22.863298200Z   model = col_character(),
-2021-04-18T04:43:22.863305300Z   strata = col_character()
-2021-04-18T04:43:22.863312000Z )
+2021-05-05T14:25:16.024742800Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-05T14:25:16.033607300Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-05T14:25:16.033626300Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-05T14:25:16.033634600Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-05T14:25:16.033641500Z v readr   1.3.1     v forcats 0.5.0
+2021-05-05T14:25:16.198656200Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-05T14:25:16.198680400Z x dplyr::filter() masks stats::filter()
+2021-05-05T14:25:16.198689200Z x dplyr::lag()    masks stats::lag()
+2021-05-05T14:25:16.213700100Z 
+2021-05-05T14:25:16.213754700Z Attaching package: 'lubridate'
+2021-05-05T14:25:16.213763700Z 
+2021-05-05T14:25:16.214970000Z The following objects are masked from 'package:base':
+2021-05-05T14:25:16.214996000Z 
+2021-05-05T14:25:16.215005500Z     date, intersect, setdiff, union
+2021-05-05T14:25:16.215012600Z 
+2021-05-05T14:25:18.312786900Z Loading required package: zoo
+2021-05-05T14:25:18.324078400Z 
+2021-05-05T14:25:18.324099300Z Attaching package: 'zoo'
+2021-05-05T14:25:18.324108000Z 
+2021-05-05T14:25:18.324721100Z The following objects are masked from 'package:base':
+2021-05-05T14:25:18.324742600Z 
+2021-05-05T14:25:18.324752100Z     as.Date, as.Date.numeric
+2021-05-05T14:25:18.324759300Z 
+2021-05-05T14:25:18.714777600Z <environment: R_GlobalEnv>
+2021-05-05T14:25:18.715112900Z <environment: R_GlobalEnv>
+2021-05-05T14:25:18.783779800Z Parsed with column specification:
+2021-05-05T14:25:18.783816300Z cols(
+2021-05-05T14:25:18.783825200Z   term = col_character(),
+2021-05-05T14:25:18.783832300Z   estimate = col_double(),
+2021-05-05T14:25:18.783839000Z   std.error = col_double(),
+2021-05-05T14:25:18.783846000Z   statistic = col_double(),
+2021-05-05T14:25:18.783852700Z   p.value = col_double(),
+2021-05-05T14:25:18.783859700Z   conf.low = col_double(),
+2021-05-05T14:25:18.783866600Z   conf.high = col_double(),
+2021-05-05T14:25:18.783873400Z   or = col_double(),
+2021-05-05T14:25:18.783880500Z   or.ll = col_double(),
+2021-05-05T14:25:18.783887000Z   or.ul = col_double(),
+2021-05-05T14:25:18.783893900Z   model = col_character(),
+2021-05-05T14:25:18.783900500Z   strata = col_character()
+2021-05-05T14:25:18.783907200Z )
+2021-05-05T14:25:18.945852800Z Parsed with column specification:
+2021-05-05T14:25:18.945907100Z cols(
+2021-05-05T14:25:18.945915700Z   term = col_character(),
+2021-05-05T14:25:18.945922800Z   estimate = col_double(),
+2021-05-05T14:25:18.945942500Z   std.error = col_double(),
+2021-05-05T14:25:18.945950700Z   statistic = col_double(),
+2021-05-05T14:25:18.945957800Z   p.value = col_double(),
+2021-05-05T14:25:18.945964500Z   conf.low = col_double(),
+2021-05-05T14:25:18.945971300Z   conf.high = col_double(),
+2021-05-05T14:25:18.945977900Z   or = col_double(),
+2021-05-05T14:25:18.945985000Z   or.ll = col_double(),
+2021-05-05T14:25:18.945991700Z   or.ul = col_double(),
+2021-05-05T14:25:18.945998500Z   model = col_character(),
+2021-05-05T14:25:18.946005500Z   strata = col_character()
+2021-05-05T14:25:18.946012300Z )
+2021-05-05T14:25:18.955511600Z Parsed with column specification:
+2021-05-05T14:25:18.955559300Z cols(
+2021-05-05T14:25:18.955567900Z   term = col_character(),
+2021-05-05T14:25:18.955575100Z   estimate = col_double(),
+2021-05-05T14:25:18.955582000Z   std.error = col_double(),
+2021-05-05T14:25:18.955589000Z   statistic = col_double(),
+2021-05-05T14:25:18.955595800Z   p.value = col_double(),
+2021-05-05T14:25:18.955602800Z   conf.low = col_double(),
+2021-05-05T14:25:18.955609600Z   conf.high = col_double(),
+2021-05-05T14:25:18.955616700Z   or = col_double(),
+2021-05-05T14:25:18.955623400Z   or.ll = col_double(),
+2021-05-05T14:25:18.955630200Z   or.ul = col_double(),
+2021-05-05T14:25:18.955637100Z   model = col_character(),
+2021-05-05T14:25:18.955644200Z   strata = col_character()
+2021-05-05T14:25:18.955651000Z )
 
 
 state: succeeded
-commit: cc87fd96febd7e5e8733f46ab1117e4d3c1fb820
+commit: add488e731a3ffabf3645325d07224b7c46aa16f
 docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
 exit_code: 0
-job_id: xjtrfpkoiqcos6mw
+job_id: i4y3q4acx4xbhtxg
 run_by_user: wjchulme
-created_at: 2021-04-17T21:43:51Z
-started_at: 2021-04-18T04:43:17Z
-completed_at: 2021-04-18T04:43:28Z
+created_at: 2021-05-05T14:23:39Z
+started_at: 2021-05-05T14:25:13Z
+completed_at: 2021-05-05T14:26:06Z
 
 Completed successfully
 
