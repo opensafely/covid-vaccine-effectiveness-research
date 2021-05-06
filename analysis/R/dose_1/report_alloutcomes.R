@@ -138,7 +138,7 @@ msmmod_forest <-
   scale_y_log10(breaks=2^(-7:2), labels=c("1/128", "1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4"))+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian(ylim=c(2^-7,2)) +
+  coord_cartesian(ylim=c(2^-5,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Time since first dose",
