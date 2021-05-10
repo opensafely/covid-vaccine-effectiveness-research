@@ -164,7 +164,7 @@ get_ipw_weights <- function(
     weights = sample_weights,
     control = parglmparams,
     na.action = "na.fail",
-    model = TRUE # true so that it can be used in report_ipw model table function
+    model = FALSE
   )
 
   cat(glue("{name} data size = ", length(event_model$y)), "\n")
@@ -188,7 +188,7 @@ get_ipw_weights <- function(
   cat(glue("{name}_fxd data size = ", length(event_model_fxd$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
 
-  write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{name}.rds")), compress="gz")
+  #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{name}.rds")), compress="gz")
   write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
   write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
 
