@@ -101,10 +101,12 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     death_status == 0, # follow up ends at (day after) occurrence of death
     dereg_status == 0, # follow up ends at (day after) practce deregistration
     vaxany1_status == .[[glue("vax{brand}1_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
+    .[[glue("sample_{outcome}")]] # select all patients who experienced the outcome, and a proportion of those who don't
   ) %>%
   mutate(
     all = factor("all",levels=c("all")),
     timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
+    sample_weights = .[[glue("sample_weights_{outcome}")]],
     outcome = .[[outcome]],
   ) %>%
   left_join(
@@ -159,6 +161,7 @@ get_ipw_weights <- function(
     formula = ipw_formula,
     data = data_atrisk,
     family = binomial,
+    weights = sample_weights,
     control = parglmparams,
     na.action = "na.fail",
     model = TRUE # true so that it can be used in report_ipw model table function
@@ -176,6 +179,7 @@ get_ipw_weights <- function(
     formula = ipw_formula_fxd,
     data = data_atrisk,
     family = binomial,
+    weights = sample_weights,
     control = parglmparams,
     na.action = "na.fail",
     model = FALSE
@@ -227,6 +231,7 @@ get_ipw_weights <- function(
       # get predicted probabilities from ipw models
       pred_event=predict(event_model, type="response"),
       pred_event_fxd=predict(event_model_fxd, type="response"),
+      sample_weights
     ) %>%
     arrange(patient_id, tstop) %>%
     group_by(patient_id) %>%
@@ -264,14 +269,12 @@ get_ipw_weights <- function(
   stopifnot("probs (fxd) should all be non-null" = all(!is.na(weights$probevent_realised_fxd)))
 
   weights_out <- weights %>%
-    transmute(
+    select(
       patient_id, tstart, tstop,
       ipweight_stbl
     )
 
-  weight_name <- glue("ipweight_stbl_{name}")
-
-  weights_out[[weight_name]] <- weights_out$ipweight_stbl
+  weights_out[[glue("ipweight_stbl_{name}")]] <- weights_out$ipweight_stbl
   weights_out$ipweight_stbl <- NULL
 
   return(weights_out)
@@ -346,7 +349,12 @@ for(stratum in strata){
   }
   ## if outcome is death, then no accounting for censoring by death is needed
   if(outcome=="death"){
-    weights_death <- data_pt_sub %>% filter(death_atrisk) %>% transmute(patient_id, tstart, tstop, ipweight_stbl_death=1)
+    weights_death <- data_pt_sub %>%
+      filter(death_atrisk) %>%
+      transmute(
+        patient_id, tstart, tstop,
+        ipweight_stbl_death=1,
+      )
   }
 
 
@@ -366,7 +374,8 @@ for(stratum in strata){
       )) %>%
       ungroup() %>%
       mutate(
-        ipweight_stbl = ipweight_stbl_vaxany1 * ipweight_stbl_death
+        ipweight_stbl = ipweight_stbl_vaxany1 * ipweight_stbl_death,
+        ipweight_stbl_sample = ipweight_stbl * sample_weights,
       )
   }
 
@@ -392,7 +401,8 @@ for(stratum in strata){
       mutate(
         ## COMBINE WEIGHTS
         # take product of all weights
-        ipweight_stbl = ipweight_stbl_vaxpfizer1 * ipweight_stbl_vaxaz1 * ipweight_stbl_death
+        ipweight_stbl = ipweight_stbl_vaxpfizer1 * ipweight_stbl_vaxaz1 * ipweight_stbl_death,
+        ipweight_stbl_sample = ipweight_stbl * sample_weights,
       )
 
   }
@@ -413,7 +423,7 @@ for(stratum in strata){
   ## save weights
   weight_histogram <- ggplot(data_weights) +
     geom_histogram(aes(x=ipweight_stbl)) +
-    scale_x_log10(breaks=c(1/8,1/6,1/4,1/3,1/2,1/1.5,1,1.5,2,3,4,6,8), limits=c(1/8, 8))+
+    #scale_x_log10(breaks=c(1/8,1/6,1/4,1/3,1/2,1/1.5,1,1.5,2,3,4,6,8), limits=c(1/8, 8))+
     theme_bw()
 
   ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
@@ -425,7 +435,9 @@ for(stratum in strata){
       "patient_id",
       "tstart", "tstop",
       any_of(all.vars(formula_all_rhsvars)),
+      "sample_weights",
       "ipweight_stbl",
+      "ipweight_stbl_sample",
       "outcome",
     )
   cat("  \n")
@@ -449,6 +461,7 @@ for(stratum in strata){
   #   formula = formula_1 %>% update(formula_exposure) %>% update(formula_remove_strata_var),
   #   data = data_weights,
   #   family = binomial,
+  #   weights = sample_weights,
   #   control = parglmparams,
   #   na.action = "na.fail",
   #   model = FALSE
@@ -468,6 +481,7 @@ for(stratum in strata){
   #   formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_remove_strata_var),
   #   data = data_weights,
   #   family = binomial,
+  #   weights = sample_weights,
   #   control = parglmparams,
   #   na.action = "na.fail",
   #   model = FALSE
@@ -488,6 +502,7 @@ for(stratum in strata){
     formula = formula_1 %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
+    weights = sample_weights,
     control = parglmparams,
     na.action = "na.fail",
     model = FALSE
@@ -509,6 +524,7 @@ for(stratum in strata){
     formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
+    weights = sample_weights,
     control = parglmparams,
     na.action = "na.fail",
     model = FALSE
@@ -528,7 +544,7 @@ for(stratum in strata){
   msmmod4_par <- parglm(
     formula = formula_1 %>% update(formula_exposure)  %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
-    weights = ipweight_stbl,
+    weights = ipweight_stbl_sample,
     family = binomial,
     control = parglmparams,
     na.action = "na.fail",
