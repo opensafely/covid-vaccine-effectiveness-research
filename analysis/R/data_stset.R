@@ -182,6 +182,7 @@ data_tte <- data_all  %>%
     noncoviddeath_date,
     death_date,
 
+    #composite of death, deregisttration and end date
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
     tte_enddate = tte(start_date, end_date, end_date),
@@ -409,7 +410,7 @@ data_tte_cp0 <- tmerge(
   lastfup = event(tte_lastfup),
 
   tstart = 0L,
-  tstop = tte_enddate
+  tstop = tte_enddate # use enddate not lastfup because it's useful for status over time plots
 )
 
 
