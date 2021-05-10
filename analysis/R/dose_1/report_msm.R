@@ -31,19 +31,20 @@ source(here::here("lib", "survival_functions.R"))
 
 args <- commandArgs(trailingOnly=TRUE)
 
-cohort <- args[[1]]
-outcome <- args[[2]]
-brand <- args[[3]]
-strata_var <- args[[4]]
-removeobs <- TRUE
 
 if(length(args)==0){
   # use for interactive testing
-  removeobs <- FALSE
   cohort <- "over80s"
   outcome <- "postest"
   brand <- "any"
   strata_var <- "all"
+  removeobs <- FALSE
+} else {
+  cohort <- args[[1]]
+  outcome <- args[[2]]
+  brand <- args[[3]]
+  strata_var <- args[[4]]
+  removeobs <- TRUE
 }
 
 
@@ -113,8 +114,8 @@ for(stratum in strata){
   robust_summary <- bind_rows(
     #robust0 %>% mutate(model="0 Unadjusted", strata=stratum),
     #robust1 %>% mutate(model="1 Demographics", strata=stratum),
-    robust2 %>% mutate(model="2 Demographics + clinical", strata=stratum),
-    robust3 %>% mutate(model="3 Demographics + clinical + date", strata=stratum),
+    robust2 %>% mutate(model="2 Region-adjusted", strata=stratum),
+    robust3 %>% mutate(model="3 Baseline adjusted", strata=stratum),
     robust4 %>% mutate(model="4 Fully adjusted", strata=stratum),
   )
 
