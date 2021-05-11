@@ -148,6 +148,8 @@ get_ipw_weights <- function(
   ipw_formula_fxd
 ){
 
+  name <- str_remove(event_atrisk, "_atrisk")
+
   data_atrisk <- data %>%
     mutate(
       event = data[[event]],
@@ -194,8 +196,8 @@ get_ipw_weights <- function(
   cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
 
   #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
-  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{event}.rds")), compress="gz")
-  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{event}.rds")), compress="gz")
+  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
+  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
 
   ## output models ----
 
@@ -277,7 +279,7 @@ get_ipw_weights <- function(
       patient_id, tstart, tstop,
       ipweight_stbl
     )
-  name <- str_remove(event_atrisk, "_atrisk")
+
   weights_out[[glue("ipweight_stbl_{name}")]] <- weights_out$ipweight_stbl
   weights_out$ipweight_stbl <- NULL
 
@@ -316,7 +318,7 @@ for(stratum in strata){
 
     # IPW model for pfizer / az vaccination ----
     # these models are shared across brands (one is treatment model, one is censoring model)
-    # separated out from brand-specific loop so no need to repeat
+    # these could be separated out and run only once, but it complicates the remaining workflow so leaving as is
     weights_vaxpfizer1 <- get_ipw_weights(
       data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
