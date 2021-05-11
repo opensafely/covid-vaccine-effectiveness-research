@@ -98,9 +98,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   filter(
     .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
-    death_status == 0, # follow up ends at (day after) occurrence of death
-    dereg_status == 0, # follow up ends at (day after) practice deregistration
-    vaxany1_status == .[[glue("vax{brand}1_status")]], # follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
+    vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
     .[[glue("sample_{outcome}")]] # select all patients who experienced the outcome, and a proportion of those who don't
   ) %>%
   mutate(
@@ -119,10 +117,14 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     )
   ) %>%
   mutate(
-    vaxany1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
-    vaxpfizer1_atrisk = (vaxany1_status==0 & death_status==0 & dereg_status==0 & lastfup_status==0),
-    vaxaz1_atrisk = (vaxany1_status==0 & death_status==0  & dereg_status==0 & lastfup_status==0 & tstart>=27), #tstart==27 is midnight between 3/4 jan 2021, the start of the day when first az vaccine was first administered
-    death_atrisk = (death_status==0 & dereg_status==0 & lastfup_status==0),
+    vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0),
+    vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0),
+    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & tstart>=27), #tstart==27 is midnight between 3/4 jan 2021, the start of the day when first az vaccine was first administered
+    #posttest_atrisk = (postest_status==0 & lastfup_status==0),
+    #covidadmitted_atrisk = (covidadmitted_status==0 & lastfup_status==0),
+    #coviddeath_atrisk = (coviddeath_status==0 & lastfup_status==0),
+    #noncoviddeath_atrisk = (noncoviddeath_status==0 & lastfup_status==0),
+    death_atrisk = (death_status==0 & lastfup_status==0),
   )
 
 
@@ -137,8 +139,11 @@ cat(glue("memory usage = ", format(object.size(data_pt), units="GB", standard="S
 ## if exposure is pfizer vaccine, then create model for vaccination by pfizer + model for az and model for death for censoring weights
 ## if exposure is az vaccine, then create model for vaccination by az + model for pfizer and model death for censoring weights
 get_ipw_weights <- function(
-  data, event, event_status, event_atrisk,
-  name,
+  data,
+  event,
+  event_status,
+  event_atrisk,
+
   ipw_formula,
   ipw_formula_fxd
 ){
@@ -150,12 +155,12 @@ get_ipw_weights <- function(
       event_atrisk = data[[event_atrisk]],
     ) %>%
     filter(
-      event_atrisk==1
+      event_atrisk==1,
     )
 
   ### with time-updating covariates
   cat("  \n")
-  cat(glue("{name}  \n"))
+  cat(glue("{event}  \n"))
 
   event_model <- parglm(
     formula = ipw_formula,
@@ -167,14 +172,14 @@ get_ipw_weights <- function(
     model = FALSE
   )
 
-  cat(glue("{name} data size = ", length(event_model$y)), "\n")
+  cat(glue("{event} data size = ", length(event_model$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model), units="GB", standard="SI", digits=3L)), "\n")
 
 
   ### without time-updating covariates ----
 
   cat("  \n")
-  cat(glue("{name}_fxd  \n"))
+  cat(glue("{event}_fxd  \n"))
   event_model_fxd <- parglm(
     formula = ipw_formula_fxd,
     data = data_atrisk,
@@ -185,24 +190,24 @@ get_ipw_weights <- function(
     model = FALSE
   )
 
-  cat(glue("{name}_fxd data size = ", length(event_model_fxd$y)), "\n")
+  cat(glue("{event}_fxd data size = ", length(event_model_fxd$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
 
-  #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{name}.rds")), compress="gz")
-  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
-  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
+  #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
+  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{event}.rds")), compress="gz")
+  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{event}.rds")), compress="gz")
 
   ## output models ----
 
 
   # tab_summary <- gt_model_summary(event_model, data_atrisk$patient_id)
-  # gtsave(tab_summary %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, glue("tab_{name}.html")))
-  # write_csv(tab_summary$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("tab_{name}.csv")))
+  # gtsave(tab_summary %>% as_gt(), here::here("output", cohort, outcome, brand, strata_var, stratum, glue("tab_{event}.html")))
+  # write_csv(tab_summary$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("tab_{event}.csv")))
   #
   # ##output forest plot
   # plot_summary <- forest_from_gt(tab_summary, title)
   # ggsave(
-  #   here::here("output", cohort, outcome, brand, strata_var, stratum, glue("plot_{name}.svg")),
+  #   here::here("output", cohort, outcome, brand, strata_var, stratum, glue("plot_{event}.svg")),
   #   plot_summary,
   #   units="cm", width=20, height=25
   # )
@@ -214,7 +219,7 @@ get_ipw_weights <- function(
   #   x.label=glue("Days since {as.Date(gbl_vars$start_date)+1}"),
   #   y.label=glue("Death rate (mean-centered)")
   # )
-  # ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, glue("plot_{name}_region_trends.svg")), plot_region_trends, width=20, height=15, units="cm")
+  # ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, glue("plot_{event}_region_trends.svg")), plot_region_trends, width=20, height=15, units="cm")
 
 
 
@@ -225,7 +230,6 @@ get_ipw_weights <- function(
     transmute(
       patient_id,
       tstart, tstop,
-
       event,
       event_status,
       # get predicted probabilities from ipw models
@@ -273,7 +277,7 @@ get_ipw_weights <- function(
       patient_id, tstart, tstop,
       ipweight_stbl
     )
-
+  name <- str_remove(event_atrisk, "_atrisk")
   weights_out[[glue("ipweight_stbl_{name}")]] <- weights_out$ipweight_stbl
   weights_out$ipweight_stbl <- NULL
 
@@ -296,26 +300,30 @@ for(stratum in strata){
   dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum), showWarnings = FALSE, recursive=TRUE)
 
   # subset data
-  data_pt_sub <- data_pt %>% filter(.[[strata_var]] == stratum)
+  data_pt_sub <- data_pt %>%
+    filter(.[[strata_var]] == stratum)
 
   if(brand=="any"){
+
     # IPW model for any vaccination ----
     weights_vaxany1 <- get_ipw_weights(
-      data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk", "vaxany1",
+      data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk",
       ipw_formula =     update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
   }
-
   if(brand!="any"){
+
     # IPW model for pfizer / az vaccination ----
+    # these models are shared across brands (one is treatment model, one is censoring model)
+    # separated out from brand-specific loop so no need to repeat
     weights_vaxpfizer1 <- get_ipw_weights(
-      data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk", "vaxpfizer1",
+      data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
     weights_vaxaz1 <- get_ipw_weights(
-      data_pt_sub, "vaxaz1", "vaxaz1_status", "vaxaz1_atrisk", "vaxaz1",
+      data_pt_sub, "vaxaz1", "vaxaz1_status", "vaxaz1_atrisk",
       ipw_formula =     update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
@@ -326,7 +334,7 @@ for(stratum in strata){
   ## if outcome is not death, then need to account for censoring by any cause death
   if(!(outcome %in% c("death", "coviddeath", "noncoviddeath"))){
     weights_death <- get_ipw_weights(
-      data_pt_sub, "death", "death_status", "death_atrisk", "death",
+      data_pt_sub, "death", "death_status", "death_atrisk",
       ipw_formula =     update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
@@ -334,7 +342,7 @@ for(stratum in strata){
   ## if outcome is covid death, then need to account for censoring by non-covid deaths
   if(outcome=="coviddeath"){
     weights_death <- get_ipw_weights(
-      data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk", "death",
+      data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk",
       ipw_formula =     update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
@@ -342,7 +350,7 @@ for(stratum in strata){
   ## if outcome is noncovid death, then need to account for censoring by covid deaths
   if(outcome=="noncoviddeath"){
     weights_death <- get_ipw_weights(
-      data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk", "death",
+      data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk",
       ipw_formula =     update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
@@ -357,14 +365,12 @@ for(stratum in strata){
       )
   }
 
-
-  if (brand=="any"){
-
+  if(brand=="any"){
     data_weights <- data_pt_sub %>%
       left_join(weights_vaxany1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
       group_by(patient_id) %>%
-      fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1)
+      fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1 and so cumulative product of prob is last value)
         ipweight_stbl_vaxany1,
         ipweight_stbl_death
       ) %>%
@@ -378,16 +384,14 @@ for(stratum in strata){
         ipweight_stbl_sample = ipweight_stbl * sample_weights,
       )
   }
+  if(brand != "any"){
 
-  if (brand!="any"){
-
-
-    data_weights <- data_pt_sub %>%
+    data_weights <- data_pt_sub_sub %>%
       left_join(weights_vaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_vaxaz1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
       group_by(patient_id) %>%
-      fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1)
+      fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1 and so cumulative product of prob is last value)
         ipweight_stbl_vaxpfizer1,
         ipweight_stbl_vaxaz1,
         ipweight_stbl_death
@@ -404,10 +408,11 @@ for(stratum in strata){
         ipweight_stbl = ipweight_stbl_vaxpfizer1 * ipweight_stbl_vaxaz1 * ipweight_stbl_death,
         ipweight_stbl_sample = ipweight_stbl * sample_weights,
       )
-
   }
-  ## report weights ----
 
+
+
+  ## report weights ----
   summarise_weights <-
     data_weights %>%
     select(starts_with("ipweight")) %>%
@@ -445,6 +450,9 @@ for(stratum in strata){
   cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
 
   write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")), compress="gz")
+
+
+
 
   # MSM model ----
 
@@ -563,6 +571,7 @@ for(stratum in strata){
   print(warnings())
   cat("  \n")
   print(gc(reset=TRUE))
+
 }
 
 
