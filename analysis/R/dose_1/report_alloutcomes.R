@@ -93,8 +93,8 @@ estimates <-
   filter(outcome %in% c(
     "postest",
     "covidadmitted",
-    #"coviddeath",
-    #"noncoviddeath",
+    #"coviddeath"
+    "noncoviddeath",
     "death"
   )) %>%
   mutate(
