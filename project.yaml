@@ -147,11 +147,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s postest any all
     needs: [data_define_cohorts, models_over80s_postest_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/postest/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/postest/any/all/*/plot*.svg
         tables: output/over80s/postest/any/all/*/tab*.html
         data: output/over80s/postest/any/all/*/tab*.csv
-        gt: output/over80s/postest/any/all/*/gt*.rds
 
   report_over80s_postest_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest any all
@@ -240,11 +241,13 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s postest pfizer all
     needs: [data_define_cohorts, models_over80s_postest_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/postest/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/postest/pfizer/all/*/plot*.svg
         tables: output/over80s/postest/pfizer/all/*/tab*.html
         data: output/over80s/postest/pfizer/all/*/tab*.csv
-        gt: output/over80s/postest/pfizer/all/*/gt*.rds
+
 
   report_over80s_postest_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest pfizer all
@@ -270,11 +273,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s postest az all
     needs: [data_define_cohorts, models_over80s_postest_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/postest/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/postest/az/all/*/plot*.svg
         tables: output/over80s/postest/az/all/*/tab*.html
         data: output/over80s/postest/az/all/*/tab*.csv
-        gt: output/over80s/postest/az/all/*/gt*.rds
 
   report_over80s_postest_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest az all
@@ -308,11 +312,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s emergency any all
     needs: [data_define_cohorts, models_over80s_emergency_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/emergency/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/emergency/any/all/*/plot*.svg
         tables: output/over80s/emergency/any/all/*/tab*.html
         data: output/over80s/emergency/any/all/*/tab*.csv
-        gt: output/over80s/emergency/any/all/*/gt*.rds
 
   report_over80s_emergency_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s emergency any all
@@ -362,11 +367,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted any all
     needs: [data_define_cohorts, models_over80s_covidadmitted_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/covidadmitted/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/covidadmitted/any/all/*/plot*.svg
         tables: output/over80s/covidadmitted/any/all/*/tab*.html
         data: output/over80s/covidadmitted/any/all/*/tab*.csv
-        gt: output/over80s/covidadmitted/any/all/*/gt*.rds
 
   report_over80s_covidadmitted_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted any all
@@ -410,11 +416,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted pfizer all
     needs: [data_define_cohorts, models_over80s_covidadmitted_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/covidadmitted/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/covidadmitted/pfizer/all/*/plot*.svg
         tables: output/over80s/covidadmitted/pfizer/all/*/tab*.html
         data: output/over80s/covidadmitted/pfizer/all/*/tab*.csv
-        gt: output/over80s/covidadmitted/pfizer/all/*/gt*.rds
 
   report_over80s_covidadmitted_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted pfizer all
@@ -440,11 +447,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted az all
     needs: [data_define_cohorts, models_over80s_covidadmitted_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/covidadmitted/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/covidadmitted/az/all/*/plot*.svg
         tables: output/over80s/covidadmitted/az/all/*/tab*.html
         data: output/over80s/covidadmitted/az/all/*/tab*.csv
-        gt: output/over80s/covidadmitted/az/all/*/gt*.rds
 
   report_over80s_covidadmitted_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted az all
@@ -479,11 +487,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath any all
     needs: [data_define_cohorts, models_over80s_noncoviddeath_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/noncoviddeath/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/noncoviddeath/any/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/any/all/*/tab*.html
         data: output/over80s/noncoviddeath/any/all/*/tab*.csv
-        gt: output/over80s/noncoviddeath/any/all/*/gt*.rds
 
   report_over80s_noncoviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath any all
@@ -527,11 +536,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath pfizer all
     needs: [data_define_cohorts, models_over80s_noncoviddeath_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/noncoviddeath/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/noncoviddeath/pfizer/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/pfizer/all/*/tab*.html
         data: output/over80s/noncoviddeath/pfizer/all/*/tab*.csv
-        gt: output/over80s/noncoviddeath/pfizer/all/*/gt*.rds
 
   report_over80s_noncoviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath pfizer all
@@ -557,11 +567,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath az all
     needs: [data_define_cohorts, models_over80s_noncoviddeath_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/noncoviddeath/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/noncoviddeath/az/all/*/plot*.svg
         tables: output/over80s/noncoviddeath/az/all/*/tab*.html
         data: output/over80s/noncoviddeath/az/all/*/tab*.csv
-        gt: output/over80s/noncoviddeath/az/all/*/gt*.rds
 
   report_over80s_noncoviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath az all
@@ -593,11 +604,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath any all
     needs: [data_define_cohorts, models_over80s_coviddeath_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/coviddeath/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/coviddeath/any/all/*/plot*.svg
         tables: output/over80s/coviddeath/any/all/*/tab*.html
         data: output/over80s/coviddeath/any/all/*/tab*.csv
-        gt: output/over80s/coviddeath/any/all/*/gt*.rds
 
   report_over80s_coviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath any all
@@ -640,11 +652,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath pfizer all
     needs: [data_define_cohorts, models_over80s_coviddeath_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/coviddeath/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/coviddeath/pfizer/all/*/plot*.svg
         tables: output/over80s/coviddeath/pfizer/all/*/tab*.html
         data: output/over80s/coviddeath/pfizer/all/*/tab*.csv
-        gt: output/over80s/coviddeath/pfizer/all/*/gt*.rds
 
   report_over80s_coviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath pfizer all
@@ -670,11 +683,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath az all
     needs: [data_define_cohorts, models_over80s_coviddeath_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/coviddeath/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/coviddeath/az/all/*/plot*.svg
         tables: output/over80s/coviddeath/az/all/*/tab*.html
         data: output/over80s/coviddeath/az/all/*/tab*.csv
-        gt: output/over80s/coviddeath/az/all/*/gt*.rds
 
   report_over80s_coviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath az all
@@ -706,11 +720,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s death any all
     needs: [data_define_cohorts, models_over80s_death_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/death/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/death/any/all/*/plot*.svg
         tables: output/over80s/death/any/all/*/tab*.html
         data: output/over80s/death/any/all/*/tab*.csv
-        gt: output/over80s/death/any/all/*/gt*.rds
 
   report_over80s_death_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death any all
@@ -753,11 +768,13 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s death pfizer all
     needs: [data_define_cohorts, models_over80s_death_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/death/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/death/pfizer/all/*/plot*.svg
         tables: output/over80s/death/pfizer/all/*/tab*.html
         data: output/over80s/death/pfizer/all/*/tab*.csv
-        gt: output/over80s/death/pfizer/all/*/gt*.rds
+
 
   report_over80s_death_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death pfizer all
@@ -783,11 +800,12 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R over80s death az all
     needs: [data_define_cohorts, models_over80s_death_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/over80s/death/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/death/az/all/*/plot*.svg
         tables: output/over80s/death/az/all/*/tab*.html
         data: output/over80s/death/az/all/*/tab*.csv
-        gt: output/over80s/death/az/all/*/gt*.rds
 
   report_over80s_death_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death az all
@@ -1036,6 +1054,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s postest any all
     needs: [data_define_cohorts, models_in70s_postest_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/postest/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/postest/any/all/*/plot*.svg
         tables: output/in70s/postest/any/all/*/tab*.html
@@ -1128,6 +1148,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s postest pfizer all
     needs: [data_define_cohorts, models_in70s_postest_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/postest/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/postest/pfizer/all/*/plot*.svg
         tables: output/in70s/postest/pfizer/all/*/tab*.html
@@ -1157,6 +1179,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s postest az all
     needs: [data_define_cohorts, models_in70s_postest_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/postest/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/postest/az/all/*/plot*.svg
         tables: output/in70s/postest/az/all/*/tab*.html
@@ -1194,6 +1218,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s emergency any all
     needs: [data_define_cohorts, models_in70s_emergency_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/emergency/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/emergency/any/all/*/plot*.svg
         tables: output/in70s/emergency/any/all/*/tab*.html
@@ -1247,6 +1273,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted any all
     needs: [data_define_cohorts, models_in70s_covidadmitted_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/covidadmitted/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/covidadmitted/any/all/*/plot*.svg
         tables: output/in70s/covidadmitted/any/all/*/tab*.html
@@ -1294,6 +1322,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted pfizer all
     needs: [data_define_cohorts, models_in70s_covidadmitted_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/covidadmitted/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/covidadmitted/pfizer/all/*/plot*.svg
         tables: output/in70s/covidadmitted/pfizer/all/*/tab*.html
@@ -1323,6 +1353,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted az all
     needs: [data_define_cohorts, models_in70s_covidadmitted_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/covidadmitted/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/covidadmitted/az/all/*/plot*.svg
         tables: output/in70s/covidadmitted/az/all/*/tab*.html
@@ -1361,6 +1393,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath any all
     needs: [data_define_cohorts, models_in70s_noncoviddeath_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/noncoviddeath/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/noncoviddeath/any/all/*/plot*.svg
         tables: output/in70s/noncoviddeath/any/all/*/tab*.html
@@ -1408,6 +1442,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath pfizer all
     needs: [data_define_cohorts, models_in70s_noncoviddeath_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/noncoviddeath/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/noncoviddeath/pfizer/all/*/plot*.svg
         tables: output/in70s/noncoviddeath/pfizer/all/*/tab*.html
@@ -1437,6 +1473,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath az all
     needs: [data_define_cohorts, models_in70s_noncoviddeath_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/noncoviddeath/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/noncoviddeath/az/all/*/plot*.svg
         tables: output/in70s/noncoviddeath/az/all/*/tab*.html
@@ -1472,6 +1510,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath any all
     needs: [data_define_cohorts, models_in70s_coviddeath_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/coviddeath/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/coviddeath/any/all/*/plot*.svg
         tables: output/in70s/coviddeath/any/all/*/tab*.html
@@ -1518,6 +1558,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath pfizer all
     needs: [data_define_cohorts, models_in70s_coviddeath_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/coviddeath/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/coviddeath/pfizer/all/*/plot*.svg
         tables: output/in70s/coviddeath/pfizer/all/*/tab*.html
@@ -1547,6 +1589,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath az all
     needs: [data_define_cohorts, models_in70s_coviddeath_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/coviddeath/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/coviddeath/az/all/*/plot*.svg
         tables: output/in70s/coviddeath/az/all/*/tab*.html
@@ -1581,6 +1625,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s death any all
     needs: [data_define_cohorts, models_in70s_death_any_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/death/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/death/any/all/*/plot*.svg
         tables: output/in70s/death/any/all/*/tab*.html
@@ -1627,6 +1673,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s death pfizer all
     needs: [data_define_cohorts, models_in70s_death_pfizer_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/death/pfizer/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/death/pfizer/all/*/plot*.svg
         tables: output/in70s/death/pfizer/all/*/tab*.html
@@ -1656,6 +1704,8 @@ actions:
     run: r:latest analysis/R/dose_1/report_ipw.R in70s death az all
     needs: [data_define_cohorts, models_in70s_death_az_all]
     outputs:
+      highly_sensitive:
+        gt: output/in70s/death/az/all/*/gt*.rds
       moderately_sensitive:
         plots: output/in70s/death/az/all/*/plot*.svg
         tables: output/in70s/death/az/all/*/tab*.html
@@ -1753,7 +1803,7 @@ actions:
 
   report_in70s_any_all:
     run: r:latest analysis/R/dose_1/report_alloutcomes.R in70s any all
-    needs: [data_define_cohorts, report_in70s_postest_any_all, report_in70s_covidadmitted_any_all, report_in70s_coviddeath_any_all, report_in70s_noncoviddeath_any_all]
+    needs: [data_define_cohorts, report_in70s_postest_any_all, report_in70s_covidadmitted_any_all, report_in70s_death_any_all]
     outputs:
       moderately_sensitive:
         plots: output/in70s/*any_all.svg
@@ -1779,5 +1829,26 @@ actions:
         html: output/in70s/*az_all.html
 
 
+
+  report_ipw_in70s_any_all:
+    run: r:latest analysis/R/dose_1/report_allipw.R in70s any all
+    needs: [data_define_cohorts, report_ipw_in70s_postest_any_all, report_ipw_in70s_covidadmitted_any_all, report_ipw_in70s_coviddeath_any_all, report_ipw_in70s_noncoviddeath_any_all, report_ipw_in70s_death_any_all]
+    outputs:
+      moderately_sensitive:
+        html: output/in70s/gt_vaxany1.html
+
+  report_ipw_in70s_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_allipw.R in70s pfizer all
+    needs: [data_define_cohorts, report_ipw_in70s_postest_pfizer_all, report_ipw_in70s_covidadmitted_pfizer_all, report_ipw_in70s_coviddeath_pfizer_all, report_ipw_in70s_noncoviddeath_pfizer_all, report_ipw_in70s_death_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        html: output/in70s/gt_vaxpfizer1.html
+
+  report_ipw_in70s_az_all:
+    run: r:latest analysis/R/dose_1/report_allipw.R in70s az all
+    needs: [data_define_cohorts, report_ipw_in70s_postest_az_all, report_ipw_in70s_covidadmitted_az_all, report_ipw_in70s_coviddeath_az_all, report_ipw_in70s_noncoviddeath_az_all, report_ipw_in70s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        html: output/in70s/gt_vaxaz1.html
 
 
