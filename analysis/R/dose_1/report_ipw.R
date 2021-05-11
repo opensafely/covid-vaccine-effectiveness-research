@@ -155,13 +155,18 @@ gt_model_summary <- function(model, cluster) {
     covar_labels <- covar_labels[-length(covar_labels)]
   }
 
-  tbl_regression(
+  tbl_reg <- tbl_regression(
     x = model,
     pvalue_fun = ~style_pvalue(.x, digits=3),
     tidy_fun = partial(tidy_plr, cluster = cluster),
     include = -contains("ns(tstop"),
     label = covar_labels
   )
+
+  tbl_reg$model_obj <- NULL
+  tbl_reg$inputs <- NULL
+
+  tbl_reg
 
 }
 
@@ -254,6 +259,7 @@ for(stratum in strata){
     ## output model coefficients
     tab_vaxany1 <- gt_model_summary(model_vaxany1, model_vaxany1$data$patient_id)
     write_rds(tab_vaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxany1.rds"))
+
     gtsave(as_gt(tab_vaxany1), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.html"))
     write_csv(tab_vaxany1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxany1.csv"))
 
