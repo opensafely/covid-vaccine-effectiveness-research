@@ -120,10 +120,6 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0),
     vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0),
     vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & tstart>=27), #tstart==27 is midnight between 3/4 jan 2021, the start of the day when first az vaccine was first administered
-    #posttest_atrisk = (postest_status==0 & lastfup_status==0),
-    #covidadmitted_atrisk = (covidadmitted_status==0 & lastfup_status==0),
-    #coviddeath_atrisk = (coviddeath_status==0 & lastfup_status==0),
-    #noncoviddeath_atrisk = (noncoviddeath_status==0 & lastfup_status==0),
     death_atrisk = (death_status==0 & lastfup_status==0),
   )
 
@@ -479,37 +475,39 @@ for(stratum in strata){
   #
   #
   # print(jtools::summ(msmmod0_par, digits =3))
+  #
   # cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
   # cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
   # write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
   # if(removeobs) rm(msmmod0_par)
 
-  # ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
-  # cat("  \n")
-  # cat("msmmod1 \n")
-  # msmmod1_par <- parglm(
-  #   formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_remove_strata_var),
-  #   data = data_weights,
-  #   family = binomial,
-  #   weights = sample_weights,
-  #   control = parglmparams,
-  #   na.action = "na.fail",
-  #   model = FALSE
-  # )
-  #
-  # print(jtools::summ(msmmod1_par, digits =3))
-  #
-  # cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
-  # cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
-  # write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
-  # if(removeobs) rm(msmmod1_par)
-  #
+  ### model 1 - adjusted vaccination effect model and region/time only ----
+  cat("  \n")
+  cat("msmmod1 \n")
+  msmmod1_par <- parglm(
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+    data = data_weights,
+    family = binomial,
+    weights = sample_weights,
+    control = parglmparams,
+    na.action = "na.fail",
+    model = FALSE
+  )
 
-  ### model 2 - adjusted vaccination effect model and region/time only ----
+  print(jtools::summ(msmmod1_par, digits =3))
+
+  cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
+  cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
+  write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
+  if(removeobs) rm(msmmod1_par)
+
+
+
+  ### model 2 - baseline, comorbs, secular trend adjusted vaccination effect model ----
   cat("  \n")
   cat("msmmod2 \n")
   msmmod2_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     weights = sample_weights,
@@ -522,16 +520,15 @@ for(stratum in strata){
 
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model2.rds"), compress="gz")
+  write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model2.rds"), compress="gz")
   if(removeobs) rm(msmmod2_par)
 
 
-
-  ### model 3 - baseline, comorbs, secular trend adjusted vaccination effect model ----
+  ### model 3 - baseline, comorbs, secular trends and time-varying (but not reweighted) adjusted vaccination effect model ----
   cat("  \n")
   cat("msmmod3 \n")
   msmmod3_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     weights = sample_weights,
@@ -546,6 +543,7 @@ for(stratum in strata){
   cat(glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod3_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
   if(removeobs) rm(msmmod3_par)
+
 
 
   ### model 4 - baseline, comorbs, secular trend adjusted vaccination effect model + IP-weighted + do not use time-dependent covariates ----
