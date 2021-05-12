@@ -485,11 +485,21 @@ study = StudyDefinition(
 
     unknown_vaccine_brand = patients.satisfying(
         """
-        covid_vax_1_date != ""
-        AND
-        covid_vax_pfizer_1_date = ""
-        AND
-        covid_vax_az_1_date = ""
+        (
+            covid_vax_1_date != ""
+            AND
+            covid_vax_pfizer_1_date = ""
+            AND
+            covid_vax_az_1_date = ""
+        ) 
+            OR 
+        (
+            covid_vax_pfizer_1_date = covid_vax_az_1_date 
+            AND
+            covid_vax_pfizer_1_date != "" 
+            AND
+            covid_vax_az_1_date != ""
+        )
         """,
         return_expectations={"incidence": 0.0001},
     ),
