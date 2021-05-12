@@ -150,6 +150,8 @@ tab_summary <- data_tab %>% transmute(
 
   flu_vaccine,
 
+  efi_cat,
+
   snapshot_day, vaxany_status
 ) %>%
 group_split(snapshot_day) %>%
@@ -203,7 +205,9 @@ map(
 
       shielded ~ "Shielding criteria met",
 
-      flu_vaccine ~ "Flu vaccine in previous 5 years"
+      flu_vaccine ~ "Flu vaccine in previous 5 years",
+
+      efi_cat ~ "Frailty"
 
     )
   ) %>%

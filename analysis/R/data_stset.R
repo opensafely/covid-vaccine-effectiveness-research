@@ -148,7 +148,8 @@ data_fixed <- data_all %>%
     multimorb,
     shielded,
 
-    flu_vaccine
+    flu_vaccine,
+    efi_cat
   )
 
 
