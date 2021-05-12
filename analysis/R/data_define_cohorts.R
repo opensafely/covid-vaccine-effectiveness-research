@@ -174,7 +174,9 @@ formula_comorbs <- . ~ . +
 
   shielded +
 
-  flu_vaccine
+  flu_vaccine +
+
+  efi_cat
 
 
 formula_region <- . ~ . + region

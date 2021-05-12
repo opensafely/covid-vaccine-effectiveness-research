@@ -190,6 +190,7 @@ data_extract0 <- read_csv(
     flu_vaccine = col_logical(),
     shielded_ever = col_logical(),
     shielded = col_logical(),
+    efi = col_double(),
     endoflife = col_logical()
 
   ),
@@ -354,6 +355,13 @@ data_processed <- data_extract_reordered %>%
       (LD_incl_DS_and_CP)+
       (psychosis_schiz_bipolar),
     multimorb = cut(multimorb, breaks = c(0, 1, 2, 3, 4, Inf), labels=c("0", "1", "2", "3", "4+"), right=FALSE),
+
+    efi_cat = fct_case_when(
+      is.na(efi) | (efi <= 0.12) ~ "None",
+      efi <= 0.24 ~ "Mild",
+      efi <= 0.36 ~ "Moderate",
+      efi <= 1 ~ "Severe"
+    ),
 
     cause_of_death = fct_case_when(
       !is.na(coviddeath_date) ~ "covid-related",

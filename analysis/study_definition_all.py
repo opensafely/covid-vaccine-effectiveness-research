@@ -1612,7 +1612,17 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.5, },
     ),
     
-    
+    efi = patients.with_these_decision_support_values(
+        algorithm = "electronic_frailty_index",
+        on_or_before = "index_date",
+        find_last_match_in_period = True,
+        returning="numeric_value",
+        return_expectations={
+            #"category": {"ratios": {0.1: 0.25, 0.15: 0.25, 0.30: 0.25, 0.5: 0.25}},
+            "float": {"distribution": "normal", "mean": 0.15, "stddev": 0.05},
+            "incidence": 0.99
+        },
+    ),
 
     endoflife = patients.satisfying(
         """
