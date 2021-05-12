@@ -483,7 +483,7 @@ data_vax <- local({
     mutate(
       vaccine_type = fct_case_when(
         !is.na(vax_az_index) & is.na(vax_pf_index) ~ "Ox-AZ",
-        is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Pf-BN",
+        is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Pf-BNT",
         is.na(vax_az_index) & is.na(vax_pf_index) ~ "Unknown",
         !is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Both",
         TRUE ~ NA_character_

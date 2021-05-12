@@ -119,13 +119,19 @@ timesince_cut <- function(time_since, breaks, prelabel="pre", prefix=""){
   time_since <- if_else(!is.na(time_since), time_since, Inf)
 
   breaks_aug <- unique(c(-Inf, breaks, Inf))
-  labels0 <- cut(c(breaks, Inf), breaks_aug)
-  labels <- paste0(prefix, c(prelabel, as.character(labels0[-1])))
+
+  lab_left <- breaks+1
+  lab_right <- lead(breaks)
+  label <- paste0(lab_left, "-", lab_right)
+  label <- str_replace(label,"-NA", "+")
+  labels <- paste0(prefix, c(prelabel, label))
+
+  #labels0 <- cut(c(breaks, Inf), breaks_aug)
+  #labels <- paste0(prefix, c(prelabel, as.character(labels0[-1])))
   period <- cut(time_since, breaks=breaks_aug, labels=labels, include.lowest=TRUE)
 
   period
 }
-
 
 
 timesince2_cut <- function(time_since1, time_since2, breaks, prelabel="pre-vax"){

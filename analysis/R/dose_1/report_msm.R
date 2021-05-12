@@ -133,8 +133,8 @@ msmmod_forest_data <- summary_df %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
     term=fct_inorder(term),
-    term_left = as.numeric(str_extract(term, "\\d+")),
-    term_right = as.numeric(str_remove(str_extract(term, "\\d+]$"), "]")),
+    term_left = as.numeric(str_extract(term, "\\d+"))-1,
+    term_right = as.numeric(str_extract(term, "\\d+$")),
     term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
     term_midpoint = term_left + (term_right-term_left)/2
   )
