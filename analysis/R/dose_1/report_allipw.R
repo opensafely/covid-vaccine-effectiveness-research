@@ -167,9 +167,10 @@ if(brand=="any"){
     filter(outcome %in% c(
       "postest",
       "covidadmitted",
-      #"coviddeath",
-      #"noncoviddeath",
-      "death"
+      "coviddeath",
+      "noncoviddeath",
+      "death",
+      NULL
     )) %>%
     mutate(
       outcome = fct_inorder(outcome),

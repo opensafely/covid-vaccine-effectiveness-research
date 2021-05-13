@@ -91,11 +91,12 @@ names(summary_list) <- strata
 estimates <-
   metadata_outcomes %>%
   filter(outcome %in% c(
-    "postest"#,
-    #"covidadmitted",
-    #"coviddeath"
-    #"noncoviddeath",
-    #"death"
+    "postest",
+    "covidadmitted",
+    "coviddeath",
+    "noncoviddeath",
+    "death",
+    NULL
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
