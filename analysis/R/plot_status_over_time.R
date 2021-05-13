@@ -134,6 +134,7 @@ data_pt %>%
       labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
       right=FALSE
     ),
+    agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf)),
     day = tstop-1,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
@@ -149,11 +150,19 @@ data_pt %>%
     ),
     vaxbrand_status = fct_case_when(
       vaxpfizer_status==0 & vaxaz_status==0  & death_status==0 & dereg_status==0 ~ "Not vaccinated",
-      vaxpfizer_status>0 ~ "Pfizer",
-      vaxaz_status>0 ~ "AZ",
+      vaxpfizer_status>0 ~ "BNT162b2",
+      vaxaz_status>0 ~ "ChAdOx1",
       death_status==1 | dereg_status==1 ~ "Died/deregistered",
       TRUE ~ NA_character_
     ),
+
+    vaxbrand_status = fct_case_when(
+      vaxpfizer_status==0 & vaxaz_status==0  ~ "Not vaccinated",
+      vaxpfizer_status>0  ~ "BNT162b2",
+      vaxaz_status>0  ~ "ChAdOx1",
+      TRUE ~ NA_character_
+    ),
+
 
     lastfup,
     death,
@@ -164,6 +173,7 @@ data_pt %>%
 
     lastfup_status,
     death_status,
+    dereg_status,
     noncoviddeath_status=death_status & !coviddeath_status,
     coviddeath_status,
     covidadmitted_status,
@@ -221,11 +231,11 @@ plot_vax_counts <- function(var, var_descr){
     scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77", "grey"))+
     labs(
       x=NULL,
-      y="Status per 10,000 patients",
+      y="Status per 10,000 people",
       colour=NULL,
-      fill=NULL,
-      title = "Vaccination status over time",
-      subtitle = var_descr
+      fill=NULL#,
+      #title = "Vaccination status over time",
+      #subtitle = var_descr
     ) +
     plot_theme+
     theme(legend.position = "bottom")
@@ -242,7 +252,8 @@ plot_brand_counts <- function(var, var_descr){
     mutate(
       variable = data_by_day[[var]]
     ) %>%
-    group_by(date, variable, vaxbrand_status, .drop=FALSE) %>%
+    filter(dereg_status==0) %>%
+    group_by(date, variable, vaxbrand_status, death_status, .drop=FALSE) %>%
     summarise(
       n = n(),
     ) %>%
@@ -250,22 +261,30 @@ plot_brand_counts <- function(var, var_descr){
     mutate(
       n_per_10000 = (n/sum(n))*10000
     ) %>%
-    ungroup()
-
+    ungroup() %>%
+    arrange(date, variable, vaxbrand_status, death_status) %>%
+    mutate(
+      death_status= if_else(is.na(death_status)| death_status==0, "Alive", "Dead")
+    )
 
   plot <- data1 %>%
     ggplot() +
-    geom_area(aes(x=date, y=n_per_10000, group=vaxbrand_status, fill=vaxbrand_status), alpha=0.5)+
+    geom_area(aes(x=date, y=n_per_10000,
+                  group=fct_cross(vaxbrand_status, as.character(death_status), sep = ":"),
+                  fill=vaxbrand_status, alpha=death_status))+
     facet_grid(rows=vars(variable))+
-    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
-    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77", "grey"))+
+    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+#, "grey"))+
+    scale_alpha_manual(values=c(0.8,0.3))+#, "grey"))+
+    #scale_alpha_discrete(range= c(0.3,0.8))+
     labs(
-      x=NULL,
-      y="Status per 10,000 patients",
+      x="Date",
+      y="Status per 10,000 people",
       colour=NULL,
       fill=NULL,
-      title = "Vaccination status over time",
-      subtitle = var_descr
+      alpha=NULL#,
+      #title = "Vaccination status over time",
+      #subtitle = var_descr
     ) +
     plot_theme+
     theme(legend.position = "bottom")
@@ -273,7 +292,7 @@ plot_brand_counts <- function(var, var_descr){
   plot
 }
 
-
+#plot_brand_counts("all", "")
 ## cumulative event status ----
 
 
@@ -304,7 +323,7 @@ plot_event_counts <- function(var, var_descr){
     scale_fill_brewer(palette="Dark2")+
     labs(
       x=NULL,
-      y="Events per 10,000 patients",
+      y="Events per 10,000 people",
       fill=NULL,
       title = "Outcome status over time",
       subtitle = var_descr
@@ -355,10 +374,10 @@ plot_event_rates <- function(var, var_descr){
     scale_color_brewer(palette="Dark2")+
     labs(
       x=NULL,
-      y="Event rate per week per 10,000 patients",
-      colour=NULL,
-      title = "Outcome rates over time",
-      subtitle = var_descr
+      y="Event rate per week per 10,000 people",
+      colour=NULL#,
+      #title = "Outcome rates over time",
+      #subtitle = var_descr
     ) +
     plot_theme+
     guides(colour = guide_legend(nrow = 2))+
@@ -370,7 +389,7 @@ plot_event_rates <- function(var, var_descr){
 
 vars_df <- tribble(
   ~var, ~var_descr,
-  "all", "",
+  "agecohort", "",
   "sex", "Sex",
   "imd", "IMD",
   "ageband", "Age",
