@@ -1624,7 +1624,7 @@ study = StudyDefinition(
     
     efi = patients.with_these_decision_support_values(
         algorithm = "electronic_frailty_index",
-        on_or_before = "index_date",
+        on_or_before = "2020-12-08", # hard-coded because there are no other dates available for efi
         find_last_match_in_period = True,
         returning="numeric_value",
         return_expectations={

@@ -17,6 +17,7 @@
 # Import libraries ----
 library('tidyverse')
 library('lubridate')
+#library('arrow')
 
 # Import custom user functions from lib
 source(here::here("lib", "utility_functions.R"))
@@ -37,17 +38,8 @@ dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
 
 # process ----
 
-read_csv(
-  here::here("output", "input_all.csv"),
-  n_max=0,
-  col_types = cols()
-) %>%
-names() %>%
-print()
-
-
 data_extract0 <- read_csv(
-  here::here("output", "input_all.csv"),
+  here::here("output", "input_all.csv.gz"),
   col_types = cols_only(
 
     # identifiers
@@ -207,7 +199,6 @@ data_extract0 <- data_extract0 %>%
     ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)
   ) %>%
   select(-ethnicity_6_sus) %>%
-
   # calculate care home status using household ID, if more than 5 over 70s living in same household
   mutate(
     household_id = na_if(household_id, 0), #if household_id=0 then make NA

@@ -6,10 +6,10 @@ expectations:
 actions:
 
   extract_all:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_all
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_all --output-format csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/input_all.csv
+        cohort: output/input_all.csv.gz
 
   generate_over80s_flow_chart_data:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_over80s_flow_chart
