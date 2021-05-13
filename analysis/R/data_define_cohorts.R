@@ -41,6 +41,7 @@ data_criteria <- data_all %>%
       nopriorcovid
     ),
 
+    is_over70s = age>=70 & has_age,
     is_over80s = age>=80 & has_age,
     is_in70s = (age>=70 & age<80) & has_age,
     is_under65s = (age<=64) & has_age,
@@ -49,6 +50,7 @@ data_criteria <- data_all %>%
 data_cohorts <- data_criteria %>%
   transmute(
     patient_id,
+    over70s = include & is_over70s,
     over80s = include & is_over80s,
     in70s = include & is_in70s,
     under65s = include & is_under65s,
@@ -59,6 +61,7 @@ data_cohorts <- data_criteria %>%
 
 metadata_cohorts <- tribble(
   ~cohort, ~cohort_descr, #~postvax_cuts, ~knots,
+  "over70s", "Aged 70+, non-carehome, no prior infection",
   "over80s", "Aged 80+, non-carehome, no prior infection",
   "in70s", "Aged 70-79, non-carehome, no prior infection",
   "under65s", "Aged <=64, no prior infection",
