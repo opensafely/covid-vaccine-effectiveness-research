@@ -298,35 +298,35 @@ plot_brand_counts <- function(var, var_descr){
 
   plot
 }
-
-plot_brand_counts("all", "")
-
-
-data1 <- data_by_day %>%
-  mutate(
-    variable = data_by_day[["all"]]
-  ) %>%
-  #filter(dereg_status==0) %>%
-  group_by(date, variable, vaxbrand_status, death_status, .drop=FALSE) %>%
-  summarise(
-    n = n(),
-  ) %>%
-  group_by(date, variable) %>%
-  mutate(
-    n_per_10000 = (n/sum(n))*10000
-  ) %>%
-  ungroup() %>%
-  arrange(date, variable, vaxbrand_status, death_status) %>%
-  mutate(
-    death_status= if_else(is.na(death_status)| death_status==0, "Alive", "Dead"),
-    group= factor(
-      paste0(vaxbrand_status, ":", death_status),
-      levels= map_chr(
-        cross2(levels(vaxbrand_status), c("Alive","Dead")),
-        paste, sep = ":", collapse = ":"
-      )
-    )
-  )
+#
+# plot_brand_counts("all", "")
+#
+#
+# data1 <- data_by_day %>%
+#   mutate(
+#     variable = data_by_day[["all"]]
+#   ) %>%
+#   #filter(dereg_status==0) %>%
+#   group_by(date, variable, vaxbrand_status, death_status, .drop=FALSE) %>%
+#   summarise(
+#     n = n(),
+#   ) %>%
+#   group_by(date, variable) %>%
+#   mutate(
+#     n_per_10000 = (n/sum(n))*10000
+#   ) %>%
+#   ungroup() %>%
+#   arrange(date, variable, vaxbrand_status, death_status) %>%
+#   mutate(
+#     death_status= if_else(is.na(death_status)| death_status==0, "Alive", "Dead"),
+#     group= factor(
+#       paste0(vaxbrand_status, ":", death_status),
+#       levels= map_chr(
+#         cross2(levels(vaxbrand_status), c("Alive","Dead")),
+#         paste, sep = ":", collapse = ":"
+#       )
+#     )
+#   )
 
 ## cumulative event status ----
 
