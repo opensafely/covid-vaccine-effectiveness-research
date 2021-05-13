@@ -338,10 +338,10 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
     coviddeath_rr=coviddeath_rate/first(coviddeath_rate),
     noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
 
-    postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.001),
-    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk),  timesincevax_pw, 0.001),
-    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk),  timesincevax_pw, 0.001),
-    noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.001),
+    postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.01),
+    covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk),  timesincevax_pw, 0.01),
+    coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk),  timesincevax_pw, 0.01),
+    noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.01),
   )
 
   redacted <- unredacted %>%
@@ -394,14 +394,14 @@ data_summary_pfizer <-
     pt_summary(data_pt_fup, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated"),
     pt_summary(data_pt_fup, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
   ) %>%
-  mutate(brand ="P-BNT")
+  mutate(brand ="BNT162b2")
 
 data_summary_az <-
   bind_rows(
     pt_summary(data_pt_fup, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated"),
     pt_summary(data_pt_fup, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
   ) %>%
-  mutate(brand ="Ox-AZ")
+  mutate(brand ="ChAdOx1")
 
 
 data_summary <- bind_rows(
@@ -487,7 +487,7 @@ tab_summary <- data_summary %>%
   # ) %>%
   fmt_number(
     columns = ends_with(c("rr")),
-    decimals = 3
+    decimals = 2
   ) %>%
   fmt_missing(
     everything(),
