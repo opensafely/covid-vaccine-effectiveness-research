@@ -135,7 +135,7 @@ data_pt %>%
       right=FALSE
     ),
     agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf)),
-    day = tstop-1,
+    day = tstop,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
     date = week,
@@ -264,13 +264,20 @@ plot_brand_counts <- function(var, var_descr){
     ungroup() %>%
     arrange(date, variable, vaxbrand_status, death_status) %>%
     mutate(
-      death_status= if_else(is.na(death_status)| death_status==0, "Alive", "Dead")
+      death_status= if_else(is.na(death_status) | death_status==0, "Alive", "Dead"),
+      group= factor(
+        paste0(vaxbrand_status, ":", death_status),
+        levels= map_chr(
+          cross2(levels(vaxbrand_status), c("Alive","Dead")),
+          paste, sep = ":", collapse = ":"
+        )
+      )
     )
 
   plot <- data1 %>%
     ggplot() +
     geom_area(aes(x=date, y=n_per_10000,
-                  group=fct_cross(vaxbrand_status, as.character(death_status), sep = ":"),
+                  group=group,
                   fill=vaxbrand_status, alpha=death_status))+
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
@@ -292,7 +299,35 @@ plot_brand_counts <- function(var, var_descr){
   plot
 }
 
-#plot_brand_counts("all", "")
+plot_brand_counts("all", "")
+
+
+data1 <- data_by_day %>%
+  mutate(
+    variable = data_by_day[["all"]]
+  ) %>%
+  #filter(dereg_status==0) %>%
+  group_by(date, variable, vaxbrand_status, death_status, .drop=FALSE) %>%
+  summarise(
+    n = n(),
+  ) %>%
+  group_by(date, variable) %>%
+  mutate(
+    n_per_10000 = (n/sum(n))*10000
+  ) %>%
+  ungroup() %>%
+  arrange(date, variable, vaxbrand_status, death_status) %>%
+  mutate(
+    death_status= if_else(is.na(death_status)| death_status==0, "Alive", "Dead"),
+    group= factor(
+      paste0(vaxbrand_status, ":", death_status),
+      levels= map_chr(
+        cross2(levels(vaxbrand_status), c("Alive","Dead")),
+        paste, sep = ":", collapse = ":"
+      )
+    )
+  )
+
 ## cumulative event status ----
 
 
