@@ -114,7 +114,6 @@ data_fixed <- data_all %>%
     msoa,
 
     bmi,
-    chronic_cardiac_disease,
     heart_failure,
     other_heart_disease,
 

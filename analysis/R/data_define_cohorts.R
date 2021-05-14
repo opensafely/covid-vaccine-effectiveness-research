@@ -141,7 +141,6 @@ formula_exposure <- . ~ . + timesincevax_pw
 formula_demog <- . ~ . + poly(age, degree=2, raw=TRUE) + sex + imd + ethnicity
 formula_comorbs <- . ~ . +
   bmi +
-  chronic_cardiac_disease +
   heart_failure +
   other_heart_disease +
 

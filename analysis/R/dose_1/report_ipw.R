@@ -106,7 +106,6 @@ gt_model_summary <- function(model, cluster) {
     ethnicity ~ "Ethnicity",
 
     bmi ~ "Body Mass Index",
-    chronic_cardiac_disease ~ "Chronic cardiac disease",
     heart_failure ~ "Heart failure",
     other_heart_disease ~ "Other heart disease",
 
