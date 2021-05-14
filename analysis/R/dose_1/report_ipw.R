@@ -103,7 +103,7 @@ gt_model_summary <- function(model, cluster) {
     `age, degree = 2` ~ "Age",
     sex ~ "Sex",
     imd ~ "Deprivation",
-    ethnicity ~ "Ethnicity",
+    ethnicity_combined ~ "Ethnicity",
 
     bmi ~ "Body Mass Index",
     heart_failure ~ "Heart failure",

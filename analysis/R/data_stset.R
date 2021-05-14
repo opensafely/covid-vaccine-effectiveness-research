@@ -107,7 +107,7 @@ data_fixed <- data_all %>%
     ageband,
     sex,
     imd,
-    ethnicity,
+    ethnicity_combined,
 
     region,
     stp,

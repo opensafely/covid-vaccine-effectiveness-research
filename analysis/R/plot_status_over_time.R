@@ -126,7 +126,7 @@ data_pt %>%
     all = "all",
     sex,
     imd,
-    ethnicity,
+    ethnicity_combined,
     region,
     ageband = cut(
       age,
@@ -428,7 +428,7 @@ vars_df <- tribble(
   "sex", "Sex",
   "imd", "IMD",
   "ageband", "Age",
-  "ethnicity", "Ethnicity",
+  "ethnicity_combined", "Ethnicity",
   "region", "Region"
 ) %>% mutate(
   device="svg",

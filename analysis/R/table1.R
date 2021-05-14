@@ -111,7 +111,7 @@ data_tab <- data_ss %>%
 
 
 tab_summary <- data_tab %>% transmute(
-  ageband, sex, imd, region, ethnicity,
+  ageband, sex, imd, region, ethnicity_combined,
   bmi,
   heart_failure,
   other_heart_disease,
@@ -163,7 +163,7 @@ map(
       sex ~ "Sex",
       imd ~ "IMD",
       region ~ "Region",
-      ethnicity ~ "Ethnicity",
+      ethnicity_combined ~ "Ethnicity",
 
       bmi ~ "Body Mass Index",
 

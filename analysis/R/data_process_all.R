@@ -196,9 +196,9 @@ data_extract0 <- data_extract0 %>%
 
   # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
   mutate(
-    ethnicity = ifelse(ethnicity == "", ethnicity_6_sus, ethnicity)
+    ethnicity_combined = if_else(ethnicity == "", ethnicity_6_sus, ethnicity)
   ) %>%
-  select(-ethnicity_6_sus) %>%
+  #select(-ethnicity_6_sus) %>%
   # calculate care home status using household ID, if more than 5 over 70s living in same household
   mutate(
     household_id = na_if(household_id, 0), #if household_id=0 then make NA
@@ -220,7 +220,7 @@ data_extract <- data_extract0 %>%
     .fns = ~na_if(.x, "")
   )) %>%
   mutate(across(
-    .cols = c(where(is.numeric), -ends_with("_id")), #convert numeric+integer but not id variables
+    .cols = c(where(is.numeric), -ends_with("_id"), all_of("efi")), #convert numeric+integer but not id variables
     .fns = ~na_if(.x, 0)
   )) %>%
   arrange(patient_id) %>%
@@ -288,12 +288,12 @@ data_processed <- data_extract_reordered %>%
       right=FALSE
     ),
 
-    ethnicity = fct_case_when(
-      ethnicity == "1" ~ "White",
-      ethnicity == "4" ~ "Black",
-      ethnicity == "3" ~ "South Asian",
-      ethnicity == "2" ~ "Mixed",
-      ethnicity == "5" ~ "Other",
+    ethnicity_combined = fct_case_when(
+      ethnicity_combined == "1" ~ "White",
+      ethnicity_combined == "4" ~ "Black",
+      ethnicity_combined == "3" ~ "South Asian",
+      ethnicity_combined == "2" ~ "Mixed",
+      ethnicity_combined == "5" ~ "Other",
       #TRUE ~ "Unknown",
       TRUE ~ NA_character_
 

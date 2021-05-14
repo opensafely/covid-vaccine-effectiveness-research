@@ -24,7 +24,7 @@ data_criteria <- data_all %>%
     has_age = !is.na(age),
     has_sex = !is.na(sex),
     has_imd = !is.na(imd),
-    has_ethnicity = !is.na(ethnicity),
+    has_ethnicity = !is.na(ethnicity_combined),
     has_region = !is.na(region),
     has_follow_up_previous_year,
     unknown_vaccine_brand,
@@ -138,7 +138,7 @@ write_rds(metadata_outcomes, here::here("output", "data", "metadata_outcomes.rds
 
 formula_exposure <- . ~ . + timesincevax_pw
 #formula_demog <- . ~ . + age + I(age * age) + sex + imd + ethnicity
-formula_demog <- . ~ . + poly(age, degree=2, raw=TRUE) + sex + imd + ethnicity
+formula_demog <- . ~ . + poly(age, degree=2, raw=TRUE) + sex + imd + ethnicity_combined
 formula_comorbs <- . ~ . +
   bmi +
   heart_failure +
