@@ -136,7 +136,9 @@ forest_from_gtstack <- function(gt_stack_obj, title){
       cols=vars(groupname_col),
       scales="free_y", switch="y", space="free_y", labeller = labeller(variable = var_lookup)
     )+
-    scale_x_log10(breaks=c(0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8), labels=c("1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4", "8"))+
+    scale_x_log10(
+      breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+    )+
     scale_y_discrete(breaks=level_lookup, labels=names(level_lookup))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
     scale_alpha_continuous(range=c(0,0.3), guide=FALSE)+
@@ -178,10 +180,17 @@ if(brand=="any"){
       gt = map(outcome, ~read_rds(here::here("output", cohort, .x, brand, strata_var, "all", glue::glue("gt_vaxany1.rds"))))
     )
 
+
+  # gt_vax_stack <- tbl_stack(
+  #   rep(gts$gt, 2),
+  #   group_header =str_wrap(paste(rep(gts$outcome_descr, 2), c("a", "b")), width=20)
+  # )
+  #
   # gt_vax <- tbl_merge(
   #   rep(gts$gt, 2),
   #   tab_spanner =str_wrap(paste(rep(gts$outcome_descr, 2), c("a", "b")), width=20)
   # )
+
 
   gt_vax_stack <- tbl_stack(
     gts$gt,
@@ -208,8 +217,8 @@ if(brand!="any"){
     filter(outcome %in% c(
       "postest",
       "covidadmitted",
-      #"coviddeath",
-      #"noncoviddeath",
+      "coviddeath",
+      "noncoviddeath",
       "death"
     )) %>%
     mutate(

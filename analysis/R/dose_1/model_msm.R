@@ -170,6 +170,8 @@ get_ipw_weights <- function(
     model = FALSE
   )
 
+  #event_model$data <- NULL
+
   cat(glue("{event} data size = ", length(event_model$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model), units="GB", standard="SI", digits=3L)), "\n")
 
@@ -187,6 +189,8 @@ get_ipw_weights <- function(
     na.action = "na.fail",
     model = FALSE
   )
+
+  #event_model_fxd$data <- NULL
 
   cat(glue("{event}_fxd data size = ", length(event_model_fxd$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
@@ -473,7 +477,7 @@ for(stratum in strata){
   #   model = FALSE
   # )
   #
-  #
+  # msmmod0_par$data <- NULL
   # print(jtools::summ(msmmod0_par, digits =3))
   #
   # cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
@@ -494,6 +498,7 @@ for(stratum in strata){
     model = FALSE
   )
 
+  msmmod1_par$data <- NULL
   print(jtools::summ(msmmod1_par, digits =3))
 
   cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
@@ -515,7 +520,7 @@ for(stratum in strata){
     na.action = "na.fail",
     model = FALSE
   )
-
+  msmmod2_par$data <- NULL
   print(jtools::summ(msmmod2_par, digits =3))
 
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
@@ -536,7 +541,7 @@ for(stratum in strata){
     na.action = "na.fail",
     model = FALSE
   )
-
+  msmmod3_par$data <- NULL
   print(jtools::summ(msmmod3_par, digits =3))
 
   cat(glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
@@ -558,7 +563,7 @@ for(stratum in strata){
     na.action = "na.fail",
     model = FALSE
   )
-
+  msmmod4_par$data <- NULL
   print(jtools::summ(msmmod4_par, digits =3))
 
   cat(glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")

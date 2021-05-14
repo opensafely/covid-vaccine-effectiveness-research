@@ -253,6 +253,7 @@ for(stratum in strata){
     ipw_formula <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_formula_vaxany1.rds"))
     assign(as.character(model_vaxany1$call$data), model_vaxany1$data) # alternative to `data_atrisk <- model_vaxany1$data` that ensures the right model name is used
 
+
     # rename model dataset to match name it had when first created, then remove oldname dataset
     #assign(as.character(model_vaxany1$call$data),data_atrisk_vaxany1)
     #rm(data_atrisk_vaxany1)
@@ -274,7 +275,7 @@ for(stratum in strata){
 
     ggsecular_vaxany1 <- interactions::interact_plot(
       model_vaxany1,
-      pred=tstop, modx=region, data=data_atrisk,
+      pred=tstop, modx=region, data=model_vaxany1$data,
       colors="Set1", vary.lty=FALSE,
       x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
       y.label=glue::glue("Death rate (mean-centered)")
@@ -315,7 +316,7 @@ for(stratum in strata){
 
     ggsecular_vaxpfizer1 <- interactions::interact_plot(
       model_vaxpfizer1,
-      pred=tstop, modx=region, data=data_atrisk,
+      pred=tstop, modx=region, data=model_vaxpfizer1$data,
       colors="Set1", vary.lty=FALSE,
       x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
       y.label=glue::glue("Death rate (mean-centered)")
@@ -352,7 +353,7 @@ for(stratum in strata){
 
     ggsecular_vaxaz1 <- interactions::interact_plot(
       model_vaxaz1,
-      pred=tstop, modx=region, data=data_atrisk,
+      pred=tstop, modx=region, data=model_vaxaz1$data,
       colors="Set1", vary.lty=FALSE,
       x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
       y.label=glue::glue("Death rate (mean-centered)")
@@ -404,7 +405,7 @@ for(stratum in strata){
 
     ggsecular_death <- interactions::interact_plot(
       model_death,
-      pred=tstop, modx=region, data=data_atrisk,
+      pred=tstop, modx=region, data=model_death$data,
       colors="Set1", vary.lty=FALSE,
       x.label=glue::glue("Days since {as.Date(gbl_vars$start_date)+1}"),
       y.label=glue::glue("Death rate (mean-centered)")
