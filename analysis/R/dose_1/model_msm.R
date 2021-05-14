@@ -528,7 +528,7 @@ for(stratum in strata){
   cat("  \n")
   cat("msmmod3 \n")
   msmmod3_par <- parglm(
-    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_strata_var),
+    formula = formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
     data = data_weights,
     family = binomial,
     weights = sample_weights,
