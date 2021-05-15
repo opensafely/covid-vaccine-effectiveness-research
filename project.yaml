@@ -38,6 +38,12 @@ actions:
         data7: output/data/data_long_pr_suspected_covid_dates.rds
         data8: output/data/data_long_postest_dates.rds
 
+  check_ethnicity:
+    run: r:latest analysis/R/check_ethnicity.R
+    needs: [data_process_all]
+    outputs:
+      moderately_sensitive:
+        tab: output/data/ethnicity_table*.txt
 
   data_properties_all:
     run: r:latest analysis/R/data_properties.R output/data/data_all.rds output/data_properties
