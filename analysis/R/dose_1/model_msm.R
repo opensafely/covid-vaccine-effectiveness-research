@@ -388,7 +388,7 @@ for(stratum in strata){
   }
   if(brand != "any"){
 
-    data_weights <- data_pt_sub_sub %>%
+    data_weights <- data_pt_sub %>%
       left_join(weights_vaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_vaxaz1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
