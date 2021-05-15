@@ -240,7 +240,7 @@ data_tte <- data_all  %>%
     .cols = starts_with("tte_"),
     .fns = as.integer
   )) %>%
-  # identify subsample of patients for each outcome
+  # identify 10% subsample of non-outcome patients for each outcome
   mutate(
 
     sample_postest = sample_nonoutcomes(tte_postest, patient_id, sample_nonoutcomeprop),
