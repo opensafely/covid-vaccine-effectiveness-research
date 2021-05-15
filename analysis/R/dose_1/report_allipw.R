@@ -199,7 +199,7 @@ if(brand=="any"){
 
   plot_vaxany1 <- forest_from_gtstack(gt_vax_stack, "Vaccination model")
   ggsave(
-    here::here("output", cohort, outcome, "plot_vaxany1.svg"),
+    here::here("output", cohort, "plot_vaxany1.svg"),
     plot_vaxany1,
     units="cm", width=25, height=25
   )
@@ -234,7 +234,7 @@ if(brand!="any"){
 
   plot_vaxany1 <- forest_from_gtstack(gt_vax_stack, "Vaccination model")
   ggsave(
-    here::here("output", cohort, outcome, glue::glue("plot_vax{brand}1.html")),
+    here::here("output", cohort, glue::glue("plot_vax{brand}1.html")),
     plot_vaxany1,
     units="cm", width=25, height=25
   )
