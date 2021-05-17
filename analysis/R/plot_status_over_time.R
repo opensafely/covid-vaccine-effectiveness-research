@@ -134,7 +134,7 @@ data_pt %>%
       labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
       right=FALSE
     ),
-    agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf)),
+    agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf), labels=c("under 70", "70-79", "80+"), right=FALSE),
     day = tstop,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
@@ -189,16 +189,16 @@ data_pt %>%
       TRUE ~ "No events"
     ) %>% fct_rev()
   ) %>%
-  group_by(patient_id) %>%
-  mutate(
-    lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
-     lag_vaxany_status_onedose = fct_case_when(
-       lag_vaxany_status_onedose==0 ~ "No vaccine or\n< 14 days post-vaccine",
-       lag_vaxany_status_onedose==1 ~ ">= 14 days post-vaccine",
-       TRUE ~ NA_character_
-    )
-  ) %>%
-  ungroup() %>%
+  #group_by(patient_id) %>%
+  #mutate(
+  #  lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
+  #   lag_vaxany_status_onedose = fct_case_when(
+  #     lag_vaxany_status_onedose==0 ~ "No vaccine or\n< 14 days post-vaccine",
+  #     lag_vaxany_status_onedose==1 ~ ">= 14 days post-vaccine",
+  #     TRUE ~ NA_character_
+  #  )
+  #) %>%
+  #ungroup() %>%
   droplevels()
 
 
@@ -266,9 +266,9 @@ plot_brand_counts <- function(var, var_descr){
     mutate(
       death_status= if_else(is.na(death_status) | death_status==0, "Alive", "Dead"),
       group= factor(
-        paste0(vaxbrand_status, ":", death_status),
+        paste0(death_status,":",vaxbrand_status),
         levels= map_chr(
-          cross2(levels(vaxbrand_status), c("Alive","Dead")),
+          cross2(c("Alive","Dead"), levels(vaxbrand_status)),
           paste, sep = ":", collapse = ":"
         )
       )
@@ -318,11 +318,11 @@ plot_brand_counts <- function(var, var_descr){
 #   ungroup() %>%
 #   arrange(date, variable, vaxbrand_status, death_status) %>%
 #   mutate(
-#     death_status= if_else(is.na(death_status)| death_status==0, "Alive", "Dead"),
-#     group= factor(
-#       paste0(vaxbrand_status, ":", death_status),
+#     death_status= if_else(is.na(death_status) | death_status==0, "Alive", "Dead"),
+#       group= factor(
+#       paste0(death_status,":",vaxbrand_status),
 #       levels= map_chr(
-#         cross2(levels(vaxbrand_status), c("Alive","Dead")),
+#         cross2(c("Alive","Dead"), levels(vaxbrand_status)),
 #         paste, sep = ":", collapse = ":"
 #       )
 #     )
@@ -483,54 +483,54 @@ vars_df %>%
   )
 
 
-vars_df %>%
-  transmute(
-    plot = pmap(lst(var, var_descr), plot_event_counts),
-    plot = patchwork::align_patches(plot),
-    filename = paste0("eventcounts_",var,".svg"),
-    path=here::here("output", cohort, "descr", "plots"),
-    panelwidth = 15,
-    panelheight = 7,
-    units="cm",
-    #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
-    width = 25,
-    height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
-  ) %>%
-  mutate(
-    pmap(list(
-      filename=filename,
-      path=path,
-      plot=plot,
-      width=width, height=height, units=units, limitsize=FALSE, scale=0.8
-    ),
-    ggsave)
-  )
-
-
-
-
-vars_df %>%
-  transmute(
-    plot = pmap(lst(var, var_descr), plot_event_rates),
-    plot = patchwork::align_patches(plot),
-    filename = paste0("eventrates_",var,".svg"),
-    path=here::here("output", cohort, "descr", "plots"),
-    panelwidth = 15,
-    panelheight = 7,
-    units="cm",
-    #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
-    width = 25,
-    height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
-  ) %>%
-  mutate(
-    pmap(list(
-      filename=filename,
-      path=path,
-      plot=plot,
-      width=width, height=height, units=units, limitsize=FALSE, scale=0.8
-    ),
-    ggsave)
-  )
+# vars_df %>%
+#   transmute(
+#     plot = pmap(lst(var, var_descr), plot_event_counts),
+#     plot = patchwork::align_patches(plot),
+#     filename = paste0("eventcounts_",var,".svg"),
+#     path=here::here("output", cohort, "descr", "plots"),
+#     panelwidth = 15,
+#     panelheight = 7,
+#     units="cm",
+#     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+#     width = 25,
+#     height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
+#   ) %>%
+#   mutate(
+#     pmap(list(
+#       filename=filename,
+#       path=path,
+#       plot=plot,
+#       width=width, height=height, units=units, limitsize=FALSE, scale=0.8
+#     ),
+#     ggsave)
+#   )
+#
+#
+#
+#
+# vars_df %>%
+#   transmute(
+#     plot = pmap(lst(var, var_descr), plot_event_rates),
+#     plot = patchwork::align_patches(plot),
+#     filename = paste0("eventrates_",var,".svg"),
+#     path=here::here("output", cohort, "descr", "plots"),
+#     panelwidth = 15,
+#     panelheight = 7,
+#     units="cm",
+#     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
+#     width = 25,
+#     height = pmap_dbl(list(plot, units, panelheight), function(plot, units, panelheight){plotHeight(plot, units) + plotNpanelrows(plot)*panelheight}),
+#   ) %>%
+#   mutate(
+#     pmap(list(
+#       filename=filename,
+#       path=path,
+#       plot=plot,
+#       width=width, height=height, units=units, limitsize=FALSE, scale=0.8
+#     ),
+#     ggsave)
+#   )
 
 
 ## end-date status ----
