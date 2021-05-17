@@ -304,7 +304,7 @@ for(stratum in strata){
 
     tab_vaxpfizer1 <- gt_model_summary(model_vaxpfizer1, model_vaxpfizer1$data$patient_id)
     gtsave(as_gt(tab_vaxpfizer1), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxfizer1.html"))
-    write_rds(tab_vaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxpfizer1.rds"))
+    write_rds(tab_vaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxpfizer1.rds"), compress="gz")
     write_csv(tab_vaxpfizer1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxpfizer1.csv"))
 
     plot_vaxpfizer1 <- forest_from_gt(tab_vaxpfizer1, "Predicting P-BNT vaccine")
@@ -341,7 +341,7 @@ for(stratum in strata){
 
     tab_vaxaz1 <- gt_model_summary(model_vaxaz1, model_vaxaz1$data$patient_id)
     gtsave(as_gt(tab_vaxaz1), here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxaz1.html"))
-    write_rds(tab_vaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxaz1.rds"))
+    write_rds(tab_vaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "gt_vaxaz1.rds"), compress="gz")
     write_csv(tab_vaxaz1$table_body, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxaz1.csv"))
 
     plot_vaxaz1 <- forest_from_gt(tab_vaxaz1, "Predicting Ox-AZ vaccine")
