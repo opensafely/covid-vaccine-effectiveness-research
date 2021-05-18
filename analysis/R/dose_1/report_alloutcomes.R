@@ -186,10 +186,11 @@ msmmod_forest_data %>%
     ) %>%
   select(
     Outcome=outcome_descr, `Time since first dose`=term,
+    #need select order explicitly to reorder columns properly
     starts_with("Model 1"),
     starts_with("Model 2"),
-    starts_with("Model 3"),
-    starts_with("Model 4")
+    starts_with("Model 3")#,
+   # starts_with("Model 4")
   ) %>%
   gt(groupname_col = "Outcome") %>%
   tab_spanner_delim("_") %>%
@@ -198,6 +199,7 @@ msmmod_forest_data %>%
   ) %>%
   tab_source_note("Model 1: Region-stratified Cox model, with no further adjustment") %>%
   tab_source_note("Model 2: Region-stratified Cox model, with adjustment for baseline confounders") %>%
+  #tab_source_note("Model 3: Region-stratified Cox model, with adjustment for baseline and time-varying confounders") %>%
   tab_source_note("Model 3: Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders")
 tab_forest
 

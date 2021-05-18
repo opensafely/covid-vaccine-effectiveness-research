@@ -125,7 +125,7 @@ for(stratum in strata){
     #mutate(robust0,, model_descr="unadjusted"),
     mutate(robust1, model_descr="Region-stratified Cox model, with no further adjustment"),
     mutate(robust2, model_descr="Region-stratified Cox model, with adjustment for baseline confounders"),
-    #mutate(robust3, model_descr=" + Baseline + time-varying adjustment"),
+    #mutate(robust3, model_descr="Region-stratified Cox model, with adjustment for baseline and time-varying confounders"),
     mutate(robust4, model_descr="Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders"),
     .id = "model"
   ) %>%

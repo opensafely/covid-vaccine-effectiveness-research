@@ -194,7 +194,7 @@ if(brand=="any"){
 
   gt_vax_stack <- tbl_stack(
     gts$gt,
-    group_header=str_wrap(gts$outcome_descr, width=30)
+    group_header = str_wrap(gts$outcome_descr, width=30)
   )
 
   plot_vaxany1 <- forest_from_gtstack(gt_vax_stack, "Vaccination model")
@@ -234,7 +234,7 @@ if(brand!="any"){
 
   plot_vaxany1 <- forest_from_gtstack(gt_vax_stack, "Vaccination model")
   ggsave(
-    here::here("output", cohort, glue::glue("plot_vax{brand}1.html")),
+    here::here("output", cohort, glue::glue("plot_vax{brand}1.svg")),
     plot_vaxany1,
     units="cm", width=25, height=25
   )
@@ -243,7 +243,7 @@ if(brand!="any"){
     gts$gt,
     tab_spanner = gts$outcome_descr
   )
-  gtsave(gt_vax_merge %>% as_gt(), here::here("output", cohort, glue::glue("gt_vax{brand}1.html")))
+  gtsave(gt_vax_merge %>% as_gt(), here::here("output", cohort, glue::glue("tab_vax{brand}1.html")))
 
 }
 
