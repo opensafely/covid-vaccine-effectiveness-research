@@ -67,7 +67,7 @@ actions:
 
   descr_events_over70s:
     run: r:latest analysis/R/plot_status_over_time_all.R over70s
-    needs: [data_define_cohorts]
+    needs: [data_define_cohorts, data_process_all]
     outputs:
       moderately_sensitive:
         plots: output/over70s/descr/plots/*.svg
