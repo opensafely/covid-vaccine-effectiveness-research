@@ -191,52 +191,52 @@ actions:
 #       moderately_sensitive:
 #         plots: output/over80s/postest/any/all/*cox_all.svg
 #         tables: output/over80s/postest/any/all/*cox_all.csv
-
-  models_cox_over80s_postest_any_all_region:
-    run: r:latest analysis/R/dose_1/model_cox.R over80s postest any all region
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      highly_sensitive:
-        models: output/over80s/postest/any/all/*/region/modelcox*.rds
-
-  report_cox_over80s_postest_any_all_region:
-    run: r:latest analysis/R/dose_1/report_cox.R over80s postest any all region
-    needs: [data_define_cohorts, models_cox_over80s_postest_any_all_region]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/postest/any/all/*cox_region.svg
-        tables: output/over80s/postest/any/all/*cox_region.csv
-
-  # models_cox_over80s_postest_any_all_stp:
-  #   run: r:latest analysis/R/dose_1/model_cox.R over80s postest any all stp
-  #   needs: [data_define_cohorts, data_stset_over80s]
-  #   outputs:
-  #     highly_sensitive:
-  #       models: output/over80s/postest/any/all/*/stp/modelcox*.rds
-  #
-  # report_cox_over80s_postest_any_all_stp:
-  #   run: r:latest analysis/R/dose_1/report_cox.R over80s postest any all stp
-  #   needs: [data_define_cohorts, models_cox_over80s_postest_any_all_stp]
-  #   outputs:
-  #     moderately_sensitive:
-  #       plots: output/over80s/postest/any/all/*cox_stp.svg
-  #       tables: output/over80s/postest/any/all/*cox_stp.csv
-  #
-  # models_cox_over80s_postest_any_all_msoa:
-  #   run: r:latest analysis/R/dose_1/model_cox.R over80s postest any all msoa
-  #   needs: [data_define_cohorts, data_stset_over80s]
-  #   outputs:
-  #     highly_sensitive:
-  #       models: output/over80s/postest/any/all/*/msoa/modelcox*.rds
-  #
-  # report_cox_over80s_postest_any_all_msoa:
-  #   run: r:latest analysis/R/dose_1/report_cox.R over80s postest any all msoa
-  #   needs: [data_define_cohorts, models_cox_over80s_postest_any_all_msoa]
-  #   outputs:
-  #     moderately_sensitive:
-  #       plots: output/over80s/postest/any/all/*cox_msoa.svg
-  #       tables: output/over80s/postest/any/all/*cox_msoa.csv
-
+#
+#   models_cox_over80s_postest_any_all_region:
+#     run: r:latest analysis/R/dose_1/model_cox.R over80s postest any all region
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/postest/any/all/*/region/modelcox*.rds
+#
+#   report_cox_over80s_postest_any_all_region:
+#     run: r:latest analysis/R/dose_1/report_cox.R over80s postest any all region
+#     needs: [data_define_cohorts, models_cox_over80s_postest_any_all_region]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/postest/any/all/*cox_region.svg
+#         tables: output/over80s/postest/any/all/*cox_region.csv
+#
+#   models_cox_over80s_postest_any_all_stp:
+#     run: r:latest analysis/R/dose_1/model_cox.R over80s postest any all stp
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/postest/any/all/*/stp/modelcox*.rds
+#
+#   report_cox_over80s_postest_any_all_stp:
+#     run: r:latest analysis/R/dose_1/report_cox.R over80s postest any all stp
+#     needs: [data_define_cohorts, models_cox_over80s_postest_any_all_stp]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/postest/any/all/*cox_stp.svg
+#         tables: output/over80s/postest/any/all/*cox_stp.csv
+#
+#   models_cox_over80s_postest_any_all_msoa:
+#     run: r:latest analysis/R/dose_1/model_cox.R over80s postest any all msoa
+#     needs: [data_define_cohorts, data_stset_over80s]
+#     outputs:
+#       highly_sensitive:
+#         models: output/over80s/postest/any/all/*/msoa/modelcox*.rds
+#
+#   report_cox_over80s_postest_any_all_msoa:
+#     run: r:latest analysis/R/dose_1/report_cox.R over80s postest any all msoa
+#     needs: [data_define_cohorts, models_cox_over80s_postest_any_all_msoa]
+#     outputs:
+#       moderately_sensitive:
+#         plots: output/over80s/postest/any/all/*cox_msoa.svg
+#         tables: output/over80s/postest/any/all/*cox_msoa.csv
+#
 
 
 ## pfizer vaccine
