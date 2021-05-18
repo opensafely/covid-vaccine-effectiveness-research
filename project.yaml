@@ -1084,20 +1084,20 @@ actions:
 #         plots: output/in70s/postest/any/all/*cox_all.svg
 #         tables: output/in70s/postest/any/all/*cox_all.csv
 
-  models_cox_in70s_postest_any_all_region:
-    run: r:latest analysis/R/dose_1/model_cox.R in70s postest any all region
-    needs: [data_define_cohorts, data_stset_in70s]
-    outputs:
-      highly_sensitive:
-        models: output/in70s/postest/any/all/*/region/modelcox*.rds
-
-  report_cox_in70s_postest_any_all_region:
-    run: r:latest analysis/R/dose_1/report_cox.R in70s postest any all region
-    needs: [data_define_cohorts, models_cox_in70s_postest_any_all_region]
-    outputs:
-      moderately_sensitive:
-        plots: output/in70s/postest/any/all/*cox_region.svg
-        tables: output/in70s/postest/any/all/*cox_region.csv
+  # models_cox_in70s_postest_any_all_region:
+  #   run: r:latest analysis/R/dose_1/model_cox.R in70s postest any all region
+  #   needs: [data_define_cohorts, data_stset_in70s]
+  #   outputs:
+  #     highly_sensitive:
+  #       models: output/in70s/postest/any/all/*/region/modelcox*.rds
+  #
+  # report_cox_in70s_postest_any_all_region:
+  #   run: r:latest analysis/R/dose_1/report_cox.R in70s postest any all region
+  #   needs: [data_define_cohorts, models_cox_in70s_postest_any_all_region]
+  #   outputs:
+  #     moderately_sensitive:
+  #       plots: output/in70s/postest/any/all/*cox_region.svg
+  #       tables: output/in70s/postest/any/all/*cox_region.csv
 
   # models_cox_in70s_postest_any_all_stp:
   #   run: r:latest analysis/R/dose_1/model_cox.R in70s postest any all stp
