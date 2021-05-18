@@ -464,15 +464,15 @@ tab_summary <- data_summary %>%
     columns = starts_with("postest")
   ) %>%
   tab_spanner(
-    label = "COVID-related admission",
+    label = "COVID-19 hospitalisation",
     columns = starts_with("covidadmitted")
   ) %>%
   tab_spanner(
-    label = "COVID-related death",
+    label = "COVID-19 death",
     columns = starts_with("coviddeath")
   ) %>%
   tab_spanner(
-    label = "Non-COVID-related death",
+    label = "Non-COVID-19 death",
     columns = starts_with("noncoviddeath")
   ) %>%
   # tab_spanner(

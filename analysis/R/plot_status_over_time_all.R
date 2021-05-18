@@ -320,9 +320,9 @@ data_by_day <-
     tte_vaxany1,
 
     outcome_status = fct_case_when(
-      noncoviddeath_status==1 ~ "Non-covid death",
-      coviddeath_status==1 ~ "Covid-related death",
-      covidadmitted_status==1 ~ "Covid-related admission",
+      noncoviddeath_status==1 ~ "Non-COVID-19 death",
+      coviddeath_status==1 ~ "COVID-19 death",
+      covidadmitted_status==1 ~ "COVID-19 hospitalisation",
       postest_status==1 ~ "Positive test",
       TRUE ~ "No events"
     ) %>% fct_rev()
@@ -535,7 +535,7 @@ plot_event_rates <- function(var, var_descr){
       outcome = factor(
         outcome,
         levels=c("postest_rate", "covidadmitted_rate", "coviddeath_rate", "death_rate"),
-        labels=c("Positive test", "Covid-related admission", "Covid-releated death", "Any death"))
+        labels=c("Positive test", "COVID-19 hospitalisation", "COVID-19 death", "Any death"))
     )
 
 

@@ -125,9 +125,9 @@ metadata_outcomes <- tribble(
   "test", "covid_test_1_date", "Covid test",
   "postest", "positive_test_1_date", "Positive test",
   "emergency", "emergency_1_date", "A&E attendance",
-  "covidadmitted", "covidadmitted_1_date", "COVID-related admission",
-  "coviddeath", "coviddeath_date", "COVID-related death",
-  "noncoviddeath", "noncoviddeath_date", "Non-COVID-related death",
+  "covidadmitted", "covidadmitted_1_date", "COVID-19 hospitalisation",
+  "coviddeath", "coviddeath_date", "COVID-19 death",
+  "noncoviddeath", "noncoviddeath_date", "Non-COVID-19 death",
   "death", "death_date", "Any death",
   "vaccine", "covid_vax_1_date", "First vaccination date"
 )
