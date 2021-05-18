@@ -73,6 +73,22 @@ actions:
         plots: output/over70s/descr/plots/*.svg
         tables: output/over70s/descr/tables/*.csv
 
+  descr_events_over80s:
+    run: r:latest analysis/R/plot_status_over_time_all.R over80s
+    needs: [data_define_cohorts, data_process_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/descr/plots/*.svg
+        tables: output/over80s/descr/tables/*.csv
+
+  descr_events_in70s:
+    run: r:latest analysis/R/plot_status_over_time_all.R in70s
+    needs: [data_define_cohorts, data_process_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/descr/plots/*.svg
+        tables: output/in70s/descr/tables/*.csv
+
 
 ##############################################################################
 ##############################################################################
@@ -108,13 +124,13 @@ actions:
       moderately_sensitive:
         table1: output/over80s/descr/tables/table*
 
-  descr_events_over80s:
-    run: r:latest analysis/R/plot_status_over_time.R over80s
-    needs: [data_define_cohorts, data_stset_over80s]
-    outputs:
-      moderately_sensitive:
-        plots: output/over80s/descr/plots/*.svg
-        tables: output/over80s/descr/tables/*.csv
+  # descr_events_over80s:
+  #   run: r:latest analysis/R/plot_status_over_time.R over80s
+  #   needs: [data_define_cohorts, data_stset_over80s]
+  #   outputs:
+  #     moderately_sensitive:
+  #       plots: output/over80s/descr/plots/*.svg
+  #       tables: output/over80s/descr/tables/*.csv
 
 
 
@@ -999,13 +1015,13 @@ actions:
       moderately_sensitive:
         table1: output/in70s/descr/tables/table*
 
-  descr_events_in70s:
-    run: r:latest analysis/R/plot_status_over_time.R in70s
-    needs: [data_define_cohorts, data_stset_in70s]
-    outputs:
-      moderately_sensitive:
-        plots: output/in70s/descr/plots/*.svg
-        tables: output/in70s/descr/tables/*.csv
+  # descr_events_in70s:
+  #   run: r:latest analysis/R/plot_status_over_time.R in70s
+  #   needs: [data_define_cohorts, data_stset_in70s]
+  #   outputs:
+  #     moderately_sensitive:
+  #       plots: output/in70s/descr/plots/*.svg
+  #       tables: output/in70s/descr/tables/*.csv
 
 
 
