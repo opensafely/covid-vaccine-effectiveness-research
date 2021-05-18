@@ -985,7 +985,13 @@ actions:
         html: output/over80s/tab_vaxaz1.html
 
 
-
+  report_ipw_over80s_all:
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s all
+    needs: [data_define_cohorts, report_ipw_over80s_death_any_all, report_ipw_over80s_death_pfizer_all, report_ipw_over80s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        svg: output/over80s/plot_vax1.svg
+        html: output/over80s/tab_vax1.html
 
 
 ##############################################################################
@@ -1807,3 +1813,12 @@ actions:
       moderately_sensitive:
         svg: output/in70s/plot_vaxaz1.svg
         html: output/in70s/tab_vaxaz1.html
+
+
+  report_ipw_in70s_all:
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R in70s all
+    needs: [data_define_cohorts, report_ipw_in70s_death_any_all, report_ipw_in70s_death_pfizer_all, report_ipw_in70s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        svg: output/in70s/plot_vax1.svg
+        html: output/in70s/tab_vax1.html
