@@ -1,0 +1,43 @@
+2021-05-18T08:35:38.899468700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-18T08:35:38.908288800Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-18T08:35:38.908314600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-18T08:35:38.908323300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-18T08:35:38.908330600Z v readr   1.3.1     v forcats 0.5.0
+2021-05-18T08:35:39.074429600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-18T08:35:39.074480300Z x dplyr::filter() masks stats::filter()
+2021-05-18T08:35:39.074489400Z x dplyr::lag()    masks stats::lag()
+2021-05-18T08:35:39.088952300Z 
+2021-05-18T08:35:39.088977000Z Attaching package: 'lubridate'
+2021-05-18T08:35:39.088986200Z 
+2021-05-18T08:35:39.090537600Z The following objects are masked from 'package:base':
+2021-05-18T08:35:39.090933500Z 
+2021-05-18T08:35:39.090970300Z     date, intersect, setdiff, union
+2021-05-18T08:35:39.090978600Z 
+2021-05-18T08:35:41.253424000Z Loading required package: zoo
+2021-05-18T08:35:41.263982100Z 
+2021-05-18T08:35:41.264008200Z Attaching package: 'zoo'
+2021-05-18T08:35:41.264017500Z 
+2021-05-18T08:35:41.264660900Z The following objects are masked from 'package:base':
+2021-05-18T08:35:41.264678600Z 
+2021-05-18T08:35:41.264686800Z     as.Date, as.Date.numeric
+2021-05-18T08:35:41.264693900Z 
+2021-05-18T08:35:41.687878000Z <environment: R_GlobalEnv>
+2021-05-18T08:35:41.688231600Z <environment: R_GlobalEnv>
+2021-05-18T08:40:46.516602400Z There were 49 warnings (use warnings() to see them)
+
+
+state: succeeded
+commit: 0d6f866d323890fa8e22bb59cc15d6580a6f348f
+docker_image_id: sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb
+exit_code: 0
+job_id: nchjvxeyw6sx7htj
+run_by_user: wjchulme
+created_at: 2021-05-18T08:01:00Z
+started_at: 2021-05-18T08:35:36Z
+completed_at: 2021-05-18T08:41:52Z
+
+Completed successfully
+
+outputs:
+  output/over80s/plot_vaxpfizer1.svg  - moderately_sensitive
+  output/over80s/tab_vaxpfizer1.html  - moderately_sensitive

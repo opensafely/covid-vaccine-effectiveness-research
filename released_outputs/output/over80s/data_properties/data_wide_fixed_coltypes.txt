@@ -13,7 +13,7 @@ $sex
 $imd
 [1] "factor"
 
-$ethnicity
+$ethnicity_combined
 [1] "factor"
 
 $region
@@ -27,9 +27,6 @@ $msoa
 
 $bmi
 [1] "factor"
-
-$chronic_cardiac_disease
-[1] "logical"
 
 $heart_failure
 [1] "logical"
@@ -87,4 +84,7 @@ $shielded
 
 $flu_vaccine
 [1] "logical"
+
+$efi_cat
+[1] "factor"
 
