@@ -20,7 +20,10 @@ $dereg_date
 [1] "Date"
 
 $ethnicity
-[1] "factor"
+[1] "character"
+
+$ethnicity_6_sus
+[1] "character"
 
 $practice_id
 [1] "integer"
@@ -145,6 +148,9 @@ $psychosis_schiz_bipolar
 $flu_vaccine
 [1] "logical"
 
+$efi
+[1] "numeric"
+
 $endoflife
 [1] "logical"
 
@@ -153,6 +159,9 @@ $shielded_ever
 
 $shielded
 [1] "logical"
+
+$ethnicity_combined
+[1] "factor"
 
 $household_n
 [1] "integer"
@@ -344,6 +353,9 @@ $any_immunosuppression
 [1] "logical"
 
 $multimorb
+[1] "factor"
+
+$efi_cat
 [1] "factor"
 
 $cause_of_death

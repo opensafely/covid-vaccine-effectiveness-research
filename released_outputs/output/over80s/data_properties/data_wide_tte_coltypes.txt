@@ -97,3 +97,39 @@ $tte_vaxaz1
 $tte_vaxaz2
 [1] "integer"
 
+$sample_postest
+[1] "logical"
+
+$sample_emergency
+[1] "logical"
+
+$sample_covidadmitted
+[1] "logical"
+
+$sample_coviddeath
+[1] "logical"
+
+$sample_noncoviddeath
+[1] "logical"
+
+$sample_death
+[1] "logical"
+
+$sample_weights_postest
+[1] "numeric"
+
+$sample_weights_emergency
+[1] "numeric"
+
+$sample_weights_covidadmitted
+[1] "numeric"
+
+$sample_weights_coviddeath
+[1] "numeric"
+
+$sample_weights_noncoviddeath
+[1] "numeric"
+
+$sample_weights_death
+[1] "numeric"
+

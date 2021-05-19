@@ -1,103 +1,891 @@
-2021-04-19T06:54:58.080254300Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-19T06:54:58.089231100Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-19T06:54:58.089259000Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-19T06:54:58.089269700Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-19T06:54:58.089277400Z v readr   1.3.1     v forcats 0.5.0
-2021-04-19T06:54:58.254734400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-19T06:54:58.254753400Z x dplyr::filter() masks stats::filter()
-2021-04-19T06:54:58.254761500Z x dplyr::lag()    masks stats::lag()
-2021-04-19T06:54:58.269623500Z 
-2021-04-19T06:54:58.269641600Z Attaching package: 'lubridate'
-2021-04-19T06:54:58.269649100Z 
-2021-04-19T06:54:58.271043200Z The following objects are masked from 'package:base':
-2021-04-19T06:54:58.271059200Z 
-2021-04-19T06:54:58.271066700Z     date, intersect, setdiff, union
-2021-04-19T06:54:58.271073700Z 
-2021-04-19T06:55:00.315462200Z Loading required package: zoo
-2021-04-19T06:55:00.326656900Z 
-2021-04-19T06:55:00.326681400Z Attaching package: 'zoo'
-2021-04-19T06:55:00.326690200Z 
-2021-04-19T06:55:00.327273900Z The following objects are masked from 'package:base':
-2021-04-19T06:55:00.327291100Z 
-2021-04-19T06:55:00.327299300Z     as.Date, as.Date.numeric
-2021-04-19T06:55:00.327306800Z 
-2021-04-19T06:55:00.716953200Z <environment: R_GlobalEnv>
-2021-04-19T06:55:00.717259300Z <environment: R_GlobalEnv>
-2021-04-19T06:55:00.772446100Z Parsed with column specification:
-2021-04-19T06:55:00.772472200Z cols(
-2021-04-19T06:55:00.772480500Z   term = col_character(),
-2021-04-19T06:55:00.772487600Z   estimate = col_double(),
-2021-04-19T06:55:00.772494500Z   std.error = col_double(),
-2021-04-19T06:55:00.772501700Z   statistic = col_double(),
-2021-04-19T06:55:00.772508500Z   p.value = col_double(),
-2021-04-19T06:55:00.772515600Z   conf.low = col_double(),
-2021-04-19T06:55:00.772523000Z   conf.high = col_double(),
-2021-04-19T06:55:00.772530200Z   or = col_double(),
-2021-04-19T06:55:00.772537200Z   or.ll = col_double(),
-2021-04-19T06:55:00.772544000Z   or.ul = col_double(),
-2021-04-19T06:55:00.772550900Z   model = col_character(),
-2021-04-19T06:55:00.772557800Z   strata = col_character()
-2021-04-19T06:55:00.772564600Z )
-2021-04-19T06:55:00.937530900Z Parsed with column specification:
-2021-04-19T06:55:00.937590300Z cols(
-2021-04-19T06:55:00.937598800Z   term = col_character(),
-2021-04-19T06:55:00.937606100Z   estimate = col_double(),
-2021-04-19T06:55:00.937640900Z   std.error = col_double(),
-2021-04-19T06:55:00.937648800Z   statistic = col_double(),
-2021-04-19T06:55:00.937655800Z   p.value = col_double(),
-2021-04-19T06:55:00.937662800Z   conf.low = col_double(),
-2021-04-19T06:55:00.937669700Z   conf.high = col_double(),
-2021-04-19T06:55:00.937676800Z   or = col_double(),
-2021-04-19T06:55:00.937683600Z   or.ll = col_double(),
-2021-04-19T06:55:00.937690800Z   or.ul = col_double(),
-2021-04-19T06:55:00.937697600Z   model = col_character(),
-2021-04-19T06:55:00.937704700Z   strata = col_character()
-2021-04-19T06:55:00.937711500Z )
-2021-04-19T06:55:00.947241800Z Parsed with column specification:
-2021-04-19T06:55:00.947271900Z cols(
-2021-04-19T06:55:00.947280200Z   term = col_character(),
-2021-04-19T06:55:00.947287100Z   estimate = col_double(),
-2021-04-19T06:55:00.947294000Z   std.error = col_double(),
-2021-04-19T06:55:00.947301300Z   statistic = col_double(),
-2021-04-19T06:55:00.947308200Z   p.value = col_double(),
-2021-04-19T06:55:00.947315000Z   conf.low = col_double(),
-2021-04-19T06:55:00.947321900Z   conf.high = col_double(),
-2021-04-19T06:55:00.947328500Z   or = col_double(),
-2021-04-19T06:55:00.947335400Z   or.ll = col_double(),
-2021-04-19T06:55:00.947342100Z   or.ul = col_double(),
-2021-04-19T06:55:00.947348900Z   model = col_character(),
-2021-04-19T06:55:00.947355700Z   strata = col_character()
-2021-04-19T06:55:00.947362600Z )
-2021-04-19T06:55:00.956238100Z Parsed with column specification:
-2021-04-19T06:55:00.956258600Z cols(
-2021-04-19T06:55:00.956266800Z   term = col_character(),
-2021-04-19T06:55:00.956274000Z   estimate = col_double(),
-2021-04-19T06:55:00.956280900Z   std.error = col_double(),
-2021-04-19T06:55:00.956288100Z   statistic = col_double(),
-2021-04-19T06:55:00.956295000Z   p.value = col_double(),
-2021-04-19T06:55:00.956302000Z   conf.low = col_double(),
-2021-04-19T06:55:00.956308900Z   conf.high = col_double(),
-2021-04-19T06:55:00.956316000Z   or = col_double(),
-2021-04-19T06:55:00.956322900Z   or.ll = col_double(),
-2021-04-19T06:55:00.956330000Z   or.ul = col_double(),
-2021-04-19T06:55:00.956336900Z   model = col_character(),
-2021-04-19T06:55:00.956344000Z   strata = col_character()
-2021-04-19T06:55:00.956350900Z )
+2021-05-17T21:29:18.586344500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-17T21:29:18.595289400Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-17T21:29:18.595312800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-17T21:29:18.595321400Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-17T21:29:18.595328400Z v readr   1.3.1     v forcats 0.5.0
+2021-05-17T21:29:18.766811500Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-17T21:29:18.766883000Z x dplyr::filter() masks stats::filter()
+2021-05-17T21:29:18.766892100Z x dplyr::lag()    masks stats::lag()
+2021-05-17T21:29:18.782152700Z 
+2021-05-17T21:29:18.782182400Z Attaching package: 'lubridate'
+2021-05-17T21:29:18.782191300Z 
+2021-05-17T21:29:18.783621500Z The following objects are masked from 'package:base':
+2021-05-17T21:29:18.783638400Z 
+2021-05-17T21:29:18.783646200Z     date, intersect, setdiff, union
+2021-05-17T21:29:18.783653600Z 
+2021-05-17T21:29:20.903962600Z Loading required package: zoo
+2021-05-17T21:29:20.915099400Z 
+2021-05-17T21:29:20.915121300Z Attaching package: 'zoo'
+2021-05-17T21:29:20.915129900Z 
+2021-05-17T21:29:20.915809500Z The following objects are masked from 'package:base':
+2021-05-17T21:29:20.915829900Z 
+2021-05-17T21:29:20.915838700Z     as.Date, as.Date.numeric
+2021-05-17T21:29:20.915846100Z 
+2021-05-17T21:29:21.310063500Z <environment: R_GlobalEnv>
+2021-05-17T21:29:21.310531500Z <environment: R_GlobalEnv>
+2021-05-17T21:29:21.366357200Z Parsed with column specification:
+2021-05-17T21:29:21.366398100Z cols(
+2021-05-17T21:29:21.366406400Z   strata = col_character(),
+2021-05-17T21:29:21.366413300Z   model = col_double(),
+2021-05-17T21:29:21.366420500Z   model_descr = col_character(),
+2021-05-17T21:29:21.366427400Z   term = col_character(),
+2021-05-17T21:29:21.366434400Z   estimate = col_double(),
+2021-05-17T21:29:21.366441400Z   conf.low = col_double(),
+2021-05-17T21:29:21.366448300Z   conf.high = col_double(),
+2021-05-17T21:29:21.366455200Z   std.error = col_double(),
+2021-05-17T21:29:21.366462200Z   statistic = col_double(),
+2021-05-17T21:29:21.366469600Z   p.value = col_double(),
+2021-05-17T21:29:21.366476400Z   or = col_double(),
+2021-05-17T21:29:21.366483900Z   or.ll = col_double(),
+2021-05-17T21:29:21.366490800Z   or.ul = col_double(),
+2021-05-17T21:29:21.366497500Z   ve = col_double(),
+2021-05-17T21:29:21.366504300Z   ve.ll = col_double(),
+2021-05-17T21:29:21.366511100Z   ve.ul = col_double()
+2021-05-17T21:29:21.366556400Z )
+2021-05-17T21:29:21.523408000Z Parsed with column specification:
+2021-05-17T21:29:21.523481800Z cols(
+2021-05-17T21:29:21.523489800Z   strata = col_character(),
+2021-05-17T21:29:21.523496800Z   model = col_double(),
+2021-05-17T21:29:21.523503600Z   model_descr = col_character(),
+2021-05-17T21:29:21.523510700Z   term = col_character(),
+2021-05-17T21:29:21.523517600Z   estimate = col_double(),
+2021-05-17T21:29:21.523524500Z   conf.low = col_double(),
+2021-05-17T21:29:21.523531400Z   conf.high = col_double(),
+2021-05-17T21:29:21.523538400Z   std.error = col_double(),
+2021-05-17T21:29:21.523545200Z   statistic = col_double(),
+2021-05-17T21:29:21.523552000Z   p.value = col_double(),
+2021-05-17T21:29:21.523558700Z   or = col_double(),
+2021-05-17T21:29:21.523565400Z   or.ll = col_double(),
+2021-05-17T21:29:21.523572200Z   or.ul = col_double(),
+2021-05-17T21:29:21.523579000Z   ve = col_double(),
+2021-05-17T21:29:21.523585700Z   ve.ll = col_double(),
+2021-05-17T21:29:21.523592500Z   ve.ul = col_double()
+2021-05-17T21:29:21.523599200Z )
+2021-05-17T21:29:21.530268600Z Parsed with column specification:
+2021-05-17T21:29:21.530284400Z cols(
+2021-05-17T21:29:21.530291500Z   strata = col_character(),
+2021-05-17T21:29:21.530298100Z   model = col_double(),
+2021-05-17T21:29:21.530304800Z   model_descr = col_character(),
+2021-05-17T21:29:21.530311400Z   term = col_character(),
+2021-05-17T21:29:21.530318300Z   estimate = col_double(),
+2021-05-17T21:29:21.530324900Z   conf.low = col_double(),
+2021-05-17T21:29:21.530331600Z   conf.high = col_double(),
+2021-05-17T21:29:21.530338200Z   std.error = col_double(),
+2021-05-17T21:29:21.530344900Z   statistic = col_double(),
+2021-05-17T21:29:21.530351500Z   p.value = col_double(),
+2021-05-17T21:29:21.530358200Z   or = col_double(),
+2021-05-17T21:29:21.530364800Z   or.ll = col_double(),
+2021-05-17T21:29:21.530371500Z   or.ul = col_double(),
+2021-05-17T21:29:21.530378200Z   ve = col_double(),
+2021-05-17T21:29:21.530384800Z   ve.ll = col_double(),
+2021-05-17T21:29:21.530391400Z   ve.ul = col_double()
+2021-05-17T21:29:21.530398200Z )
+2021-05-17T21:29:21.536915500Z Parsed with column specification:
+2021-05-17T21:29:21.536931000Z cols(
+2021-05-17T21:29:21.536938100Z   strata = col_character(),
+2021-05-17T21:29:21.536945000Z   model = col_double(),
+2021-05-17T21:29:21.536952200Z   model_descr = col_character(),
+2021-05-17T21:29:21.536959400Z   term = col_character(),
+2021-05-17T21:29:21.536992200Z   estimate = col_double(),
+2021-05-17T21:29:21.536999700Z   conf.low = col_double(),
+2021-05-17T21:29:21.537006400Z   conf.high = col_double(),
+2021-05-17T21:29:21.537013200Z   std.error = col_double(),
+2021-05-17T21:29:21.537019900Z   statistic = col_double(),
+2021-05-17T21:29:21.537026800Z   p.value = col_double(),
+2021-05-17T21:29:21.537033700Z   or = col_double(),
+2021-05-17T21:29:21.537040500Z   or.ll = col_double(),
+2021-05-17T21:29:21.537047200Z   or.ul = col_double(),
+2021-05-17T21:29:21.537054100Z   ve = col_double(),
+2021-05-17T21:29:21.537061000Z   ve.ll = col_double(),
+2021-05-17T21:29:21.537067800Z   ve.ul = col_double()
+2021-05-17T21:29:21.537076000Z )
+2021-05-17T21:29:21.543187600Z Parsed with column specification:
+2021-05-17T21:29:21.543206800Z cols(
+2021-05-17T21:29:21.543214200Z   strata = col_character(),
+2021-05-17T21:29:21.543220800Z   model = col_double(),
+2021-05-17T21:29:21.543227600Z   model_descr = col_character(),
+2021-05-17T21:29:21.543234200Z   term = col_character(),
+2021-05-17T21:29:21.543241400Z   estimate = col_double(),
+2021-05-17T21:29:21.543250600Z   conf.low = col_double(),
+2021-05-17T21:29:21.543259300Z   conf.high = col_double(),
+2021-05-17T21:29:21.543266400Z   std.error = col_double(),
+2021-05-17T21:29:21.543273400Z   statistic = col_double(),
+2021-05-17T21:29:21.543280200Z   p.value = col_double(),
+2021-05-17T21:29:21.543287000Z   or = col_double(),
+2021-05-17T21:29:21.543293700Z   or.ll = col_double(),
+2021-05-17T21:29:21.543300700Z   or.ul = col_double(),
+2021-05-17T21:29:21.543307300Z   ve = col_double(),
+2021-05-17T21:29:21.543314100Z   ve.ll = col_double(),
+2021-05-17T21:29:21.543320900Z   ve.ul = col_double()
+2021-05-17T21:29:21.543327900Z )
+2021-05-17T21:29:24.402611300Z <style>html {
+2021-05-17T21:29:24.402663700Z   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+2021-05-17T21:29:24.402686200Z }
+2021-05-17T21:29:24.402693900Z 
+2021-05-17T21:29:24.402701400Z #prbopqxpjg .gt_table {
+2021-05-17T21:29:24.402708600Z   display: table;
+2021-05-17T21:29:24.402715700Z   border-collapse: collapse;
+2021-05-17T21:29:24.402722600Z   margin-left: auto;
+2021-05-17T21:29:24.402729400Z   margin-right: auto;
+2021-05-17T21:29:24.402736300Z   color: #333333;
+2021-05-17T21:29:24.402743100Z   font-size: 16px;
+2021-05-17T21:29:24.402750300Z   font-weight: normal;
+2021-05-17T21:29:24.402768700Z   font-style: normal;
+2021-05-17T21:29:24.402776200Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.402783400Z   width: auto;
+2021-05-17T21:29:24.402790100Z   border-top-style: solid;
+2021-05-17T21:29:24.402796700Z   border-top-width: 2px;
+2021-05-17T21:29:24.402803400Z   border-top-color: #A8A8A8;
+2021-05-17T21:29:24.402810200Z   border-right-style: none;
+2021-05-17T21:29:24.402817100Z   border-right-width: 2px;
+2021-05-17T21:29:24.402823700Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.403040600Z   border-bottom-style: solid;
+2021-05-17T21:29:24.403049300Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.403056300Z   border-bottom-color: #A8A8A8;
+2021-05-17T21:29:24.403063200Z   border-left-style: none;
+2021-05-17T21:29:24.403070000Z   border-left-width: 2px;
+2021-05-17T21:29:24.403076900Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.403084400Z }
+2021-05-17T21:29:24.403091500Z 
+2021-05-17T21:29:24.403098200Z #prbopqxpjg .gt_heading {
+2021-05-17T21:29:24.403105500Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.403112500Z   text-align: center;
+2021-05-17T21:29:24.403120200Z   border-bottom-color: #FFFFFF;
+2021-05-17T21:29:24.403126900Z   border-left-style: none;
+2021-05-17T21:29:24.403134300Z   border-left-width: 1px;
+2021-05-17T21:29:24.403141200Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.403148000Z   border-right-style: none;
+2021-05-17T21:29:24.403155300Z   border-right-width: 1px;
+2021-05-17T21:29:24.403162100Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.403169200Z }
+2021-05-17T21:29:24.403175900Z 
+2021-05-17T21:29:24.403182600Z #prbopqxpjg .gt_title {
+2021-05-17T21:29:24.403190100Z   color: #333333;
+2021-05-17T21:29:24.403196800Z   font-size: 125%;
+2021-05-17T21:29:24.403203600Z   font-weight: initial;
+2021-05-17T21:29:24.403210400Z   padding-top: 4px;
+2021-05-17T21:29:24.403217300Z   padding-bottom: 4px;
+2021-05-17T21:29:24.403225000Z   border-bottom-color: #FFFFFF;
+2021-05-17T21:29:24.403232400Z   border-bottom-width: 0;
+2021-05-17T21:29:24.403239500Z }
+2021-05-17T21:29:24.403246200Z 
+2021-05-17T21:29:24.403253800Z #prbopqxpjg .gt_subtitle {
+2021-05-17T21:29:24.403260500Z   color: #333333;
+2021-05-17T21:29:24.403267500Z   font-size: 85%;
+2021-05-17T21:29:24.403274200Z   font-weight: initial;
+2021-05-17T21:29:24.403281400Z   padding-top: 0;
+2021-05-17T21:29:24.403288700Z   padding-bottom: 4px;
+2021-05-17T21:29:24.403314000Z   border-top-color: #FFFFFF;
+2021-05-17T21:29:24.403322300Z   border-top-width: 0;
+2021-05-17T21:29:24.403329500Z }
+2021-05-17T21:29:24.403336500Z 
+2021-05-17T21:29:24.403344600Z #prbopqxpjg .gt_bottom_border {
+2021-05-17T21:29:24.403351500Z   border-bottom-style: solid;
+2021-05-17T21:29:24.403358600Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.403366300Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.403373300Z }
+2021-05-17T21:29:24.403380400Z 
+2021-05-17T21:29:24.403387100Z #prbopqxpjg .gt_col_headings {
+2021-05-17T21:29:24.403431100Z   border-top-style: solid;
+2021-05-17T21:29:24.403467100Z   border-top-width: 2px;
+2021-05-17T21:29:24.403477100Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.403484900Z   border-bottom-style: solid;
+2021-05-17T21:29:24.403492100Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.403499100Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.403506100Z   border-left-style: none;
+2021-05-17T21:29:24.403513800Z   border-left-width: 1px;
+2021-05-17T21:29:24.403521300Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.403528900Z   border-right-style: none;
+2021-05-17T21:29:24.403537000Z   border-right-width: 1px;
+2021-05-17T21:29:24.403543900Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.403551100Z }
+2021-05-17T21:29:24.403558200Z 
+2021-05-17T21:29:24.403565200Z #prbopqxpjg .gt_col_heading {
+2021-05-17T21:29:24.403572500Z   color: #333333;
+2021-05-17T21:29:24.403579300Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.403586000Z   font-size: 100%;
+2021-05-17T21:29:24.403592800Z   font-weight: normal;
+2021-05-17T21:29:24.403601900Z   text-transform: inherit;
+2021-05-17T21:29:24.403609700Z   border-left-style: none;
+2021-05-17T21:29:24.403616400Z   border-left-width: 1px;
+2021-05-17T21:29:24.403623300Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.403630200Z   border-right-style: none;
+2021-05-17T21:29:24.403637400Z   border-right-width: 1px;
+2021-05-17T21:29:24.403644200Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.403651000Z   vertical-align: bottom;
+2021-05-17T21:29:24.403657900Z   padding-top: 5px;
+2021-05-17T21:29:24.403664600Z   padding-bottom: 6px;
+2021-05-17T21:29:24.403671500Z   padding-left: 5px;
+2021-05-17T21:29:24.403678200Z   padding-right: 5px;
+2021-05-17T21:29:24.403685000Z   overflow-x: hidden;
+2021-05-17T21:29:24.403692600Z }
+2021-05-17T21:29:24.403699200Z 
+2021-05-17T21:29:24.403706400Z #prbopqxpjg .gt_column_spanner_outer {
+2021-05-17T21:29:24.403722600Z   color: #333333;
+2021-05-17T21:29:24.403730200Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.403736800Z   font-size: 100%;
+2021-05-17T21:29:24.403885400Z   font-weight: normal;
+2021-05-17T21:29:24.403898100Z   text-transform: inherit;
+2021-05-17T21:29:24.403905300Z   padding-top: 0;
+2021-05-17T21:29:24.403912000Z   padding-bottom: 0;
+2021-05-17T21:29:24.403919100Z   padding-left: 4px;
+2021-05-17T21:29:24.403925800Z   padding-right: 4px;
+2021-05-17T21:29:24.403933100Z }
+2021-05-17T21:29:24.403940000Z 
+2021-05-17T21:29:24.403947900Z #prbopqxpjg .gt_column_spanner_outer:first-child {
+2021-05-17T21:29:24.403955000Z   padding-left: 0;
+2021-05-17T21:29:24.403961900Z }
+2021-05-17T21:29:24.403968700Z 
+2021-05-17T21:29:24.403975400Z #prbopqxpjg .gt_column_spanner_outer:last-child {
+2021-05-17T21:29:24.403982300Z   padding-right: 0;
+2021-05-17T21:29:24.403989000Z }
+2021-05-17T21:29:24.403995700Z 
+2021-05-17T21:29:24.404002800Z #prbopqxpjg .gt_column_spanner {
+2021-05-17T21:29:24.404010300Z   border-bottom-style: solid;
+2021-05-17T21:29:24.404017000Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.404024100Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.404030900Z   vertical-align: bottom;
+2021-05-17T21:29:24.404037900Z   padding-top: 5px;
+2021-05-17T21:29:24.404044600Z   padding-bottom: 6px;
+2021-05-17T21:29:24.404051300Z   overflow-x: hidden;
+2021-05-17T21:29:24.404058100Z   display: inline-block;
+2021-05-17T21:29:24.404064900Z   width: 100%;
+2021-05-17T21:29:24.404071500Z }
+2021-05-17T21:29:24.404078200Z 
+2021-05-17T21:29:24.404084800Z #prbopqxpjg .gt_group_heading {
+2021-05-17T21:29:24.404091500Z   padding: 8px;
+2021-05-17T21:29:24.404098300Z   color: #333333;
+2021-05-17T21:29:24.404105300Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.404112400Z   font-size: 100%;
+2021-05-17T21:29:24.404119100Z   font-weight: initial;
+2021-05-17T21:29:24.404126200Z   text-transform: inherit;
+2021-05-17T21:29:24.404133100Z   border-top-style: solid;
+2021-05-17T21:29:24.404139900Z   border-top-width: 2px;
+2021-05-17T21:29:24.404147000Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.404154000Z   border-bottom-style: solid;
+2021-05-17T21:29:24.404161500Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.404168200Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.404175500Z   border-left-style: none;
+2021-05-17T21:29:24.404182700Z   border-left-width: 1px;
+2021-05-17T21:29:24.404199300Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.404206800Z   border-right-style: none;
+2021-05-17T21:29:24.404214500Z   border-right-width: 1px;
+2021-05-17T21:29:24.404221500Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.404228500Z   vertical-align: middle;
+2021-05-17T21:29:24.404235300Z }
+2021-05-17T21:29:24.404242900Z 
+2021-05-17T21:29:24.404250300Z #prbopqxpjg .gt_empty_group_heading {
+2021-05-17T21:29:24.404258600Z   padding: 0.5px;
+2021-05-17T21:29:24.404267200Z   color: #333333;
+2021-05-17T21:29:24.404274500Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.404281900Z   font-size: 100%;
+2021-05-17T21:29:24.404288900Z   font-weight: initial;
+2021-05-17T21:29:24.404296200Z   border-top-style: solid;
+2021-05-17T21:29:24.404303700Z   border-top-width: 2px;
+2021-05-17T21:29:24.404311600Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.404319000Z   border-bottom-style: solid;
+2021-05-17T21:29:24.404325800Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.404332600Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.404339400Z   vertical-align: middle;
+2021-05-17T21:29:24.404346400Z }
+2021-05-17T21:29:24.404353900Z 
+2021-05-17T21:29:24.404360900Z #prbopqxpjg .gt_from_md > :first-child {
+2021-05-17T21:29:24.404368300Z   margin-top: 0;
+2021-05-17T21:29:24.404375200Z }
+2021-05-17T21:29:24.404382100Z 
+2021-05-17T21:29:24.404389000Z #prbopqxpjg .gt_from_md > :last-child {
+2021-05-17T21:29:24.404396300Z   margin-bottom: 0;
+2021-05-17T21:29:24.404403200Z }
+2021-05-17T21:29:24.404410000Z 
+2021-05-17T21:29:24.404417200Z #prbopqxpjg .gt_row {
+2021-05-17T21:29:24.404424100Z   padding-top: 8px;
+2021-05-17T21:29:24.404431300Z   padding-bottom: 8px;
+2021-05-17T21:29:24.404439400Z   padding-left: 5px;
+2021-05-17T21:29:24.404472300Z   padding-right: 5px;
+2021-05-17T21:29:24.404479500Z   margin: 10px;
+2021-05-17T21:29:24.404486300Z   border-top-style: solid;
+2021-05-17T21:29:24.404493200Z   border-top-width: 1px;
+2021-05-17T21:29:24.404499900Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.404506700Z   border-left-style: none;
+2021-05-17T21:29:24.404513300Z   border-left-width: 1px;
+2021-05-17T21:29:24.404523000Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.404529900Z   border-right-style: none;
+2021-05-17T21:29:24.404536800Z   border-right-width: 1px;
+2021-05-17T21:29:24.404543600Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.404558700Z   vertical-align: middle;
+2021-05-17T21:29:24.404566200Z   overflow-x: hidden;
+2021-05-17T21:29:24.404572800Z }
+2021-05-17T21:29:24.404579500Z 
+2021-05-17T21:29:24.404586200Z #prbopqxpjg .gt_stub {
+2021-05-17T21:29:24.404593000Z   color: #333333;
+2021-05-17T21:29:24.404599700Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.404606500Z   font-size: 100%;
+2021-05-17T21:29:24.404613100Z   font-weight: initial;
+2021-05-17T21:29:24.404619800Z   text-transform: inherit;
+2021-05-17T21:29:24.404626500Z   border-right-style: solid;
+2021-05-17T21:29:24.404633300Z   border-right-width: 2px;
+2021-05-17T21:29:24.404640100Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.404647300Z   padding-left: 12px;
+2021-05-17T21:29:24.404655100Z }
+2021-05-17T21:29:24.404661900Z 
+2021-05-17T21:29:24.404668900Z #prbopqxpjg .gt_summary_row {
+2021-05-17T21:29:24.404675500Z   color: #333333;
+2021-05-17T21:29:24.404682300Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.404689400Z   text-transform: inherit;
+2021-05-17T21:29:24.404696100Z   padding-top: 8px;
+2021-05-17T21:29:24.404702800Z   padding-bottom: 8px;
+2021-05-17T21:29:24.404709400Z   padding-left: 5px;
+2021-05-17T21:29:24.404716000Z   padding-right: 5px;
+2021-05-17T21:29:24.404722600Z }
+2021-05-17T21:29:24.404729200Z 
+2021-05-17T21:29:24.404735800Z #prbopqxpjg .gt_first_summary_row {
+2021-05-17T21:29:24.404742500Z   padding-top: 8px;
+2021-05-17T21:29:24.404749100Z   padding-bottom: 8px;
+2021-05-17T21:29:24.404755700Z   padding-left: 5px;
+2021-05-17T21:29:24.404762400Z   padding-right: 5px;
+2021-05-17T21:29:24.404769000Z   border-top-style: solid;
+2021-05-17T21:29:24.404775700Z   border-top-width: 2px;
+2021-05-17T21:29:24.404782200Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.404788900Z }
+2021-05-17T21:29:24.404795500Z 
+2021-05-17T21:29:24.404802200Z #prbopqxpjg .gt_grand_summary_row {
+2021-05-17T21:29:24.404808900Z   color: #333333;
+2021-05-17T21:29:24.404816200Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.404823000Z   text-transform: inherit;
+2021-05-17T21:29:24.404830100Z   padding-top: 8px;
+2021-05-17T21:29:24.404836600Z   padding-bottom: 8px;
+2021-05-17T21:29:24.404843400Z   padding-left: 5px;
+2021-05-17T21:29:24.404850200Z   padding-right: 5px;
+2021-05-17T21:29:24.404856800Z }
+2021-05-17T21:29:24.404863500Z 
+2021-05-17T21:29:24.404870000Z #prbopqxpjg .gt_first_grand_summary_row {
+2021-05-17T21:29:24.404882600Z   padding-top: 8px;
+2021-05-17T21:29:24.404889900Z   padding-bottom: 8px;
+2021-05-17T21:29:24.404896700Z   padding-left: 5px;
+2021-05-17T21:29:24.404903300Z   padding-right: 5px;
+2021-05-17T21:29:24.404909900Z   border-top-style: double;
+2021-05-17T21:29:24.404916600Z   border-top-width: 6px;
+2021-05-17T21:29:24.404923700Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.404930500Z }
+2021-05-17T21:29:24.404937200Z 
+2021-05-17T21:29:24.404944300Z #prbopqxpjg .gt_striped {
+2021-05-17T21:29:24.404951100Z   background-color: rgba(128, 128, 128, 0.05);
+2021-05-17T21:29:24.404957900Z }
+2021-05-17T21:29:24.404965400Z 
+2021-05-17T21:29:24.404972200Z #prbopqxpjg .gt_table_body {
+2021-05-17T21:29:24.404979000Z   border-top-style: solid;
+2021-05-17T21:29:24.404985800Z   border-top-width: 2px;
+2021-05-17T21:29:24.404992600Z   border-top-color: #D3D3D3;
+2021-05-17T21:29:24.404999400Z   border-bottom-style: solid;
+2021-05-17T21:29:24.405006100Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.405012800Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.405019600Z }
+2021-05-17T21:29:24.405026100Z 
+2021-05-17T21:29:24.405032600Z #prbopqxpjg .gt_footnotes {
+2021-05-17T21:29:24.405039200Z   color: #333333;
+2021-05-17T21:29:24.405045800Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.405052900Z   border-bottom-style: none;
+2021-05-17T21:29:24.405059500Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.405066200Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.405072900Z   border-left-style: none;
+2021-05-17T21:29:24.405079800Z   border-left-width: 2px;
+2021-05-17T21:29:24.405088600Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.405095400Z   border-right-style: none;
+2021-05-17T21:29:24.405102600Z   border-right-width: 2px;
+2021-05-17T21:29:24.405109600Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.405116700Z }
+2021-05-17T21:29:24.405123600Z 
+2021-05-17T21:29:24.405130400Z #prbopqxpjg .gt_footnote {
+2021-05-17T21:29:24.405140100Z   margin: 0px;
+2021-05-17T21:29:24.405147100Z   font-size: 90%;
+2021-05-17T21:29:24.405154400Z   padding: 4px;
+2021-05-17T21:29:24.405161400Z }
+2021-05-17T21:29:24.405168700Z 
+2021-05-17T21:29:24.405175800Z #prbopqxpjg .gt_sourcenotes {
+2021-05-17T21:29:24.405183000Z   color: #333333;
+2021-05-17T21:29:24.405190100Z   background-color: #FFFFFF;
+2021-05-17T21:29:24.405197200Z   border-bottom-style: none;
+2021-05-17T21:29:24.405210800Z   border-bottom-width: 2px;
+2021-05-17T21:29:24.405219000Z   border-bottom-color: #D3D3D3;
+2021-05-17T21:29:24.405226200Z   border-left-style: none;
+2021-05-17T21:29:24.405233000Z   border-left-width: 2px;
+2021-05-17T21:29:24.405240000Z   border-left-color: #D3D3D3;
+2021-05-17T21:29:24.405247200Z   border-right-style: none;
+2021-05-17T21:29:24.405254400Z   border-right-width: 2px;
+2021-05-17T21:29:24.405261300Z   border-right-color: #D3D3D3;
+2021-05-17T21:29:24.405268600Z }
+2021-05-17T21:29:24.405276100Z 
+2021-05-17T21:29:24.405283100Z #prbopqxpjg .gt_sourcenote {
+2021-05-17T21:29:24.405290200Z   font-size: 90%;
+2021-05-17T21:29:24.405297200Z   padding: 4px;
+2021-05-17T21:29:24.405304500Z }
+2021-05-17T21:29:24.405312400Z 
+2021-05-17T21:29:24.405319100Z #prbopqxpjg .gt_left {
+2021-05-17T21:29:24.405325800Z   text-align: left;
+2021-05-17T21:29:24.405333000Z }
+2021-05-17T21:29:24.405340100Z 
+2021-05-17T21:29:24.405346900Z #prbopqxpjg .gt_center {
+2021-05-17T21:29:24.405354500Z   text-align: center;
+2021-05-17T21:29:24.405361500Z }
+2021-05-17T21:29:24.405368500Z 
+2021-05-17T21:29:24.405375600Z #prbopqxpjg .gt_right {
+2021-05-17T21:29:24.405382500Z   text-align: right;
+2021-05-17T21:29:24.405390100Z   font-variant-numeric: tabular-nums;
+2021-05-17T21:29:24.405397100Z }
+2021-05-17T21:29:24.405404000Z 
+2021-05-17T21:29:24.405411000Z #prbopqxpjg .gt_font_normal {
+2021-05-17T21:29:24.405418500Z   font-weight: normal;
+2021-05-17T21:29:24.405426000Z }
+2021-05-17T21:29:24.405433100Z 
+2021-05-17T21:29:24.405458400Z #prbopqxpjg .gt_font_bold {
+2021-05-17T21:29:24.405472600Z   font-weight: bold;
+2021-05-17T21:29:24.405480900Z }
+2021-05-17T21:29:24.405489000Z 
+2021-05-17T21:29:24.405495800Z #prbopqxpjg .gt_font_italic {
+2021-05-17T21:29:24.405503200Z   font-style: italic;
+2021-05-17T21:29:24.405510600Z }
+2021-05-17T21:29:24.405517800Z 
+2021-05-17T21:29:24.405525300Z #prbopqxpjg .gt_super {
+2021-05-17T21:29:24.405532300Z   font-size: 65%;
+2021-05-17T21:29:24.405539400Z }
+2021-05-17T21:29:24.405546700Z 
+2021-05-17T21:29:24.405553500Z #prbopqxpjg .gt_footnote_marks {
+2021-05-17T21:29:24.405561200Z   font-style: italic;
+2021-05-17T21:29:24.405568700Z   font-size: 65%;
+2021-05-17T21:29:24.405576200Z }
+2021-05-17T21:29:24.405592000Z </style>
+2021-05-17T21:29:24.405599800Z <div id="prbopqxpjg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+2021-05-17T21:29:24.405607600Z   
+2021-05-17T21:29:24.405614600Z   <thead class="gt_col_headings">
+2021-05-17T21:29:24.405622300Z     <tr>
+2021-05-17T21:29:24.405629300Z       <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Time since first dose</th>
+2021-05-17T21:29:24.405637100Z       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+2021-05-17T21:29:24.405644900Z         <span class="gt_column_spanner">Model 1</span>
+2021-05-17T21:29:24.405652500Z       </th>
+2021-05-17T21:29:24.405659600Z       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+2021-05-17T21:29:24.405667300Z         <span class="gt_column_spanner">Model 2</span>
+2021-05-17T21:29:24.405674800Z       </th>
+2021-05-17T21:29:24.405682200Z       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+2021-05-17T21:29:24.405690000Z         <span class="gt_column_spanner">Model 3</span>
+2021-05-17T21:29:24.405697700Z       </th>
+2021-05-17T21:29:24.405704800Z     </tr>
+2021-05-17T21:29:24.405711600Z     <tr>
+2021-05-17T21:29:24.405718900Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">VE (%)</th>
+2021-05-17T21:29:24.405726600Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+2021-05-17T21:29:24.405734900Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P value</th>
+2021-05-17T21:29:24.405743600Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">VE (%)</th>
+2021-05-17T21:29:24.405751800Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+2021-05-17T21:29:24.405759600Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P value</th>
+2021-05-17T21:29:24.405767100Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">VE (%)</th>
+2021-05-17T21:29:24.405774600Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+2021-05-17T21:29:24.405782500Z       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">P value</th>
+2021-05-17T21:29:24.405790200Z     </tr>
+2021-05-17T21:29:24.405798800Z   </thead>
+2021-05-17T21:29:24.405812100Z   <tbody class="gt_table_body">
+2021-05-17T21:29:24.405863900Z     <tr class="gt_group_heading_row">
+2021-05-17T21:29:24.405874700Z       <td colspan="10" class="gt_group_heading">Positive test</td>
+2021-05-17T21:29:24.405882200Z     </tr>
+2021-05-17T21:29:24.405889800Z     <tr>
+2021-05-17T21:29:24.405897500Z       <td class="gt_row gt_right">1-3</td>
+2021-05-17T21:29:24.405905000Z       <td class="gt_row gt_right">66.1</td>
+2021-05-17T21:29:24.405912700Z       <td class="gt_row gt_right">(60.3 - 71.0)</td>
+2021-05-17T21:29:24.405919800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.405927700Z       <td class="gt_row gt_right">66.3</td>
+2021-05-17T21:29:24.405935400Z       <td class="gt_row gt_right">(60.6 - 71.2)</td>
+2021-05-17T21:29:24.405943000Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.405950600Z       <td class="gt_row gt_right">63.0</td>
+2021-05-17T21:29:24.405957800Z       <td class="gt_row gt_right">(56.6 - 68.5)</td>
+2021-05-17T21:29:24.405965300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.405973400Z     </tr>
+2021-05-17T21:29:24.405980600Z     <tr>
+2021-05-17T21:29:24.405987600Z       <td class="gt_row gt_right">4-7</td>
+2021-05-17T21:29:24.405996200Z       <td class="gt_row gt_right">57.0</td>
+2021-05-17T21:29:24.406004000Z       <td class="gt_row gt_right">(51.0 - 62.3)</td>
+2021-05-17T21:29:24.406011800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406019100Z       <td class="gt_row gt_right">57.2</td>
+2021-05-17T21:29:24.406026500Z       <td class="gt_row gt_right">(51.2 - 62.4)</td>
+2021-05-17T21:29:24.406033900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406041300Z       <td class="gt_row gt_right">51.2</td>
+2021-05-17T21:29:24.406048600Z       <td class="gt_row gt_right">(44.2 - 57.3)</td>
+2021-05-17T21:29:24.406056200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406063800Z     </tr>
+2021-05-17T21:29:24.406070600Z     <tr>
+2021-05-17T21:29:24.406078000Z       <td class="gt_row gt_right">8-14</td>
+2021-05-17T21:29:24.406085200Z       <td class="gt_row gt_right">49.3</td>
+2021-05-17T21:29:24.406092400Z       <td class="gt_row gt_right">(43.0 - 54.9)</td>
+2021-05-17T21:29:24.406110500Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406118800Z       <td class="gt_row gt_right">49.1</td>
+2021-05-17T21:29:24.406127000Z       <td class="gt_row gt_right">(42.9 - 54.6)</td>
+2021-05-17T21:29:24.406134200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406141500Z       <td class="gt_row gt_right">42.5</td>
+2021-05-17T21:29:24.406148600Z       <td class="gt_row gt_right">(35.4 - 48.8)</td>
+2021-05-17T21:29:24.406156100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406163800Z     </tr>
+2021-05-17T21:29:24.406170800Z     <tr>
+2021-05-17T21:29:24.406177800Z       <td class="gt_row gt_right">15-21</td>
+2021-05-17T21:29:24.406184900Z       <td class="gt_row gt_right">55.7</td>
+2021-05-17T21:29:24.406192100Z       <td class="gt_row gt_right">(48.6 - 61.8)</td>
+2021-05-17T21:29:24.406277400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406285700Z       <td class="gt_row gt_right">56.3</td>
+2021-05-17T21:29:24.406292900Z       <td class="gt_row gt_right">(49.3 - 62.2)</td>
+2021-05-17T21:29:24.406300600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406308000Z       <td class="gt_row gt_right">49.7</td>
+2021-05-17T21:29:24.406315900Z       <td class="gt_row gt_right">(41.6 - 56.7)</td>
+2021-05-17T21:29:24.406323100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406331100Z     </tr>
+2021-05-17T21:29:24.406338200Z     <tr>
+2021-05-17T21:29:24.406345300Z       <td class="gt_row gt_right">22-28</td>
+2021-05-17T21:29:24.406352600Z       <td class="gt_row gt_right">72.4</td>
+2021-05-17T21:29:24.406359700Z       <td class="gt_row gt_right">(65.6 - 77.9)</td>
+2021-05-17T21:29:24.406367600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406375200Z       <td class="gt_row gt_right">73.3</td>
+2021-05-17T21:29:24.406382400Z       <td class="gt_row gt_right">(66.8 - 78.6)</td>
+2021-05-17T21:29:24.406390600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406398300Z       <td class="gt_row gt_right">68.1</td>
+2021-05-17T21:29:24.406405600Z       <td class="gt_row gt_right">(60.0 - 74.5)</td>
+2021-05-17T21:29:24.406413000Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406429300Z     </tr>
+2021-05-17T21:29:24.406437500Z     <tr>
+2021-05-17T21:29:24.406469300Z       <td class="gt_row gt_right">29+</td>
+2021-05-17T21:29:24.406477100Z       <td class="gt_row gt_right">59.1</td>
+2021-05-17T21:29:24.406484700Z       <td class="gt_row gt_right">(44.7 - 69.8)</td>
+2021-05-17T21:29:24.406491700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406498800Z       <td class="gt_row gt_right">61.3</td>
+2021-05-17T21:29:24.406505700Z       <td class="gt_row gt_right">(47.6 - 71.3)</td>
+2021-05-17T21:29:24.406513500Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406520500Z       <td class="gt_row gt_right">54.5</td>
+2021-05-17T21:29:24.406527600Z       <td class="gt_row gt_right">(38.2 - 66.5)</td>
+2021-05-17T21:29:24.406534600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406541800Z     </tr>
+2021-05-17T21:29:24.406548400Z     <tr class="gt_group_heading_row">
+2021-05-17T21:29:24.406555300Z       <td colspan="10" class="gt_group_heading">COVID-related admission</td>
+2021-05-17T21:29:24.406562900Z     </tr>
+2021-05-17T21:29:24.406569800Z     <tr>
+2021-05-17T21:29:24.406576500Z       <td class="gt_row gt_right">1-3</td>
+2021-05-17T21:29:24.406583500Z       <td class="gt_row gt_right">67.1</td>
+2021-05-17T21:29:24.406590400Z       <td class="gt_row gt_right">(59.2 - 73.4)</td>
+2021-05-17T21:29:24.406598800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406606600Z       <td class="gt_row gt_right">68.8</td>
+2021-05-17T21:29:24.406613600Z       <td class="gt_row gt_right">(61.4 - 74.8)</td>
+2021-05-17T21:29:24.406621000Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406628300Z       <td class="gt_row gt_right">43.6</td>
+2021-05-17T21:29:24.406635300Z       <td class="gt_row gt_right">(-0.1 - 68.2)</td>
+2021-05-17T21:29:24.406642600Z       <td class="gt_row gt_right">0.051</td>
+2021-05-17T21:29:24.406649700Z     </tr>
+2021-05-17T21:29:24.406656300Z     <tr>
+2021-05-17T21:29:24.406662800Z       <td class="gt_row gt_right">4-7</td>
+2021-05-17T21:29:24.406670400Z       <td class="gt_row gt_right">70.6</td>
+2021-05-17T21:29:24.406677800Z       <td class="gt_row gt_right">(64.0 - 76.1)</td>
+2021-05-17T21:29:24.406694300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406702700Z       <td class="gt_row gt_right">72.1</td>
+2021-05-17T21:29:24.406711100Z       <td class="gt_row gt_right">(65.9 - 77.2)</td>
+2021-05-17T21:29:24.406718600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406725900Z       <td class="gt_row gt_right">66.0</td>
+2021-05-17T21:29:24.406733200Z       <td class="gt_row gt_right">(57.1 - 73.1)</td>
+2021-05-17T21:29:24.406740600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406748700Z     </tr>
+2021-05-17T21:29:24.406756200Z     <tr>
+2021-05-17T21:29:24.406763900Z       <td class="gt_row gt_right">8-14</td>
+2021-05-17T21:29:24.406771400Z       <td class="gt_row gt_right">66.0</td>
+2021-05-17T21:29:24.406779200Z       <td class="gt_row gt_right">(59.4 - 71.4)</td>
+2021-05-17T21:29:24.406786400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406793600Z       <td class="gt_row gt_right">67.6</td>
+2021-05-17T21:29:24.406801100Z       <td class="gt_row gt_right">(61.8 - 72.6)</td>
+2021-05-17T21:29:24.406808500Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406815900Z       <td class="gt_row gt_right">55.5</td>
+2021-05-17T21:29:24.406823000Z       <td class="gt_row gt_right">(44.6 - 64.3)</td>
+2021-05-17T21:29:24.406830100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406837500Z     </tr>
+2021-05-17T21:29:24.406844300Z     <tr>
+2021-05-17T21:29:24.406851200Z       <td class="gt_row gt_right">15-21</td>
+2021-05-17T21:29:24.406858300Z       <td class="gt_row gt_right">67.3</td>
+2021-05-17T21:29:24.406865600Z       <td class="gt_row gt_right">(59.5 - 73.6)</td>
+2021-05-17T21:29:24.406872900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406927000Z       <td class="gt_row gt_right">71.1</td>
+2021-05-17T21:29:24.406935500Z       <td class="gt_row gt_right">(64.5 - 76.5)</td>
+2021-05-17T21:29:24.406943700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406952000Z       <td class="gt_row gt_right">59.3</td>
+2021-05-17T21:29:24.406959200Z       <td class="gt_row gt_right">(46.8 - 68.9)</td>
+2021-05-17T21:29:24.406974600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.406982400Z     </tr>
+2021-05-17T21:29:24.406990300Z     <tr>
+2021-05-17T21:29:24.406997800Z       <td class="gt_row gt_right">22-28</td>
+2021-05-17T21:29:24.407005100Z       <td class="gt_row gt_right">80.0</td>
+2021-05-17T21:29:24.407012500Z       <td class="gt_row gt_right">(72.6 - 85.5)</td>
+2021-05-17T21:29:24.407021300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407030500Z       <td class="gt_row gt_right">83.8</td>
+2021-05-17T21:29:24.407038300Z       <td class="gt_row gt_right">(77.9 - 88.1)</td>
+2021-05-17T21:29:24.407046300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407053600Z       <td class="gt_row gt_right">74.6</td>
+2021-05-17T21:29:24.407061600Z       <td class="gt_row gt_right">(63.0 - 82.6)</td>
+2021-05-17T21:29:24.407069100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407076200Z     </tr>
+2021-05-17T21:29:24.407083600Z     <tr>
+2021-05-17T21:29:24.407090400Z       <td class="gt_row gt_right">29+</td>
+2021-05-17T21:29:24.407097700Z       <td class="gt_row gt_right">77.9</td>
+2021-05-17T21:29:24.407104700Z       <td class="gt_row gt_right">(63.9 - 86.5)</td>
+2021-05-17T21:29:24.407111700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407118800Z       <td class="gt_row gt_right">83.3</td>
+2021-05-17T21:29:24.407125800Z       <td class="gt_row gt_right">(72.7 - 89.8)</td>
+2021-05-17T21:29:24.407132900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407140000Z       <td class="gt_row gt_right">73.4</td>
+2021-05-17T21:29:24.407147000Z       <td class="gt_row gt_right">(52.8 - 85.0)</td>
+2021-05-17T21:29:24.407154100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407161300Z     </tr>
+2021-05-17T21:29:24.407168000Z     <tr class="gt_group_heading_row">
+2021-05-17T21:29:24.407175100Z       <td colspan="10" class="gt_group_heading">COVID-related death</td>
+2021-05-17T21:29:24.407182500Z     </tr>
+2021-05-17T21:29:24.407189200Z     <tr>
+2021-05-17T21:29:24.407195800Z       <td class="gt_row gt_right">1-3</td>
+2021-05-17T21:29:24.407202800Z       <td class="gt_row gt_right">99.1</td>
+2021-05-17T21:29:24.407295100Z       <td class="gt_row gt_right">(96.5 - 99.8)</td>
+2021-05-17T21:29:24.407306400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407313800Z       <td class="gt_row gt_right">99.2</td>
+2021-05-17T21:29:24.407321000Z       <td class="gt_row gt_right">(96.6 - 99.8)</td>
+2021-05-17T21:29:24.407328300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407335600Z       <td class="gt_row gt_right">92.2</td>
+2021-05-17T21:29:24.407342700Z       <td class="gt_row gt_right">(53.5 - 98.7)</td>
+2021-05-17T21:29:24.407350200Z       <td class="gt_row gt_right">0.005</td>
+2021-05-17T21:29:24.407357500Z     </tr>
+2021-05-17T21:29:24.407364400Z     <tr>
+2021-05-17T21:29:24.407371400Z       <td class="gt_row gt_right">4-7</td>
+2021-05-17T21:29:24.407378600Z       <td class="gt_row gt_right">97.8</td>
+2021-05-17T21:29:24.407385900Z       <td class="gt_row gt_right">(95.5 - 98.9)</td>
+2021-05-17T21:29:24.407393200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407400500Z       <td class="gt_row gt_right">97.7</td>
+2021-05-17T21:29:24.407407600Z       <td class="gt_row gt_right">(95.5 - 98.9)</td>
+2021-05-17T21:29:24.407414900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407422200Z       <td class="gt_row gt_right">94.6</td>
+2021-05-17T21:29:24.407429300Z       <td class="gt_row gt_right">(88.8 - 97.4)</td>
+2021-05-17T21:29:24.407436700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407468900Z     </tr>
+2021-05-17T21:29:24.407476300Z     <tr>
+2021-05-17T21:29:24.407483100Z       <td class="gt_row gt_right">8-14</td>
+2021-05-17T21:29:24.407490100Z       <td class="gt_row gt_right">95.5</td>
+2021-05-17T21:29:24.407497000Z       <td class="gt_row gt_right">(93.5 - 96.9)</td>
+2021-05-17T21:29:24.407505400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407512800Z       <td class="gt_row gt_right">95.3</td>
+2021-05-17T21:29:24.407519900Z       <td class="gt_row gt_right">(93.3 - 96.7)</td>
+2021-05-17T21:29:24.407527100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407534200Z       <td class="gt_row gt_right">84.0</td>
+2021-05-17T21:29:24.407541200Z       <td class="gt_row gt_right">(76.4 - 89.1)</td>
+2021-05-17T21:29:24.407556700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407564500Z     </tr>
+2021-05-17T21:29:24.407571500Z     <tr>
+2021-05-17T21:29:24.407578400Z       <td class="gt_row gt_right">15-21</td>
+2021-05-17T21:29:24.407585400Z       <td class="gt_row gt_right">93.1</td>
+2021-05-17T21:29:24.407592600Z       <td class="gt_row gt_right">(90.4 - 95.1)</td>
+2021-05-17T21:29:24.407600100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407607200Z       <td class="gt_row gt_right">93.5</td>
+2021-05-17T21:29:24.407614600Z       <td class="gt_row gt_right">(91.0 - 95.4)</td>
+2021-05-17T21:29:24.407622100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407630400Z       <td class="gt_row gt_right">73.5</td>
+2021-05-17T21:29:24.407638300Z       <td class="gt_row gt_right">(61.3 - 81.8)</td>
+2021-05-17T21:29:24.407645600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407652800Z     </tr>
+2021-05-17T21:29:24.407660100Z     <tr>
+2021-05-17T21:29:24.407668000Z       <td class="gt_row gt_right">22-28</td>
+2021-05-17T21:29:24.407675800Z       <td class="gt_row gt_right">92.2</td>
+2021-05-17T21:29:24.407683200Z       <td class="gt_row gt_right">(88.5 - 94.8)</td>
+2021-05-17T21:29:24.407690400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407698600Z       <td class="gt_row gt_right">93.5</td>
+2021-05-17T21:29:24.407706700Z       <td class="gt_row gt_right">(90.4 - 95.6)</td>
+2021-05-17T21:29:24.407714300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407721700Z       <td class="gt_row gt_right">66.8</td>
+2021-05-17T21:29:24.407728800Z       <td class="gt_row gt_right">(48.3 - 78.7)</td>
+2021-05-17T21:29:24.407735800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407743800Z     </tr>
+2021-05-17T21:29:24.407750700Z     <tr>
+2021-05-17T21:29:24.407757600Z       <td class="gt_row gt_right">29+</td>
+2021-05-17T21:29:24.407765100Z       <td class="gt_row gt_right">87.5</td>
+2021-05-17T21:29:24.407772600Z       <td class="gt_row gt_right">(79.2 - 92.5)</td>
+2021-05-17T21:29:24.407779900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407787500Z       <td class="gt_row gt_right">90.4</td>
+2021-05-17T21:29:24.407802100Z       <td class="gt_row gt_right">(83.9 - 94.3)</td>
+2021-05-17T21:29:24.407810800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407818000Z       <td class="gt_row gt_right">39.4</td>
+2021-05-17T21:29:24.407825400Z       <td class="gt_row gt_right">(-8.2 - 66.1)</td>
+2021-05-17T21:29:24.407832400Z       <td class="gt_row gt_right">0.090</td>
+2021-05-17T21:29:24.407882600Z     </tr>
+2021-05-17T21:29:24.407890900Z     <tr class="gt_group_heading_row">
+2021-05-17T21:29:24.407898000Z       <td colspan="10" class="gt_group_heading">Non-COVID-related death</td>
+2021-05-17T21:29:24.407905300Z     </tr>
+2021-05-17T21:29:24.407912600Z     <tr>
+2021-05-17T21:29:24.407920000Z       <td class="gt_row gt_right">1-3</td>
+2021-05-17T21:29:24.407928200Z       <td class="gt_row gt_right">79.6</td>
+2021-05-17T21:29:24.407935600Z       <td class="gt_row gt_right">(73.0 - 84.6)</td>
+2021-05-17T21:29:24.407943800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407951200Z       <td class="gt_row gt_right">79.7</td>
+2021-05-17T21:29:24.407958600Z       <td class="gt_row gt_right">(73.1 - 84.7)</td>
+2021-05-17T21:29:24.407965800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407973200Z       <td class="gt_row gt_right">76.1</td>
+2021-05-17T21:29:24.407980100Z       <td class="gt_row gt_right">(68.0 - 82.2)</td>
+2021-05-17T21:29:24.407989800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.407996900Z     </tr>
+2021-05-17T21:29:24.408004100Z     <tr>
+2021-05-17T21:29:24.408010900Z       <td class="gt_row gt_right">4-7</td>
+2021-05-17T21:29:24.408018100Z       <td class="gt_row gt_right">76.6</td>
+2021-05-17T21:29:24.408025100Z       <td class="gt_row gt_right">(70.9 - 81.2)</td>
+2021-05-17T21:29:24.408032200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408039500Z       <td class="gt_row gt_right">76.2</td>
+2021-05-17T21:29:24.408046800Z       <td class="gt_row gt_right">(70.4 - 80.8)</td>
+2021-05-17T21:29:24.408054300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408062200Z       <td class="gt_row gt_right">70.1</td>
+2021-05-17T21:29:24.408069900Z       <td class="gt_row gt_right">(60.7 - 77.2)</td>
+2021-05-17T21:29:24.408085300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408093100Z     </tr>
+2021-05-17T21:29:24.408099900Z     <tr>
+2021-05-17T21:29:24.408106700Z       <td class="gt_row gt_right">8-14</td>
+2021-05-17T21:29:24.408113900Z       <td class="gt_row gt_right">78.9</td>
+2021-05-17T21:29:24.408121100Z       <td class="gt_row gt_right">(74.8 - 82.4)</td>
+2021-05-17T21:29:24.408128500Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408289500Z       <td class="gt_row gt_right">77.9</td>
+2021-05-17T21:29:24.408298700Z       <td class="gt_row gt_right">(73.7 - 81.4)</td>
+2021-05-17T21:29:24.408305900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408313400Z       <td class="gt_row gt_right">70.0</td>
+2021-05-17T21:29:24.408320400Z       <td class="gt_row gt_right">(61.4 - 76.6)</td>
+2021-05-17T21:29:24.408327800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408334900Z     </tr>
+2021-05-17T21:29:24.408342100Z     <tr>
+2021-05-17T21:29:24.408349000Z       <td class="gt_row gt_right">15-21</td>
+2021-05-17T21:29:24.408356200Z       <td class="gt_row gt_right">76.9</td>
+2021-05-17T21:29:24.408363500Z       <td class="gt_row gt_right">(71.9 - 81.0)</td>
+2021-05-17T21:29:24.408370900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408378300Z       <td class="gt_row gt_right">78.2</td>
+2021-05-17T21:29:24.408385500Z       <td class="gt_row gt_right">(73.7 - 82.0)</td>
+2021-05-17T21:29:24.408392700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408399900Z       <td class="gt_row gt_right">66.3</td>
+2021-05-17T21:29:24.408407300Z       <td class="gt_row gt_right">(50.9 - 76.8)</td>
+2021-05-17T21:29:24.408414900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408422400Z     </tr>
+2021-05-17T21:29:24.408429300Z     <tr>
+2021-05-17T21:29:24.408436200Z       <td class="gt_row gt_right">22-28</td>
+2021-05-17T21:29:24.408464700Z       <td class="gt_row gt_right">80.8</td>
+2021-05-17T21:29:24.408476300Z       <td class="gt_row gt_right">(75.5 - 85.0)</td>
+2021-05-17T21:29:24.408483800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408491000Z       <td class="gt_row gt_right">84.1</td>
+2021-05-17T21:29:24.408506800Z       <td class="gt_row gt_right">(79.7 - 87.6)</td>
+2021-05-17T21:29:24.408514800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408522500Z       <td class="gt_row gt_right">78.0</td>
+2021-05-17T21:29:24.408529700Z       <td class="gt_row gt_right">(70.7 - 83.4)</td>
+2021-05-17T21:29:24.408537200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408544500Z     </tr>
+2021-05-17T21:29:24.408551200Z     <tr>
+2021-05-17T21:29:24.408558100Z       <td class="gt_row gt_right">29+</td>
+2021-05-17T21:29:24.408565600Z       <td class="gt_row gt_right">73.4</td>
+2021-05-17T21:29:24.408572900Z       <td class="gt_row gt_right">(63.2 - 80.8)</td>
+2021-05-17T21:29:24.408581200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408588900Z       <td class="gt_row gt_right">79.4</td>
+2021-05-17T21:29:24.408596400Z       <td class="gt_row gt_right">(71.5 - 85.2)</td>
+2021-05-17T21:29:24.408604100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408611600Z       <td class="gt_row gt_right">68.4</td>
+2021-05-17T21:29:24.408618900Z       <td class="gt_row gt_right">(53.9 - 78.4)</td>
+2021-05-17T21:29:24.408626300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408634200Z     </tr>
+2021-05-17T21:29:24.408642500Z     <tr class="gt_group_heading_row">
+2021-05-17T21:29:24.408649900Z       <td colspan="10" class="gt_group_heading">Any death</td>
+2021-05-17T21:29:24.408657800Z     </tr>
+2021-05-17T21:29:24.408664900Z     <tr>
+2021-05-17T21:29:24.408672800Z       <td class="gt_row gt_right">1-3</td>
+2021-05-17T21:29:24.408680200Z       <td class="gt_row gt_right">88.9</td>
+2021-05-17T21:29:24.408687700Z       <td class="gt_row gt_right">(85.4 - 91.6)</td>
+2021-05-17T21:29:24.408695400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408702600Z       <td class="gt_row gt_right">88.9</td>
+2021-05-17T21:29:24.408709700Z       <td class="gt_row gt_right">(85.4 - 91.6)</td>
+2021-05-17T21:29:24.408717000Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408724600Z       <td class="gt_row gt_right">81.6</td>
+2021-05-17T21:29:24.408731800Z       <td class="gt_row gt_right">(73.4 - 87.3)</td>
+2021-05-17T21:29:24.408746800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408755100Z     </tr>
+2021-05-17T21:29:24.408762100Z     <tr>
+2021-05-17T21:29:24.408768800Z       <td class="gt_row gt_right">4-7</td>
+2021-05-17T21:29:24.408775700Z       <td class="gt_row gt_right">86.5</td>
+2021-05-17T21:29:24.408782800Z       <td class="gt_row gt_right">(83.5 - 89.0)</td>
+2021-05-17T21:29:24.408789900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408797100Z       <td class="gt_row gt_right">86.2</td>
+2021-05-17T21:29:24.408849300Z       <td class="gt_row gt_right">(83.1 - 88.7)</td>
+2021-05-17T21:29:24.408860100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408867400Z       <td class="gt_row gt_right">78.0</td>
+2021-05-17T21:29:24.408874800Z       <td class="gt_row gt_right">(71.7 - 82.9)</td>
+2021-05-17T21:29:24.408882600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408890000Z     </tr>
+2021-05-17T21:29:24.408897200Z     <tr>
+2021-05-17T21:29:24.408904900Z       <td class="gt_row gt_right">8-14</td>
+2021-05-17T21:29:24.408913500Z       <td class="gt_row gt_right">86.5</td>
+2021-05-17T21:29:24.408921000Z       <td class="gt_row gt_right">(84.2 - 88.5)</td>
+2021-05-17T21:29:24.408928300Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408935400Z       <td class="gt_row gt_right">85.7</td>
+2021-05-17T21:29:24.408942800Z       <td class="gt_row gt_right">(83.4 - 87.7)</td>
+2021-05-17T21:29:24.408950900Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408958400Z       <td class="gt_row gt_right">74.2</td>
+2021-05-17T21:29:24.408965800Z       <td class="gt_row gt_right">(68.2 - 79.1)</td>
+2021-05-17T21:29:24.408973000Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.408980300Z     </tr>
+2021-05-17T21:29:24.408987100Z     <tr>
+2021-05-17T21:29:24.408994100Z       <td class="gt_row gt_right">15-21</td>
+2021-05-17T21:29:24.409001700Z       <td class="gt_row gt_right">84.3</td>
+2021-05-17T21:29:24.409009100Z       <td class="gt_row gt_right">(81.5 - 86.7)</td>
+2021-05-17T21:29:24.409016400Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409032700Z       <td class="gt_row gt_right">85.0</td>
+2021-05-17T21:29:24.409040400Z       <td class="gt_row gt_right">(82.4 - 87.2)</td>
+2021-05-17T21:29:24.409047500Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409054500Z       <td class="gt_row gt_right">69.8</td>
+2021-05-17T21:29:24.409062100Z       <td class="gt_row gt_right">(61.7 - 76.1)</td>
+2021-05-17T21:29:24.409070000Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409077800Z     </tr>
+2021-05-17T21:29:24.409269600Z     <tr>
+2021-05-17T21:29:24.409283100Z       <td class="gt_row gt_right">22-28</td>
+2021-05-17T21:29:24.409290800Z       <td class="gt_row gt_right">86.0</td>
+2021-05-17T21:29:24.409297900Z       <td class="gt_row gt_right">(82.8 - 88.6)</td>
+2021-05-17T21:29:24.409305200Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409312400Z       <td class="gt_row gt_right">88.2</td>
+2021-05-17T21:29:24.409319600Z       <td class="gt_row gt_right">(85.5 - 90.4)</td>
+2021-05-17T21:29:24.409326800Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409334100Z       <td class="gt_row gt_right">76.4</td>
+2021-05-17T21:29:24.409341400Z       <td class="gt_row gt_right">(70.3 - 81.3)</td>
+2021-05-17T21:29:24.409348700Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409356100Z     </tr>
+2021-05-17T21:29:24.409363100Z     <tr>
+2021-05-17T21:29:24.409370600Z       <td class="gt_row gt_right">29+</td>
+2021-05-17T21:29:24.409378100Z       <td class="gt_row gt_right">79.8</td>
+2021-05-17T21:29:24.409385500Z       <td class="gt_row gt_right">(73.5 - 84.7)</td>
+2021-05-17T21:29:24.409393100Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409400400Z       <td class="gt_row gt_right">84.3</td>
+2021-05-17T21:29:24.409407600Z       <td class="gt_row gt_right">(79.3 - 88.1)</td>
+2021-05-17T21:29:24.409415500Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409423100Z       <td class="gt_row gt_right">64.7</td>
+2021-05-17T21:29:24.409430400Z       <td class="gt_row gt_right">(51.8 - 74.1)</td>
+2021-05-17T21:29:24.409438600Z       <td class="gt_row gt_right">&lt;0.001</td>
+2021-05-17T21:29:24.409469900Z     </tr>
+2021-05-17T21:29:24.409477400Z   </tbody>
+2021-05-17T21:29:24.409493700Z   <tfoot class="gt_sourcenotes">
+2021-05-17T21:29:24.409501900Z     <tr>
+2021-05-17T21:29:24.409511200Z       <td class="gt_sourcenote" colspan="10">Model 1: Region-stratified Cox model, with no further adjustment</td>
+2021-05-17T21:29:24.409519700Z     </tr>
+2021-05-17T21:29:24.409527400Z     <tr>
+2021-05-17T21:29:24.409534800Z       <td class="gt_sourcenote" colspan="10">Model 2: Region-stratified Cox model, with adjustment for baseline confounders</td>
+2021-05-17T21:29:24.409542300Z     </tr>
+2021-05-17T21:29:24.409549100Z     <tr>
+2021-05-17T21:29:24.409555800Z       <td class="gt_sourcenote" colspan="10">Model 3: Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders</td>
+2021-05-17T21:29:24.409563700Z     </tr>
+2021-05-17T21:29:24.409570500Z   </tfoot>
+2021-05-17T21:29:24.409577500Z   
+2021-05-17T21:29:24.409584900Z </table></div>
 
 
 state: succeeded
-commit: 33f52791c8cce80c6c198db74da25e5b695f71d1
-docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+commit: 6fff8b080ef5b019bcac6bd03903fef0f2ebabd2
+docker_image_id: sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb
 exit_code: 0
-job_id: knucnr5lrdcsrmx6
+job_id: szv7jkmckqlk4z7n
 run_by_user: wjchulme
-created_at: 2021-04-18T20:34:40Z
-started_at: 2021-04-19T06:54:55Z
-completed_at: 2021-04-19T06:55:06Z
+created_at: 2021-05-17T21:28:37Z
+started_at: 2021-05-17T21:29:15Z
+completed_at: 2021-05-17T21:30:00Z
 
 Completed successfully
 
 outputs:
-  output/in70s/estimates_az_all.csv    - moderately_sensitive
-  output/in70s/estimates_az_all.html   - moderately_sensitive
-  output/in70s/forest_plot_az_all.svg  - moderately_sensitive
+  output/in70s/estimates_az_all.html              - moderately_sensitive
+  output/in70s/estimates_timesincevax_az_all.csv  - moderately_sensitive
+  output/in70s/forest_plot_az_all.svg             - moderately_sensitive

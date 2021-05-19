@@ -1,0 +1,43 @@
+2021-05-18T07:54:37.854609600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-18T07:54:37.863256700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-18T07:54:37.863283800Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-18T07:54:37.863293100Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-18T07:54:37.863300300Z v readr   1.3.1     v forcats 0.5.0
+2021-05-18T07:54:38.030838300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-18T07:54:38.030907300Z x dplyr::filter() masks stats::filter()
+2021-05-18T07:54:38.030916500Z x dplyr::lag()    masks stats::lag()
+2021-05-18T07:54:38.045614900Z 
+2021-05-18T07:54:38.045635400Z Attaching package: 'lubridate'
+2021-05-18T07:54:38.045643100Z 
+2021-05-18T07:54:38.047034200Z The following objects are masked from 'package:base':
+2021-05-18T07:54:38.047056500Z 
+2021-05-18T07:54:38.047065900Z     date, intersect, setdiff, union
+2021-05-18T07:54:38.047073900Z 
+2021-05-18T07:54:40.181063600Z Loading required package: zoo
+2021-05-18T07:54:40.191319900Z 
+2021-05-18T07:54:40.191346500Z Attaching package: 'zoo'
+2021-05-18T07:54:40.191356200Z 
+2021-05-18T07:54:40.191891400Z The following objects are masked from 'package:base':
+2021-05-18T07:54:40.191907100Z 
+2021-05-18T07:54:40.191915300Z     as.Date, as.Date.numeric
+2021-05-18T07:54:40.191922700Z 
+2021-05-18T07:54:40.609212300Z <environment: R_GlobalEnv>
+2021-05-18T07:54:40.609607900Z <environment: R_GlobalEnv>
+2021-05-18T07:59:17.126730900Z There were 49 warnings (use warnings() to see them)
+
+
+state: succeeded
+commit: 0d6f866d323890fa8e22bb59cc15d6580a6f348f
+docker_image_id: sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb
+exit_code: 0
+job_id: vt3tr4h4rf7tpomy
+run_by_user: wjchulme
+created_at: 2021-05-18T07:42:44Z
+started_at: 2021-05-18T07:54:34Z
+completed_at: 2021-05-18T07:59:39Z
+
+Completed successfully
+
+outputs:
+  output/over80s/plot_vaxany1.svg  - moderately_sensitive
+  output/over80s/tab_vaxany1.html  - moderately_sensitive
