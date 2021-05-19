@@ -145,7 +145,7 @@ msmmod_forest <-
     #title=glue::glue("Outcomes by time since first {brand} vaccine"),
     #subtitle=cohort_descr
   ) +
-  theme_bw(base_size=13)+
+  theme_bw(base_size=14)+
   theme(
     panel.border = element_blank(),
     axis.line.y = element_line(colour = "black"),
@@ -156,7 +156,7 @@ msmmod_forest <-
     strip.placement = "outside",
     strip.text.y.left = element_text(angle = 0),
 
-    panel.spacing = unit(0.8, "lines"),
+    panel.spacing = unit(1, "lines"),
 
     plot.title = element_text(hjust = 0),
     plot.title.position = "plot",
