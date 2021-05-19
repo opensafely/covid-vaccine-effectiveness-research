@@ -67,7 +67,7 @@ actions:
 
 
   descr_table1_over70s:
-    run: r:latest analysis/R/table1_light.R over70s
+    run: r:latest analysis/R/table1_lite.R over70s
     needs: [data_define_cohorts, data_process_all]
     outputs:
       moderately_sensitive:
@@ -113,7 +113,7 @@ actions:
         datasummary: output/over80s/data_properties/data_wide_tte*.txt
 
   descr_table1_over80s:
-    run: r:latest analysis/R/table1_light.R over80s
+    run: r:latest analysis/R/table1_lite.R over80s
     needs: [data_define_cohorts, data_process_all]
     outputs:
       moderately_sensitive:
@@ -1010,7 +1010,7 @@ actions:
         datasummary: output/in70s/data_properties/data_wide_tte*.txt
 
   descr_table1_in70s:
-    run: r:latest analysis/R/table1_light.R in70s
+    run: r:latest analysis/R/table1_lite.R in70s
     needs: [data_define_cohorts, data_process_all]
     outputs:
       moderately_sensitive:
