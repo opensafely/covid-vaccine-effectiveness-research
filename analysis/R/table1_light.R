@@ -69,7 +69,71 @@ metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
 ## Import processed data ----
 data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
+
+## choose and name characteristics to print ----
+
+characteristics <- list(
+  ageband ~ "Age",
+  sex ~ "Sex",
+  imd ~ "IMD",
+  #region ~ "Region",
+  ethnicity_combined ~ "Ethnicity",
+
+  bmi ~ "Body Mass Index",
+
+  heart_failure ~ "Heart failure",
+  other_heart_disease ~ "Other heart disease",
+
+  dialysis ~ "Dialysis",
+  diabetes ~ "Diabetes",
+  chronic_liver_disease ~ "Chronic liver disease",
+
+  current_copd ~ "COPD",
+  #cystic_fibrosis ~ "Cystic fibrosis",
+  other_resp_conditions ~ "Other respiratory conditions",
+
+  lung_cancer ~ "Lung Cancer",
+  haematological_cancer ~ "Haematological cancer",
+  cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
+
+  #chemo_or_radio ~ "Chemo- or radio-therapy",
+  #solid_organ_transplantation ~ "Solid organ transplant",
+  #bone_marrow_transplant ~ "Bone marrow transplant",
+  #sickle_cell_disease ~ "Sickle Cell Disease",
+  #permanant_immunosuppression ~ "Permanent immunosuppression",
+  #temporary_immunosuppression ~ "Temporary Immunosuppression",
+  #asplenia ~ "Asplenia",
+  #dmards ~ "DMARDS",
+
+  any_immunosuppression ~ "Immunosuppressed",
+
+  dementia ~ "Dementia",
+  other_neuro_conditions ~ "Other neurological conditions",
+
+  LD_incl_DS_and_CP ~ "Learning disabilities",
+  psychosis_schiz_bipolar ~ "Serious mental illness",
+
+  multimorb ~ "Morbidity count",
+  efi_cat ~ "Frailty",
+
+  shielded ~ "Shielding criteria met",
+
+  flu_vaccine ~ "Flu vaccine in previous 5 years"
+
+) %>%
+  set_names(., map_chr(., all.vars))
+
 # create pt data ----
+
+data_fixed <- data_all %>%
+  filter(
+    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
+  ) %>%
+  select(
+    patient_id,
+    age,
+    all_of(names(characteristics))
+  )
 
 
 data_tte <- data_all %>%
@@ -78,13 +142,6 @@ data_tte <- data_all %>%
   ) %>%
   transmute(
     patient_id,
-
-    age,
-    ageband,
-    sex,
-    imd,
-    ethnicity_combined,
-    region,
 
     start_date,
     end_date,
@@ -234,6 +291,8 @@ data_ss <- data_pt %>%
   left_join(data_fixed, by = "patient_id")
 
 
+
+
 # create tables ----
 
 
@@ -268,105 +327,17 @@ data_tab <- data_ss %>%
 # ))
 
 
-
-tab_summary <- data_tab %>% transmute(
-  ageband, sex, imd, region, ethnicity_combined,
-  bmi,
-  heart_failure,
-  other_heart_disease,
-
-  dialysis,
-  diabetes,
-  chronic_liver_disease,
-
-  current_copd,
-  #cystic_fibrosis,
-  other_resp_conditions,
-
-  lung_cancer,
-  haematological_cancer,
-  cancer_excl_lung_and_haem,
-
-  #chemo_or_radio,
-  #solid_organ_transplantation,
-  #bone_marrow_transplant,
-  #sickle_cell_disease,
-  #permanant_immunosuppression,
-  #temporary_immunosuppression,
-  #asplenia,
-  #dmards,
-  any_immunosuppression,
-
-  dementia,
-  other_neuro_conditions,
-  LD_incl_DS_and_CP,
-  psychosis_schiz_bipolar,
-
-  multimorb,
-
-  shielded,
-
-  flu_vaccine,
-
-  efi_cat,
-
-  snapshot_day, vaxany_status
-) %>%
+tab_summary <- data_tab %>%
+  select(
+    any_of(names(characteristics)),
+    snapshot_day, vaxany_status
+  ) %>%
   group_split(snapshot_day) %>%
   map(
     ~tbl_summary(
       .x %>% mutate(vaxany_status=droplevels(vaxany_status)) %>% select(-snapshot_day),
       by=vaxany_status,
-      label=list(
-        ageband ~ "Age",
-        sex ~ "Sex",
-        imd ~ "IMD",
-        region ~ "Region",
-        ethnicity_combined ~ "Ethnicity",
-
-        bmi ~ "Body Mass Index",
-
-        heart_failure ~ "Heart failure",
-        other_heart_disease ~ "Other heart disease",
-
-        dialysis ~ "Dialysis",
-        diabetes ~ "Diabetes",
-        chronic_liver_disease ~ "Chronic liver disease",
-
-        current_copd ~ "COPD",
-        #cystic_fibrosis ~ "Cystic fibrosis",
-        other_resp_conditions ~ "Other respiratory conditions",
-
-        lung_cancer ~ "Lung Cancer",
-        haematological_cancer ~ "Haematological cancer",
-        cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
-
-        #chemo_or_radio ~ "Chemo- or radio-therapy",
-        #solid_organ_transplantation ~ "Solid organ transplant",
-        #bone_marrow_transplant ~ "Bone marrow transplant",
-        #sickle_cell_disease ~ "Sickle Cell Disease",
-        #permanant_immunosuppression ~ "Permanent immunosuppression",
-        #temporary_immunosuppression ~ "Temporary Immunosuppression",
-        #asplenia ~ "Asplenia",
-        #dmards ~ "DMARDS",
-
-        any_immunosuppression ~ "Immunosuppressed",
-
-        dementia ~ "Dementia",
-        other_neuro_conditions ~ "Other neurological conditions",
-
-        LD_incl_DS_and_CP ~ "Learning disabilities",
-        psychosis_schiz_bipolar ~ "Serious mental illness",
-
-        multimorb ~ "Morbidity count",
-
-        shielded ~ "Shielding criteria met",
-
-        flu_vaccine ~ "Flu vaccine in previous 5 years",
-
-        efi_cat ~ "Frailty"
-
-      )
+      label=unname(characteristics)
     ) %>%
       modify_footnote(starts_with("stat_") ~ NA)
   ) %>%
