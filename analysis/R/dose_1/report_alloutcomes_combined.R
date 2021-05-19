@@ -137,7 +137,7 @@ msmmod_forest <-
   )+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian(ylim=c(0.02,2)) +
+  coord_cartesian(ylim=c(0.04,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Days since first dose",
@@ -145,7 +145,7 @@ msmmod_forest <-
     #title=glue::glue("Outcomes by time since first {brand} vaccine"),
     #subtitle=cohort_descr
   ) +
-  theme_bw(base_size=14)+
+  theme_bw(base_size=16)+
   theme(
     panel.border = element_blank(),
     axis.line.y = element_line(colour = "black"),
