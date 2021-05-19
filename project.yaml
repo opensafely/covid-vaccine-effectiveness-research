@@ -65,9 +65,15 @@ actions:
         flow: output/data/flowchart*.csv
 
 
+  # descr_table1_over70s:
+  #   run: r:latest analysis/R/table1_lite.R over70s
+  #   needs: [data_define_cohorts, data_process_all]
+  #   outputs:
+  #     moderately_sensitive:
+  #       table1: output/over70s/descr/tables/table*
 
-  descr_table1_over70s:
-    run: r:latest analysis/R/table1_lite.R over70s
+    descr_table1_over70s_baseline:
+    run: r:latest analysis/R/table1_baseline.R over70s
     needs: [data_define_cohorts, data_process_all]
     outputs:
       moderately_sensitive:
