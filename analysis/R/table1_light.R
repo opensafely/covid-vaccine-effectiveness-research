@@ -324,7 +324,7 @@ data_tab <- data_pt %>%
   left_join(data_fixed, by = "patient_id") %>%
   mutate(
     date = factor(as.Date(gbl_vars$start_date) + snapshot_day),
-    snapshot_day = paste0("day ", snapshot_day),
+    snapshot_day = paste0("Day ", snapshot_day),
     vaxany_status=fct_case_when(
       timesincevaxany1<=0 ~ "Unvaccinated",
       timesincevaxany1>0 ~ "Vaccinated",
@@ -352,16 +352,23 @@ tab_summary <- data_tab %>%
     any_of(names(characteristics)),
     snapshot_day, vaxany_status
   ) %>%
-  group_split(snapshot_day) %>%
+  split(.$snapshot_day) %>%
   map(
-    ~tbl_summary(
-      .x %>% mutate(vaxany_status=droplevels(vaxany_status)) %>% select(-snapshot_day),
-      by=vaxany_status,
-      label=unname(characteristics)
-    ) %>%
+    function(x){
+      tbl <- x %>%
+        mutate(vaxany_status=droplevels(vaxany_status)) %>%
+        select(-snapshot_day) %>%
+        tbl_summary(
+        by=vaxany_status,
+        label=unname(characteristics)
+      ) %>%
       modify_footnote(starts_with("stat_") ~ NA)
+
+      tbl$inputs$data <- NULL
+      tbl
+    }
   ) %>%
-  tbl_merge(tab_spanner=c("Day 0", "Day 28", "Day 56"))
+  tbl_merge(tab_spanner=names(.))
 
 
 ## create output directories ----
