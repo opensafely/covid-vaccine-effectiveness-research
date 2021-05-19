@@ -166,6 +166,7 @@ data_tte <- data_all %>%
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
+
   )
 
 data_tte_cp <- tmerge(
@@ -277,20 +278,13 @@ data_by_day <-
     day = tstop,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
-    date = week,
+    #date = week,
 
     vaxany_status_onedose = vaxany_status!=0,
     vaxany_status = fct_case_when(
       vaxany_status==0 & death_status==0 & dereg_status==0 ~ "Not vaccinated",
       vaxany_status==1 ~ "One dose",
       vaxany_status==2 ~ "Two doses",
-      death_status==1 | dereg_status==1 ~ "Died/deregistered",
-      TRUE ~ NA_character_
-    ),
-    vaxbrand_status = fct_case_when(
-      vaxpfizer_status==0 & vaxaz_status==0  & death_status==0 & dereg_status==0 ~ "Not vaccinated",
-      vaxpfizer_status>0 ~ "BNT162b2",
-      vaxaz_status>0 ~ "ChAdOx1",
       death_status==1 | dereg_status==1 ~ "Died/deregistered",
       TRUE ~ NA_character_
     ),
@@ -402,7 +396,7 @@ plot_brand_counts <- function(var, var_descr){
     ungroup() %>%
     arrange(date, variable, vaxbrand_status, death_status) %>%
     mutate(
-      death_status= if_else(is.na(death_status) | death_status==0, "Alive", "Dead"),
+      death_status= if_else(death_status %in% 1, "Dead", "Alive"),
       group= factor(
         paste0(death_status,":",vaxbrand_status),
         levels= map_chr(
@@ -438,8 +432,8 @@ plot_brand_counts <- function(var, var_descr){
 }
 
 # plot_brand_counts("all", "")
-#
-#
+
+
 # data1 <- data_by_day %>%
 #   mutate(
 #     variable = data_by_day[["all"]]
