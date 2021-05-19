@@ -182,7 +182,7 @@ data_tte <- data_all  %>%
     noncoviddeath_date,
     death_date,
 
-    #composite of death, deregisttration and end date
+    #composite of death, deregistration and end date
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
     tte_enddate = tte(start_date, end_date, end_date),
@@ -224,6 +224,7 @@ data_tte <- data_all  %>%
     #time to death
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
 
+
     tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
 
@@ -232,7 +233,6 @@ data_tte <- data_all  %>%
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
-
 
   ) %>%
   # convert tte variables to integer to save space. works since we know precision is to nearest day
@@ -602,7 +602,6 @@ data_tte_pt <- tmerge(
       labels=c("1-3", "3-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
     ) %>% fct_explicit_na(na_level="No positive test")  %>% factor(c("No positive test", "1-3", "3-7", "8-14", "15-21", "22-28", "29+")),
-
 
   ) %>%
   ungroup() %>%

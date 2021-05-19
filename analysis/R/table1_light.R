@@ -235,7 +235,6 @@ data_tte_cp <- tmerge(
 
 alltimes <- expand(data_tte, patient_id, times=as.integer(full_seq(c(0, tte_enddate),1)))
 
-cat("make data_pt")
 
 data_pt <- tmerge(
   data1 = data_tte_cp,
@@ -305,8 +304,6 @@ if(delete) rm(data_tte_cp)
 
 # create snapshot data ----
 
-cat("make data_tab")
-
 ## choose snapshot times ----
 snapshot_days <- c(0, 28, 56)
 
@@ -345,6 +342,7 @@ data_tab <- data_pt %>%
 #   .cols = where(is.logical),
 #   .fns = ~if_else(.x, "yes", "no")
 # ))
+
 
 
 tab_summary <- data_tab %>%
