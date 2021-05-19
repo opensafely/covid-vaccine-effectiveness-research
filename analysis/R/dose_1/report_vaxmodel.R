@@ -127,6 +127,7 @@ forest_from_gtstack <- function(gt_stack_obj, title){
     )+
     scale_x_log10(
       breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+      limits=c(0.01,3)
     )+
     scale_y_discrete(breaks=level_lookup, labels=names(level_lookup))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
