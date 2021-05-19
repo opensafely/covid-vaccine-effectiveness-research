@@ -1,29 +1,29 @@
-2021-05-18T11:14:51.276376100Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-05-18T11:14:51.285211100Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-05-18T11:14:51.285240700Z v tibble  3.0.3     v dplyr   1.0.2
-2021-05-18T11:14:51.285249200Z v tidyr   1.1.2     v stringr 1.4.0
-2021-05-18T11:14:51.285256300Z v readr   1.3.1     v forcats 0.5.0
-2021-05-18T11:14:51.461450400Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-05-18T11:14:51.461511700Z x dplyr::filter() masks stats::filter()
-2021-05-18T11:14:51.461520200Z x dplyr::lag()    masks stats::lag()
-2021-05-18T11:16:27.907622500Z # A tibble: 4 x 2
-2021-05-18T11:16:27.907671300Z   cohort   cohort_size
-2021-05-18T11:16:27.907680200Z   <chr>          <int>
-2021-05-18T11:16:27.907688700Z 1 over70s      2610034
-2021-05-18T11:16:27.907695900Z 2 over80s       875359
-2021-05-18T11:16:27.907703300Z 3 in70s        1734675
-2021-05-18T11:16:27.907710600Z 4 under65s    11382375
+2021-05-18T15:38:59.249729100Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-18T15:38:59.259429300Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-18T15:38:59.259454400Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-18T15:38:59.259463300Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-18T15:38:59.259470600Z v readr   1.3.1     v forcats 0.5.0
+2021-05-18T15:38:59.432322600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-18T15:38:59.432372300Z x dplyr::filter() masks stats::filter()
+2021-05-18T15:38:59.432381600Z x dplyr::lag()    masks stats::lag()
+2021-05-18T15:40:38.499469400Z # A tibble: 4 x 2
+2021-05-18T15:40:38.499542300Z   cohort   cohort_size
+2021-05-18T15:40:38.499551800Z   <chr>          <int>
+2021-05-18T15:40:38.499560700Z 1 over70s      2610034
+2021-05-18T15:40:38.499568200Z 2 over80s       875359
+2021-05-18T15:40:38.499579700Z 3 in70s        1734675
+2021-05-18T15:40:38.499587300Z 4 under65s    11382375
 
 
 state: succeeded
-commit: ad2632c72fd11f4a1bf84fde807fe6b34f084c6b
+commit: 1160e9e700f91af93a917c7d7d52308ab84dd34c
 docker_image_id: sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb
 exit_code: 0
-job_id: 6p65sszjpbjqp3ou
+job_id: f74vdj254yc6hewx
 run_by_user: wjchulme
-created_at: 2021-05-18T11:14:24Z
-started_at: 2021-05-18T11:14:48Z
-completed_at: 2021-05-18T11:16:48Z
+created_at: 2021-05-18T15:38:22Z
+started_at: 2021-05-18T15:38:56Z
+completed_at: 2021-05-18T15:40:57Z
 
 Completed successfully
 
