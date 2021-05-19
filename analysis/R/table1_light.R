@@ -32,9 +32,11 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
+  delete <- FALSE
 } else {
   # use for actions
   cohort <- args[[1]]
+  delete <- TRUE
 }
 
 ## import global vars ----
@@ -135,7 +137,6 @@ data_fixed <- data_all %>%
     all_of(names(characteristics))
   )
 
-
 data_tte <- data_all %>%
   filter(
     patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
@@ -176,12 +177,19 @@ data_tte <- data_all %>%
     tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
 
+    ttecensored_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE),
+    ind_vaxany1 = censor_indicator(covid_vax_1_date, lastfup_date),
+
     tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE),
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
   )
+
+
+if(delete) rm(data_all)
+
 
 data_tte_cp <- tmerge(
   data1 = data_tte,
@@ -227,6 +235,8 @@ data_tte_cp <- tmerge(
 
 alltimes <- expand(data_tte, patient_id, times=as.integer(full_seq(c(0, tte_enddate),1)))
 
+cat("make data_pt")
+
 data_pt <- tmerge(
   data1 = data_tte_cp,
   data2 = alltimes,
@@ -249,6 +259,11 @@ data_pt <- tmerge(
     vaxany_status = vaxany1_status + vaxany2_status,
     vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
     vaxaz_status = vaxaz1_status + vaxaz2_status,
+
+    fup_any = (death_status==0 & dereg_status==0),
+    fup_pfizer = (death_status==0 & dereg_status==0 & vaxaz1_status==0),
+    fup_az = (death_status==0 & dereg_status==0 & vaxpfizer1_status==0 & tstart>=27),
+    all=0
   ) %>%
   ungroup() %>%
   # for some reason tmerge converts event indicators to numeric. So convert back to save space
@@ -267,36 +282,46 @@ data_pt <- tmerge(
               "death",
               "dereg",
               "lastfup",
+              "vaxany1_status",
+              "vaxany2_status",
+              "vaxpfizer1_status",
+              "vaxpfizer2_status",
+              "vaxaz1_status",
+              "vaxaz2_status",
+              "covidtest_status",
+              "postest_status",
+              "covidadmitted_status",
+              "coviddeath_status",
+              "noncoviddeath_status",
+              "death_status",
+              "dereg_status",
+              "lastfup_status",
     ),
     .fns = as.integer
   ))
 
 
-
+if(delete) rm(data_tte_cp)
 
 # create snapshot data ----
 
-
-
+cat("make data_tab")
 
 ## choose snapshot times ----
 snapshot_days <- c(0, 28, 56)
 
 ## create snapshop format dataset ----
 # ie, one row per person per snapshot date
-data_ss <- data_pt %>%
+data_tab <- data_pt %>%
   filter(tstart %in% snapshot_days) %>%
+  select(
+    patient_id,
+    tstart,
+    timesincevaxany1,
+  ) %>%
   mutate(snapshot_day = tstart) %>%
   arrange(snapshot_day, patient_id) %>%
-  left_join(data_fixed, by = "patient_id")
-
-
-
-
-# create tables ----
-
-
-data_tab <- data_ss %>%
+  left_join(data_fixed, by = "patient_id") %>%
   mutate(
     date = factor(as.Date(gbl_vars$start_date) + snapshot_day),
     snapshot_day = paste0("day ", snapshot_day),
@@ -313,12 +338,7 @@ data_tab <- data_ss %>%
       right=FALSE
     ),
 
-    postest_status = postest_status==1,
-    covidadmitted_status = covidadmitted_status==1,
-    coviddeath_status = coviddeath_status==1,
-    death_status = death_status==1,
     Participants = "1"
-
   ) %>%
   droplevels()# %>%
 # mutate(across(
@@ -437,6 +457,19 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
       timesincevax_pw = timesince_cut(timesincevax, postvaxcuts, baseline),
     ) %>%
     filter(fup==1) %>%
+    select(
+      timesincevax_pw,
+      postest_status,
+      covidadmitted_status,
+      coviddeath_status,
+      noncoviddeath_status,
+      death_status,
+      postest,
+      coviddeath,
+      covidadmitted,
+      noncoviddeath,
+      death
+    ) %>%
     group_by(timesincevax_pw) %>%
     summarise(
       postest_yearsatrisk=sum(postest_status==0)/365.25,
@@ -501,36 +534,27 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
   redacted
 }
 
-data_pt_fup <- data_pt %>%
-  mutate(
-    fup_any = (death_status==0 & dereg_status==0),
-    fup_pfizer = (death_status==0 & dereg_status==0 & vaxaz1_status==0),
-    fup_az = (death_status==0 & dereg_status==0 & vaxpfizer1_status==0 & tstart>=27),
-    all=0
-  )
 
+data_summary_any <- local({
+    temp1 <- pt_summary(data_pt, "fup_any", "timesincevaxany1", postvaxcuts, "Unvaccinated")
+    temp2 <- pt_summary(data_pt, "fup_any", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
+    bind_rows(temp1, temp2) %>%
+    mutate(brand ="Any")
+})
 
-data_summary_any <-
-  bind_rows(
-    pt_summary(data_pt_fup, "fup_any", "timesincevaxany1", postvaxcuts, "Unvaccinated"),
-    pt_summary(data_pt_fup, "fup_any", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
-  ) %>%
-  mutate(brand ="Any")
-
-data_summary_pfizer <-
-  bind_rows(
-    pt_summary(data_pt_fup, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated"),
-    pt_summary(data_pt_fup, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
-  ) %>%
+data_summary_pfizer <- local({
+  temp1 <- pt_summary(data_pt, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated")
+  temp2 <- pt_summary(data_pt, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
+  bind_rows(temp1, temp2) %>%
   mutate(brand ="BNT162b2")
+})
 
-data_summary_az <-
-  bind_rows(
-    pt_summary(data_pt_fup, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated"),
-    pt_summary(data_pt_fup, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_)),
-  ) %>%
+data_summary_az <- local({
+  temp1 <- pt_summary(data_pt, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated")
+  temp2 <- pt_summary(data_pt, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
+  bind_rows(temp1, temp2) %>%
   mutate(brand ="ChAdOx1")
-
+})
 
 data_summary <- bind_rows(
   data_summary_any,
@@ -654,4 +678,5 @@ gtsave(tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.ht
 #  data=data_pt %>% filter(postest_status==0),
 #  data.frame = TRUE
 # )
+
 
