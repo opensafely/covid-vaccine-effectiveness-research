@@ -103,7 +103,7 @@ estimates <-
   )
 
 
-write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax.csv")))
+write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax_{strata_var}.csv")))
 
 # create forest plot
 msmmod_forest_data <- estimates %>%
