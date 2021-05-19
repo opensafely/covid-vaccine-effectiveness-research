@@ -86,13 +86,21 @@ estimates <-
     "death",
     NULL
   )) %>%
-  crossing(tibble(
-    brand = c("any", "pfizer", "az"),
-    brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
-  )) %>%
   mutate(
     outcome = fct_inorder(outcome),
     outcome_descr = fct_inorder(outcome_descr),
+  ) %>%
+  crossing(
+    tibble(
+      brand = c("any", "pfizer", "az"),
+      brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
+    ) %>%
+    mutate(
+      brand = fct_inorder(brand),
+      brand_descr = fct_inorder(brand_descr)
+    )
+  ) %>%
+  mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
     estimates = map2(outcome, brand, ~read_csv(here::here("output", cohort, .x, .y, strata_var, glue::glue("estimates_timesincevax.csv"))))
@@ -129,7 +137,7 @@ msmmod_forest <-
   )+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian(ylim=c(0.01,2)) +
+  coord_cartesian(ylim=c(0.02,2)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Days since first dose",
@@ -137,7 +145,7 @@ msmmod_forest <-
     #title=glue::glue("Outcomes by time since first {brand} vaccine"),
     #subtitle=cohort_descr
   ) +
-  theme_bw()+
+  theme_bw(base_size=13)+
   theme(
     panel.border = element_blank(),
     axis.line.y = element_line(colour = "black"),
