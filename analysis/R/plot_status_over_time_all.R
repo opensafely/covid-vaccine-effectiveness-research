@@ -274,7 +274,7 @@ data_by_day <-
       labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
       right=FALSE
     ),
-    agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf), labels=c("under 70", "70-79", "80+"), right=FALSE),
+    agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf), labels=c("under 70", "70-79", "80+"), right=FALSE) %>% fct_rev(),
     day = tstop,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
