@@ -385,7 +385,7 @@ plot_brand_counts <- function(var, var_descr){
       variable = data_by_day[[var]]
     ) %>%
     filter(dereg_status==0) %>%
-    group_by(date, variable, vaxbrand_status, death_status, .drop=FALSE) %>%
+    group_by(date, variable, vaxbrand_status, lastfup_status, .drop=FALSE) %>%
     summarise(
       n = n(),
     ) %>%
@@ -394,13 +394,13 @@ plot_brand_counts <- function(var, var_descr){
       n_per_10000 = (n/sum(n))*10000
     ) %>%
     ungroup() %>%
-    arrange(date, variable, vaxbrand_status, death_status) %>%
+    arrange(date, variable, vaxbrand_status, lastfup_status) %>%
     mutate(
-      death_status= if_else(death_status %in% 1, "Dead", "Alive"),
+      lastfup_status = if_else(lastfup_status %in% 1, "Died / deregistered", ""),
       group= factor(
-        paste0(death_status,":",vaxbrand_status),
+        paste0(lastfup_status,":",vaxbrand_status),
         levels= map_chr(
-          cross2(c("Alive","Dead"), levels(vaxbrand_status)),
+          cross2(c("", "Died / deregistered"), levels(vaxbrand_status)),
           paste, sep = ":", collapse = ":"
         )
       )
@@ -410,20 +410,20 @@ plot_brand_counts <- function(var, var_descr){
     ggplot() +
     geom_area(aes(x=date, y=n_per_10000,
                   group=group,
-                  fill=vaxbrand_status, alpha=death_status))+
+                  fill=vaxbrand_status,
+                  alpha=lastfup_status
+              )
+    )+
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
-    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+#, "grey"))+
-    scale_alpha_manual(values=c(0.8,0.3))+#, "grey"))+
-    #scale_alpha_discrete(range= c(0.3,0.8))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77"))+
+    scale_alpha_manual(values=c(0.8,0.3), breaks=c(0.3))+
     labs(
       x="Date",
       y="Status per 10,000 people",
       colour=NULL,
       fill=NULL,
-      alpha=NULL#,
-      #title = "Vaccination status over time",
-      #subtitle = var_descr
+      alpha=NULL
     ) +
     plot_theme+
     theme(legend.position = "bottom")
@@ -431,7 +431,7 @@ plot_brand_counts <- function(var, var_descr){
   plot
 }
 
-# plot_brand_counts("all", "")
+ #plot_brand_counts("all", "")
 
 
 # data1 <- data_by_day %>%
