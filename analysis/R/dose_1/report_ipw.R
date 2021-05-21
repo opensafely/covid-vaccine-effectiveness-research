@@ -386,7 +386,7 @@ for(stratum in strata){
     gtsave(gt_vaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_vaxpfizer1.html"))
 
 
-    plot_vaxpfizer1 <- forest_from_broom(tab_vaxpfizer1, "Predicting P-BNT vaccine")
+    plot_vaxpfizer1 <- forest_from_broom(broom_vaxpfizer1, "Predicting P-BNT vaccine")
     ggsave(
       here::here("output", cohort, outcome, brand, strata_var, stratum, "plot_vaxfizer1.svg"),
       plot_vaxpfizer1,
@@ -457,11 +457,11 @@ for(stratum in strata){
 
 
     # combine tables
-    tbl_merge(list(tab_vaxpfizer1, tab_vaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
-      as_gt() %>%
-      gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
-
-    if(removeobs) rm("tab_vaxpfizer1", "tab_vaxaz1")
+    # tbl_merge(list(tab_vaxpfizer1, tab_vaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
+    #   as_gt() %>%
+    #   gtsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "tab_pfizer_az.html"))
+    #
+    # if(removeobs) rm("tab_vaxpfizer1", "tab_vaxaz1")
   }
 
 
