@@ -103,8 +103,8 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   ) %>%
   mutate(
     vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0),
-    vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0),
-    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & tstart>=27), #tstart==27 is midnight between 3/4 jan 2021, the start of the day when first az vaccine was first administered
+    vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1),
+    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1), #tstart==27 is midnight between 3/4 jan 2021, the start of the day when first az vaccine was first administered
     death_atrisk = (death_status==0 & lastfup_status==0),
   )
 
