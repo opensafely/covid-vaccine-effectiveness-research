@@ -448,6 +448,7 @@
     * [output/in70s/estimates_timesincevax_any_all.csv](output/in70s/estimates_timesincevax_any_all.csv)
     * [output/in70s/estimates_timesincevax_az_all.csv](output/in70s/estimates_timesincevax_az_all.csv)
     * [output/in70s/estimates_timesincevax_pfizer_all.csv](output/in70s/estimates_timesincevax_pfizer_all.csv)
+    * [output/in70s/forest_plot_all.svg](output/in70s/forest_plot_all.svg)
     * [output/in70s/forest_plot_any_all.svg](output/in70s/forest_plot_any_all.svg)
     * [output/in70s/forest_plot_az_all.svg](output/in70s/forest_plot_az_all.svg)
     * [output/in70s/forest_plot_pfizer_all.svg](output/in70s/forest_plot_pfizer_all.svg)
@@ -597,6 +598,7 @@
       * output/over70s/descr/tables
         * [output/over70s/descr/tables/end_status.csv](output/over70s/descr/tables/end_status.csv)
         * [output/over70s/descr/tables/table1.html](output/over70s/descr/tables/table1.html)
+        * [output/over70s/descr/tables/table1_baseline.html](output/over70s/descr/tables/table1_baseline.html)
   * output/over80s
     * output/over80s/covidadmitted
       * output/over80s/covidadmitted/any
@@ -898,6 +900,7 @@
     * [output/over80s/estimates_timesincevax_any_all.csv](output/over80s/estimates_timesincevax_any_all.csv)
     * [output/over80s/estimates_timesincevax_az_all.csv](output/over80s/estimates_timesincevax_az_all.csv)
     * [output/over80s/estimates_timesincevax_pfizer_all.csv](output/over80s/estimates_timesincevax_pfizer_all.csv)
+    * [output/over80s/forest_plot_all.svg](output/over80s/forest_plot_all.svg)
     * [output/over80s/forest_plot_any_all.svg](output/over80s/forest_plot_any_all.svg)
     * [output/over80s/forest_plot_az_all.svg](output/over80s/forest_plot_az_all.svg)
     * [output/over80s/forest_plot_pfizer_all.svg](output/over80s/forest_plot_pfizer_all.svg)
