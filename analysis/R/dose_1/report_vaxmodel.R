@@ -105,7 +105,7 @@ forest_from_gtstack <- function(gt_stack_obj, title){
       variable_card = if_else(row_number()!=1, 0, variable_card),
       level = fct_rev(fct_inorder(paste(variable, label, sep="__"))),
       level_label = label,
-      variable = factor(variable, levels=str_wrap(levels(variable), width=20))
+      variable = factor(str_wrap(variable, width=20), levels=str_wrap(levels(variable), width=20))
     ) %>%
     ungroup() %>%
     droplevels()
