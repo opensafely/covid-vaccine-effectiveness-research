@@ -29,11 +29,13 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
+  outcome <- "death"
   strata_var <- "all"
 } else{
   removeobs <- TRUE
   cohort <- args[[1]]
-  strata_var <- args[[2]]
+  outcome <- args[[2]]
+  strata_var <- args[[3]]
 }
 
 
@@ -66,7 +68,7 @@ names(summary_list) <- strata
 
 
 
-forest_from_gtstack <- function(gt_stack_obj, title){
+forest_from_broomstack <- function(broomstack, title){
 
   #jtools::plot_summs(ipwvaxany1)
   #modelsummary::modelplot(ipwvaxany1, coef_omit = 'Interc|tstop', conf.type="wald", exponentiate=TRUE)
@@ -76,32 +78,29 @@ forest_from_gtstack <- function(gt_stack_obj, title){
   #so need to write custom function for plotting wald CIs. grr
 
 
-  plot_data <- gt_stack_obj %>%
-    as_gt() %>%
-    .$`_data` %>%
+  plot_data <- broomstack %>%
     filter(
       !str_detect(variable,fixed("ns(tstop")),
       !str_detect(variable,fixed("region")),
       !is.na(term)
     ) %>%
     mutate(
-      var_label = if_else(row_type=="label", "", var_label),
+      var_label = if_else(var_class=="integer", "", var_label),
       label = if_else(reference_row %in% TRUE, paste0(label, " (ref)"),label),
       or = if_else(reference_row %in% TRUE, 1, or),
       variable = fct_inorder(variable),
       variable_card = as.numeric(variable)%%2,
     ) %>%
-    group_by(variable, groupname_col) %>%
+    group_by(variable) %>%
     mutate(
       variable_card = if_else(row_number()!=1, 0, variable_card),
       level = fct_rev(fct_inorder(paste(variable, label, sep="__"))),
-      level_label = label,
-      variable = factor(str_wrap(variable, width=20), levels=str_wrap(levels(variable), width=20))
+      level_label = label
     ) %>%
     ungroup() %>%
     droplevels()
 
-  var_lookup <- plot_data$var_label
+  var_lookup <- str_wrap(plot_data$var_label, 20)
   names(var_lookup) <- plot_data$variable
 
   level_lookup <- plot_data$level
@@ -113,7 +112,7 @@ forest_from_gtstack <- function(gt_stack_obj, title){
     geom_vline(aes(xintercept=1), colour='black', alpha=0.8)+
     facet_grid(
       rows=vars(variable),
-      cols=vars(groupname_col),
+      cols=vars(brand_descr),
       scales="free_y", switch="y", space="free_y", labeller = labeller(variable = var_lookup)
     )+
     scale_x_log10(
@@ -142,32 +141,33 @@ forest_from_gtstack <- function(gt_stack_obj, title){
 }
 
 
-gts <-
+
+broomstack <-
   tibble(
-    brand = c("any", "pfizer", "az"),
-    brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
+    brand = c("any"),#, "pfizer", "az"),
+    brand_descr = c("Any vaccine")#, "BNT162b2", "ChAdOx1")
   ) %>%
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    gt = map(brand, ~read_rds(here::here("output", cohort, "death", .x, strata_var, "all", glue::glue("gt_vax{.x}1.rds"))))
-  )
+    broom = map(brand, ~read_rds(here::here("output", cohort, outcome, .x, strata_var, "all", glue::glue("broom_vax{.x}1.rds"))))
+  ) %>%
+  unnest(broom)
 
 
-gt_vax_stack <- tbl_stack(
-  gts$gt,
-  group_header = str_wrap(gts$brand_descr, width=30)
-)
-
-plot_vax <- forest_from_gtstack(gt_vax_stack, "Vaccination model")
+plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
   here::here("output", cohort, "plot_vax1.svg"),
   plot_vax,
   units="cm", width=30, height=25
 )
 
-gt_vax_merge <- tbl_merge(
-  gts$gt,
-  tab_spanner = gts$brand_descr
-)
-gtsave(gt_vax_merge %>% as_gt(), here::here("output", cohort, "tab_vax1.html"))
+
+
+
+#
+# gt_vax_merge <- tbl_merge(
+#   gts$gt,
+#   tab_spanner = gts$brand_descr
+# )
+# gtsave(gt_vax_merge %>% as_gt(), here::here("output", cohort, "tab_vax1.html"))

@@ -143,11 +143,12 @@ actions:
     needs: [design, models_over80s_postest_any_all]
     outputs:
       highly_sensitive:
+        broom: output/over80s/postest/any/all/*/broom*.rds
         gt: output/over80s/postest/any/all/*/gt*.rds
       moderately_sensitive:
         plots: output/over80s/postest/any/all/*/plot*.svg
         tables: output/over80s/postest/any/all/*/tab*.html
-        data: output/over80s/postest/any/all/*/tab*.csv
+        data: output/over80s/postest/any/all/*/broom*.csv
 
   report_over80s_postest_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest any all
@@ -651,6 +652,15 @@ actions:
   #       html: output/over80s/*az_all.html
 
 
+  report_ipw_over80s_all:
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s death all
+    needs: [design, report_ipw_over80s_death_any_all, report_ipw_over80s_death_pfizer_all, report_ipw_over80s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        svg: output/over80s/plot_vax1.svg
+        #html: output/over80s/tab_vax1.html
+
+
   report_over80s_all:
     run: r:latest analysis/R/dose_1/report_alloutcomes_combined.R over80s all
     needs: [design, report_over80s_postest_any_all, report_over80s_covidadmitted_any_all, report_over80s_coviddeath_any_all, report_over80s_noncoviddeath_any_all, report_over80s_death_any_all, report_over80s_postest_pfizer_all, report_over80s_covidadmitted_pfizer_all, report_over80s_coviddeath_pfizer_all, report_over80s_noncoviddeath_pfizer_all, report_over80s_death_pfizer_all, report_over80s_postest_az_all, report_over80s_covidadmitted_az_all, report_over80s_coviddeath_az_all, report_over80s_noncoviddeath_az_all, report_over80s_death_az_all]
@@ -660,11 +670,5 @@ actions:
         tables: output/over80s/*_all.csv
 
 
-  report_ipw_over80s_all:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s all
-    needs: [design, report_ipw_over80s_death_any_all, report_ipw_over80s_death_pfizer_all, report_ipw_over80s_death_az_all]
-    outputs:
-      moderately_sensitive:
-        svg: output/over80s/plot_vax1.svg
-        html: output/over80s/tab_vax1.html
+
 
