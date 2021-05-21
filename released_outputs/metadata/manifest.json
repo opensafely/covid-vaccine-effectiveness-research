@@ -1104,6 +1104,10 @@
       "created_by_action": "report_in70s_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
+    "output/in70s/estimates_timesincevax_all.csv": {
+      "created_by_action": "report_in70s_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/in70s/estimates_timesincevax_any_all.csv": {
       "created_by_action": "report_in70s_any_all",
       "privacy_level": "moderately_sensitive"
@@ -1114,6 +1118,10 @@
     },
     "output/in70s/estimates_timesincevax_pfizer_all.csv": {
       "created_by_action": "report_in70s_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/in70s/forest_plot_all.svg": {
+      "created_by_action": "report_in70s_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/in70s/forest_plot_any_all.svg": {
@@ -1858,6 +1866,10 @@
     },
     "output/over70s/descr/tables/table1.html": {
       "created_by_action": "descr_table1_over70s",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over70s/descr/tables/table1_baseline.html": {
+      "created_by_action": "descr_table1_over70s_baseline",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/covidadmitted/any/all/all/data_weights.rds": {
@@ -2872,6 +2884,10 @@
       "created_by_action": "report_over80s_pfizer_all",
       "privacy_level": "moderately_sensitive"
     },
+    "output/over80s/estimates_timesincevax_all.csv": {
+      "created_by_action": "report_over80s_all",
+      "privacy_level": "moderately_sensitive"
+    },
     "output/over80s/estimates_timesincevax_any_all.csv": {
       "created_by_action": "report_over80s_any_all",
       "privacy_level": "moderately_sensitive"
@@ -2882,6 +2898,10 @@
     },
     "output/over80s/estimates_timesincevax_pfizer_all.csv": {
       "created_by_action": "report_over80s_pfizer_all",
+      "privacy_level": "moderately_sensitive"
+    },
+    "output/over80s/forest_plot_all.svg": {
+      "created_by_action": "report_over80s_all",
       "privacy_level": "moderately_sensitive"
     },
     "output/over80s/forest_plot_any_all.svg": {
@@ -4632,24 +4652,6 @@
       "created_at": "2021-05-19T12:22:52Z",
       "completed_at": "2021-05-19T13:29:36Z"
     },
-    "report_ipw_over80s_all": {
-      "state": "succeeded",
-      "commit": "082f5feae50865ce09b81046995946ee3fddcc9a",
-      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
-      "job_id": "t2ygybdsmnsp2sp5",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-05-19T13:51:18Z",
-      "completed_at": "2021-05-19T14:08:33Z"
-    },
-    "report_ipw_in70s_all": {
-      "state": "succeeded",
-      "commit": "082f5feae50865ce09b81046995946ee3fddcc9a",
-      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
-      "job_id": "g5byaoowzurwsks3",
-      "run_by_user": "wjchulme",
-      "created_at": "2021-05-19T13:51:18Z",
-      "completed_at": "2021-05-19T14:17:03Z"
-    },
     "descr_table1_over70s": {
       "state": "failed",
       "commit": "e60624e2b99bed9110acf535c66510762b50c1f7",
@@ -4658,6 +4660,51 @@
       "run_by_user": "wjchulme",
       "created_at": "2021-05-19T13:30:30Z",
       "completed_at": "2021-05-19T15:05:15Z"
+    },
+    "descr_table1_over70s_baseline": {
+      "state": "succeeded",
+      "commit": "598348d71c57a467b882dc7914093350de7d1ec0",
+      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
+      "job_id": "upq6wq2g2nvhddg5",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-05-19T20:01:35Z",
+      "completed_at": "2021-05-19T20:06:15Z"
+    },
+    "report_in70s_all": {
+      "state": "succeeded",
+      "commit": "61e444be76162789b014920f00eda57537b7d89e",
+      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
+      "job_id": "fjwemzuzshqfblgd",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-05-19T21:06:31Z",
+      "completed_at": "2021-05-19T21:08:25Z"
+    },
+    "report_over80s_all": {
+      "state": "succeeded",
+      "commit": "61e444be76162789b014920f00eda57537b7d89e",
+      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
+      "job_id": "tytuawiqhlvlximg",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-05-19T21:06:31Z",
+      "completed_at": "2021-05-19T21:08:32Z"
+    },
+    "report_ipw_in70s_all": {
+      "state": "succeeded",
+      "commit": "b5def90a115d33ee5c47e856f5c6ad4a23ac7023",
+      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
+      "job_id": "ovygkopoyndx4izi",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-05-21T11:16:12Z",
+      "completed_at": "2021-05-21T11:34:36Z"
+    },
+    "report_ipw_over80s_all": {
+      "state": "succeeded",
+      "commit": "b5def90a115d33ee5c47e856f5c6ad4a23ac7023",
+      "docker_image_id": "sha256:fd70d515514910d8399e807135f3decedae0a426b222b3488810a7aa5283eafb",
+      "job_id": "r6rhf7vvjevzbuq5",
+      "run_by_user": "wjchulme",
+      "created_at": "2021-05-21T11:16:12Z",
+      "completed_at": "2021-05-21T11:37:32Z"
     }
   },
   "workspace": "covid-vaccine-effectiveness-research_sampling",
