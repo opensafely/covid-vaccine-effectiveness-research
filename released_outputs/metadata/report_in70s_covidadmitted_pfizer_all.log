@@ -1,46 +1,45 @@
-2021-04-19T05:55:13.634265700Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-04-19T05:55:13.643159200Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-04-19T05:55:13.643188300Z v tibble  3.0.3     v dplyr   1.0.2
-2021-04-19T05:55:13.643197100Z v tidyr   1.1.2     v stringr 1.4.0
-2021-04-19T05:55:13.643204100Z v readr   1.3.1     v forcats 0.5.0
-2021-04-19T05:55:13.818103800Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-04-19T05:55:13.818123200Z x dplyr::filter() masks stats::filter()
-2021-04-19T05:55:13.818131300Z x dplyr::lag()    masks stats::lag()
-2021-04-19T05:55:13.834062800Z 
-2021-04-19T05:55:13.834081200Z Attaching package: 'lubridate'
-2021-04-19T05:55:13.834088800Z 
-2021-04-19T05:55:13.835495600Z The following objects are masked from 'package:base':
-2021-04-19T05:55:13.835513000Z 
-2021-04-19T05:55:13.835520600Z     date, intersect, setdiff, union
-2021-04-19T05:55:13.835527400Z 
-2021-04-19T05:55:16.108684100Z #Uighur
-2021-04-19T05:55:16.166966800Z Loading required package: zoo
-2021-04-19T05:55:16.178160600Z 
-2021-04-19T05:55:16.178179000Z Attaching package: 'zoo'
-2021-04-19T05:55:16.178186800Z 
-2021-04-19T05:55:16.178794500Z The following objects are masked from 'package:base':
-2021-04-19T05:55:16.178812200Z 
-2021-04-19T05:55:16.178820000Z     as.Date, as.Date.numeric
-2021-04-19T05:55:16.178827100Z 
-2021-04-19T05:55:16.596741000Z <environment: R_GlobalEnv>
-2021-04-19T05:55:16.597236300Z <environment: R_GlobalEnv>
-2021-04-19T05:55:16.597563200Z <environment: R_GlobalEnv>
+2021-05-16T19:13:24.020135500Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-16T19:13:24.028941700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-16T19:13:24.028968000Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-16T19:13:24.028976400Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-16T19:13:24.028983400Z v readr   1.3.1     v forcats 0.5.0
+2021-05-16T19:13:24.195782300Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-16T19:13:24.195808700Z x dplyr::filter() masks stats::filter()
+2021-05-16T19:13:24.195817300Z x dplyr::lag()    masks stats::lag()
+2021-05-16T19:13:24.211254100Z 
+2021-05-16T19:13:24.211274500Z Attaching package: 'lubridate'
+2021-05-16T19:13:24.211282900Z 
+2021-05-16T19:13:24.212661200Z The following objects are masked from 'package:base':
+2021-05-16T19:13:24.212683400Z 
+2021-05-16T19:13:24.212692300Z     date, intersect, setdiff, union
+2021-05-16T19:13:24.212699500Z 
+2021-05-16T19:13:26.343274400Z Loading required package: zoo
+2021-05-16T19:13:26.354092300Z 
+2021-05-16T19:13:26.354114900Z Attaching package: 'zoo'
+2021-05-16T19:13:26.354123700Z 
+2021-05-16T19:13:26.354848600Z The following objects are masked from 'package:base':
+2021-05-16T19:13:26.354905500Z 
+2021-05-16T19:13:26.354914600Z     as.Date, as.Date.numeric
+2021-05-16T19:13:26.354921900Z 
+2021-05-16T19:13:26.728635600Z <environment: R_GlobalEnv>
+2021-05-16T19:13:26.728968000Z <environment: R_GlobalEnv>
+2021-05-16T19:13:26.729296700Z <environment: R_GlobalEnv>
 
 
 state: succeeded
-commit: 33f52791c8cce80c6c198db74da25e5b695f71d1
-docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+commit: d95a6fa6ef28b1c9dce6d94b3ef6b92ac12b6e69
+docker_image_id: sha256:b0e86ebee1d778d06c4c86d5d4c32dd910483eb4b0a9c7ed3997f928aa94c500
 exit_code: 0
-job_id: 2lkeqyfunaa47hel
+job_id: c35op52j52xahice
 run_by_user: wjchulme
-created_at: 2021-04-18T20:34:39Z
-started_at: 2021-04-19T05:55:10Z
-completed_at: 2021-04-19T06:19:26Z
+created_at: 2021-05-16T13:21:34Z
+started_at: 2021-05-16T19:13:21Z
+completed_at: 2021-05-16T19:46:08Z
 
 Completed successfully
 
 outputs:
   output/in70s/covidadmitted/pfizer/all/estimates.csv                 - moderately_sensitive
+  output/in70s/covidadmitted/pfizer/all/estimates_timesincevax.csv    - moderately_sensitive
   output/in70s/covidadmitted/pfizer/all/forest_plot.svg               - moderately_sensitive
-  output/in70s/covidadmitted/pfizer/all/time_trends_region_plot3.svg  - moderately_sensitive
-  output/in70s/covidadmitted/pfizer/all/time_trends_region_plot4.svg  - moderately_sensitive
+  output/in70s/covidadmitted/pfizer/all/time_trends_region_plot1.svg  - moderately_sensitive

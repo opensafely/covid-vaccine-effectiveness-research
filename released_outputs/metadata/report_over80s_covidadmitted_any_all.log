@@ -1,49 +1,45 @@
-2021-05-04T15:04:20.953492400Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-2021-05-04T15:04:20.963471900Z v ggplot2 3.3.2     v purrr   0.3.4
-2021-05-04T15:04:20.963526100Z v tibble  3.0.3     v dplyr   1.0.2
-2021-05-04T15:04:20.963534600Z v tidyr   1.1.2     v stringr 1.4.0
-2021-05-04T15:04:20.963541800Z v readr   1.3.1     v forcats 0.5.0
-2021-05-04T15:04:21.160476600Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-2021-05-04T15:04:21.160556800Z x dplyr::filter() masks stats::filter()
-2021-05-04T15:04:21.160564800Z x dplyr::lag()    masks stats::lag()
-2021-05-04T15:04:21.178767800Z 
-2021-05-04T15:04:21.178843800Z Attaching package: 'lubridate'
-2021-05-04T15:04:21.178852200Z 
-2021-05-04T15:04:21.180327400Z The following objects are masked from 'package:base':
-2021-05-04T15:04:21.180376100Z 
-2021-05-04T15:04:21.180384600Z     date, intersect, setdiff, union
-2021-05-04T15:04:21.180391900Z 
-2021-05-04T15:04:23.631077900Z Loading required package: zoo
-2021-05-04T15:04:23.645891300Z 
-2021-05-04T15:04:23.645976500Z Attaching package: 'zoo'
-2021-05-04T15:04:23.645985500Z 
-2021-05-04T15:04:23.646496900Z The following objects are masked from 'package:base':
-2021-05-04T15:04:23.646517100Z 
-2021-05-04T15:04:23.646524800Z     as.Date, as.Date.numeric
-2021-05-04T15:04:23.646532000Z 
-2021-05-04T15:04:24.069660300Z <environment: R_GlobalEnv>
-2021-05-04T15:04:24.069993100Z <environment: R_GlobalEnv>
-2021-05-04T15:04:24.070327200Z <environment: R_GlobalEnv>
-2021-05-04T15:46:14.177759700Z Warning messages:
-2021-05-04T15:46:14.178517400Z 1: In sqrt(diag(se)) : NaNs produced
-2021-05-04T15:46:14.178532900Z 2: In sqrt(diag(se)) : NaNs produced
+2021-05-14T22:03:59.152780600Z -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+2021-05-14T22:03:59.164719700Z v ggplot2 3.3.2     v purrr   0.3.4
+2021-05-14T22:03:59.164741600Z v tibble  3.0.3     v dplyr   1.0.2
+2021-05-14T22:03:59.164749800Z v tidyr   1.1.2     v stringr 1.4.0
+2021-05-14T22:03:59.164757100Z v readr   1.3.1     v forcats 0.5.0
+2021-05-14T22:03:59.418256900Z -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+2021-05-14T22:03:59.418335000Z x dplyr::filter() masks stats::filter()
+2021-05-14T22:03:59.418343100Z x dplyr::lag()    masks stats::lag()
+2021-05-14T22:03:59.444938900Z 
+2021-05-14T22:03:59.445013500Z Attaching package: 'lubridate'
+2021-05-14T22:03:59.445022000Z 
+2021-05-14T22:03:59.446918400Z The following objects are masked from 'package:base':
+2021-05-14T22:03:59.447012200Z 
+2021-05-14T22:03:59.447023500Z     date, intersect, setdiff, union
+2021-05-14T22:03:59.447031200Z 
+2021-05-14T22:04:02.280645700Z Loading required package: zoo
+2021-05-14T22:04:02.306161400Z 
+2021-05-14T22:04:02.306206700Z Attaching package: 'zoo'
+2021-05-14T22:04:02.306215000Z 
+2021-05-14T22:04:02.306815100Z The following objects are masked from 'package:base':
+2021-05-14T22:04:02.306839600Z 
+2021-05-14T22:04:02.306848100Z     as.Date, as.Date.numeric
+2021-05-14T22:04:02.306855500Z 
+2021-05-14T22:04:02.807334200Z <environment: R_GlobalEnv>
+2021-05-14T22:04:02.808072900Z <environment: R_GlobalEnv>
+2021-05-14T22:04:02.810790600Z <environment: R_GlobalEnv>
 
 
 state: succeeded
-commit: 51a4ede907245327eb9788e4c65335feff83e426
-docker_image_id: sha256:c2fc5042bf86134947d83ad8e70bd926e2c1f91a263c6bfe87438ad783bec981
+commit: 40052f412591a257916362728da1b0c1613ecd65
+docker_image_id: sha256:b0e86ebee1d778d06c4c86d5d4c32dd910483eb4b0a9c7ed3997f928aa94c500
 exit_code: 0
-job_id: prdp5z4kfaucqorl
+job_id: wl7hlu46gnv3gioe
 run_by_user: wjchulme
-created_at: 2021-05-04T10:01:20Z
-started_at: 2021-05-04T15:04:17Z
-completed_at: 2021-05-04T16:36:36Z
+created_at: 2021-05-14T19:54:25Z
+started_at: 2021-05-14T22:03:55Z
+completed_at: 2021-05-14T22:23:58Z
 
 Completed successfully
 
 outputs:
   output/over80s/covidadmitted/any/all/estimates.csv                 - moderately_sensitive
+  output/over80s/covidadmitted/any/all/estimates_timesincevax.csv    - moderately_sensitive
   output/over80s/covidadmitted/any/all/forest_plot.svg               - moderately_sensitive
-  output/over80s/covidadmitted/any/all/time_trends_region_plot2.svg  - moderately_sensitive
-  output/over80s/covidadmitted/any/all/time_trends_region_plot3.svg  - moderately_sensitive
-  output/over80s/covidadmitted/any/all/time_trends_region_plot4.svg  - moderately_sensitive
+  output/over80s/covidadmitted/any/all/time_trends_region_plot1.svg  - moderately_sensitive
