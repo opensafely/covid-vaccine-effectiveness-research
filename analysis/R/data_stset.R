@@ -33,32 +33,21 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   sample_size <- 10000
-  sample_nonoutcomeprop <- 0.1
   cohort <- "over80s"
+  sample_nonoutcomeprop <- 0.1
 
 } else{
   removeobs <- TRUE
   sample_size <- 200000
-  sample_nonoutcomeprop <- 0.1
   cohort <- args[[1]]
+  sample_nonoutcomeprop <- as.numeric(args[[2]])
 }
 
-## create output directories ----
-dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
-
 # Import processed data ----
+data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
+characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
 
-
-data_cohorts <- read_rds(here::here("output", "data", "data_cohorts.rds"))
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-data_all <- read_rds(here::here("output", "data", "data_all.rds"))
-
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
-
-data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
-
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
+# functions for sampling ----
 
 # function to sample non-outcome patients
 sample_nonoutcomes <- function(outcome, id, proportion){
@@ -91,76 +80,23 @@ sample_weights <- function(outcome, sampled){
 }
 
 
-
-
 # Generate different data formats ----
 
 ## one-row-per-patient data ----
 
-data_fixed <- data_all %>%
-  filter(
-    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
-  ) %>%
-  transmute(
+data_fixed <- data_cohort %>%
+  select(
     patient_id,
-    age,
-    ageband,
-    sex,
-    imd,
-    ethnicity_combined,
-
     region,
-    stp,
-    msoa,
-
-    bmi,
-    heart_failure,
-    other_heart_disease,
-
-    dialysis,
-    diabetes,
-    chronic_liver_disease,
-
-    current_copd,
-    cystic_fibrosis,
-    other_resp_conditions,
-
-    lung_cancer,
-    haematological_cancer,
-    cancer_excl_lung_and_haem,
-
-    # chemo_or_radio,
-    # solid_organ_transplantation,
-    # bone_marrow_transplant,
-    # sickle_cell_disease,
-    # permanant_immunosuppression,
-    # temporary_immunosuppression,
-    # asplenia,
-    # dmards,
-    any_immunosuppression,
-
-    dementia,
-    other_neuro_conditions,
-    LD_incl_DS_and_CP,
-    psychosis_schiz_bipolar,
-
-    multimorb,
-    shielded,
-
-    flu_vaccine,
-    efi_cat
+    all_of(names(characteristics))
   )
-
 
 ## print dataset size ----
 cat(" \n")
 cat(glue::glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n")
 cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI", digits=3L)), "\n")
 
-data_tte <- data_all  %>%
-  filter(
-    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
-  ) %>%
+data_tte <- data_cohort  %>%
   transmute(
     patient_id,
 
@@ -302,7 +238,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", stan
 # every time an event occurs or a covariate changes, a new row is generated
 
 # import infectious hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised_infectious <- read_rds(here::here("output", "data", "data_long_admission_infectious_dates.rds")) %>%
+data_hospitalised_infectious <- read_rds(here::here("output", cohort, "data", "data_long_admission_infectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -320,7 +256,7 @@ data_hospitalised_infectious <- read_rds(here::here("output", "data", "data_long
   )
 
 # import non infectious hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised_noninfectious <- read_rds(here::here("output", "data", "data_long_admission_noninfectious_dates.rds")) %>%
+data_hospitalised_noninfectious <- read_rds(here::here("output", cohort, "data", "data_long_admission_noninfectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -338,7 +274,7 @@ data_hospitalised_noninfectious <- read_rds(here::here("output", "data", "data_l
   )
 
 
-data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+data_suspected_covid <- read_rds(here::here("output", cohort, "data", "data_long_pr_suspected_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -348,7 +284,7 @@ data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_susp
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
   )
 
-data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+data_probable_covid <- read_rds(here::here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -358,7 +294,7 @@ data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_proba
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
   )
 
-data_postest <- read_rds(here::here("output", "data", "data_long_postest_dates.rds")) %>%
+data_postest <- read_rds(here::here("output", cohort, "data", "data_long_postest_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -645,6 +581,9 @@ stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes
 
 # remove unused columns
 data_tte_pt <- data_tte_pt %>%
+  mutate(
+    vaxanyday1 = tte_vaxany1
+  ) %>%
   select(
     -starts_with("tte_"),
     -ends_with("_date")
@@ -656,8 +595,8 @@ cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_p
 cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI", digits=3L)), "\n")
 
 ## Save processed tte data ----
-write_rds(data_fixed, here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")), compress="gz")
-write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide_tte.rds")), compress="gz")
-write_rds(data_tte_cp, here::here("output", cohort, "data", glue::glue("data_cp.rds")), compress="gz")
-write_rds(data_tte_pt, here::here("output", cohort, "data", glue::glue("data_pt.rds")), compress="gz")
+write_rds(data_fixed, here::here("output", cohort, "data", "data_fixed.rds"), compress="gz")
+write_rds(data_tte, here::here("output", cohort, "data", "data_tte.rds"), compress="gz")
+#write_rds(data_tte_cp, here::here("output", cohort, "data", "data_cp.rds"), compress="gz")
+write_rds(data_tte_pt, here::here("output", cohort, "data", "data_pt.rds"), compress="gz")
 

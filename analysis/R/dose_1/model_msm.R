@@ -52,21 +52,6 @@ if(length(args)==0){
 }
 
 
-
-# Import metadata for cohort ----
-
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
-
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
-
-## define model hyper-parameters and characteristics ----
-
-### model names ----
-
-list2env(metadata, globalenv())
-
 ### define parglm optimisation parameters ----
 
 parglmparams <- parglm.control(
@@ -77,7 +62,7 @@ parglmparams <- parglm.control(
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 ## if outcome is positive test, remove time-varying positive test info from covariate set
@@ -92,7 +77,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 # Import processed data ----
 
-data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_wide_fixed.rds")))
+data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_fixed.rds")))
 
 data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   filter(
@@ -290,7 +275,7 @@ get_ipw_weights <- function(
 
 ##  Create big loop over all strata
 
-strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
 
 for(stratum in strata){
 

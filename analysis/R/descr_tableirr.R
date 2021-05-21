@@ -32,11 +32,11 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
-  delete <- FALSE
+  removeobs <- FALSE
 } else {
   # use for actions
   cohort <- args[[1]]
-  delete <- TRUE
+  removeobs <- TRUE
 }
 
 ## import global vars ----
@@ -54,17 +54,9 @@ list2env(list_formula, globalenv())
 
 ## Import processed data ----
 data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
-
 characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
 
 # create pt data ----
-
-data_fixed <- data_cohort %>%
-  select(
-    patient_id,
-    age,
-    all_of(names(characteristics))
-  )
 
 data_tte <- data_cohort %>%
   transmute(
@@ -73,7 +65,7 @@ data_tte <- data_cohort %>%
     start_date,
     end_date,
 
-    #composite of death, deregisttration and end date
+    #composite of death, deregistration and end date
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
     tte_enddate = tte(start_date, end_date, end_date),
@@ -113,9 +105,7 @@ data_tte <- data_cohort %>%
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
   )
 
-
-if(delete) rm(data_cohort)
-
+if(removeobs) rm(data_cohort)
 
 data_tte_cp <- tmerge(
   data1 = data_tte,
@@ -160,7 +150,6 @@ data_tte_cp <- tmerge(
 )
 
 alltimes <- expand(data_tte, patient_id, times=as.integer(full_seq(c(0, tte_enddate),1)))
-
 
 data_pt <- tmerge(
   data1 = data_tte_cp,
@@ -225,83 +214,7 @@ data_pt <- tmerge(
     .fns = as.integer
   ))
 
-
-if(delete) rm(data_tte_cp)
-
-# create snapshot data ----
-
-## choose snapshot times ----
-snapshot_days <- c(0, 28, 56)
-
-## create snapshop format dataset ----
-# ie, one row per person per snapshot date
-data_tab <- data_pt %>%
-  filter(tstart %in% snapshot_days) %>%
-  select(
-    patient_id,
-    tstart,
-    timesincevaxany1,
-  ) %>%
-  mutate(snapshot_day = tstart) %>%
-  arrange(snapshot_day, patient_id) %>%
-  left_join(data_fixed, by = "patient_id") %>%
-  mutate(
-    date = factor(as.Date(gbl_vars$start_date) + snapshot_day),
-    snapshot_day = paste0("Day ", snapshot_day),
-    vaxany_status=fct_case_when(
-      timesincevaxany1<=0 ~ "Unvaccinated",
-      timesincevaxany1>0 ~ "Vaccinated",
-      TRUE ~ NA_character_
-    ),
-
-    ageband = cut(
-      age,
-      breaks=c(-Inf, 70, 75, 80, 85, 90, 95, Inf),
-      labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
-      right=FALSE
-    ),
-
-    Participants = "1"
-  ) %>%
-  droplevels()# %>%
-# mutate(across(
-#   .cols = where(is.logical),
-#   .fns = ~if_else(.x, "yes", "no")
-# ))
-
-
-
-tab_summary <- data_tab %>%
-  select(
-    any_of(names(characteristics)),
-    snapshot_day, vaxany_status
-  ) %>%
-  split(.$snapshot_day) %>%
-  map(
-    function(x){
-      tbl <- x %>%
-        mutate(vaxany_status=droplevels(vaxany_status)) %>%
-        select(-snapshot_day) %>%
-        tbl_summary(
-        by=vaxany_status,
-        label=unname(characteristics)
-      ) %>%
-      modify_footnote(starts_with("stat_") ~ NA)
-
-      tbl$inputs$data <- NULL
-      tbl
-    }
-  ) %>%
-  tbl_merge(tab_spanner=names(.))
-
-
-## create output directories ----
-dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE, recursive=TRUE)
-
-#gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.png"))
-#gt::gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.rtf"))
-gtsave(as_gt(tab_summary), here::here("output", cohort, "descr", "tables", "table1.html"))
-
+if(removeobs) rm(data_tte_cp)
 
 
 ## create person-time table ----
@@ -350,8 +263,6 @@ rrCI_exact <- function(n, pt, ref_n, ref_pt, group, accuracy=0.001){
   )
 
 }
-
-
 
 # get confidence intervals for rate ratio using unadjusted poisson GLM
 # uses gtsummary not broom::tidy to make it easier to paste onto original data
@@ -469,22 +380,19 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
 data_summary_any <- local({
     temp1 <- pt_summary(data_pt, "fup_any", "timesincevaxany1", postvaxcuts, "Unvaccinated")
     temp2 <- pt_summary(data_pt, "fup_any", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
-    bind_rows(temp1, temp2) %>%
-    mutate(brand ="Any")
+    bind_rows(temp1, temp2) %>%  mutate(brand ="Any vaccine")
 })
 
 data_summary_pfizer <- local({
   temp1 <- pt_summary(data_pt, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated")
   temp2 <- pt_summary(data_pt, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
-  bind_rows(temp1, temp2) %>%
-  mutate(brand ="BNT162b2")
+  bind_rows(temp1, temp2) %>% mutate(brand ="BNT162b2")
 })
 
 data_summary_az <- local({
   temp1 <- pt_summary(data_pt, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated")
   temp2 <- pt_summary(data_pt, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
-  bind_rows(temp1, temp2) %>%
-  mutate(brand ="ChAdOx1")
+  bind_rows(temp1, temp2) %>% mutate(brand ="ChAdOx1")
 })
 
 data_summary <- bind_rows(
@@ -585,7 +493,8 @@ tab_summary <- data_summary %>%
     columns = "timesincevax_pw"
   )
 
-gtsave(tab_summary, here::here("output", cohort, "descr", "tables", "table_pt.html"))
+dir.create(here::here("output", cohort, "descriptive", "tables"), showWarnings = FALSE, recursive=TRUE)
+gtsave(tab_summary, here::here("output", cohort, "descriptive", "tables", "table_irr.html"))
 
 
 ## note:

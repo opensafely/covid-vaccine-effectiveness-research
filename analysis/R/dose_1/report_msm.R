@@ -54,20 +54,10 @@ gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
 
-
-# Import metadata for cohort ----
-## these are created in data_define_cohorts.R script
-
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
-metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
-list2env(metadata_cohorts, globalenv())
-
 # Import metadata for outcome ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "data", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
 stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
 metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
 
@@ -76,7 +66,7 @@ list2env(metadata_outcomes, globalenv())
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_1 <- outcome ~ 1
@@ -84,7 +74,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 

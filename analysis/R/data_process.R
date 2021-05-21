@@ -17,6 +17,7 @@
 # Import libraries ----
 library('tidyverse')
 library('lubridate')
+library('glue')
 #library('arrow')
 
 # Import custom user functions from lib
@@ -26,25 +27,43 @@ source(here::here("lib", "utility_functions.R"))
 gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
-gbl_vars$run_date =date(file.info(here::here("metadata","extract_all.log"))$ctime)
+gbl_vars$run_date =date(file.info(here::here("metadata", "extract_over80s.log"))$ctime)
 #list2env(gbl_vars, globalenv())
 
 
+## import command-line arguments ----
+args <- commandArgs(trailingOnly=TRUE)
+if(length(args)==0){
+  # use for interactive testing
+  removeobs <- FALSE
+  cohort <- "over80s"
+
+} else {
+  removeobs <- TRUE
+  cohort <- args[[1]]
+}
+
+
+if(cohort=="over80s"){
+  start_date = "2020-12-08"
+} else
+if(cohort=="in70s"){
+  start_date= "2021-01-05"
+}
 
 # output processed data to rds ----
 
-dir.create(here::here("output", "data"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
 
 
 # process ----
 
 data_extract0 <- read_csv(
-  here::here("output", "input_all.csv.gz"),
+  here::here("output", glue("input_{cohort}.csv.gz")),
   col_types = cols_only(
 
     # identifiers
     patient_id = col_integer(),
-    household_id = col_integer(),
     practice_id = col_integer(),
 
     # demographic / administrative
@@ -59,7 +78,6 @@ data_extract0 <- read_csv(
     #nontpp_household = col_logical(),
     #tpp_coverage = col_double(),
 
-    registered_at_latest = col_logical(),
     has_follow_up_previous_year = col_logical(),
 
     age = col_integer(),
@@ -116,14 +134,18 @@ data_extract0 <- read_csv(
     primary_care_suspected_covid_4_date = col_date(format="%Y-%m-%d"),
     primary_care_suspected_covid_5_date = col_date(format="%Y-%m-%d"),
 
+
+    prior_covid_vax_date = col_date(format="%Y-%m-%d"),
     covid_vax_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_3_date = col_date(format="%Y-%m-%d"),
 
+    prior_covid_vax_pfizer_date = col_date(format="%Y-%m-%d"),
     covid_vax_pfizer_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_pfizer_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_pfizer_3_date = col_date(format="%Y-%m-%d"),
 
+    prior_covid_vax_az_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_1_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_2_date = col_date(format="%Y-%m-%d"),
     covid_vax_az_3_date = col_date(format="%Y-%m-%d"),
@@ -190,29 +212,6 @@ data_extract0 <- read_csv(
   na = character() # more stable to convert to missing later
 )
 
-
-
-data_extract0 <- data_extract0 %>%
-
-  # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
-  mutate(
-    ethnicity_combined = if_else(ethnicity == "", ethnicity_6_sus, ethnicity)
-  ) %>%
-  #select(-ethnicity_6_sus) %>%
-  # calculate care home status using household ID, if more than 5 over 70s living in same household
-  mutate(
-    household_id = na_if(household_id, 0), #if household_id=0 then make NA
-  ) %>%
-  group_by(household_id) %>%
-  mutate(
-    household_n = n(),
-    oldhousehold_n = sum(age>=70, na.rm=TRUE),
-  ) %>%
-  ungroup() %>%
-  mutate(
-    care_home_household = if_else(!is.na(household_id), oldhousehold_n>5, FALSE)
-  )
-
 # parse NAs
 data_extract <- data_extract0 %>%
   mutate(across(
@@ -220,7 +219,7 @@ data_extract <- data_extract0 %>%
     .fns = ~na_if(.x, "")
   )) %>%
   mutate(across(
-    .cols = c(where(is.numeric), -ends_with("_id"), all_of("efi")), #convert numeric+integer but not id variables
+    .cols = c(where(is.numeric), -ends_with("_id"), -all_of("efi")), #convert numeric+integer but not id variables
     .fns = ~na_if(.x, 0)
   )) %>%
   arrange(patient_id) %>%
@@ -269,7 +268,7 @@ data_extract_reordered <- left_join(
 data_processed <- data_extract_reordered %>%
   mutate(
 
-    start_date = as.Date(gbl_vars$start_date), # i.e., this is interpreted later as [midnight at the _end of_ the start date] = [midnight at the _start of_ start date + 1], So that for example deaths on start_date+1 occur at t=1, not t=0.
+    start_date = as.Date(start_date), # i.e., this is interpreted later as [midnight at the _end of_ the start date] = [midnight at the _start of_ start date + 1], So that for example deaths on start_date+1 occur at t=1, not t=0.
     end_date = as.Date(gbl_vars$end_date),
     censor_date = pmin(end_date, death_date, na.rm=TRUE),
 
@@ -288,6 +287,8 @@ data_processed <- data_extract_reordered %>%
       right=FALSE
     ),
 
+    # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
+    ethnicity_combined = if_else(ethnicity == "", ethnicity_6_sus, ethnicity),
     ethnicity_combined = fct_case_when(
       ethnicity_combined == "1" ~ "White",
       ethnicity_combined == "4" ~ "Black",
@@ -327,7 +328,7 @@ data_processed <- data_extract_reordered %>%
     stp = as.factor(stp),
     msoa = as.factor(msoa),
     care_home_type = as.factor(care_home_type),
-    care_home_combined = care_home_household | care_home_tpp | care_home_code, # any carehome flag
+    care_home_combined = care_home_tpp | care_home_code, # any carehome flag
 
     bmi = as.factor(bmi),
 
@@ -365,132 +366,6 @@ data_processed <- data_extract_reordered %>%
   ) %>%
   droplevels()
 
-## create one-row-per-event datasets ----
-# for vaccination, positive test, hospitalisation/discharge, covid in primary care, death
+write_rds(data_processed, here::here("output", cohort, "data", "data_processed.rds"), compress="gz")
 
-
-data_admissions <- data_processed %>%
-    select(patient_id, matches("^admitted\\_unplanned\\_\\d+\\_date"), matches("^discharged\\_unplanned\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(".value", "index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_drop_na = TRUE
-    ) %>%
-    select(patient_id, index, admitted_date=admitted_unplanned, discharged_date = discharged_unplanned) %>%
-    arrange(patient_id, admitted_date)
-
-data_admissions_infectious <- data_processed %>%
-  select(patient_id, matches("^admitted\\_unplanned\\_infectious\\_\\d+\\_date"), matches("^discharged\\_unplanned\\_infectious\\_\\d+\\_date")) %>%
-  pivot_longer(
-    cols = -patient_id,
-    names_to = c(".value", "index"),
-    names_pattern = "^(.*)_(\\d+)_date",
-    values_drop_na = TRUE
-  ) %>%
-  select(patient_id, index, admitted_date=admitted_unplanned_infectious, discharged_date = discharged_unplanned_infectious) %>%
-  arrange(patient_id, admitted_date)
-
-#remove infeectious admissions from all admissions data
-data_admissions_noninfectious <- anti_join(
-  data_admissions,
-  data_admissions_infectious,
-  by = c("patient_id", "admitted_date", "discharged_date")
-)
-
-
-data_pr_suspected_covid <- data_processed %>%
-  select(patient_id, matches("^primary_care_suspected_covid\\_\\d+\\_date")) %>%
-  pivot_longer(
-    cols = -patient_id,
-    names_to = c(NA, "suspected_index"),
-    names_pattern = "^(.*)_(\\d+)_date",
-    values_to = "date",
-    values_drop_na = TRUE
-  ) %>%
-  arrange(patient_id, date)
-
-data_pr_probable_covid <- data_processed %>%
-  select(patient_id, matches("^primary_care_probable_covid\\_\\d+\\_date")) %>%
-  pivot_longer(
-    cols = -patient_id,
-    names_to = c(NA, "probable_index"),
-    names_pattern = "^(.*)_(\\d+)_date",
-    values_to = "date",
-    values_drop_na = TRUE
-  ) %>%
-  arrange(patient_id, date)
-
-data_postest <- data_processed %>%
-  select(patient_id, matches("^positive\\_test\\_\\d+\\_date")) %>%
-  pivot_longer(
-    cols = -patient_id,
-    names_to = c(NA, "postest_index"),
-    names_pattern = "^(.*)_(\\d+)_date",
-    values_to = "date",
-    values_drop_na = TRUE
-  ) %>%
-  arrange(patient_id, date)
-
-data_vax <- local({
-
-  data_vax_all <- data_processed %>%
-    select(patient_id, matches("covid\\_vax\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(NA, "vax_index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_to = "date",
-      values_drop_na = TRUE
-    ) %>%
-    arrange(patient_id, date)
-
-  data_vax_pf <- data_processed %>%
-    select(patient_id, matches("covid\\_vax\\_pfizer\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(NA, "vax_pf_index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_to = "date",
-      values_drop_na = TRUE
-    ) %>%
-    arrange(patient_id, date)
-
-  data_vax_az <- data_processed %>%
-    select(patient_id, matches("covid\\_vax\\_az\\_\\d+\\_date")) %>%
-    pivot_longer(
-      cols = -patient_id,
-      names_to = c(NA, "vax_az_index"),
-      names_pattern = "^(.*)_(\\d+)_date",
-      values_to = "date",
-      values_drop_na = TRUE
-    ) %>%
-    arrange(patient_id, date)
-
-
-  data_vax_all %>%
-    left_join(data_vax_pf, by=c("patient_id", "date")) %>%
-    left_join(data_vax_az, by=c("patient_id", "date")) %>%
-    mutate(
-      vaccine_type = fct_case_when(
-        !is.na(vax_az_index) & is.na(vax_pf_index) ~ "Ox-AZ",
-        is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Pf-BNT",
-        is.na(vax_az_index) & is.na(vax_pf_index) ~ "Unknown",
-        !is.na(vax_az_index) & !is.na(vax_pf_index) ~ "Both",
-        TRUE ~ NA_character_
-      )
-    ) %>%
-    arrange(patient_id, date)
-
-})
-
-
-write_rds(data_processed, here::here("output", "data", "data_all.rds"), compress="gz")
-write_rds(data_vax, here::here("output", "data", "data_long_vax_dates.rds"), compress="gz")
-write_rds(data_admissions, here::here("output", "data", "data_long_admission_dates.rds"), compress="gz")
-write_rds(data_admissions_infectious, here::here("output", "data", "data_long_admission_infectious_dates.rds"), compress="gz")
-write_rds(data_admissions_noninfectious, here::here("output", "data", "data_long_admission_noninfectious_dates.rds"), compress="gz")
-write_rds(data_pr_probable_covid, here::here("output", "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
-write_rds(data_pr_suspected_covid, here::here("output", "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
-write_rds(data_postest, here::here("output", "data", "data_long_postest_dates.rds"), compress="gz")
 

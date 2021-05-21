@@ -44,32 +44,23 @@ gbl_vars <- jsonlite::fromJSON(
 )
 
 
-# Import metadata for cohort ----
-## these are created in data_define_cohorts.R script
-
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
-metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
-list2env(metadata_cohorts, globalenv())
-
 # Import metadata for outcomes ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "data", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
 
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 
-strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
@@ -105,7 +96,7 @@ forest_from_gtstack <- function(gt_stack_obj, title){
       variable_card = if_else(row_number()!=1, 0, variable_card),
       level = fct_rev(fct_inorder(paste(variable, label, sep="__"))),
       level_label = label,
-      variable = factor(variable, levels=str_wrap(levels(variable), width=20))
+      variable = factor(str_wrap(variable, width=20), levels=str_wrap(levels(variable), width=20))
     ) %>%
     ungroup() %>%
     droplevels()

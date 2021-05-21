@@ -60,16 +60,11 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for cohort ----
 ## these are created in data_define_cohorts.R script
 
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
-metadata_cohorts <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
-list2env(metadata_cohorts, globalenv())
 
 # Import metadata for outcome ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "data", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
 stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
 metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
 
@@ -78,7 +73,7 @@ list2env(metadata_outcomes, globalenv())
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "data", "list_formula.rds"))
+list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
@@ -90,71 +85,63 @@ if(outcome=="postest"){
   formula_remove_postest <- as.formula(". ~ .")
 }
 
+characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
+characteristics$age <- `age, degree = 2` ~ "Age"
 
-
-
+# covar_labels = append(
+#   characteristics,
+#   list(
+#     timesince_hospinfectiousdischarge_pw ~ "Time since discharge from infectious hosp admission",
+#     timesince_hospnoninfectiousdischarge_pw ~ "Time since discharge from non-infectious hosp admission",
+#     #timesince_probablecovid_pw ~ "Time since probable COVID",
+#     timesince_suspectedcovid_pw ~ "Time since suspected COVID"
+#   ) %>% set_names(., map_chr(., all.vars))
+# ) %>% unname()
+#
+#
+#
+#
+# model_vaxany1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "all", "model_vaxany1.rds"))
+# ipw_formula <- read_rds(here::here("output", cohort, outcome, brand, strata_var, "all", "model_formula_vaxany1.rds"))
+# assign(as.character(model_vaxany1$call$data), model_vaxany1$data) # alternative to `data_atrisk <- model_vaxany1$data` that ensures the right model name is used
+#
+# test<-tbl_regression(
+#   x = model_vaxany1,
+#   pvalue_fun = ~style_pvalue(.x, digits=3),
+#   tidy_fun = partial(tidy_plr, cluster = model_vaxany1$data$patient_id),
+#   include = -contains("ns(tstop"),
+#   label = covar_labels
+# )
+#
+# model_logit %>%
+#   tidy_plus_plus(
+#     tidy_fun = partial(tidy_plr, cluster = model_vaxany1$data$patient_id),
+#     conf.int = TRUE,
+#     exponentiate = TRUE
+#   ) %>%
+#   print_table()
 
 ## table and plot functions ----
 
 gt_model_summary <- function(model, cluster) {
 
-
-  covar_labels = list(
-    `age, degree = 2` ~ "Age",
-    sex ~ "Sex",
-    imd ~ "Deprivation",
-    ethnicity_combined ~ "Ethnicity",
-
-    bmi ~ "Body Mass Index",
-    heart_failure ~ "Heart failure",
-    other_heart_disease ~ "Other heart disease",
-
-    dialysis ~ "Dialysis",
-    diabetes ~ "Diabetes",
-    chronic_liver_disease ~ "Chronic liver disease",
-
-    current_copd ~ "COPD",
-    #cystic_fibrosis ~ "Cystic fibrosis",
-    other_resp_conditions ~ "Other respiratory conditions",
-
-    lung_cancer ~ "Lung Cancer",
-    haematological_cancer ~ "Haematological cancer",
-    cancer_excl_lung_and_haem ~ "Cancer excl. lung, haemo",
-
-    #chemo_or_radio ~ "Chemo- or radio-therapy",
-    #solid_organ_transplantation ~ "Solid organ transplant",
-    #bone_marrow_transplant ~ "Bone marrow transplant",
-    #sickle_cell_disease ~ "Sickle Cell Disease",
-    #permanant_immunosuppression ~ "Permanent immunosuppression",
-    #temporary_immunosuppression ~ "Temporary Immunosuppression",
-    #asplenia ~ "Asplenia",
-    #dmards ~ "DMARDS",
-    any_immunosuppression ~ "Immunosuppressed",
-
-    dementia ~ "Dementia",
-    other_neuro_conditions ~ "Other neurological conditions",
-
-    LD_incl_DS_and_CP ~ "Learning disabilities",
-    psychosis_schiz_bipolar ~ "Serious mental illness",
-
-    multimorb ~ "Morbidity count",
-    shielded ~ "Shielding criteria met",
-
-    flu_vaccine ~ "Flu vaccine in previous 5 years",
-
-    efi_cat ~ "Frailty",
-
-    timesince_hospinfectiousdischarge_pw ~ "Time since discharge from infectious hosp admission",
-    timesince_hospnoninfectiousdischarge_pw ~ "Time since discharge from non-infectious hosp admission",
-    #timesince_probablecovid_pw ~ "Time since probable COVID",
-    timesince_suspectedcovid_pw ~ "Time since suspected COVID",
-    timesince_postesttdc_pw ~ "Time since positive SARS-CoV-2 test"
+  covar_labels = append(
+    characteristics,
+    list(
+      timesince_hospinfectiousdischarge_pw ~ "Time since discharge from infectious hosp admission",
+      timesince_hospnoninfectiousdischarge_pw ~ "Time since discharge from non-infectious hosp admission",
+      #timesince_probablecovid_pw ~ "Time since probable COVID",
+      timesince_suspectedcovid_pw ~ "Time since suspected COVID",
+      timesince_postesttdc_pw ~ "Time since positive SARS-CoV-2 test"
+    ) %>% set_names(., map_chr(., all.vars))
   )
 
   ## if outcome is positive test, remove positive test label assumes it is the last one)
   if(outcome=="postest"){
-    covar_labels <- covar_labels[-length(covar_labels)]
+    covar_labels$timesince_postesttdc_pw <- NULL
   }
+
+  covar_labels <- unname(covar_labels)
 
   tbl_reg <- tbl_regression(
     x = model,
@@ -216,7 +203,7 @@ forest_from_gt <- function(gt_obj, title){
     geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=level)) +
     geom_vline(aes(xintercept=1), colour='black', alpha=0.8)+
     facet_grid(rows=vars(variable), scales="free_y", switch="y", space="free_y", labeller = labeller(variable = var_lookup))+
-    scale_x_log10(breaks=c(0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8), labels=c("1/64", "1/32", "1/16", "1/8", "1/4", "1/2", "1", "2", "4", "8"))+
+    scale_x_log10(breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5))+
     scale_y_discrete(breaks=level_lookup, labels=names(level_lookup))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
     scale_alpha_continuous(range=c(0,0.3), guide=FALSE)+
@@ -241,22 +228,16 @@ forest_from_gt <- function(gt_obj, title){
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", "data", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
 
 for(stratum in strata){
 
   # import models ----
   if(brand=="any"){
 
-    #data_atrisk <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "data_atrisk_vaxany1.rds"))
     model_vaxany1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_vaxany1.rds"))
     ipw_formula <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_formula_vaxany1.rds"))
     assign(as.character(model_vaxany1$call$data), model_vaxany1$data) # alternative to `data_atrisk <- model_vaxany1$data` that ensures the right model name is used
-
-
-    # rename model dataset to match name it had when first created, then remove oldname dataset
-    #assign(as.character(model_vaxany1$call$data),data_atrisk_vaxany1)
-    #rm(data_atrisk_vaxany1)
 
     ## output model coefficients
     tab_vaxany1 <- gt_model_summary(model_vaxany1, model_vaxany1$data$patient_id)

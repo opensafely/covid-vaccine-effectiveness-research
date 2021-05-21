@@ -65,10 +65,12 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # use for interactive testing
-  cohort <- "over70s"
+  cohort <- "over80s"
+  removeobs <- FALSE
 } else {
   # use for actions
   cohort <- args[[1]]
+  removeobs <- TRUE
 }
 
 ## import global vars ----
@@ -79,8 +81,8 @@ gbl_vars <- jsonlite::fromJSON(
 
 
 ## create output directories ----
-dir.create(here::here("output", cohort, "descr", "plots"), showWarnings = FALSE, recursive=TRUE)
-dir.create(here::here("output", cohort, "descr", "tables"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, "descriptive", "plots"), showWarnings = FALSE, recursive=TRUE)
+dir.create(here::here("output", cohort, "descriptive", "tables"), showWarnings = FALSE, recursive=TRUE)
 
 ## define theme ----
 
@@ -99,182 +101,77 @@ plot_theme <-
 
 
 ## Import processed data ----
-data_all <- read_rds(here::here("output", "data", "data_all.rds"))
 
-# Import metadata for cohort ----
+data_fixed <- read_rds(here::here("output", cohort, "data", "data_fixed.rds"))
+data_tte <- read_rds(here::here("output", cohort, "data", "data_tte.rds"))
+data_pt <- read_rds(here::here("output", cohort, "data", "data_pt.rds"))
 
-data_cohorts <- read_rds(here::here("output", "data", "data_cohorts.rds"))
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
+data_pt <- data_pt %>% select(
+  patient_id,
+  tstart, tstop,
 
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
+  vaxany1_status,
+  vaxany2_status,
 
-data_cohorts <- data_cohorts[data_cohorts[[cohort]],]
+  vaxpfizer1_status,
+  vaxpfizer2_status,
 
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
+  vaxaz1_status,
+  vaxaz2_status,
 
-# create data ----
+  vaxany_status,
+  vaxpfizer_status,
+  vaxaz_status,
 
-data_tte <- data_all %>%
-  filter(
-    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
-  ) %>%
-  transmute(
-    patient_id,
+  covidtest_status,
+  postest_status,
+  covidadmitted_status,
+  coviddeath_status,
+  noncoviddeath_status,
+  death_status,
+  dereg_status,
+  lastfup_status,
 
-    age,
-    ageband,
-    sex,
-    imd,
-    ethnicity_combined,
-    region,
+  vaxany1,
+  vaxany2,
+  vaxpfizer1,
+  vaxpfizer2,
+  vaxaz1,
+  vaxaz2,
+  covidtest,
+  postest,
+  covidadmitted,
+  coviddeath,
+  noncoviddeath,
+  death,
+  dereg,
+  lastfup,
 
-    start_date,
-    end_date,
-
-    #composite of death, deregisttration and end date
-    lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
-
-    tte_enddate = tte(start_date, end_date, end_date),
-
-    # time to last follow up day
-    tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
-
-    # time to deregistration
-    tte_dereg = tte(start_date, dereg_date, dereg_date),
-
-    # time to test
-    tte_covidtest = tte(start_date, covid_test_1_date, lastfup_date, na.censor=TRUE),
-
-    # time to positive test
-    tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE),
-
-    # time to admission
-    tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE),
-
-    #time to covid death
-    tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE),
-    tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE),
-
-    #time to death
-    tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
-
-    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
-
-    tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE),
-
-    tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
-
-  )
-
-data_tte_cp <- tmerge(
-  data1 = data_tte,
-  data2 = data_tte,
-  id = patient_id,
-
-  vaxany1_status = tdc(tte_vaxany1),
-  vaxany2_status = tdc(tte_vaxany2),
-
-  vaxpfizer1_status = tdc(tte_vaxpfizer1),
-  vaxpfizer2_status = tdc(tte_vaxpfizer2),
-
-  vaxaz1_status = tdc(tte_vaxaz1),
-  vaxaz2_status = tdc(tte_vaxaz2),
-
-  covidtest_status = tdc(tte_covidtest),
-  postest_status = tdc(tte_postest),
-  covidadmitted_status = tdc(tte_covidadmitted),
-  coviddeath_status = tdc(tte_coviddeath),
-  noncoviddeath_status = tdc(tte_noncoviddeath),
-  death_status = tdc(tte_death),
-  dereg_status= tdc(tte_dereg),
-  lastfup_status = tdc(tte_lastfup),
-
-  vaxany1 = event(tte_vaxany1),
-  vaxany2 = event(tte_vaxany2),
-  vaxpfizer1 = event(tte_vaxpfizer1),
-  vaxpfizer2 = event(tte_vaxpfizer2),
-  vaxaz1 = event(tte_vaxaz1),
-  vaxaz2 = event(tte_vaxaz2),
-  covidtest = event(tte_covidtest),
-  postest = event(tte_postest),
-  covidadmitted = event(tte_covidadmitted),
-  coviddeath = event(tte_coviddeath),
-  noncoviddeath = event(tte_noncoviddeath),
-  death = event(tte_death),
-  dereg = event(tte_dereg),
-  lastfup = event(tte_lastfup),
-
-  tstart = 0L,
-  tstop = tte_enddate # use enddate not lastfup because it's useful for status over time plots
+  vaxanyday1
 )
-
-alltimes <- expand(data_tte, patient_id, times=as.integer(full_seq(c(0, tte_enddate),1)))
-
-data_pt <- tmerge(
-  data1 = data_tte_cp,
-  data2 = alltimes,
-  id = patient_id,
-  alltimes = event(times, times)
-) %>%
-  arrange(patient_id, tstop) %>%
-  group_by(patient_id) %>%
-  mutate(
-
-    # define time since vaccination
-    timesincevaxany1 = cumsum(vaxany1_status),
-    timesincevaxany2 = cumsum(vaxany2_status),
-    timesincevaxpfizer1 = cumsum(vaxpfizer1_status),
-    timesincevaxpfizer2 = cumsum(vaxpfizer2_status),
-    timesincevaxaz1 = cumsum(vaxaz1_status),
-    timesincevaxaz2 = cumsum(vaxaz2_status),
-
-    twidth = tstop - tstart,
-    vaxany_status = vaxany1_status + vaxany2_status,
-    vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
-    vaxaz_status = vaxaz1_status + vaxaz2_status,
-  ) %>%
-  ungroup() %>%
-  # for some reason tmerge converts event indicators to numeric. So convert back to save space
-  mutate(across(
-    .cols = c("vaxany1",
-              "vaxany2",
-              "vaxpfizer1",
-              "vaxpfizer2",
-              "vaxaz1",
-              "vaxaz2",
-              "covidtest",
-              "postest",
-              "covidadmitted",
-              "coviddeath",
-              "noncoviddeath",
-              "death",
-              "dereg",
-              "lastfup",
-    ),
-    .fns = as.integer
-  ))
-
 
 # create plots ----
 data_by_day <-
   data_pt %>%
-  transmute(
-    patient_id,
-    all = "all",
-    sex,
-    imd,
-    ethnicity_combined,
-    region,
-    ageband = cut(
-      age,
-      breaks=c(-Inf, 70, 75, 80, 85, 90, 95, Inf),
-      labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
-      right=FALSE
+  left_join(
+    data_fixed %>% transmute(
+      patient_id,
+      all = "all",
+      sex,
+      imd,
+      ethnicity_combined,
+      region,
+      ageband = cut(
+        age,
+        breaks=c(-Inf, 70, 75, 80, 85, 90, 95, Inf),
+        labels=c("under 70", "70-74", "75-79", "80-84", "85-89", "90-94", "95+"),
+        right=FALSE
+      ),
+      agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf), labels=c("under 70", "70-79", "80+"), right=FALSE) %>% fct_rev(),
     ),
-    agecohort = cut(age, breaks= c(-Inf, 70, 80, Inf), labels=c("under 70", "70-79", "80+"), right=FALSE) %>% fct_rev(),
+    by = "patient_id"
+  ) %>%
+  mutate(
     day = tstop,
     date = as.Date(gbl_vars$start_date) + day,
     week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
@@ -289,29 +186,22 @@ data_by_day <-
       TRUE ~ NA_character_
     ),
 
-    vaxbrand_status = fct_case_when(
+    vaxbrand1_status = fct_case_when(
       vaxpfizer_status==0 & vaxaz_status==0  ~ "Not vaccinated",
       vaxpfizer_status>0  ~ "BNT162b2",
       vaxaz_status>0  ~ "ChAdOx1",
       TRUE ~ NA_character_
     ),
 
-    lastfup,
-    death,
-    noncoviddeath=death & !coviddeath,
-    coviddeath,
-    covidadmitted,
-    postest,
 
-    lastfup_status,
-    death_status,
-    dereg_status,
-    noncoviddeath_status=death_status & !coviddeath_status,
-    coviddeath_status,
-    covidadmitted_status,
-    postest_status,
-
-    tte_vaxany1,
+    vaxbrand12_status = fct_case_when(
+      vaxpfizer_status==0 & vaxaz_status==0  ~ "Not vaccinated",
+      vaxpfizer_status==1  ~ "BNT162b2\ndose 1",
+      vaxpfizer_status==2  ~ "BNT162b2\ndose 2",
+      vaxaz_status==1  ~ "ChAdOx1\ndose 1",
+      vaxaz_status==2  ~ "ChAdOx1\ndose 2",
+      TRUE ~ NA_character_
+    ),
 
     outcome_status = fct_case_when(
       noncoviddeath_status==1 ~ "Non-COVID-19 death",
@@ -320,72 +210,19 @@ data_by_day <-
       postest_status==1 ~ "Positive test",
       TRUE ~ "No events"
     ) %>% fct_rev()
-  ) %>%
-  #group_by(patient_id) %>%
-  #mutate(
-  #  lag_vaxany_status_onedose = lag(vaxany_status_onedose, 14, 0),
-  #  lag_vaxany_status_onedose = fct_case_when(
-  #    lag_vaxany_status_onedose==0 ~ "No vaccine or\n< 14 days post-vaccine",
-  #    lag_vaxany_status_onedose==1 ~ ">= 14 days post-vaccine",
-  #    TRUE ~ NA_character_
-  #  )
-  #) %>%
-  #ungroup() %>%
-  droplevels()
-
-
-## cumulative vaccination status ----
-
-
-plot_vax_counts <- function(var, var_descr){
-
-
-  data1 <- data_by_day %>%
-    mutate(
-      variable = data_by_day[[var]]
-    ) %>%
-    group_by(date, variable, vaxany_status, .drop=FALSE) %>%
-    summarise(
-      n = n(),
-    ) %>%
-    group_by(date, variable) %>%
-    mutate(
-      n_per_10000 = (n/sum(n))*10000
-    ) %>%
-    ungroup()
-
-
-  plot <- data1 %>%
-    ggplot() +
-    geom_area(aes(x=date, y=n_per_10000, group=vaxany_status, fill=vaxany_status), alpha=0.5)+
-    facet_grid(rows=vars(variable))+
-    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%m-%d"))+
-    scale_fill_manual(values=c("#d95f02", "#7570b3", "#1b9e77", "grey"))+
-    labs(
-      x=NULL,
-      y="Status per 10,000 people",
-      colour=NULL,
-      fill=NULL#,
-      #title = "Vaccination status over time",
-      #subtitle = var_descr
-    ) +
-    plot_theme+
-    theme(legend.position = "bottom")
-
-  plot
-}
+  )
 
 
 
-plot_brand_counts <- function(var, var_descr){
 
+plot_brand1_counts <- function(var, var_descr){
 
   data1 <- data_by_day %>%
     mutate(
       variable = data_by_day[[var]]
     ) %>%
     filter(dereg_status==0) %>%
-    group_by(date, variable, vaxbrand_status, lastfup_status, .drop=FALSE) %>%
+    group_by(date, variable, vaxbrand1_status, lastfup_status, .drop=FALSE) %>%
     summarise(
       n = n(),
     ) %>%
@@ -394,23 +231,25 @@ plot_brand_counts <- function(var, var_descr){
       n_per_10000 = (n/sum(n))*10000
     ) %>%
     ungroup() %>%
-    arrange(date, variable, vaxbrand_status, lastfup_status) %>%
+    arrange(date, variable, vaxbrand1_status, lastfup_status) %>%
     mutate(
-      lastfup_status = if_else(lastfup_status %in% 1, "Died / deregistered", ""),
+      lastfup_status = if_else(lastfup_status %in% 1, "Died / deregistered", "At-risk"),
       group= factor(
-        paste0(lastfup_status,":",vaxbrand_status),
+        paste0(lastfup_status,":",vaxbrand1_status),
         levels= map_chr(
-          cross2(c("", "Died / deregistered"), levels(vaxbrand_status)),
+          cross2(c("At-risk", "Died / deregistered"), levels(vaxbrand1_status)),
           paste, sep = ":", collapse = ":"
         )
       )
     )
 
+  colorspace::lighten("#1b9e77", 0.25)
+
   plot <- data1 %>%
     ggplot() +
     geom_area(aes(x=date, y=n_per_10000,
                   group=group,
-                  fill=vaxbrand_status,
+                  fill=vaxbrand1_status,
                   alpha=lastfup_status
               )
     )+
@@ -431,9 +270,65 @@ plot_brand_counts <- function(var, var_descr){
   plot
 }
 
- #plot_brand_counts("all", "")
 
 
+plot_brand12_counts <- function(var, var_descr){
+
+  data1 <- data_by_day %>%
+    mutate(
+      variable = data_by_day[[var]]
+    ) %>%
+    filter(dereg_status==0) %>%
+    group_by(date, variable, vaxbrand12_status, lastfup_status, .drop=FALSE) %>%
+    summarise(
+      n = n(),
+    ) %>%
+    group_by(date, variable) %>%
+    mutate(
+      n_per_10000 = (n/sum(n))*10000
+    ) %>%
+    ungroup() %>%
+    arrange(date, variable, vaxbrand12_status, lastfup_status) %>%
+    mutate(
+      lastfup_status = if_else(lastfup_status %in% 1, "Died / deregistered", "At-risk"),
+      group= factor(
+        paste0(lastfup_status,":",vaxbrand12_status),
+        levels= map_chr(
+          cross2(c("At-risk", "Died / deregistered"), levels(vaxbrand12_status)),
+          paste, sep = ":", collapse = ":"
+        )
+      )
+    )
+
+  colorspace::lighten("#1b9e77", 0.25)
+
+  plot <- data1 %>%
+    ggplot() +
+    geom_area(aes(x=date, y=n_per_10000,
+                  group=group,
+                  fill=vaxbrand12_status,
+                  alpha=lastfup_status
+    )
+    )+
+    facet_grid(rows=vars(variable))+
+    scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
+    scale_fill_manual(values=c("#d95f02", "#7570b3", "#9590D3", "#1b9e77",  "#4BBA93"))+
+    scale_alpha_manual(values=c(0.8,0.1), breaks=c(0.1))+
+    labs(
+      x="Date",
+      y="Status per 10,000 people",
+      colour=NULL,
+      fill=NULL,
+      alpha=NULL
+    ) +
+    plot_theme+
+    theme(legend.position = "bottom")
+
+  plot
+}
+
+#plot_brand1_counts("all", "")
+#plot_brand12_counts("all", "")
 # data1 <- data_by_day %>%
 #   mutate(
 #     variable = data_by_day[["all"]]
@@ -461,8 +356,6 @@ plot_brand_counts <- function(var, var_descr){
 #   )
 
 ## cumulative event status ----
-
-
 
 plot_event_counts <- function(var, var_descr){
 
@@ -556,23 +449,33 @@ plot_event_rates <- function(var, var_descr){
 
 vars_df <- tribble(
   ~var, ~var_descr,
-  "agecohort", "",
+  "all", "",
   "sex", "Sex",
   "imd", "IMD",
   "ageband", "Age",
   "ethnicity_combined", "Ethnicity",
-  "region", "Region"
 ) %>% mutate(
   device="svg",
   units = "cm",
 )
 
+# save data to combine across cohorts later
+write_rds(
+  plot_brand1_counts("all", "")$data,
+  path=here::here("output", cohort, "descriptive", "plots", paste0("vaxcounts1.rds")), compress="gz"
+)
+
+write_rds(
+  plot_brand12_counts("all", "")$data,
+  path=here::here("output", cohort, "descriptive", "plots", paste0("vaxcounts12.rds")), compress="gz"
+)
+
 vars_df %>%
   transmute(
-    plot = pmap(lst(var, var_descr), plot_vax_counts),
+    plot = pmap(lst(var, var_descr), plot_brand1_counts),
     plot = patchwork::align_patches(plot),
-    filename = paste0("vaxcounts_",var,".svg"),
-    path=here::here("output", cohort, "descr", "plots"),
+    filename = paste0("brandcounts1_",var,".svg"),
+    path=here::here("output", cohort, "descriptive", "plots"),
     panelwidth = 15,
     panelheight = 7,
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
@@ -587,16 +490,16 @@ vars_df %>%
       path=path,
       width=width, height=height, units=units, limitsize=FALSE, scale=0.8
     ),
-    ggsave)
+    ggsave),
   )
 
 
 vars_df %>%
   transmute(
-    plot = pmap(lst(var, var_descr), plot_brand_counts),
+    plot = pmap(lst(var, var_descr), plot_brand12_counts),
     plot = patchwork::align_patches(plot),
-    filename = paste0("brandcounts_",var,".svg"),
-    path=here::here("output", cohort, "descr", "plots"),
+    filename = paste0("brandcounts12_",var,".svg"),
+    path=here::here("output", cohort, "descriptive", "plots"),
     panelwidth = 15,
     panelheight = 7,
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
@@ -611,7 +514,7 @@ vars_df %>%
       path=path,
       width=width, height=height, units=units, limitsize=FALSE, scale=0.8
     ),
-    ggsave)
+    ggsave),
   )
 
 #
@@ -682,8 +585,8 @@ tab_end_status <- data_pt %>%
     pt_days = sum(tstop),
     pt_years = sum(tstop)/365.25,
 
-    pt_days_vax = sum(tstop)-sum(pmin(tte_vaxany1, tstop, na.rm=TRUE)),
-    pt_years_vax = (sum(tstop)-sum(pmin(tte_vaxany1, tstop, na.rm=TRUE)))/365.25,
+    pt_days_vax = sum(tstop)-sum(pmin(vaxanyday1, tstop, na.rm=TRUE)),
+    pt_years_vax = (sum(tstop)-sum(pmin(vaxanyday1, tstop, na.rm=TRUE)))/365.25,
 
     pt_pct_vax = pt_days_vax / pt_days,
 
@@ -694,4 +597,4 @@ tab_end_status <- data_pt %>%
     max_fup = max(tstop),
   )
 
-write_csv(tab_end_status, here::here("output", cohort, "descr", "tables", "end_status.csv"))
+write_csv(tab_end_status, here::here("output", cohort, "descriptive", "tables", "end_status.csv"))
