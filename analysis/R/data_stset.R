@@ -522,25 +522,25 @@ data_tte_pt <- tmerge(
     # define time since covid primary care event
     timesince_suspectedcovid_pw = cut(
       tstop - suspectedcovid_time,
-      breaks=c(0, 3, 7, 14, 21, 28, Inf),
-      labels=c("1-3", "3-7", "8-14", "15-21", "22-28", "29+"),
+      breaks=c(0, 7, 14, 21, 28, Inf),
+      labels=c("1-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
-    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "1-3", "3-7", "8-14", "15-21", "22-28", "29+")),
+    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "1-7", "8-14", "15-21", "22-28", "29+")),
 
     timesince_probablecovid_pw = cut(
       tstop - probablecovid_time,
-      breaks=c(0, 3, 7, 14, 21, 28, Inf),
-      labels=c("1-3", "3-7", "8-14", "15-21", "22-28", "29+"),
+      breaks=c(0, 7, 14, 21, 28, Inf),
+      labels=c("1-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
-    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "1-3", "3-7", "8-14", "15-21", "22-28", "29+")),
+    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "1-7", "8-14", "15-21", "22-28", "29+")),
 
     # define time since positive SGSS test
     timesince_postesttdc_pw = cut(
       tstop - postesttdc_time,
-      breaks=c(0, 3, 7, 14, 21, 28, Inf),
-      labels=c("1-3", "3-7", "8-14", "15-21", "22-28", "29+"),
+      breaks=c(0, 7, 14, 21, 28, Inf),
+      labels=c("1-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
-    ) %>% fct_explicit_na(na_level="No positive test")  %>% factor(c("No positive test", "1-3", "3-7", "8-14", "15-21", "22-28", "29+")),
+    ) %>% fct_explicit_na(na_level="No positive test")  %>% factor(c("No positive test", "1-7", "8-14", "15-21", "22-28", "29+")),
 
   ) %>%
   ungroup() %>%
