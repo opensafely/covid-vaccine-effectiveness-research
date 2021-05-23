@@ -4,7 +4,7 @@
 # takes a cohort name as defined in data_define_cohorts.R, and imported as an Arg
 # creates 3 datasets for that cohort:
 # 1 is one row per patient (wide format)
-# 2 is one row per patient per event (eg `stset` format, where a new row is created everytime an event occurs or a covariate changes)
+# 2 is one row per patient per event (eg `stset` format, where a new row is created every time an event occurs or a covariate changes)
 # 3 is one row per patient per day
 # creates additional survival variables for use in models (eg time to event from study start date)
 #
