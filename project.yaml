@@ -87,7 +87,7 @@ actions:
         tables: output/over80s/descriptive/tables/table_irr.html
 
   data_stset_over80s:
-    run: r:latest analysis/R/data_stset.R over80s 0.05
+    run: r:latest analysis/R/data_stset.R over80s 0.1
     needs: [design, data_selection_over80s, data_process_long_over80s]
     outputs:
       highly_sensitive:
