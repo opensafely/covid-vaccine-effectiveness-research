@@ -686,3 +686,676 @@ actions:
 
 
 
+
+
+##############################################################################
+##############################################################################
+  ## VE in 70-79s
+##############################################################################
+##############################################################################
+
+  extract_in70s:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_in70s --output-format csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/input_in70s.csv.gz
+
+  data_process_in70s:
+    run: r:latest analysis/R/data_process.R in70s
+    needs: [extract_in70s]
+    outputs:
+      highly_sensitive:
+        data: output/in70s/data/data_processed.rds
+
+  data_process_long_in70s:
+    run: r:latest analysis/R/data_process_long.R in70s
+    needs: [data_process_in70s]
+    outputs:
+      highly_sensitive:
+        data1: output/in70s/data/data_long_vax_dates.rds
+        data2: output/in70s/data/data_long_admission_dates.rds
+        data3: output/in70s/data/data_long_admission_infectious_dates.rds
+        data4: output/in70s/data/data_long_admission_noninfectious_dates.rds
+        data5: output/in70s/data/data_long_pr_probable_covid_dates.rds
+        data6: output/in70s/data/data_long_pr_suspected_covid_dates.rds
+        data7: output/in70s/data/data_long_postest_dates.rds
+
+  check_ethnicity_in70s:
+    run: r:latest analysis/R/check_ethnicity.R in70s
+    needs: [data_process_in70s]
+    outputs:
+      moderately_sensitive:
+        tab: output/in70s/data/ethnicity_table*.txt
+
+  data_properties_in70s:
+    run: r:latest analysis/R/data_properties.R output/in70s/data/data_processed.rds output/in70s/data_properties
+    needs: [data_process_in70s]
+    outputs:
+      moderately_sensitive:
+        datasummary: output/in70s/data_properties/data_processed*.txt
+
+  data_selection_in70s:
+    run: r:latest analysis/R/data_selection.R in70s
+    needs: [data_process_in70s]
+    outputs:
+      highly_sensitive:
+        data: output/in70s/data/data_cohort.rds
+      moderately_sensitive:
+        flow: output/in70s/data/flowchart.csv
+
+  descr_table1_in70s:
+    run: r:latest analysis/R/descr_table1.R in70s
+    needs: [design, data_selection_in70s]
+    outputs:
+      highly_sensitive:
+        rds: output/in70s/descriptive/tables/*.rds
+      moderately_sensitive:
+        html: output/in70s/descriptive/tables/table1.html
+
+  descr_irr_in70s:
+    run: r:latest analysis/R/descr_tableirr.R in70s
+    needs: [design, data_selection_in70s]
+    outputs:
+      moderately_sensitive:
+        tables: output/in70s/descriptive/tables/table_irr.html
+
+  data_stset_in70s:
+    run: r:latest analysis/R/data_stset.R in70s 0.1
+    needs: [design, data_selection_in70s, data_process_long_in70s]
+    outputs:
+      highly_sensitive:
+        data1: output/in70s/data/data_fixed.rds
+        data2: output/in70s/data/data_tte.rds
+        data3: output/in70s/data/data_pt.rds
+
+  descr_events_in70s:
+    run: r:latest analysis/R/descr_events.R in70s
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        rds: output/in70s/descriptive/plots/*.rds
+      moderately_sensitive:
+        plots: output/in70s/descriptive/plots/*.svg
+        tables: output/in70s/descriptive/tables/*.csv
+
+
+  # data_properties_in70s_fixed:
+  #   run: r:latest analysis/R/data_properties.R output/in70s/data/data_wide_fixed.rds output/in70s/data_properties
+  #   needs: [data_stset_in70s]
+  #   outputs:
+  #     moderately_sensitive:
+  #       datasummary: output/in70s/data_properties/data_wide_fixed*.txt
+  #
+  # data_properties_in70s_tte:
+  #   run: r:latest analysis/R/data_properties.R output/in70s/data/data_wide_tte.rds output/in70s/data_properties
+  #   needs: [data_stset_in70s]
+  #   outputs:
+  #     moderately_sensitive:
+  #       datasummary: output/in70s/data_properties/data_wide_tte*.txt
+
+
+#######################################
+ ## OVERALL MODELS: positive test, vax1 only (ignores second dose)
+#######################################
+
+## any vaccine
+
+  models_in70s_postest_any_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s postest any all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/postest/any/all/*/model*.rds
+        data: output/in70s/postest/any/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/postest/any/all/*/weights*
+
+  report_ipw_in70s_postest_any_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s postest any all
+    needs: [design, models_in70s_postest_any_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/postest/any/all/*/broom*.rds
+        gt: output/in70s/postest/any/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/postest/any/all/*/plot*.svg
+        tables: output/in70s/postest/any/all/*/tab*.html
+        data: output/in70s/postest/any/all/*/broom*.csv
+
+  report_in70s_postest_any_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s postest any all
+    needs: [design, models_in70s_postest_any_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/postest/any/all/*.svg
+        tables: output/in70s/postest/any/all/*.csv
+
+## pfizer vaccine
+
+  models_in70s_postest_pfizer_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s postest pfizer all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/postest/pfizer/all/*/model*.rds
+        data: output/in70s/postest/pfizer/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/postest/pfizer/all/*/weights*
+
+  report_ipw_in70s_postest_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s postest pfizer all
+    needs: [design, models_in70s_postest_pfizer_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/postest/pfizer/all/*/broom*.rds
+        gt: output/in70s/postest/pfizer/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/postest/pfizer/all/*/plot*.svg
+        tables: output/in70s/postest/pfizer/all/*/tab*.html
+        data: output/in70s/postest/pfizer/all/*/broom*.csv
+
+  report_in70s_postest_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s postest pfizer all
+    needs: [design, models_in70s_postest_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/postest/pfizer/all/*.svg
+        tables: output/in70s/postest/pfizer/all/*.csv
+
+## az vaccine
+
+  models_in70s_postest_az_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s postest az all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/postest/az/all/*/model*.rds
+        data: output/in70s/postest/az/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/postest/az/all/*/weights*
+
+  report_ipw_in70s_postest_az_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s postest az all
+    needs: [design, models_in70s_postest_az_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/postest/az/all/*/broom*.rds
+        gt: output/in70s/postest/az/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/postest/az/all/*/plot*.svg
+        tables: output/in70s/postest/az/all/*/tab*.html
+        data: output/in70s/postest/az/all/*/broom*.csv
+
+  report_in70s_postest_az_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s postest az all
+    needs: [design, models_in70s_postest_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/postest/az/all/*.svg
+        tables: output/in70s/postest/az/all/*.csv
+
+
+#######################################
+ ## OVERALL MODELS: covid hospital admission, vax1 only (ignores second dose)
+#######################################
+
+## any vaccine
+
+  models_in70s_covidadmitted_any_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted any all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/covidadmitted/any/all/*/model*.rds
+        data: output/in70s/covidadmitted/any/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/covidadmitted/any/all/*/weights*
+
+  report_ipw_in70s_covidadmitted_any_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted any all
+    needs: [design, models_in70s_covidadmitted_any_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/covidadmitted/any/all/*/broom*.rds
+        gt: output/in70s/covidadmitted/any/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/covidadmitted/any/all/*/plot*.svg
+        tables: output/in70s/covidadmitted/any/all/*/tab*.html
+        data: output/in70s/covidadmitted/any/all/*/broom*.csv
+
+  report_in70s_covidadmitted_any_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted any all
+    needs: [design, models_in70s_covidadmitted_any_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/covidadmitted/any/all/*.svg
+        tables: output/in70s/covidadmitted/any/all/*.csv
+
+
+## pfizer vaccine
+
+  models_in70s_covidadmitted_pfizer_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted pfizer all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/covidadmitted/pfizer/all/*/model*.rds
+        data: output/in70s/covidadmitted/pfizer/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/covidadmitted/pfizer/all/*/weights*
+
+  report_ipw_in70s_covidadmitted_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted pfizer all
+    needs: [design, models_in70s_covidadmitted_pfizer_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/covidadmitted/pfizer/all/*/broom*.rds
+        gt: output/in70s/covidadmitted/pfizer/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/covidadmitted/pfizer/all/*/plot*.svg
+        tables: output/in70s/covidadmitted/pfizer/all/*/tab*.html
+        data: output/in70s/covidadmitted/pfizer/all/*/broom*.csv
+
+  report_in70s_covidadmitted_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted pfizer all
+    needs: [design, models_in70s_covidadmitted_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/covidadmitted/pfizer/all/*.svg
+        tables: output/in70s/covidadmitted/pfizer/all/*.csv
+
+## az vaccine
+
+  models_in70s_covidadmitted_az_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted az all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/covidadmitted/az/all/*/model*.rds
+        data: output/in70s/covidadmitted/az/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/covidadmitted/az/all/*/weights*
+
+  report_ipw_in70s_covidadmitted_az_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted az all
+    needs: [design, models_in70s_covidadmitted_az_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/covidadmitted/az/all/*/broom*.rds
+        gt: output/in70s/covidadmitted/az/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/covidadmitted/az/all/*/plot*.svg
+        tables: output/in70s/covidadmitted/az/all/*/tab*.html
+        data: output/in70s/covidadmitted/az/all/*/broom*.csv
+
+  report_in70s_covidadmitted_az_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted az all
+    needs: [design, models_in70s_covidadmitted_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/covidadmitted/az/all/*.svg
+        tables: output/in70s/covidadmitted/az/all/*.csv
+
+
+
+#######################################
+ ## OVERALL MODELS: non-covid death, vax1 only (ignores second dose)
+#######################################
+
+## any vaccine
+
+  models_in70s_noncoviddeath_any_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath any all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/noncoviddeath/any/all/*/model*.rds
+        data: output/in70s/noncoviddeath/any/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/noncoviddeath/any/all/*/weights*
+
+  report_ipw_in70s_noncoviddeath_any_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath any all
+    needs: [design, models_in70s_noncoviddeath_any_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/noncoviddeath/any/all/*/broom*.rds
+        gt: output/in70s/noncoviddeath/any/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/noncoviddeath/any/all/*/plot*.svg
+        tables: output/in70s/noncoviddeath/any/all/*/tab*.html
+        data: output/in70s/noncoviddeath/any/all/*/broom*.csv
+
+
+  report_in70s_noncoviddeath_any_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath any all
+    needs: [design, models_in70s_noncoviddeath_any_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/noncoviddeath/any/all/*.svg
+        tables: output/in70s/noncoviddeath/any/all/*.csv
+
+
+## pfizer vaccine
+
+  models_in70s_noncoviddeath_pfizer_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath pfizer all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/noncoviddeath/pfizer/all/*/model*.rds
+        data: output/in70s/noncoviddeath/pfizer/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/noncoviddeath/pfizer/all/*/weights*
+
+  report_ipw_in70s_noncoviddeath_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath pfizer all
+    needs: [design, models_in70s_noncoviddeath_pfizer_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/noncoviddeath/pfizer/all/*/broom*.rds
+        gt: output/in70s/noncoviddeath/pfizer/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/noncoviddeath/pfizer/all/*/plot*.svg
+        tables: output/in70s/noncoviddeath/pfizer/all/*/tab*.html
+        data: output/in70s/noncoviddeath/pfizer/all/*/broom*.csv
+
+  report_in70s_noncoviddeath_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath pfizer all
+    needs: [design, models_in70s_noncoviddeath_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/noncoviddeath/pfizer/all/*.svg
+        tables: output/in70s/noncoviddeath/pfizer/all/*.csv
+
+## az vaccine
+
+  models_in70s_noncoviddeath_az_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath az all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/noncoviddeath/az/all/*/model*.rds
+        data: output/in70s/noncoviddeath/az/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/noncoviddeath/az/all/*/weights*
+
+  report_ipw_in70s_noncoviddeath_az_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath az all
+    needs: [design, models_in70s_noncoviddeath_az_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/noncoviddeath/az/all/*/broom*.rds
+        gt: output/in70s/noncoviddeath/az/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/noncoviddeath/az/all/*/plot*.svg
+        tables: output/in70s/noncoviddeath/az/all/*/tab*.html
+        data: output/in70s/noncoviddeath/az/all/*/broom*.csv
+
+  report_in70s_noncoviddeath_az_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath az all
+    needs: [design, models_in70s_noncoviddeath_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/noncoviddeath/az/all/*.svg
+        tables: output/in70s/noncoviddeath/az/all/*.csv
+
+
+
+
+#######################################
+ ## OVERALL MODELS: covid death, vax1 only (ignores second dose)
+#######################################
+
+## any vaccine
+
+  models_in70s_coviddeath_any_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath any all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/coviddeath/any/all/*/model*.rds
+        data: output/in70s/coviddeath/any/all/*/data*.rds
+        weights: output/in70s/coviddeath/any/all/*/weights*
+
+  report_ipw_in70s_coviddeath_any_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath any all
+    needs: [design, models_in70s_coviddeath_any_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/coviddeath/any/all/*/broom*.rds
+        gt: output/in70s/coviddeath/any/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/coviddeath/any/all/*/plot*.svg
+        tables: output/in70s/coviddeath/any/all/*/tab*.html
+        data: output/in70s/coviddeath/any/all/*/broom*.csv
+
+  report_in70s_coviddeath_any_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath any all
+    needs: [design, models_in70s_coviddeath_any_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/coviddeath/any/all/*.svg
+        tables: output/in70s/coviddeath/any/all/*.csv
+
+
+## pfizer vaccine
+
+  models_in70s_coviddeath_pfizer_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath pfizer all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/coviddeath/pfizer/all/*/model*.rds
+        data: output/in70s/coviddeath/pfizer/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/coviddeath/pfizer/all/*/weights*
+
+  report_ipw_in70s_coviddeath_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath pfizer all
+    needs: [design, models_in70s_coviddeath_pfizer_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/coviddeath/pfizer/all/*/broom*.rds
+        gt: output/in70s/coviddeath/pfizer/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/coviddeath/pfizer/all/*/plot*.svg
+        tables: output/in70s/coviddeath/pfizer/all/*/tab*.html
+        data: output/in70s/coviddeath/pfizer/all/*/broom*.csv
+
+  report_in70s_coviddeath_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath pfizer all
+    needs: [design, models_in70s_coviddeath_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/coviddeath/pfizer/all/*.svg
+        tables: output/in70s/coviddeath/pfizer/all/*.csv
+
+## az vaccine
+
+  models_in70s_coviddeath_az_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath az all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/coviddeath/az/all/*/model*.rds
+        data: output/in70s/coviddeath/az/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/coviddeath/az/all/*/weights*
+
+  report_ipw_in70s_coviddeath_az_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath az all
+    needs: [design, models_in70s_coviddeath_az_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/coviddeath/az/all/*/broom*.rds
+        gt: output/in70s/coviddeath/az/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/coviddeath/az/all/*/plot*.svg
+        tables: output/in70s/coviddeath/az/all/*/tab*.html
+        data: output/in70s/coviddeath/az/all/*/broom*.csv
+
+  report_in70s_coviddeath_az_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath az all
+    needs: [design, models_in70s_coviddeath_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/coviddeath/az/all/*.svg
+        tables: output/in70s/coviddeath/az/all/*.csv
+
+
+
+#######################################
+ ## OVERALL MODELS: all-cause death, vax1 only (ignores second dose)
+#######################################
+
+## any vaccine
+
+  models_in70s_death_any_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s death any all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/death/any/all/*/model*.rds
+        data: output/in70s/death/any/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/death/any/all/*/weights*
+
+  report_ipw_in70s_death_any_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s death any all
+    needs: [design, models_in70s_death_any_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/death/any/all/*/broom*.rds
+        gt: output/in70s/death/any/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/death/any/all/*/plot*.svg
+        tables: output/in70s/death/any/all/*/tab*.html
+        data: output/in70s/death/any/all/*/broom*.csv
+
+  report_in70s_death_any_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s death any all
+    needs: [design, models_in70s_death_any_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/death/any/all/*.svg
+        tables: output/in70s/death/any/all/*.csv
+
+## pfizer vaccine
+
+  models_in70s_death_pfizer_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s death pfizer all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/death/pfizer/all/*/model*.rds
+        data: output/in70s/death/pfizer/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/death/pfizer/all/*/weights*
+
+  report_ipw_in70s_death_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s death pfizer all
+    needs: [design, models_in70s_death_pfizer_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/death/pfizer/all/*/broom*.rds
+        gt: output/in70s/death/pfizer/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/death/pfizer/all/*/plot*.svg
+        tables: output/in70s/death/pfizer/all/*/tab*.html
+        data: output/in70s/death/pfizer/all/*/broom*.csv
+
+  report_in70s_death_pfizer_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s death pfizer all
+    needs: [design, models_in70s_death_pfizer_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/death/pfizer/all/*.svg
+        tables: output/in70s/death/pfizer/all/*.csv
+
+## az vaccine
+
+  models_in70s_death_az_all:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s death az all
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        models: output/in70s/death/az/all/*/model*.rds
+        data: output/in70s/death/az/all/*/data*.rds
+      moderately_sensitive:
+        weights: output/in70s/death/az/all/*/weights*
+
+  report_ipw_in70s_death_az_all:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s death az all
+    needs: [design, models_in70s_death_az_all]
+    outputs:
+      highly_sensitive:
+        broom: output/in70s/death/az/all/*/broom*.rds
+        gt: output/in70s/death/az/all/*/gt*.rds
+      moderately_sensitive:
+        plots: output/in70s/death/az/all/*/plot*.svg
+        tables: output/in70s/death/az/all/*/tab*.html
+        data: output/in70s/death/az/all/*/broom*.csv
+
+  report_in70s_death_az_all:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s death az all
+    needs: [design, models_in70s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/death/az/all/*.svg
+        tables: output/in70s/death/az/all/*.csv
+
+
+
+#######################################
+ ## COMBINE OVERALL MODELS:
+#######################################
+
+  # report_in70s_any_all:
+  #   run: r:latest analysis/R/dose_1/report_alloutcomes.R in70s any all
+  #   needs: [design, report_in70s_postest_any_all, report_in70s_covidadmitted_any_all, report_in70s_coviddeath_any_all, report_in70s_noncoviddeath_any_all, report_in70s_death_any_all]
+  #   outputs:
+  #     moderately_sensitive:
+  #       plots: output/in70s/*any_all.svg
+  #       tables: output/in70s/*any_all.csv
+  #       html: output/in70s/*any_all.html
+  #
+  # report_in70s_pfizer_all:
+  #   run: r:latest analysis/R/dose_1/report_alloutcomes.R in70s pfizer all
+  #   needs: [design, report_in70s_postest_pfizer_all, report_in70s_covidadmitted_pfizer_all, report_in70s_coviddeath_pfizer_all, report_in70s_noncoviddeath_pfizer_all, report_in70s_death_pfizer_all]
+  #   outputs:
+  #     moderately_sensitive:
+  #       plots: output/in70s/*pfizer_all.svg
+  #       tables: output/in70s/*pfizer_all.csv
+  #       html: output/in70s/*pfizer_all.html
+  #
+  # report_in70s_az_all:
+  #   run: r:latest analysis/R/dose_1/report_alloutcomes.R in70s az all
+  #   needs: [design, report_in70s_postest_az_all, report_in70s_covidadmitted_az_all, report_in70s_coviddeath_az_all, report_in70s_noncoviddeath_az_all, report_in70s_death_az_all]
+  #   outputs:
+  #     moderately_sensitive:
+  #       plots: output/in70s/*az_all.svg
+  #       tables: output/in70s/*az_all.csv
+  #       html: output/in70s/*az_all.html
+
+
+  report_ipw_in70s_all:
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R in70s death all
+    needs: [design, report_ipw_in70s_death_any_all, report_ipw_in70s_death_pfizer_all, report_ipw_in70s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        svg: output/in70s/plot_vax1.svg
+        #html: output/in70s/tab_vax1.html
+
+
+  report_in70s_all:
+    run: r:latest analysis/R/dose_1/report_alloutcomes_combined.R in70s all
+    needs: [design, report_in70s_postest_any_all, report_in70s_covidadmitted_any_all, report_in70s_coviddeath_any_all, report_in70s_noncoviddeath_any_all, report_in70s_death_any_all, report_in70s_postest_pfizer_all, report_in70s_covidadmitted_pfizer_all, report_in70s_coviddeath_pfizer_all, report_in70s_noncoviddeath_pfizer_all, report_in70s_death_pfizer_all, report_in70s_postest_az_all, report_in70s_covidadmitted_az_all, report_in70s_coviddeath_az_all, report_in70s_noncoviddeath_az_all, report_in70s_death_az_all]
+    outputs:
+      moderately_sensitive:
+        plots: output/in70s/*_all.svg
+        tables: output/in70s/*_all.csv
+
+
+
+
