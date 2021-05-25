@@ -760,7 +760,7 @@ actions:
         tables: output/in70s/descriptive/tables/table_irr.html
 
   data_stset_in70s:
-    run: r:latest analysis/R/data_stset.R in70s 0.1
+    run: r:latest analysis/R/data_stset.R in70s 0.05
     needs: [design, data_selection_in70s, data_process_long_in70s]
     outputs:
       highly_sensitive:
