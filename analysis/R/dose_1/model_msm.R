@@ -56,7 +56,8 @@ if(length(args)==0){
 
 parglmparams <- parglm.control(
   method = "LINPACK",
-  nthreads = 8
+  nthreads = 8,
+  maxit = 40 # default = 25
 )
 
 ### import outcomes, exposures, and covariate formulae ----
@@ -159,7 +160,8 @@ get_ipw_weights <- function(
 
   cat(glue("{event} data size = ", length(event_model$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model), units="GB", standard="SI", digits=3L)), "\n")
-
+  cat("warnings: ", "\n")
+  print(warnings())
 
   ### without time-updating covariates ----
 
@@ -179,6 +181,8 @@ get_ipw_weights <- function(
 
   cat(glue("{event}_fxd data size = ", length(event_model_fxd$y)), "\n")
   cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
+  cat("warnings: ", "\n")
+  print(warnings())
 
   #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
   write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
@@ -485,6 +489,8 @@ for(stratum in strata){
 
   msmmod1_par$data <- NULL
   print(jtools::summ(msmmod1_par, digits =3))
+  cat("warnings: ", "\n")
+  print(warnings())
 
   cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
@@ -507,6 +513,8 @@ for(stratum in strata){
   )
   msmmod2_par$data <- NULL
   print(jtools::summ(msmmod2_par, digits =3))
+  cat("warnings: ", "\n")
+  print(warnings())
 
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
@@ -528,6 +536,8 @@ for(stratum in strata){
   )
   msmmod3_par$data <- NULL
   print(jtools::summ(msmmod3_par, digits =3))
+  cat("warnings: ", "\n")
+  print(warnings())
 
   cat(glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
@@ -550,6 +560,8 @@ for(stratum in strata){
   )
   msmmod4_par$data <- NULL
   print(jtools::summ(msmmod4_par, digits =3))
+  cat("warnings: ", "\n")
+  print(warnings())
 
   cat(glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
@@ -558,6 +570,7 @@ for(stratum in strata){
 
 
   ## print warnings
+  cat("warnings: ", "\n")
   print(warnings())
   cat("  \n")
   print(gc(reset=TRUE))
