@@ -142,6 +142,20 @@ get_ipw_weights <- function(
       event_atrisk==1,
     )
 
+
+  cat("check separation \n")
+  data_atrisk %>%
+  select(all.vars(ipw_formula)) %>%
+  tbl_summary(
+    by=as.character(ipw_formula[2]),
+    missing = "ifany"
+  ) %>%
+  as_gt() %>%
+  gtsave(
+    filename = glue("sepcheck_{name}.html"),
+    path=here::here("output", cohort, outcome, brand, strata_var, stratum)
+  )
+
   ### with time-updating covariates
   cat("  \n")
   cat(glue("{event}  \n"))
@@ -519,6 +533,7 @@ for(stratum in strata){
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
   write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model2.rds"), compress="gz")
+
   if(removeobs) rm(msmmod2_par)
 
 

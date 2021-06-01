@@ -135,6 +135,7 @@ actions:
         models: output/over80s/postest/any/all/*/model*.rds
         data: output/over80s/postest/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/postest/any/all/*/sepcheck*.html
         weights: output/over80s/postest/any/all/*/weights*
 
   report_ipw_over80s_postest_any_all:
@@ -167,6 +168,7 @@ actions:
         models: output/over80s/postest/pfizer/all/*/model*.rds
         data: output/over80s/postest/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/postest/pfizer/all/*/sepcheck*.html
         weights: output/over80s/postest/pfizer/all/*/weights*
 
   report_ipw_over80s_postest_pfizer_all:
@@ -199,6 +201,7 @@ actions:
         models: output/over80s/postest/az/all/*/model*.rds
         data: output/over80s/postest/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/postest/az/all/*/sepcheck*.html
         weights: output/over80s/postest/az/all/*/weights*
 
   report_ipw_over80s_postest_az_all:
@@ -236,6 +239,7 @@ actions:
         models: output/over80s/covidadmitted/any/all/*/model*.rds
         data: output/over80s/covidadmitted/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/covidadmitted/any/all/*/sepcheck*.html
         weights: output/over80s/covidadmitted/any/all/*/weights*
 
   report_ipw_over80s_covidadmitted_any_all:
@@ -269,6 +273,7 @@ actions:
         models: output/over80s/covidadmitted/pfizer/all/*/model*.rds
         data: output/over80s/covidadmitted/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/covidadmitted/pfizer/all/*/sepcheck*.html
         weights: output/over80s/covidadmitted/pfizer/all/*/weights*
 
   report_ipw_over80s_covidadmitted_pfizer_all:
@@ -301,6 +306,7 @@ actions:
         models: output/over80s/covidadmitted/az/all/*/model*.rds
         data: output/over80s/covidadmitted/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/covidadmitted/az/all/*/sepcheck*.html
         weights: output/over80s/covidadmitted/az/all/*/weights*
 
   report_ipw_over80s_covidadmitted_az_all:
@@ -339,6 +345,7 @@ actions:
         models: output/over80s/noncoviddeath/any/all/*/model*.rds
         data: output/over80s/noncoviddeath/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/noncoviddeath/any/all/*/sepcheck*.html
         weights: output/over80s/noncoviddeath/any/all/*/weights*
 
   report_ipw_over80s_noncoviddeath_any_all:
@@ -373,6 +380,7 @@ actions:
         models: output/over80s/noncoviddeath/pfizer/all/*/model*.rds
         data: output/over80s/noncoviddeath/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/noncoviddeath/pfizer/all/*/sepcheck*.html
         weights: output/over80s/noncoviddeath/pfizer/all/*/weights*
 
   report_ipw_over80s_noncoviddeath_pfizer_all:
@@ -405,6 +413,7 @@ actions:
         models: output/over80s/noncoviddeath/az/all/*/model*.rds
         data: output/over80s/noncoviddeath/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/noncoviddeath/az/all/*/sepcheck*.html
         weights: output/over80s/noncoviddeath/az/all/*/weights*
 
   report_ipw_over80s_noncoviddeath_az_all:
@@ -443,6 +452,8 @@ actions:
       highly_sensitive:
         models: output/over80s/coviddeath/any/all/*/model*.rds
         data: output/over80s/coviddeath/any/all/*/data*.rds
+      moderately_sensitive:
+        sepcheck: output/over80s/coviddeath/any/all/*/sepcheck*.html
         weights: output/over80s/coviddeath/any/all/*/weights*
 
   report_ipw_over80s_coviddeath_any_all:
@@ -476,6 +487,7 @@ actions:
         models: output/over80s/coviddeath/pfizer/all/*/model*.rds
         data: output/over80s/coviddeath/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/coviddeath/pfizer/all/*/sepcheck*.html
         weights: output/over80s/coviddeath/pfizer/all/*/weights*
 
   report_ipw_over80s_coviddeath_pfizer_all:
@@ -508,6 +520,7 @@ actions:
         models: output/over80s/coviddeath/az/all/*/model*.rds
         data: output/over80s/coviddeath/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/coviddeath/az/all/*/sepcheck*.html
         weights: output/over80s/coviddeath/az/all/*/weights*
 
   report_ipw_over80s_coviddeath_az_all:
@@ -546,6 +559,7 @@ actions:
         models: output/over80s/death/any/all/*/model*.rds
         data: output/over80s/death/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/death/any/all/*/sepcheck*.html
         weights: output/over80s/death/any/all/*/weights*
 
   report_ipw_over80s_death_any_all:
@@ -578,6 +592,7 @@ actions:
         models: output/over80s/death/pfizer/all/*/model*.rds
         data: output/over80s/death/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/death/pfizer/all/*/sepcheck*.html
         weights: output/over80s/death/pfizer/all/*/weights*
 
   report_ipw_over80s_death_pfizer_all:
@@ -610,6 +625,7 @@ actions:
         models: output/over80s/death/az/all/*/model*.rds
         data: output/over80s/death/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/over80s/death/az/all/*/sepcheck*.html
         weights: output/over80s/death/az/all/*/weights*
 
   report_ipw_over80s_death_az_all:
@@ -808,6 +824,7 @@ actions:
         models: output/in70s/postest/any/all/*/model*.rds
         data: output/in70s/postest/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/postest/any/all/*/sepcheck*.html
         weights: output/in70s/postest/any/all/*/weights*
 
   report_ipw_in70s_postest_any_all:
@@ -840,6 +857,7 @@ actions:
         models: output/in70s/postest/pfizer/all/*/model*.rds
         data: output/in70s/postest/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/postest/pfizer/all/*/sepcheck*.html
         weights: output/in70s/postest/pfizer/all/*/weights*
 
   report_ipw_in70s_postest_pfizer_all:
@@ -872,6 +890,7 @@ actions:
         models: output/in70s/postest/az/all/*/model*.rds
         data: output/in70s/postest/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/postest/az/all/*/sepcheck*.html
         weights: output/in70s/postest/az/all/*/weights*
 
   report_ipw_in70s_postest_az_all:
@@ -909,6 +928,7 @@ actions:
         models: output/in70s/covidadmitted/any/all/*/model*.rds
         data: output/in70s/covidadmitted/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/covidadmitted/any/all/*/sepcheck*.html
         weights: output/in70s/covidadmitted/any/all/*/weights*
 
   report_ipw_in70s_covidadmitted_any_all:
@@ -942,6 +962,7 @@ actions:
         models: output/in70s/covidadmitted/pfizer/all/*/model*.rds
         data: output/in70s/covidadmitted/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/covidadmitted/pfizer/all/*/sepcheck*.html
         weights: output/in70s/covidadmitted/pfizer/all/*/weights*
 
   report_ipw_in70s_covidadmitted_pfizer_all:
@@ -974,6 +995,7 @@ actions:
         models: output/in70s/covidadmitted/az/all/*/model*.rds
         data: output/in70s/covidadmitted/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/covidadmitted/az/all/*/sepcheck*.html
         weights: output/in70s/covidadmitted/az/all/*/weights*
 
   report_ipw_in70s_covidadmitted_az_all:
@@ -1012,6 +1034,7 @@ actions:
         models: output/in70s/noncoviddeath/any/all/*/model*.rds
         data: output/in70s/noncoviddeath/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/noncoviddeath/any/all/*/sepcheck*.html
         weights: output/in70s/noncoviddeath/any/all/*/weights*
 
   report_ipw_in70s_noncoviddeath_any_all:
@@ -1046,6 +1069,7 @@ actions:
         models: output/in70s/noncoviddeath/pfizer/all/*/model*.rds
         data: output/in70s/noncoviddeath/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/noncoviddeath/pfizer/all/*/sepcheck*.html
         weights: output/in70s/noncoviddeath/pfizer/all/*/weights*
 
   report_ipw_in70s_noncoviddeath_pfizer_all:
@@ -1078,6 +1102,7 @@ actions:
         models: output/in70s/noncoviddeath/az/all/*/model*.rds
         data: output/in70s/noncoviddeath/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/noncoviddeath/az/all/*/sepcheck*.html
         weights: output/in70s/noncoviddeath/az/all/*/weights*
 
   report_ipw_in70s_noncoviddeath_az_all:
@@ -1116,6 +1141,8 @@ actions:
       highly_sensitive:
         models: output/in70s/coviddeath/any/all/*/model*.rds
         data: output/in70s/coviddeath/any/all/*/data*.rds
+      moderately_sensitive:
+        sepcheck: output/in70s/coviddeath/any/all/*/sepcheck*.html
         weights: output/in70s/coviddeath/any/all/*/weights*
 
   report_ipw_in70s_coviddeath_any_all:
@@ -1149,6 +1176,7 @@ actions:
         models: output/in70s/coviddeath/pfizer/all/*/model*.rds
         data: output/in70s/coviddeath/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/coviddeath/pfizer/all/*/sepcheck*.html
         weights: output/in70s/coviddeath/pfizer/all/*/weights*
 
   report_ipw_in70s_coviddeath_pfizer_all:
@@ -1181,6 +1209,7 @@ actions:
         models: output/in70s/coviddeath/az/all/*/model*.rds
         data: output/in70s/coviddeath/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/coviddeath/az/all/*/sepcheck*.html
         weights: output/in70s/coviddeath/az/all/*/weights*
 
   report_ipw_in70s_coviddeath_az_all:
@@ -1219,6 +1248,7 @@ actions:
         models: output/in70s/death/any/all/*/model*.rds
         data: output/in70s/death/any/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/death/any/all/*/sepcheck*.html
         weights: output/in70s/death/any/all/*/weights*
 
   report_ipw_in70s_death_any_all:
@@ -1251,6 +1281,7 @@ actions:
         models: output/in70s/death/pfizer/all/*/model*.rds
         data: output/in70s/death/pfizer/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/death/pfizer/all/*/sepcheck*.html
         weights: output/in70s/death/pfizer/all/*/weights*
 
   report_ipw_in70s_death_pfizer_all:
@@ -1283,6 +1314,7 @@ actions:
         models: output/in70s/death/az/all/*/model*.rds
         data: output/in70s/death/az/all/*/data*.rds
       moderately_sensitive:
+        sepcheck: output/in70s/death/az/all/*/sepcheck*.html
         weights: output/in70s/death/az/all/*/weights*
 
   report_ipw_in70s_death_az_all:
