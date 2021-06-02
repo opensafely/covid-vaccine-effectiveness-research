@@ -85,7 +85,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
     vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
-    .[[glue("sample_{outcome}")]] # select all patients who experienced the outcome, and a proportion of those who don't
+    .[[glue("sample_{outcome}")]] # select all patients who experienced the outcome, and a proportion (determined in data_stset action) of those who don't
   ) %>%
   mutate(
     all = factor("all",levels=c("all")),
@@ -105,7 +105,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   mutate(
     vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0),
     vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1),
-    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1), #tstart==27 is midnight between 3/4 jan 2021, the start of the day when first az vaccine was first administered
+    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1),
     death_atrisk = (death_status==0 & lastfup_status==0),
   )
 
