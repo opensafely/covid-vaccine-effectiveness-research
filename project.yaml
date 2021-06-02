@@ -100,7 +100,7 @@ actions:
     needs: [design, data_stset_over80s]
     outputs:
       moderately_sensitive:
-        html: output/over80s/descriptive/model-checks//*.html
+        html: output/over80s/descriptive/model-checks/*.html
         csv: output/over80s/descriptive/model-checks/*.csv
 
   descr_events_over80s:
@@ -813,7 +813,7 @@ actions:
     needs: [design, data_stset_in70s]
     outputs:
       moderately_sensitive:
-        html: output/in70s/descriptive/model-checks//*.html
+        html: output/in70s/descriptive/model-checks/*.html
         csv: output/in70s/descriptive/model-checks/*.csv
 
   descr_events_in70s:
