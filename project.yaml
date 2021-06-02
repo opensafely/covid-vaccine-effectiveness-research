@@ -95,6 +95,14 @@ actions:
         data2: output/over80s/data/data_tte.rds
         data3: output/over80s/data/data_pt.rds
 
+  descr_preflight_over80s:
+    run: r:latest analysis/R/preflight.R over80s
+    needs: [design, data_stset_over80s]
+    outputs:
+      moderately_sensitive:
+        html: output/over80s/descriptive/model-checks//*.html
+        csv: output/over80s/descriptive/model-checks/*.csv
+
   descr_events_over80s:
     run: r:latest analysis/R/descr_events.R over80s
     needs: [design, data_stset_over80s]
@@ -798,6 +806,15 @@ actions:
         data1: output/in70s/data/data_fixed.rds
         data2: output/in70s/data/data_tte.rds
         data3: output/in70s/data/data_pt.rds
+
+
+  descr_preflight_in70s:
+    run: r:latest analysis/R/preflight.R in70s
+    needs: [design, data_stset_in70s]
+    outputs:
+      moderately_sensitive:
+        html: output/in70s/descriptive/model-checks//*.html
+        csv: output/in70s/descriptive/model-checks/*.csv
 
   descr_events_in70s:
     run: r:latest analysis/R/descr_events.R in70s
