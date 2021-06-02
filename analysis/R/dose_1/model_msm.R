@@ -198,6 +198,16 @@ get_ipw_weights <- function(
   cat("warnings: ", "\n")
   print(warnings())
 
+  data_atrisk %>%
+    summarise(
+      obs = n(),
+      patients = n_distinct(patient_id),
+      events = sum(event),
+      rate = events/patients,
+      incidence_rate = events/obs
+  ) %>%
+  write_csv(path=here::here("output", cohort, outcome, brand, strata_var, stratum, glue("summary_{name}.csv")))
+
   #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
   write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
   write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
@@ -589,6 +599,18 @@ for(stratum in strata){
   print(warnings())
   cat("  \n")
   print(gc(reset=TRUE))
+
+
+  data_weights %>%
+    summarise(
+      obs = n(),
+      patients = n_distinct(patient_id),
+      outcomes = sum(outcome),
+      incidence_prop = outcomes/patients,
+      incidence_rate = outcomes/obs
+    ) %>%
+    write_csv(path=here::here("output", cohort, outcome, brand, strata_var, stratum, glue("summary_substantive.csv")))
+
 
 }
 
