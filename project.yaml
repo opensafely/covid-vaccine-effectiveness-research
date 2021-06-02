@@ -96,7 +96,7 @@ actions:
         data3: output/over80s/data/data_pt.rds
 
   descr_preflight_over80s:
-    run: r:latest analysis/R/preflight.R over80s
+    run: r:latest analysis/R/preflight.R over80s all
     needs: [design, data_stset_over80s]
     outputs:
       moderately_sensitive:
@@ -809,7 +809,7 @@ actions:
 
 
   descr_preflight_in70s:
-    run: r:latest analysis/R/preflight.R in70s
+    run: r:latest analysis/R/preflight.R in70s all
     needs: [design, data_stset_in70s]
     outputs:
       moderately_sensitive:

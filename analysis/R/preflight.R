@@ -85,8 +85,6 @@ outcomes <- c("postest", "covidadmitted", "death")
 brands <- c("any", "pfizer", "az")
 
 
-outcome="postest"
-brand="any"
 for(outcome in outcomes){
   for(brand in brands){
 
@@ -149,7 +147,7 @@ for(outcome in outcomes){
         incidencerate_vaxpfizer1 = vaxapfizer1/obs,
         incidencerate_vaxaz1 = vaxaz1/obs
       ) %>%
-      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_treatments.csv")))
+      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", "summary_{outcome}_{brand}_treatments.csv"))
 
     data_pt_sub %>%
       summarise(
@@ -173,7 +171,7 @@ for(outcome in outcomes){
         incidencerate_dereg = dereg/obs,
 
       ) %>%
-      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_outcomes.csv")))
+      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_outcomes.csv")))
 
 
     data_pt_sub_treatment %>%
@@ -208,7 +206,7 @@ for(outcome in outcomes){
       ) %>%
       as_gt() %>%
       gtsave(
-        filename = glue("sepcheck_{outcome_{brand}_vaxaz1.html"),
+        filename = glue("sepcheck_{outcome}_{brand}_vaxaz1.html"),
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
