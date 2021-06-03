@@ -108,7 +108,8 @@ for(outcome in outcomes){
         .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
         lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
         vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
-        .[[glue("sample_{outcome}")]] == 1  # select all patients who experienced the outcome, and a proportion of those who don't
+        .[[glue("sample_{outcome}")]] == 1,  # select all patients who experienced the outcome, and a proportion of those who don't
+        .[[glue("vax{brand}_atrisk")]] == 1 # select follow-up time where vax brand is being administered
       ) %>%
       mutate(
         sample_weights = .[[glue("sample_weights_{outcome}")]],

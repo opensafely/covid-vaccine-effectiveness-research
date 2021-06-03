@@ -310,6 +310,7 @@ data_tte_cp0 <- tmerge(
   data2 = data_tte,
   id = patient_id,
 
+  vaxany_atrisk = tdc(as.Date("2020-12-08")-start_date),
   vaxpfizer_atrisk = tdc(as.Date("2020-12-08")-start_date),
   vaxaz_atrisk = tdc(as.Date("2021-01-04")-start_date),
 
