@@ -73,7 +73,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   )
 
 
-outcomes <- c("postest", "covidadmitted", "death")
+outcomes <- c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")
 brands <- c("any", "pfizer", "az")
 
 
@@ -103,7 +103,7 @@ for(outcome in outcomes){
 
     outcome_formula <- formula_1 %>% update(formula_exposure) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var)
 
-    data_pt_sub <- data_pt %>%
+    data_pt_atrisk <- data_pt %>%
       filter(
         .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
         lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
@@ -122,30 +122,30 @@ for(outcome in outcomes){
         death_atrisk = (death_status==0 & lastfup_status==0),
       )
 
-    data_pt_sub_treatment <- data_pt_sub %>%
+    data_pt_atrisk_treatment <- data_pt_atrisk %>%
       filter(.[[glue("vax{brand}1_atrisk")]])
 
 
-    data_pt_sub_death <- data_pt_sub %>%
+    data_pt_atrisk_death <- data_pt_atrisk %>%
       filter(.[[glue("death_atrisk")]])
 
-    data_pt_sub_treatment %>%
+    data_pt_atrisk_treatment %>%
       summarise(
         obs = n(),
         patients = n_distinct(patient_id),
         vaxany1 = sum(vaxany1),
-        vaxapfizer1 = sum(vaxpfizer1),
+        vaxpfizer1 = sum(vaxpfizer1),
         vaxaz1 = sum(vaxaz1),
         rate_vaxany1 = vaxany1/patients,
         rate_vaxpfizer1 = vaxpfizer1/patients,
         rate_vaxaz1 = vaxaz1/patients,
-        incidencerate_vaxeany1 = vaxany1/obs,
-        incidencerate_vaxpfizer1 = vaxapfizer1/obs,
+        incidencerate_vaxany1 = vaxany1/obs,
+        incidencerate_vaxpfizer1 = vaxpfizer1/obs,
         incidencerate_vaxaz1 = vaxaz1/obs
       ) %>%
       write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_treatments.csv")))
 
-    data_pt_sub %>%
+    data_pt_atrisk %>%
       summarise(
         obs = n(),
         patients = n_distinct(patient_id),
@@ -170,7 +170,7 @@ for(outcome in outcomes){
       write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_outcomes.csv")))
 
 
-    data_pt_sub_treatment %>%
+    data_pt_atrisk_treatment %>%
       select(all.vars(treatment_any)) %>%
       tbl_summary(
         by=as.character(treatment_any[2]),
@@ -182,7 +182,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub_treatment %>%
+    data_pt_atrisk_treatment %>%
       select(all.vars(treatment_pfizer)) %>%
       tbl_summary(
         by=as.character(treatment_pfizer[2]),
@@ -194,7 +194,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub_treatment %>%
+    data_pt_atrisk_treatment %>%
       select(all.vars(treatment_az)) %>%
       tbl_summary(
         by=as.character(treatment_az[2]),
@@ -206,7 +206,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub_death %>%
+    data_pt_atrisk_death %>%
       select(all.vars(treatment_coviddeath)) %>%
       tbl_summary(
         by=as.character(treatment_coviddeath[2]),
@@ -218,7 +218,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub_death %>%
+    data_pt_atrisk_death %>%
       select(all.vars(treatment_noncoviddeath)) %>%
       tbl_summary(
         by=as.character(treatment_noncoviddeath[2]),
@@ -230,7 +230,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub_death %>%
+    data_pt_atrisk_death %>%
       select(all.vars(treatment_death)) %>%
       tbl_summary(
         by=as.character(treatment_death[2]),
@@ -243,7 +243,7 @@ for(outcome in outcomes){
       )
 
 
-    data_pt_sub %>%
+    data_pt_atrisk %>%
       select(all.vars(outcome_formula)) %>%
       tbl_summary(
         by=as.character(outcome_formula[2]),
