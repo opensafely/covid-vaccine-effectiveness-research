@@ -58,17 +58,9 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_fixed.rds")))
 
 data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
-  filter(
-    #.[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
-    lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
-    #vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
-    #.[[glue("sample_{outcome}")]] # select all patients who experienced the outcome, and a proportion of those who don't
-  ) %>%
   mutate(
     all = factor("all",levels=c("all")),
     timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
-    #sample_weights = .[[glue("sample_weights_{outcome}")]],
-    #outcome = .[[outcome]],
   ) %>%
   left_join(
     data_fixed, by="patient_id"
@@ -116,7 +108,7 @@ for(outcome in outcomes){
         .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
         lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
         vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
-        .[[glue("sample_{outcome}")]] > 0 # select all patients who experienced the outcome, and a proportion of those who don't
+        .[[glue("sample_{outcome}")]] == 1  # select all patients who experienced the outcome, and a proportion of those who don't
       ) %>%
       mutate(
         sample_weights = .[[glue("sample_weights_{outcome}")]],
@@ -132,6 +124,9 @@ for(outcome in outcomes){
     data_pt_sub_treatment <- data_pt_sub %>%
       filter(.[[glue("vax{brand}1_atrisk")]])
 
+
+    data_pt_sub_death <- data_pt_sub %>%
+      filter(.[[glue("death_atrisk")]])
 
     data_pt_sub_treatment %>%
       summarise(
@@ -210,7 +205,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub %>%
+    data_pt_sub_death %>%
       select(all.vars(treatment_coviddeath)) %>%
       tbl_summary(
         by=as.character(treatment_coviddeath[2]),
@@ -222,7 +217,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub %>%
+    data_pt_sub_death %>%
       select(all.vars(treatment_noncoviddeath)) %>%
       tbl_summary(
         by=as.character(treatment_noncoviddeath[2]),
@@ -234,7 +229,7 @@ for(outcome in outcomes){
         path=here::here("output", cohort, "descriptive", "model-checks")
       )
 
-    data_pt_sub %>%
+    data_pt_sub_death %>%
       select(all.vars(treatment_death)) %>%
       tbl_summary(
         by=as.character(treatment_death[2]),
