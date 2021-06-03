@@ -147,7 +147,7 @@ for(outcome in outcomes){
         incidencerate_vaxpfizer1 = vaxapfizer1/obs,
         incidencerate_vaxaz1 = vaxaz1/obs
       ) %>%
-      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", "summary_{outcome}_{brand}_treatments.csv"))
+      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_treatments.csv")))
 
     data_pt_sub %>%
       summarise(
