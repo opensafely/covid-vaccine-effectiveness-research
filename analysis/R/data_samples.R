@@ -1,13 +1,5 @@
 
 # # # # # # # # # # # # # # # # # # # # #
-# This script:
-# imports processed data and restricts it to patients in "cohort"
-# checks that there are no separation issues between covariates and outcomes
-#
-# The script should be run via an action in the project.yaml
-# The script must be accompanied by 2 arguments,
-# 1. the name of the cohort defined in data_define_cohorts.R
-# 2. the stratification variable. Use "all" if no stratification
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -32,12 +24,10 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  strata_var <- "all"
   sample_nonoutcomeprop <- 0.1
 } else {
   cohort <- args[[1]]
-  strata_var <- args[[2]]
-  sample_nonoutcomeprop <- as.numeric(args[[3]])
+  sample_nonoutcomeprop <- as.numeric(args[[2]])
   removeobs <- TRUE
 
 }
