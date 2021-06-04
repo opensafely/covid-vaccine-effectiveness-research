@@ -144,8 +144,8 @@ forest_from_broomstack <- function(broomstack, title){
 
 broomstack <-
   tibble(
-    brand = c("any"),#, "pfizer", "az"),
-    brand_descr = c("Any vaccine")#, "BNT162b2", "ChAdOx1")
+    brand = c("any", "pfizer", "az"),
+    brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
   ) %>%
   mutate(
     brand = fct_inorder(brand),
