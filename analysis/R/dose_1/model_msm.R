@@ -144,20 +144,6 @@ get_ipw_weights <- function(
     )
 
 
-  #check separation
-
-  data_atrisk %>%
-  select(all.vars(ipw_formula)) %>%
-  tbl_summary(
-    by=as.character(ipw_formula[2]),
-    missing = "ifany"
-  ) %>%
-  as_gt() %>%
-  gtsave(
-    filename = glue("sepcheck_{name}.html"),
-    path=here::here("output", cohort, outcome, brand, strata_var, stratum)
-  )
-
   ### with time-updating covariates
   cat("  \n")
   cat(glue("{event}  \n"))
@@ -203,16 +189,6 @@ get_ipw_weights <- function(
   cat(glue("memory usage = ", format(object.size(event_model_fxd), units="GB", standard="SI", digits=3L)), "\n")
   cat("warnings: ", "\n")
   print(warnings())
-
-  data_atrisk %>%
-    summarise(
-      obs = n(),
-      patients = n_distinct(patient_id),
-      events = sum(event),
-      rate = events/patients,
-      incidence_rate = events/obs
-  ) %>%
-  write_csv(path=here::here("output", cohort, outcome, brand, strata_var, stratum, glue("summary_{name}.csv")))
 
   #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
   write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
