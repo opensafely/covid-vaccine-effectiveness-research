@@ -31,13 +31,14 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
-  cohort <- "over80s"
+  cohort <- "in70s"
   strata_var <- "all"
+  sample_nonoutcomeprop <- 0.1
 } else {
   cohort <- args[[1]]
   strata_var <- args[[2]]
+  sample_nonoutcomeprop <- as.numeric(args[[3]])
   removeobs <- TRUE
-
 }
 
 
@@ -55,6 +56,26 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 # Import processed data ----
 
+data_tte <- read_rds(here::here("output", cohort, "data", "data_tte.rds"))
+
+data_samples <- data_tte  %>%
+  transmute(
+    patient_id,
+    sample_postest = sample_nonoutcomes(tte_postest, patient_id, sample_nonoutcomeprop),
+    sample_emergency = sample_nonoutcomes(tte_emergency, patient_id, sample_nonoutcomeprop),
+    sample_covidadmitted = sample_nonoutcomes(tte_covidadmitted, patient_id, sample_nonoutcomeprop),
+    sample_coviddeath= sample_nonoutcomes(tte_coviddeath, patient_id, sample_nonoutcomeprop),
+    sample_noncoviddeath = sample_nonoutcomes(tte_noncoviddeath, patient_id, sample_nonoutcomeprop),
+    sample_death = sample_nonoutcomes(tte_death, patient_id, sample_nonoutcomeprop),
+
+    sample_weights_postest = sample_weights(tte_postest, sample_postest),
+    sample_weights_emergency = sample_weights(tte_emergency, sample_emergency),
+    sample_weights_covidadmitted = sample_weights(tte_covidadmitted, sample_covidadmitted),
+    sample_weights_coviddeath = sample_weights(tte_coviddeath, sample_coviddeath),
+    sample_weights_noncoviddeath = sample_weights(tte_noncoviddeath, sample_noncoviddeath),
+    sample_weights_death = sample_weights(tte_death, sample_death),
+  )
+
 data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_fixed.rds")))
 
 data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
@@ -64,13 +85,70 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   ) %>%
   left_join(
     data_fixed, by="patient_id"
-  ) %>%
-  mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
-    across(
-      where(is.logical),
-      ~.x*1L
-    )
+  )  %>%
+  select(-starts_with("sample_")) %>%
+  left_join(
+    data_samples,
+    by="patient_id"
   )
+
+septab <- function(data, formula, outcome, brand, name){
+
+  if(FALSE){
+    #this function is a quicker alternative to the following gtsummary option:
+    gttab <- data.matrix() %>%
+      select(all.vars(formula)) %>%
+      tbl_summary(
+        by=as.character(formula[2]),
+        missing = "ifany"
+      ) %>%
+      as_gt()
+  }
+
+  tbltab <- data %>%
+    select(all.vars(formula), all) %>%
+    select(where(~(!is.double(.)))) %>%
+    select(-age) %>%
+    mutate(
+      across(
+        where(is.integer),
+        ~as.character(.)
+      )
+    ) %>%
+    split(.[[1]]) %>%
+    map(~.[,-1] %>% select(all, everything())) %>%
+    map(
+      function(data){
+        map(data, redacted_summary_cat, redaction_threshold=0) %>%
+          bind_rows(.id="variable") %>%
+          select(-redacted, -pct_nonmiss)
+      }
+    )
+
+  tbltab %>%
+    bind_rows(.id = "event") %>%
+    pivot_wider(
+      id_cols=c(variable, .level),
+      names_from = event,
+      names_glue = "event{event}_{.value}",
+      values_from = c(n, pct)
+    ) %>%
+    select(variable, .level, starts_with("event0"), starts_with("event1")) %>%
+    gt(
+      groupname_col="variable",
+    ) %>%
+    tab_spanner_delim("_") %>%
+    fmt_number(
+      columns = ends_with(c("pct")),
+      decimals = 1,
+      scale_by=100,
+      pattern = "({x})"
+    ) %>%
+    gtsave(
+      filename = glue("sepcheck_{outcome}_{brand}_{name}.html"),
+      path=here::here("output", cohort, "descriptive", "model-checks")
+    )
+}
 
 
 outcomes <- c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")
@@ -108,7 +186,7 @@ for(outcome in outcomes){
         .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
         lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
         vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
-        .[[glue("sample_{outcome}")]] == 1,  # select all patients who experienced the outcome, and a proportion of those who don't
+        .[[glue("sample_{outcome}")]] == 1, # select all patients who experienced the outcome, and a proportion of those who don't
         .[[glue("vax{brand}_atrisk")]] == 1 # select follow-up time where vax brand is being administered
       ) %>%
       mutate(
@@ -170,92 +248,17 @@ for(outcome in outcomes){
       write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_outcomes.csv")))
 
 
-    data_pt_atrisk_treatment %>%
-      select(all.vars(treatment_any)) %>%
-      tbl_summary(
-        by=as.character(treatment_any[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_vaxany1.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
+    septab(data_pt_atrisk_treatment, treatment_any, outcome, brand, "vaxany1")
+    septab(data_pt_atrisk_treatment, treatment_pfizer, outcome, brand, "vaxpfizer1")
+    septab(data_pt_atrisk_treatment, treatment_az, outcome, brand, "vaxaz1")
 
-    data_pt_atrisk_treatment %>%
-      select(all.vars(treatment_pfizer)) %>%
-      tbl_summary(
-        by=as.character(treatment_pfizer[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_vaxpfizer1.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
+    septab(data_pt_atrisk_death, treatment_coviddeath, outcome, brand, "coviddeath")
+    septab(data_pt_atrisk_death, treatment_noncoviddeath, outcome, brand, "noncoviddeath")
+    septab(data_pt_atrisk_death, treatment_death, outcome, brand, "death")
 
-    data_pt_atrisk_treatment %>%
-      select(all.vars(treatment_az)) %>%
-      tbl_summary(
-        by=as.character(treatment_az[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_vaxaz1.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
-
-    data_pt_atrisk_death %>%
-      select(all.vars(treatment_coviddeath)) %>%
-      tbl_summary(
-        by=as.character(treatment_coviddeath[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_coviddeath.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
-
-    data_pt_atrisk_death %>%
-      select(all.vars(treatment_noncoviddeath)) %>%
-      tbl_summary(
-        by=as.character(treatment_noncoviddeath[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_noncoviddeath.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
-
-    data_pt_atrisk_death %>%
-      select(all.vars(treatment_death)) %>%
-      tbl_summary(
-        by=as.character(treatment_death[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_death.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
-
-
-    data_pt_atrisk %>%
-      select(all.vars(outcome_formula)) %>%
-      tbl_summary(
-        by=as.character(outcome_formula[2]),
-        missing = "ifany"
-      ) %>%
-      as_gt() %>%
-      gtsave(
-        filename = glue("sepcheck_{outcome}_{brand}_outcome.html"),
-        path=here::here("output", cohort, "descriptive", "model-checks")
-      )
-
+    septab(data_pt_atrisk, outcome_formula, outcome, brand, "outcome")
 
   }
 }
+
 

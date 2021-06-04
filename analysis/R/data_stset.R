@@ -47,39 +47,6 @@ if(length(args)==0){
 data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
 characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
 
-# functions for sampling ----
-
-# function to sample non-outcome patients
-sample_nonoutcomes <- function(outcome, id, proportion){
-  # TRUE if outcome occurs,
-  # TRUE with probability of `prop` if outcome does not occur
-  # FALSE with probability `prop` if outcome does occur
-  # based on `id` to ensure consistency of samples
-
-  # `outcome`` is a time-to-event variable, which is NA if censored / no event
-  # `id` is a identifier with the following properties:
-  # - a) consistent between cohort extracts
-  # - b) unique
-  # - c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
-  # - d) is an integer strictly greater than zero
-  # `proportion` is the proportion of nonoutcome patients to be sampled
-
-  (dplyr::dense_rank(dplyr::if_else(!is.na(outcome), 0L, id)) - 1L) <= ceiling(sum(is.na(outcome))*proportion)
-
-}
-
-sample_weights <- function(outcome, sampled){
-  # `outcome`` is a time-to-event variable, which is NA if censored / no event
-  # `sampled` is a boolean indicating if the patient is sampled or not
-  case_when(
-    !is.na(outcome) ~ 1,
-    is.na(outcome) & !sampled ~ 0,
-    is.na(outcome) & sampled ~ sum(is.na(outcome))/sum((sampled) & is.na(outcome)),
-    TRUE ~ NA_real_
-  )
-}
-
-
 # Generate different data formats ----
 
 ## one-row-per-patient data ----
@@ -175,24 +142,7 @@ data_tte <- data_cohort  %>%
   mutate(across(
     .cols = starts_with("tte_"),
     .fns = as.integer
-  )) %>%
-  # identify 10% subsample of non-outcome patients for each outcome
-  mutate(
-
-    sample_postest = sample_nonoutcomes(tte_postest, patient_id, sample_nonoutcomeprop),
-    sample_emergency = sample_nonoutcomes(tte_emergency, patient_id, sample_nonoutcomeprop),
-    sample_covidadmitted = sample_nonoutcomes(tte_covidadmitted, patient_id, sample_nonoutcomeprop),
-    sample_coviddeath= sample_nonoutcomes(tte_coviddeath, patient_id, sample_nonoutcomeprop),
-    sample_noncoviddeath = sample_nonoutcomes(tte_noncoviddeath, patient_id, sample_nonoutcomeprop),
-    sample_death = sample_nonoutcomes(tte_death, patient_id, sample_nonoutcomeprop),
-
-    sample_weights_postest = sample_weights(tte_postest, sample_postest),
-    sample_weights_emergency = sample_weights(tte_emergency, sample_emergency),
-    sample_weights_covidadmitted = sample_weights(tte_covidadmitted, sample_covidadmitted),
-    sample_weights_coviddeath = sample_weights(tte_coviddeath, sample_coviddeath),
-    sample_weights_noncoviddeath = sample_weights(tte_noncoviddeath, sample_noncoviddeath),
-    sample_weights_death = sample_weights(tte_death, sample_death),
-  )
+  ))
 
 stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1 != data_tte$tte_vaxany2, na.rm=TRUE))
 

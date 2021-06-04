@@ -79,8 +79,10 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 # Import processed data ----
 
 data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_fixed.rds")))
+data_samples <- read_rds(here::here("output", cohort, "data", glue("data_samples.rds")))
 
 data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
+  left_join(data_samples, by="patient_id") %>%
   filter(
     .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
@@ -94,9 +96,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     sample_weights = .[[glue("sample_weights_{outcome}")]],
     outcome = .[[outcome]],
   ) %>%
-  left_join(
-    data_fixed, by="patient_id"
-  ) %>%
+  left_join(data_fixed, by="patient_id") %>%
   mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
     across(
       where(is.logical),

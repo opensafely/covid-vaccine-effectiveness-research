@@ -95,8 +95,15 @@ actions:
         data2: output/over80s/data/data_tte.rds
         data3: output/over80s/data/data_pt.rds
 
+  data_samples_over80s:
+    run: r:latest analysis/R/data_samples.R over80s 0.1
+    needs: [design, data_stset_over80s]
+    outputs:
+      highly_sensitive:
+        data: output/over80s/data/data_samples.rds
+
   descr_preflight_over80s:
-    run: r:latest analysis/R/preflight.R over80s all
+    run: r:latest analysis/R/preflight.R over80s all 0.15
     needs: [design, data_stset_over80s]
     outputs:
       moderately_sensitive:
@@ -137,7 +144,7 @@ actions:
 
   models_over80s_postest_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s postest any all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/postest/any/all/*/model*.rds
@@ -169,7 +176,7 @@ actions:
 
   models_over80s_postest_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s postest pfizer all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/postest/pfizer/all/*/model*.rds
@@ -201,7 +208,7 @@ actions:
 
   models_over80s_postest_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s postest az all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/postest/az/all/*/model*.rds
@@ -238,7 +245,7 @@ actions:
 
   models_over80s_covidadmitted_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted any all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/covidadmitted/any/all/*/model*.rds
@@ -271,7 +278,7 @@ actions:
 
   models_over80s_covidadmitted_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted pfizer all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/covidadmitted/pfizer/all/*/model*.rds
@@ -303,7 +310,7 @@ actions:
 
   models_over80s_covidadmitted_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted az all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/covidadmitted/az/all/*/model*.rds
@@ -341,7 +348,7 @@ actions:
 
   models_over80s_noncoviddeath_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath any all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/noncoviddeath/any/all/*/model*.rds
@@ -375,7 +382,7 @@ actions:
 
   models_over80s_noncoviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath pfizer all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/noncoviddeath/pfizer/all/*/model*.rds
@@ -407,7 +414,7 @@ actions:
 
   models_over80s_noncoviddeath_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath az all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/noncoviddeath/az/all/*/model*.rds
@@ -446,7 +453,7 @@ actions:
 
   models_over80s_coviddeath_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath any all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/coviddeath/any/all/*/model*.rds
@@ -479,7 +486,7 @@ actions:
 
   models_over80s_coviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath pfizer all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/coviddeath/pfizer/all/*/model*.rds
@@ -511,7 +518,7 @@ actions:
 
   models_over80s_coviddeath_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath az all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/coviddeath/az/all/*/model*.rds
@@ -549,7 +556,7 @@ actions:
 
   models_over80s_death_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s death any all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/death/any/all/*/model*.rds
@@ -581,7 +588,7 @@ actions:
 
   models_over80s_death_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s death pfizer all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/death/pfizer/all/*/model*.rds
@@ -613,7 +620,7 @@ actions:
 
   models_over80s_death_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R over80s death az all
-    needs: [design, data_stset_over80s]
+    needs: [design, data_stset_over80s, data_samples_over80s]
     outputs:
       highly_sensitive:
         models: output/over80s/death/az/all/*/model*.rds
@@ -777,9 +784,15 @@ actions:
         data2: output/in70s/data/data_tte.rds
         data3: output/in70s/data/data_pt.rds
 
+  data_samples_in70s:
+    run: r:latest analysis/R/data_samples.R in70s 0.05
+    needs: [design, data_stset_in70s]
+    outputs:
+      highly_sensitive:
+        data: output/in70s/data/data_samples.rds
 
   descr_preflight_in70s:
-    run: r:latest analysis/R/preflight.R in70s all
+    run: r:latest analysis/R/preflight.R in70s all 0.1
     needs: [design, data_stset_in70s]
     outputs:
       moderately_sensitive:
@@ -820,7 +833,7 @@ actions:
 
   models_in70s_postest_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s postest any all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/postest/any/all/*/model*.rds
@@ -852,7 +865,7 @@ actions:
 
   models_in70s_postest_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s postest pfizer all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/postest/pfizer/all/*/model*.rds
@@ -884,7 +897,7 @@ actions:
 
   models_in70s_postest_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s postest az all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/postest/az/all/*/model*.rds
@@ -921,7 +934,7 @@ actions:
 
   models_in70s_covidadmitted_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted any all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/covidadmitted/any/all/*/model*.rds
@@ -954,7 +967,7 @@ actions:
 
   models_in70s_covidadmitted_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted pfizer all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/covidadmitted/pfizer/all/*/model*.rds
@@ -986,7 +999,7 @@ actions:
 
   models_in70s_covidadmitted_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted az all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/covidadmitted/az/all/*/model*.rds
@@ -1024,7 +1037,7 @@ actions:
 
   models_in70s_noncoviddeath_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath any all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/noncoviddeath/any/all/*/model*.rds
@@ -1058,7 +1071,7 @@ actions:
 
   models_in70s_noncoviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath pfizer all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/noncoviddeath/pfizer/all/*/model*.rds
@@ -1090,7 +1103,7 @@ actions:
 
   models_in70s_noncoviddeath_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath az all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/noncoviddeath/az/all/*/model*.rds
@@ -1129,7 +1142,7 @@ actions:
 
   models_in70s_coviddeath_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath any all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/coviddeath/any/all/*/model*.rds
@@ -1162,7 +1175,7 @@ actions:
 
   models_in70s_coviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath pfizer all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/coviddeath/pfizer/all/*/model*.rds
@@ -1194,7 +1207,7 @@ actions:
 
   models_in70s_coviddeath_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath az all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/coviddeath/az/all/*/model*.rds
@@ -1232,7 +1245,7 @@ actions:
 
   models_in70s_death_any_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s death any all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/death/any/all/*/model*.rds
@@ -1264,7 +1277,7 @@ actions:
 
   models_in70s_death_pfizer_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s death pfizer all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/death/pfizer/all/*/model*.rds
@@ -1296,7 +1309,7 @@ actions:
 
   models_in70s_death_az_all:
     run: r:latest analysis/R/dose_1/model_msm.R in70s death az all
-    needs: [design, data_stset_in70s]
+    needs: [design, data_stset_in70s, data_samples_in70s]
     outputs:
       highly_sensitive:
         models: output/in70s/death/az/all/*/model*.rds

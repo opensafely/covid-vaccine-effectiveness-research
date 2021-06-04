@@ -237,3 +237,39 @@ tidy_custom.glm  <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate
 
   output
 }
+
+
+
+
+# functions for sampling ----
+
+# function to sample non-outcome patients
+sample_nonoutcomes <- function(outcome, id, proportion){
+  # TRUE if outcome occurs,
+  # TRUE with probability of `prop` if outcome does not occur
+  # FALSE with probability `prop` if outcome does occur
+  # based on `id` to ensure consistency of samples
+
+  # `outcome`` is a time-to-event variable, which is NA if censored / no event
+  # `id` is a identifier with the following properties:
+  # - a) consistent between cohort extracts
+  # - b) unique
+  # - c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
+  # - d) is an integer strictly greater than zero
+  # `proportion` is the proportion of nonoutcome patients to be sampled
+
+  (dplyr::dense_rank(dplyr::if_else(!is.na(outcome), 0L, id)) - 1L) <= ceiling(sum(is.na(outcome))*proportion)
+
+}
+
+sample_weights <- function(outcome, sampled){
+  # `outcome`` is a time-to-event variable, which is NA if censored / no event
+  # `sampled` is a boolean indicating if the patient is sampled or not
+  case_when(
+    !is.na(outcome) ~ 1,
+    is.na(outcome) & !sampled ~ 0,
+    is.na(outcome) & sampled ~ sum(is.na(outcome))/sum((sampled) & is.na(outcome)),
+    TRUE ~ NA_real_
+  )
+}
+
