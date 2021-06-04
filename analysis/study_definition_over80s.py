@@ -19,9 +19,8 @@ with open("./analysis/global-variables.json") as f:
     gbl_vars = json.load(f)
 
 # define variables explicitly
-start_date = gbl_vars["start_date"] # change this in global-variables.json if necessary
+start_date = "2020-12-08" 
 end_date = gbl_vars["end_date"] # change this in global-variables.json if necessary
-
 # start_date is currently set to the start of the vaccination campaign
 # end_date depends on the most reent data coverage in the database, and the particular variables of interest
 
@@ -42,7 +41,7 @@ study = StudyDefinition(
         """
         registered
         AND
-        (age >= 18 AND age < 110)
+        (age >= 80 AND age < 110)
         AND
         NOT has_died
         """,
@@ -50,7 +49,7 @@ study = StudyDefinition(
             "index_date",
         ),
         has_died=patients.died_from_any_cause(
-            on_or_before="index_date",
+            on_or_before="index_date - 1 day",
             returning="binary_flag",
         ),
     ),
@@ -58,7 +57,7 @@ study = StudyDefinition(
 
     # https://github.com/opensafely/risk-factors-research/issues/49
     age=patients.age_as_of(
-        "2020-03-31",
+        "2020-03-31", # based on JCVI priority group definitions
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -102,7 +101,7 @@ study = StudyDefinition(
 
     has_follow_up_previous_year=patients.registered_with_one_practice_between(
         start_date="index_date - 1 year",
-        end_date="index_date",
+        end_date="index_date - 1 day",
         return_expectations={"incidence": 0.99},
     ),
 
@@ -112,7 +111,7 @@ study = StudyDefinition(
     ),
     
     dereg_date=patients.date_deregistered_from_all_supported_practices(
-        on_or_after="index_date", date_format="YYYY-MM-DD",
+        on_or_after="index_date - 1 day", date_format="YYYY-MM-DD",
     ),
 
     # ETHNICITY IN 16 CATEGORIES
@@ -173,7 +172,7 @@ study = StudyDefinition(
     ################################################
     # practice pseudo id
     practice_id=patients.registered_practice_as_of(
-        "index_date",  # day before vaccine campaign start
+        "index_date - 1 day",  # day before vaccine campaign start
         returning="pseudo_id",
         return_expectations={
             "int": {"distribution": "normal", "mean": 1000, "stddev": 100},
@@ -183,7 +182,7 @@ study = StudyDefinition(
     
     # msoa
     msoa=patients.address_as_of(
-        "index_date",
+        "index_date - 1 day",
         returning="msoa",
         return_expectations={
             "rate": "universal",
@@ -196,7 +195,7 @@ study = StudyDefinition(
 
     # stp is an NHS administration region based on geography
     stp=patients.registered_practice_as_of(
-        "index_date",
+        "index_date - 1 day",
         returning="stp_code",
         return_expectations={
             "rate": "universal",
@@ -218,7 +217,7 @@ study = StudyDefinition(
     ),
     # NHS administrative region
     region=patients.registered_practice_as_of(
-        "index_date",
+        "index_date - 1 day",
         returning="nuts1_region_name",
         return_expectations={
             "rate": "universal",
@@ -249,7 +248,7 @@ study = StudyDefinition(
             "5": """index_of_multiple_deprivation >= 32844*4/5 """,
         },
         index_of_multiple_deprivation=patients.address_as_of(
-            "index_date",
+            "index_date - 1 day",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         ),
@@ -279,7 +278,7 @@ study = StudyDefinition(
 
     # CAREHOME STATUS
     care_home_type=patients.care_home_status_as_of(
-        "index_date",
+        "index_date - 1 day",
         categorised_as={
             "Carehome": """
               IsPotentialCareHome
@@ -308,20 +307,20 @@ study = StudyDefinition(
     
     care_home_code=patients.with_these_clinical_events(
         carehome_primis_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
     
-    household_id = patients.household_as_of(
-        "2020-02-01",
-        returning="pseudo_id",
-        return_expectations = {
-            "int": {"distribution": "normal", "mean": 100000, "stddev": 20000},
-            "incidence": 1,
-        },
-    ),
-    
+    # household_id = patients.household_as_of(
+    #     "2020-02-01",
+    #     returning="pseudo_id",
+    #     return_expectations = {
+    #         "int": {"distribution": "normal", "mean": 100000, "stddev": 20000},
+    #         "incidence": 1,
+    #     },
+    # ),
+    # 
     # mixed household flag 
     # nontpp_household = patients.household_as_of(
     #     "2020-02-01",
@@ -344,10 +343,24 @@ study = StudyDefinition(
     ###############################################################################
     
     
+    prior_covid_vax_date = patients.with_tpp_vaccination_record(
+        target_disease_matches="SARS-2 CORONAVIRUS",
+        on_or_before="index_date -1 day",  
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2020-12-08",  # first vaccine administered on the 8/12
+                "latest": "2021-02-01",
+            }
+        },
+    ),
+    
     # any COVID vaccination (first dose)
     covid_vax_1_date=patients.with_tpp_vaccination_record(
         target_disease_matches="SARS-2 CORONAVIRUS",
-        on_or_after="index_date + 1 day",  
+        on_or_after="index_date",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -390,9 +403,24 @@ study = StudyDefinition(
     
     # COVID VACCINATION TYPE = Pfizer BioNTech - first record of a pfizer vaccine 
        # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
+       
+    prior_covid_vax_pfizer_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+        on_or_before="index_date - 1 day",  
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2020-12-08",  # first vaccine administered on the 8/12
+                "latest": "2021-01-01",
+            }
+        },
+    ),  
+
     covid_vax_pfizer_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-        on_or_after="index_date + 1 day",  
+        on_or_after="index_date",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -438,9 +466,25 @@ study = StudyDefinition(
 
     # COVID VACCINATION TYPE = Oxford AZ - first record of an Oxford AZ vaccine 
         # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
+        
+    prior_covid_vax_az_date=patients.with_tpp_vaccination_record(
+        product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+        on_or_before="index_date - 1 day",  
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {
+                "earliest": "2021-01-04",  # first vaccine administered on the 4/1
+                "latest": "2021-02-01",
+            }
+        },
+    ),            
+        
+        
     covid_vax_az_1_date=patients.with_tpp_vaccination_record(
         product_name_matches="COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-        on_or_after="index_date + 1 day",  
+        on_or_after="index_date",  
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -513,7 +557,7 @@ study = StudyDefinition(
         test_result="positive",
         returning="date",
         date_format="YYYY-MM-DD",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         find_first_match_in_period=True,
         return_expectations={
             "date": {"earliest": "2020-02-01"},
@@ -530,7 +574,7 @@ study = StudyDefinition(
         ),
         returning="date",
         date_format="YYYY-MM-DD",
-        on_or_before="index_date + 1 day",
+        on_or_before="index_date - 1 day",
         find_first_match_in_period=True,
         return_expectations={
             "date": {"earliest": "2020-02-01"},
@@ -543,7 +587,7 @@ study = StudyDefinition(
     prior_covidadmitted_date=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -562,7 +606,7 @@ study = StudyDefinition(
     covid_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="any",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -588,7 +632,7 @@ study = StudyDefinition(
     positive_test_1_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -645,7 +689,7 @@ study = StudyDefinition(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         return_expectations={
             "date": {"earliest": "2021-04-01", "latest" : "2021-05-01"},
             "rate": "uniform",
@@ -701,7 +745,7 @@ study = StudyDefinition(
         returning="date_admitted",
         with_these_diagnoses=covid_codes,
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -779,7 +823,7 @@ study = StudyDefinition(
 
     admitted_unplanned_0_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         date_format="YYYY-MM-DD",
@@ -793,7 +837,7 @@ study = StudyDefinition(
 
     discharged_unplanned_0_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         date_format="YYYY-MM-DD",
@@ -807,7 +851,7 @@ study = StudyDefinition(
     
     admitted_unplanned_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         date_format="YYYY-MM-DD",
@@ -821,7 +865,7 @@ study = StudyDefinition(
 
     discharged_unplanned_1_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         date_format="YYYY-MM-DD",
@@ -955,7 +999,7 @@ study = StudyDefinition(
 
     admitted_unplanned_infectious_0_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         with_these_diagnoses = ICD10_I_codes,
@@ -970,7 +1014,7 @@ study = StudyDefinition(
 
     discharged_unplanned_infectious_0_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         with_these_diagnoses = ICD10_I_codes,
@@ -985,7 +1029,7 @@ study = StudyDefinition(
     
     admitted_unplanned_infectious_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         with_these_diagnoses = ICD10_I_codes,
@@ -1000,7 +1044,7 @@ study = StudyDefinition(
 
     discharged_unplanned_infectious_1_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_patient_classification = ["1"],
         with_these_diagnoses = ICD10_I_codes,
@@ -1145,7 +1189,7 @@ study = StudyDefinition(
 
     admitted_planned_0_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         with_admission_method=["11", "12", "13", "81"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -1158,7 +1202,7 @@ study = StudyDefinition(
 
     discharged_planned_0_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         with_admission_method=["11", "12", "13", "81"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -1171,7 +1215,7 @@ study = StudyDefinition(
     
     admitted_planned_1_date=patients.admitted_to_hospital(
         returning="date_admitted",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         with_admission_method=["11", "12", "13", "81"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -1184,7 +1228,7 @@ study = StudyDefinition(
 
     discharged_planned_1_date=patients.admitted_to_hospital(
         returning="date_discharged",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         with_admission_method=["11", "12", "13", "81"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -1311,7 +1355,7 @@ study = StudyDefinition(
     primary_care_probable_covid_1_date=patients.with_these_clinical_events(
         covid_primary_care_probable_combined,
         returning="date",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -1372,7 +1416,7 @@ study = StudyDefinition(
     primary_care_suspected_covid_1_date=patients.with_these_clinical_events(
         primary_care_suspected_covid_combined,
         returning="date",
-        on_or_after="index_date + 1 day",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -1442,19 +1486,19 @@ study = StudyDefinition(
 
     chronic_cardiac_disease=patients.with_these_clinical_events(
         chronic_cardiac_disease_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
     heart_failure=patients.with_these_clinical_events(
         heart_failure_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
     other_heart_disease=patients.with_these_clinical_events(
         other_heart_disease_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
@@ -1463,43 +1507,43 @@ study = StudyDefinition(
         diabetes_codes,
         returning="binary_flag",
         find_last_match_in_period=True,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         return_expectations={"incidence": 0.01},
     ),
     dialysis=patients.with_these_clinical_events(
         dialysis_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     chronic_liver_disease=patients.with_these_clinical_events(
         chronic_liver_disease_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
     
     current_copd=patients.with_these_clinical_events(
         current_copd_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
     LD_incl_DS_and_CP=patients.with_these_clinical_events(
         learning_disability_including_downs_syndrome_and_cerebral_palsy_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     cystic_fibrosis=patients.with_these_clinical_events(
         cystic_fibrosis_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     other_resp_conditions=patients.with_these_clinical_events(
         other_respiratory_conditions_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
@@ -1507,38 +1551,38 @@ study = StudyDefinition(
     
     lung_cancer=patients.with_these_clinical_events(
         lung_cancer_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     haematological_cancer=patients.with_these_clinical_events(
         haematological_cancer_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     cancer_excl_lung_and_haem=patients.with_these_clinical_events(
         cancer_excluding_lung_and_haematological_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     
     chemo_or_radio=patients.with_these_clinical_events(
         chemotherapy_or_radiotherapy_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     solid_organ_transplantation=patients.with_these_clinical_events(
         solid_organ_transplantation_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     bone_marrow_transplant=patients.with_these_clinical_events(
         bone_marrow_transplant_codes,
-        between=["2020-07-01", "index_date"],
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
@@ -1551,45 +1595,45 @@ study = StudyDefinition(
     ),
     permanant_immunosuppression=patients.with_these_clinical_events(
         permanent_immunosuppression_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     temporary_immunosuppression=patients.with_these_clinical_events(
         temporary_immunosuppression_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     asplenia=patients.with_these_clinical_events(
         asplenia_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     dmards=patients.with_these_medications(
         dmards_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     # dementia
     dementia=patients.with_these_clinical_events(
         dementia_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
     other_neuro_conditions=patients.with_these_clinical_events(
         other_neuro_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01},
     ),
     
     psychosis_schiz_bipolar=patients.with_these_clinical_events(
         psychosis_schizophrenia_bipolar_affective_disease_codes,
-        on_or_before="index_date",
+        on_or_before="index_date - 1 day",
         returning="binary_flag",
         return_expectations={"incidence": 0.01, },
     ),
@@ -1643,13 +1687,13 @@ study = StudyDefinition(
         midazolam = patients.with_these_medications(
             midazolam_codes,
             returning="binary_flag",
-            on_or_before = "index_date",
+            on_or_before = "index_date - 1 day",
         ),
     
         endoflife_coding = patients.with_these_clinical_events(
             eol_codes,
             returning="binary_flag",
-            on_or_before = "index_date",
+            on_or_before = "index_date - 1 day",
             find_last_match_in_period = True,
         ),
         
@@ -1667,7 +1711,7 @@ study = StudyDefinition(
     shielded_ever = patients.with_these_clinical_events(
             shield_codes,
             returning="binary_flag",
-            on_or_before = "index_date",
+            on_or_before = "index_date - 1 day",
             find_last_match_in_period = True,
         ),
 
@@ -1678,7 +1722,7 @@ study = StudyDefinition(
         severely_clinically_vulnerable=patients.with_these_clinical_events(
             shield_codes,
             returning="binary_flag",
-            on_or_before = "index_date",
+            on_or_before = "index_date - 1 day",
             find_last_match_in_period = True,
         ),
 
@@ -1691,7 +1735,7 @@ study = StudyDefinition(
         ### NOT SHIELDED GROUP (medium and low risk) - only flag if later than 'shielded'
         less_vulnerable=patients.with_these_clinical_events(
             nonshield_codes, 
-            between=["date_severely_clinically_vulnerable + 1 day", "index_date"],
+            between=["date_severely_clinically_vulnerable + 1 day", "index_date - 1 day"],
         ),
         
         return_expectations={"incidence": 0.01},
