@@ -172,6 +172,10 @@ get_ipw_weights <- function(
     model = FALSE
   )
 
+  #apply jeffrey's prior to fitted model
+  #library('brglm2')
+  #event_model <- update(event_model, method = "brglmFit", type = "MPL_Jeffreys")
+
   #event_model$data <- NULL
 
   cat(glue("{event} data size = ", length(event_model$y)), "\n")
