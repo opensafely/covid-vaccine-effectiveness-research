@@ -1,0 +1,360 @@
+$patient_id
+[1] "integer"
+
+$age
+[1] "integer"
+
+$sex
+[1] "factor"
+
+$bmi
+[1] "factor"
+
+$has_follow_up_previous_year
+[1] "logical"
+
+$dereg_date
+[1] "Date"
+
+$ethnicity
+[1] "character"
+
+$ethnicity_6_sus
+[1] "character"
+
+$practice_id
+[1] "integer"
+
+$msoa
+[1] "factor"
+
+$stp
+[1] "factor"
+
+$region
+[1] "factor"
+
+$imd
+[1] "factor"
+
+$rural_urban
+[1] "integer"
+
+$care_home_type
+[1] "factor"
+
+$care_home_tpp
+[1] "logical"
+
+$care_home_code
+[1] "logical"
+
+$prior_covid_vax_date
+[1] "Date"
+
+$prior_covid_vax_pfizer_date
+[1] "Date"
+
+$prior_covid_vax_az_date
+[1] "Date"
+
+$unknown_vaccine_brand
+[1] "logical"
+
+$prior_positive_test_date
+[1] "Date"
+
+$prior_primary_care_covid_case_date
+[1] "Date"
+
+$prior_covidadmitted_date
+[1] "Date"
+
+$coviddeath_date
+[1] "Date"
+
+$death_date
+[1] "Date"
+
+$chronic_cardiac_disease
+[1] "logical"
+
+$heart_failure
+[1] "logical"
+
+$other_heart_disease
+[1] "logical"
+
+$diabetes
+[1] "logical"
+
+$dialysis
+[1] "logical"
+
+$chronic_liver_disease
+[1] "logical"
+
+$current_copd
+[1] "logical"
+
+$LD_incl_DS_and_CP
+[1] "logical"
+
+$cystic_fibrosis
+[1] "logical"
+
+$other_resp_conditions
+[1] "logical"
+
+$lung_cancer
+[1] "logical"
+
+$haematological_cancer
+[1] "logical"
+
+$cancer_excl_lung_and_haem
+[1] "logical"
+
+$chemo_or_radio
+[1] "logical"
+
+$solid_organ_transplantation
+[1] "logical"
+
+$bone_marrow_transplant
+[1] "logical"
+
+$sickle_cell_disease
+[1] "logical"
+
+$permanant_immunosuppression
+[1] "logical"
+
+$temporary_immunosuppression
+[1] "logical"
+
+$asplenia
+[1] "logical"
+
+$dmards
+[1] "logical"
+
+$dementia
+[1] "logical"
+
+$other_neuro_conditions
+[1] "logical"
+
+$psychosis_schiz_bipolar
+[1] "logical"
+
+$flu_vaccine
+[1] "logical"
+
+$efi
+[1] "numeric"
+
+$endoflife
+[1] "logical"
+
+$shielded_ever
+[1] "logical"
+
+$shielded
+[1] "logical"
+
+$admitted_unplanned_1_date
+[1] "Date"
+
+$admitted_unplanned_2_date
+[1] "Date"
+
+$admitted_unplanned_3_date
+[1] "Date"
+
+$admitted_unplanned_4_date
+[1] "Date"
+
+$admitted_unplanned_5_date
+[1] "Date"
+
+$admitted_unplanned_6_date
+[1] "Date"
+
+$admitted_unplanned_infectious_1_date
+[1] "Date"
+
+$admitted_unplanned_infectious_2_date
+[1] "Date"
+
+$admitted_unplanned_infectious_3_date
+[1] "Date"
+
+$admitted_unplanned_infectious_4_date
+[1] "Date"
+
+$admitted_unplanned_infectious_5_date
+[1] "Date"
+
+$admitted_unplanned_infectious_6_date
+[1] "Date"
+
+$covid_test_1_date
+[1] "Date"
+
+$covid_test_2_date
+[1] "Date"
+
+$covid_vax_1_date
+[1] "Date"
+
+$covid_vax_2_date
+[1] "Date"
+
+$covid_vax_3_date
+[1] "Date"
+
+$covid_vax_az_1_date
+[1] "Date"
+
+$covid_vax_az_2_date
+[1] "Date"
+
+$covid_vax_az_3_date
+[1] "Date"
+
+$covid_vax_pfizer_1_date
+[1] "Date"
+
+$covid_vax_pfizer_2_date
+[1] "Date"
+
+$covid_vax_pfizer_3_date
+[1] "Date"
+
+$covidadmitted_1_date
+[1] "Date"
+
+$covidadmitted_2_date
+[1] "Date"
+
+$covidadmitted_3_date
+[1] "Date"
+
+$covidadmitted_4_date
+[1] "Date"
+
+$discharged_unplanned_1_date
+[1] "Date"
+
+$discharged_unplanned_2_date
+[1] "Date"
+
+$discharged_unplanned_3_date
+[1] "Date"
+
+$discharged_unplanned_4_date
+[1] "Date"
+
+$discharged_unplanned_5_date
+[1] "Date"
+
+$discharged_unplanned_6_date
+[1] "Date"
+
+$discharged_unplanned_infectious_1_date
+[1] "Date"
+
+$discharged_unplanned_infectious_2_date
+[1] "Date"
+
+$discharged_unplanned_infectious_3_date
+[1] "Date"
+
+$discharged_unplanned_infectious_4_date
+[1] "Date"
+
+$discharged_unplanned_infectious_5_date
+[1] "Date"
+
+$discharged_unplanned_infectious_6_date
+[1] "Date"
+
+$emergency_1_date
+[1] "Date"
+
+$emergency_2_date
+[1] "Date"
+
+$positive_test_1_date
+[1] "Date"
+
+$positive_test_2_date
+[1] "Date"
+
+$primary_care_covid_case_1_date
+[1] "Date"
+
+$primary_care_probable_covid_1_date
+[1] "Date"
+
+$primary_care_probable_covid_2_date
+[1] "Date"
+
+$primary_care_probable_covid_3_date
+[1] "Date"
+
+$primary_care_probable_covid_4_date
+[1] "Date"
+
+$primary_care_probable_covid_5_date
+[1] "Date"
+
+$primary_care_suspected_covid_1_date
+[1] "Date"
+
+$primary_care_suspected_covid_2_date
+[1] "Date"
+
+$primary_care_suspected_covid_3_date
+[1] "Date"
+
+$primary_care_suspected_covid_4_date
+[1] "Date"
+
+$primary_care_suspected_covid_5_date
+[1] "Date"
+
+$start_date
+[1] "Date"
+
+$end_date
+[1] "Date"
+
+$censor_date
+[1] "Date"
+
+$ageband
+[1] "factor"
+
+$ethnicity_combined
+[1] "factor"
+
+$care_home_combined
+[1] "logical"
+
+$any_immunosuppression
+[1] "logical"
+
+$multimorb
+[1] "factor"
+
+$efi_cat
+[1] "factor"
+
+$cause_of_death
+[1] "factor"
+
+$noncoviddeath_date
+[1] "Date"
+
