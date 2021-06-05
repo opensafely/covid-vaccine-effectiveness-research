@@ -43,12 +43,11 @@ if(length(args)==0){
   brand <- "any"
   strata_var <- "all"
 } else {
+  removeobs <- TRUE
   cohort <- args[[1]]
   outcome <- args[[2]]
   brand <- args[[3]]
   strata_var <- args[[4]]
-  removeobs <- TRUE
-
 }
 
 
@@ -75,6 +74,12 @@ if(outcome=="postest"){
 
 formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
+
+
+# reweight censored deaths or not?
+# ideally yes, but often very few events so censoring models are not stable
+reweight_death <- read_rds(here::here("output", "metadata", "reweight_death.rds")) == 1
+
 
 # Import processed data ----
 
@@ -329,7 +334,7 @@ for(stratum in strata){
   # IPW model for death ----
 
   ## if outcome is not death, then need to account for censoring by any cause death
-  if(!(outcome %in% c("death", "coviddeath", "noncoviddeath"))){
+  if(!(outcome %in% c("death", "coviddeath", "noncoviddeath")) & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "death", "death_status", "death_atrisk",
       ipw_formula =     update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
@@ -337,7 +342,7 @@ for(stratum in strata){
     )
   }
   ## if outcome is covid death, then need to account for censoring by non-covid deaths
-  if(outcome=="coviddeath"){
+  if(outcome=="coviddeath" & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk",
       ipw_formula =     update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
@@ -345,7 +350,7 @@ for(stratum in strata){
     )
   }
   ## if outcome is noncovid death, then need to account for censoring by covid deaths
-  if(outcome=="noncoviddeath"){
+  if(outcome=="noncoviddeath" & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk",
       ipw_formula =     update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
@@ -353,7 +358,7 @@ for(stratum in strata){
     )
   }
   ## if outcome is death, then no accounting for censoring by death is needed
-  if(outcome=="death"){
+  if(outcome=="death" | !reweight_death){
     weights_death <- data_pt_sub %>%
       filter(death_atrisk) %>%
       transmute(

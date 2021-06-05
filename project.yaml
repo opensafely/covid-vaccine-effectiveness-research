@@ -13,6 +13,7 @@ actions:
         chars: output/metadata/baseline_characteristics.rds
         formula: output/metadata/list_formula.rds
         strata: output/metadata/list_strata.rds
+        reweight: output/metadata/reweight_death.rds
 
 
 ##############################################################################

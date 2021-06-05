@@ -179,6 +179,10 @@ list_formula <- lst(
 
 write_rds(list_formula, here::here("output", "metadata", glue::glue("list_formula.rds")))
 
+## choose whether to reweight follow time by probability of death as a censoring event
+
+reweight_death <- 0
+write_rds(reweight_death, here::here("output", "metadata", glue::glue("reweight_death.rds")))
 
 ## define stratification variables ----
 

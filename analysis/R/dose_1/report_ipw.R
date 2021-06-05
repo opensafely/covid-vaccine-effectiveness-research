@@ -88,6 +88,10 @@ if(outcome=="postest"){
 characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
 characteristics$age <- `age, degree = 2` ~ "Age"
 
+# reweight censored deaths or not?
+reweight_death <- read_rds(here::here("output", "metadata", "reweight_death.rds")) == 1
+
+
 # covar_labels = append(
 #   characteristics,
 #   list(
@@ -467,7 +471,7 @@ for(stratum in strata){
 
 
 
-  if(outcome!="death"){
+  if(outcome!="death" & reweight_death){
     model_death <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_death.rds"))
     ipw_formula <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, "model_formula_death.rds"))
     assign(as.character(model_death$call$data), model_death$data)
