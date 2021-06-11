@@ -99,8 +99,21 @@ estimates <-
     model_descr = fct_inorder(model_descr),
   )
 
+estimates_formatted <- estimates %>%
+  transmute(
+    outcome_descr,
+    brand_descr,
+    strata,
+    model_descr,
+    term=str_replace(term, pattern="timesincevax\\_pw", ""),
+    HR = plyr::round_any(or,0.01),
+    HR_CI = paste0("(", plyr::round_any(or.ll,0.01), "-", plyr::round_any(or.ul,0.01), ")"),
+    VE = plyr::round_any(ve,0.1),
+    VE_CI = paste0("(", plyr::round_any(ve.ll,0.1), "-", plyr::round_any(ve.ul,0.1), ")"),
+  )
 
 write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax_{strata_var}.csv")))
+write_csv(estimates_formatted, path = here::here("output", cohort, glue::glue("estimates_formatted_timesincevax_{strata_var}.csv")))
 
 # create forest plot
 msmmod_forest_data <- estimates %>%
@@ -143,7 +156,7 @@ msmmod_forest <-
     panel.grid.minor.y = element_blank(),
     strip.background = element_blank(),
     strip.placement = "outside",
-    strip.text.y.left = element_text(angle = 0),
+    #strip.text.y.left = element_text(angle = 0),
 
     panel.spacing = unit(1, "lines"),
 

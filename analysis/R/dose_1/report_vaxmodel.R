@@ -155,6 +155,20 @@ broomstack <-
   unnest(broom)
 
 
+broomstack_formatted <- broomstack %>%
+  transmute(
+    brand_descr,
+    var_label,
+    label,
+    HR = plyr::round_any(or,0.01),
+    HR = if_else(is.na(HR), 1, HR),
+    CI = paste0("(", plyr::round_any(or.ll,0.01), "-", plyr::round_any(or.ul,0.01), ")"),
+    CI = if_else(is.na(HR), "", CI),
+
+  )
+
+write_csv(broomstack_formatted, here::here("output", cohort, "tab_vax1.csv"))
+
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
   here::here("output", cohort, "plot_vax1.svg"),

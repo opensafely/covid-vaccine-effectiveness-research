@@ -690,6 +690,7 @@ actions:
       moderately_sensitive:
         svg: output/over80s/plot_vax1.svg
         #html: output/over80s/tab_vax1.html
+        csv: output/over80s/tab_vax1.csv
 
 
   report_over80s_all:
@@ -1379,6 +1380,7 @@ actions:
       moderately_sensitive:
         svg: output/in70s/plot_vax1.svg
         #html: output/in70s/tab_vax1.html
+        csv: output/in70s/tab_vax1.csv
 
 
   report_in70s_all:
