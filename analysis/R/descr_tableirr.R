@@ -52,6 +52,9 @@ gbl_vars <- jsonlite::fromJSON(
 list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
+## create output directory ----
+dir.create(here::here("output", cohort, "descriptive", "tables"), showWarnings = FALSE, recursive=TRUE)
+
 ## Import processed data ----
 data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
 characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
@@ -330,9 +333,9 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
       noncoviddeath_n=sum(noncoviddeath),
       noncoviddeath_rate=noncoviddeath_n/noncoviddeath_yearsatrisk,
 
-      # death_yearsatrisk=sum(death_status==0)/365.25,
-      # death_n=sum(death),
-      # death_rate=death_n/death_yearsatrisk,
+      death_yearsatrisk=sum(death_status==0)/365.25,
+      death_n=sum(death),
+      death_rate=death_n/death_yearsatrisk,
     ) %>%
     ungroup() %>%
     mutate(
@@ -340,11 +343,13 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
       covidadmitted_rr=covidadmitted_rate/first(covidadmitted_rate),
       coviddeath_rr=coviddeath_rate/first(coviddeath_rate),
       noncoviddeath_rr=noncoviddeath_rate/first(noncoviddeath_rate),
+      death_rr=death_rate/first(death_rate),
 
       postest_rrCI = rrCI_exact(postest_n, postest_yearsatrisk, first(postest_n), first(postest_yearsatrisk), timesincevax_pw, 0.01),
       covidadmitted_rrCI = rrCI_exact(covidadmitted_n, covidadmitted_yearsatrisk, first(covidadmitted_n), first(covidadmitted_yearsatrisk),  timesincevax_pw, 0.01),
       coviddeath_rrCI = rrCI_exact(coviddeath_n, coviddeath_yearsatrisk, first(coviddeath_n), first(coviddeath_yearsatrisk),  timesincevax_pw, 0.01),
       noncoviddeath_rrCI = rrCI_exact(noncoviddeath_n, noncoviddeath_yearsatrisk, first(noncoviddeath_n), first(noncoviddeath_yearsatrisk), timesincevax_pw, 0.01),
+      death_rrCI = rrCI_exact(death_n, death_yearsatrisk, first(death_n), first(death_yearsatrisk), timesincevax_pw, 0.01),
     )
 
   redacted <- unredacted %>%
@@ -353,24 +358,25 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
       covidadmitted_rate = redactor2(covidadmitted_n, 5, covidadmitted_rate),
       coviddeath_rate = redactor2(coviddeath_n, 5, coviddeath_rate),
       noncoviddeath_rate = redactor2(noncoviddeath_n, 5, noncoviddeath_rate),
-      #death_rate = redactor2(death_n, 5, death_rate),
+      death_rate = redactor2(death_n, 5, death_rate),
 
       postest_rr = redactor2(postest_n, 5, postest_rr),
       covidadmitted_rr = redactor2(covidadmitted_n, 5, covidadmitted_rr),
       coviddeath_rr = redactor2(coviddeath_n, 5, coviddeath_rr),
       noncoviddeath_rr = redactor2(noncoviddeath_n, 5, noncoviddeath_rr),
-      #death_rr = redactor2(death_n, 5, death_rr)
+      death_rr = redactor2(death_n, 5, death_rr),
 
       postest_rrCI = redactor2(postest_n, 5, postest_rrCI),
       covidadmitted_rrCI = redactor2(covidadmitted_n, 5, covidadmitted_rrCI),
       coviddeath_rrCI = redactor2(coviddeath_n, 5, coviddeath_rrCI),
       noncoviddeath_rrCI = redactor2(noncoviddeath_n, 5, noncoviddeath_rrCI),
+      death_rrCI = redactor2(death_n, 5, death_rrCI),
 
       postest_n = redactor2(postest_n, 5),
       covidadmitted_n = redactor2(covidadmitted_n, 5),
       coviddeath_n = redactor2(coviddeath_n, 5),
       noncoviddeath_n = redactor2(noncoviddeath_n, 5),
-      #death_n = redactor2(death_n, 5)
+      death_n = redactor2(death_n, 5)
     )
 
   redacted
@@ -405,9 +411,19 @@ data_summary <- bind_rows(
     covidadmitted_q = format_ratio(covidadmitted_n,covidadmitted_yearsatrisk),
     coviddeath_q = format_ratio(coviddeath_n,coviddeath_yearsatrisk),
     noncoviddeath_q = format_ratio(noncoviddeath_n,noncoviddeath_yearsatrisk),
+    death_q = format_ratio(death_n,death_yearsatrisk),
   ) %>%
   select(brand, starts_with("timesince"), ends_with(c("_q","_rr", "_rrCI")))
 
+data_summary %>%
+  mutate(
+    postest_rr = scales::label_number(accuracy=0.01, trim=FALSE)(postest_rr),
+    covidadmitted_rr = scales::label_number(accuracy=0.01, trim=FALSE)(covidadmitted_rr),
+    coviddeath_rr = scales::label_number(accuracy=0.01, trim=FALSE)(coviddeath_rr),
+    noncoviddeath_rr = scales::label_number(accuracy=0.01, trim=FALSE)(noncoviddeath_rr),
+    death_rr = scales::label_number(accuracy=0.01, trim=FALSE)(death_rr),
+  ) %>%
+write_csv(here::here("output", cohort, "descriptive", "tables", "table_irr.csv"))
 
 tab_summary <- data_summary %>%
   gt(
@@ -422,7 +438,7 @@ tab_summary <- data_summary %>%
     covidadmitted_q = "Events / person-years",
     coviddeath_q = "Events / person-years",
     noncoviddeath_q = "Events / person-years",
-    #death_q = "Events per person-years at risk",
+    death_q = "Events / person-years",
 
     # postest_yearsatrisk = "Person-years at risk",
     # covidadmitted_yearsatrisk = "Person-years at risk",
@@ -446,11 +462,13 @@ tab_summary <- data_summary %>%
     covidadmitted_rr = "Rate ratio",
     coviddeath_rr = "Rate ratio",
     noncoviddeath_rr = "Rate ratio",
+    death_rr = "Rate ratio",
 
     postest_rrCI = "95% CI",
     covidadmitted_rrCI = "95% CI",
     coviddeath_rrCI = "95% CI",
-    noncoviddeath_rrCI = "95% CI"
+    noncoviddeath_rrCI = "95% CI",
+    death_rrCI = "95% CI"
   ) %>%
   tab_spanner(
     label = "Positive test",
@@ -468,10 +486,10 @@ tab_summary <- data_summary %>%
     label = "Non-COVID-19 death",
     columns = starts_with("noncoviddeath")
   ) %>%
-  # tab_spanner(
-  #   label = "Any death",
-  #   columns = starts_with("death")
-  # ) %>%
+  tab_spanner(
+    label = "Any death",
+    columns = starts_with("death")
+  ) %>%
   # fmt_number(
   #   columns = ends_with(c("yearsatrisk")),
   #   decimals = 0
@@ -493,7 +511,6 @@ tab_summary <- data_summary %>%
     columns = "timesincevax_pw"
   )
 
-dir.create(here::here("output", cohort, "descriptive", "tables"), showWarnings = FALSE, recursive=TRUE)
 gtsave(tab_summary, here::here("output", cohort, "descriptive", "tables", "table_irr.html"))
 
 
