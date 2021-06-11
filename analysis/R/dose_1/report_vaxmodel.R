@@ -153,16 +153,16 @@ broomstack <-
     broom = map(brand, ~read_rds(here::here("output", cohort, outcome, .x, strata_var, "all", glue::glue("broom_vax{.x}1.rds"))))
   ) %>%
   unnest(broom)
-
+scales::label_number(accuracy = .01)
 
 broomstack_formatted <- broomstack %>%
   transmute(
     brand_descr,
     var_label,
     label,
-    HR = plyr::round_any(or,0.01),
-    HR = if_else(is.na(HR), 1, HR),
-    CI = paste0("(", plyr::round_any(or.ll,0.01), "-", plyr::round_any(or.ul,0.01), ")"),
+    HR = scales::label_number(accuracy = .01, trim=FALSE)(or),
+    HR = if_else(is.na(HR), "1", HR),
+    CI = paste0("(", scales::label_number(accuracy = .01, trim=FALSE)(or.ll), "-", scales::label_number(accuracy = .01, trim=FALSE)(or.ul), ")"),
     CI = if_else(is.na(HR), "", CI),
 
   )
