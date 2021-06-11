@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+
+
+</head>
+<body>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#mdatouxmsi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mdatouxmsi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mdatouxmsi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mdatouxmsi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mdatouxmsi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mdatouxmsi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mdatouxmsi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mdatouxmsi .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mdatouxmsi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mdatouxmsi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mdatouxmsi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mdatouxmsi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mdatouxmsi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#mdatouxmsi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mdatouxmsi .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mdatouxmsi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mdatouxmsi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#mdatouxmsi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mdatouxmsi .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#mdatouxmsi .gt_left {
+  text-align: left;
+}
+
+#mdatouxmsi .gt_center {
+  text-align: center;
+}
+
+#mdatouxmsi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mdatouxmsi .gt_font_normal {
+  font-weight: normal;
+}
+
+#mdatouxmsi .gt_font_bold {
+  font-weight: bold;
+}
+
+#mdatouxmsi .gt_font_italic {
+  font-style: italic;
+}
+
+#mdatouxmsi .gt_super {
+  font-size: 65%;
+}
+
+#mdatouxmsi .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="mdatouxmsi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Characteristic</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">label</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">HR</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">95% CI</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">P value</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">Age</td>
+      <td class="gt_row gt_right">Age</td>
+      <td class="gt_row gt_right">0.84</td>
+      <td class="gt_row gt_right">0.68&ndash;1.05</td>
+      <td class="gt_row gt_right">0.132</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Age²</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">1.00&ndash;1.00</td>
+      <td class="gt_row gt_right">0.005</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Sex</td>
+      <td class="gt_row gt_right">Female</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Male</td>
+      <td class="gt_row gt_right">0.99</td>
+      <td class="gt_row gt_right">0.97&ndash;1.01</td>
+      <td class="gt_row gt_right">0.195</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">IMD</td>
+      <td class="gt_row gt_right">1 most deprived</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">2</td>
+      <td class="gt_row gt_right">1.13</td>
+      <td class="gt_row gt_right">1.10&ndash;1.17</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">3</td>
+      <td class="gt_row gt_right">1.16</td>
+      <td class="gt_row gt_right">1.13&ndash;1.20</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">4</td>
+      <td class="gt_row gt_right">1.21</td>
+      <td class="gt_row gt_right">1.17&ndash;1.24</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">5 least deprived</td>
+      <td class="gt_row gt_right">1.32</td>
+      <td class="gt_row gt_right">1.29&ndash;1.36</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Ethnicity</td>
+      <td class="gt_row gt_right">White</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Black</td>
+      <td class="gt_row gt_right">0.41</td>
+      <td class="gt_row gt_right">0.35&ndash;0.48</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">South Asian</td>
+      <td class="gt_row gt_right">0.58</td>
+      <td class="gt_row gt_right">0.54&ndash;0.61</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Mixed</td>
+      <td class="gt_row gt_right">0.57</td>
+      <td class="gt_row gt_right">0.44&ndash;0.72</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Other</td>
+      <td class="gt_row gt_right">0.68</td>
+      <td class="gt_row gt_right">0.58&ndash;0.79</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Body Mass Index</td>
+      <td class="gt_row gt_right">Not obese</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Obese I (30-34.9)</td>
+      <td class="gt_row gt_right">1.04</td>
+      <td class="gt_row gt_right">1.01&ndash;1.06</td>
+      <td class="gt_row gt_right">0.002</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Obese II (35-39.9)</td>
+      <td class="gt_row gt_right">0.98</td>
+      <td class="gt_row gt_right">0.92&ndash;1.04</td>
+      <td class="gt_row gt_right">0.491</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Obese III (40+)</td>
+      <td class="gt_row gt_right">0.94</td>
+      <td class="gt_row gt_right">0.87&ndash;1.01</td>
+      <td class="gt_row gt_right">0.085</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Heart failure</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.93</td>
+      <td class="gt_row gt_right">0.89&ndash;0.98</td>
+      <td class="gt_row gt_right">0.006</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Other heart disease</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.98</td>
+      <td class="gt_row gt_right">0.93&ndash;1.04</td>
+      <td class="gt_row gt_right">0.522</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Dialysis</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.99</td>
+      <td class="gt_row gt_right">0.75&ndash;1.31</td>
+      <td class="gt_row gt_right">0.935</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Diabetes</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.98</td>
+      <td class="gt_row gt_right">0.92&ndash;1.03</td>
+      <td class="gt_row gt_right">0.419</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Chronic liver disease</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.94</td>
+      <td class="gt_row gt_right">0.85&ndash;1.05</td>
+      <td class="gt_row gt_right">0.274</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">COPD</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.93</td>
+      <td class="gt_row gt_right">0.87&ndash;0.98</td>
+      <td class="gt_row gt_right">0.011</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Other respiratory conditions</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.92</td>
+      <td class="gt_row gt_right">0.87&ndash;0.97</td>
+      <td class="gt_row gt_right">0.003</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Lung Cancer</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.96</td>
+      <td class="gt_row gt_right">0.85&ndash;1.09</td>
+      <td class="gt_row gt_right">0.530</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Haematological cancer</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.98</td>
+      <td class="gt_row gt_right">0.90&ndash;1.06</td>
+      <td class="gt_row gt_right">0.613</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Cancer excl. lung, haemo</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">1.02</td>
+      <td class="gt_row gt_right">0.96&ndash;1.08</td>
+      <td class="gt_row gt_right">0.453</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Immunosuppressed</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.99</td>
+      <td class="gt_row gt_right">0.93&ndash;1.06</td>
+      <td class="gt_row gt_right">0.755</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Dementia</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.85</td>
+      <td class="gt_row gt_right">0.78&ndash;0.92</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Other neurological conditions</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.89</td>
+      <td class="gt_row gt_right">0.82&ndash;0.96</td>
+      <td class="gt_row gt_right">0.003</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Learning disabilities</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.64</td>
+      <td class="gt_row gt_right">0.52&ndash;0.77</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Serious mental illness</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">0.73</td>
+      <td class="gt_row gt_right">0.66&ndash;0.81</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Morbidity count</td>
+      <td class="gt_row gt_right">0</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right">1.04</td>
+      <td class="gt_row gt_right">0.98&ndash;1.10</td>
+      <td class="gt_row gt_right">0.167</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">2</td>
+      <td class="gt_row gt_right">1.08</td>
+      <td class="gt_row gt_right">0.97&ndash;1.21</td>
+      <td class="gt_row gt_right">0.154</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">3</td>
+      <td class="gt_row gt_right">1.17</td>
+      <td class="gt_row gt_right">0.99&ndash;1.37</td>
+      <td class="gt_row gt_right">0.065</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">4+</td>
+      <td class="gt_row gt_right">1.10</td>
+      <td class="gt_row gt_right">0.87&ndash;1.39</td>
+      <td class="gt_row gt_right">0.421</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Shielding criteria met</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">1.09</td>
+      <td class="gt_row gt_right">1.06&ndash;1.13</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Flu vaccine in previous 5 years</td>
+      <td class="gt_row gt_right"></td>
+      <td class="gt_row gt_right">1.70</td>
+      <td class="gt_row gt_right">1.66&ndash;1.74</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Frailty</td>
+      <td class="gt_row gt_right">None</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Mild</td>
+      <td class="gt_row gt_right">1.07</td>
+      <td class="gt_row gt_right">1.04&ndash;1.09</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Moderate</td>
+      <td class="gt_row gt_right">1.03</td>
+      <td class="gt_row gt_right">1.00&ndash;1.06</td>
+      <td class="gt_row gt_right">0.037</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">Severe</td>
+      <td class="gt_row gt_right">0.97</td>
+      <td class="gt_row gt_right">0.92&ndash;1.02</td>
+      <td class="gt_row gt_right">0.257</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Time since positive SARS-CoV-2 test</td>
+      <td class="gt_row gt_right">No positive test</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">1-21</td>
+      <td class="gt_row gt_right">0.06</td>
+      <td class="gt_row gt_right">0.04&ndash;0.08</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">22-28</td>
+      <td class="gt_row gt_right">0.21</td>
+      <td class="gt_row gt_right">0.16&ndash;0.28</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">29+</td>
+      <td class="gt_row gt_right">1.24</td>
+      <td class="gt_row gt_right">1.04&ndash;1.48</td>
+      <td class="gt_row gt_right">0.014</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Time since suspected COVID</td>
+      <td class="gt_row gt_right">Not suspected</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">1-21</td>
+      <td class="gt_row gt_right">1.16</td>
+      <td class="gt_row gt_right">0.96&ndash;1.40</td>
+      <td class="gt_row gt_right">0.133</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">22-28</td>
+      <td class="gt_row gt_right">0.58</td>
+      <td class="gt_row gt_right">0.37&ndash;0.92</td>
+      <td class="gt_row gt_right">0.022</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">29+</td>
+      <td class="gt_row gt_right">1.08</td>
+      <td class="gt_row gt_right">0.77&ndash;1.51</td>
+      <td class="gt_row gt_right">0.668</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Time since discharge from infectious hosp admission</td>
+      <td class="gt_row gt_right">Not in hospital</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">In hospital</td>
+      <td class="gt_row gt_right">0.93</td>
+      <td class="gt_row gt_right">0.91&ndash;0.95</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">1-7</td>
+      <td class="gt_row gt_right">0.42</td>
+      <td class="gt_row gt_right">0.34&ndash;0.52</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">8-14</td>
+      <td class="gt_row gt_right">0.68</td>
+      <td class="gt_row gt_right">0.56&ndash;0.83</td>
+      <td class="gt_row gt_right"><0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">15-21</td>
+      <td class="gt_row gt_right">0.77</td>
+      <td class="gt_row gt_right">0.61&ndash;0.96</td>
+      <td class="gt_row gt_right">0.019</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">22-28</td>
+      <td class="gt_row gt_right">0.74</td>
+      <td class="gt_row gt_right">0.54&ndash;1.00</td>
+      <td class="gt_row gt_right">0.048</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Time since discharge from non-infectious hosp admission</td>
+      <td class="gt_row gt_right">Not in hospital</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">In hospital</td>
+      <td class="gt_row gt_right">0.98</td>
+      <td class="gt_row gt_right">0.95&ndash;1.01</td>
+      <td class="gt_row gt_right">0.178</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">1-7</td>
+      <td class="gt_row gt_right">0.60</td>
+      <td class="gt_row gt_right">0.40&ndash;0.89</td>
+      <td class="gt_row gt_right">0.012</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">8-14</td>
+      <td class="gt_row gt_right">0.65</td>
+      <td class="gt_row gt_right">0.42&ndash;1.00</td>
+      <td class="gt_row gt_right">0.049</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">15-21</td>
+      <td class="gt_row gt_right">0.94</td>
+      <td class="gt_row gt_right">0.62&ndash;1.43</td>
+      <td class="gt_row gt_right">0.778</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_right">22-28</td>
+      <td class="gt_row gt_right">0.56</td>
+      <td class="gt_row gt_right">0.27&ndash;1.20</td>
+      <td class="gt_row gt_right">0.137</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</body>
+</html>
