@@ -106,10 +106,10 @@ estimates_formatted <- estimates %>%
     strata,
     model_descr,
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
-    HR = plyr::round_any(or,0.01),
-    HR_CI = paste0("(", plyr::round_any(or.ll,0.01), "-", plyr::round_any(or.ul,0.01), ")"),
-    VE = plyr::round_any(ve,0.1),
-    VE_CI = paste0("(", plyr::round_any(ve.ll,0.1), "-", plyr::round_any(ve.ul,0.1), ")"),
+    HR =scales::label_number(accuracy = .01, trim=FALSE)(or),
+    HR_CI = paste0("(", scales::label_number(accuracy = .01, trim=FALSE)(or.ll), "-", scales::label_number(accuracy = .01, trim=FALSE)(or.ul), ")"),
+    VE = scales::label_number(accuracy = .1, trim=FALSE)(ve),
+    VE_CI = paste0("(", scales::label_number(accuracy = .1, trim=FALSE)(ve.ll), "-", scales::label_number(accuracy = .1, trim=FALSE)(ve.ul), ")"),
   )
 
 write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax_{strata_var}.csv")))
