@@ -288,7 +288,7 @@ data_processed <- data_extract_reordered %>%
     ),
 
     # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
-    ethnicity_combined = if_else(ethnicity == "", ethnicity_6_sus, ethnicity),
+    ethnicity_combined = if_else(ethnicity %in% c("", NA), ethnicity_6_sus, ethnicity),
     ethnicity_combined = fct_case_when(
       ethnicity_combined == "1" ~ "White",
       ethnicity_combined == "4" ~ "Black",
