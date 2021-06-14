@@ -70,8 +70,8 @@ estimates <-
   filter(outcome %in% c(
     "postest",
     "covidadmitted",
-    #"coviddeath",
-    #"noncoviddeath",
+    "coviddeath",
+    "noncoviddeath",
     "death",
     NULL
   )) %>%
@@ -117,6 +117,9 @@ write_csv(estimates_formatted, path = here::here("output", cohort, glue::glue("e
 
 # create forest plot
 msmmod_forest_data <- estimates %>%
+  filter(
+    !(outcome %in% c("coviddeath", "noncoviddeath") )
+  ) %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
     term=fct_inorder(term),
