@@ -92,8 +92,9 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
     lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
     vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
+    vaxany2_status == 0, # censor at second dose
     .[[glue("sample_{outcome}")]] == 1, # select all patients who experienced the outcome, and a proportion (determined in data_stset action) of those who don't
-    .[[glue("vax{brand}_atrisk")]] == 1 # select follow-up time where vax brand is being administered
+    .[[glue("vax{brand}_atrisk")]] == 1, # select follow-up time where vax brand is being administered
   ) %>%
   mutate(
     all = factor("all",levels=c("all")),
