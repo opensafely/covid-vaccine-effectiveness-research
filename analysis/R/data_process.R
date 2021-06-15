@@ -99,6 +99,7 @@ data_extract0 <- read_csv(
     admitted_unplanned_3_date = col_date(format="%Y-%m-%d"),
     admitted_unplanned_4_date = col_date(format="%Y-%m-%d"),
     admitted_unplanned_5_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_6_date = col_date(format="%Y-%m-%d"),
 
     discharged_unplanned_0_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_1_date = col_date(format="%Y-%m-%d"),
@@ -106,6 +107,7 @@ data_extract0 <- read_csv(
     discharged_unplanned_3_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_4_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_5_date = col_date(format="%Y-%m-%d"),
+    discharged_unplanned_6_date = col_date(format="%Y-%m-%d"),
 
     admitted_unplanned_infectious_0_date = col_date(format="%Y-%m-%d"),
     admitted_unplanned_infectious_1_date = col_date(format="%Y-%m-%d"),
@@ -113,6 +115,7 @@ data_extract0 <- read_csv(
     admitted_unplanned_infectious_3_date = col_date(format="%Y-%m-%d"),
     admitted_unplanned_infectious_4_date = col_date(format="%Y-%m-%d"),
     admitted_unplanned_infectious_5_date = col_date(format="%Y-%m-%d"),
+    admitted_unplanned_infectious_6_date = col_date(format="%Y-%m-%d"),
 
     discharged_unplanned_infectious_0_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_infectious_1_date = col_date(format="%Y-%m-%d"),
@@ -120,7 +123,7 @@ data_extract0 <- read_csv(
     discharged_unplanned_infectious_3_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_infectious_4_date = col_date(format="%Y-%m-%d"),
     discharged_unplanned_infectious_5_date = col_date(format="%Y-%m-%d"),
-
+    discharged_unplanned_infectious_6_date = col_date(format="%Y-%m-%d"),
 
     primary_care_probable_covid_1_date = col_date(format="%Y-%m-%d"),
     primary_care_probable_covid_2_date = col_date(format="%Y-%m-%d"),
@@ -163,9 +166,9 @@ data_extract0 <- read_csv(
     emergency_1_date = col_date(format="%Y-%m-%d"),
     emergency_2_date = col_date(format="%Y-%m-%d"),
     covidadmitted_1_date = col_date(format="%Y-%m-%d"),
-    covidadmitted_2_date = col_date(format="%Y-%m-%d"),
-    covidadmitted_3_date = col_date(format="%Y-%m-%d"),
-    covidadmitted_4_date = col_date(format="%Y-%m-%d"),
+    #covidadmitted_2_date = col_date(format="%Y-%m-%d"),
+    #covidadmitted_3_date = col_date(format="%Y-%m-%d"),
+    #covidadmitted_4_date = col_date(format="%Y-%m-%d"),
     coviddeath_date = col_date(format="%Y-%m-%d"),
     death_date = col_date(format="%Y-%m-%d"),
 
