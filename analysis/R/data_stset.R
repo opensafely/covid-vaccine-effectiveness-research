@@ -4,7 +4,7 @@
 # takes a cohort name as defined in data_define_cohorts.R, and imported as an Arg
 # creates 3 datasets for that cohort:
 # 1 is one row per patient (wide format)
-# 2 is one row per patient per event (eg `stset` format, where a new row is created everytime an event occurs or a covariate changes)
+# 2 is one row per patient per event (eg `stset` format, where a new row is created every time an event occurs or a covariate changes)
 # 3 is one row per patient per day
 # creates additional survival variables for use in models (eg time to event from study start date)
 #
@@ -34,104 +34,36 @@ if(length(args)==0){
   removeobs <- FALSE
   sample_size <- 10000
   cohort <- "over80s"
+  sample_nonoutcomeprop <- 0.1
 
 } else{
   removeobs <- TRUE
   sample_size <- 200000
   cohort <- args[[1]]
+  sample_nonoutcomeprop <- as.numeric(args[[2]])
 }
 
-## create output directories ----
-dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
-
 # Import processed data ----
-
-
-data_cohorts <- read_rds(here::here("output", "data", "data_cohorts.rds"))
-metadata_cohorts <- read_rds(here::here("output", "data", "metadata_cohorts.rds"))
-data_all <- read_rds(here::here("output", "data", "data_all.rds"))
-
-stopifnot("cohort does not exist" = (cohort %in% metadata_cohorts[["cohort"]]))
-
-data_cohorts <- data_cohorts[data_cohorts[[cohort]],] %>%
-  ## TEMPORARY STEP TO REDUCE DATASET SIZE -- REMOVE FOR REAL RUN!
-  # take the first N patient IDs by rank. This depends on patient_id being
-  # a) consistent between cohort extracts
-  # b) unique
-  # c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
-  filter( rank(patient_id) <= sample_size )
-
-metadata <- metadata_cohorts[metadata_cohorts[["cohort"]]==cohort, ]
-
+data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
+characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
 
 # Generate different data formats ----
 
 ## one-row-per-patient data ----
 
-data_fixed <- data_all %>%
-  filter(
-    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
-  ) %>%
-  transmute(
+data_fixed <- data_cohort %>%
+  select(
     patient_id,
-    age,
-    ageband,
-    sex,
-    imd,
-    ethnicity,
-
     region,
-    stp,
-    msoa,
-
-    bmi,
-    chronic_cardiac_disease,
-    heart_failure,
-    other_heart_disease,
-
-    dialysis,
-    diabetes,
-    chronic_liver_disease,
-
-    current_copd,
-    cystic_fibrosis,
-    other_resp_conditions,
-
-    lung_cancer,
-    haematological_cancer,
-    cancer_excl_lung_and_haem,
-
-    # chemo_or_radio,
-    # solid_organ_transplantation,
-    # bone_marrow_transplant,
-    # sickle_cell_disease,
-    # permanant_immunosuppression,
-    # temporary_immunosuppression,
-    # asplenia,
-    # dmards,
-    any_immunosuppression,
-
-    dementia,
-    other_neuro_conditions,
-    LD_incl_DS_and_CP,
-    psychosis_schiz_bipolar,
-
-    multimorb,
-    shielded,
-
-    flu_vaccine
+    all_of(names(characteristics))
   )
-
 
 ## print dataset size ----
 cat(" \n")
 cat(glue::glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n")
 cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI", digits=3L)), "\n")
 
-data_tte <- data_all  %>%
-  filter(
-    patient_id %in% data_cohorts$patient_id # take only the patients from defined "cohort"
-  ) %>%
+data_tte <- data_cohort  %>%
   transmute(
     patient_id,
 
@@ -153,6 +85,7 @@ data_tte <- data_all  %>%
     noncoviddeath_date,
     death_date,
 
+    #composite of death, deregistration and end date
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
     tte_enddate = tte(start_date, end_date, end_date),
@@ -194,6 +127,7 @@ data_tte <- data_all  %>%
     #time to death
     tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
 
+
     tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
 
@@ -202,7 +136,6 @@ data_tte <- data_all  %>%
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
-
 
   ) %>%
   # convert tte variables to integer to save space. works since we know precision is to nearest day
@@ -255,7 +188,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", stan
 # every time an event occurs or a covariate changes, a new row is generated
 
 # import infectious hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised_infectious <- read_rds(here::here("output", "data", "data_long_admission_infectious_dates.rds")) %>%
+data_hospitalised_infectious <- read_rds(here::here("output", cohort, "data", "data_long_admission_infectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -273,7 +206,7 @@ data_hospitalised_infectious <- read_rds(here::here("output", "data", "data_long
   )
 
 # import non infectious hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised_noninfectious <- read_rds(here::here("output", "data", "data_long_admission_noninfectious_dates.rds")) %>%
+data_hospitalised_noninfectious <- read_rds(here::here("output", cohort, "data", "data_long_admission_noninfectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -291,7 +224,7 @@ data_hospitalised_noninfectious <- read_rds(here::here("output", "data", "data_l
   )
 
 
-data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+data_suspected_covid <- read_rds(here::here("output", cohort, "data", "data_long_pr_suspected_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -301,7 +234,7 @@ data_suspected_covid <- read_rds(here::here("output", "data", "data_long_pr_susp
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
   )
 
-data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_probable_covid_dates.rds")) %>%
+data_probable_covid <- read_rds(here::here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -311,7 +244,7 @@ data_probable_covid <- read_rds(here::here("output", "data", "data_long_pr_proba
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
   )
 
-data_postest <- read_rds(here::here("output", "data", "data_long_postest_dates.rds")) %>%
+data_postest <- read_rds(here::here("output", cohort, "data", "data_long_postest_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -326,6 +259,10 @@ data_tte_cp0 <- tmerge(
   data1 = data_tte %>% select(-starts_with("ind_"), -ends_with("_date")),
   data2 = data_tte,
   id = patient_id,
+
+  vaxany_atrisk = tdc(as.Date("2020-12-08")-start_date),
+  vaxpfizer_atrisk = tdc(as.Date("2020-12-08")-start_date),
+  vaxaz_atrisk = tdc(as.Date("2021-01-04")-start_date),
 
   vaxany1_status = tdc(tte_vaxany1),
   vaxany2_status = tdc(tte_vaxany2),
@@ -363,7 +300,7 @@ data_tte_cp0 <- tmerge(
   lastfup = event(tte_lastfup),
 
   tstart = 0L,
-  tstop = tte_enddate
+  tstop = tte_enddate # use enddate not lastfup because it's useful for status over time plots
 )
 
 
@@ -508,7 +445,7 @@ data_tte_pt <- tmerge(
     timesince_hospinfectiousdischarge_pw = cut(
       tstop - hospinfectiousdischarge_time,
       breaks=c(0, 7, 14, 21, 28),
-      labels=c( "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]"),
+      labels=c( "1-7", "8-14", "15-21", "22-28"),
       right=TRUE
     ),
     timesince_hospinfectiousdischarge_pw = case_when(
@@ -516,14 +453,14 @@ data_tte_pt <- tmerge(
       hospinfectious_status==1 ~ "In hospital",
       !is.na(timesince_hospinfectiousdischarge_pw) ~ as.character(timesince_hospinfectiousdischarge_pw),
       TRUE ~ NA_character_
-    ) %>% factor(c("Not in hospital", "In hospital", "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]")),
+    ) %>% factor(c("Not in hospital", "In hospital", "1-7", "8-14", "15-21", "22-28")),
 
 
     # define time since non infectious hospitalisation
     timesince_hospnoninfectiousdischarge_pw = cut(
       tstop - hospnoninfectiousdischarge_time,
       breaks=c(0, 7, 14, 21, 28),
-      labels=c( "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]"),
+      labels=c( "1-7", "8-14", "15-21", "22-28"),
       right=TRUE
     ),
     timesince_hospnoninfectiousdischarge_pw = case_when(
@@ -531,31 +468,30 @@ data_tte_pt <- tmerge(
       hospnoninfectious_status==1 ~ "In hospital",
       !is.na(timesince_hospnoninfectiousdischarge_pw) ~ as.character(timesince_hospnoninfectiousdischarge_pw),
       TRUE ~ NA_character_
-    ) %>% factor(c("Not in hospital", "In hospital", "(0, 7]", "(7, 14]", "(14, 21]", "(21, 28]")),
+    ) %>% factor(c("Not in hospital", "In hospital", "1-7", "8-14", "15-21", "22-28")),
 
     # define time since covid primary care event
     timesince_suspectedcovid_pw = cut(
       tstop - suspectedcovid_time,
-      breaks=c(0, 3, 7, 14, 21, 28, Inf),
-      labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
+      breaks=c(0, 7, 14, 21, 28, Inf),
+      labels=c("1-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
-    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
+    ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "1-7", "8-14", "15-21", "22-28", "29+")),
 
     timesince_probablecovid_pw = cut(
       tstop - probablecovid_time,
-      breaks=c(0, 3, 7, 14, 21, 28, Inf),
-      labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
+      breaks=c(0, 7, 14, 21, 28, Inf),
+      labels=c("1-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
-    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
+    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "1-7", "8-14", "15-21", "22-28", "29+")),
 
     # define time since positive SGSS test
     timesince_postesttdc_pw = cut(
       tstop - postesttdc_time,
-      breaks=c(0, 3, 7, 14, 21, 28, Inf),
-      labels=c("(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)"),
+      breaks=c(0, 7, 14, 21, 28, Inf),
+      labels=c("1-7", "8-14", "15-21", "22-28", "29+"),
       right=TRUE
-    ) %>% fct_explicit_na(na_level="No positive test")  %>% factor(c("No positive test", "(0, 3]", "(3, 7]", "(7, 14]", "(14, 21]", "(21, 28]", "(28, Inf)")),
-
+    ) %>% fct_explicit_na(na_level="No positive test")  %>% factor(c("No positive test", "1-7", "8-14", "15-21", "22-28", "29+")),
 
   ) %>%
   ungroup() %>%
@@ -599,6 +535,9 @@ stopifnot("dummy 'alltimes' should be equal to tstop" = all(data_tte_pt$alltimes
 
 # remove unused columns
 data_tte_pt <- data_tte_pt %>%
+  mutate(
+    vaxanyday1 = tte_vaxany1
+  ) %>%
   select(
     -starts_with("tte_"),
     -ends_with("_date")
@@ -610,8 +549,8 @@ cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_p
 cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI", digits=3L)), "\n")
 
 ## Save processed tte data ----
-write_rds(data_fixed, here::here("output", cohort, "data", glue::glue("data_wide_fixed.rds")), compress="gz")
-write_rds(data_tte, here::here("output", cohort, "data", glue::glue("data_wide_tte.rds")), compress="gz")
-write_rds(data_tte_cp, here::here("output", cohort, "data", glue::glue("data_cp.rds")), compress="gz")
-write_rds(data_tte_pt, here::here("output", cohort, "data", glue::glue("data_pt.rds")), compress="gz")
+write_rds(data_fixed, here::here("output", cohort, "data", "data_fixed.rds"), compress="gz")
+write_rds(data_tte, here::here("output", cohort, "data", "data_tte.rds"), compress="gz")
+#write_rds(data_tte_cp, here::here("output", cohort, "data", "data_cp.rds"), compress="gz")
+write_rds(data_tte_pt, here::here("output", cohort, "data", "data_pt.rds"), compress="gz")
 
