@@ -113,25 +113,6 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1),
     vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1),
     death_atrisk = (death_status==0 & lastfup_status==0),
-  ) %>%
-  mutate(
-    # necessary to avoid near-separation issues
-
-    timesince_suspectedcovid_pw = case_when(
-      timesince_suspectedcovid_pw %in% c("1-7", "8-14", "15-21") ~ "1-21",
-      TRUE ~ as.character(timesince_suspectedcovid_pw)
-    ) %>% factor(c("Not suspected", "1-21", "22-28", "29+")),
-
-    timesince_probablecovid_pw = fct_case_when(
-      timesince_probablecovid_pw %in% c("1-7", "8-14", "15-21") ~ "1-21",
-      TRUE ~ as.character(timesince_probablecovid_pw)
-    ) %>% factor(c("Not probable", "1-21", "22-28", "29+")),
-
-    timesince_postesttdc_pw = case_when(
-      timesince_postesttdc_pw %in% c("1-7", "8-14", "15-21") ~ "1-21",
-      TRUE ~ as.character(timesince_postesttdc_pw)
-    ) %>% factor(c("No positive test", "1-21", "22-28", "29+")),
-
   )
 
 
