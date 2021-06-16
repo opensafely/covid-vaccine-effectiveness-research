@@ -1023,217 +1023,217 @@ study = StudyDefinition(
     ## unplanned infectious hospital admissions during study period, up to 5  ##
     #######################################################
 
-    # admitted_unplanned_infectious_0_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_before="index_date - 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_0_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_before="index_date - 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),    
-    # 
-    # admitted_unplanned_infectious_1_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="index_date",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_1_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="index_date",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # admitted_unplanned_infectious_2_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_unplanned_infectious_1_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_2_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_unplanned_infectious_1_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # admitted_unplanned_infectious_3_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_unplanned_infectious_2_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_3_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_unplanned_infectious_2_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # 
-    # admitted_unplanned_infectious_4_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_unplanned_infectious_3_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_4_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_unplanned_infectious_3_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # 
-    # admitted_unplanned_infectious_5_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_unplanned_infectious_4_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_5_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_unplanned_infectious_4_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # admitted_unplanned_infectious_6_date=patients.admitted_to_hospital(
-    #     returning="date_admitted",
-    #     on_or_after="admitted_unplanned_infectious_5_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
-    # 
-    # discharged_unplanned_infectious_6_date=patients.admitted_to_hospital(
-    #     returning="date_discharged",
-    #     on_or_after="admitted_unplanned_infectious_5_date + 1 day",
-    #     with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
-    #     with_patient_classification = ["1"],
-    #     with_these_diagnoses = ICD10_I_codes,
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-    #         "rate": "uniform",
-    #         "incidence": 0.05,
-    #     },
-    # ),
+    admitted_unplanned_infectious_0_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_before="index_date - 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_0_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_before="index_date - 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    admitted_unplanned_infectious_1_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="index_date",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_1_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="index_date",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    admitted_unplanned_infectious_2_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_unplanned_infectious_1_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_2_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_unplanned_infectious_1_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    admitted_unplanned_infectious_3_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_unplanned_infectious_2_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_3_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_unplanned_infectious_2_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+
+    admitted_unplanned_infectious_4_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_unplanned_infectious_3_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_4_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_unplanned_infectious_3_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+
+    admitted_unplanned_infectious_5_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_unplanned_infectious_4_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_5_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_unplanned_infectious_4_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    admitted_unplanned_infectious_6_date=patients.admitted_to_hospital(
+        returning="date_admitted",
+        on_or_after="admitted_unplanned_infectious_5_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
+
+    discharged_unplanned_infectious_6_date=patients.admitted_to_hospital(
+        returning="date_discharged",
+        on_or_after="admitted_unplanned_infectious_5_date + 1 day",
+        with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+        with_patient_classification = ["1"],
+        with_these_diagnoses = ICD10_I_codes,
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+            "rate": "uniform",
+            "incidence": 0.05,
+        },
+    ),
 
 
 
@@ -1243,189 +1243,189 @@ study = StudyDefinition(
     ## planned hospital admissions during study period, up to 5  ##
     #######################################################
 
-    admitted_planned_0_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_before="index_date - 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_0_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_before="index_date - 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),    
-    
-    admitted_planned_1_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="index_date",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_1_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="index_date",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    admitted_planned_2_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_planned_1_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_2_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_planned_1_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    admitted_planned_3_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_planned_2_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_3_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_planned_2_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-
-    admitted_planned_4_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_planned_3_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_4_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_planned_3_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-
-    admitted_planned_5_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_planned_4_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_5_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_planned_4_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    admitted_planned_6_date=patients.admitted_to_hospital(
-        returning="date_admitted",
-        on_or_after="admitted_planned_5_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
-
-    discharged_planned_6_date=patients.admitted_to_hospital(
-        returning="date_discharged",
-        on_or_after="admitted_planned_5_date + 1 day",
-        with_admission_method=["11", "12", "13", "81"],
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
-            "rate": "uniform",
-            "incidence": 0.05,
-        },
-    ),
+    # admitted_planned_0_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_before="index_date - 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_0_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_before="index_date - 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),    
+    # 
+    # admitted_planned_1_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="index_date",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_1_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="index_date",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # admitted_planned_2_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_planned_1_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_2_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_planned_1_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # admitted_planned_3_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_planned_2_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_3_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_planned_2_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # 
+    # admitted_planned_4_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_planned_3_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_4_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_planned_3_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # 
+    # admitted_planned_5_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_planned_4_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_5_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_planned_4_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # admitted_planned_6_date=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     on_or_after="admitted_planned_5_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
+    # 
+    # discharged_planned_6_date=patients.admitted_to_hospital(
+    #     returning="date_discharged",
+    #     on_or_after="admitted_planned_5_date + 1 day",
+    #     with_admission_method=["11", "12", "13", "81"],
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "2020-05-01", "latest" : "2021-06-01"},
+    #         "rate": "uniform",
+    #         "incidence": 0.05,
+    #     },
+    # ),
 
 
 
