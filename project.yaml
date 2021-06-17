@@ -1390,7 +1390,7 @@ actions:
 
   report_in70s_all:
     run: r:latest analysis/R/dose_1/report_alloutcomes_combined.R in70s all
-    needs: needs: [design, report_in70s_postest_any_all, report_in70s_covidadmitted_any_all, report_in70s_coviddeath_any_all, report_in70s_noncoviddeath_any_all, report_in70s_death_any_all,
+    needs: [design, report_in70s_postest_any_all, report_in70s_covidadmitted_any_all, report_in70s_coviddeath_any_all, report_in70s_noncoviddeath_any_all, report_in70s_death_any_all,
     report_in70s_postest_pfizer_all, report_in70s_covidadmitted_pfizer_all, report_in70s_coviddeath_pfizer_all, report_in70s_noncoviddeath_pfizer_all, report_in70s_death_pfizer_all,
     report_in70s_postest_az_all, report_in70s_covidadmitted_az_all, report_in70s_coviddeath_az_all, report_in70s_noncoviddeath_az_all, report_in70s_death_az_all]
     outputs:
