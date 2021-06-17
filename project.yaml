@@ -702,6 +702,7 @@ actions:
     outputs:
       moderately_sensitive:
         plots: output/over80s/*_all.svg
+        plots1: output/over80s/*_all.png
         tables: output/over80s/*_all.csv
 
 
@@ -1395,6 +1396,7 @@ actions:
     outputs:
       moderately_sensitive:
         plots: output/in70s/*_all.svg
+        plots1: output/in70s/*_all.png
         tables: output/in70s/*_all.csv
 
 

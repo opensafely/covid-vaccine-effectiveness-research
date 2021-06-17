@@ -173,4 +173,5 @@ msmmod_forest <-
 
 ## save plot
 ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{strata_var}.svg")), msmmod_forest, width=30, height=26, units="cm")
+ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{strata_var}.png")), msmmod_forest, width=30, height=26, units="cm")
 
