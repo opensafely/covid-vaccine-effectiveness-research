@@ -65,7 +65,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # use for interactive testing
-  cohort <- "over80s"
+  cohort <- "in70s"
   removeobs <- FALSE
 } else {
   # use for actions
@@ -73,11 +73,19 @@ if(length(args)==0){
   removeobs <- TRUE
 }
 
+
+
+
 ## import global vars ----
 gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
 #list2env(gbl_vars, globalenv())
+if(cohort=="over80s"){
+  start_date = "2020-12-08"
+} else if(cohort=="in70s"){
+  start_date= "2021-01-05"
+}
 
 
 ## create output directories ----
@@ -156,7 +164,7 @@ data_by_day <-
   left_join(
     data_fixed %>% transmute(
       patient_id,
-      all = "all",
+      all = "",
       sex,
       imd,
       ethnicity_combined,
@@ -173,8 +181,8 @@ data_by_day <-
   ) %>%
   mutate(
     day = tstop,
-    date = as.Date(gbl_vars$start_date) + day,
-    week = lubridate::floor_date(date, unit="week", week_start=1), #week commencing monday (since index date is a monday)
+    date = as.Date(start_date) + day,
+    week = lubridate::floor_date(date, unit="week", week_start=2), #week commencing tuesday (since index date is a tuesday)
     #date = week,
 
     vaxany_status_onedose = vaxany_status!=0,
@@ -243,7 +251,8 @@ plot_brand1_counts <- function(var, var_descr){
       )
     )
 
-  colorspace::lighten("#1b9e77", 0.25)
+
+  #colorspace::lighten("#1b9e77", 0.25)
 
   plot <- data1 %>%
     ggplot() +
@@ -300,7 +309,7 @@ plot_brand12_counts <- function(var, var_descr){
       )
     )
 
-  colorspace::lighten("#1b9e77", 0.25)
+  #colorspace::lighten("#1b9e77", 0.25)
 
   plot <- data1 %>%
     ggplot() +
@@ -313,7 +322,7 @@ plot_brand12_counts <- function(var, var_descr){
     facet_grid(rows=vars(variable))+
     scale_x_date(date_breaks = "1 week", labels = scales::date_format("%Y-%m-%d"))+
     scale_fill_manual(values=c("#d95f02", "#7570b3", "#9590D3", "#1b9e77",  "#4BBA93"))+
-    scale_alpha_manual(values=c(0.8,0.1), breaks=c(0.1))+
+    scale_alpha_manual(values=c(0.9,0.1), breaks=c(0.1))+
     labs(
       x="Date",
       y="Status per 10,000 people",
