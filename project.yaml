@@ -1404,7 +1404,7 @@ actions:
 
 #### combine #####
 
-descr_events_combine:
+  descr_events_combine:
     run: r:latest analysis/R/descr_events_all.R
     needs: [design, descr_events_over80s, descr_events_in70s]
     outputs:
