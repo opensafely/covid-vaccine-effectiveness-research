@@ -165,7 +165,7 @@ broomstack_formatted <- broomstack %>%
     CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(or.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(or.ul), ")"),
     CI = if_else(is.na(HR), "", CI),
 
-    HR_ECI = paste0(HR, " ", HR_CI),
+    HR_ECI = paste0(HR, " ", CI)
   )
 
 
@@ -174,14 +174,14 @@ broomstack_formatted_wide <- broomstack_formatted %>%
     brand_descr, var_label, label, HR_ECI
   ) %>%
   pivot_wider(
-    id_cols = var_label, label,
+    id_cols = c(var_label, label),
     names_from = brand_descr,
     values_from = HR_ECI,
     names_glue = "{brand_descr}_{.value}"
   )
 
 write_csv(broomstack_formatted, here::here("output", cohort, "tab_vax1.csv"))
-write_csv(broomstack_formatted_wide, here::here("output", cohort, "tab_vax1.csv"))
+write_csv(broomstack_formatted_wide, here::here("output", cohort, "tab_vax1_wide.csv"))
 
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
