@@ -22,14 +22,6 @@ if(length(args)==0){
 }
 
 
-if(cohort=="over80s"){
-  start_date = "2020-12-08"
-} else if(cohort=="in70s"){
-  start_date= "2021-01-05"
-}
-
-
-
 plot_data_over80s <- read_rds(here::here("output", "over80s", "descriptive", "plots", paste0("vaxcounts12.rds"))) %>% mutate(cohort_descr="80+")
 plot_data_in70s <- read_rds(here::here("output", "in70s", "descriptive", "plots", paste0("vaxcounts12.rds"))) %>% mutate(cohort_descr="70-79")
 
@@ -38,6 +30,19 @@ plot_data <- bind_rows(
   plot_data_in70s
 )
 
+
+plot_theme <-
+  theme_minimal()+
+  theme(
+    legend.position = "left",
+    panel.border=element_rect(colour='black', fill=NA),
+    strip.text.y.right = element_text(angle = 0),
+    axis.line.x = element_line(colour = "black"),
+    axis.text.x = element_text(angle = 70, vjust = 1, hjust=1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.ticks.x = element_line(colour = 'black')
+  )
 
 
 
