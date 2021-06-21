@@ -24,6 +24,13 @@ if(length(args)==0){
   cohort <- args[[1]]
 }
 
+
+if(cohort=="over80s"){
+  start_date = "2020-12-08"
+} else if(cohort=="in70s"){
+  start_date= "2021-01-05"
+}
+
 ## create output directories ----
 dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
 
@@ -40,7 +47,8 @@ data_criteria <- data_processed %>%
     has_ethnicity = !is.na(ethnicity_combined),
     has_region = !is.na(region),
     has_follow_up_previous_year,
-    previous_covid_vaccine = !is.na(prior_covid_vax_date) | !is.na(prior_covid_vax_pfizer_date) | !is.na(prior_covid_vax_az_date),
+    previous_covid_vaccine = (!is.na(prior_covid_vax_date) | !is.na(prior_covid_vax_pfizer_date) | !is.na(prior_covid_vax_az_date)) |
+      (covid_vax_1_date<start_date | covid_vax_pfizer_1_date<start_date | covid_vax_az_1_date<start_date),
     unknown_vaccine_brand,
     care_home_combined,
     endoflife,

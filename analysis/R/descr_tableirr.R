@@ -71,41 +71,41 @@ data_tte <- data_cohort %>%
     #composite of death, deregistration and end date
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
-    tte_enddate = tte(start_date, end_date, end_date),
+    tte_enddate = tte(start_date, end_date, end_date)+1,
 
     # time to last follow up day
-    tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
+    tte_lastfup = tte(start_date, lastfup_date, lastfup_date)+1,
 
     # time to deregistration
-    tte_dereg = tte(start_date, dereg_date, dereg_date),
+    tte_dereg = tte(start_date, dereg_date, dereg_date)+1,
 
     # time to test
-    tte_covidtest = tte(start_date, covid_test_1_date, lastfup_date, na.censor=TRUE),
+    tte_covidtest = tte(start_date, covid_test_1_date, lastfup_date, na.censor=TRUE)+1,
 
     # time to positive test
-    tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE),
+    tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE)+1,
 
     # time to admission
-    tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE),
+    tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE)+1,
 
     #time to covid death
-    tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE),
-    tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE),
+    tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE)+1,
+    tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE)+1,
 
     #time to death
-    tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
+    tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE)+1,
 
-    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE)+1,
+    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE)+1,
 
-    ttecensored_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE),
+    ttecensored_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=FALSE)+1,
     ind_vaxany1 = censor_indicator(covid_vax_1_date, lastfup_date),
 
-    tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE)+1,
+    tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE)+1,
 
-    tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE)+1,
+    tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE)+1,
   )
 
 if(removeobs) rm(data_cohort)

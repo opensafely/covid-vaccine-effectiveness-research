@@ -88,7 +88,7 @@ data_tte <- data_cohort  %>%
     #composite of death, deregistration and end date
     lastfup_date = pmin(death_date, end_date, dereg_date, na.rm=TRUE),
 
-    tte_enddate = tte(start_date, end_date, end_date),
+    tte_enddate = tte(start_date, end_date, end_date)+1,
 
     # events are considered to occur at midnight at the end of each day.
     # The study start date is the end of 7 december 2020 / start of 8 december 2020 = tstart=0
@@ -100,42 +100,42 @@ data_tte <- data_cohort  %>%
     # not necessary when ties are handled appropriately (eg with tmerge)
 
     # time to last follow up day
-    tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
+    tte_lastfup = tte(start_date, lastfup_date, lastfup_date)+1,
 
     # time to deregistration
-    tte_dereg = tte(start_date, dereg_date, dereg_date),
+    tte_dereg = tte(start_date, dereg_date, dereg_date)+1,
 
     # time to test
-    tte_covidtest = tte(start_date, covid_test_1_date, lastfup_date, na.censor=TRUE),
+    tte_covidtest = tte(start_date, covid_test_1_date, lastfup_date, na.censor=TRUE)+1,
 
     # time to positive test
-    tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE),
+    tte_postest = tte(start_date, positive_test_1_date, lastfup_date, na.censor=TRUE)+1,
     #tte_postest_Inf = if_else(is.na(tte_postest), Inf, tte_postest),
     #tte_postest_censored = tte(start_date, positive_test_1_date, lastfup_date, na.censor=FALSE),
     #ind_postest = censor_indicator(tte_postest, tte_lastfup),
 
     # time to any emergency admission
-    tte_emergency = tte(start_date, emergency_1_date, lastfup_date, na.censor=TRUE),
+    tte_emergency = tte(start_date, emergency_1_date, lastfup_date, na.censor=TRUE)+1,
 
     # time to admission
-    tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE),
+    tte_covidadmitted = tte(start_date, covidadmitted_1_date, lastfup_date, na.censor=TRUE)+1,
 
     #time to covid death
-    tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE),
-    tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE),
+    tte_coviddeath = tte(start_date, coviddeath_date, lastfup_date, na.censor=TRUE)+1,
+    tte_noncoviddeath = tte(start_date, noncoviddeath_date, lastfup_date, na.censor=TRUE)+1,
 
     #time to death
-    tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE),
+    tte_death = tte(start_date, death_date, lastfup_date, na.censor=TRUE)+1,
 
 
-    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxany1 = tte(start_date, covid_vax_1_date, lastfup_date, na.censor=TRUE)+1,
+    tte_vaxany2 = tte(start_date, covid_vax_2_date, lastfup_date, na.censor=TRUE)+1,
 
-    tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxpfizer1 = tte(start_date, covid_vax_pfizer_1_date, lastfup_date, na.censor=TRUE)+1,
+    tte_vaxpfizer2 = tte(start_date, covid_vax_pfizer_2_date, lastfup_date, na.censor=TRUE)+1,
 
-    tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
-    tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
+    tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE)+1,
+    tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE)+1,
 
   ) %>%
   # convert tte variables to integer to save space. works since we know precision is to nearest day
