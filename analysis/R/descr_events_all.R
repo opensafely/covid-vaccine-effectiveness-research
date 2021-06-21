@@ -71,3 +71,13 @@ ggsave(
   width = 25,
   height = 25
 )
+
+
+ggsave(
+  plot = plot,
+  filename = paste0("brandcounts12.png"),
+  path=here::here("output"),
+  units="cm",
+  width = 25,
+  height = 25
+)
