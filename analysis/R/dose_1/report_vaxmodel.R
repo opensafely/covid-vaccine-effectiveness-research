@@ -153,21 +153,35 @@ broomstack <-
     broom = map(brand, ~read_rds(here::here("output", cohort, outcome, .x, strata_var, "all", glue::glue("broom_vax{.x}1.rds"))))
   ) %>%
   unnest(broom)
-scales::label_number(accuracy = .01)
+
 
 broomstack_formatted <- broomstack %>%
   transmute(
     brand_descr,
     var_label,
     label,
-    HR = scales::label_number(accuracy = .01, trim=FALSE)(or),
+    HR = scales::label_number(accuracy = .01, trim=TRUE)(or),
     HR = if_else(is.na(HR), "1", HR),
-    CI = paste0("(", scales::label_number(accuracy = .01, trim=FALSE)(or.ll), "-", scales::label_number(accuracy = .01, trim=FALSE)(or.ul), ")"),
+    CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(or.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(or.ul), ")"),
     CI = if_else(is.na(HR), "", CI),
 
+    HR_ECI = paste0(HR, " ", HR_CI),
+  )
+
+
+broomstack_formatted_wide <- broomstack_formatted %>%
+  select(
+    brand_descr, var_label, label, HR_ECI
+  ) %>%
+  pivot_wider(
+    id_cols = var_label, label,
+    names_from = brand_descr,
+    values_from = HR_ECI,
+    names_glue = "{brand_descr}_{.value}"
   )
 
 write_csv(broomstack_formatted, here::here("output", cohort, "tab_vax1.csv"))
+write_csv(broomstack_formatted_wide, here::here("output", cohort, "tab_vax1.csv"))
 
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(

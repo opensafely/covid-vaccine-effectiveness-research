@@ -99,21 +99,37 @@ estimates <-
     model_descr = fct_inorder(model_descr),
   )
 
+
+
 estimates_formatted <- estimates %>%
   transmute(
     outcome_descr,
     brand_descr,
     strata,
+    model,
     model_descr,
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
-    HR =scales::label_number(accuracy = .01, trim=FALSE)(or),
-    HR_CI = paste0("(", scales::label_number(accuracy = .01, trim=FALSE)(or.ll), "-", scales::label_number(accuracy = .01, trim=FALSE)(or.ul), ")"),
+    HR =scales::label_number(accuracy = .01, trim=TRUE)(or),
+    HR_CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(or.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(or.ul), ")"),
     VE = scales::label_number(accuracy = .1, trim=FALSE, scale=100)(ve),
-    VE_CI = paste0("(", scales::label_number(accuracy = .1, trim=FALSE, scale=100)(ve.ll), "-", scales::label_number(accuracy = .1, trim=FALSE, scale=100)(ve.ul), ")"),
+    VE_CI = paste0("(", scales::label_number(accuracy = .1, trim=TRUE, scale=100)(ve.ll), "-", scales::label_number(accuracy = .1, trim=TRUE, scale=100)(ve.ul), ")"),
+
+    HR_ECI = paste0(HR, " ", HR_CI),
+    VE_ECI = paste0(VE, " ", VE_CI),
+  )
+
+estimates_formatted_wide < estimates_formatted %>%
+  select(outcome_descr, brand_descr, strata, model, HR_ECI, VE_ECI) %>%
+  pivot_wider(
+    id_cols=c(outcome_descr, brand_descr, strata),
+    names_from = model,
+    values_from = c(HE_ECI, VE_ECI),
+    names_glue = c("{model}_.{value}")
   )
 
 write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax_{strata_var}.csv")))
 write_csv(estimates_formatted, path = here::here("output", cohort, glue::glue("estimates_formatted_timesincevax_{strata_var}.csv")))
+write_csv(estimates_formatted_wide, path = here::here("output", cohort, glue::glue("estimates_formatted_wide_timesincevax_{strata_var}.csv")))
 
 # create forest plot
 msmmod_forest_data <- estimates %>%

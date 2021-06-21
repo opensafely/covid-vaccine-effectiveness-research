@@ -692,6 +692,7 @@ actions:
         svg: output/over80s/plot_vax1.svg
         #html: output/over80s/tab_vax1.html
         csv: output/over80s/tab_vax1.csv
+        csv1: output/over80s/tab_vax1_wide.csv
 
 
   report_over80s_all:
@@ -1386,6 +1387,7 @@ actions:
         svg: output/in70s/plot_vax1.svg
         #html: output/in70s/tab_vax1.html
         csv: output/in70s/tab_vax1.csv
+        csv1: output/in70s/tab_vax1_wide.csv
 
 
   report_in70s_all:
