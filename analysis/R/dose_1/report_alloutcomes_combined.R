@@ -118,7 +118,7 @@ estimates_formatted <- estimates %>%
     VE_ECI = paste0(VE, " ", VE_CI),
   )
 
-estimates_formatted_wide < estimates_formatted %>%
+estimates_formatted_wide <- estimates_formatted %>%
   select(outcome_descr, brand_descr, strata, model, HR_ECI, VE_ECI) %>%
   pivot_wider(
     id_cols=c(outcome_descr, brand_descr, strata),
