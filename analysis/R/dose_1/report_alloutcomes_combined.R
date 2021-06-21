@@ -121,7 +121,7 @@ estimates_formatted <- estimates %>%
 estimates_formatted_wide <- estimates_formatted %>%
   select(outcome_descr, brand_descr, strata, model, HR_ECI, VE_ECI) %>%
   pivot_wider(
-    id_cols=c(outcome_descr, brand_descr, strata),
+    id_cols=c(outcome_descr, brand_descr, term strata),
     names_from = model,
     values_from = c(HR_ECI, VE_ECI),
     names_glue = "{model}_{.value}"
