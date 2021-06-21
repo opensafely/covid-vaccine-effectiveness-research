@@ -124,7 +124,7 @@ estimates_formatted_wide <- estimates_formatted %>%
     id_cols=c(outcome_descr, brand_descr, strata),
     names_from = model,
     values_from = c(HR_ECI, VE_ECI),
-    names_glue = "{model}_.{value}"
+    names_glue = "{model}_{.value}"
   )
 
 write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax_{strata_var}.csv")))
