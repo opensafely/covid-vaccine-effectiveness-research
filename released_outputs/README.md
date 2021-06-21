@@ -461,9 +461,11 @@
     * [output/in70s/estimates_az_all.csv](output/in70s/estimates_az_all.csv)
     * [output/in70s/estimates_az_all.html](output/in70s/estimates_az_all.html)
     * [output/in70s/estimates_formatted_timesincevax_all.csv](output/in70s/estimates_formatted_timesincevax_all.csv)
+    * [output/in70s/estimates_formatted_wide_timesincevax_all.csv](output/in70s/estimates_formatted_wide_timesincevax_all.csv)
     * [output/in70s/estimates_pfizer_all.csv](output/in70s/estimates_pfizer_all.csv)
     * [output/in70s/estimates_pfizer_all.html](output/in70s/estimates_pfizer_all.html)
     * [output/in70s/estimates_timesincevax_all.csv](output/in70s/estimates_timesincevax_all.csv)
+    * [output/in70s/forest_plot_all.png](output/in70s/forest_plot_all.png)
     * [output/in70s/forest_plot_all.svg](output/in70s/forest_plot_all.svg)
     * [output/in70s/forest_plot_any_all.svg](output/in70s/forest_plot_any_all.svg)
     * [output/in70s/forest_plot_az_all.svg](output/in70s/forest_plot_az_all.svg)
@@ -610,6 +612,7 @@
           * [output/in70s/postest/pfizer/all/time_trends_region_plot3.svg](output/in70s/postest/pfizer/all/time_trends_region_plot3.svg)
           * [output/in70s/postest/pfizer/all/time_trends_region_plot4.svg](output/in70s/postest/pfizer/all/time_trends_region_plot4.svg)
     * [output/in70s/tab_vax1.csv](output/in70s/tab_vax1.csv)
+    * [output/in70s/tab_vax1_wide.csv](output/in70s/tab_vax1_wide.csv)
   * output/over80s
     * output/over80s/covidadmitted
       * output/over80s/covidadmitted/any
@@ -980,9 +983,11 @@
     * [output/over80s/estimates_az_all.csv](output/over80s/estimates_az_all.csv)
     * [output/over80s/estimates_az_all.html](output/over80s/estimates_az_all.html)
     * [output/over80s/estimates_formatted_timesincevax_all.csv](output/over80s/estimates_formatted_timesincevax_all.csv)
+    * [output/over80s/estimates_formatted_wide_timesincevax_all.csv](output/over80s/estimates_formatted_wide_timesincevax_all.csv)
     * [output/over80s/estimates_pfizer_all.csv](output/over80s/estimates_pfizer_all.csv)
     * [output/over80s/estimates_pfizer_all.html](output/over80s/estimates_pfizer_all.html)
     * [output/over80s/estimates_timesincevax_all.csv](output/over80s/estimates_timesincevax_all.csv)
+    * [output/over80s/forest_plot_all.png](output/over80s/forest_plot_all.png)
     * [output/over80s/forest_plot_all.svg](output/over80s/forest_plot_all.svg)
     * [output/over80s/forest_plot_any_all.svg](output/over80s/forest_plot_any_all.svg)
     * [output/over80s/forest_plot_az_all.svg](output/over80s/forest_plot_az_all.svg)
@@ -1224,6 +1229,7 @@
           * [output/over80s/postest/pfizer/all/time_trends_region_plot3.svg](output/over80s/postest/pfizer/all/time_trends_region_plot3.svg)
           * [output/over80s/postest/pfizer/all/time_trends_region_plot4.svg](output/over80s/postest/pfizer/all/time_trends_region_plot4.svg)
     * [output/over80s/tab_vax1.csv](output/over80s/tab_vax1.csv)
+    * [output/over80s/tab_vax1_wide.csv](output/over80s/tab_vax1_wide.csv)
     * output/over80s/vaccination
       * output/over80s/vaccination/all
         * output/over80s/vaccination/all/all

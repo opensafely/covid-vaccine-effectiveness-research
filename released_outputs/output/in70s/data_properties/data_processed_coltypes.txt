@@ -181,6 +181,9 @@ $admitted_unplanned_5_date
 $admitted_unplanned_6_date
 [1] "Date"
 
+$admitted_unplanned_7_date
+[1] "Date"
+
 $admitted_unplanned_infectious_1_date
 [1] "Date"
 
@@ -197,6 +200,9 @@ $admitted_unplanned_infectious_5_date
 [1] "Date"
 
 $admitted_unplanned_infectious_6_date
+[1] "Date"
+
+$admitted_unplanned_infectious_7_date
 [1] "Date"
 
 $covid_test_1_date
@@ -235,15 +241,6 @@ $covid_vax_pfizer_3_date
 $covidadmitted_1_date
 [1] "Date"
 
-$covidadmitted_2_date
-[1] "Date"
-
-$covidadmitted_3_date
-[1] "Date"
-
-$covidadmitted_4_date
-[1] "Date"
-
 $discharged_unplanned_1_date
 [1] "Date"
 
@@ -262,6 +259,9 @@ $discharged_unplanned_5_date
 $discharged_unplanned_6_date
 [1] "Date"
 
+$discharged_unplanned_7_date
+[1] "Date"
+
 $discharged_unplanned_infectious_1_date
 [1] "Date"
 
@@ -278,6 +278,9 @@ $discharged_unplanned_infectious_5_date
 [1] "Date"
 
 $discharged_unplanned_infectious_6_date
+[1] "Date"
+
+$discharged_unplanned_infectious_7_date
 [1] "Date"
 
 $emergency_1_date
