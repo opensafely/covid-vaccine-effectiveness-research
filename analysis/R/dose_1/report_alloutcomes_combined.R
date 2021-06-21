@@ -148,8 +148,8 @@ msmmod_forest_data <- estimates %>%
 
 msmmod_forest <-
   ggplot(data = msmmod_forest_data, aes(colour=model_descr)) +
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1))+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1))+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_y_log10(
@@ -158,7 +158,7 @@ msmmod_forest <-
   )+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian(ylim=c(0.04,2)) +
+  coord_cartesian(ylim=c(0.05,1.5)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Days since first dose",
