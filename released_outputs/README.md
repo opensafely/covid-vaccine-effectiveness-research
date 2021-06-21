@@ -192,6 +192,8 @@
   * [metadata/vaxreport_over80s_all.log](metadata/vaxreport_over80s_all.log)
   * [metadata/vaxreport_over80s_all_dose1.log](metadata/vaxreport_over80s_all_dose1.log)
 * output
+  * [output/brandcounts12.png](output/brandcounts12.png)
+  * [output/brandcounts12.svg](output/brandcounts12.svg)
   * output/data
     * [output/data/flowchart_over80s.csv](output/data/flowchart_over80s.csv)
     * [output/data/list_formula.rds](output/data/list_formula.rds)
