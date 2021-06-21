@@ -123,7 +123,7 @@ estimates_formatted_wide < estimates_formatted %>%
   pivot_wider(
     id_cols=c(outcome_descr, brand_descr, strata),
     names_from = model,
-    values_from = c(HE_ECI, VE_ECI),
+    values_from = c(HR_ECI, VE_ECI),
     names_glue = "{model}_.{value}"
   )
 
