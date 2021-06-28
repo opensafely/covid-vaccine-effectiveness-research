@@ -75,11 +75,12 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 ##  Create big loop over all categories
 
 strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata_names <- paste0("strata_",strata)
 summary_list <- vector("list", length(strata))
-names(summary_list) <- strata
+names(summary_list) <- strata_names
 
 for(stratum in strata){
-
+  stratum_name <- strata_names[which(strata==stratum)]
   # Import processed data ----
 
   data_weights <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_weights.rds")))
@@ -119,9 +120,12 @@ for(stratum in strata){
     mutate(robust4, model_descr="Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders"),
     .id = "model"
   ) %>%
-  mutate(strata=stratum)
+  mutate(
+    strata=stratum,
+    model_descr = fct_inorder(model_descr)
+  )
 
-  summary_list[[stratum]] <- robust_summary
+  summary_list[[stratum_name]] <- robust_summary
 
 }
 
