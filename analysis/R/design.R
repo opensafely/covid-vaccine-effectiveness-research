@@ -187,7 +187,8 @@ write_rds(reweight_death, here::here("output", "metadata", glue::glue("reweight_
 ## define stratification variables ----
 
 list_strata <- list(
-  all = factor("all")
+  all = factor("all"),
+  any_immunosuppression = c(0L, 1L)
 )
 
 write_rds(list_strata, here::here("output", "metadata", glue::glue("list_strata.rds")))

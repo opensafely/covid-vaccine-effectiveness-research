@@ -652,6 +652,45 @@ actions:
 
 
 
+
+#######################################
+ ## IMMUNOSUPPRESSION MODELS: positive test, vax1 only (ignores second dose)
+#######################################
+
+## any vaccine
+
+  models_over80s_postest_any_immuno:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s postest any any_immunosuppression
+    needs: [design, data_stset_over80s, data_samples_over80s]
+    outputs:
+      highly_sensitive:
+        models: output/over80s/postest/any/any_immunosuppression/*/model*.rds
+        data: output/over80s/postest/any/any_immunosuppression/*/data*.rds
+      moderately_sensitive:
+        weights: output/over80s/postest/any/any_immunosuppression/*/weights*
+
+  report_ipw_over80s_postest_any_immuno:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest any any_immunosuppression
+    needs: [design, models_over80s_postest_any_immuno]
+    outputs:
+      highly_sensitive:
+        broom: output/over80s/postest/any/any_immunosuppression/*/broom*.rds
+        gt: output/over80s/postest/any/any_immunosuppression/*/gt*.rds
+      moderately_sensitive:
+        plots: output/over80s/postest/any/any_immunosuppression/*/plot*.svg
+        tables: output/over80s/postest/any/any_immunosuppression/*/tab*.html
+        data: output/over80s/postest/any/any_immunosuppression/*/broom*.csv
+
+  report_over80s_postest_any_immuno:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s postest any any_immunosuppression
+    needs: [design, models_over80s_postest_any_immuno]
+    outputs:
+      moderately_sensitive:
+        plots: output/over80s/postest/any/any_immunosuppression/*.svg
+        tables: output/over80s/postest/any/any_immunosuppression/*.csv
+
+
+
 #######################################
  ## COMBINE OVERALL MODELS:
 #######################################
