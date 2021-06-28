@@ -87,6 +87,8 @@ if(outcome=="postest"){
 
 characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
 characteristics$age <- `age, degree = 2` ~ "Age"
+characteristics[[strata_var]] <- NULL
+
 
 # reweight censored deaths or not?
 reweight_death <- read_rds(here::here("output", "metadata", "reweight_death.rds")) == 1
