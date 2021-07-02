@@ -65,8 +65,15 @@ parglmparams <- parglm.control(
 list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
+
+
+## if changing treatment strategy as per Miguel's suggestion:
+exclude_prevax_postest <- TRUE
+
+
+
 ## if outcome is positive test, remove time-varying positive test info from covariate set
-if(outcome=="postest"){
+if(outcome=="postest" | exclude_prevax_postest){
   formula_remove_postest <- as.formula(". ~ . - timesince_postesttdc_pw")
 } else{
   formula_remove_postest <- as.formula(". ~ .")
@@ -98,7 +105,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
   ) %>%
   mutate(
     all = factor("all",levels=c("all")),
-    timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
+    timesincevax_pw = timesince_cut(vaxany1_timesince, postvaxcuts, "pre-vax"),
     sample_weights = .[[glue("sample_weights_{outcome}")]],
     outcome = .[[outcome]],
   ) %>%
@@ -110,9 +117,10 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     )
   ) %>%
   mutate(
-    vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0),
-    vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1),
-    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1),
+    recentpostest = (replace_na(postest_timesince<28, FALSE) & exclude_prevax_postest),
+    vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & !recentpostest),
+    vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
+    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
     death_atrisk = (death_status==0 & lastfup_status==0),
   )
 
@@ -145,9 +153,7 @@ get_ipw_weights <- function(
       event_status = data[[event_status]],
       event_atrisk = data[[event_atrisk]],
     ) %>%
-    filter(
-      event_atrisk,
-    )
+    filter(event_atrisk)
 
 
   ### with time-updating covariates
@@ -373,11 +379,13 @@ for(stratum in strata){
       left_join(weights_vaxany1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
       group_by(patient_id) %>%
-      fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1 and so cumulative product of prob is last value)
+      fill(
+        # after event has occurred, fill ip weight with last value carried forward (ie for person-time where treatment prob = 1 and so cumulative product of prob is last value)
         ipweight_stbl_vaxany1,
         ipweight_stbl_death
       ) %>%
-      replace_na(list( # weight is 1 if patient is not yet at risk
+      replace_na(list(
+        # weight is 1 if patient is not yet at risk
         ipweight_stbl_vaxany1 = 1,
         ipweight_stbl_death = 1
       )) %>%

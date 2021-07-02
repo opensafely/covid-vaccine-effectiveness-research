@@ -433,13 +433,14 @@ data_tte_pt <- tmerge(
   mutate(
 
     # define time since vaccination
-    timesincevaxany1 = cumsum(vaxany1_status),
-    timesincevaxany2 = cumsum(vaxany2_status),
-    timesincevaxpfizer1 = cumsum(vaxpfizer1_status),
-    timesincevaxpfizer2 = cumsum(vaxpfizer2_status),
-    timesincevaxaz1 = cumsum(vaxaz1_status),
-    timesincevaxaz2 = cumsum(vaxaz2_status),
+    vaxany1_timesince = cumsum(vaxany1_status),
+    vaxany2_timesince = cumsum(vaxany2_status),
+    vaxpfizer1_timesince = cumsum(vaxpfizer1_status),
+    vaxpfizer2_timesince = cumsum(vaxpfizer2_status),
+    vaxaz1_timesince = cumsum(vaxaz1_status),
+    vaxaz2_timesince = cumsum(vaxaz2_status),
 
+    postest_timesince = tstop - postesttdc_time,
 
     # define time since infectious hospitalisation
     timesince_hospinfectiousdischarge_pw = cut(
@@ -487,7 +488,7 @@ data_tte_pt <- tmerge(
 
     # define time since positive SGSS test
     timesince_postesttdc_pw = cut(
-      tstop - postesttdc_time,
+      postest_timesince,
       breaks=c(0, 21, 28, Inf),
       labels=c("1-21", "22-28", "29+"),
       right=TRUE
@@ -525,7 +526,8 @@ data_tte_pt <- tmerge(
               "hospnoninfectiousdischarge",
               "probablecovid",
               "suspectedcovid",
-              "postesttdc"
+              "postesttdc",
+              "postest_timesince"
     ),
     .fns = as.integer
   ))

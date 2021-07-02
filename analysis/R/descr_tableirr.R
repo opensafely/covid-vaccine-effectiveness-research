@@ -165,12 +165,12 @@ data_pt <- tmerge(
   mutate(
 
     # define time since vaccination
-    timesincevaxany1 = cumsum(vaxany1_status),
-    timesincevaxany2 = cumsum(vaxany2_status),
-    timesincevaxpfizer1 = cumsum(vaxpfizer1_status),
-    timesincevaxpfizer2 = cumsum(vaxpfizer2_status),
-    timesincevaxaz1 = cumsum(vaxaz1_status),
-    timesincevaxaz2 = cumsum(vaxaz2_status),
+    vaxany1_timesince = cumsum(vaxany1_status),
+    vaxany2_timesince = cumsum(vaxany2_status),
+    vaxpfizer1_timesince = cumsum(vaxpfizer1_status),
+    vaxpfizer2_timesince = cumsum(vaxpfizer2_status),
+    vaxaz1_timesince = cumsum(vaxaz1_status),
+    vaxaz2_timesince = cumsum(vaxaz2_status),
 
     twidth = tstop - tstart,
     vaxany_status = vaxany1_status + vaxany2_status,
@@ -384,19 +384,19 @@ pt_summary <- function(data, fup, timesince, postvaxcuts, baseline){
 
 
 data_summary_any <- local({
-    temp1 <- pt_summary(data_pt, "fup_any", "timesincevaxany1", postvaxcuts, "Unvaccinated")
+    temp1 <- pt_summary(data_pt, "fup_any", "vaxany1_timesince", postvaxcuts, "Unvaccinated")
     temp2 <- pt_summary(data_pt, "fup_any", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
     bind_rows(temp1, temp2) %>%  mutate(brand ="Any vaccine")
 })
 
 data_summary_pfizer <- local({
-  temp1 <- pt_summary(data_pt, "fup_pfizer", "timesincevaxpfizer1", postvaxcuts, "Unvaccinated")
+  temp1 <- pt_summary(data_pt, "fup_pfizer", "vaxpfizer1_timesince", postvaxcuts, "Unvaccinated")
   temp2 <- pt_summary(data_pt, "fup_pfizer", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
   bind_rows(temp1, temp2) %>% mutate(brand ="BNT162b2")
 })
 
 data_summary_az <- local({
-  temp1 <- pt_summary(data_pt, "fup_az", "timesincevaxaz1", postvaxcuts, "Unvaccinated")
+  temp1 <- pt_summary(data_pt, "fup_az", "vaxaz1_timesince", postvaxcuts, "Unvaccinated")
   temp2 <- pt_summary(data_pt, "fup_az", "all", postvaxcuts, "Total") %>% mutate(across(.cols=ends_with("_rr"), .fns = ~ NA_real_))
   bind_rows(temp1, temp2) %>% mutate(brand ="ChAdOx1")
 })
