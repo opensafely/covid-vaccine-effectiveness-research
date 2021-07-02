@@ -73,14 +73,21 @@ list2env(metadata_outcomes, globalenv())
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
+# reweight censored deaths or not?
+reweight_death <- read_rds(here::here("output", "metadata", "reweight_death.rds")) == 1
+
+## if changing treatment strategy as per Miguel's suggestion
+exclude_recentpostest <- read_rds(here::here("output", "metadata", "exclude_recentpostest.rds"))
+
+
 list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ## if outcome is positive test, remove time-varying positive test info from covariate set
-if(outcome=="postest"){
-  formula_remove_postest <- as.formula(". ~ . - timesince_postest_pw")
+if(outcome=="postest" | exclude_recentpostest){
+  formula_remove_postest <- as.formula(". ~ . - timesince_postesttdc_pw")
 } else{
   formula_remove_postest <- as.formula(". ~ .")
 }
@@ -90,8 +97,7 @@ characteristics$age <- `age, degree = 2` ~ "Age"
 characteristics[[strata_var]] <- NULL
 
 
-# reweight censored deaths or not?
-reweight_death <- read_rds(here::here("output", "metadata", "reweight_death.rds")) == 1
+
 
 
 # covar_labels = append(
