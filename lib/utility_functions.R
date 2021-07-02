@@ -244,13 +244,13 @@ tidy_custom.glm  <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate
 # functions for sampling ----
 
 # function to sample non-outcome patients
-sample_nonoutcomes <- function(outcome, id, proportion){
+sample_nonoutcomes <- function(had_outcome, id, proportion){
   # TRUE if outcome occurs,
   # TRUE with probability of `prop` if outcome does not occur
   # FALSE with probability `prop` if outcome does occur
   # based on `id` to ensure consistency of samples
 
-  # `outcome`` is a time-to-event variable, which is NA if censored / no event
+  # `had_outcome` is a boolean indicating if the subject has experienced the outcome or not
   # `id` is a identifier with the following properties:
   # - a) consistent between cohort extracts
   # - b) unique
@@ -258,17 +258,17 @@ sample_nonoutcomes <- function(outcome, id, proportion){
   # - d) is an integer strictly greater than zero
   # `proportion` is the proportion of nonoutcome patients to be sampled
 
-  (dplyr::dense_rank(dplyr::if_else(!is.na(outcome), 0L, id)) - 1L) <= ceiling(sum(is.na(outcome))*proportion)
+  (dplyr::dense_rank(dplyr::if_else(had_outcome, 0L, id)) - 1L) <= ceiling(sum(!had_outcome)*proportion)
 
 }
 
-sample_weights <- function(outcome, sampled){
-  # `outcome`` is a time-to-event variable, which is NA if censored / no event
-  # `sampled` is a boolean indicating if the patient is sampled or not
+sample_weights <- function(had_outcome, sampled){
+  # `had_outcome` is a boolean indicating if the subject has experienced the outcome or not
+  # `sampled` is a boolean indicating if the patient is to be sampled or not
   case_when(
-    !is.na(outcome) ~ 1,
-    is.na(outcome) & !sampled ~ 0,
-    is.na(outcome) & sampled ~ sum(is.na(outcome))/sum((sampled) & is.na(outcome)),
+    had_outcome ~ 1,
+    !had_outcome & !sampled ~ 0,
+    !had_outcome & sampled ~ sum(!had_outcome)/sum((sampled) & !had_outcome),
     TRUE ~ NA_real_
   )
 }
