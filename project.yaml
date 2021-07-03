@@ -14,6 +14,7 @@ actions:
         formula: output/metadata/list_formula.rds
         strata: output/metadata/list_strata.rds
         reweight: output/metadata/reweight_death.rds
+        exclude_recentpostest: output/metadata/exclude_recentpostest.rds
 
 
 ##############################################################################
