@@ -262,6 +262,25 @@ sample_nonoutcomes <- function(had_outcome, id, proportion){
 
 }
 
+
+
+sample_random <- function(id, proportion){
+  # TRUE with probability of `prop`
+  # FALSE with probability `prop`
+  # based on `id` to ensure consistency of samples
+
+  # `id` is a identifier with the following properties:
+  # - a) consistent between cohort extracts
+  # - b) unique
+  # - c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
+  # - d) is an integer strictly greater than zero
+  # `proportion` is the proportion patients to be sampled
+
+  dplyr::dense_rank(id) <= ceiling(length(id)*proportion)
+
+}
+
+
 sample_weights <- function(had_outcome, sampled){
   # `had_outcome` is a boolean indicating if the subject has experienced the outcome or not
   # `sampled` is a boolean indicating if the patient is to be sampled or not
