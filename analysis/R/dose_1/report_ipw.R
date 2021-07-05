@@ -149,7 +149,7 @@ gt_model_summary <- function(model, cluster) {
   )
 
   ## if outcome is positive test, remove positive test label assumes it is the last one)
-  if(outcome=="postest"){
+  if(outcome=="postest" | exclude_recentpostest ){
     covar_labels$timesince_postesttdc_pw <- NULL
   }
 
@@ -184,7 +184,7 @@ broom_model_summary <- function(model, cluster) {
   )
 
   ## if outcome is positive test, remove positive test label assumes it is the last one)
-  if(outcome=="postest"){
+  if(outcome=="postest" | exclude_recentpostest){
     covar_labels$timesince_postesttdc_pw <- NULL
   }
 
