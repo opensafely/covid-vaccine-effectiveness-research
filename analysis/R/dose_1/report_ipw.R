@@ -327,7 +327,6 @@ forest_from_broom <- function(broom_obj, title){
 }
 
 
-
 ##  Create big loop over all categories
 
 strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
@@ -376,7 +375,7 @@ for(stratum in strata){
       rm(list= c(
         as.character(model_vaxany1$call$data),
         "ipw_formula", "model_vaxany1",
-        "tab_vaxany1", "plot_vaxany1", "ggsecular_vaxany1"
+        "plot_vaxany1", "ggsecular_vaxany1"
       ))
 
   }
