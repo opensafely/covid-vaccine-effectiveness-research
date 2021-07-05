@@ -39,8 +39,8 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  outcome <- "postest"
-  brand <- "any"
+  outcome <- "covidadmitted"
+  brand <- "az"
   strata_var <- "all"
 } else {
   removeobs <- TRUE
@@ -124,7 +124,32 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
     vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
     death_atrisk = (death_status==0 & lastfup_status==0),
+  ) %>%
+  mutate(
+    vax_atrisk = .[[glue("vax{brand}1_atrisk")]]
+  ) %>%
+  select(
+    "patient_id",
+    "all",
+    "tstart", "tstart",
+    "outcome",
+    "timesincevax_pw",
+    any_of(all.vars(formula_all_rhsvars)),
+    "sample_weights", "sample_outcome",
+    "recentpostest",
+    "vaxany1_atrisk",
+    "vaxpfizer1_atrisk",
+    "vaxaz1_atrisk",
+    "death_atrisk",
+    "vax_atrisk",
+    "vaxany1",
+    "vaxpfizer1",
+    "vaxaz1",
+    "vaxany1_status",
+    "vaxpfizer1_status",
+    "vaxaz1_status",
   )
+
 
 
 ### print dataset size ----
@@ -143,12 +168,14 @@ get_ipw_weights <- function(
   event_status,
   event_atrisk,
 
-  sample_type = c("event", "random"),
+  sample_type,
   sample_prop,
 
   ipw_formula,
   ipw_formula_fxd
 ){
+
+  stopifnot(sample_type %in% c("random", "event"))
 
   name <- str_remove(event_atrisk, "_atrisk")
 
@@ -348,7 +375,7 @@ for(stratum in strata){
     # these could be separated out and run only once, but it complicates the remaining workflow so leaving as is
     weights_vaxpfizer1 <- get_ipw_weights(
       data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
-      sample_prop=sample_event_prop,
+      sample_type="random", sample_prop=sample_event_prop,
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
     )
@@ -415,6 +442,8 @@ for(stratum in strata){
       ) %>%
       replace_na(list(
         # weight is 1 if patient is not yet at risk
+        ipweight_stbl_vaxany1 = 1,
+        ipweight_stbl_death = 1,
         cmlipweight_stbl_vaxany1 = 1,
         cmlipweight_stbl_death = 1
       )) %>%
@@ -425,6 +454,8 @@ for(stratum in strata){
         cmlipweight_stbl = cmlipweight_stbl_vaxany1 * cmlipweight_stbl_death,
         cmlipweight_stbl_sample = cmlipweight_stbl * sample_weights,
       )
+
+    if(removeobs) rm(weights_vaxany1, weights_death)
   }
   if(brand != "any"){
 
@@ -442,6 +473,9 @@ for(stratum in strata){
         cmlipweight_stbl_death
       ) %>%
       replace_na(list( # weight is 1 if patient is not yet at risk
+        ipweight_stbl_vaxpfizer1 = 1,
+        ipweight_stbl_vaxaz1 = 1,
+        ipweight_stbl_death = 1,
         cmlipweight_stbl_vaxpfizer1 = 1,
         cmlipweight_stbl_vaxaz1 = 1,
         cmlipweight_stbl_death = 1
@@ -457,8 +491,8 @@ for(stratum in strata){
         cmlipweight_stbl = cmlipweight_stbl_vaxpfizer1 * cmlipweight_stbl_vaxaz1 * cmlipweight_stbl_death,
         cmlipweight_stbl_sample = cmlipweight_stbl * sample_weights,
       )
+    if(removeobs) rm(weights_vaxpfizer1, weights_vaxaz1, weights_death)
   }
-
 
 
   ## report weights ----
@@ -475,12 +509,23 @@ for(stratum in strata){
   )
 
   ## save weights
-  weight_histogram <- ggplot(data_weights) +
+  weight_histogram <- data_weights %>%
+    filter(vax_atrisk==1) %>%
+    ggplot() +
     geom_histogram(aes(x=ipweight_stbl)) +
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
+  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_prob_histogram.svg"), weight_histogram)
+
+
+  weight_histogram <- data_weights %>%
+    ggplot() +
+    geom_histogram(aes(x=cmlipweight_stbl)) +
+    scale_x_log10()+
+    theme_bw()
+
+  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_cmlprob_histogram.svg"), weight_histogram)
   if(removeobs) rm(weight_histogram)
 
   ## output weight distribution file ----
