@@ -39,7 +39,7 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  outcome <- "covidadmitted"
+  outcome <- "postest"
   brand <- "any"
   strata_var <- "all"
 } else {
@@ -245,7 +245,6 @@ get_ipw_weights <- function(
 
   ## get predictions from model ----
 
-
   weights <- data_atrisk %>%
     transmute(
       patient_id,
@@ -268,7 +267,7 @@ get_ipw_weights <- function(
       # cumulative product of status probabilities
       cmlprobevent_realised = cumprod(probevent_realised),
       # inverse probability weights
-      ipweight = 1/cmlprobevent_realised,
+      cmlipweight = 1/cmlprobevent_realised,
 
       #same but for time-independent model
 
@@ -281,10 +280,14 @@ get_ipw_weights <- function(
       # cumulative product of status probabilities
       cmlprobevent_realised_fxd = cumprod(probevent_realised_fxd),
       # inverse probability weights
-      ipweight_fxd = 1/cmlprobevent_realised_fxd,
+      cmlipweight_fxd = 1/cmlprobevent_realised_fxd,
+
 
       # stabilised inverse probability weights
-      ipweight_stbl = cmlprobevent_realised_fxd/cmlprobevent_realised,
+      ipweight_stbl = probevent_realised_fxd/probevent_realised,
+
+      # stabilised inverse probability weights (cumulative)
+      cmlipweight_stbl = cmlprobevent_realised_fxd/cmlprobevent_realised,
     ) %>%
     ungroup()
 
@@ -295,11 +298,14 @@ get_ipw_weights <- function(
   weights_out <- weights %>%
     select(
       patient_id, tstart, tstop,
-      ipweight_stbl
+      ipweight_stbl,
+      cmlipweight_stbl
     )
 
   weights_out[[glue("ipweight_stbl_{name}")]] <- weights_out$ipweight_stbl
   weights_out$ipweight_stbl <- NULL
+  weights_out[[glue("cmlipweight_stbl_{name}")]] <- weights_out$cmlipweight_stbl
+  weights_out$cmlipweight_stbl <- NULL
 
   return(weights_out)
 }
@@ -390,6 +396,7 @@ for(stratum in strata){
       transmute(
         patient_id, tstart, tstop,
         ipweight_stbl_death=1,
+        cmlipweight_stbl_death=1,
       )
   }
 
@@ -403,18 +410,20 @@ for(stratum in strata){
       group_by(patient_id) %>%
       fill(
         # after event has occurred, fill ip weight with last value carried forward (ie for person-time where treatment prob = 1 and so cumulative product of prob is last value)
-        ipweight_stbl_vaxany1,
-        ipweight_stbl_death
+        cmlipweight_stbl_vaxany1,
+        cmlipweight_stbl_death
       ) %>%
       replace_na(list(
         # weight is 1 if patient is not yet at risk
-        ipweight_stbl_vaxany1 = 1,
-        ipweight_stbl_death = 1
+        cmlipweight_stbl_vaxany1 = 1,
+        cmlipweight_stbl_death = 1
       )) %>%
       ungroup() %>%
       mutate(
         ipweight_stbl = ipweight_stbl_vaxany1 * ipweight_stbl_death,
         ipweight_stbl_sample = ipweight_stbl * sample_weights,
+        cmlipweight_stbl = cmlipweight_stbl_vaxany1 * cmlipweight_stbl_death,
+        cmlipweight_stbl_sample = cmlipweight_stbl * sample_weights,
       )
   }
   if(brand != "any"){
@@ -428,21 +437,25 @@ for(stratum in strata){
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
       group_by(patient_id) %>%
       fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1 and so cumulative product of prob is last value)
-        ipweight_stbl_vaxpfizer1,
-        ipweight_stbl_vaxaz1,
-        ipweight_stbl_death
+        cmlipweight_stbl_vaxpfizer1,
+        cmlipweight_stbl_vaxaz1,
+        cmlipweight_stbl_death
       ) %>%
       replace_na(list( # weight is 1 if patient is not yet at risk
-        ipweight_stbl_vaxpfizer1 = 1,
-        ipweight_stbl_vaxaz1 = 1,
-        ipweight_stbl_death = 1
+        cmlipweight_stbl_vaxpfizer1 = 1,
+        cmlipweight_stbl_vaxaz1 = 1,
+        cmlipweight_stbl_death = 1
       )) %>%
       ungroup() %>%
       mutate(
         ## COMBINE WEIGHTS
         # take product of all weights
+
         ipweight_stbl = ipweight_stbl_vaxpfizer1 * ipweight_stbl_vaxaz1 * ipweight_stbl_death,
         ipweight_stbl_sample = ipweight_stbl * sample_weights,
+
+        cmlipweight_stbl = cmlipweight_stbl_vaxpfizer1 * cmlipweight_stbl_vaxaz1 * cmlipweight_stbl_death,
+        cmlipweight_stbl_sample = cmlipweight_stbl * sample_weights,
       )
   }
 
@@ -451,7 +464,7 @@ for(stratum in strata){
   ## report weights ----
   summarise_weights <-
     data_weights %>%
-    select(starts_with("ipweight")) %>%
+    select(contains("ipweight")) %>%
     map(redacted_summary_num) %>%
     enframe()
 
@@ -464,7 +477,7 @@ for(stratum in strata){
   ## save weights
   weight_histogram <- ggplot(data_weights) +
     geom_histogram(aes(x=ipweight_stbl)) +
-    #scale_x_log10(breaks=c(1/8,1/6,1/4,1/3,1/2,1/1.5,1,1.5,2,3,4,6,8), limits=c(1/8, 8))+
+    scale_x_log10()+
     theme_bw()
 
   ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
@@ -479,6 +492,8 @@ for(stratum in strata){
       "sample_weights",
       "ipweight_stbl",
       "ipweight_stbl_sample",
+      "cmlipweight_stbl",
+      "cmlipweight_stbl_sample",
       "outcome",
     )
   cat("  \n")
@@ -598,7 +613,7 @@ for(stratum in strata){
   msmmod4_par <- parglm(
     formula = formula_1 %>% update(formula_exposure)  %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
     data = data_weights,
-    weights = ipweight_stbl_sample,
+    weights = cmlipweight_stbl_sample,
     family = binomial,
     control = parglmparams,
     na.action = "na.fail",
