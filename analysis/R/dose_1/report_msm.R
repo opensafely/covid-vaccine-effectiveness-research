@@ -94,6 +94,57 @@ for(stratum in strata){
   msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
 
 
+
+  ### cumulative incidence curves
+  survival_novax <- data_weights %>%
+    mutate(timesincevax_pw="pre-vax") %>%
+    transmute(
+      patient_id,
+      tstop,
+      sample_weights,
+      timesincevax_pw,
+      outcome_prob=predict(msmmod4, newdata=., type="response"),
+      vax_status="Unvaccinated"
+    )
+
+  survival_vax <- data_weights %>%
+    transmute(
+      patient_id,
+      tstop,
+      sample_weights,
+      timesincevax_pw = timesince_cut(tstop, postvaxcuts, "pre-vax"),
+      outcome_prob=predict(msmmod4, newdata=., type="response"),
+      vax_status="Vaccinated"
+    )
+
+  curves <- bind_rows(survival_novax, survival_vax) %>%
+    #marginalise over all patients
+    group_by(vax_status, tstop) %>%
+    summarise(
+      outcome_prob=weighted.mean(outcome_prob, sample_weights),
+    ) %>%
+    group_by(vax_status) %>%
+    mutate(survival = cumprod(1-outcome_prob))
+
+  cml_inc <- ggplot(curves)+
+    geom_step(aes(x=tstop, y=1-survival, group=vax_status, colour=vax_status))+
+    scale_x_continuous(breaks=seq(0,700,7), limits=c(0, max(curves$tstop)))+
+    labs(
+      x="Days",
+      y="Cumulative risk",
+      colour=""
+    ) +
+    theme_bw()+
+    theme(
+      legend.position=c(0.9,.1),
+      legend.justification = c(1,0),
+      panel.grid.minor.x = element_blank(),
+    )
+  cml_inc
+  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "cml_incidence_plot.svg"), cml_inc, width=20, height=15, units="cm")
+
+
+
   ggsecular1 <- interactions::interact_plot(
     msmmod1,
     pred=tstop, modx=region, data=data_weights,
