@@ -103,7 +103,9 @@ for(stratum in strata){
       tstop,
       sample_weights,
       timesincevax_pw,
-      outcome_prob=predict(msmmod4, newdata=., type="response"),
+      outcome_prob1=predict(msmmod1, newdata=., type="response"),
+      outcome_prob2=predict(msmmod2, newdata=., type="response"),
+      outcome_prob4=predict(msmmod4, newdata=., type="response"),
       vax_status="Unvaccinated"
     )
 
@@ -113,7 +115,9 @@ for(stratum in strata){
       tstop,
       sample_weights,
       timesincevax_pw = timesince_cut(tstop, postvaxcuts, "pre-vax"),
-      outcome_prob=predict(msmmod4, newdata=., type="response"),
+      outcome_prob1=predict(msmmod1, newdata=., type="response"),
+      outcome_prob2=predict(msmmod2, newdata=., type="response"),
+      outcome_prob4=predict(msmmod4, newdata=., type="response"),
       vax_status="Vaccinated"
     )
 
@@ -121,13 +125,20 @@ for(stratum in strata){
     #marginalise over all patients
     group_by(vax_status, tstop) %>%
     summarise(
-      outcome_prob=weighted.mean(outcome_prob, sample_weights),
+      outcome_prob1=weighted.mean(outcome_prob1, sample_weights),
+      outcome_prob2=weighted.mean(outcome_prob2, sample_weights),
+      outcome_prob4=weighted.mean(outcome_prob4, sample_weights),
     ) %>%
+    arrange(vax_status, tstop) %>%
     group_by(vax_status) %>%
-    mutate(survival = cumprod(1-outcome_prob))
+    mutate(
+      survival1 = cumprod(1-outcome_prob1),
+      survival2 = cumprod(1-outcome_prob2),
+      survival4 = cumprod(1-outcome_prob4),
+    )
 
   cml_inc <- ggplot(curves)+
-    geom_step(aes(x=tstop, y=1-survival, group=vax_status, colour=vax_status))+
+    geom_step(aes(x=tstop, y=1-survival4, group=vax_status, colour=vax_status))+
     scale_x_continuous(breaks=seq(0,700,7), limits=c(0, max(curves$tstop)))+
     labs(
       x="Days",
