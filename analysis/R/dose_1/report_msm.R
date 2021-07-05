@@ -35,7 +35,7 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
-  outcome <- "postest"
+  outcome <- "covidadmitted"
   brand <- "any"
   strata_var <- "all"
   removeobs <- FALSE
