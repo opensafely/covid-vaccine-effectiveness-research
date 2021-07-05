@@ -119,7 +119,7 @@ data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %
     )
   ) %>%
   mutate(
-    recentpostest = (replace_na(postest_timesince<28, FALSE) & exclude_recentpostest),
+    recentpostest = (replace_na(postest_timesince<Inf, FALSE) & exclude_recentpostest),
     vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & !recentpostest),
     vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
     vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
