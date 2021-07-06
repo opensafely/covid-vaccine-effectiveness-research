@@ -93,79 +93,6 @@ for(stratum in strata){
   #msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
   msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
 
-
-
-  ### cumulative incidence curves
-  survival_novax <- data_weights %>%
-    mutate(timesincevax_pw="pre-vax") %>%
-    transmute(
-      patient_id,
-      tstop,
-      sample_weights,
-      timesincevax_pw,
-      outcome_prob1=predict(msmmod1, newdata=., type="response"),
-      outcome_prob2=predict(msmmod2, newdata=., type="response"),
-      outcome_prob4=predict(msmmod4, newdata=., type="response"),
-      vax_status="Unvaccinated"
-    )
-
-  survival_vax <- data_weights %>%
-    transmute(
-      patient_id,
-      tstop,
-      sample_weights,
-      timesincevax_pw = timesince_cut(tstop, postvaxcuts, "pre-vax"),
-      outcome_prob1=predict(msmmod1, newdata=., type="response"),
-      outcome_prob2=predict(msmmod2, newdata=., type="response"),
-      outcome_prob4=predict(msmmod4, newdata=., type="response"),
-      vax_status="Vaccinated"
-    )
-
-  curves <- bind_rows(survival_novax, survival_vax) %>%
-    #marginalise over all patients
-    group_by(vax_status, tstop) %>%
-    summarise(
-      outcome_prob1=weighted.mean(outcome_prob1, sample_weights),
-      outcome_prob2=weighted.mean(outcome_prob2, sample_weights),
-      outcome_prob4=weighted.mean(outcome_prob4, sample_weights),
-    ) %>%
-    arrange(vax_status, tstop) %>%
-    group_by(vax_status) %>%
-    mutate(
-      survival1 = cumprod(1-outcome_prob1),
-      survival2 = cumprod(1-outcome_prob2),
-      survival4 = cumprod(1-outcome_prob4),
-    )
-
-  cml_inc <- ggplot(curves)+
-    geom_step(aes(x=tstop, y=1-survival4, group=vax_status, colour=vax_status))+
-    scale_x_continuous(breaks=seq(0,700,7), limits=c(0, max(curves$tstop)))+
-    labs(
-      x="Days",
-      y="Cumulative risk",
-      colour=""
-    ) +
-    theme_bw()+
-    theme(
-      legend.position=c(0.9,.1),
-      legend.justification = c(1,0),
-      panel.grid.minor.x = element_blank(),
-    )
-  cml_inc
-  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "cml_incidence_plot.svg"), cml_inc, width=20, height=15, units="cm")
-
-
-
-  ggsecular1 <- interactions::interact_plot(
-    msmmod1,
-    pred=tstop, modx=region, data=data_weights,
-    colors="Set1", vary.lty=FALSE,
-    x.label=glue::glue("Days since {gbl_vars$start_date}"),
-    y.label=glue::glue("{outcome_descr} prob.")
-  )
-  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot1.svg"), ggsecular1, width=20, height=15, units="cm")
-
-
   ## report models ----
 
   #robust0 <- tidy_plr(msmmod0, cluster=data_weights$patient_id)
@@ -184,7 +111,6 @@ for(stratum in strata){
   ) %>%
   mutate(
     strata=stratum,
-    model_descr = fct_inorder(model_descr)
   )
 
   summary_list[[stratum_name]] <- robust_summary
@@ -195,12 +121,13 @@ for(stratum in strata){
 summary_df <- summary_list %>% bind_rows %>%
   mutate(
     model_descr = fct_reorder(model_descr, as.numeric(model)),
+    model_descr_wrap = fct_inorder(str_wrap(model_descr, 30)),
     ve = 1-or,
     ve.ll = 1-or.ul,
     ve.ul = 1-or.ll
   ) %>%
   select(
-    strata, model, model_descr, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul, ve, ve.ll, ve.ul
+    strata, model, model_descr, model_descr_wrap, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul, ve, ve.ll, ve.ul
   )
 
 write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, "estimates.csv"))
@@ -224,7 +151,7 @@ msmmod_forest <-
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 0.5))+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
-  facet_grid(rows=vars(str_wrap(model_descr,30)), switch="y")+
+  facet_grid(rows=vars(model_descr_wrap), switch="y")+
   scale_y_log10(
     breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
     sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
@@ -262,44 +189,4 @@ msmmod_forest <-
 
 ## save plot
 ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest_plot.svg"), msmmod_forest, width=20, height=15, units="cm")
-
-
-
-
-#
-## secular trends ----
-
-#
-# ggsecular2 <- interactions::interact_plot(
-#   msmmod2,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label=glue::glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue::glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot2.svg"), ggsecular2, width=20, height=15, units="cm")
-#
-#
-# ggsecular3 <- interactions::interact_plot(
-#   msmmod3,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label=glue::glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue::glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot3.svg"), ggsecular3, width=20, height=15, units="cm")
-#
-#
-# ggsecular4 <- interactions::interact_plot(
-#   msmmod4,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label=glue::glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue::glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot4.svg"), ggsecular4, width=20, height=15, units="cm")
-
-
+ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest_plot.png"), msmmod_forest, width=20, height=15, units="cm")
