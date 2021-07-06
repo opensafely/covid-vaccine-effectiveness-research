@@ -419,13 +419,13 @@ actions_list <- splice(
 
 )
 
-
+## combine everything ----
 project_list <- splice(
   defaults_list,
   list(actions = actions_list)
 )
 
-# add some white space before saving
+## convert list to yaml, reformat comments and whitespace,and output ----
 as.yaml(project_list, indent=2) %>%
   # convert comment actions to comments
   convert_comment_actions() %>%
@@ -434,9 +434,4 @@ as.yaml(project_list, indent=2) %>%
   str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
   writeLines(here("project.yaml"))
 
-# yaml::write_yaml(project_list, file =here("auto-project.yaml"))
-# readLines(here("auto-project.yaml")) %>%
-#   str_replace_all("^(\\w)", "\n\\1") %>%
-#   str_replace_all("^\\s\\s(\\w)", "\n  \\1")
-# writeLines(txt, here("auto-project.yaml"))
 
