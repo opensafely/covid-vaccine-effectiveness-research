@@ -95,10 +95,6 @@ data_tte <- data_cohort  %>%
     # The first possible vaccination date is 8 december 2020, ie between tstart=0 and tstop=1, so all patients are "unvaccinated" for at least 1 day of follow-up
     # the first possible AZ accine date is 4 Jan 2021, ie between tstart=27 and tstop=28
 
-    # consider using tte+0.5 to ensure that outcomes occurring on the same day as the start date or treatment date are dealt with in the correct way
-    # -- see section 3.3 of the timedep vignette in survival package
-    # not necessary when ties are handled appropriately (eg with tmerge)
-
     # time to last follow up day
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
 
