@@ -34,26 +34,23 @@ action <- function(
   action_list
 }
 
-cohort="test"
 
-
+## create comment function ----
 comment <- function(...){
-
-  comments <- map(list(...), ~paste0("## ", .))
-  list(comments)
-
+  list_comments <- list(...)
+  comments <- map(list_comments, ~paste0("## ", ., " ##"))
+  comments
 }
 
-convert_comment_actions <-  function(yaml.txt){
-
+## create function to convert comment "actions" in a yaml string into proper comments
+convert_comment_actions <-function(yaml.txt){
   yaml.txt %>%
-    str_replace_all("\\\n(\\s)*\\'\\'\\:", "\n\n")  %>%
-    str_replace_all("\\\n(\\s)*\\'\\'", "\n")  %>%
-    str_replace_all("\\\n(\\-\\s)+", "\n") %>%
-    str_replace_all("\\\n(\\s)+\\-\\s", "\n") %>%
-    str_replace_all(fixed("'\n"), "\n")
-
+    str_replace_all("\\\n(\\s*)\\'\\'\\:\\s", "\n\\1")  %>%
+    str_replace_all("\\\n(\\s*)\\'", "\n\\1") %>%
+    str_replace_all("[^\\']\\\n(\\s*)\\#\\#", "\n\n\\1\\#\\#") %>%
+    str_replace_all("\\#\\#\\'\\\n", "\n")
 }
+
 
 
 ## actions that extract and process data ----
@@ -353,6 +350,8 @@ actions_list <- splice(
 
   ## OVER 80s
 
+  comment("#############", "over80s, all", "#############"),
+
   actions_process("over80s"),
   actions_descriptive("over80s"),
 
@@ -391,6 +390,7 @@ actions_list <- splice(
 
 
   ## 70-79s
+  comment("#############", "in70s, all", "#############"),
 
   actions_process("in70s"),
   actions_descriptive("in70s"),
@@ -428,7 +428,7 @@ project_list <- splice(
 # add some white space before saving
 as.yaml(project_list, indent=2) %>%
   # convert comment actions to comments
-  #convert_comment_actions() %>%
+  convert_comment_actions() %>%
   # add one blank line before level 1 and level 2 keys
   str_replace_all("\\\n(\\w)", "\n\n\\1") %>%
   str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%

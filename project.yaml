@@ -15,7 +15,11 @@ actions:
         formula: output/metadata/list_formula.rds
         strata: output/metadata/list_strata.rds
         reweight: output/metadata/reweight_death.rds
-        exclude_recentpostest: output/metadata/exclude_recentpostest.rds
+        exclude_recentpostest: output/metadata/exclude_recentpostest.rd
+
+  ## ############# 
+  ## over80s, all 
+  ## ############# 
 
   extract_over80s:
     run: 'cohortextractor:latest generate_cohort --study-definition study_definition_over80s
@@ -892,7 +896,11 @@ actions:
       moderately_sensitive:
         svg: output/over80s/*_all.svg
         png: output/over80s/*_all.png
-        csv: output/over80s/*_all.csv
+        csv: output/over80s/*_all.cs
+
+  ## ############# 
+  ## in70s, all 
+  ## ############# 
 
   extract_in70s:
     run: 'cohortextractor:latest generate_cohort --study-definition study_definition_in70s
