@@ -242,7 +242,7 @@ actions_models <- function(
 
 
     action(
-      name = glue("report_{cohort}_{outcome}_{brand}_{strata}"),
+      name = glue("report_msm_{cohort}_{outcome}_{brand}_{strata}"),
       run = glue("r:latest analysis/R/dose_1/report_msm.R"),
       arguments = c(cohort, outcome, brand, strata),
       needs = list("design", glue("model_{cohort}_{outcome}_{brand}_{strata}")),
@@ -302,18 +302,18 @@ actions_combine_models <- function(
       arguments = c(cohort, strata),
       needs = list(
         "design",
-        glue("report_{cohort}_postest_any_{strata}"),
-        glue("report_{cohort}_postest_pfizer_{strata}"),
-        glue("report_{cohort}_postest_az_{strata}"),
-        glue("report_{cohort}_covidadmitted_any_{strata}"),
-        glue("report_{cohort}_covidadmitted_pfizer_{strata}"),
-        glue("report_{cohort}_covidadmitted_az_{strata}"),
-        glue("report_{cohort}_coviddeath_any_{strata}"),
-        glue("report_{cohort}_coviddeath_pfizer_{strata}"),
-        glue("report_{cohort}_coviddeath_az_{strata}"),
-        glue("report_{cohort}_noncoviddeath_any_{strata}"),
-        glue("report_{cohort}_noncoviddeath_pfizer_{strata}"),
-        glue("report_{cohort}_noncoviddeath_az_{strata}")
+        glue("report_msm_{cohort}_postest_any_{strata}"),
+        glue("report_msm_{cohort}_postest_pfizer_{strata}"),
+        glue("report_msm_{cohort}_postest_az_{strata}"),
+        glue("report_msm_{cohort}_covidadmitted_any_{strata}"),
+        glue("report_msm_{cohort}_covidadmitted_pfizer_{strata}"),
+        glue("report_msm_{cohort}_covidadmitted_az_{strata}"),
+        glue("report_msm_{cohort}_coviddeath_any_{strata}"),
+        glue("report_msm_{cohort}_coviddeath_pfizer_{strata}"),
+        glue("report_msm_{cohort}_coviddeath_az_{strata}"),
+        glue("report_msm_{cohort}_noncoviddeath_any_{strata}"),
+        glue("report_msm_{cohort}_noncoviddeath_pfizer_{strata}"),
+        glue("report_msm_{cohort}_noncoviddeath_az_{strata}")
       ),
       moderately_sensitive = list(
         svg = glue("output/{cohort}/*_{strata}.svg"),

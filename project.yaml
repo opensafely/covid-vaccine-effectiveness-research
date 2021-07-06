@@ -164,7 +164,7 @@ actions:
         tables: output/over80s/postest/any/all/*/tab*.html
         data: output/over80s/postest/any/all/*/broom*.csv
 
-  report_over80s_postest_any_all:
+  report_msm_over80s_postest_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest any all
     needs:
     - design
@@ -212,7 +212,7 @@ actions:
         tables: output/over80s/postest/pfizer/all/*/tab*.html
         data: output/over80s/postest/pfizer/all/*/broom*.csv
 
-  report_over80s_postest_pfizer_all:
+  report_msm_over80s_postest_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest pfizer all
     needs:
     - design
@@ -260,7 +260,7 @@ actions:
         tables: output/over80s/postest/az/all/*/tab*.html
         data: output/over80s/postest/az/all/*/broom*.csv
 
-  report_over80s_postest_az_all:
+  report_msm_over80s_postest_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s postest az all
     needs:
     - design
@@ -308,7 +308,7 @@ actions:
         tables: output/over80s/covidadmitted/any/all/*/tab*.html
         data: output/over80s/covidadmitted/any/all/*/broom*.csv
 
-  report_over80s_covidadmitted_any_all:
+  report_msm_over80s_covidadmitted_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted any all
     needs:
     - design
@@ -356,7 +356,7 @@ actions:
         tables: output/over80s/covidadmitted/pfizer/all/*/tab*.html
         data: output/over80s/covidadmitted/pfizer/all/*/broom*.csv
 
-  report_over80s_covidadmitted_pfizer_all:
+  report_msm_over80s_covidadmitted_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted pfizer all
     needs:
     - design
@@ -405,7 +405,7 @@ actions:
         tables: output/over80s/covidadmitted/az/all/*/tab*.html
         data: output/over80s/covidadmitted/az/all/*/broom*.csv
 
-  report_over80s_covidadmitted_az_all:
+  report_msm_over80s_covidadmitted_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted az all
     needs:
     - design
@@ -453,7 +453,7 @@ actions:
         tables: output/over80s/coviddeath/any/all/*/tab*.html
         data: output/over80s/coviddeath/any/all/*/broom*.csv
 
-  report_over80s_coviddeath_any_all:
+  report_msm_over80s_coviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath any all
     needs:
     - design
@@ -501,7 +501,7 @@ actions:
         tables: output/over80s/coviddeath/pfizer/all/*/tab*.html
         data: output/over80s/coviddeath/pfizer/all/*/broom*.csv
 
-  report_over80s_coviddeath_pfizer_all:
+  report_msm_over80s_coviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath pfizer all
     needs:
     - design
@@ -549,7 +549,7 @@ actions:
         tables: output/over80s/coviddeath/az/all/*/tab*.html
         data: output/over80s/coviddeath/az/all/*/broom*.csv
 
-  report_over80s_coviddeath_az_all:
+  report_msm_over80s_coviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath az all
     needs:
     - design
@@ -597,7 +597,7 @@ actions:
         tables: output/over80s/noncoviddeath/any/all/*/tab*.html
         data: output/over80s/noncoviddeath/any/all/*/broom*.csv
 
-  report_over80s_noncoviddeath_any_all:
+  report_msm_over80s_noncoviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath any all
     needs:
     - design
@@ -645,7 +645,7 @@ actions:
         tables: output/over80s/noncoviddeath/pfizer/all/*/tab*.html
         data: output/over80s/noncoviddeath/pfizer/all/*/broom*.csv
 
-  report_over80s_noncoviddeath_pfizer_all:
+  report_msm_over80s_noncoviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath pfizer all
     needs:
     - design
@@ -694,7 +694,7 @@ actions:
         tables: output/over80s/noncoviddeath/az/all/*/tab*.html
         data: output/over80s/noncoviddeath/az/all/*/broom*.csv
 
-  report_over80s_noncoviddeath_az_all:
+  report_msm_over80s_noncoviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath az all
     needs:
     - design
@@ -742,7 +742,7 @@ actions:
         tables: output/over80s/death/any/all/*/tab*.html
         data: output/over80s/death/any/all/*/broom*.csv
 
-  report_over80s_death_any_all:
+  report_msm_over80s_death_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death any all
     needs:
     - design
@@ -790,7 +790,7 @@ actions:
         tables: output/over80s/death/pfizer/all/*/tab*.html
         data: output/over80s/death/pfizer/all/*/broom*.csv
 
-  report_over80s_death_pfizer_all:
+  report_msm_over80s_death_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death pfizer all
     needs:
     - design
@@ -838,7 +838,7 @@ actions:
         tables: output/over80s/death/az/all/*/tab*.html
         data: output/over80s/death/az/all/*/broom*.csv
 
-  report_over80s_death_az_all:
+  report_msm_over80s_death_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R over80s death az all
     needs:
     - design
@@ -876,18 +876,18 @@ actions:
     run: r:latest analysis/R/dose_1/report_alloutcomes_combined.R over80s all
     needs:
     - design
-    - report_over80s_postest_any_all
-    - report_over80s_postest_pfizer_all
-    - report_over80s_postest_az_all
-    - report_over80s_covidadmitted_any_all
-    - report_over80s_covidadmitted_pfizer_all
-    - report_over80s_covidadmitted_az_all
-    - report_over80s_coviddeath_any_all
-    - report_over80s_coviddeath_pfizer_all
-    - report_over80s_coviddeath_az_all
-    - report_over80s_noncoviddeath_any_all
-    - report_over80s_noncoviddeath_pfizer_all
-    - report_over80s_noncoviddeath_az_all
+    - report_msm_over80s_postest_any_all
+    - report_msm_over80s_postest_pfizer_all
+    - report_msm_over80s_postest_az_all
+    - report_msm_over80s_covidadmitted_any_all
+    - report_msm_over80s_covidadmitted_pfizer_all
+    - report_msm_over80s_covidadmitted_az_all
+    - report_msm_over80s_coviddeath_any_all
+    - report_msm_over80s_coviddeath_pfizer_all
+    - report_msm_over80s_coviddeath_az_all
+    - report_msm_over80s_noncoviddeath_any_all
+    - report_msm_over80s_noncoviddeath_pfizer_all
+    - report_msm_over80s_noncoviddeath_az_all
     outputs:
       moderately_sensitive:
         svg: output/over80s/*_all.svg
@@ -1031,7 +1031,7 @@ actions:
         tables: output/in70s/postest/any/all/*/tab*.html
         data: output/in70s/postest/any/all/*/broom*.csv
 
-  report_in70s_postest_any_all:
+  report_msm_in70s_postest_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s postest any all
     needs:
     - design
@@ -1079,7 +1079,7 @@ actions:
         tables: output/in70s/postest/pfizer/all/*/tab*.html
         data: output/in70s/postest/pfizer/all/*/broom*.csv
 
-  report_in70s_postest_pfizer_all:
+  report_msm_in70s_postest_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s postest pfizer all
     needs:
     - design
@@ -1127,7 +1127,7 @@ actions:
         tables: output/in70s/postest/az/all/*/tab*.html
         data: output/in70s/postest/az/all/*/broom*.csv
 
-  report_in70s_postest_az_all:
+  report_msm_in70s_postest_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s postest az all
     needs:
     - design
@@ -1175,7 +1175,7 @@ actions:
         tables: output/in70s/covidadmitted/any/all/*/tab*.html
         data: output/in70s/covidadmitted/any/all/*/broom*.csv
 
-  report_in70s_covidadmitted_any_all:
+  report_msm_in70s_covidadmitted_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted any all
     needs:
     - design
@@ -1223,7 +1223,7 @@ actions:
         tables: output/in70s/covidadmitted/pfizer/all/*/tab*.html
         data: output/in70s/covidadmitted/pfizer/all/*/broom*.csv
 
-  report_in70s_covidadmitted_pfizer_all:
+  report_msm_in70s_covidadmitted_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted pfizer all
     needs:
     - design
@@ -1272,7 +1272,7 @@ actions:
         tables: output/in70s/covidadmitted/az/all/*/tab*.html
         data: output/in70s/covidadmitted/az/all/*/broom*.csv
 
-  report_in70s_covidadmitted_az_all:
+  report_msm_in70s_covidadmitted_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted az all
     needs:
     - design
@@ -1320,7 +1320,7 @@ actions:
         tables: output/in70s/coviddeath/any/all/*/tab*.html
         data: output/in70s/coviddeath/any/all/*/broom*.csv
 
-  report_in70s_coviddeath_any_all:
+  report_msm_in70s_coviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath any all
     needs:
     - design
@@ -1368,7 +1368,7 @@ actions:
         tables: output/in70s/coviddeath/pfizer/all/*/tab*.html
         data: output/in70s/coviddeath/pfizer/all/*/broom*.csv
 
-  report_in70s_coviddeath_pfizer_all:
+  report_msm_in70s_coviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath pfizer all
     needs:
     - design
@@ -1416,7 +1416,7 @@ actions:
         tables: output/in70s/coviddeath/az/all/*/tab*.html
         data: output/in70s/coviddeath/az/all/*/broom*.csv
 
-  report_in70s_coviddeath_az_all:
+  report_msm_in70s_coviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath az all
     needs:
     - design
@@ -1464,7 +1464,7 @@ actions:
         tables: output/in70s/noncoviddeath/any/all/*/tab*.html
         data: output/in70s/noncoviddeath/any/all/*/broom*.csv
 
-  report_in70s_noncoviddeath_any_all:
+  report_msm_in70s_noncoviddeath_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath any all
     needs:
     - design
@@ -1512,7 +1512,7 @@ actions:
         tables: output/in70s/noncoviddeath/pfizer/all/*/tab*.html
         data: output/in70s/noncoviddeath/pfizer/all/*/broom*.csv
 
-  report_in70s_noncoviddeath_pfizer_all:
+  report_msm_in70s_noncoviddeath_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath pfizer all
     needs:
     - design
@@ -1561,7 +1561,7 @@ actions:
         tables: output/in70s/noncoviddeath/az/all/*/tab*.html
         data: output/in70s/noncoviddeath/az/all/*/broom*.csv
 
-  report_in70s_noncoviddeath_az_all:
+  report_msm_in70s_noncoviddeath_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath az all
     needs:
     - design
@@ -1609,7 +1609,7 @@ actions:
         tables: output/in70s/death/any/all/*/tab*.html
         data: output/in70s/death/any/all/*/broom*.csv
 
-  report_in70s_death_any_all:
+  report_msm_in70s_death_any_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s death any all
     needs:
     - design
@@ -1657,7 +1657,7 @@ actions:
         tables: output/in70s/death/pfizer/all/*/tab*.html
         data: output/in70s/death/pfizer/all/*/broom*.csv
 
-  report_in70s_death_pfizer_all:
+  report_msm_in70s_death_pfizer_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s death pfizer all
     needs:
     - design
@@ -1705,7 +1705,7 @@ actions:
         tables: output/in70s/death/az/all/*/tab*.html
         data: output/in70s/death/az/all/*/broom*.csv
 
-  report_in70s_death_az_all:
+  report_msm_in70s_death_az_all:
     run: r:latest analysis/R/dose_1/report_msm.R in70s death az all
     needs:
     - design
@@ -1743,18 +1743,18 @@ actions:
     run: r:latest analysis/R/dose_1/report_alloutcomes_combined.R in70s all
     needs:
     - design
-    - report_in70s_postest_any_all
-    - report_in70s_postest_pfizer_all
-    - report_in70s_postest_az_all
-    - report_in70s_covidadmitted_any_all
-    - report_in70s_covidadmitted_pfizer_all
-    - report_in70s_covidadmitted_az_all
-    - report_in70s_coviddeath_any_all
-    - report_in70s_coviddeath_pfizer_all
-    - report_in70s_coviddeath_az_all
-    - report_in70s_noncoviddeath_any_all
-    - report_in70s_noncoviddeath_pfizer_all
-    - report_in70s_noncoviddeath_az_all
+    - report_msm_in70s_postest_any_all
+    - report_msm_in70s_postest_pfizer_all
+    - report_msm_in70s_postest_az_all
+    - report_msm_in70s_covidadmitted_any_all
+    - report_msm_in70s_covidadmitted_pfizer_all
+    - report_msm_in70s_covidadmitted_az_all
+    - report_msm_in70s_coviddeath_any_all
+    - report_msm_in70s_coviddeath_pfizer_all
+    - report_msm_in70s_coviddeath_az_all
+    - report_msm_in70s_noncoviddeath_any_all
+    - report_msm_in70s_noncoviddeath_pfizer_all
+    - report_msm_in70s_noncoviddeath_az_all
     outputs:
       moderately_sensitive:
         svg: output/in70s/*_all.svg
