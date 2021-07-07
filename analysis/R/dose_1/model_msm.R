@@ -217,6 +217,7 @@ get_ipw_weights <- function(
     left_join(data_sample, by="patient_id") %>%
     filter(sample_event)
 
+  rm("data_sample")
 
 
   ### with time-updating covariates
@@ -269,10 +270,11 @@ get_ipw_weights <- function(
   write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
   write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
 
+  rm("data_atrisk_sample")
 
   ## get predictions from model ----
 
-  weights <- data_atrisk %>%
+  data_atrisk <- data_atrisk %>%
     transmute(
       patient_id,
       tstart, tstop,
@@ -319,22 +321,23 @@ get_ipw_weights <- function(
     ungroup()
 
 
-  stopifnot("probs should all be non-null" = all(!is.na(weights$probevent_realised)))
-  stopifnot("probs (fxd) should all be non-null" = all(!is.na(weights$probevent_realised_fxd)))
+  stopifnot("probs should all be non-null" = all(!is.na(data_atrisk$probevent_realised)))
+  stopifnot("probs (fxd) should all be non-null" = all(!is.na(data_atrisk$probevent_realised_fxd)))
 
-  weights_out <- weights %>%
+  weights <- data_atrisk %>%
     select(
-      patient_id, tstart, tstop,
+      patient_id,
+      tstart, tstop,
       ipweight_stbl,
       cmlipweight_stbl
     )
 
-  weights_out[[glue("ipweight_stbl_{name}")]] <- weights_out$ipweight_stbl
-  weights_out$ipweight_stbl <- NULL
-  weights_out[[glue("cmlipweight_stbl_{name}")]] <- weights_out$cmlipweight_stbl
-  weights_out$cmlipweight_stbl <- NULL
+  weights[[glue("ipweight_stbl_{name}")]] <- weights$ipweight_stbl
+  weights$ipweight_stbl <- NULL
+  weights[[glue("cmlipweight_stbl_{name}")]] <- weights$cmlipweight_stbl
+  weights$cmlipweight_stbl <- NULL
 
-  return(weights_out)
+  return(weights)
 }
 
 
@@ -546,8 +549,6 @@ for(stratum in strata){
   cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
 
   write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")), compress="gz")
-
-
 
 
   # MSM model ----
