@@ -313,9 +313,9 @@ actions_combine_models <- function(
         glue("report_msm_{cohort}_noncoviddeath_az_{strata}")
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/*_{strata}.svg"),
-        png = glue("output/{cohort}/*_{strata}.png"),
-        csv = glue("output/{cohort}/*_{strata}.csv")
+        svg = glue("output/{cohort}/combined/{strata}/*_{strata}.svg"),
+        png = glue("output/{cohort}/combined/{strata}/*_{strata}.png"),
+        csv = glue("output/{cohort}/combined/{strata}/*_{strata}.csv")
       )
     )
 

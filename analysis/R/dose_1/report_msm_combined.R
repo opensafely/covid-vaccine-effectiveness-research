@@ -14,6 +14,8 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('glue')
+library('here')
 library('lubridate')
 library('survival')
 library('splines')
@@ -24,9 +26,9 @@ library("lmtest")
 library('gt')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -55,11 +57,14 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for outcomes ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
+
+
+fs::dir_create(here("output", cohort, "combined", strata_var))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
@@ -72,7 +77,6 @@ estimates <-
     "covidadmitted",
     "coviddeath",
     "noncoviddeath",
-    "death",
     NULL
   )) %>%
   mutate(
@@ -92,7 +96,7 @@ estimates <-
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    estimates = map2(outcome, brand, ~read_csv(here::here("output", cohort, .x, .y, strata_var, glue::glue("estimates_timesincevax.csv"))))
+    estimates = map2(outcome, brand, ~read_csv(here("output", cohort, .x, .y, strata_var, glue("estimates_timesincevax.csv"))))
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -127,14 +131,14 @@ estimates_formatted_wide <- estimates_formatted %>%
     names_glue = "{model}_{.value}"
   )
 
-write_csv(estimates, path = here::here("output", cohort, glue::glue("estimates_timesincevax_{strata_var}.csv")))
-write_csv(estimates_formatted, path = here::here("output", cohort, glue::glue("estimates_formatted_timesincevax_{strata_var}.csv")))
-write_csv(estimates_formatted_wide, path = here::here("output", cohort, glue::glue("estimates_formatted_wide_timesincevax_{strata_var}.csv")))
+write_csv(estimates, path = here("output", cohort, "combined", strata_var, glue("estimates_timesincevax_{strata_var}.csv")))
+write_csv(estimates_formatted, path = here("output", cohort, "combined", strata_var, glue("estimates_formatted_timesincevax_{strata_var}.csv")))
+write_csv(estimates_formatted_wide, path = here("output", cohort, "combined", strata_var, glue("estimates_formatted_wide_timesincevax_{strata_var}.csv")))
 
 # create forest plot
 msmmod_forest_data <- estimates %>%
   filter(
-    !(outcome %in% c("coviddeath", "noncoviddeath") )
+    !(outcome %in% c("death") )
   ) %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
@@ -158,12 +162,12 @@ msmmod_forest <-
   )+
   scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian(ylim=c(0.05,1.5)) +
+  #coord_cartesian(ylim=c(0.05,1.5)) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Days since first dose",
     colour=NULL#,
-    #title=glue::glue("Outcomes by time since first {brand} vaccine"),
+    #title=glue("Outcomes by time since first {brand} vaccine"),
     #subtitle=cohort_descr
   ) +
   theme_bw(base_size=16)+
@@ -188,6 +192,6 @@ msmmod_forest <-
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{strata_var}.svg")), msmmod_forest, width=30, height=26, units="cm")
-ggsave(filename=here::here("output", cohort, glue::glue("forest_plot_{strata_var}.png")), msmmod_forest, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, "combined", strata_var, glue("forest_plot_{strata_var}.svg")), msmmod_forest, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, "combined", strata_var, glue("forest_plot_{strata_var}.png")), msmmod_forest, width=30, height=26, units="cm")
 
