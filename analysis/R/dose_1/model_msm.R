@@ -40,9 +40,9 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  outcome <- "covidadmitted"
-  brand <- "az"
-  strata_var <- "all"
+  outcome <- "postest"
+  brand <- "any"
+  strata_var <- "sex"
 } else {
   removeobs <- TRUE
   cohort <- args[[1]]
@@ -437,7 +437,7 @@ for(stratum in strata){
       replace_na(list(
         # weight is 1 if patient is not yet at risk
         ipweight_stbl_vaxany1 = 1,
-        ipweight_stbl_death = 1,
+        ipweight_stbl_death = 1
       )) %>%
       arrange(patient_id, tstop) %>%
       group_by(patient_id) %>%
