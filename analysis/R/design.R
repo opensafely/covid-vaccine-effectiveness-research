@@ -193,6 +193,7 @@ write_rds(exclude_recentpostest, here("output", "metadata", glue("exclude_recent
 
 list_strata <- list(
   all = factor("all"),
+  sex = factor(c("Female", "Male")),
   any_immunosuppression = c(0L, 1L)
 )
 

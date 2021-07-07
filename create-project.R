@@ -42,16 +42,20 @@ comment <- function(...){
   comments
 }
 
+
+as.yaml(list(a="c", b="'c'", comment("fff")))
+
+
 ## create function to convert comment "actions" in a yaml string into proper comments
 convert_comment_actions <-function(yaml.txt){
   yaml.txt %>%
-    str_replace_all("\\\n(\\s*)\\'\\'\\:\\s", "\n\\1")  %>%
-    str_replace_all("\\\n(\\s*)\\'", "\n\\1") %>%
-    str_replace_all("[^\\']\\\n(\\s*)\\#\\#", "\n\n\\1\\#\\#") %>%
+    str_replace_all("\\\n(\\s*)\\'\\'\\:(\\s*)\\'", "\n\\1")  %>%
+    #str_replace_all("\\\n(\\s*)\\'", "\n\\1") %>%
+    str_replace_all("([^\\'])\\\n(\\s*)\\#\\#", "\\1\n\n\\2\\#\\#") %>%
     str_replace_all("\\#\\#\\'\\\n", "\n")
 }
-
-
+as.yaml(splice(a="c", b="'c'", comment("fff")))
+convert_comment_actions(as.yaml(splice(a="c", b="'c'", comment("fff"))))
 
 ## actions that extract and process data ----
 
@@ -275,7 +279,7 @@ actions_combine_models <- function(
   splice(
 
     action(
-      name = glue("report_ipw_{cohort}_all"),
+      name = glue("report_ipw_{cohort}_{strata}"),
       run = glue("r:latest analysis/R/dose_1/report_vaxmodel.R"),
       arguments = c(cohort, "death", strata),
       needs = list(
@@ -313,9 +317,9 @@ actions_combine_models <- function(
         glue("report_msm_{cohort}_noncoviddeath_az_{strata}")
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/combined/{strata}/*_{strata}.svg"),
-        png = glue("output/{cohort}/combined/{strata}/*_{strata}.png"),
-        csv = glue("output/{cohort}/combined/{strata}/*_{strata}.csv")
+        svg = glue("output/{cohort}/combined/{strata}/*.svg"),
+        png = glue("output/{cohort}/combined/{strata}/*.png"),
+        csv = glue("output/{cohort}/combined/{strata}/*.csv")
       )
     )
 
@@ -350,7 +354,7 @@ actions_list <- splice(
 
   ## OVER 80s
 
-  comment("#############", "over80s, all", "#############"),
+  comment("####################################", "over80s", "####################################"),
 
   actions_process("over80s"),
   actions_descriptive("over80s"),
@@ -365,6 +369,8 @@ actions_list <- splice(
       csv = glue("output/over80s/descriptive/model-checks/*.csv")
     )
   ),
+
+  comment("####################################", "All", "####################################"),
 
   actions_models("over80s", "postest", "any", "all"),
   actions_models("over80s", "postest", "pfizer", "all"),
@@ -388,9 +394,32 @@ actions_list <- splice(
 
   actions_combine_models("over80s", "all"),
 
+  comment("####################################", "Immunosuppressed", "####################################"),
+
+  actions_models("over80s", "postest", "any", "any_immunosuppression"),
+  actions_models("over80s", "postest", "pfizer", "any_immunosuppression"),
+  actions_models("over80s", "postest", "az", "any_immunosuppression"),
+
+  actions_models("over80s", "covidadmitted", "any", "any_immunosuppression"),
+  actions_models("over80s", "covidadmitted", "pfizer", "any_immunosuppression"),
+  actions_models("over80s", "covidadmitted", "az", "any_immunosuppression"),
+
+  actions_models("over80s", "coviddeath", "any", "any_immunosuppression"),
+  actions_models("over80s", "coviddeath", "pfizer", "any_immunosuppression"),
+  actions_models("over80s", "coviddeath", "az", "any_immunosuppression"),
+
+  actions_models("over80s", "noncoviddeath", "any", "any_immunosuppression"),
+  actions_models("over80s", "noncoviddeath", "pfizer", "any_immunosuppression"),
+  actions_models("over80s", "noncoviddeath", "az", "any_immunosuppression"),
+
+  actions_models("over80s", "death", "any", "any_immunosuppression"),
+  actions_models("over80s", "death", "pfizer", "any_immunosuppression"),
+  actions_models("over80s", "death", "az", "any_immunosuppression"),
+
+  actions_combine_models("over80s", "any_immunosuppression"),
 
   ## 70-79s
-  comment("#############", "in70s, all", "#############"),
+  comment("####################################", "in70s, all", "####################################"),
 
   actions_process("in70s"),
   actions_descriptive("in70s"),
