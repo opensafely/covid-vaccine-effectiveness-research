@@ -7,7 +7,7 @@ expectations:
 actions:
 
   design:
-    run: 'r:latest analysis/R/design.R '
+    run: r:latest analysis/R/design.R
     outputs:
       moderately_sensitive:
         metadata: output/metadata/metadata*
@@ -22,8 +22,8 @@ actions:
   ## #################################### 
 
   extract_over80s:
-    run: 'cohortextractor:latest generate_cohort --study-definition study_definition_over80s
-      --output-format csv.gz '
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_over80s
+      --output-format csv.gz
     outputs:
       highly_sensitive:
         cohort: output/input_over80s.csv.gz
@@ -1668,8 +1668,8 @@ actions:
   ## #################################### 
 
   extract_in70s:
-    run: 'cohortextractor:latest generate_cohort --study-definition study_definition_in70s
-      --output-format csv.gz '
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_in70s
+      --output-format csv.gz
     outputs:
       highly_sensitive:
         cohort: output/input_in70s.csv.gz

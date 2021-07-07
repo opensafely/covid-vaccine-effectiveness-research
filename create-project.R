@@ -22,7 +22,7 @@ action <- function(
   outputs[sapply(outputs, is.null)] <- NULL
 
   action <- list(
-    run = paste0(run, " ", paste(arguments, collapse=" ")),
+    run = paste(c(run, arguments), collapse=" "),
     needs = needs,
     outputs = outputs
   )
