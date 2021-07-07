@@ -282,23 +282,23 @@ get_ipw_weights <- function(
       event_status,
       # get predicted probabilities from ipw models
       pred_event=predict(event_model, type="response", newdata=data_atrisk),
-      pred_event_fxd=predict(event_model_fxd, type="response", newdata=data_atrisk),
-      sample_weights
+      pred_event_fxd=predict(event_model_fxd, type="response", newdata=data_atrisk)
     ) %>%
     arrange(patient_id, tstop) %>%
     group_by(patient_id) %>%
     mutate(
+
+      # get probability of occurrence of realised event status (time varying model)
       probevent_realised = case_when(
         event!=1L ~ 1 - pred_event,
         event==1L ~ pred_event,
         TRUE ~ NA_real_
       ),
       # cumulative product of status probabilities
-      cmlprobevent_realised = cumprod(probevent_realised),
+      #cmlprobevent_realised = cumprod(probevent_realised),
       # inverse probability weights
-      cmlipweight = 1/cmlprobevent_realised,
+      #cmlipweight = 1/cmlprobevent_realised,
 
-      #same but for time-independent model
 
       # get probability of occurrence of realised event status (non-time varying model)
       probevent_realised_fxd = case_when(
@@ -307,16 +307,15 @@ get_ipw_weights <- function(
         TRUE ~ NA_real_
       ),
       # cumulative product of status probabilities
-      cmlprobevent_realised_fxd = cumprod(probevent_realised_fxd),
+      #cmlprobevent_realised_fxd = cumprod(probevent_realised_fxd),
       # inverse probability weights
-      cmlipweight_fxd = 1/cmlprobevent_realised_fxd,
-
+      #cmlipweight_fxd = 1/cmlprobevent_realised_fxd,
 
       # stabilised inverse probability weights
       ipweight_stbl = probevent_realised_fxd/probevent_realised,
 
       # stabilised inverse probability weights (cumulative)
-      cmlipweight_stbl = cmlprobevent_realised_fxd/cmlprobevent_realised,
+      #cmlipweight_stbl = cmlprobevent_realised_fxd/cmlprobevent_realised,
     ) %>%
     ungroup()
 
@@ -328,14 +327,11 @@ get_ipw_weights <- function(
     select(
       patient_id,
       tstart, tstop,
-      ipweight_stbl,
-      cmlipweight_stbl
+      ipweight_stbl
     )
 
   weights[[glue("ipweight_stbl_{name}")]] <- weights$ipweight_stbl
   weights$ipweight_stbl <- NULL
-  weights[[glue("cmlipweight_stbl_{name}")]] <- weights$cmlipweight_stbl
-  weights$cmlipweight_stbl <- NULL
 
   return(weights)
 }
@@ -437,19 +433,17 @@ for(stratum in strata){
       ) %>%
       left_join(weights_vaxany1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
-      group_by(patient_id) %>%
-      fill(
-        # after event has occurred, fill ip weight with last value carried forward (ie for person-time where treatment prob = 1 and so cumulative product of prob is last value)
-        cmlipweight_stbl_vaxany1,
-        cmlipweight_stbl_death
-      ) %>%
       replace_na(list(
         # weight is 1 if patient is not yet at risk
         ipweight_stbl_vaxany1 = 1,
         ipweight_stbl_death = 1,
-        cmlipweight_stbl_vaxany1 = 1,
-        cmlipweight_stbl_death = 1
       )) %>%
+      arrange(patient_id, tstop) %>%
+      group_by(patient_id) %>%
+      mutate(
+        cmlipweight_stbl_vaxany1 = cumprod(ipweight_stbl_vaxany1),
+        cmlipweight_stbl_death = cumprod(ipweight_stbl_death),
+      ) %>%
       ungroup() %>%
       mutate(
         ipweight_stbl = ipweight_stbl_vaxany1 * ipweight_stbl_death,
@@ -469,25 +463,23 @@ for(stratum in strata){
       left_join(weights_vaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_vaxaz1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
-      group_by(patient_id) %>%
-      fill( # after event has occurred, fill ip weight with last value carried forward (ie where all treatment probs are = 1 and so cumulative product of prob is last value)
-        cmlipweight_stbl_vaxpfizer1,
-        cmlipweight_stbl_vaxaz1,
-        cmlipweight_stbl_death
-      ) %>%
+
       replace_na(list( # weight is 1 if patient is not yet at risk
         ipweight_stbl_vaxpfizer1 = 1,
         ipweight_stbl_vaxaz1 = 1,
-        ipweight_stbl_death = 1,
-        cmlipweight_stbl_vaxpfizer1 = 1,
-        cmlipweight_stbl_vaxaz1 = 1,
-        cmlipweight_stbl_death = 1
+        ipweight_stbl_death = 1
       )) %>%
+      arrange(patient_id, tstop) %>%
+      group_by(patient_id) %>%
+      mutate(
+        cmlipweight_stbl_vaxpfizer1 = cumprod(ipweight_stbl_vaxpfizer1),
+        cmlipweight_stbl_vaxaz1 = cumprod(ipweight_stbl_vaxaz1),
+        cmlipweight_stbl_death = cumprod(ipweight_stbl_death),
+      ) %>%
       ungroup() %>%
       mutate(
         ## COMBINE WEIGHTS
         # take product of all weights
-
         ipweight_stbl = ipweight_stbl_vaxpfizer1 * ipweight_stbl_vaxaz1 * ipweight_stbl_death,
         ipweight_stbl_sample = ipweight_stbl * sample_weights,
 
