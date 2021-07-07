@@ -8,6 +8,8 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('lubridate')
 library('survival')
 library('splines')
@@ -15,9 +17,9 @@ library('gtsummary')
 library('gt')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -49,20 +51,20 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for outcomes ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
+list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 
-strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata
 
@@ -150,7 +152,7 @@ broomstack <-
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    broom = map(brand, ~read_rds(here::here("output", cohort, outcome, .x, strata_var, "all", glue::glue("broom_vax{.x}1.rds"))))
+    broom = map(brand, ~read_rds(here("output", cohort, outcome, .x, strata_var, "all", glue("broom_vax{.x}1.rds"))))
   ) %>%
   unnest(broom)
 
@@ -180,12 +182,12 @@ broomstack_formatted_wide <- broomstack_formatted %>%
     names_glue = "{brand_descr}_{.value}"
   )
 
-write_csv(broomstack_formatted, here::here("output", cohort, "tab_vax1.csv"))
-write_csv(broomstack_formatted_wide, here::here("output", cohort, "tab_vax1_wide.csv"))
+write_csv(broomstack_formatted, here("output", cohort, "tab_vax1.csv"))
+write_csv(broomstack_formatted_wide, here("output", cohort, "tab_vax1_wide.csv"))
 
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
-  here::here("output", cohort, "plot_vax1.svg"),
+  here("output", cohort, "plot_vax1.svg"),
   plot_vax,
   units="cm", width=30, height=25
 )
@@ -198,4 +200,4 @@ ggsave(
 #   gts$gt,
 #   tab_spanner = gts$brand_descr
 # )
-# gtsave(gt_vax_merge %>% as_gt(), here::here("output", cohort, "tab_vax1.html"))
+# gtsave(gt_vax_merge %>% as_gt(), here("output", cohort, "tab_vax1.html"))

@@ -16,11 +16,13 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('survival')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -44,8 +46,8 @@ if(length(args)==0){
 }
 
 # Import processed data ----
-data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
-characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
+data_cohort <- read_rds(here("output", cohort, "data", "data_cohort.rds"))
+characteristics <- read_rds(here("output", "metadata", "baseline_characteristics.rds"))
 
 # Generate different data formats ----
 
@@ -60,8 +62,8 @@ data_fixed <- data_cohort %>%
 
 ## print dataset size ----
 cat(" \n")
-cat(glue::glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n")
-cat(glue::glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI", digits=3L)), "\n")
+cat(glue("one-row-per-patient (time-independent) data size = ", nrow(data_fixed)), "\n")
+cat(glue("memory usage = ", format(object.size(data_fixed), units="GB", standard="SI", digits=3L)), "\n")
 
 data_tte <- data_cohort  %>%
   transmute(
@@ -144,8 +146,8 @@ stopifnot("vax1 time should not be same as vax2 time" = all(data_tte$tte_vaxany1
 
 ## print dataset size ----
 cat(" \n")
-cat(glue::glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n")
-cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", standard="SI", digits=3L)), "\n")
+cat(glue("one-row-per-patient (tte) data size = ", nrow(data_tte)), "\n")
+cat(glue("memory usage = ", format(object.size(data_tte), units="MB", standard="SI", digits=3L)), "\n")
 
 ## convert time-to-event data from daily to weekly ----
 ## not currently needed as daily data runs fairly quickly
@@ -184,7 +186,7 @@ cat(glue::glue("memory usage = ", format(object.size(data_tte), units="MB", stan
 # every time an event occurs or a covariate changes, a new row is generated
 
 # import infectious hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised_infectious <- read_rds(here::here("output", cohort, "data", "data_long_admission_infectious_dates.rds")) %>%
+data_hospitalised_infectious <- read_rds(here("output", cohort, "data", "data_long_admission_infectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -202,7 +204,7 @@ data_hospitalised_infectious <- read_rds(here::here("output", cohort, "data", "d
   )
 
 # import non infectious hospitalisations data for time-updating "in-hospital" covariate
-data_hospitalised_noninfectious <- read_rds(here::here("output", cohort, "data", "data_long_admission_noninfectious_dates.rds")) %>%
+data_hospitalised_noninfectious <- read_rds(here("output", cohort, "data", "data_long_admission_noninfectious_dates.rds")) %>%
   pivot_longer(
     cols=c(admitted_date, discharged_date),
     names_to="status",
@@ -220,7 +222,7 @@ data_hospitalised_noninfectious <- read_rds(here::here("output", cohort, "data",
   )
 
 
-data_suspected_covid <- read_rds(here::here("output", cohort, "data", "data_long_pr_suspected_covid_dates.rds")) %>%
+data_suspected_covid <- read_rds(here("output", cohort, "data", "data_long_pr_suspected_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -230,7 +232,7 @@ data_suspected_covid <- read_rds(here::here("output", cohort, "data", "data_long
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
   )
 
-data_probable_covid <- read_rds(here::here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds")) %>%
+data_probable_covid <- read_rds(here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -240,7 +242,7 @@ data_probable_covid <- read_rds(here::here("output", cohort, "data", "data_long_
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
   )
 
-data_postest <- read_rds(here::here("output", cohort, "data", "data_long_postest_dates.rds")) %>%
+data_postest <- read_rds(here("output", cohort, "data", "data_long_postest_dates.rds")) %>%
   inner_join(
     data_tte %>% select(patient_id, start_date, lastfup_date),
     .,
@@ -396,8 +398,8 @@ stopifnot("tstop - tstart should be strictly > 0 in data_tte_cp" = data_tte_cp$t
 
 ### print dataset size ----
 cat(" \n")
-cat(glue::glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n")
-cat(glue::glue("memory usage = ", format(object.size(data_tte_cp), units="GB", standard="SI", digits=3L)), "\n")
+cat(glue("one-row-per-patient-per-event data size = ", nrow(data_tte_cp)), "\n")
+cat(glue("memory usage = ", format(object.size(data_tte_cp), units="GB", standard="SI", digits=3L)), "\n")
 
 ## create person-time format dataset ----
 # ie, one row per person per day (or per week or per month)
@@ -543,12 +545,12 @@ data_tte_pt <- data_tte_pt %>%
 
 ### print dataset size ----
 cat(" \n")
-cat(glue::glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n")
-cat(glue::glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI", digits=3L)), "\n")
+cat(glue("one-row-per-patient-per-time-unit data size = ", nrow(data_tte_pt)), "\n")
+cat(glue("memory usage = ", format(object.size(data_tte_pt), units="GB", standard="SI", digits=3L)), "\n")
 
 ## Save processed tte data ----
-write_rds(data_fixed, here::here("output", cohort, "data", "data_fixed.rds"), compress="gz")
-write_rds(data_tte, here::here("output", cohort, "data", "data_tte.rds"), compress="gz")
-#write_rds(data_tte_cp, here::here("output", cohort, "data", "data_cp.rds"), compress="gz")
-write_rds(data_tte_pt, here::here("output", cohort, "data", "data_pt.rds"), compress="gz")
+write_rds(data_fixed, here("output", cohort, "data", "data_fixed.rds"), compress="gz")
+write_rds(data_tte, here("output", cohort, "data", "data_tte.rds"), compress="gz")
+#write_rds(data_tte_cp, here("output", cohort, "data", "data_cp.rds"), compress="gz")
+write_rds(data_tte_pt, here("output", cohort, "data", "data_pt.rds"), compress="gz")
 

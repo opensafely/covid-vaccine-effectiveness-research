@@ -15,6 +15,7 @@
 
 # import libraries
 library('tidyverse')
+library('here')
 source(here::here("lib", "redaction_functions.R"))
 
 # import command-line arguments ----
@@ -33,33 +34,33 @@ filenamebase <- fs::path_ext_remove(fs::path_file(rds_file))
 
 # Import processed data ----
 
-data <- readr::read_rds(here::here(rds_file))
+data <- readr::read_rds(here(rds_file))
 
 # Output summary .txt ----
 
 options(width=200) # set output width for capture.output
 
-dir.create(here::here(output_dir), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here(output_dir))
 
 ## high-level variable overview ----
 capture.output(
   skimr::skim_without_charts(data),
-  file = here::here(output_dir, paste0(filenamebase, "_skim", ".txt")),
+  file = here(output_dir, paste0(filenamebase, "_skim", ".txt")),
   split=FALSE
 )
 
 ## list of column types ----
 capture.output(
   lapply(data, class),
-  file = here::here(output_dir, paste0(filenamebase, "_coltypes", ".txt"))
+  file = here(output_dir, paste0(filenamebase, "_coltypes", ".txt"))
 )
 
 
 ## tabulated data ----
 
 # delete file if it exists
-if(file.exists(here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")))){
-  file.remove(here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")))
+if(file.exists(here(output_dir, paste0(filenamebase, "_tabulate", ".txt")))){
+  file.remove(here(output_dir, paste0(filenamebase, "_tabulate", ".txt")))
 }
 
 
@@ -73,7 +74,7 @@ sumtabs_cat <-
 
 capture.output(
   walk2(sumtabs_cat$value, sumtabs_cat$name, print_cat),
-  file = here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")),
+  file = here(output_dir, paste0(filenamebase, "_tabulate", ".txt")),
   append=FALSE
 )
 
@@ -88,7 +89,7 @@ sumtabs_num <-
 
 capture.output(
   walk2(sumtabs_num$value, sumtabs_num$name, print_num),
-  file = here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")),
+  file = here(output_dir, paste0(filenamebase, "_tabulate", ".txt")),
   append=TRUE
 )
 
@@ -103,7 +104,7 @@ sumtabs_date <-
 
 capture.output(
   walk2(sumtabs_date$value, sumtabs_date$name, print_num),
-  file = here::here(output_dir, paste0(filenamebase, "_tabulate", ".txt")),
+  file = here(output_dir, paste0(filenamebase, "_tabulate", ".txt")),
   append=TRUE
 )
 

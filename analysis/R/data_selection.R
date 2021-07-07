@@ -10,6 +10,8 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 
 ## import command-line arguments ----
 args <- commandArgs(trailingOnly=TRUE)
@@ -25,11 +27,11 @@ if(length(args)==0){
 }
 
 ## create output directories ----
-dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here("output", cohort, "data"))
 
 ## Import processed data ----
 
-data_processed <- read_rds(here::here("output", cohort, "data", "data_processed.rds"))
+data_processed <- read_rds(here("output", cohort, "data", "data_processed.rds"))
 
 data_criteria <- data_processed %>%
   mutate(
@@ -58,7 +60,7 @@ data_criteria <- data_processed %>%
   )
 
 data_cohort <- data_criteria %>% filter(include)
-write_rds(data_cohort, here::here("output", cohort, "data", "data_cohort.rds"), compress="gz")
+write_rds(data_cohort, here("output", cohort, "data", "data_cohort.rds"), compress="gz")
 
 
 data_flowchart <- data_criteria %>%
@@ -86,7 +88,7 @@ data_flowchart <- data_criteria %>%
     pct_all = n / first(n),
     pct_step = n / lag(n),
   )
-write_csv(data_flowchart, here::here("output", cohort, "data", glue::glue("flowchart.csv")))
+write_csv(data_flowchart, here("output", cohort, "data", glue("flowchart.csv")))
 
 
 

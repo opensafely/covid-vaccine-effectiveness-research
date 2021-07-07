@@ -6,14 +6,15 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
 library('glue')
 library('gt')
 library('gtsummary')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -34,7 +35,7 @@ if(length(args)==0){
 
 # Import processed data ----
 
-data_tte <- read_rds(here::here("output", cohort, "data", "data_tte.rds"))
+data_tte <- read_rds(here("output", cohort, "data", "data_tte.rds"))
 
 # calculate non-outcome sample weights
 
@@ -56,4 +57,4 @@ data_samples <- data_tte  %>%
     sample_weights_death = sample_weights(!is.na(tte_death), sample_death),
   )
 
-write_rds(data_samples, here::here("output", cohort, "data", "data_samples.rds"), compress="gz")
+write_rds(data_samples, here("output", cohort, "data", "data_samples.rds"), compress="gz")

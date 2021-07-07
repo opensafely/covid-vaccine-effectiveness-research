@@ -14,6 +14,8 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('lubridate')
 library('survival')
 library('splines')
@@ -23,9 +25,9 @@ library("sandwich")
 library("lmtest")
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -57,7 +59,7 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for outcome ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
 metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
 
@@ -66,7 +68,7 @@ list2env(metadata_outcomes, globalenv())
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
+list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_1 <- outcome ~ 1
@@ -74,7 +76,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 strata_names <- paste0("strata_",strata)
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata_names
@@ -83,15 +85,15 @@ for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
   # Import processed data ----
 
-  data_weights <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_weights.rds")))
+  data_weights <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")))
 
   # import models ----
 
-  #msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
-  msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
-  msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model2.rds")))
-  #msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
-  msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
+  #msmmod0 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model0.rds")))
+  msmmod1 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model1.rds")))
+  msmmod2 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model2.rds")))
+  #msmmod3 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model3.rds")))
+  msmmod4 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model4.rds")))
 
 
 
@@ -152,8 +154,8 @@ for(stratum in strata){
       panel.grid.minor.x = element_blank(),
     )
 
-  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, stratum, "cml_incidence_plot.svg"), cml_inc, width=20, height=15, units="cm")
-  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, stratum, "cml_incidence_plot.png"), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "cml_incidence_plot.svg"), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "cml_incidence_plot.png"), cml_inc, width=20, height=15, units="cm")
 
 
 
@@ -161,11 +163,11 @@ for(stratum in strata){
     msmmod1,
     pred=tstop, modx=region, data=data_weights,
     colors="Set1", vary.lty=FALSE,
-    x.label=glue::glue("Days since {gbl_vars$start_date}"),
-    y.label=glue::glue("{outcome_descr} prob.")
+    x.label=glue("Days since {gbl_vars$start_date}"),
+    y.label=glue("{outcome_descr} prob.")
   )
-  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, stratum, "time_trends_region_plot1.svg"), ggsecular1, width=20, height=15, units="cm")
-  ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, stratum, "time_trends_region_plot1.png"), ggsecular1, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "time_trends_region_plot1.svg"), ggsecular1, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "time_trends_region_plot1.png"), ggsecular1, width=20, height=15, units="cm")
 
 }
 
@@ -178,32 +180,32 @@ for(stratum in strata){
 #   msmmod2,
 #   pred=tstop, modx=region, data=data_weights,
 #   colors="Set1", vary.lty=FALSE,
-#   x.label=glue::glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue::glue("{outcome_descr} prob.")
+#   x.label=glue("Days since {gbl_vars$start_date}"),
+#   y.label=glue("{outcome_descr} prob.")
 # )
 #
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot2.svg"), ggsecular2, width=20, height=15, units="cm")
+# ggsave(filename=here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot2.svg"), ggsecular2, width=20, height=15, units="cm")
 #
 #
 # ggsecular3 <- interactions::interact_plot(
 #   msmmod3,
 #   pred=tstop, modx=region, data=data_weights,
 #   colors="Set1", vary.lty=FALSE,
-#   x.label=glue::glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue::glue("{outcome_descr} prob.")
+#   x.label=glue("Days since {gbl_vars$start_date}"),
+#   y.label=glue("{outcome_descr} prob.")
 # )
 #
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot3.svg"), ggsecular3, width=20, height=15, units="cm")
+# ggsave(filename=here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot3.svg"), ggsecular3, width=20, height=15, units="cm")
 #
 #
 # ggsecular4 <- interactions::interact_plot(
 #   msmmod4,
 #   pred=tstop, modx=region, data=data_weights,
 #   colors="Set1", vary.lty=FALSE,
-#   x.label=glue::glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue::glue("{outcome_descr} prob.")
+#   x.label=glue("Days since {gbl_vars$start_date}"),
+#   y.label=glue("{outcome_descr} prob.")
 # )
 #
-# ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot4.svg"), ggsecular4, width=20, height=15, units="cm")
+# ggsave(filename=here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot4.svg"), ggsecular4, width=20, height=15, units="cm")
 
 

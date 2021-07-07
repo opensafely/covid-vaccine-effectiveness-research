@@ -18,6 +18,7 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
 library('glue')
 library('survival')
 library('splines')
@@ -26,9 +27,9 @@ library('gtsummary')
 library('gt')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -65,15 +66,15 @@ parglmparams <- parglm.control(
 
 # reweight censored deaths or not?
 # ideally yes, but often very few events so censoring models are not stable
-reweight_death <- read_rds(here::here("output", "metadata", "reweight_death.rds")) == 1
+reweight_death <- read_rds(here("output", "metadata", "reweight_death.rds")) == 1
 
 ## if changing treatment strategy as per Miguel's suggestion
-exclude_recentpostest <- read_rds(here::here("output", "metadata", "exclude_recentpostest.rds"))
+exclude_recentpostest <- read_rds(here("output", "metadata", "exclude_recentpostest.rds"))
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
+list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 ## if outcome is positive test, remove time-varying positive test info from covariate set
@@ -89,15 +90,15 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 # Import processed data ----
 
-data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_fixed.rds")))
-data_samples <- read_rds(here::here("output", cohort, "data", glue("data_samples.rds"))) %>%
+data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
+data_samples <- read_rds(here("output", cohort, "data", glue("data_samples.rds"))) %>%
   transmute(
     patient_id,
     sample_weights = .[[glue("sample_weights_{outcome}")]],
     sample_outcome = .[[glue("sample_{outcome}")]]
   )
 
-data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
+data_pt <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   left_join(data_samples, by="patient_id") %>%
   filter(
     .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
@@ -266,9 +267,9 @@ get_ipw_weights <- function(
   cat("warnings: ", "\n")
   print(warnings())
 
-  #write_rds(data_atrisk, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
-  write_rds(event_model, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
-  write_rds(ipw_formula, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
+  #write_rds(data_atrisk, here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
+  write_rds(event_model, here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
+  write_rds(ipw_formula, here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
 
   rm("data_atrisk_sample")
 
@@ -340,7 +341,7 @@ get_ipw_weights <- function(
 
 ##  Create big loop over all strata
 
-strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 
 for(stratum in strata){
 
@@ -349,7 +350,7 @@ for(stratum in strata){
   cat("  \n")
 
   # create output directories ----
-  dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum), showWarnings = FALSE, recursive=TRUE)
+  fs::dir_create(here("output", cohort, outcome, brand, strata_var, stratum))
 
   # subset data
   data_pt_sub <- data_pt %>%
@@ -499,7 +500,7 @@ for(stratum in strata){
 
   capture.output(
     walk2(summarise_weights$value, summarise_weights$name, print_num),
-    file = here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_table.txt"),
+    file = here("output", cohort, outcome, brand, strata_var, stratum, "weights_table.txt"),
     append=FALSE
   )
 
@@ -511,7 +512,7 @@ for(stratum in strata){
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_prob_histogram.svg"), weight_histogram)
+  ggsave(here("output", cohort, outcome, brand, strata_var, stratum, "weights_prob_histogram.svg"), weight_histogram)
 
 
   weight_histogram <- data_weights %>%
@@ -520,7 +521,7 @@ for(stratum in strata){
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_cmlprob_histogram.svg"), weight_histogram)
+  ggsave(here("output", cohort, outcome, brand, strata_var, stratum, "weights_cmlprob_histogram.svg"), weight_histogram)
   if(removeobs) rm(weight_histogram)
 
   ## output weight distribution file ----
@@ -540,7 +541,7 @@ for(stratum in strata){
   cat(glue("data_weights data size = ", nrow(data_weights)), "  \n")
   cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
 
-  write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")), compress="gz")
+  write_rds(data_weights, here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")), compress="gz")
 
 
   # MSM model ----
@@ -569,7 +570,7 @@ for(stratum in strata){
   #
   # cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
   # cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
-  # write_rds(msmmod0_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
+  # write_rds(msmmod0_par, here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
   # if(removeobs) rm(msmmod0_par)
 
   ### model 1 - adjusted vaccination effect model and region/time only ----
@@ -592,7 +593,7 @@ for(stratum in strata){
 
   cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod1_par, here::here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
+  write_rds(msmmod1_par, here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
   if(removeobs) rm(msmmod1_par)
 
 
@@ -616,7 +617,7 @@ for(stratum in strata){
 
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod2_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model2.rds"), compress="gz")
+  write_rds(msmmod2_par, here("output", cohort, outcome, brand, strata_var, stratum, "model2.rds"), compress="gz")
 
   if(removeobs) rm(msmmod2_par)
 
@@ -640,7 +641,7 @@ for(stratum in strata){
 
   cat(glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod3_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
+  write_rds(msmmod3_par, here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
   if(removeobs) rm(msmmod3_par)
 
 
@@ -664,7 +665,7 @@ for(stratum in strata){
 
   cat(glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod4_par, here::here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
+  write_rds(msmmod4_par, here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
   if(removeobs) rm(msmmod4_par)
 
 
@@ -683,7 +684,7 @@ for(stratum in strata){
       incidence_prop = outcomes/patients,
       incidence_rate = outcomes/obs
     ) %>%
-    write_csv(path=here::here("output", cohort, outcome, brand, strata_var, stratum, glue("summary_substantive.csv")))
+    write_csv(path=here("output", cohort, outcome, brand, strata_var, stratum, glue("summary_substantive.csv")))
 
 
 }

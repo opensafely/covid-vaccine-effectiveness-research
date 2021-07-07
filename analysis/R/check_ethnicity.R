@@ -1,5 +1,6 @@
 library('tidyverse')
-
+library('here')
+library('glue')
 
 args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
@@ -11,10 +12,10 @@ if(length(args)==0){
 }
 
 
-data_processed <- read_rds(here::here("output", cohort, "data", "data_processed.rds"))
+data_processed <- read_rds(here("output", cohort, "data", "data_processed.rds"))
 
 tabout<-capture.output(table("primary care eth"=data_processed$ethnicity, "sus eth"=data_processed$ethnicity_6_sus, useNA='ifany'))
-cat(tabout, sep="\n", file = here::here("output", cohort, "data","ethnicity_table.txt"))
+cat(tabout, sep="\n", file = here("output", cohort, "data","ethnicity_table.txt"))
 
 tabout<-capture.output(table("primary care eth"=data_processed$ethnicity, "sus eth"=data_processed$ethnicity_6_sus, "combined eth"= data_processed$ethnicity_combined, useNA='ifany'))
-cat(tabout, sep="\n", file = here::here("output", cohort, "data","ethnicity_table_combined.txt"))
+cat(tabout, sep="\n", file = here("output", cohort, "data","ethnicity_table_combined.txt"))

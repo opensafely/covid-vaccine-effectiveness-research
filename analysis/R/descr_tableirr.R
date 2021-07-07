@@ -13,6 +13,8 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('lubridate')
 library('survival')
 library('gt')
@@ -20,9 +22,9 @@ library('gtsummary')
 
 ## Import custom user functions from lib
 
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 ## import command-line arguments ----
 
@@ -49,15 +51,15 @@ gbl_vars <- jsonlite::fromJSON(
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
+list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 ## create output directory ----
-dir.create(here::here("output", cohort, "descriptive", "tables"), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here("output", cohort, "descriptive", "tables"))
 
 ## Import processed data ----
-data_cohort <- read_rds(here::here("output", cohort, "data", "data_cohort.rds"))
-characteristics <- read_rds(here::here("output", "metadata", "baseline_characteristics.rds"))
+data_cohort <- read_rds(here("output", cohort, "data", "data_cohort.rds"))
+characteristics <- read_rds(here("output", "metadata", "baseline_characteristics.rds"))
 
 # create pt data ----
 
@@ -423,7 +425,7 @@ data_summary %>%
     noncoviddeath_rr = scales::label_number(accuracy=0.01, trim=FALSE)(noncoviddeath_rr),
     death_rr = scales::label_number(accuracy=0.01, trim=FALSE)(death_rr),
   ) %>%
-write_csv(here::here("output", cohort, "descriptive", "tables", "table_irr.csv"))
+write_csv(here("output", cohort, "descriptive", "tables", "table_irr.csv"))
 
 tab_summary <- data_summary %>%
   gt(
@@ -511,7 +513,7 @@ tab_summary <- data_summary %>%
     columns = "timesincevax_pw"
   )
 
-gtsave(tab_summary, here::here("output", cohort, "descriptive", "tables", "table_irr.html"))
+gtsave(tab_summary, here("output", cohort, "descriptive", "tables", "table_irr.html"))
 
 
 ## note:

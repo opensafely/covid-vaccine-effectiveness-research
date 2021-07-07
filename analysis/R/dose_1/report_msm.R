@@ -14,6 +14,8 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('lubridate')
 library('survival')
 library('splines')
@@ -23,9 +25,9 @@ library("sandwich")
 library("lmtest")
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -57,7 +59,7 @@ gbl_vars <- jsonlite::fromJSON(
 # Import metadata for outcome ----
 ## these are created in data_define_cohorts.R script
 
-metadata_outcomes <- read_rds(here::here("output", "metadata", "metadata_outcomes.rds"))
+metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
 metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
 
@@ -66,7 +68,7 @@ list2env(metadata_outcomes, globalenv())
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
+list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 formula_1 <- outcome ~ 1
@@ -74,7 +76,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here::here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 strata_names <- paste0("strata_",strata)
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata_names
@@ -83,15 +85,15 @@ for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
   # Import processed data ----
 
-  data_weights <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_weights.rds")))
+  data_weights <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")))
 
   # import models ----
 
-  #msmmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model0.rds")))
-  msmmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model1.rds")))
-  msmmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model2.rds")))
-  #msmmod3 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model3.rds")))
-  msmmod4 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("model4.rds")))
+  #msmmod0 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model0.rds")))
+  msmmod1 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model1.rds")))
+  msmmod2 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model2.rds")))
+  #msmmod3 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model3.rds")))
+  msmmod4 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model4.rds")))
 
   ## report models ----
 
@@ -130,8 +132,8 @@ summary_df <- summary_list %>% bind_rows %>%
     strata, model, model_descr, model_descr_wrap, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul, ve, ve.ll, ve.ul
   )
 
-write_csv(summary_df, path = here::here("output", cohort, outcome, brand, strata_var, "estimates.csv"))
-write_csv(summary_df %>% filter(str_detect(term, "timesincevax")),  path = here::here("output", cohort, outcome, brand, strata_var, "estimates_timesincevax.csv"))
+write_csv(summary_df, path = here("output", cohort, outcome, brand, strata_var, "estimates.csv"))
+write_csv(summary_df %>% filter(str_detect(term, "timesincevax")),  path = here("output", cohort, outcome, brand, strata_var, "estimates_timesincevax.csv"))
 
 # create forest plot
 msmmod_forest_data <- summary_df %>%
@@ -163,7 +165,7 @@ msmmod_forest <-
     y="Hazard ratio, versus no vaccination",
     x="Time since first dose",
     colour=NULL#,
-    #title=glue::glue("{outcome_descr} by time since first {brand} vaccine"),
+    #title=glue("{outcome_descr} by time since first {brand} vaccine"),
     #subtitle=cohort_descr
   ) +
   theme_bw()+
@@ -188,5 +190,5 @@ msmmod_forest <-
   )
 
 ## save plot
-ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest_plot.svg"), msmmod_forest, width=20, height=15, units="cm")
-ggsave(filename=here::here("output", cohort, outcome, brand, strata_var, "forest_plot.png"), msmmod_forest, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, outcome, brand, strata_var, "forest_plot.svg"), msmmod_forest, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, outcome, brand, strata_var, "forest_plot.png"), msmmod_forest, width=20, height=15, units="cm")

@@ -13,12 +13,14 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('lubridate')
 library('survival')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
 
 
 ## custom functions ----
@@ -89,8 +91,8 @@ if(cohort=="over80s"){
 
 
 ## create output directories ----
-dir.create(here::here("output", cohort, "descriptive", "plots"), showWarnings = FALSE, recursive=TRUE)
-dir.create(here::here("output", cohort, "descriptive", "tables"), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here("output", cohort, "descriptive", "plots"))
+fs::dir_create(here("output", cohort, "descriptive", "tables"))
 
 ## define theme ----
 
@@ -110,9 +112,9 @@ plot_theme <-
 
 ## Import processed data ----
 
-data_fixed <- read_rds(here::here("output", cohort, "data", "data_fixed.rds"))
-data_tte <- read_rds(here::here("output", cohort, "data", "data_tte.rds"))
-data_pt <- read_rds(here::here("output", cohort, "data", "data_pt.rds"))
+data_fixed <- read_rds(here("output", cohort, "data", "data_fixed.rds"))
+data_tte <- read_rds(here("output", cohort, "data", "data_tte.rds"))
+data_pt <- read_rds(here("output", cohort, "data", "data_pt.rds"))
 
 data_pt <- data_pt %>% select(
   patient_id,
@@ -471,12 +473,12 @@ vars_df <- tribble(
 # save data to combine across cohorts later
 write_rds(
   plot_brand1_counts("all", "")$data,
-  path=here::here("output", cohort, "descriptive", "plots", paste0("vaxcounts1.rds")), compress="gz"
+  path=here("output", cohort, "descriptive", "plots", paste0("vaxcounts1.rds")), compress="gz"
 )
 
 write_rds(
   plot_brand12_counts("all", "")$data,
-  path=here::here("output", cohort, "descriptive", "plots", paste0("vaxcounts12.rds")), compress="gz"
+  path=here("output", cohort, "descriptive", "plots", paste0("vaxcounts12.rds")), compress="gz"
 )
 
 vars_df %>%
@@ -484,7 +486,7 @@ vars_df %>%
     plot = pmap(lst(var, var_descr), plot_brand1_counts),
     plot = patchwork::align_patches(plot),
     filename = paste0("brandcounts1_",var,".svg"),
-    path=here::here("output", cohort, "descriptive", "plots"),
+    path=here("output", cohort, "descriptive", "plots"),
     panelwidth = 15,
     panelheight = 7,
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
@@ -508,7 +510,7 @@ vars_df %>%
     plot = pmap(lst(var, var_descr), plot_brand12_counts),
     plot = patchwork::align_patches(plot),
     filename = paste0("brandcounts12_",var,".svg"),
-    path=here::here("output", cohort, "descriptive", "plots"),
+    path=here("output", cohort, "descriptive", "plots"),
     panelwidth = 15,
     panelheight = 7,
     #width = pmap_dbl(list(plot, units, panelwidth), function(plot, units, panelwidth){plotWidth(plot, units) + panelwidth}),
@@ -532,7 +534,7 @@ vars_df %>%
 #     plot = pmap(lst(var, var_descr), plot_event_counts),
 #     plot = patchwork::align_patches(plot),
 #     filename = paste0("eventcounts_",var,".svg"),
-#     path=here::here("output", cohort, "descr", "plots"),
+#     path=here("output", cohort, "descr", "plots"),
 #     panelwidth = 15,
 #     panelheight = 7,
 #     units="cm",
@@ -558,7 +560,7 @@ vars_df %>%
 #     plot = pmap(lst(var, var_descr), plot_event_rates),
 #     plot = patchwork::align_patches(plot),
 #     filename = paste0("eventrates_",var,".svg"),
-#     path=here::here("output", cohort, "descr", "plots"),
+#     path=here("output", cohort, "descr", "plots"),
 #     panelwidth = 15,
 #     panelheight = 7,
 #     units="cm",
@@ -606,4 +608,4 @@ tab_end_status <- data_pt %>%
     max_fup = max(tstop),
   )
 
-write_csv(tab_end_status, here::here("output", cohort, "descriptive", "tables", "end_status.csv"))
+write_csv(tab_end_status, here("output", cohort, "descriptive", "tables", "end_status.csv"))

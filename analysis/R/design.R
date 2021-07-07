@@ -9,10 +9,11 @@
 
 ## Import libraries ----
 library('tidyverse')
-
+library('here')
+library('glue')
 
 ## create output directories ----
-dir.create(here::here("output", "metadata"), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here("output", "metadata"))
 
 # define cohorts ----
 
@@ -23,8 +24,8 @@ metadata_cohorts <- tribble(
   "in70s", "Aged 70-79, non-carehome, no prior infection",
   "under65s", "Aged <=64, no prior infection",
 )
-write_rds(metadata_cohorts, here::here("output", "metadata", "metadata_cohorts.rds"))
-write_csv(metadata_cohorts, here::here("output", "metadata", "metadata_cohorts.csv"))
+write_rds(metadata_cohorts, here("output", "metadata", "metadata_cohorts.rds"))
+write_csv(metadata_cohorts, here("output", "metadata", "metadata_cohorts.csv"))
 
 # define different outcomes ----
 
@@ -40,7 +41,7 @@ metadata_outcomes <- tribble(
   "vaccine", "covid_vax_1_date", "First vaccination date"
 )
 
-write_rds(metadata_outcomes, here::here("output", "metadata", "metadata_outcomes.rds"))
+write_rds(metadata_outcomes, here("output", "metadata", "metadata_outcomes.rds"))
 
 # define exposures and covariates ----
 
@@ -98,7 +99,7 @@ characteristics <- list(
 ) %>%
   set_names(., map_chr(., all.vars))
 
-write_rds(characteristics, here::here("output", "metadata", glue::glue("baseline_characteristics.rds")))
+write_rds(characteristics, here("output", "metadata", glue("baseline_characteristics.rds")))
 
 formula_exposure <- . ~ . + timesincevax_pw
 #formula_demog <- . ~ . + age + I(age * age) + sex + imd + ethnicity
@@ -177,16 +178,16 @@ list_formula <- lst(
   postvaxcuts
 )
 
-write_rds(list_formula, here::here("output", "metadata", glue::glue("list_formula.rds")))
+write_rds(list_formula, here("output", "metadata", glue("list_formula.rds")))
 
 ## choose whether to reweight follow time by probability of death as a censoring event
 reweight_death <- 0
-write_rds(reweight_death, here::here("output", "metadata", glue::glue("reweight_death.rds")))
+write_rds(reweight_death, here("output", "metadata", glue("reweight_death.rds")))
 
 
 ## if changing treatment strategy as per Miguel's suggestion:
 exclude_recentpostest <- TRUE
-write_rds(exclude_recentpostest, here::here("output", "metadata", glue::glue("exclude_recentpostest.rds")))
+write_rds(exclude_recentpostest, here("output", "metadata", glue("exclude_recentpostest.rds")))
 
 ## define stratification variables ----
 
@@ -195,5 +196,5 @@ list_strata <- list(
   any_immunosuppression = c(0L, 1L)
 )
 
-write_rds(list_strata, here::here("output", "metadata", glue::glue("list_strata.rds")))
+write_rds(list_strata, here("output", "metadata", glue("list_strata.rds")))
 

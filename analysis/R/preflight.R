@@ -14,14 +14,15 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
 library('glue')
 library('gt')
 library('gtsummary')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
-source(here::here("lib", "survival_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
 
 # import command-line arguments ----
 
@@ -45,7 +46,7 @@ if(length(args)==0){
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
 
-list_formula <- read_rds(here::here("output", "metadata", "list_formula.rds"))
+list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
 ## if outcome is positive test, remove time-varying positive test info from covariate set
@@ -56,7 +57,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 # Import processed data ----
 
-data_tte <- read_rds(here::here("output", cohort, "data", "data_tte.rds"))
+data_tte <- read_rds(here("output", cohort, "data", "data_tte.rds"))
 
 data_samples <- data_tte  %>%
   transmute(
@@ -76,9 +77,9 @@ data_samples <- data_tte  %>%
     sample_weights_death = sample_weights(tte_death, sample_death),
   )
 
-data_fixed <- read_rds(here::here("output", cohort, "data", glue("data_fixed.rds")))
+data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
 
-data_pt <- read_rds(here::here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
+data_pt <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   mutate(
     all = factor("all",levels=c("all")),
     timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
@@ -146,7 +147,7 @@ septab <- function(data, formula, outcome, brand, name){
     ) %>%
     gtsave(
       filename = glue("sepcheck_{outcome}_{brand}_{name}.html"),
-      path=here::here("output", cohort, "descriptive", "model-checks")
+      path=here("output", cohort, "descriptive", "model-checks")
     )
 }
 
@@ -159,7 +160,7 @@ for(outcome in outcomes){
   for(brand in brands){
 
 
-    dir.create(here::here("output", cohort, "descriptive", "model-checks"), showWarnings = FALSE, recursive=TRUE)
+    fs::dir_create(here("output", cohort, "descriptive", "model-checks"))
 
     if(outcome=="postest"){
       formula_remove_postest <- as.formula(". ~ . - timesince_postesttdc_pw")
@@ -221,7 +222,7 @@ for(outcome in outcomes){
         incidencerate_vaxpfizer1 = vaxpfizer1/obs,
         incidencerate_vaxaz1 = vaxaz1/obs
       ) %>%
-      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_treatments.csv")))
+      write_csv(path=here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_treatments.csv")))
 
     data_pt_atrisk %>%
       summarise(
@@ -245,7 +246,7 @@ for(outcome in outcomes){
         incidencerate_dereg = dereg/obs,
 
       ) %>%
-      write_csv(path=here::here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_outcomes.csv")))
+      write_csv(path=here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_outcomes.csv")))
 
 
     septab(data_pt_atrisk_treatment, treatment_any, outcome, brand, "vaxany1")

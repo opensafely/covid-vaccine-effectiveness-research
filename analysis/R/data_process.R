@@ -16,18 +16,19 @@
 
 # Import libraries ----
 library('tidyverse')
-library('lubridate')
+library('here')
 library('glue')
+library('lubridate')
 #library('arrow')
 
 # Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
+source(here("lib", "utility_functions.R"))
 
 # import globally defined repo variables from
 gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
-gbl_vars$run_date =date(file.info(here::here("metadata", "extract_over80s.log"))$ctime)
+gbl_vars$run_date =date(file.info(here("metadata", "extract_over80s.log"))$ctime)
 #list2env(gbl_vars, globalenv())
 
 
@@ -53,13 +54,13 @@ if(cohort=="in70s"){
 
 # output processed data to rds ----
 
-dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here("output", cohort, "data"))
 
 
 # process ----
 
 data_extract0 <- read_csv(
-  here::here("output", glue("input_{cohort}.csv.gz")),
+  here("output", glue("input_{cohort}.csv.gz")),
   col_types = cols_only(
 
     # identifiers
@@ -369,6 +370,6 @@ data_processed <- data_extract_reordered %>%
   ) %>%
   droplevels()
 
-write_rds(data_processed, here::here("output", cohort, "data", "data_processed.rds"), compress="gz")
+write_rds(data_processed, here("output", cohort, "data", "data_processed.rds"), compress="gz")
 
 

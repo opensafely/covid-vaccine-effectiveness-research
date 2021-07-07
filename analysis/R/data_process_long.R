@@ -3,9 +3,11 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 
 # Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
+source(here("lib", "utility_functions.R"))
 
 ## import command-line arguments ----
 args <- commandArgs(trailingOnly=TRUE)
@@ -21,11 +23,11 @@ if(length(args)==0){
 }
 
 ## create output directories ----
-dir.create(here::here("output", cohort, "data"), showWarnings = FALSE, recursive=TRUE)
+fs::dir_create(here("output", cohort, "data"))
 
 ## Import processed data ----
 
-data_processed <- read_rds(here::here("output", cohort, "data", "data_processed.rds"))
+data_processed <- read_rds(here("output", cohort, "data", "data_processed.rds"))
 
 ## create one-row-per-event datasets ----
 # for vaccination, positive test, hospitalisation/discharge, covid in primary care, death
@@ -147,10 +149,10 @@ data_vax <- local({
 })
 
 
-write_rds(data_vax, here::here("output", cohort, "data", "data_long_vax_dates.rds"), compress="gz")
-write_rds(data_admissions, here::here("output", cohort,  "data", "data_long_admission_dates.rds"), compress="gz")
-write_rds(data_admissions_infectious, here::here("output", cohort, "data", "data_long_admission_infectious_dates.rds"), compress="gz")
-write_rds(data_admissions_noninfectious, here::here("output", cohort, "data", "data_long_admission_noninfectious_dates.rds"), compress="gz")
-write_rds(data_pr_probable_covid, here::here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
-write_rds(data_pr_suspected_covid, here::here("output", cohort, "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
-write_rds(data_postest, here::here("output", cohort,  "data", "data_long_postest_dates.rds"), compress="gz")
+write_rds(data_vax, here("output", cohort, "data", "data_long_vax_dates.rds"), compress="gz")
+write_rds(data_admissions, here("output", cohort,  "data", "data_long_admission_dates.rds"), compress="gz")
+write_rds(data_admissions_infectious, here("output", cohort, "data", "data_long_admission_infectious_dates.rds"), compress="gz")
+write_rds(data_admissions_noninfectious, here("output", cohort, "data", "data_long_admission_noninfectious_dates.rds"), compress="gz")
+write_rds(data_pr_probable_covid, here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds"), compress="gz")
+write_rds(data_pr_suspected_covid, here("output", cohort, "data", "data_long_pr_suspected_covid_dates.rds"), compress="gz")
+write_rds(data_postest, here("output", cohort,  "data", "data_long_postest_dates.rds"), compress="gz")

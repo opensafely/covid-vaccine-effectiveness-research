@@ -1,12 +1,14 @@
 
 ## Import libraries ----
 library('tidyverse')
+library('here')
+library('glue')
 library('lubridate')
 library('survival')
 
 ## Import custom user functions from lib
-source(here::here("lib", "utility_functions.R"))
-source(here::here("lib", "redaction_functions.R"))
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
 
 ## import command-line arguments ----
 
@@ -22,8 +24,8 @@ if(length(args)==0){
 }
 
 
-plot_data_over80s <- read_rds(here::here("output", "over80s", "descriptive", "plots", paste0("vaxcounts12.rds"))) %>% mutate(cohort_descr="80+")
-plot_data_in70s <- read_rds(here::here("output", "in70s", "descriptive", "plots", paste0("vaxcounts12.rds"))) %>% mutate(cohort_descr="70-79")
+plot_data_over80s <- read_rds(here("output", "over80s", "descriptive", "plots", paste0("vaxcounts12.rds"))) %>% mutate(cohort_descr="80+")
+plot_data_in70s <- read_rds(here("output", "in70s", "descriptive", "plots", paste0("vaxcounts12.rds"))) %>% mutate(cohort_descr="70-79")
 
 plot_data <- bind_rows(
   plot_data_over80s,
@@ -71,7 +73,7 @@ plot <- plot_data %>%
 ggsave(
   plot = plot,
   filename = paste0("brandcounts12.svg"),
-  path=here::here("output"),
+  path=here("output"),
   units="cm",
   width = 25,
   height = 25
@@ -81,7 +83,7 @@ ggsave(
 ggsave(
   plot = plot,
   filename = paste0("brandcounts12.png"),
-  path=here::here("output"),
+  path=here("output"),
   units="cm",
   width = 25,
   height = 25

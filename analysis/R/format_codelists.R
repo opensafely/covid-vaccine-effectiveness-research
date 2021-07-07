@@ -1,4 +1,5 @@
 library('tidyverse')
+library('here')
 library('gt')
 
 # import codelists from json
@@ -24,5 +25,5 @@ codelists_formatted %>%
       url = "URL",
       downloaded_at = "Accessed on"
     ) %>%
-    gtsave(here::here("output", "codelists.html"))
+    gtsave(here("output", "codelists.html"))
 
