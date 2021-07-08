@@ -65,9 +65,9 @@ actions_process <- function(cohort){
 
     action(
       name = glue("extract_{cohort}"),
-      run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort} --output-format csv.gz"),
+      run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort} --output-format feather"),
       highly_sensitive = list(
-        cohort = glue("output/input_{cohort}.csv.gz")
+        cohort = glue("output/input_{cohort}.feather")
       )
     ),
 

@@ -18,6 +18,7 @@
 library('tidyverse')
 library('here')
 library('glue')
+library('arrow')
 library('lubridate')
 #library('arrow')
 
@@ -59,186 +60,74 @@ fs::dir_create(here("output", cohort, "data"))
 
 # process ----
 
-data_extract0 <- read_csv(
-  here("output", glue("input_{cohort}.csv.gz")),
-  col_types = cols_only(
+# use externally created dummy data if not running in the server
+# check variables are as they should be
+if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
 
-    # identifiers
-    patient_id = col_integer(),
-    practice_id = col_integer(),
+  # ideally in future this will check column existence and types from metadata,
+  # rather than from a cohort-extractor-generated dummy data
 
-    # demographic / administrative
-    msoa = col_character(),
-    stp = col_character(),
-    region = col_character(),
-    imd = col_character(),
-    rural_urban = col_integer(),
-    care_home_type = col_character(),
-    care_home_tpp = col_logical(),
-    care_home_code = col_logical(),
-    #nontpp_household = col_logical(),
-    #tpp_coverage = col_double(),
+  data_studydef_dummy <- read_feather(here("output", glue("input_{cohort}.feather")))
+  data_custom_dummy <- read_feather(here("output", "dummyinput.feather"))
 
-    has_follow_up_previous_year = col_logical(),
-
-    age = col_integer(),
-    sex = col_character(),
-    ethnicity = col_character(),
-    ethnicity_6_sus = col_character(),
-    #ethnicity_16 = col_character(),
-
-    # dates
-    dereg_date = col_date(format="%Y-%m-%d"),
-
-    prior_positive_test_date = col_date(format="%Y-%m-%d"),
-    prior_primary_care_covid_case_date = col_date(format="%Y-%m-%d"),
-    prior_covidadmitted_date = col_date(format="%Y-%m-%d"),
-
-    admitted_unplanned_0_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_1_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_2_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_3_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_4_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_5_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_6_date = col_date(format="%Y-%m-%d"),
-
-    discharged_unplanned_0_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_1_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_2_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_3_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_4_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_5_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_6_date = col_date(format="%Y-%m-%d"),
-
-    admitted_unplanned_infectious_0_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_infectious_1_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_infectious_2_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_infectious_3_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_infectious_4_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_infectious_5_date = col_date(format="%Y-%m-%d"),
-    admitted_unplanned_infectious_6_date = col_date(format="%Y-%m-%d"),
-
-    discharged_unplanned_infectious_0_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_infectious_1_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_infectious_2_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_infectious_3_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_infectious_4_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_infectious_5_date = col_date(format="%Y-%m-%d"),
-    discharged_unplanned_infectious_6_date = col_date(format="%Y-%m-%d"),
-
-    primary_care_probable_covid_1_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_2_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_3_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_4_date = col_date(format="%Y-%m-%d"),
-    primary_care_probable_covid_5_date = col_date(format="%Y-%m-%d"),
-
-    primary_care_suspected_covid_1_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_2_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_3_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_4_date = col_date(format="%Y-%m-%d"),
-    primary_care_suspected_covid_5_date = col_date(format="%Y-%m-%d"),
+  not_in_studydef <- names(data_custom_dummy)[!( names(data_custom_dummy) %in% names(data_studydef_dummy) )]
+  not_in_custom  <- names(data_studydef_dummy)[!( names(data_studydef_dummy) %in% names(data_custom_dummy) )]
 
 
-    prior_covid_vax_date = col_date(format="%Y-%m-%d"),
-    covid_vax_1_date = col_date(format="%Y-%m-%d"),
-    covid_vax_2_date = col_date(format="%Y-%m-%d"),
-    covid_vax_3_date = col_date(format="%Y-%m-%d"),
+  if(length(not_in_custom)!=0) stop(
+    paste(
+      "These variables are in studydef but not in custom: ",
+      paste(not_in_custom, collapse=", ")
+    )
+  )
 
-    prior_covid_vax_pfizer_date = col_date(format="%Y-%m-%d"),
-    covid_vax_pfizer_1_date = col_date(format="%Y-%m-%d"),
-    covid_vax_pfizer_2_date = col_date(format="%Y-%m-%d"),
-    covid_vax_pfizer_3_date = col_date(format="%Y-%m-%d"),
 
-    prior_covid_vax_az_date = col_date(format="%Y-%m-%d"),
-    covid_vax_az_1_date = col_date(format="%Y-%m-%d"),
-    covid_vax_az_2_date = col_date(format="%Y-%m-%d"),
-    covid_vax_az_3_date = col_date(format="%Y-%m-%d"),
+  if(length(not_in_studydef)!=0) stop(
+    paste(
+      "These variables are in custom but not in studydef: ",
+      paste(not_in_studydef, collapse=", ")
+    )
+  )
 
-    unknown_vaccine_brand = col_logical(),
+  # reorder columns
+  data_studydef_dummy <- data_studydef_dummy[,names(data_custom_dummy)]
 
-    covid_test_1_date = col_date(format="%Y-%m-%d"),
-    covid_test_2_date = col_date(format="%Y-%m-%d"),
-    positive_test_1_date = col_date(format="%Y-%m-%d"),
-    positive_test_2_date = col_date(format="%Y-%m-%d"),
-    positive_test_3_date = col_date(format="%Y-%m-%d"),
-    positive_test_4_date = col_date(format="%Y-%m-%d"),
-    primary_care_covid_case_1_date = col_date(format="%Y-%m-%d"),
-    primary_care_covid_case_2_date = col_date(format="%Y-%m-%d"),
-    emergency_1_date = col_date(format="%Y-%m-%d"),
-    emergency_2_date = col_date(format="%Y-%m-%d"),
-    covidadmitted_1_date = col_date(format="%Y-%m-%d"),
-    #covidadmitted_2_date = col_date(format="%Y-%m-%d"),
-    #covidadmitted_3_date = col_date(format="%Y-%m-%d"),
-    #covidadmitted_4_date = col_date(format="%Y-%m-%d"),
-    coviddeath_date = col_date(format="%Y-%m-%d"),
-    death_date = col_date(format="%Y-%m-%d"),
+  unmatched_types <- cbind(
+    map_chr(data_studydef_dummy, class) ,
+    map_chr(data_custom_dummy, class)
+  )[ (map_chr(data_studydef_dummy, class) != map_chr(data_custom_dummy, class)) ,] %>%
+    as.data.frame() %>% rownames_to_column()
 
-    bmi = col_character(),
 
-    chronic_cardiac_disease = col_logical(),
-    heart_failure = col_logical(),
-    other_heart_disease = col_logical(),
+  if(nrow(unmatched_types)>0) stop(
+    #unmatched_types
+    "inconsistent typing in studydef : dummy dataset\n",
+    apply(unmatched_types, 1, function(row) paste(paste(row, collapse=" : "), "\n"))
+  )
 
-    dialysis = col_logical(),
+  data_extract0 <- data_custom_dummy
+} else {
+  data_extract0 <- read_feather(here("output", glue("input_{cohort}.feather")))
+}
 
-    diabetes = col_logical(),
-    chronic_liver_disease = col_logical(),
 
-    current_copd = col_logical(),
-    cystic_fibrosis = col_logical(),
-    other_resp_conditions = col_logical(),
-
-    lung_cancer = col_logical(),
-    haematological_cancer = col_logical(),
-    cancer_excl_lung_and_haem = col_logical(),
-
-    chemo_or_radio = col_logical(),
-    solid_organ_transplantation = col_logical(),
-    bone_marrow_transplant = col_logical(),
-    sickle_cell_disease = col_logical(),
-    permanant_immunosuppression = col_logical(),
-    temporary_immunosuppression = col_logical(),
-    asplenia = col_logical(),
-    dmards = col_logical(),
-
-    dementia = col_logical(),
-    other_neuro_conditions = col_logical(),
-    LD_incl_DS_and_CP = col_logical(),
-    psychosis_schiz_bipolar = col_logical(),
-    flu_vaccine = col_logical(),
-    shielded_ever = col_logical(),
-    shielded = col_logical(),
-    efi = col_double(),
-    endoflife = col_logical()
-
-  ),
-
-  na = character() # more stable to convert to missing later
-)
-
-# parse NAs
+#convert date-strings to dates
 data_extract <- data_extract0 %>%
   mutate(across(
-    .cols = where(is.character),
-    .fns = ~na_if(.x, "")
-  )) %>%
-  mutate(across(
-    .cols = c(where(is.numeric), -ends_with("_id"), -all_of("efi")), #convert numeric+integer but not id variables
-    .fns = ~na_if(.x, 0)
-  )) %>%
-  arrange(patient_id) %>%
-  select(all_of((names(data_extract0))))
+    .cols = ends_with("_date"),
+    .fns = as.Date
+  ))
 
 
 ##  SECTION TO SORT OUT BAD DUMMY DATA ----
 # this rearranges so events are in date order
 
 data_dates_reordered_long <- data_extract %>%
-  select(patient_id, matches("^(.*)_(\\d+)_date")) %>%
+  select(patient_id, matches("^(.*)_([1-9]+)_date"), -starts_with("covid_vax")) %>%
   pivot_longer(
     cols = -patient_id,
     names_to = c("event", "index"),
-    names_pattern = "^(.*)_(\\d+)_date",
+    names_pattern = "^(.*)_([1-9]+)_date",
     values_to = "date",
     values_drop_na = TRUE
   ) %>%
@@ -263,7 +152,7 @@ data_dates_reordered_wide <- data_dates_reordered_long %>%
   )
 
 data_extract_reordered <- left_join(
-  data_extract %>% select(-matches("^(.*)_(\\d+)_date")),
+  data_extract %>% select(-names(data_dates_reordered_wide)[-1]),
   data_dates_reordered_wide,
   by="patient_id"
 )
@@ -292,7 +181,7 @@ data_processed <- data_extract_reordered %>%
     ),
 
     # Fill in unknown ethnicity from GP records with ethnicity from SUS (secondary care)
-    ethnicity_combined = if_else(ethnicity %in% c("", NA), ethnicity_6_sus, ethnicity),
+    ethnicity_combined = if_else(is.na(ethnicity), ethnicity_6_sus, ethnicity),
     ethnicity_combined = fct_case_when(
       ethnicity_combined == "1" ~ "White",
       ethnicity_combined == "4" ~ "Black",
@@ -316,25 +205,7 @@ data_processed <- data_extract_reordered %>%
       TRUE ~ NA_character_
     ),
 
-    region = factor(region,
-                    levels= c(
-                      "East",
-                      "East Midlands",
-                      "London",
-                      "North East",
-                      "North West",
-                      "South East",
-                      "South West",
-                      "West Midlands",
-                      "Yorkshire and The Humber"
-                    )
-    ),
-    stp = as.factor(stp),
-    msoa = as.factor(msoa),
-    care_home_type = as.factor(care_home_type),
     care_home_combined = care_home_tpp | care_home_code, # any carehome flag
-
-    bmi = as.factor(bmi),
 
     any_immunosuppression = (permanant_immunosuppression | asplenia | dmards | solid_organ_transplantation | sickle_cell_disease | temporary_immunosuppression | bone_marrow_transplant | chemo_or_radio),
 
@@ -365,11 +236,12 @@ data_processed <- data_extract_reordered %>%
       TRUE ~ NA_character_
     ),
 
-    noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(NA_character_))
+    noncoviddeath_date = if_else(!is.na(death_date) & is.na(coviddeath_date), death_date, as.Date(NA_character_)),
+
+    covid_vax_1_date = pmin(covid_vax_pfizer_1_date, covid_vax_az_1_date, na.rm=TRUE),
+    covid_vax_2_date = pmin(covid_vax_pfizer_2_date, covid_vax_az_2_date, na.rm=TRUE),
 
   ) %>%
   droplevels()
 
 write_rds(data_processed, here("output", cohort, "data", "data_processed.rds"), compress="gz")
-
-

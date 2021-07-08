@@ -42,11 +42,11 @@ data_criteria <- data_processed %>%
     has_ethnicity = !is.na(ethnicity_combined),
     has_region = !is.na(region),
     has_follow_up_previous_year,
-    previous_covid_vaccine = !is.na(prior_covid_vax_date) | !is.na(prior_covid_vax_pfizer_date) | !is.na(prior_covid_vax_az_date),
+    previous_covid_vaccine = !is.na(covid_vax_pfizer_0_date) | !is.na(covid_vax_az_0_date),
     unknown_vaccine_brand,
     care_home_combined,
     endoflife,
-    nopriorcovid = (is.na(prior_positive_test_date) & is.na(prior_primary_care_covid_case_date) & is.na(prior_covidadmitted_date)),
+    nopriorcovid = (is.na(positive_test_0_date) & is.na(primary_care_covid_case_0_date) & is.na(covidadmitted_0_date)),
 
     include = (
       has_age & has_sex & has_imd & has_ethnicity & has_region &

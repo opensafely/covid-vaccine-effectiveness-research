@@ -23,10 +23,10 @@ actions:
 
   extract_over80s:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_over80s
-      --output-format csv.gz
+      --output-format feather
     outputs:
       highly_sensitive:
-        cohort: output/input_over80s.csv.gz
+        cohort: output/input_over80s.feather
 
   data_process_over80s:
     run: r:latest analysis/R/data_process.R over80s
@@ -1681,10 +1681,10 @@ actions:
 
   extract_in70s:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_in70s
-      --output-format csv.gz
+      --output-format feather
     outputs:
       highly_sensitive:
-        cohort: output/input_in70s.csv.gz
+        cohort: output/input_in70s.feather
 
   data_process_in70s:
     run: r:latest analysis/R/data_process.R in70s
