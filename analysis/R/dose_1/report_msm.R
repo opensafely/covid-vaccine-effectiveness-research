@@ -3,7 +3,7 @@
 # This script:
 # imports fitted MSMs
 # calculates robust CIs taking into account patient-level clustering
-# outputs forest plots for the primary vaccine-outcome relationship
+# outputs plots for the primary vaccine-outcome relationship
 # outputs plots showing model-estimated spatio-temporal trends
 #
 # The script should only be run via an action in the project.yaml only
@@ -37,15 +37,15 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
-  outcome <- "covidadmitted"
-  brand <- "any"
   strata_var <- "all"
+  brand <- "any"
+  outcome <- "postest"
   removeobs <- FALSE
 } else {
   cohort <- args[[1]]
-  outcome <- args[[2]]
+  strata_var <- args[[2]]
   brand <- args[[3]]
-  strata_var <- args[[4]]
+  outcome <- args[[4]]
   removeobs <- TRUE
 }
 
@@ -85,15 +85,15 @@ for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
   # Import processed data ----
 
-  data_weights <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")))
+  data_weights <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")))
 
   # import models ----
 
-  #msmmod0 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model0.rds")))
-  msmmod1 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model1.rds")))
-  msmmod2 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model2.rds")))
-  #msmmod3 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model3.rds")))
-  msmmod4 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model4.rds")))
+  #msmmod0 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")))
+  msmmod1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")))
+  msmmod2 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")))
+  #msmmod3 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")))
+  msmmod4 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")))
 
   ## report models ----
 
@@ -132,11 +132,11 @@ summary_df <- summary_list %>% bind_rows %>%
     strata, model, model_descr, model_descr_wrap, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul, ve, ve.ll, ve.ul
   )
 
-write_csv(summary_df, path = here("output", cohort, outcome, brand, strata_var, "estimates.csv"))
-write_csv(summary_df %>% filter(str_detect(term, "timesincevax")),  path = here("output", cohort, outcome, brand, strata_var, "estimates_timesincevax.csv"))
+write_csv(summary_df, path = here("output", cohort, strata_var, brand, outcome, glue("estimates.csv")))
+write_csv(summary_df %>% filter(str_detect(term, "timesincevax")), path = here("output", cohort, strata_var, brand, outcome, glue("estimates_timesincevax.csv")))
 
-# create forest plot
-msmmod_forest_data <- summary_df %>%
+# create plot
+msmmod_effect_data <- summary_df %>%
   filter(str_detect(term, "timesincevax")) %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
@@ -148,8 +148,8 @@ msmmod_forest_data <- summary_df %>%
   )
 
 
-msmmod_forest <-
-  ggplot(data = msmmod_forest_data, aes(colour=as.factor(strata))) +
+msmmod_effect <-
+  ggplot(data = msmmod_effect_data, aes(colour=as.factor(strata))) +
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 0.5))+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
@@ -158,7 +158,7 @@ msmmod_forest <-
     breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
     sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
   )+
-  scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
+  scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
   coord_cartesian(ylim=c(0.1,2)) +
   labs(
@@ -190,5 +190,5 @@ msmmod_forest <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, outcome, brand, strata_var, "forest_plot.svg"), msmmod_forest, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, outcome, brand, strata_var, "forest_plot.png"), msmmod_forest, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.svg")), msmmod_effect, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.png")), msmmod_effect, width=20, height=15, units="cm")

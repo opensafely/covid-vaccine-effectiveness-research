@@ -40,15 +40,17 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  outcome <- "postest"
+  strata_var <- "all"
   brand <- "any"
-  strata_var <- "sex"
+  outcome <- "postest"
+
+
 } else {
   removeobs <- TRUE
   cohort <- args[[1]]
-  outcome <- args[[2]]
+  strata_var <- args[[2]]
   brand <- args[[3]]
-  strata_var <- args[[4]]
+  outcome <- args[[4]]
 }
 
 sample_event_prop <- 0.1
@@ -173,7 +175,9 @@ get_ipw_weights <- function(
   sample_prop,
 
   ipw_formula,
-  ipw_formula_fxd
+  ipw_formula_fxd,
+
+  stratum
 ){
 
   stopifnot(sample_type %in% c("random", "event"))
@@ -267,9 +271,9 @@ get_ipw_weights <- function(
   cat("warnings: ", "\n")
   print(warnings())
 
-  #write_rds(data_atrisk, here("output", cohort, outcome, brand, strata_var, stratum, glue("data_atrisk_{event}.rds")), compress="gz")
-  write_rds(event_model, here("output", cohort, outcome, brand, strata_var, stratum, glue("model_{name}.rds")), compress="gz")
-  write_rds(ipw_formula, here("output", cohort, outcome, brand, strata_var, stratum, glue("model_formula_{name}.rds")), compress="gz")
+  #write_rds(data_atrisk, here("output", cohort, strata_var, brand, outcome, glue("data_atrisk_{event}.rds")), compress="gz")
+  write_rds(event_model, here("output", cohort, strata_var, brand, outcome, glue("model_{name}_{stratum}.rds")), compress="gz")
+  write_rds(ipw_formula, here("output", cohort, strata_var, brand, outcome, glue("model_formula_{name}_{stratum}.rds")), compress="gz")
 
   rm("data_atrisk_sample")
 
@@ -350,7 +354,7 @@ for(stratum in strata){
   cat("  \n")
 
   # create output directories ----
-  fs::dir_create(here("output", cohort, outcome, brand, strata_var, stratum))
+  fs::dir_create(here("output", cohort, strata_var, brand, outcome))
 
   # subset data
   data_pt_sub <- data_pt %>%
@@ -365,7 +369,8 @@ for(stratum in strata){
       data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk",
       sample_type="random", sample_prop=sample_event_prop,
       ipw_formula =     update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
-      ipw_formula_fxd = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
+      ipw_formula_fxd = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      stratum = stratum
     )
   }
   if(brand!="any"){
@@ -377,13 +382,15 @@ for(stratum in strata){
       data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
       sample_type="random", sample_prop=sample_event_prop,
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
-      ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
+      ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      stratum = stratum
     )
     weights_vaxaz1 <- get_ipw_weights(
       data_pt_sub, "vaxaz1", "vaxaz1_status", "vaxaz1_atrisk",
       sample_type="random", sample_prop=sample_event_prop,
       ipw_formula =     update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
-      ipw_formula_fxd = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
+      ipw_formula_fxd = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      stratum = stratum
     )
   }
 
@@ -395,7 +402,8 @@ for(stratum in strata){
       data_pt_sub, "death", "death_status", "death_atrisk",
       sample_type="event", sample_prop=sample_event_prop,
       ipw_formula =     update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
-      ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
+      ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      stratum = stratum
     )
   }
   ## if outcome is covid death, then need to account for censoring by non-covid deaths
@@ -404,7 +412,8 @@ for(stratum in strata){
       data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk",
       sample_type="event", sample_prop=sample_event_prop,
       ipw_formula =     update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
-      ipw_formula_fxd = update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
+      ipw_formula_fxd = update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      stratum = stratum
     )
   }
   ## if outcome is noncovid death, then need to account for censoring by covid deaths
@@ -413,7 +422,8 @@ for(stratum in strata){
       data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk",
       sample_type="event", sample_prop=sample_event_prop,
       ipw_formula =     update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
-      ipw_formula_fxd = update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var)
+      ipw_formula_fxd = update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
+      stratum = stratum
     )
   }
   ## if outcome is death, then no accounting for censoring by death is needed
@@ -500,7 +510,7 @@ for(stratum in strata){
 
   capture.output(
     walk2(summarise_weights$value, summarise_weights$name, print_num),
-    file = here("output", cohort, outcome, brand, strata_var, stratum, "weights_table.txt"),
+    file = here("output", cohort, strata_var, brand, outcome, glue("weights_table_{stratum}.txt")),
     append=FALSE
   )
 
@@ -512,7 +522,7 @@ for(stratum in strata){
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here("output", cohort, outcome, brand, strata_var, stratum, "weights_prob_histogram.svg"), weight_histogram)
+  ggsave(here("output", cohort, strata_var, brand, outcome, glue("weights_prob_histogram_{stratum}.svg")), weight_histogram)
 
 
   weight_histogram <- data_weights %>%
@@ -521,7 +531,7 @@ for(stratum in strata){
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here("output", cohort, outcome, brand, strata_var, stratum, "weights_cmlprob_histogram.svg"), weight_histogram)
+  ggsave(here("output", cohort, strata_var, brand, outcome, glue("weights_cmlprob_histogram_{stratum}.svg")), weight_histogram)
   if(removeobs) rm(weight_histogram)
 
   ## output weight distribution file ----
@@ -541,7 +551,7 @@ for(stratum in strata){
   cat(glue("data_weights data size = ", nrow(data_weights)), "  \n")
   cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
 
-  write_rds(data_weights, here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")), compress="gz")
+  write_rds(data_weights, here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")), compress="gz")
 
 
   # MSM model ----
@@ -570,7 +580,7 @@ for(stratum in strata){
   #
   # cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
   # cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
-  # write_rds(msmmod0_par, here("output", cohort, outcome, brand, strata_var, stratum, "model0.rds"), compress="gz")
+  # write_rds(msmmod0_par, here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")), compress="gz")
   # if(removeobs) rm(msmmod0_par)
 
   ### model 1 - adjusted vaccination effect model and region/time only ----
@@ -593,7 +603,7 @@ for(stratum in strata){
 
   cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod1_par, here("output", cohort, outcome, brand, strata_var, stratum,"model1.rds"), compress="gz")
+  write_rds(msmmod1_par, here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")), compress="gz")
   if(removeobs) rm(msmmod1_par)
 
 
@@ -617,7 +627,7 @@ for(stratum in strata){
 
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod2_par, here("output", cohort, outcome, brand, strata_var, stratum, "model2.rds"), compress="gz")
+  write_rds(msmmod2_par, here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")), compress="gz")
 
   if(removeobs) rm(msmmod2_par)
 
@@ -641,7 +651,7 @@ for(stratum in strata){
 
   cat(glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod3_par, here("output", cohort, outcome, brand, strata_var, stratum, "model3.rds"), compress="gz")
+  write_rds(msmmod3_par, here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")), compress="gz")
   if(removeobs) rm(msmmod3_par)
 
 
@@ -665,7 +675,7 @@ for(stratum in strata){
 
   cat(glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod4_par, here("output", cohort, outcome, brand, strata_var, stratum, "model4.rds"), compress="gz")
+  write_rds(msmmod4_par, here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")), compress="gz")
   if(removeobs) rm(msmmod4_par)
 
 
@@ -684,7 +694,7 @@ for(stratum in strata){
       incidence_prop = outcomes/patients,
       incidence_rate = outcomes/obs
     ) %>%
-    write_csv(path=here("output", cohort, outcome, brand, strata_var, stratum, glue("summary_substantive.csv")))
+    write_csv(path=here("output", cohort, strata_var, brand, outcome, glue("summary_substantive_{stratum}.csv")))
 
 
 }

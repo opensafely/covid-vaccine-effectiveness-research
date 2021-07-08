@@ -60,7 +60,7 @@ gbl_vars <- jsonlite::fromJSON(
 metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 
 
-fs::dir_create(here("output", cohort, "combined", strata_var))
+fs::dir_create(here("output", cohort, strata_var, "combined"))
 
 ##  Create big loop over all categories
 
@@ -93,10 +93,15 @@ estimates <-
       brand_descr = fct_inorder(brand_descr)
     )
   ) %>%
+  add_column(
+    stratum = list(strata),
+    .before=1
+  ) %>%
+  unnest(stratum) %>% arrange(stratum) %>%
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    estimates = map2(outcome, brand, ~read_csv(here("output", cohort, .x, .y, strata_var, glue("estimates_timesincevax.csv"))))
+    estimates = map2(brand, outcome, ~read_csv(here("output", cohort, strata_var, .x, .y, glue("estimates_timesincevax.csv"))))
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -131,12 +136,12 @@ estimates_formatted_wide <- estimates_formatted %>%
     names_glue = "{model}_{.value}"
   )
 
-write_csv(estimates, path = here("output", cohort, "combined", strata_var, glue("estimates_timesincevax_{strata_var}.csv")))
-write_csv(estimates_formatted, path = here("output", cohort, "combined", strata_var, glue("estimates_formatted_timesincevax_{strata_var}.csv")))
-write_csv(estimates_formatted_wide, path = here("output", cohort, "combined", strata_var, glue("estimates_formatted_wide_timesincevax_{strata_var}.csv")))
+write_csv(estimates, path = here("output", cohort, strata_var, "combined", glue("estimates_timesincevax.csv")))
+write_csv(estimates_formatted, path = here("output", cohort, strata_var, "combined", glue("estimates_formatted_timesincevax.csv")))
+write_csv(estimates_formatted_wide, path = here("output", cohort, strata_var, "combined", glue("estimates_formatted_wide_timesincevax.csv")))
 
 # create forest plot
-msmmod_forest_data <- estimates %>%
+msmmod_effect_data <- estimates %>%
   filter(
     !(outcome %in% c("death") )
   ) %>%
@@ -150,8 +155,8 @@ msmmod_forest_data <- estimates %>%
     strata = if_else(strata=="all", "", strata)
   )
 
-msmmod_forest <-
-  ggplot(data = msmmod_forest_data, aes(colour=model_descr)) +
+msmmod_effect <-
+  ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5))+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
   geom_hline(aes(yintercept=1), colour='grey')+
@@ -192,6 +197,6 @@ msmmod_forest <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, "combined", strata_var, glue("forest_plot_{strata_var}.svg")), msmmod_forest, width=30, height=26, units="cm")
-ggsave(filename=here("output", cohort, "combined", strata_var, glue("forest_plot_{strata_var}.png")), msmmod_forest, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("forest_plot.svg")), msmmod_effect, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("forest_plot.png")), msmmod_effect, width=30, height=26, units="cm")
 

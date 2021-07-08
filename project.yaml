@@ -131,1537 +131,1549 @@ actions:
         plots: output/over80s/descriptive/plots/*.svg
         tables: output/over80s/descriptive/tables/*.csv
 
-  descr_preflight_over80s:
-    run: r:latest analysis/R/preflight.R over80s all 0.1
-    needs:
-    - design
-    - data_stset_over80s
-    outputs:
-      moderately_sensitive:
-        html: output/over80s/descriptive/model-checks/*.html
-        csv: output/over80s/descriptive/model-checks/*.csv
-
   ## #################################### 
   ## All 
   ## #################################### 
 
-  model_over80s_postest_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s postest any all
+  model_over80s_all_any_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any postest
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/any/all/*/model*.rds
-        data: output/over80s/postest/any/all/*/data*.rds
+        models: output/over80s/all/any/postest/model*.rds
+        data: output/over80s/all/any/postest/data*.rds
       moderately_sensitive:
-        weights: output/over80s/postest/any/all/*/weights*
+        weights: output/over80s/all/any/postest/weights*
 
-  report_ipw_over80s_postest_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest any all
+  report_ipw_over80s_all_any_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all any postest
     needs:
     - design
-    - model_over80s_postest_any_all
+    - model_over80s_all_any_postest
     outputs:
       highly_sensitive:
-        broom: output/over80s/postest/any/all/*/broom*.rds
-        gt: output/over80s/postest/any/all/*/gt*.rds
+        broom: output/over80s/all/any/postest/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/postest/any/all/*/plot*.svg
-        tables: output/over80s/postest/any/all/*/tab*.html
-        data: output/over80s/postest/any/all/*/broom*.csv
+        data: output/over80s/all/any/postest/broom*.csv
 
-  report_msm_over80s_postest_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s postest any all
+  report_msm_over80s_all_any_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all any postest
     needs:
     - design
-    - model_over80s_postest_any_all
+    - model_over80s_all_any_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/any/all/forest_plot.svg
-        png: output/over80s/postest/any/all/forest_plot.png
-        tables: output/over80s/postest/any/all/*.csv
+        svg: output/over80s/all/any/postest/VE_plot.svg
+        png: output/over80s/all/any/postest/VE_plot.png
+        tables: output/over80s/all/any/postest/estimates*.csv
 
-  report_incidence_over80s_postest_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s postest any all
+  report_incidence_over80s_all_any_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all any postest
     needs:
     - design
-    - model_over80s_postest_any_all
+    - model_over80s_all_any_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/any/all/*/*.svg
-        png: output/over80s/postest/any/all/*/*.png
+        cmlsvg: output/over80s/all/any/postest/cml_incidence*.svg
+        cmlpng: output/over80s/all/any/postest/cml_incidence*.png
+        trendsvg: output/over80s/all/any/postest/time*.svg
+        trendpng: output/over80s/all/any/postest/time*.png
 
-  model_over80s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s postest pfizer all
+  model_over80s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer postest
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/pfizer/all/*/model*.rds
-        data: output/over80s/postest/pfizer/all/*/data*.rds
+        models: output/over80s/all/pfizer/postest/model*.rds
+        data: output/over80s/all/pfizer/postest/data*.rds
       moderately_sensitive:
-        weights: output/over80s/postest/pfizer/all/*/weights*
+        weights: output/over80s/all/pfizer/postest/weights*
 
-  report_ipw_over80s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest pfizer all
+  report_ipw_over80s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all pfizer postest
     needs:
     - design
-    - model_over80s_postest_pfizer_all
+    - model_over80s_all_pfizer_postest
     outputs:
       highly_sensitive:
-        broom: output/over80s/postest/pfizer/all/*/broom*.rds
-        gt: output/over80s/postest/pfizer/all/*/gt*.rds
+        broom: output/over80s/all/pfizer/postest/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/postest/pfizer/all/*/plot*.svg
-        tables: output/over80s/postest/pfizer/all/*/tab*.html
-        data: output/over80s/postest/pfizer/all/*/broom*.csv
+        data: output/over80s/all/pfizer/postest/broom*.csv
 
-  report_msm_over80s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s postest pfizer all
+  report_msm_over80s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all pfizer postest
     needs:
     - design
-    - model_over80s_postest_pfizer_all
+    - model_over80s_all_pfizer_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/pfizer/all/forest_plot.svg
-        png: output/over80s/postest/pfizer/all/forest_plot.png
-        tables: output/over80s/postest/pfizer/all/*.csv
+        svg: output/over80s/all/pfizer/postest/VE_plot.svg
+        png: output/over80s/all/pfizer/postest/VE_plot.png
+        tables: output/over80s/all/pfizer/postest/estimates*.csv
 
-  report_incidence_over80s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s postest pfizer all
+  report_incidence_over80s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all pfizer postest
     needs:
     - design
-    - model_over80s_postest_pfizer_all
+    - model_over80s_all_pfizer_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/pfizer/all/*/*.svg
-        png: output/over80s/postest/pfizer/all/*/*.png
+        cmlsvg: output/over80s/all/pfizer/postest/cml_incidence*.svg
+        cmlpng: output/over80s/all/pfizer/postest/cml_incidence*.png
+        trendsvg: output/over80s/all/pfizer/postest/time*.svg
+        trendpng: output/over80s/all/pfizer/postest/time*.png
 
-  model_over80s_postest_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s postest az all
+  model_over80s_all_az_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az postest
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/az/all/*/model*.rds
-        data: output/over80s/postest/az/all/*/data*.rds
+        models: output/over80s/all/az/postest/model*.rds
+        data: output/over80s/all/az/postest/data*.rds
       moderately_sensitive:
-        weights: output/over80s/postest/az/all/*/weights*
+        weights: output/over80s/all/az/postest/weights*
 
-  report_ipw_over80s_postest_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest az all
+  report_ipw_over80s_all_az_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all az postest
     needs:
     - design
-    - model_over80s_postest_az_all
+    - model_over80s_all_az_postest
     outputs:
       highly_sensitive:
-        broom: output/over80s/postest/az/all/*/broom*.rds
-        gt: output/over80s/postest/az/all/*/gt*.rds
+        broom: output/over80s/all/az/postest/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/postest/az/all/*/plot*.svg
-        tables: output/over80s/postest/az/all/*/tab*.html
-        data: output/over80s/postest/az/all/*/broom*.csv
+        data: output/over80s/all/az/postest/broom*.csv
 
-  report_msm_over80s_postest_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s postest az all
+  report_msm_over80s_all_az_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all az postest
     needs:
     - design
-    - model_over80s_postest_az_all
+    - model_over80s_all_az_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/az/all/forest_plot.svg
-        png: output/over80s/postest/az/all/forest_plot.png
-        tables: output/over80s/postest/az/all/*.csv
+        svg: output/over80s/all/az/postest/VE_plot.svg
+        png: output/over80s/all/az/postest/VE_plot.png
+        tables: output/over80s/all/az/postest/estimates*.csv
 
-  report_incidence_over80s_postest_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s postest az all
+  report_incidence_over80s_all_az_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all az postest
     needs:
     - design
-    - model_over80s_postest_az_all
+    - model_over80s_all_az_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/az/all/*/*.svg
-        png: output/over80s/postest/az/all/*/*.png
+        cmlsvg: output/over80s/all/az/postest/cml_incidence*.svg
+        cmlpng: output/over80s/all/az/postest/cml_incidence*.png
+        trendsvg: output/over80s/all/az/postest/time*.svg
+        trendpng: output/over80s/all/az/postest/time*.png
 
-  model_over80s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted any all
+  model_over80s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any covidadmitted
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/covidadmitted/any/all/*/model*.rds
-        data: output/over80s/covidadmitted/any/all/*/data*.rds
+        models: output/over80s/all/any/covidadmitted/model*.rds
+        data: output/over80s/all/any/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/over80s/covidadmitted/any/all/*/weights*
+        weights: output/over80s/all/any/covidadmitted/weights*
 
-  report_ipw_over80s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted any all
+  report_ipw_over80s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all any covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_any_all
+    - model_over80s_all_any_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/over80s/covidadmitted/any/all/*/broom*.rds
-        gt: output/over80s/covidadmitted/any/all/*/gt*.rds
+        broom: output/over80s/all/any/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/covidadmitted/any/all/*/plot*.svg
-        tables: output/over80s/covidadmitted/any/all/*/tab*.html
-        data: output/over80s/covidadmitted/any/all/*/broom*.csv
+        data: output/over80s/all/any/covidadmitted/broom*.csv
 
-  report_msm_over80s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted any all
+  report_msm_over80s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all any covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_any_all
+    - model_over80s_all_any_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/any/all/forest_plot.svg
-        png: output/over80s/covidadmitted/any/all/forest_plot.png
-        tables: output/over80s/covidadmitted/any/all/*.csv
+        svg: output/over80s/all/any/covidadmitted/VE_plot.svg
+        png: output/over80s/all/any/covidadmitted/VE_plot.png
+        tables: output/over80s/all/any/covidadmitted/estimates*.csv
 
-  report_incidence_over80s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s covidadmitted any all
+  report_incidence_over80s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all any covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_any_all
+    - model_over80s_all_any_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/any/all/*/*.svg
-        png: output/over80s/covidadmitted/any/all/*/*.png
+        cmlsvg: output/over80s/all/any/covidadmitted/cml_incidence*.svg
+        cmlpng: output/over80s/all/any/covidadmitted/cml_incidence*.png
+        trendsvg: output/over80s/all/any/covidadmitted/time*.svg
+        trendpng: output/over80s/all/any/covidadmitted/time*.png
 
-  model_over80s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted pfizer all
+  model_over80s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer covidadmitted
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/covidadmitted/pfizer/all/*/model*.rds
-        data: output/over80s/covidadmitted/pfizer/all/*/data*.rds
+        models: output/over80s/all/pfizer/covidadmitted/model*.rds
+        data: output/over80s/all/pfizer/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/over80s/covidadmitted/pfizer/all/*/weights*
+        weights: output/over80s/all/pfizer/covidadmitted/weights*
 
-  report_ipw_over80s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted pfizer all
+  report_ipw_over80s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all pfizer covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_pfizer_all
+    - model_over80s_all_pfizer_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/over80s/covidadmitted/pfizer/all/*/broom*.rds
-        gt: output/over80s/covidadmitted/pfizer/all/*/gt*.rds
+        broom: output/over80s/all/pfizer/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/covidadmitted/pfizer/all/*/plot*.svg
-        tables: output/over80s/covidadmitted/pfizer/all/*/tab*.html
-        data: output/over80s/covidadmitted/pfizer/all/*/broom*.csv
+        data: output/over80s/all/pfizer/covidadmitted/broom*.csv
 
-  report_msm_over80s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted pfizer all
+  report_msm_over80s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all pfizer covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_pfizer_all
+    - model_over80s_all_pfizer_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/pfizer/all/forest_plot.svg
-        png: output/over80s/covidadmitted/pfizer/all/forest_plot.png
-        tables: output/over80s/covidadmitted/pfizer/all/*.csv
+        svg: output/over80s/all/pfizer/covidadmitted/VE_plot.svg
+        png: output/over80s/all/pfizer/covidadmitted/VE_plot.png
+        tables: output/over80s/all/pfizer/covidadmitted/estimates*.csv
 
-  report_incidence_over80s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s covidadmitted pfizer
-      all
+  report_incidence_over80s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all pfizer covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_pfizer_all
+    - model_over80s_all_pfizer_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/pfizer/all/*/*.svg
-        png: output/over80s/covidadmitted/pfizer/all/*/*.png
+        cmlsvg: output/over80s/all/pfizer/covidadmitted/cml_incidence*.svg
+        cmlpng: output/over80s/all/pfizer/covidadmitted/cml_incidence*.png
+        trendsvg: output/over80s/all/pfizer/covidadmitted/time*.svg
+        trendpng: output/over80s/all/pfizer/covidadmitted/time*.png
 
-  model_over80s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted az all
+  model_over80s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az covidadmitted
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/covidadmitted/az/all/*/model*.rds
-        data: output/over80s/covidadmitted/az/all/*/data*.rds
+        models: output/over80s/all/az/covidadmitted/model*.rds
+        data: output/over80s/all/az/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/over80s/covidadmitted/az/all/*/weights*
+        weights: output/over80s/all/az/covidadmitted/weights*
 
-  report_ipw_over80s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted az all
+  report_ipw_over80s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all az covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_az_all
+    - model_over80s_all_az_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/over80s/covidadmitted/az/all/*/broom*.rds
-        gt: output/over80s/covidadmitted/az/all/*/gt*.rds
+        broom: output/over80s/all/az/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/covidadmitted/az/all/*/plot*.svg
-        tables: output/over80s/covidadmitted/az/all/*/tab*.html
-        data: output/over80s/covidadmitted/az/all/*/broom*.csv
+        data: output/over80s/all/az/covidadmitted/broom*.csv
 
-  report_msm_over80s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted az all
+  report_msm_over80s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all az covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_az_all
+    - model_over80s_all_az_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/az/all/forest_plot.svg
-        png: output/over80s/covidadmitted/az/all/forest_plot.png
-        tables: output/over80s/covidadmitted/az/all/*.csv
+        svg: output/over80s/all/az/covidadmitted/VE_plot.svg
+        png: output/over80s/all/az/covidadmitted/VE_plot.png
+        tables: output/over80s/all/az/covidadmitted/estimates*.csv
 
-  report_incidence_over80s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s covidadmitted az all
+  report_incidence_over80s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all az covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_az_all
+    - model_over80s_all_az_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/az/all/*/*.svg
-        png: output/over80s/covidadmitted/az/all/*/*.png
+        cmlsvg: output/over80s/all/az/covidadmitted/cml_incidence*.svg
+        cmlpng: output/over80s/all/az/covidadmitted/cml_incidence*.png
+        trendsvg: output/over80s/all/az/covidadmitted/time*.svg
+        trendpng: output/over80s/all/az/covidadmitted/time*.png
 
-  model_over80s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath any all
+  model_over80s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any coviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/any/all/*/model*.rds
-        data: output/over80s/coviddeath/any/all/*/data*.rds
+        models: output/over80s/all/any/coviddeath/model*.rds
+        data: output/over80s/all/any/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/coviddeath/any/all/*/weights*
+        weights: output/over80s/all/any/coviddeath/weights*
 
-  report_ipw_over80s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath any all
+  report_ipw_over80s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all any coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_any_all
+    - model_over80s_all_any_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/coviddeath/any/all/*/broom*.rds
-        gt: output/over80s/coviddeath/any/all/*/gt*.rds
+        broom: output/over80s/all/any/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/coviddeath/any/all/*/plot*.svg
-        tables: output/over80s/coviddeath/any/all/*/tab*.html
-        data: output/over80s/coviddeath/any/all/*/broom*.csv
+        data: output/over80s/all/any/coviddeath/broom*.csv
 
-  report_msm_over80s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath any all
+  report_msm_over80s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all any coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_any_all
+    - model_over80s_all_any_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/any/all/forest_plot.svg
-        png: output/over80s/coviddeath/any/all/forest_plot.png
-        tables: output/over80s/coviddeath/any/all/*.csv
+        svg: output/over80s/all/any/coviddeath/VE_plot.svg
+        png: output/over80s/all/any/coviddeath/VE_plot.png
+        tables: output/over80s/all/any/coviddeath/estimates*.csv
 
-  report_incidence_over80s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s coviddeath any all
+  report_incidence_over80s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all any coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_any_all
+    - model_over80s_all_any_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/any/all/*/*.svg
-        png: output/over80s/coviddeath/any/all/*/*.png
+        cmlsvg: output/over80s/all/any/coviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/all/any/coviddeath/cml_incidence*.png
+        trendsvg: output/over80s/all/any/coviddeath/time*.svg
+        trendpng: output/over80s/all/any/coviddeath/time*.png
 
-  model_over80s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath pfizer all
+  model_over80s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer coviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/pfizer/all/*/model*.rds
-        data: output/over80s/coviddeath/pfizer/all/*/data*.rds
+        models: output/over80s/all/pfizer/coviddeath/model*.rds
+        data: output/over80s/all/pfizer/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/coviddeath/pfizer/all/*/weights*
+        weights: output/over80s/all/pfizer/coviddeath/weights*
 
-  report_ipw_over80s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath pfizer all
+  report_ipw_over80s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all pfizer coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_pfizer_all
+    - model_over80s_all_pfizer_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/coviddeath/pfizer/all/*/broom*.rds
-        gt: output/over80s/coviddeath/pfizer/all/*/gt*.rds
+        broom: output/over80s/all/pfizer/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/coviddeath/pfizer/all/*/plot*.svg
-        tables: output/over80s/coviddeath/pfizer/all/*/tab*.html
-        data: output/over80s/coviddeath/pfizer/all/*/broom*.csv
+        data: output/over80s/all/pfizer/coviddeath/broom*.csv
 
-  report_msm_over80s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath pfizer all
+  report_msm_over80s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all pfizer coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_pfizer_all
+    - model_over80s_all_pfizer_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/pfizer/all/forest_plot.svg
-        png: output/over80s/coviddeath/pfizer/all/forest_plot.png
-        tables: output/over80s/coviddeath/pfizer/all/*.csv
+        svg: output/over80s/all/pfizer/coviddeath/VE_plot.svg
+        png: output/over80s/all/pfizer/coviddeath/VE_plot.png
+        tables: output/over80s/all/pfizer/coviddeath/estimates*.csv
 
-  report_incidence_over80s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s coviddeath pfizer all
+  report_incidence_over80s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all pfizer coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_pfizer_all
+    - model_over80s_all_pfizer_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/pfizer/all/*/*.svg
-        png: output/over80s/coviddeath/pfizer/all/*/*.png
+        cmlsvg: output/over80s/all/pfizer/coviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/all/pfizer/coviddeath/cml_incidence*.png
+        trendsvg: output/over80s/all/pfizer/coviddeath/time*.svg
+        trendpng: output/over80s/all/pfizer/coviddeath/time*.png
 
-  model_over80s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath az all
+  model_over80s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az coviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/az/all/*/model*.rds
-        data: output/over80s/coviddeath/az/all/*/data*.rds
+        models: output/over80s/all/az/coviddeath/model*.rds
+        data: output/over80s/all/az/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/coviddeath/az/all/*/weights*
+        weights: output/over80s/all/az/coviddeath/weights*
 
-  report_ipw_over80s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath az all
+  report_ipw_over80s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all az coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_az_all
+    - model_over80s_all_az_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/coviddeath/az/all/*/broom*.rds
-        gt: output/over80s/coviddeath/az/all/*/gt*.rds
+        broom: output/over80s/all/az/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/coviddeath/az/all/*/plot*.svg
-        tables: output/over80s/coviddeath/az/all/*/tab*.html
-        data: output/over80s/coviddeath/az/all/*/broom*.csv
+        data: output/over80s/all/az/coviddeath/broom*.csv
 
-  report_msm_over80s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath az all
+  report_msm_over80s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all az coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_az_all
+    - model_over80s_all_az_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/az/all/forest_plot.svg
-        png: output/over80s/coviddeath/az/all/forest_plot.png
-        tables: output/over80s/coviddeath/az/all/*.csv
+        svg: output/over80s/all/az/coviddeath/VE_plot.svg
+        png: output/over80s/all/az/coviddeath/VE_plot.png
+        tables: output/over80s/all/az/coviddeath/estimates*.csv
 
-  report_incidence_over80s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s coviddeath az all
+  report_incidence_over80s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all az coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_az_all
+    - model_over80s_all_az_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/az/all/*/*.svg
-        png: output/over80s/coviddeath/az/all/*/*.png
+        cmlsvg: output/over80s/all/az/coviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/all/az/coviddeath/cml_incidence*.png
+        trendsvg: output/over80s/all/az/coviddeath/time*.svg
+        trendpng: output/over80s/all/az/coviddeath/time*.png
 
-  model_over80s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath any all
+  model_over80s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any noncoviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/noncoviddeath/any/all/*/model*.rds
-        data: output/over80s/noncoviddeath/any/all/*/data*.rds
+        models: output/over80s/all/any/noncoviddeath/model*.rds
+        data: output/over80s/all/any/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/noncoviddeath/any/all/*/weights*
+        weights: output/over80s/all/any/noncoviddeath/weights*
 
-  report_ipw_over80s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath any all
+  report_ipw_over80s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all any noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_any_all
+    - model_over80s_all_any_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/noncoviddeath/any/all/*/broom*.rds
-        gt: output/over80s/noncoviddeath/any/all/*/gt*.rds
+        broom: output/over80s/all/any/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/noncoviddeath/any/all/*/plot*.svg
-        tables: output/over80s/noncoviddeath/any/all/*/tab*.html
-        data: output/over80s/noncoviddeath/any/all/*/broom*.csv
+        data: output/over80s/all/any/noncoviddeath/broom*.csv
 
-  report_msm_over80s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath any all
+  report_msm_over80s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all any noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_any_all
+    - model_over80s_all_any_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/any/all/forest_plot.svg
-        png: output/over80s/noncoviddeath/any/all/forest_plot.png
-        tables: output/over80s/noncoviddeath/any/all/*.csv
+        svg: output/over80s/all/any/noncoviddeath/VE_plot.svg
+        png: output/over80s/all/any/noncoviddeath/VE_plot.png
+        tables: output/over80s/all/any/noncoviddeath/estimates*.csv
 
-  report_incidence_over80s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s noncoviddeath any all
+  report_incidence_over80s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all any noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_any_all
+    - model_over80s_all_any_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/any/all/*/*.svg
-        png: output/over80s/noncoviddeath/any/all/*/*.png
+        cmlsvg: output/over80s/all/any/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/all/any/noncoviddeath/cml_incidence*.png
+        trendsvg: output/over80s/all/any/noncoviddeath/time*.svg
+        trendpng: output/over80s/all/any/noncoviddeath/time*.png
 
-  model_over80s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath pfizer all
+  model_over80s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer noncoviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/noncoviddeath/pfizer/all/*/model*.rds
-        data: output/over80s/noncoviddeath/pfizer/all/*/data*.rds
+        models: output/over80s/all/pfizer/noncoviddeath/model*.rds
+        data: output/over80s/all/pfizer/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/noncoviddeath/pfizer/all/*/weights*
+        weights: output/over80s/all/pfizer/noncoviddeath/weights*
 
-  report_ipw_over80s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath pfizer all
+  report_ipw_over80s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all pfizer noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_pfizer_all
+    - model_over80s_all_pfizer_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/noncoviddeath/pfizer/all/*/broom*.rds
-        gt: output/over80s/noncoviddeath/pfizer/all/*/gt*.rds
+        broom: output/over80s/all/pfizer/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/noncoviddeath/pfizer/all/*/plot*.svg
-        tables: output/over80s/noncoviddeath/pfizer/all/*/tab*.html
-        data: output/over80s/noncoviddeath/pfizer/all/*/broom*.csv
+        data: output/over80s/all/pfizer/noncoviddeath/broom*.csv
 
-  report_msm_over80s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath pfizer all
+  report_msm_over80s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all pfizer noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_pfizer_all
+    - model_over80s_all_pfizer_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/pfizer/all/forest_plot.svg
-        png: output/over80s/noncoviddeath/pfizer/all/forest_plot.png
-        tables: output/over80s/noncoviddeath/pfizer/all/*.csv
+        svg: output/over80s/all/pfizer/noncoviddeath/VE_plot.svg
+        png: output/over80s/all/pfizer/noncoviddeath/VE_plot.png
+        tables: output/over80s/all/pfizer/noncoviddeath/estimates*.csv
 
-  report_incidence_over80s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s noncoviddeath pfizer
-      all
+  report_incidence_over80s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all pfizer noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_pfizer_all
+    - model_over80s_all_pfizer_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/pfizer/all/*/*.svg
-        png: output/over80s/noncoviddeath/pfizer/all/*/*.png
+        cmlsvg: output/over80s/all/pfizer/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/all/pfizer/noncoviddeath/cml_incidence*.png
+        trendsvg: output/over80s/all/pfizer/noncoviddeath/time*.svg
+        trendpng: output/over80s/all/pfizer/noncoviddeath/time*.png
 
-  model_over80s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath az all
+  model_over80s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az noncoviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/noncoviddeath/az/all/*/model*.rds
-        data: output/over80s/noncoviddeath/az/all/*/data*.rds
+        models: output/over80s/all/az/noncoviddeath/model*.rds
+        data: output/over80s/all/az/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/noncoviddeath/az/all/*/weights*
+        weights: output/over80s/all/az/noncoviddeath/weights*
 
-  report_ipw_over80s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath az all
+  report_ipw_over80s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all az noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_az_all
+    - model_over80s_all_az_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/noncoviddeath/az/all/*/broom*.rds
-        gt: output/over80s/noncoviddeath/az/all/*/gt*.rds
+        broom: output/over80s/all/az/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/noncoviddeath/az/all/*/plot*.svg
-        tables: output/over80s/noncoviddeath/az/all/*/tab*.html
-        data: output/over80s/noncoviddeath/az/all/*/broom*.csv
+        data: output/over80s/all/az/noncoviddeath/broom*.csv
 
-  report_msm_over80s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath az all
+  report_msm_over80s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all az noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_az_all
+    - model_over80s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/az/all/forest_plot.svg
-        png: output/over80s/noncoviddeath/az/all/forest_plot.png
-        tables: output/over80s/noncoviddeath/az/all/*.csv
+        svg: output/over80s/all/az/noncoviddeath/VE_plot.svg
+        png: output/over80s/all/az/noncoviddeath/VE_plot.png
+        tables: output/over80s/all/az/noncoviddeath/estimates*.csv
 
-  report_incidence_over80s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s noncoviddeath az all
+  report_incidence_over80s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all az noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_az_all
+    - model_over80s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/az/all/*/*.svg
-        png: output/over80s/noncoviddeath/az/all/*/*.png
+        cmlsvg: output/over80s/all/az/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/all/az/noncoviddeath/cml_incidence*.png
+        trendsvg: output/over80s/all/az/noncoviddeath/time*.svg
+        trendpng: output/over80s/all/az/noncoviddeath/time*.png
 
-  model_over80s_death_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s death any all
+  model_over80s_all_any_death:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any death
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/death/any/all/*/model*.rds
-        data: output/over80s/death/any/all/*/data*.rds
+        models: output/over80s/all/any/death/model*.rds
+        data: output/over80s/all/any/death/data*.rds
       moderately_sensitive:
-        weights: output/over80s/death/any/all/*/weights*
+        weights: output/over80s/all/any/death/weights*
 
-  report_ipw_over80s_death_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s death any all
+  report_ipw_over80s_all_any_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all any death
     needs:
     - design
-    - model_over80s_death_any_all
+    - model_over80s_all_any_death
     outputs:
       highly_sensitive:
-        broom: output/over80s/death/any/all/*/broom*.rds
-        gt: output/over80s/death/any/all/*/gt*.rds
+        broom: output/over80s/all/any/death/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/death/any/all/*/plot*.svg
-        tables: output/over80s/death/any/all/*/tab*.html
-        data: output/over80s/death/any/all/*/broom*.csv
+        data: output/over80s/all/any/death/broom*.csv
 
-  report_msm_over80s_death_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s death any all
+  report_msm_over80s_all_any_death:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all any death
     needs:
     - design
-    - model_over80s_death_any_all
+    - model_over80s_all_any_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/any/all/forest_plot.svg
-        png: output/over80s/death/any/all/forest_plot.png
-        tables: output/over80s/death/any/all/*.csv
+        svg: output/over80s/all/any/death/VE_plot.svg
+        png: output/over80s/all/any/death/VE_plot.png
+        tables: output/over80s/all/any/death/estimates*.csv
 
-  report_incidence_over80s_death_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s death any all
+  report_incidence_over80s_all_any_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all any death
     needs:
     - design
-    - model_over80s_death_any_all
+    - model_over80s_all_any_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/any/all/*/*.svg
-        png: output/over80s/death/any/all/*/*.png
+        cmlsvg: output/over80s/all/any/death/cml_incidence*.svg
+        cmlpng: output/over80s/all/any/death/cml_incidence*.png
+        trendsvg: output/over80s/all/any/death/time*.svg
+        trendpng: output/over80s/all/any/death/time*.png
 
-  model_over80s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s death pfizer all
+  model_over80s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer death
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/death/pfizer/all/*/model*.rds
-        data: output/over80s/death/pfizer/all/*/data*.rds
+        models: output/over80s/all/pfizer/death/model*.rds
+        data: output/over80s/all/pfizer/death/data*.rds
       moderately_sensitive:
-        weights: output/over80s/death/pfizer/all/*/weights*
+        weights: output/over80s/all/pfizer/death/weights*
 
-  report_ipw_over80s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s death pfizer all
+  report_ipw_over80s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all pfizer death
     needs:
     - design
-    - model_over80s_death_pfizer_all
+    - model_over80s_all_pfizer_death
     outputs:
       highly_sensitive:
-        broom: output/over80s/death/pfizer/all/*/broom*.rds
-        gt: output/over80s/death/pfizer/all/*/gt*.rds
+        broom: output/over80s/all/pfizer/death/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/death/pfizer/all/*/plot*.svg
-        tables: output/over80s/death/pfizer/all/*/tab*.html
-        data: output/over80s/death/pfizer/all/*/broom*.csv
+        data: output/over80s/all/pfizer/death/broom*.csv
 
-  report_msm_over80s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s death pfizer all
+  report_msm_over80s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all pfizer death
     needs:
     - design
-    - model_over80s_death_pfizer_all
+    - model_over80s_all_pfizer_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/pfizer/all/forest_plot.svg
-        png: output/over80s/death/pfizer/all/forest_plot.png
-        tables: output/over80s/death/pfizer/all/*.csv
+        svg: output/over80s/all/pfizer/death/VE_plot.svg
+        png: output/over80s/all/pfizer/death/VE_plot.png
+        tables: output/over80s/all/pfizer/death/estimates*.csv
 
-  report_incidence_over80s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s death pfizer all
+  report_incidence_over80s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all pfizer death
     needs:
     - design
-    - model_over80s_death_pfizer_all
+    - model_over80s_all_pfizer_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/pfizer/all/*/*.svg
-        png: output/over80s/death/pfizer/all/*/*.png
+        cmlsvg: output/over80s/all/pfizer/death/cml_incidence*.svg
+        cmlpng: output/over80s/all/pfizer/death/cml_incidence*.png
+        trendsvg: output/over80s/all/pfizer/death/time*.svg
+        trendpng: output/over80s/all/pfizer/death/time*.png
 
-  model_over80s_death_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s death az all
+  model_over80s_all_az_death:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az death
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/death/az/all/*/model*.rds
-        data: output/over80s/death/az/all/*/data*.rds
+        models: output/over80s/all/az/death/model*.rds
+        data: output/over80s/all/az/death/data*.rds
       moderately_sensitive:
-        weights: output/over80s/death/az/all/*/weights*
+        weights: output/over80s/all/az/death/weights*
 
-  report_ipw_over80s_death_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s death az all
+  report_ipw_over80s_all_az_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s all az death
     needs:
     - design
-    - model_over80s_death_az_all
+    - model_over80s_all_az_death
     outputs:
       highly_sensitive:
-        broom: output/over80s/death/az/all/*/broom*.rds
-        gt: output/over80s/death/az/all/*/gt*.rds
+        broom: output/over80s/all/az/death/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/death/az/all/*/plot*.svg
-        tables: output/over80s/death/az/all/*/tab*.html
-        data: output/over80s/death/az/all/*/broom*.csv
+        data: output/over80s/all/az/death/broom*.csv
 
-  report_msm_over80s_death_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s death az all
+  report_msm_over80s_all_az_death:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s all az death
     needs:
     - design
-    - model_over80s_death_az_all
+    - model_over80s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/az/all/forest_plot.svg
-        png: output/over80s/death/az/all/forest_plot.png
-        tables: output/over80s/death/az/all/*.csv
+        svg: output/over80s/all/az/death/VE_plot.svg
+        png: output/over80s/all/az/death/VE_plot.png
+        tables: output/over80s/all/az/death/estimates*.csv
 
-  report_incidence_over80s_death_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s death az all
+  report_incidence_over80s_all_az_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s all az death
     needs:
     - design
-    - model_over80s_death_az_all
+    - model_over80s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/az/all/*/*.svg
-        png: output/over80s/death/az/all/*/*.png
+        cmlsvg: output/over80s/all/az/death/cml_incidence*.svg
+        cmlpng: output/over80s/all/az/death/cml_incidence*.png
+        trendsvg: output/over80s/all/az/death/time*.svg
+        trendpng: output/over80s/all/az/death/time*.png
 
   report_ipw_over80s_all:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s death all
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s all death
     needs:
     - design
-    - report_ipw_over80s_death_any_all
-    - report_ipw_over80s_death_pfizer_all
-    - report_ipw_over80s_death_az_all
+    - report_ipw_over80s_all_any_death
+    - report_ipw_over80s_all_pfizer_death
+    - report_ipw_over80s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/plot_vax1.svg
-        csv: output/over80s/tab_vax1.csv
-        csv_wide: output/over80s/tab_vax1_wide.csv
+        svg: output/over80s/all/plot_vax1.svg
+        csv: output/over80s/all/tab_vax1.csv
+        csv_wide: output/over80s/all/tab_vax1_wide.csv
 
   report_over80s_all:
     run: r:latest analysis/R/dose_1/report_msm_combined.R over80s all
     needs:
     - design
-    - report_msm_over80s_postest_any_all
-    - report_msm_over80s_postest_pfizer_all
-    - report_msm_over80s_postest_az_all
-    - report_msm_over80s_covidadmitted_any_all
-    - report_msm_over80s_covidadmitted_pfizer_all
-    - report_msm_over80s_covidadmitted_az_all
-    - report_msm_over80s_coviddeath_any_all
-    - report_msm_over80s_coviddeath_pfizer_all
-    - report_msm_over80s_coviddeath_az_all
-    - report_msm_over80s_noncoviddeath_any_all
-    - report_msm_over80s_noncoviddeath_pfizer_all
-    - report_msm_over80s_noncoviddeath_az_all
+    - report_msm_over80s_all_any_postest
+    - report_msm_over80s_all_any_covidadmitted
+    - report_msm_over80s_all_any_coviddeath
+    - report_msm_over80s_all_any_noncoviddeath
+    - report_msm_over80s_all_pfizer_postest
+    - report_msm_over80s_all_pfizer_covidadmitted
+    - report_msm_over80s_all_pfizer_coviddeath
+    - report_msm_over80s_all_pfizer_noncoviddeath
+    - report_msm_over80s_all_az_postest
+    - report_msm_over80s_all_az_covidadmitted
+    - report_msm_over80s_all_az_coviddeath
+    - report_msm_over80s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/combined/all/*.svg
-        png: output/over80s/combined/all/*.png
-        csv: output/over80s/combined/all/*.csv
+        svg: output/over80s/all/*.svg
+        png: output/over80s/all/combined/*.png
+        csv: output/over80s/all/combined/*.csv
 
   ## #################################### 
   ## Immunosuppressed 
   ## #################################### 
 
-  model_over80s_postest_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s postest any any_immunosuppression
+  model_over80s_any_immunosuppression_any_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
+      postest
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/any/any_immunosuppression/*/model*.rds
-        data: output/over80s/postest/any/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/any/postest/model*.rds
+        data: output/over80s/any_immunosuppression/any/postest/data*.rds
       moderately_sensitive:
-        weights: output/over80s/postest/any/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/any/postest/weights*
 
-  report_ipw_over80s_postest_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest any any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_any_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression any
+      postest
     needs:
     - design
-    - model_over80s_postest_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_postest
     outputs:
       highly_sensitive:
-        broom: output/over80s/postest/any/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/postest/any/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/any/postest/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/postest/any/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/postest/any/any_immunosuppression/*/tab*.html
-        data: output/over80s/postest/any/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/any/postest/broom*.csv
 
-  report_msm_over80s_postest_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s postest any any_immunosuppression
+  report_msm_over80s_any_immunosuppression_any_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression any
+      postest
     needs:
     - design
-    - model_over80s_postest_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/any/any_immunosuppression/forest_plot.svg
-        png: output/over80s/postest/any/any_immunosuppression/forest_plot.png
-        tables: output/over80s/postest/any/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/any/postest/VE_plot.svg
+        png: output/over80s/any_immunosuppression/any/postest/VE_plot.png
+        tables: output/over80s/any_immunosuppression/any/postest/estimates*.csv
 
-  report_incidence_over80s_postest_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s postest any any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_any_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      any postest
     needs:
     - design
-    - model_over80s_postest_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/any/any_immunosuppression/*/*.svg
-        png: output/over80s/postest/any/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/any/postest/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/any/postest/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/any/postest/time*.svg
+        trendpng: output/over80s/any_immunosuppression/any/postest/time*.png
 
-  model_over80s_postest_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s postest pfizer any_immunosuppression
+  model_over80s_any_immunosuppression_pfizer_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
+      postest
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/pfizer/any_immunosuppression/*/model*.rds
-        data: output/over80s/postest/pfizer/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/pfizer/postest/model*.rds
+        data: output/over80s/any_immunosuppression/pfizer/postest/data*.rds
       moderately_sensitive:
-        weights: output/over80s/postest/pfizer/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/pfizer/postest/weights*
 
-  report_ipw_over80s_postest_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest pfizer any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression pfizer
+      postest
     needs:
     - design
-    - model_over80s_postest_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_postest
     outputs:
       highly_sensitive:
-        broom: output/over80s/postest/pfizer/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/postest/pfizer/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/pfizer/postest/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/postest/pfizer/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/postest/pfizer/any_immunosuppression/*/tab*.html
-        data: output/over80s/postest/pfizer/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/pfizer/postest/broom*.csv
 
-  report_msm_over80s_postest_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s postest pfizer any_immunosuppression
+  report_msm_over80s_any_immunosuppression_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression pfizer
+      postest
     needs:
     - design
-    - model_over80s_postest_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/pfizer/any_immunosuppression/forest_plot.svg
-        png: output/over80s/postest/pfizer/any_immunosuppression/forest_plot.png
-        tables: output/over80s/postest/pfizer/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/pfizer/postest/VE_plot.svg
+        png: output/over80s/any_immunosuppression/pfizer/postest/VE_plot.png
+        tables: output/over80s/any_immunosuppression/pfizer/postest/estimates*.csv
 
-  report_incidence_over80s_postest_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s postest pfizer any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      pfizer postest
     needs:
     - design
-    - model_over80s_postest_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/pfizer/any_immunosuppression/*/*.svg
-        png: output/over80s/postest/pfizer/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/pfizer/postest/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/pfizer/postest/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/pfizer/postest/time*.svg
+        trendpng: output/over80s/any_immunosuppression/pfizer/postest/time*.png
 
-  model_over80s_postest_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s postest az any_immunosuppression
+  model_over80s_any_immunosuppression_az_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az postest
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/postest/az/any_immunosuppression/*/model*.rds
-        data: output/over80s/postest/az/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/az/postest/model*.rds
+        data: output/over80s/any_immunosuppression/az/postest/data*.rds
       moderately_sensitive:
-        weights: output/over80s/postest/az/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/az/postest/weights*
 
-  report_ipw_over80s_postest_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s postest az any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_az_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression az
+      postest
     needs:
     - design
-    - model_over80s_postest_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_postest
     outputs:
       highly_sensitive:
-        broom: output/over80s/postest/az/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/postest/az/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/az/postest/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/postest/az/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/postest/az/any_immunosuppression/*/tab*.html
-        data: output/over80s/postest/az/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/az/postest/broom*.csv
 
-  report_msm_over80s_postest_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s postest az any_immunosuppression
+  report_msm_over80s_any_immunosuppression_az_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression az
+      postest
     needs:
     - design
-    - model_over80s_postest_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/az/any_immunosuppression/forest_plot.svg
-        png: output/over80s/postest/az/any_immunosuppression/forest_plot.png
-        tables: output/over80s/postest/az/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/az/postest/VE_plot.svg
+        png: output/over80s/any_immunosuppression/az/postest/VE_plot.png
+        tables: output/over80s/any_immunosuppression/az/postest/estimates*.csv
 
-  report_incidence_over80s_postest_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s postest az any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_az_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      az postest
     needs:
     - design
-    - model_over80s_postest_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_postest
     outputs:
       moderately_sensitive:
-        svg: output/over80s/postest/az/any_immunosuppression/*/*.svg
-        png: output/over80s/postest/az/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/az/postest/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/az/postest/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/az/postest/time*.svg
+        trendpng: output/over80s/any_immunosuppression/az/postest/time*.png
 
-  model_over80s_covidadmitted_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted any any_immunosuppression
+  model_over80s_any_immunosuppression_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
+      covidadmitted
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/covidadmitted/any/any_immunosuppression/*/model*.rds
-        data: output/over80s/covidadmitted/any/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/any/covidadmitted/model*.rds
+        data: output/over80s/any_immunosuppression/any/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/over80s/covidadmitted/any/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/any/covidadmitted/weights*
 
-  report_ipw_over80s_covidadmitted_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted any any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression any
+      covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/over80s/covidadmitted/any/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/covidadmitted/any/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/any/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/covidadmitted/any/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/covidadmitted/any/any_immunosuppression/*/tab*.html
-        data: output/over80s/covidadmitted/any/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/any/covidadmitted/broom*.csv
 
-  report_msm_over80s_covidadmitted_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted any any_immunosuppression
+  report_msm_over80s_any_immunosuppression_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression any
+      covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/any/any_immunosuppression/forest_plot.svg
-        png: output/over80s/covidadmitted/any/any_immunosuppression/forest_plot.png
-        tables: output/over80s/covidadmitted/any/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/any/covidadmitted/VE_plot.svg
+        png: output/over80s/any_immunosuppression/any/covidadmitted/VE_plot.png
+        tables: output/over80s/any_immunosuppression/any/covidadmitted/estimates*.csv
 
-  report_incidence_over80s_covidadmitted_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s covidadmitted any any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      any covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/any/any_immunosuppression/*/*.svg
-        png: output/over80s/covidadmitted/any/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/any/covidadmitted/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/any/covidadmitted/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/any/covidadmitted/time*.svg
+        trendpng: output/over80s/any_immunosuppression/any/covidadmitted/time*.png
 
-  model_over80s_covidadmitted_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted pfizer any_immunosuppression
+  model_over80s_any_immunosuppression_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
+      covidadmitted
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/model*.rds
-        data: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/pfizer/covidadmitted/model*.rds
+        data: output/over80s/any_immunosuppression/pfizer/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/pfizer/covidadmitted/weights*
 
-  report_ipw_over80s_covidadmitted_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted pfizer any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression pfizer
+      covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/pfizer/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/tab*.html
-        data: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/pfizer/covidadmitted/broom*.csv
 
-  report_msm_over80s_covidadmitted_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted pfizer any_immunosuppression
+  report_msm_over80s_any_immunosuppression_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression pfizer
+      covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/pfizer/any_immunosuppression/forest_plot.svg
-        png: output/over80s/covidadmitted/pfizer/any_immunosuppression/forest_plot.png
-        tables: output/over80s/covidadmitted/pfizer/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/pfizer/covidadmitted/VE_plot.svg
+        png: output/over80s/any_immunosuppression/pfizer/covidadmitted/VE_plot.png
+        tables: output/over80s/any_immunosuppression/pfizer/covidadmitted/estimates*.csv
 
-  report_incidence_over80s_covidadmitted_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s covidadmitted pfizer
-      any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      pfizer covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/*.svg
-        png: output/over80s/covidadmitted/pfizer/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/pfizer/covidadmitted/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/pfizer/covidadmitted/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/pfizer/covidadmitted/time*.svg
+        trendpng: output/over80s/any_immunosuppression/pfizer/covidadmitted/time*.png
 
-  model_over80s_covidadmitted_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s covidadmitted az any_immunosuppression
+  model_over80s_any_immunosuppression_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az covidadmitted
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/covidadmitted/az/any_immunosuppression/*/model*.rds
-        data: output/over80s/covidadmitted/az/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/az/covidadmitted/model*.rds
+        data: output/over80s/any_immunosuppression/az/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/over80s/covidadmitted/az/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/az/covidadmitted/weights*
 
-  report_ipw_over80s_covidadmitted_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s covidadmitted az any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression az
+      covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/over80s/covidadmitted/az/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/covidadmitted/az/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/az/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/covidadmitted/az/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/covidadmitted/az/any_immunosuppression/*/tab*.html
-        data: output/over80s/covidadmitted/az/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/az/covidadmitted/broom*.csv
 
-  report_msm_over80s_covidadmitted_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s covidadmitted az any_immunosuppression
+  report_msm_over80s_any_immunosuppression_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression az
+      covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/az/any_immunosuppression/forest_plot.svg
-        png: output/over80s/covidadmitted/az/any_immunosuppression/forest_plot.png
-        tables: output/over80s/covidadmitted/az/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/az/covidadmitted/VE_plot.svg
+        png: output/over80s/any_immunosuppression/az/covidadmitted/VE_plot.png
+        tables: output/over80s/any_immunosuppression/az/covidadmitted/estimates*.csv
 
-  report_incidence_over80s_covidadmitted_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s covidadmitted az any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      az covidadmitted
     needs:
     - design
-    - model_over80s_covidadmitted_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/over80s/covidadmitted/az/any_immunosuppression/*/*.svg
-        png: output/over80s/covidadmitted/az/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/az/covidadmitted/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/az/covidadmitted/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/az/covidadmitted/time*.svg
+        trendpng: output/over80s/any_immunosuppression/az/covidadmitted/time*.png
 
-  model_over80s_coviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath any any_immunosuppression
+  model_over80s_any_immunosuppression_any_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
+      coviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/any/any_immunosuppression/*/model*.rds
-        data: output/over80s/coviddeath/any/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/any/coviddeath/model*.rds
+        data: output/over80s/any_immunosuppression/any/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/coviddeath/any/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/any/coviddeath/weights*
 
-  report_ipw_over80s_coviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath any any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression any
+      coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/coviddeath/any/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/coviddeath/any/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/any/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/coviddeath/any/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/coviddeath/any/any_immunosuppression/*/tab*.html
-        data: output/over80s/coviddeath/any/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/any/coviddeath/broom*.csv
 
-  report_msm_over80s_coviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath any any_immunosuppression
+  report_msm_over80s_any_immunosuppression_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression any
+      coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/any/any_immunosuppression/forest_plot.svg
-        png: output/over80s/coviddeath/any/any_immunosuppression/forest_plot.png
-        tables: output/over80s/coviddeath/any/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/any/coviddeath/VE_plot.svg
+        png: output/over80s/any_immunosuppression/any/coviddeath/VE_plot.png
+        tables: output/over80s/any_immunosuppression/any/coviddeath/estimates*.csv
 
-  report_incidence_over80s_coviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s coviddeath any any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      any coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/any/any_immunosuppression/*/*.svg
-        png: output/over80s/coviddeath/any/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/any/coviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/any/coviddeath/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/any/coviddeath/time*.svg
+        trendpng: output/over80s/any_immunosuppression/any/coviddeath/time*.png
 
-  model_over80s_coviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath pfizer any_immunosuppression
+  model_over80s_any_immunosuppression_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
+      coviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/pfizer/any_immunosuppression/*/model*.rds
-        data: output/over80s/coviddeath/pfizer/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/pfizer/coviddeath/model*.rds
+        data: output/over80s/any_immunosuppression/pfizer/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/coviddeath/pfizer/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/pfizer/coviddeath/weights*
 
-  report_ipw_over80s_coviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath pfizer any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression pfizer
+      coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/coviddeath/pfizer/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/coviddeath/pfizer/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/pfizer/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/coviddeath/pfizer/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/coviddeath/pfizer/any_immunosuppression/*/tab*.html
-        data: output/over80s/coviddeath/pfizer/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/pfizer/coviddeath/broom*.csv
 
-  report_msm_over80s_coviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath pfizer any_immunosuppression
+  report_msm_over80s_any_immunosuppression_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression pfizer
+      coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/pfizer/any_immunosuppression/forest_plot.svg
-        png: output/over80s/coviddeath/pfizer/any_immunosuppression/forest_plot.png
-        tables: output/over80s/coviddeath/pfizer/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/pfizer/coviddeath/VE_plot.svg
+        png: output/over80s/any_immunosuppression/pfizer/coviddeath/VE_plot.png
+        tables: output/over80s/any_immunosuppression/pfizer/coviddeath/estimates*.csv
 
-  report_incidence_over80s_coviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s coviddeath pfizer any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      pfizer coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/pfizer/any_immunosuppression/*/*.svg
-        png: output/over80s/coviddeath/pfizer/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/pfizer/coviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/pfizer/coviddeath/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/pfizer/coviddeath/time*.svg
+        trendpng: output/over80s/any_immunosuppression/pfizer/coviddeath/time*.png
 
-  model_over80s_coviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s coviddeath az any_immunosuppression
+  model_over80s_any_immunosuppression_az_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az coviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/coviddeath/az/any_immunosuppression/*/model*.rds
-        data: output/over80s/coviddeath/az/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/az/coviddeath/model*.rds
+        data: output/over80s/any_immunosuppression/az/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/coviddeath/az/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/az/coviddeath/weights*
 
-  report_ipw_over80s_coviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s coviddeath az any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression az
+      coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/coviddeath/az/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/coviddeath/az/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/az/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/coviddeath/az/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/coviddeath/az/any_immunosuppression/*/tab*.html
-        data: output/over80s/coviddeath/az/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/az/coviddeath/broom*.csv
 
-  report_msm_over80s_coviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s coviddeath az any_immunosuppression
+  report_msm_over80s_any_immunosuppression_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression az
+      coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/az/any_immunosuppression/forest_plot.svg
-        png: output/over80s/coviddeath/az/any_immunosuppression/forest_plot.png
-        tables: output/over80s/coviddeath/az/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/az/coviddeath/VE_plot.svg
+        png: output/over80s/any_immunosuppression/az/coviddeath/VE_plot.png
+        tables: output/over80s/any_immunosuppression/az/coviddeath/estimates*.csv
 
-  report_incidence_over80s_coviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s coviddeath az any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      az coviddeath
     needs:
     - design
-    - model_over80s_coviddeath_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/coviddeath/az/any_immunosuppression/*/*.svg
-        png: output/over80s/coviddeath/az/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/az/coviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/az/coviddeath/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/az/coviddeath/time*.svg
+        trendpng: output/over80s/any_immunosuppression/az/coviddeath/time*.png
 
-  model_over80s_noncoviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath any any_immunosuppression
+  model_over80s_any_immunosuppression_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
+      noncoviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/noncoviddeath/any/any_immunosuppression/*/model*.rds
-        data: output/over80s/noncoviddeath/any/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/any/noncoviddeath/model*.rds
+        data: output/over80s/any_immunosuppression/any/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/noncoviddeath/any/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/any/noncoviddeath/weights*
 
-  report_ipw_over80s_noncoviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath any any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression any
+      noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/noncoviddeath/any/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/noncoviddeath/any/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/any/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/noncoviddeath/any/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/noncoviddeath/any/any_immunosuppression/*/tab*.html
-        data: output/over80s/noncoviddeath/any/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/any/noncoviddeath/broom*.csv
 
-  report_msm_over80s_noncoviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath any any_immunosuppression
+  report_msm_over80s_any_immunosuppression_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression any
+      noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/any/any_immunosuppression/forest_plot.svg
-        png: output/over80s/noncoviddeath/any/any_immunosuppression/forest_plot.png
-        tables: output/over80s/noncoviddeath/any/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/any/noncoviddeath/VE_plot.svg
+        png: output/over80s/any_immunosuppression/any/noncoviddeath/VE_plot.png
+        tables: output/over80s/any_immunosuppression/any/noncoviddeath/estimates*.csv
 
-  report_incidence_over80s_noncoviddeath_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s noncoviddeath any any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      any noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/any/any_immunosuppression/*/*.svg
-        png: output/over80s/noncoviddeath/any/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/any/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/any/noncoviddeath/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/any/noncoviddeath/time*.svg
+        trendpng: output/over80s/any_immunosuppression/any/noncoviddeath/time*.png
 
-  model_over80s_noncoviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath pfizer any_immunosuppression
+  model_over80s_any_immunosuppression_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
+      noncoviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/model*.rds
-        data: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/pfizer/noncoviddeath/model*.rds
+        data: output/over80s/any_immunosuppression/pfizer/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/pfizer/noncoviddeath/weights*
 
-  report_ipw_over80s_noncoviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath pfizer any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression pfizer
+      noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/pfizer/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/tab*.html
-        data: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/pfizer/noncoviddeath/broom*.csv
 
-  report_msm_over80s_noncoviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath pfizer any_immunosuppression
+  report_msm_over80s_any_immunosuppression_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression pfizer
+      noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/pfizer/any_immunosuppression/forest_plot.svg
-        png: output/over80s/noncoviddeath/pfizer/any_immunosuppression/forest_plot.png
-        tables: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/pfizer/noncoviddeath/VE_plot.svg
+        png: output/over80s/any_immunosuppression/pfizer/noncoviddeath/VE_plot.png
+        tables: output/over80s/any_immunosuppression/pfizer/noncoviddeath/estimates*.csv
 
-  report_incidence_over80s_noncoviddeath_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s noncoviddeath pfizer
-      any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      pfizer noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/*.svg
-        png: output/over80s/noncoviddeath/pfizer/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/pfizer/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/pfizer/noncoviddeath/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/pfizer/noncoviddeath/time*.svg
+        trendpng: output/over80s/any_immunosuppression/pfizer/noncoviddeath/time*.png
 
-  model_over80s_noncoviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s noncoviddeath az any_immunosuppression
+  model_over80s_any_immunosuppression_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az noncoviddeath
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/noncoviddeath/az/any_immunosuppression/*/model*.rds
-        data: output/over80s/noncoviddeath/az/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/az/noncoviddeath/model*.rds
+        data: output/over80s/any_immunosuppression/az/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/over80s/noncoviddeath/az/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/az/noncoviddeath/weights*
 
-  report_ipw_over80s_noncoviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s noncoviddeath az any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression az
+      noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/over80s/noncoviddeath/az/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/noncoviddeath/az/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/az/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/noncoviddeath/az/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/noncoviddeath/az/any_immunosuppression/*/tab*.html
-        data: output/over80s/noncoviddeath/az/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/az/noncoviddeath/broom*.csv
 
-  report_msm_over80s_noncoviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s noncoviddeath az any_immunosuppression
+  report_msm_over80s_any_immunosuppression_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression az
+      noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/az/any_immunosuppression/forest_plot.svg
-        png: output/over80s/noncoviddeath/az/any_immunosuppression/forest_plot.png
-        tables: output/over80s/noncoviddeath/az/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/az/noncoviddeath/VE_plot.svg
+        png: output/over80s/any_immunosuppression/az/noncoviddeath/VE_plot.png
+        tables: output/over80s/any_immunosuppression/az/noncoviddeath/estimates*.csv
 
-  report_incidence_over80s_noncoviddeath_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s noncoviddeath az any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      az noncoviddeath
     needs:
     - design
-    - model_over80s_noncoviddeath_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/noncoviddeath/az/any_immunosuppression/*/*.svg
-        png: output/over80s/noncoviddeath/az/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/az/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/az/noncoviddeath/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/az/noncoviddeath/time*.svg
+        trendpng: output/over80s/any_immunosuppression/az/noncoviddeath/time*.png
 
-  model_over80s_death_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s death any any_immunosuppression
+  model_over80s_any_immunosuppression_any_death:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
+      death
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/death/any/any_immunosuppression/*/model*.rds
-        data: output/over80s/death/any/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/any/death/model*.rds
+        data: output/over80s/any_immunosuppression/any/death/data*.rds
       moderately_sensitive:
-        weights: output/over80s/death/any/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/any/death/weights*
 
-  report_ipw_over80s_death_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s death any any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_any_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression any
+      death
     needs:
     - design
-    - model_over80s_death_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_death
     outputs:
       highly_sensitive:
-        broom: output/over80s/death/any/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/death/any/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/any/death/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/death/any/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/death/any/any_immunosuppression/*/tab*.html
-        data: output/over80s/death/any/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/any/death/broom*.csv
 
-  report_msm_over80s_death_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s death any any_immunosuppression
+  report_msm_over80s_any_immunosuppression_any_death:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression any
+      death
     needs:
     - design
-    - model_over80s_death_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/any/any_immunosuppression/forest_plot.svg
-        png: output/over80s/death/any/any_immunosuppression/forest_plot.png
-        tables: output/over80s/death/any/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/any/death/VE_plot.svg
+        png: output/over80s/any_immunosuppression/any/death/VE_plot.png
+        tables: output/over80s/any_immunosuppression/any/death/estimates*.csv
 
-  report_incidence_over80s_death_any_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s death any any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_any_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      any death
     needs:
     - design
-    - model_over80s_death_any_any_immunosuppression
+    - model_over80s_any_immunosuppression_any_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/any/any_immunosuppression/*/*.svg
-        png: output/over80s/death/any/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/any/death/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/any/death/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/any/death/time*.svg
+        trendpng: output/over80s/any_immunosuppression/any/death/time*.png
 
-  model_over80s_death_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s death pfizer any_immunosuppression
+  model_over80s_any_immunosuppression_pfizer_death:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
+      death
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/death/pfizer/any_immunosuppression/*/model*.rds
-        data: output/over80s/death/pfizer/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/pfizer/death/model*.rds
+        data: output/over80s/any_immunosuppression/pfizer/death/data*.rds
       moderately_sensitive:
-        weights: output/over80s/death/pfizer/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/pfizer/death/weights*
 
-  report_ipw_over80s_death_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s death pfizer any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression pfizer
+      death
     needs:
     - design
-    - model_over80s_death_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_death
     outputs:
       highly_sensitive:
-        broom: output/over80s/death/pfizer/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/death/pfizer/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/pfizer/death/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/death/pfizer/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/death/pfizer/any_immunosuppression/*/tab*.html
-        data: output/over80s/death/pfizer/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/pfizer/death/broom*.csv
 
-  report_msm_over80s_death_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s death pfizer any_immunosuppression
+  report_msm_over80s_any_immunosuppression_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression pfizer
+      death
     needs:
     - design
-    - model_over80s_death_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/pfizer/any_immunosuppression/forest_plot.svg
-        png: output/over80s/death/pfizer/any_immunosuppression/forest_plot.png
-        tables: output/over80s/death/pfizer/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/pfizer/death/VE_plot.svg
+        png: output/over80s/any_immunosuppression/pfizer/death/VE_plot.png
+        tables: output/over80s/any_immunosuppression/pfizer/death/estimates*.csv
 
-  report_incidence_over80s_death_pfizer_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s death pfizer any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      pfizer death
     needs:
     - design
-    - model_over80s_death_pfizer_any_immunosuppression
+    - model_over80s_any_immunosuppression_pfizer_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/pfizer/any_immunosuppression/*/*.svg
-        png: output/over80s/death/pfizer/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/pfizer/death/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/pfizer/death/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/pfizer/death/time*.svg
+        trendpng: output/over80s/any_immunosuppression/pfizer/death/time*.png
 
-  model_over80s_death_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s death az any_immunosuppression
+  model_over80s_any_immunosuppression_az_death:
+    run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az death
     needs:
     - design
     - data_stset_over80s
     - data_samples_over80s
     outputs:
       highly_sensitive:
-        models: output/over80s/death/az/any_immunosuppression/*/model*.rds
-        data: output/over80s/death/az/any_immunosuppression/*/data*.rds
+        models: output/over80s/any_immunosuppression/az/death/model*.rds
+        data: output/over80s/any_immunosuppression/az/death/data*.rds
       moderately_sensitive:
-        weights: output/over80s/death/az/any_immunosuppression/*/weights*
+        weights: output/over80s/any_immunosuppression/az/death/weights*
 
-  report_ipw_over80s_death_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_ipw.R over80s death az any_immunosuppression
+  report_ipw_over80s_any_immunosuppression_az_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R over80s any_immunosuppression az
+      death
     needs:
     - design
-    - model_over80s_death_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_death
     outputs:
       highly_sensitive:
-        broom: output/over80s/death/az/any_immunosuppression/*/broom*.rds
-        gt: output/over80s/death/az/any_immunosuppression/*/gt*.rds
+        broom: output/over80s/any_immunosuppression/az/death/broom*.rds
       moderately_sensitive:
-        plots: output/over80s/death/az/any_immunosuppression/*/plot*.svg
-        tables: output/over80s/death/az/any_immunosuppression/*/tab*.html
-        data: output/over80s/death/az/any_immunosuppression/*/broom*.csv
+        data: output/over80s/any_immunosuppression/az/death/broom*.csv
 
-  report_msm_over80s_death_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_msm.R over80s death az any_immunosuppression
+  report_msm_over80s_any_immunosuppression_az_death:
+    run: r:latest analysis/R/dose_1/report_msm.R over80s any_immunosuppression az
+      death
     needs:
     - design
-    - model_over80s_death_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/az/any_immunosuppression/forest_plot.svg
-        png: output/over80s/death/az/any_immunosuppression/forest_plot.png
-        tables: output/over80s/death/az/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/az/death/VE_plot.svg
+        png: output/over80s/any_immunosuppression/az/death/VE_plot.png
+        tables: output/over80s/any_immunosuppression/az/death/estimates*.csv
 
-  report_incidence_over80s_death_az_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_incidence.R over80s death az any_immunosuppression
+  report_incidence_over80s_any_immunosuppression_az_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R over80s any_immunosuppression
+      az death
     needs:
     - design
-    - model_over80s_death_az_any_immunosuppression
+    - model_over80s_any_immunosuppression_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/death/az/any_immunosuppression/*/*.svg
-        png: output/over80s/death/az/any_immunosuppression/*/*.png
+        cmlsvg: output/over80s/any_immunosuppression/az/death/cml_incidence*.svg
+        cmlpng: output/over80s/any_immunosuppression/az/death/cml_incidence*.png
+        trendsvg: output/over80s/any_immunosuppression/az/death/time*.svg
+        trendpng: output/over80s/any_immunosuppression/az/death/time*.png
 
   report_ipw_over80s_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s death any_immunosuppression
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s any_immunosuppression
+      death
     needs:
     - design
-    - report_ipw_over80s_death_any_any_immunosuppression
-    - report_ipw_over80s_death_pfizer_any_immunosuppression
-    - report_ipw_over80s_death_az_any_immunosuppression
+    - report_ipw_over80s_any_immunosuppression_any_death
+    - report_ipw_over80s_any_immunosuppression_pfizer_death
+    - report_ipw_over80s_any_immunosuppression_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/plot_vax1.svg
-        csv: output/over80s/tab_vax1.csv
-        csv_wide: output/over80s/tab_vax1_wide.csv
+        svg: output/over80s/any_immunosuppression/plot_vax1.svg
+        csv: output/over80s/any_immunosuppression/tab_vax1.csv
+        csv_wide: output/over80s/any_immunosuppression/tab_vax1_wide.csv
 
   report_over80s_any_immunosuppression:
     run: r:latest analysis/R/dose_1/report_msm_combined.R over80s any_immunosuppression
     needs:
     - design
-    - report_msm_over80s_postest_any_any_immunosuppression
-    - report_msm_over80s_postest_pfizer_any_immunosuppression
-    - report_msm_over80s_postest_az_any_immunosuppression
-    - report_msm_over80s_covidadmitted_any_any_immunosuppression
-    - report_msm_over80s_covidadmitted_pfizer_any_immunosuppression
-    - report_msm_over80s_covidadmitted_az_any_immunosuppression
-    - report_msm_over80s_coviddeath_any_any_immunosuppression
-    - report_msm_over80s_coviddeath_pfizer_any_immunosuppression
-    - report_msm_over80s_coviddeath_az_any_immunosuppression
-    - report_msm_over80s_noncoviddeath_any_any_immunosuppression
-    - report_msm_over80s_noncoviddeath_pfizer_any_immunosuppression
-    - report_msm_over80s_noncoviddeath_az_any_immunosuppression
+    - report_msm_over80s_any_immunosuppression_any_postest
+    - report_msm_over80s_any_immunosuppression_any_covidadmitted
+    - report_msm_over80s_any_immunosuppression_any_coviddeath
+    - report_msm_over80s_any_immunosuppression_any_noncoviddeath
+    - report_msm_over80s_any_immunosuppression_pfizer_postest
+    - report_msm_over80s_any_immunosuppression_pfizer_covidadmitted
+    - report_msm_over80s_any_immunosuppression_pfizer_coviddeath
+    - report_msm_over80s_any_immunosuppression_pfizer_noncoviddeath
+    - report_msm_over80s_any_immunosuppression_az_postest
+    - report_msm_over80s_any_immunosuppression_az_covidadmitted
+    - report_msm_over80s_any_immunosuppression_az_coviddeath
+    - report_msm_over80s_any_immunosuppression_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/combined/any_immunosuppression/*.svg
-        png: output/over80s/combined/any_immunosuppression/*.png
-        csv: output/over80s/combined/any_immunosuppression/*.csv
+        svg: output/over80s/any_immunosuppression/*.svg
+        png: output/over80s/any_immunosuppression/combined/*.png
+        csv: output/over80s/any_immunosuppression/combined/*.csv
 
   ## #################################### 
   ## in70s, all 
@@ -1777,760 +1789,743 @@ actions:
         plots: output/in70s/descriptive/plots/*.svg
         tables: output/in70s/descriptive/tables/*.csv
 
-  model_in70s_postest_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s postest any all
+  model_in70s_all_any_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any postest
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/postest/any/all/*/model*.rds
-        data: output/in70s/postest/any/all/*/data*.rds
+        models: output/in70s/all/any/postest/model*.rds
+        data: output/in70s/all/any/postest/data*.rds
       moderately_sensitive:
-        weights: output/in70s/postest/any/all/*/weights*
+        weights: output/in70s/all/any/postest/weights*
 
-  report_ipw_in70s_postest_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s postest any all
+  report_ipw_in70s_all_any_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all any postest
     needs:
     - design
-    - model_in70s_postest_any_all
+    - model_in70s_all_any_postest
     outputs:
       highly_sensitive:
-        broom: output/in70s/postest/any/all/*/broom*.rds
-        gt: output/in70s/postest/any/all/*/gt*.rds
+        broom: output/in70s/all/any/postest/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/postest/any/all/*/plot*.svg
-        tables: output/in70s/postest/any/all/*/tab*.html
-        data: output/in70s/postest/any/all/*/broom*.csv
+        data: output/in70s/all/any/postest/broom*.csv
 
-  report_msm_in70s_postest_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s postest any all
+  report_msm_in70s_all_any_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all any postest
     needs:
     - design
-    - model_in70s_postest_any_all
+    - model_in70s_all_any_postest
     outputs:
       moderately_sensitive:
-        svg: output/in70s/postest/any/all/forest_plot.svg
-        png: output/in70s/postest/any/all/forest_plot.png
-        tables: output/in70s/postest/any/all/*.csv
+        svg: output/in70s/all/any/postest/VE_plot.svg
+        png: output/in70s/all/any/postest/VE_plot.png
+        tables: output/in70s/all/any/postest/estimates*.csv
 
-  report_incidence_in70s_postest_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s postest any all
+  report_incidence_in70s_all_any_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all any postest
     needs:
     - design
-    - model_in70s_postest_any_all
+    - model_in70s_all_any_postest
     outputs:
       moderately_sensitive:
-        svg: output/in70s/postest/any/all/*/*.svg
-        png: output/in70s/postest/any/all/*/*.png
+        cmlsvg: output/in70s/all/any/postest/cml_incidence*.svg
+        cmlpng: output/in70s/all/any/postest/cml_incidence*.png
+        trendsvg: output/in70s/all/any/postest/time*.svg
+        trendpng: output/in70s/all/any/postest/time*.png
 
-  model_in70s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s postest pfizer all
+  model_in70s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer postest
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/postest/pfizer/all/*/model*.rds
-        data: output/in70s/postest/pfizer/all/*/data*.rds
+        models: output/in70s/all/pfizer/postest/model*.rds
+        data: output/in70s/all/pfizer/postest/data*.rds
       moderately_sensitive:
-        weights: output/in70s/postest/pfizer/all/*/weights*
+        weights: output/in70s/all/pfizer/postest/weights*
 
-  report_ipw_in70s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s postest pfizer all
+  report_ipw_in70s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all pfizer postest
     needs:
     - design
-    - model_in70s_postest_pfizer_all
+    - model_in70s_all_pfizer_postest
     outputs:
       highly_sensitive:
-        broom: output/in70s/postest/pfizer/all/*/broom*.rds
-        gt: output/in70s/postest/pfizer/all/*/gt*.rds
+        broom: output/in70s/all/pfizer/postest/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/postest/pfizer/all/*/plot*.svg
-        tables: output/in70s/postest/pfizer/all/*/tab*.html
-        data: output/in70s/postest/pfizer/all/*/broom*.csv
+        data: output/in70s/all/pfizer/postest/broom*.csv
 
-  report_msm_in70s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s postest pfizer all
+  report_msm_in70s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all pfizer postest
     needs:
     - design
-    - model_in70s_postest_pfizer_all
+    - model_in70s_all_pfizer_postest
     outputs:
       moderately_sensitive:
-        svg: output/in70s/postest/pfizer/all/forest_plot.svg
-        png: output/in70s/postest/pfizer/all/forest_plot.png
-        tables: output/in70s/postest/pfizer/all/*.csv
+        svg: output/in70s/all/pfizer/postest/VE_plot.svg
+        png: output/in70s/all/pfizer/postest/VE_plot.png
+        tables: output/in70s/all/pfizer/postest/estimates*.csv
 
-  report_incidence_in70s_postest_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s postest pfizer all
+  report_incidence_in70s_all_pfizer_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all pfizer postest
     needs:
     - design
-    - model_in70s_postest_pfizer_all
+    - model_in70s_all_pfizer_postest
     outputs:
       moderately_sensitive:
-        svg: output/in70s/postest/pfizer/all/*/*.svg
-        png: output/in70s/postest/pfizer/all/*/*.png
+        cmlsvg: output/in70s/all/pfizer/postest/cml_incidence*.svg
+        cmlpng: output/in70s/all/pfizer/postest/cml_incidence*.png
+        trendsvg: output/in70s/all/pfizer/postest/time*.svg
+        trendpng: output/in70s/all/pfizer/postest/time*.png
 
-  model_in70s_postest_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s postest az all
+  model_in70s_all_az_postest:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az postest
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/postest/az/all/*/model*.rds
-        data: output/in70s/postest/az/all/*/data*.rds
+        models: output/in70s/all/az/postest/model*.rds
+        data: output/in70s/all/az/postest/data*.rds
       moderately_sensitive:
-        weights: output/in70s/postest/az/all/*/weights*
+        weights: output/in70s/all/az/postest/weights*
 
-  report_ipw_in70s_postest_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s postest az all
+  report_ipw_in70s_all_az_postest:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all az postest
     needs:
     - design
-    - model_in70s_postest_az_all
+    - model_in70s_all_az_postest
     outputs:
       highly_sensitive:
-        broom: output/in70s/postest/az/all/*/broom*.rds
-        gt: output/in70s/postest/az/all/*/gt*.rds
+        broom: output/in70s/all/az/postest/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/postest/az/all/*/plot*.svg
-        tables: output/in70s/postest/az/all/*/tab*.html
-        data: output/in70s/postest/az/all/*/broom*.csv
+        data: output/in70s/all/az/postest/broom*.csv
 
-  report_msm_in70s_postest_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s postest az all
+  report_msm_in70s_all_az_postest:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all az postest
     needs:
     - design
-    - model_in70s_postest_az_all
+    - model_in70s_all_az_postest
     outputs:
       moderately_sensitive:
-        svg: output/in70s/postest/az/all/forest_plot.svg
-        png: output/in70s/postest/az/all/forest_plot.png
-        tables: output/in70s/postest/az/all/*.csv
+        svg: output/in70s/all/az/postest/VE_plot.svg
+        png: output/in70s/all/az/postest/VE_plot.png
+        tables: output/in70s/all/az/postest/estimates*.csv
 
-  report_incidence_in70s_postest_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s postest az all
+  report_incidence_in70s_all_az_postest:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all az postest
     needs:
     - design
-    - model_in70s_postest_az_all
+    - model_in70s_all_az_postest
     outputs:
       moderately_sensitive:
-        svg: output/in70s/postest/az/all/*/*.svg
-        png: output/in70s/postest/az/all/*/*.png
+        cmlsvg: output/in70s/all/az/postest/cml_incidence*.svg
+        cmlpng: output/in70s/all/az/postest/cml_incidence*.png
+        trendsvg: output/in70s/all/az/postest/time*.svg
+        trendpng: output/in70s/all/az/postest/time*.png
 
-  model_in70s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted any all
+  model_in70s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any covidadmitted
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/covidadmitted/any/all/*/model*.rds
-        data: output/in70s/covidadmitted/any/all/*/data*.rds
+        models: output/in70s/all/any/covidadmitted/model*.rds
+        data: output/in70s/all/any/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/in70s/covidadmitted/any/all/*/weights*
+        weights: output/in70s/all/any/covidadmitted/weights*
 
-  report_ipw_in70s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted any all
+  report_ipw_in70s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all any covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_any_all
+    - model_in70s_all_any_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/in70s/covidadmitted/any/all/*/broom*.rds
-        gt: output/in70s/covidadmitted/any/all/*/gt*.rds
+        broom: output/in70s/all/any/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/covidadmitted/any/all/*/plot*.svg
-        tables: output/in70s/covidadmitted/any/all/*/tab*.html
-        data: output/in70s/covidadmitted/any/all/*/broom*.csv
+        data: output/in70s/all/any/covidadmitted/broom*.csv
 
-  report_msm_in70s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted any all
+  report_msm_in70s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all any covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_any_all
+    - model_in70s_all_any_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/in70s/covidadmitted/any/all/forest_plot.svg
-        png: output/in70s/covidadmitted/any/all/forest_plot.png
-        tables: output/in70s/covidadmitted/any/all/*.csv
+        svg: output/in70s/all/any/covidadmitted/VE_plot.svg
+        png: output/in70s/all/any/covidadmitted/VE_plot.png
+        tables: output/in70s/all/any/covidadmitted/estimates*.csv
 
-  report_incidence_in70s_covidadmitted_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s covidadmitted any all
+  report_incidence_in70s_all_any_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all any covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_any_all
+    - model_in70s_all_any_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/in70s/covidadmitted/any/all/*/*.svg
-        png: output/in70s/covidadmitted/any/all/*/*.png
+        cmlsvg: output/in70s/all/any/covidadmitted/cml_incidence*.svg
+        cmlpng: output/in70s/all/any/covidadmitted/cml_incidence*.png
+        trendsvg: output/in70s/all/any/covidadmitted/time*.svg
+        trendpng: output/in70s/all/any/covidadmitted/time*.png
 
-  model_in70s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted pfizer all
+  model_in70s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer covidadmitted
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/covidadmitted/pfizer/all/*/model*.rds
-        data: output/in70s/covidadmitted/pfizer/all/*/data*.rds
+        models: output/in70s/all/pfizer/covidadmitted/model*.rds
+        data: output/in70s/all/pfizer/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/in70s/covidadmitted/pfizer/all/*/weights*
+        weights: output/in70s/all/pfizer/covidadmitted/weights*
 
-  report_ipw_in70s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted pfizer all
+  report_ipw_in70s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all pfizer covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_pfizer_all
+    - model_in70s_all_pfizer_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/in70s/covidadmitted/pfizer/all/*/broom*.rds
-        gt: output/in70s/covidadmitted/pfizer/all/*/gt*.rds
+        broom: output/in70s/all/pfizer/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/covidadmitted/pfizer/all/*/plot*.svg
-        tables: output/in70s/covidadmitted/pfizer/all/*/tab*.html
-        data: output/in70s/covidadmitted/pfizer/all/*/broom*.csv
+        data: output/in70s/all/pfizer/covidadmitted/broom*.csv
 
-  report_msm_in70s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted pfizer all
+  report_msm_in70s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all pfizer covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_pfizer_all
+    - model_in70s_all_pfizer_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/in70s/covidadmitted/pfizer/all/forest_plot.svg
-        png: output/in70s/covidadmitted/pfizer/all/forest_plot.png
-        tables: output/in70s/covidadmitted/pfizer/all/*.csv
+        svg: output/in70s/all/pfizer/covidadmitted/VE_plot.svg
+        png: output/in70s/all/pfizer/covidadmitted/VE_plot.png
+        tables: output/in70s/all/pfizer/covidadmitted/estimates*.csv
 
-  report_incidence_in70s_covidadmitted_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s covidadmitted pfizer
-      all
+  report_incidence_in70s_all_pfizer_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all pfizer covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_pfizer_all
+    - model_in70s_all_pfizer_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/in70s/covidadmitted/pfizer/all/*/*.svg
-        png: output/in70s/covidadmitted/pfizer/all/*/*.png
+        cmlsvg: output/in70s/all/pfizer/covidadmitted/cml_incidence*.svg
+        cmlpng: output/in70s/all/pfizer/covidadmitted/cml_incidence*.png
+        trendsvg: output/in70s/all/pfizer/covidadmitted/time*.svg
+        trendpng: output/in70s/all/pfizer/covidadmitted/time*.png
 
-  model_in70s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s covidadmitted az all
+  model_in70s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az covidadmitted
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/covidadmitted/az/all/*/model*.rds
-        data: output/in70s/covidadmitted/az/all/*/data*.rds
+        models: output/in70s/all/az/covidadmitted/model*.rds
+        data: output/in70s/all/az/covidadmitted/data*.rds
       moderately_sensitive:
-        weights: output/in70s/covidadmitted/az/all/*/weights*
+        weights: output/in70s/all/az/covidadmitted/weights*
 
-  report_ipw_in70s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s covidadmitted az all
+  report_ipw_in70s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all az covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_az_all
+    - model_in70s_all_az_covidadmitted
     outputs:
       highly_sensitive:
-        broom: output/in70s/covidadmitted/az/all/*/broom*.rds
-        gt: output/in70s/covidadmitted/az/all/*/gt*.rds
+        broom: output/in70s/all/az/covidadmitted/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/covidadmitted/az/all/*/plot*.svg
-        tables: output/in70s/covidadmitted/az/all/*/tab*.html
-        data: output/in70s/covidadmitted/az/all/*/broom*.csv
+        data: output/in70s/all/az/covidadmitted/broom*.csv
 
-  report_msm_in70s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s covidadmitted az all
+  report_msm_in70s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all az covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_az_all
+    - model_in70s_all_az_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/in70s/covidadmitted/az/all/forest_plot.svg
-        png: output/in70s/covidadmitted/az/all/forest_plot.png
-        tables: output/in70s/covidadmitted/az/all/*.csv
+        svg: output/in70s/all/az/covidadmitted/VE_plot.svg
+        png: output/in70s/all/az/covidadmitted/VE_plot.png
+        tables: output/in70s/all/az/covidadmitted/estimates*.csv
 
-  report_incidence_in70s_covidadmitted_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s covidadmitted az all
+  report_incidence_in70s_all_az_covidadmitted:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all az covidadmitted
     needs:
     - design
-    - model_in70s_covidadmitted_az_all
+    - model_in70s_all_az_covidadmitted
     outputs:
       moderately_sensitive:
-        svg: output/in70s/covidadmitted/az/all/*/*.svg
-        png: output/in70s/covidadmitted/az/all/*/*.png
+        cmlsvg: output/in70s/all/az/covidadmitted/cml_incidence*.svg
+        cmlpng: output/in70s/all/az/covidadmitted/cml_incidence*.png
+        trendsvg: output/in70s/all/az/covidadmitted/time*.svg
+        trendpng: output/in70s/all/az/covidadmitted/time*.png
 
-  model_in70s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath any all
+  model_in70s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any coviddeath
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/coviddeath/any/all/*/model*.rds
-        data: output/in70s/coviddeath/any/all/*/data*.rds
+        models: output/in70s/all/any/coviddeath/model*.rds
+        data: output/in70s/all/any/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/in70s/coviddeath/any/all/*/weights*
+        weights: output/in70s/all/any/coviddeath/weights*
 
-  report_ipw_in70s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath any all
+  report_ipw_in70s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all any coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_any_all
+    - model_in70s_all_any_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/in70s/coviddeath/any/all/*/broom*.rds
-        gt: output/in70s/coviddeath/any/all/*/gt*.rds
+        broom: output/in70s/all/any/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/coviddeath/any/all/*/plot*.svg
-        tables: output/in70s/coviddeath/any/all/*/tab*.html
-        data: output/in70s/coviddeath/any/all/*/broom*.csv
+        data: output/in70s/all/any/coviddeath/broom*.csv
 
-  report_msm_in70s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath any all
+  report_msm_in70s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all any coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_any_all
+    - model_in70s_all_any_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/coviddeath/any/all/forest_plot.svg
-        png: output/in70s/coviddeath/any/all/forest_plot.png
-        tables: output/in70s/coviddeath/any/all/*.csv
+        svg: output/in70s/all/any/coviddeath/VE_plot.svg
+        png: output/in70s/all/any/coviddeath/VE_plot.png
+        tables: output/in70s/all/any/coviddeath/estimates*.csv
 
-  report_incidence_in70s_coviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s coviddeath any all
+  report_incidence_in70s_all_any_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all any coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_any_all
+    - model_in70s_all_any_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/coviddeath/any/all/*/*.svg
-        png: output/in70s/coviddeath/any/all/*/*.png
+        cmlsvg: output/in70s/all/any/coviddeath/cml_incidence*.svg
+        cmlpng: output/in70s/all/any/coviddeath/cml_incidence*.png
+        trendsvg: output/in70s/all/any/coviddeath/time*.svg
+        trendpng: output/in70s/all/any/coviddeath/time*.png
 
-  model_in70s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath pfizer all
+  model_in70s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer coviddeath
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/coviddeath/pfizer/all/*/model*.rds
-        data: output/in70s/coviddeath/pfizer/all/*/data*.rds
+        models: output/in70s/all/pfizer/coviddeath/model*.rds
+        data: output/in70s/all/pfizer/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/in70s/coviddeath/pfizer/all/*/weights*
+        weights: output/in70s/all/pfizer/coviddeath/weights*
 
-  report_ipw_in70s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath pfizer all
+  report_ipw_in70s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all pfizer coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_pfizer_all
+    - model_in70s_all_pfizer_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/in70s/coviddeath/pfizer/all/*/broom*.rds
-        gt: output/in70s/coviddeath/pfizer/all/*/gt*.rds
+        broom: output/in70s/all/pfizer/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/coviddeath/pfizer/all/*/plot*.svg
-        tables: output/in70s/coviddeath/pfizer/all/*/tab*.html
-        data: output/in70s/coviddeath/pfizer/all/*/broom*.csv
+        data: output/in70s/all/pfizer/coviddeath/broom*.csv
 
-  report_msm_in70s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath pfizer all
+  report_msm_in70s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all pfizer coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_pfizer_all
+    - model_in70s_all_pfizer_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/coviddeath/pfizer/all/forest_plot.svg
-        png: output/in70s/coviddeath/pfizer/all/forest_plot.png
-        tables: output/in70s/coviddeath/pfizer/all/*.csv
+        svg: output/in70s/all/pfizer/coviddeath/VE_plot.svg
+        png: output/in70s/all/pfizer/coviddeath/VE_plot.png
+        tables: output/in70s/all/pfizer/coviddeath/estimates*.csv
 
-  report_incidence_in70s_coviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s coviddeath pfizer all
+  report_incidence_in70s_all_pfizer_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all pfizer coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_pfizer_all
+    - model_in70s_all_pfizer_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/coviddeath/pfizer/all/*/*.svg
-        png: output/in70s/coviddeath/pfizer/all/*/*.png
+        cmlsvg: output/in70s/all/pfizer/coviddeath/cml_incidence*.svg
+        cmlpng: output/in70s/all/pfizer/coviddeath/cml_incidence*.png
+        trendsvg: output/in70s/all/pfizer/coviddeath/time*.svg
+        trendpng: output/in70s/all/pfizer/coviddeath/time*.png
 
-  model_in70s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s coviddeath az all
+  model_in70s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az coviddeath
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/coviddeath/az/all/*/model*.rds
-        data: output/in70s/coviddeath/az/all/*/data*.rds
+        models: output/in70s/all/az/coviddeath/model*.rds
+        data: output/in70s/all/az/coviddeath/data*.rds
       moderately_sensitive:
-        weights: output/in70s/coviddeath/az/all/*/weights*
+        weights: output/in70s/all/az/coviddeath/weights*
 
-  report_ipw_in70s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s coviddeath az all
+  report_ipw_in70s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all az coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_az_all
+    - model_in70s_all_az_coviddeath
     outputs:
       highly_sensitive:
-        broom: output/in70s/coviddeath/az/all/*/broom*.rds
-        gt: output/in70s/coviddeath/az/all/*/gt*.rds
+        broom: output/in70s/all/az/coviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/coviddeath/az/all/*/plot*.svg
-        tables: output/in70s/coviddeath/az/all/*/tab*.html
-        data: output/in70s/coviddeath/az/all/*/broom*.csv
+        data: output/in70s/all/az/coviddeath/broom*.csv
 
-  report_msm_in70s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s coviddeath az all
+  report_msm_in70s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all az coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_az_all
+    - model_in70s_all_az_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/coviddeath/az/all/forest_plot.svg
-        png: output/in70s/coviddeath/az/all/forest_plot.png
-        tables: output/in70s/coviddeath/az/all/*.csv
+        svg: output/in70s/all/az/coviddeath/VE_plot.svg
+        png: output/in70s/all/az/coviddeath/VE_plot.png
+        tables: output/in70s/all/az/coviddeath/estimates*.csv
 
-  report_incidence_in70s_coviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s coviddeath az all
+  report_incidence_in70s_all_az_coviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all az coviddeath
     needs:
     - design
-    - model_in70s_coviddeath_az_all
+    - model_in70s_all_az_coviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/coviddeath/az/all/*/*.svg
-        png: output/in70s/coviddeath/az/all/*/*.png
+        cmlsvg: output/in70s/all/az/coviddeath/cml_incidence*.svg
+        cmlpng: output/in70s/all/az/coviddeath/cml_incidence*.png
+        trendsvg: output/in70s/all/az/coviddeath/time*.svg
+        trendpng: output/in70s/all/az/coviddeath/time*.png
 
-  model_in70s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath any all
+  model_in70s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any noncoviddeath
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/noncoviddeath/any/all/*/model*.rds
-        data: output/in70s/noncoviddeath/any/all/*/data*.rds
+        models: output/in70s/all/any/noncoviddeath/model*.rds
+        data: output/in70s/all/any/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/in70s/noncoviddeath/any/all/*/weights*
+        weights: output/in70s/all/any/noncoviddeath/weights*
 
-  report_ipw_in70s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath any all
+  report_ipw_in70s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all any noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_any_all
+    - model_in70s_all_any_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/in70s/noncoviddeath/any/all/*/broom*.rds
-        gt: output/in70s/noncoviddeath/any/all/*/gt*.rds
+        broom: output/in70s/all/any/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/noncoviddeath/any/all/*/plot*.svg
-        tables: output/in70s/noncoviddeath/any/all/*/tab*.html
-        data: output/in70s/noncoviddeath/any/all/*/broom*.csv
+        data: output/in70s/all/any/noncoviddeath/broom*.csv
 
-  report_msm_in70s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath any all
+  report_msm_in70s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all any noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_any_all
+    - model_in70s_all_any_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/noncoviddeath/any/all/forest_plot.svg
-        png: output/in70s/noncoviddeath/any/all/forest_plot.png
-        tables: output/in70s/noncoviddeath/any/all/*.csv
+        svg: output/in70s/all/any/noncoviddeath/VE_plot.svg
+        png: output/in70s/all/any/noncoviddeath/VE_plot.png
+        tables: output/in70s/all/any/noncoviddeath/estimates*.csv
 
-  report_incidence_in70s_noncoviddeath_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s noncoviddeath any all
+  report_incidence_in70s_all_any_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all any noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_any_all
+    - model_in70s_all_any_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/noncoviddeath/any/all/*/*.svg
-        png: output/in70s/noncoviddeath/any/all/*/*.png
+        cmlsvg: output/in70s/all/any/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/in70s/all/any/noncoviddeath/cml_incidence*.png
+        trendsvg: output/in70s/all/any/noncoviddeath/time*.svg
+        trendpng: output/in70s/all/any/noncoviddeath/time*.png
 
-  model_in70s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath pfizer all
+  model_in70s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer noncoviddeath
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/noncoviddeath/pfizer/all/*/model*.rds
-        data: output/in70s/noncoviddeath/pfizer/all/*/data*.rds
+        models: output/in70s/all/pfizer/noncoviddeath/model*.rds
+        data: output/in70s/all/pfizer/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/in70s/noncoviddeath/pfizer/all/*/weights*
+        weights: output/in70s/all/pfizer/noncoviddeath/weights*
 
-  report_ipw_in70s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath pfizer all
+  report_ipw_in70s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all pfizer noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_pfizer_all
+    - model_in70s_all_pfizer_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/in70s/noncoviddeath/pfizer/all/*/broom*.rds
-        gt: output/in70s/noncoviddeath/pfizer/all/*/gt*.rds
+        broom: output/in70s/all/pfizer/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/noncoviddeath/pfizer/all/*/plot*.svg
-        tables: output/in70s/noncoviddeath/pfizer/all/*/tab*.html
-        data: output/in70s/noncoviddeath/pfizer/all/*/broom*.csv
+        data: output/in70s/all/pfizer/noncoviddeath/broom*.csv
 
-  report_msm_in70s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath pfizer all
+  report_msm_in70s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all pfizer noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_pfizer_all
+    - model_in70s_all_pfizer_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/noncoviddeath/pfizer/all/forest_plot.svg
-        png: output/in70s/noncoviddeath/pfizer/all/forest_plot.png
-        tables: output/in70s/noncoviddeath/pfizer/all/*.csv
+        svg: output/in70s/all/pfizer/noncoviddeath/VE_plot.svg
+        png: output/in70s/all/pfizer/noncoviddeath/VE_plot.png
+        tables: output/in70s/all/pfizer/noncoviddeath/estimates*.csv
 
-  report_incidence_in70s_noncoviddeath_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s noncoviddeath pfizer
-      all
+  report_incidence_in70s_all_pfizer_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all pfizer noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_pfizer_all
+    - model_in70s_all_pfizer_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/noncoviddeath/pfizer/all/*/*.svg
-        png: output/in70s/noncoviddeath/pfizer/all/*/*.png
+        cmlsvg: output/in70s/all/pfizer/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/in70s/all/pfizer/noncoviddeath/cml_incidence*.png
+        trendsvg: output/in70s/all/pfizer/noncoviddeath/time*.svg
+        trendpng: output/in70s/all/pfizer/noncoviddeath/time*.png
 
-  model_in70s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s noncoviddeath az all
+  model_in70s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az noncoviddeath
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/noncoviddeath/az/all/*/model*.rds
-        data: output/in70s/noncoviddeath/az/all/*/data*.rds
+        models: output/in70s/all/az/noncoviddeath/model*.rds
+        data: output/in70s/all/az/noncoviddeath/data*.rds
       moderately_sensitive:
-        weights: output/in70s/noncoviddeath/az/all/*/weights*
+        weights: output/in70s/all/az/noncoviddeath/weights*
 
-  report_ipw_in70s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s noncoviddeath az all
+  report_ipw_in70s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all az noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_az_all
+    - model_in70s_all_az_noncoviddeath
     outputs:
       highly_sensitive:
-        broom: output/in70s/noncoviddeath/az/all/*/broom*.rds
-        gt: output/in70s/noncoviddeath/az/all/*/gt*.rds
+        broom: output/in70s/all/az/noncoviddeath/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/noncoviddeath/az/all/*/plot*.svg
-        tables: output/in70s/noncoviddeath/az/all/*/tab*.html
-        data: output/in70s/noncoviddeath/az/all/*/broom*.csv
+        data: output/in70s/all/az/noncoviddeath/broom*.csv
 
-  report_msm_in70s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s noncoviddeath az all
+  report_msm_in70s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all az noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_az_all
+    - model_in70s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/noncoviddeath/az/all/forest_plot.svg
-        png: output/in70s/noncoviddeath/az/all/forest_plot.png
-        tables: output/in70s/noncoviddeath/az/all/*.csv
+        svg: output/in70s/all/az/noncoviddeath/VE_plot.svg
+        png: output/in70s/all/az/noncoviddeath/VE_plot.png
+        tables: output/in70s/all/az/noncoviddeath/estimates*.csv
 
-  report_incidence_in70s_noncoviddeath_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s noncoviddeath az all
+  report_incidence_in70s_all_az_noncoviddeath:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all az noncoviddeath
     needs:
     - design
-    - model_in70s_noncoviddeath_az_all
+    - model_in70s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/noncoviddeath/az/all/*/*.svg
-        png: output/in70s/noncoviddeath/az/all/*/*.png
+        cmlsvg: output/in70s/all/az/noncoviddeath/cml_incidence*.svg
+        cmlpng: output/in70s/all/az/noncoviddeath/cml_incidence*.png
+        trendsvg: output/in70s/all/az/noncoviddeath/time*.svg
+        trendpng: output/in70s/all/az/noncoviddeath/time*.png
 
-  model_in70s_death_any_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s death any all
+  model_in70s_all_any_death:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any death
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/death/any/all/*/model*.rds
-        data: output/in70s/death/any/all/*/data*.rds
+        models: output/in70s/all/any/death/model*.rds
+        data: output/in70s/all/any/death/data*.rds
       moderately_sensitive:
-        weights: output/in70s/death/any/all/*/weights*
+        weights: output/in70s/all/any/death/weights*
 
-  report_ipw_in70s_death_any_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s death any all
+  report_ipw_in70s_all_any_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all any death
     needs:
     - design
-    - model_in70s_death_any_all
+    - model_in70s_all_any_death
     outputs:
       highly_sensitive:
-        broom: output/in70s/death/any/all/*/broom*.rds
-        gt: output/in70s/death/any/all/*/gt*.rds
+        broom: output/in70s/all/any/death/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/death/any/all/*/plot*.svg
-        tables: output/in70s/death/any/all/*/tab*.html
-        data: output/in70s/death/any/all/*/broom*.csv
+        data: output/in70s/all/any/death/broom*.csv
 
-  report_msm_in70s_death_any_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s death any all
+  report_msm_in70s_all_any_death:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all any death
     needs:
     - design
-    - model_in70s_death_any_all
+    - model_in70s_all_any_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/death/any/all/forest_plot.svg
-        png: output/in70s/death/any/all/forest_plot.png
-        tables: output/in70s/death/any/all/*.csv
+        svg: output/in70s/all/any/death/VE_plot.svg
+        png: output/in70s/all/any/death/VE_plot.png
+        tables: output/in70s/all/any/death/estimates*.csv
 
-  report_incidence_in70s_death_any_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s death any all
+  report_incidence_in70s_all_any_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all any death
     needs:
     - design
-    - model_in70s_death_any_all
+    - model_in70s_all_any_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/death/any/all/*/*.svg
-        png: output/in70s/death/any/all/*/*.png
+        cmlsvg: output/in70s/all/any/death/cml_incidence*.svg
+        cmlpng: output/in70s/all/any/death/cml_incidence*.png
+        trendsvg: output/in70s/all/any/death/time*.svg
+        trendpng: output/in70s/all/any/death/time*.png
 
-  model_in70s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s death pfizer all
+  model_in70s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer death
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/death/pfizer/all/*/model*.rds
-        data: output/in70s/death/pfizer/all/*/data*.rds
+        models: output/in70s/all/pfizer/death/model*.rds
+        data: output/in70s/all/pfizer/death/data*.rds
       moderately_sensitive:
-        weights: output/in70s/death/pfizer/all/*/weights*
+        weights: output/in70s/all/pfizer/death/weights*
 
-  report_ipw_in70s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s death pfizer all
+  report_ipw_in70s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all pfizer death
     needs:
     - design
-    - model_in70s_death_pfizer_all
+    - model_in70s_all_pfizer_death
     outputs:
       highly_sensitive:
-        broom: output/in70s/death/pfizer/all/*/broom*.rds
-        gt: output/in70s/death/pfizer/all/*/gt*.rds
+        broom: output/in70s/all/pfizer/death/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/death/pfizer/all/*/plot*.svg
-        tables: output/in70s/death/pfizer/all/*/tab*.html
-        data: output/in70s/death/pfizer/all/*/broom*.csv
+        data: output/in70s/all/pfizer/death/broom*.csv
 
-  report_msm_in70s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s death pfizer all
+  report_msm_in70s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all pfizer death
     needs:
     - design
-    - model_in70s_death_pfizer_all
+    - model_in70s_all_pfizer_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/death/pfizer/all/forest_plot.svg
-        png: output/in70s/death/pfizer/all/forest_plot.png
-        tables: output/in70s/death/pfizer/all/*.csv
+        svg: output/in70s/all/pfizer/death/VE_plot.svg
+        png: output/in70s/all/pfizer/death/VE_plot.png
+        tables: output/in70s/all/pfizer/death/estimates*.csv
 
-  report_incidence_in70s_death_pfizer_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s death pfizer all
+  report_incidence_in70s_all_pfizer_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all pfizer death
     needs:
     - design
-    - model_in70s_death_pfizer_all
+    - model_in70s_all_pfizer_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/death/pfizer/all/*/*.svg
-        png: output/in70s/death/pfizer/all/*/*.png
+        cmlsvg: output/in70s/all/pfizer/death/cml_incidence*.svg
+        cmlpng: output/in70s/all/pfizer/death/cml_incidence*.png
+        trendsvg: output/in70s/all/pfizer/death/time*.svg
+        trendpng: output/in70s/all/pfizer/death/time*.png
 
-  model_in70s_death_az_all:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s death az all
+  model_in70s_all_az_death:
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az death
     needs:
     - design
     - data_stset_in70s
     - data_samples_in70s
     outputs:
       highly_sensitive:
-        models: output/in70s/death/az/all/*/model*.rds
-        data: output/in70s/death/az/all/*/data*.rds
+        models: output/in70s/all/az/death/model*.rds
+        data: output/in70s/all/az/death/data*.rds
       moderately_sensitive:
-        weights: output/in70s/death/az/all/*/weights*
+        weights: output/in70s/all/az/death/weights*
 
-  report_ipw_in70s_death_az_all:
-    run: r:latest analysis/R/dose_1/report_ipw.R in70s death az all
+  report_ipw_in70s_all_az_death:
+    run: r:latest analysis/R/dose_1/report_ipw.R in70s all az death
     needs:
     - design
-    - model_in70s_death_az_all
+    - model_in70s_all_az_death
     outputs:
       highly_sensitive:
-        broom: output/in70s/death/az/all/*/broom*.rds
-        gt: output/in70s/death/az/all/*/gt*.rds
+        broom: output/in70s/all/az/death/broom*.rds
       moderately_sensitive:
-        plots: output/in70s/death/az/all/*/plot*.svg
-        tables: output/in70s/death/az/all/*/tab*.html
-        data: output/in70s/death/az/all/*/broom*.csv
+        data: output/in70s/all/az/death/broom*.csv
 
-  report_msm_in70s_death_az_all:
-    run: r:latest analysis/R/dose_1/report_msm.R in70s death az all
+  report_msm_in70s_all_az_death:
+    run: r:latest analysis/R/dose_1/report_msm.R in70s all az death
     needs:
     - design
-    - model_in70s_death_az_all
+    - model_in70s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/death/az/all/forest_plot.svg
-        png: output/in70s/death/az/all/forest_plot.png
-        tables: output/in70s/death/az/all/*.csv
+        svg: output/in70s/all/az/death/VE_plot.svg
+        png: output/in70s/all/az/death/VE_plot.png
+        tables: output/in70s/all/az/death/estimates*.csv
 
-  report_incidence_in70s_death_az_all:
-    run: r:latest analysis/R/dose_1/report_incidence.R in70s death az all
+  report_incidence_in70s_all_az_death:
+    run: r:latest analysis/R/dose_1/report_incidence.R in70s all az death
     needs:
     - design
-    - model_in70s_death_az_all
+    - model_in70s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/death/az/all/*/*.svg
-        png: output/in70s/death/az/all/*/*.png
+        cmlsvg: output/in70s/all/az/death/cml_incidence*.svg
+        cmlpng: output/in70s/all/az/death/cml_incidence*.png
+        trendsvg: output/in70s/all/az/death/time*.svg
+        trendpng: output/in70s/all/az/death/time*.png
 
   report_ipw_in70s_all:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R in70s death all
+    run: r:latest analysis/R/dose_1/report_vaxmodel.R in70s all death
     needs:
     - design
-    - report_ipw_in70s_death_any_all
-    - report_ipw_in70s_death_pfizer_all
-    - report_ipw_in70s_death_az_all
+    - report_ipw_in70s_all_any_death
+    - report_ipw_in70s_all_pfizer_death
+    - report_ipw_in70s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/plot_vax1.svg
-        csv: output/in70s/tab_vax1.csv
-        csv_wide: output/in70s/tab_vax1_wide.csv
+        svg: output/in70s/all/plot_vax1.svg
+        csv: output/in70s/all/tab_vax1.csv
+        csv_wide: output/in70s/all/tab_vax1_wide.csv
 
   report_in70s_all:
     run: r:latest analysis/R/dose_1/report_msm_combined.R in70s all
     needs:
     - design
-    - report_msm_in70s_postest_any_all
-    - report_msm_in70s_postest_pfizer_all
-    - report_msm_in70s_postest_az_all
-    - report_msm_in70s_covidadmitted_any_all
-    - report_msm_in70s_covidadmitted_pfizer_all
-    - report_msm_in70s_covidadmitted_az_all
-    - report_msm_in70s_coviddeath_any_all
-    - report_msm_in70s_coviddeath_pfizer_all
-    - report_msm_in70s_coviddeath_az_all
-    - report_msm_in70s_noncoviddeath_any_all
-    - report_msm_in70s_noncoviddeath_pfizer_all
-    - report_msm_in70s_noncoviddeath_az_all
+    - report_msm_in70s_all_any_postest
+    - report_msm_in70s_all_any_covidadmitted
+    - report_msm_in70s_all_any_coviddeath
+    - report_msm_in70s_all_any_noncoviddeath
+    - report_msm_in70s_all_pfizer_postest
+    - report_msm_in70s_all_pfizer_covidadmitted
+    - report_msm_in70s_all_pfizer_coviddeath
+    - report_msm_in70s_all_pfizer_noncoviddeath
+    - report_msm_in70s_all_az_postest
+    - report_msm_in70s_all_az_covidadmitted
+    - report_msm_in70s_all_az_coviddeath
+    - report_msm_in70s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/combined/all/*.svg
-        png: output/in70s/combined/all/*.png
-        csv: output/in70s/combined/all/*.csv
+        svg: output/in70s/all/*.svg
+        png: output/in70s/all/combined/*.png
+        csv: output/in70s/all/combined/*.csv
 

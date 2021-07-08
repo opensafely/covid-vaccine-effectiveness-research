@@ -32,7 +32,7 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
-  cohort <- "in70s"
+  cohort <- "over80s"
   strata_var <- "all"
   sample_nonoutcomeprop <- 0.1
 } else {
@@ -49,11 +49,13 @@ if(length(args)==0){
 list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
 list2env(list_formula, globalenv())
 
-## if outcome is positive test, remove time-varying positive test info from covariate set
 
-
-formula_1 <- outcome ~ 1
+## if stratified analysis, remove strata variable from covariate set
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
+
+## if changing treatment strategy as per Miguel's suggestion
+exclude_recentpostest <- read_rds(here("output", "metadata", "exclude_recentpostest.rds"))
+
 
 # Import processed data ----
 
@@ -62,19 +64,19 @@ data_tte <- read_rds(here("output", cohort, "data", "data_tte.rds"))
 data_samples <- data_tte  %>%
   transmute(
     patient_id,
-    sample_postest = sample_nonoutcomes(tte_postest, patient_id, sample_nonoutcomeprop),
-    sample_emergency = sample_nonoutcomes(tte_emergency, patient_id, sample_nonoutcomeprop),
-    sample_covidadmitted = sample_nonoutcomes(tte_covidadmitted, patient_id, sample_nonoutcomeprop),
-    sample_coviddeath= sample_nonoutcomes(tte_coviddeath, patient_id, sample_nonoutcomeprop),
-    sample_noncoviddeath = sample_nonoutcomes(tte_noncoviddeath, patient_id, sample_nonoutcomeprop),
-    sample_death = sample_nonoutcomes(tte_death, patient_id, sample_nonoutcomeprop),
+    sample_postest = sample_nonoutcomes(!is.na(tte_postest), patient_id, sample_nonoutcomeprop),
+    sample_emergency = sample_nonoutcomes(!is.na(tte_emergency), patient_id, sample_nonoutcomeprop),
+    sample_covidadmitted = sample_nonoutcomes(!is.na(tte_covidadmitted), patient_id, sample_nonoutcomeprop),
+    sample_coviddeath= sample_nonoutcomes(!is.na(tte_coviddeath), patient_id, sample_nonoutcomeprop),
+    sample_noncoviddeath = sample_nonoutcomes(!is.na(tte_noncoviddeath), patient_id, sample_nonoutcomeprop),
+    sample_death = sample_nonoutcomes(!is.na(tte_death), patient_id, sample_nonoutcomeprop),
 
-    sample_weights_postest = sample_weights(tte_postest, sample_postest),
-    sample_weights_emergency = sample_weights(tte_emergency, sample_emergency),
-    sample_weights_covidadmitted = sample_weights(tte_covidadmitted, sample_covidadmitted),
-    sample_weights_coviddeath = sample_weights(tte_coviddeath, sample_coviddeath),
-    sample_weights_noncoviddeath = sample_weights(tte_noncoviddeath, sample_noncoviddeath),
-    sample_weights_death = sample_weights(tte_death, sample_death),
+    sample_weights_postest = sample_weights(!is.na(tte_postest), sample_postest),
+    sample_weights_emergency = sample_weights(!is.na(tte_emergency), sample_emergency),
+    sample_weights_covidadmitted = sample_weights(!is.na(tte_covidadmitted), sample_covidadmitted),
+    sample_weights_coviddeath = sample_weights(!is.na(tte_coviddeath), sample_coviddeath),
+    sample_weights_noncoviddeath = sample_weights(!is.na(tte_noncoviddeath), sample_noncoviddeath),
+    sample_weights_death = sample_weights(!is.na(tte_death), sample_death),
   )
 
 data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
@@ -82,7 +84,7 @@ data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
 data_pt <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
   mutate(
     all = factor("all",levels=c("all")),
-    timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
+    timesincevax_pw = timesince_cut(vaxany1_timesince, postvaxcuts, "pre-vax"),
   ) %>%
   left_join(
     data_fixed, by="patient_id"
@@ -93,7 +95,7 @@ data_pt <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # p
     by="patient_id"
   )
 
-septab <- function(data, formula, outcome, brand, name){
+septab <- function(data, formula, brand, outcome, name){
 
   if(FALSE){
     #this function is a quicker alternative to the following gtsummary option:
@@ -146,8 +148,8 @@ septab <- function(data, formula, outcome, brand, name){
       pattern = "({x})"
     ) %>%
     gtsave(
-      filename = glue("sepcheck_{outcome}_{brand}_{name}.html"),
-      path=here("output", cohort, "descriptive", "model-checks")
+      filename = glue("sepcheck_{brand}_{outcome}_{name}.html"),
+      path=here("output", cohort, "descriptive", "model-checks", strata_var)
     )
 }
 
@@ -156,13 +158,13 @@ outcomes <- c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death"
 brands <- c("any", "pfizer", "az")
 
 
-for(outcome in outcomes){
-  for(brand in brands){
+for(brand in brands){
+  for(outcome in outcomes){
 
+    fs::dir_create(here("output", cohort, "descriptive", "model-checks", strata_var))
 
-    fs::dir_create(here("output", cohort, "descriptive", "model-checks"))
-
-    if(outcome=="postest"){
+    ## if outcome is positive test, remove time-varying positive test info from covariate set
+    if(outcome=="postest" | exclude_recentpostest){
       formula_remove_postest <- as.formula(". ~ . - timesince_postesttdc_pw")
     } else{
       formula_remove_postest <- as.formula(". ~ .")
@@ -187,23 +189,24 @@ for(outcome in outcomes){
         .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
         lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
         vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
+        vaxany2_status == 0, # censor at second dose
         .[[glue("sample_{outcome}")]] == 1, # select all patients who experienced the outcome, and a proportion of those who don't
         .[[glue("vax{brand}_atrisk")]] == 1 # select follow-up time where vax brand is being administered
       ) %>%
       mutate(
         sample_weights = .[[glue("sample_weights_{outcome}")]],
         outcome = .[[outcome]],
-        timesincevax_pw = timesince_cut(timesincevaxany1, postvaxcuts, "pre-vax"),
+        timesincevax_pw = timesince_cut(vaxany1_timesince, postvaxcuts, "pre-vax"),
 
-        vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0),
-        vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1),
-        vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1),
+        recentpostest = (replace_na(postest_timesince<Inf, FALSE) & exclude_recentpostest),
+        vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & !recentpostest),
+        vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
+        vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
         death_atrisk = (death_status==0 & lastfup_status==0),
       )
 
     data_pt_atrisk_treatment <- data_pt_atrisk %>%
       filter(.[[glue("vax{brand}1_atrisk")]])
-
 
     data_pt_atrisk_death <- data_pt_atrisk %>%
       filter(.[[glue("death_atrisk")]])
@@ -222,7 +225,7 @@ for(outcome in outcomes){
         incidencerate_vaxpfizer1 = vaxpfizer1/obs,
         incidencerate_vaxaz1 = vaxaz1/obs
       ) %>%
-      write_csv(path=here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_treatments.csv")))
+      write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, glue("summary_{brand}_{outcome}_treatments.csv")))
 
     data_pt_atrisk %>%
       summarise(
@@ -246,7 +249,7 @@ for(outcome in outcomes){
         incidencerate_dereg = dereg/obs,
 
       ) %>%
-      write_csv(path=here("output", cohort, "descriptive", "model-checks", glue("summary_{outcome}_{brand}_outcomes.csv")))
+      write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, glue("summary_{brand}_{outcome}_outcomes.csv")))
 
 
     septab(data_pt_atrisk_treatment, treatment_any, outcome, brand, "vaxany1")

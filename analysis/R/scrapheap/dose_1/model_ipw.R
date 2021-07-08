@@ -191,8 +191,8 @@ for(stratum in strata){
         predvaxany1_fxd=predict(ipwvaxany1_fxd, type="response"),
       )
 
-    write_rds(data_pt_atriskvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxany1.rds"), compress="gz")
-    write_rds(ipwvaxany1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxany1.rds"), compress="gz")
+    write_rds(data_pt_atriskvaxany1, here::here("output", cohort, strata_var, stratum, brand, outcome, "data_ipwvaxany1.rds"), compress="gz")
+    write_rds(ipwvaxany1, here::here("output", cohort, strata_var, stratum, brand, outcome, "model_ipwvaxany1.rds"), compress="gz")
     if(removeobs) rm(ipwvaxany1, ipwvaxany1_fxd, data_pt_atriskvaxany1)
 
 
@@ -252,8 +252,8 @@ for(stratum in strata){
         predvaxpfizer1_fxd=predict(ipwvaxpfizer1_fxd, type="response"),
       )
 
-    write_rds(data_pt_atriskvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxpfizer1.rds"), compress="gz")
-    write_rds(ipwvaxpfizer1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxpfizer1.rds"), compress="gz")
+    write_rds(data_pt_atriskvaxpfizer1, here::here("output", cohort, strata_var, stratum, brand, outcome, "data_ipwvaxpfizer1.rds"), compress="gz")
+    write_rds(ipwvaxpfizer1, here::here("output", cohort, strata_var, stratum, brand, outcome, "model_ipwvaxpfizer1.rds"), compress="gz")
     if(removeobs) rm(ipwvaxpfizer1, ipwvaxpfizer1_fxd, data_pt_atriskvaxpfizer1)
 
 
@@ -306,8 +306,8 @@ for(stratum in strata){
         predvaxaz1_fxd=predict(ipwvaxaz1_fxd, type="response"),
       )
 
-    write_rds(data_pt_atriskvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwvaxaz1.rds"), compress="gz")
-    write_rds(ipwvaxaz1, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwvaxaz1.rds"), compress="gz")
+    write_rds(data_pt_atriskvaxaz1, here::here("output", cohort, strata_var, stratum, brand, outcome, "data_ipwvaxaz1.rds"), compress="gz")
+    write_rds(ipwvaxaz1, here::here("output", cohort, strata_var, stratum, brand, outcome, "model_ipwvaxaz1.rds"), compress="gz")
     if(removeobs) rm(ipwvaxaz1, ipwvaxaz1_fxd, data_pt_atriskvaxaz1)
 
   }
@@ -359,8 +359,8 @@ for(stratum in strata){
       preddeath_fxd=predict(ipwdeath_fxd, type="response"),
     )
 
-  write_rds(data_pt_atriskdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "data_ipwdeath.rds"), compress="gz")
-  write_rds(ipwdeath, here::here("output", cohort, outcome, brand, strata_var, stratum, "model_ipwdeath.rds"), compress="gz")
+  write_rds(data_pt_atriskdeath, here::here("output", cohort, strata_var, stratum, brand, outcome, "data_ipwdeath.rds"), compress="gz")
+  write_rds(ipwdeath, here::here("output", cohort, strata_var, stratum, brand, outcome, "model_ipwdeath.rds"), compress="gz")
   if(removeobs) rm(ipwdeath, ipwdeath_fxd, data_pt_atriskdeath)
 
 
@@ -575,7 +575,7 @@ for(stratum in strata){
 
   capture.output(
     walk2(summarise_weights$value, summarise_weights$name, print_num),
-    file = here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_table.txt"),
+    file = here::here("output", cohort, strata_var, stratum, brand, outcome, "weights_table.txt"),
     append=FALSE
   )
 
@@ -585,7 +585,7 @@ for(stratum in strata){
     scale_x_log10(breaks=c(1/8,1/6,1/4,1/3,1/2,1/1.5,1,1.5,2,3,4,6,8), limits=c(1/8, 8))+
     theme_bw()
 
-  ggsave(here::here("output", cohort, outcome, brand, strata_var, stratum, "weights_histogram.svg"), weight_histogram)
+  ggsave(here::here("output", cohort, strata_var, stratum, brand, outcome, "weights_histogram.svg"), weight_histogram)
   if(removeobs) rm(weight_histogram)
 
   ## output weight distribution file ----
@@ -602,7 +602,7 @@ for(stratum in strata){
   cat(glue::glue("data_weights data size = ", nrow(data_weights)), "\n")
   cat(glue::glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "\n")
 
-  write_rds(data_weights, here::here("output", cohort, outcome, brand, strata_var, stratum, glue::glue("data_weights.rds")), compress="gz")
+  write_rds(data_weights, here::here("output", cohort, strata_var, stratum, brand, outcome, glue::glue("data_weights.rds")), compress="gz")
 
   ## print warnings
   print(warnings())

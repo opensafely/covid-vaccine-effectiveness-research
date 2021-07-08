@@ -1757,7 +1757,7 @@ study = StudyDefinition(
         returning="numeric_value",
         return_expectations={
             #"category": {"ratios": {0.1: 0.25, 0.15: 0.25, 0.30: 0.25, 0.5: 0.25}},
-            "float": {"distribution": "normal", "mean": 0.15, "stddev": 0.05},
+            "float": {"distribution": "normal", "mean": 0.20, "stddev": 0.05},
             "incidence": 0.99
         },
     ),

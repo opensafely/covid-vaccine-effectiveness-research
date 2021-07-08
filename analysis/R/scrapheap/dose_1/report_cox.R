@@ -101,9 +101,9 @@ for(stratum in strata){
 
   # import models ----
 
-  coxmod0 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox0.rds"))
-  coxmod1 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox1.rds"))
-  coxmod2 <- read_rds(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox2.rds"))
+  coxmod0 <- read_rds(here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var, "modelcox0.rds"))
+  coxmod1 <- read_rds(here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var, "modelcox1.rds"))
+  coxmod2 <- read_rds(here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var, "modelcox2.rds"))
 
 
 

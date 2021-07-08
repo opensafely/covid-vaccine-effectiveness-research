@@ -197,7 +197,19 @@ actions_descriptive <- function(cohort){
         plots = glue("output/{cohort}/descriptive/plots/*.svg"),
         tables = glue("output/{cohort}/descriptive/tables/*.csv")
       )
-    )
+    )#,
+
+
+    # action(
+    #   name = glue("descr_preflight_{cohort}"),
+    #   run = "r:latest analysis/R/preflight.R",
+    #   arguments = c(cohort, "all", "0.1"),
+    #   needs = list("design", glue("data_stset_{cohort}")),
+    #   moderately_sensitive = list(
+    #     html = glue("output/{cohort}/descriptive/model-checks/*/*.html"),
+    #     csv = glue("output/{cohort}/descriptive/model-checks/*/*.csv")
+    #   )
+    # )
   )
 }
 
@@ -212,57 +224,59 @@ actions_models <- function(
 
   splice(
     action(
-      name = glue("model_{cohort}_{outcome}_{brand}_{strata}"),
+      name = glue("model_{cohort}_{strata}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/model_msm.R"),
-      arguments = c(cohort, outcome, brand, strata),
+      arguments = c(cohort, strata, brand, outcome),
       needs = list("design", glue("data_stset_{cohort}"), glue("data_samples_{cohort}")),
       highly_sensitive = list(
-        models = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/model*.rds"),
-        data = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/data*.rds")
+        models = glue("output/{cohort}/{strata}/{brand}/{outcome}/model*.rds"),
+        data = glue("output/{cohort}/{strata}/{brand}/{outcome}/data*.rds")
       ),
       moderately_sensitive = list(
-        weights = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/weights*")
+        weights = glue("output/{cohort}/{strata}/{brand}/{outcome}/weights*")
       )
     ),
 
     action(
-      name = glue("report_ipw_{cohort}_{outcome}_{brand}_{strata}"),
+      name = glue("report_ipw_{cohort}_{strata}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/report_ipw.R"),
-      arguments = c(cohort, outcome, brand, strata),
-      needs = list("design", glue("model_{cohort}_{outcome}_{brand}_{strata}")),
+      arguments = c(cohort, strata, brand, outcome),
+      needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
       highly_sensitive = list(
-        broom = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/broom*.rds"),
-        gt = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/gt*.rds")
+        broom = glue("output/{cohort}/{strata}/{brand}/{outcome}/broom*.rds")
+        #gt = glue("output/{cohort}/{strata}/{brand}/{outcome}/gt*.rds")
       ),
       moderately_sensitive = list(
-        plots = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/plot*.svg"),
-        tables = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/tab*.html"),
-        data = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/broom*.csv")
+        #plots = glue("output/{cohort}/{strata}/{brand}/{outcome}/plot*.svg"),
+        #tables = glue("output/{cohort}/{strata}/{brand}/{outcome}/tab*.html"),
+        data = glue("output/{cohort}/{strata}/{brand}/{outcome}/broom*.csv")
       )
     ),
 
 
     action(
-      name = glue("report_msm_{cohort}_{outcome}_{brand}_{strata}"),
+      name = glue("report_msm_{cohort}_{strata}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/report_msm.R"),
-      arguments = c(cohort, outcome, brand, strata),
-      needs = list("design", glue("model_{cohort}_{outcome}_{brand}_{strata}")),
+      arguments = c(cohort, strata, brand, outcome),
+      needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{outcome}/{brand}/{strata}/forest_plot.svg"),
-        png = glue("output/{cohort}/{outcome}/{brand}/{strata}/forest_plot.png"),
-        tables = glue("output/{cohort}/{outcome}/{brand}/{strata}/*.csv")
+        svg = glue("output/{cohort}/{strata}/{brand}/{outcome}/VE_plot.svg"),
+        png = glue("output/{cohort}/{strata}/{brand}/{outcome}/VE_plot.png"),
+        tables = glue("output/{cohort}/{strata}/{brand}/{outcome}/estimates*.csv")
       )
     ),
 
 
     action(
-      name = glue("report_incidence_{cohort}_{outcome}_{brand}_{strata}"),
+      name = glue("report_incidence_{cohort}_{strata}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/report_incidence.R"),
-      arguments = c(cohort, outcome, brand, strata),
-      needs = list("design", glue("model_{cohort}_{outcome}_{brand}_{strata}")),
+      arguments = c(cohort, strata, brand, outcome),
+      needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/*.svg"),
-        png = glue("output/{cohort}/{outcome}/{brand}/{strata}/*/*.png")
+        cmlsvg = glue("output/{cohort}/{strata}/{brand}/{outcome}/cml_incidence*.svg"),
+        cmlpng = glue("output/{cohort}/{strata}/{brand}/{outcome}/cml_incidence*.png"),
+        trendsvg = glue("output/{cohort}/{strata}/{brand}/{outcome}/time*.svg"),
+        trendpng = glue("output/{cohort}/{strata}/{brand}/{outcome}/time*.png")
       )
     )
   )
@@ -281,17 +295,17 @@ actions_combine_models <- function(
     action(
       name = glue("report_ipw_{cohort}_{strata}"),
       run = glue("r:latest analysis/R/dose_1/report_vaxmodel.R"),
-      arguments = c(cohort, "death", strata),
+      arguments = c(cohort, strata, "death"),
       needs = list(
         "design",
-        glue("report_ipw_{cohort}_death_any_{strata}"),
-        glue("report_ipw_{cohort}_death_pfizer_{strata}"),
-        glue("report_ipw_{cohort}_death_az_{strata}")
+        glue("report_ipw_{cohort}_{strata}_any_death"),
+        glue("report_ipw_{cohort}_{strata}_pfizer_death"),
+        glue("report_ipw_{cohort}_{strata}_az_death")
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/plot_vax1.svg"),
-        csv = glue("output/{cohort}/tab_vax1.csv"),
-        csv_wide = glue("output/{cohort}/tab_vax1_wide.csv")
+        svg = glue("output/{cohort}/{strata}/plot_vax1.svg"),
+        csv = glue("output/{cohort}/{strata}/tab_vax1.csv"),
+        csv_wide = glue("output/{cohort}/{strata}/tab_vax1_wide.csv")
       )
     ),
 
@@ -303,23 +317,23 @@ actions_combine_models <- function(
       arguments = c(cohort, strata),
       needs = list(
         "design",
-        glue("report_msm_{cohort}_postest_any_{strata}"),
-        glue("report_msm_{cohort}_postest_pfizer_{strata}"),
-        glue("report_msm_{cohort}_postest_az_{strata}"),
-        glue("report_msm_{cohort}_covidadmitted_any_{strata}"),
-        glue("report_msm_{cohort}_covidadmitted_pfizer_{strata}"),
-        glue("report_msm_{cohort}_covidadmitted_az_{strata}"),
-        glue("report_msm_{cohort}_coviddeath_any_{strata}"),
-        glue("report_msm_{cohort}_coviddeath_pfizer_{strata}"),
-        glue("report_msm_{cohort}_coviddeath_az_{strata}"),
-        glue("report_msm_{cohort}_noncoviddeath_any_{strata}"),
-        glue("report_msm_{cohort}_noncoviddeath_pfizer_{strata}"),
-        glue("report_msm_{cohort}_noncoviddeath_az_{strata}")
+        glue("report_msm_{cohort}_{strata}_any_postest"),
+        glue("report_msm_{cohort}_{strata}_any_covidadmitted"),
+        glue("report_msm_{cohort}_{strata}_any_coviddeath"),
+        glue("report_msm_{cohort}_{strata}_any_noncoviddeath"),
+        glue("report_msm_{cohort}_{strata}_pfizer_postest"),
+        glue("report_msm_{cohort}_{strata}_pfizer_covidadmitted"),
+        glue("report_msm_{cohort}_{strata}_pfizer_coviddeath"),
+        glue("report_msm_{cohort}_{strata}_pfizer_noncoviddeath"),
+        glue("report_msm_{cohort}_{strata}_az_postest"),
+        glue("report_msm_{cohort}_{strata}_az_covidadmitted"),
+        glue("report_msm_{cohort}_{strata}_az_coviddeath"),
+        glue("report_msm_{cohort}_{strata}_az_noncoviddeath")
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/combined/{strata}/*.svg"),
-        png = glue("output/{cohort}/combined/{strata}/*.png"),
-        csv = glue("output/{cohort}/combined/{strata}/*.csv")
+        svg = glue("output/{cohort}/{strata}/*.svg"),
+        png = glue("output/{cohort}/{strata}/combined/*.png"),
+        csv = glue("output/{cohort}/{strata}/combined/*.csv")
       )
     )
 
@@ -358,17 +372,6 @@ actions_list <- splice(
 
   actions_process("over80s"),
   actions_descriptive("over80s"),
-
-  action(
-    name = glue("descr_preflight_over80s"),
-    run = "r:latest analysis/R/preflight.R",
-    arguments = c(cohort, "all", "0.1"),
-    needs = list("design", glue("data_stset_over80s")),
-    moderately_sensitive = list(
-      html = glue("output/over80s/descriptive/model-checks/*.html"),
-      csv = glue("output/over80s/descriptive/model-checks/*.csv")
-    )
-  ),
 
   comment("####################################", "All", "####################################"),
 

@@ -37,15 +37,15 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
-  outcome <- "covidadmitted"
-  brand <- "any"
   strata_var <- "all"
+  brand <- "any"
+  outcome <- "covidadmitted"
   removeobs <- FALSE
 } else {
   cohort <- args[[1]]
-  outcome <- args[[2]]
+  strata_var <- args[[2]]
   brand <- args[[3]]
-  strata_var <- args[[4]]
+  outcome <- args[[4]]
   removeobs <- TRUE
 }
 
@@ -85,15 +85,15 @@ for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
   # Import processed data ----
 
-  data_weights <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("data_weights.rds")))
+  data_weights <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")))
 
   # import models ----
 
-  #msmmod0 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model0.rds")))
-  msmmod1 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model1.rds")))
-  msmmod2 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model2.rds")))
-  #msmmod3 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model3.rds")))
-  msmmod4 <- read_rds(here("output", cohort, outcome, brand, strata_var, stratum, glue("model4.rds")))
+  #msmmod0 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")))
+  msmmod1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")))
+  msmmod2 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")))
+  #msmmod3 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")))
+  msmmod4 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")))
 
 
 
@@ -154,8 +154,8 @@ for(stratum in strata){
       panel.grid.minor.x = element_blank(),
     )
 
-  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "cml_incidence_plot.svg"), cml_inc, width=20, height=15, units="cm")
-  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "cml_incidence_plot.png"), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_{stratum}.svg")), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_{stratum}.png")), cml_inc, width=20, height=15, units="cm")
 
 
 
@@ -166,8 +166,8 @@ for(stratum in strata){
     x.label=glue("Days since {gbl_vars$start_date}"),
     y.label=glue("{outcome_descr} prob.")
   )
-  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "time_trends_region_plot1.svg"), ggsecular1, width=20, height=15, units="cm")
-  ggsave(filename=here("output", cohort, outcome, brand, strata_var, stratum, "time_trends_region_plot1.png"), ggsecular1, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("time_trends_region_plot1_{stratum}.svg")), ggsecular1, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("time_trends_region_plot1_{stratum}.png")), ggsecular1, width=20, height=15, units="cm")
 
 }
 

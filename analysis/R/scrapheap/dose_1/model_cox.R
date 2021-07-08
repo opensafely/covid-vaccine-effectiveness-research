@@ -159,7 +159,7 @@ for(stratum in strata){
   cat("  \n")
 
   # create output directories ----
-  dir.create(here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var), showWarnings = FALSE, recursive=TRUE)
+  dir.create(here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var), showWarnings = FALSE, recursive=TRUE)
 
 
   # subset data
@@ -188,7 +188,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod0 data size = ", coxmod0$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod0), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod0, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox0.rds"), compress="gz")
+  write_rds(coxmod0, here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var, "modelcox0.rds"), compress="gz")
   if(removeobs) rm(coxmod0)
 
   ### model 1 - minimally adjusted vaccination effect model, baseline demographics only ----
@@ -204,7 +204,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod1 data size = ", coxmod1$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod1), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod1, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox1.rds"), compress="gz")
+  write_rds(coxmod1, here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var, "modelcox1.rds"), compress="gz")
   if(removeobs) rm(coxmod1)
 
 
@@ -222,7 +222,7 @@ for(stratum in strata){
 
   cat(glue::glue("coxmod2 data size = ", coxmod2$n), "\n")
   cat(glue::glue("memory usage = ", format(object.size(coxmod2), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(coxmod2, here::here("output", cohort, outcome, brand, strata_var, stratum, cox_strata_var, "modelcox2.rds"), compress="gz")
+  write_rds(coxmod2, here::here("output", cohort, strata_var, stratum, brand, outcome, cox_strata_var, "modelcox2.rds"), compress="gz")
   if(removeobs) rm(coxmod2)
 
 

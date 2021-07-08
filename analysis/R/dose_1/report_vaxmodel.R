@@ -31,13 +31,13 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
+  strata_var <- "sex"
   outcome <- "death"
-  strata_var <- "all"
 } else{
   removeobs <- TRUE
   cohort <- args[[1]]
-  outcome <- args[[2]]
-  strata_var <- args[[3]]
+  strata_var <- args[[2]]
+  outcome <- args[[3]]
 }
 
 
@@ -64,10 +64,8 @@ formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 
-strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
-summary_list <- vector("list", length(strata))
-names(summary_list) <- strata
-
+## create directory ----
+fs::dir_create(here("output", cohort, strata_var, "combined"))
 
 
 forest_from_broomstack <- function(broomstack, title){
@@ -109,8 +107,8 @@ forest_from_broomstack <- function(broomstack, title){
   names(level_lookup) <- plot_data$level_label
 
   ggplot(plot_data) +
-    geom_point(aes(x=or, y=level)) +
-    geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=level)) +
+    geom_point(aes(x=or, y=level, colour=stratum), position = position_dodge(width = 0.3)) +
+    geom_linerange(aes(xmin=or.ll, xmax=or.ul, y=level, colour=stratum), position = position_dodge(width = 0.3)) +
     geom_vline(aes(xintercept=1), colour='black', alpha=0.8)+
     facet_grid(
       rows=vars(variable),
@@ -119,7 +117,7 @@ forest_from_broomstack <- function(broomstack, title){
     )+
     scale_x_log10(
       breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
-      limits=c(0.01,3)
+      limits=c(0.01, 3)
     )+
     scale_y_discrete(breaks=level_lookup, labels=names(level_lookup))+
     geom_rect(aes(alpha = variable_card), xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, fill='grey', colour="transparent") +
@@ -143,22 +141,29 @@ forest_from_broomstack <- function(broomstack, title){
 }
 
 
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 
 broomstack <-
   tibble(
     brand = c("any", "pfizer", "az"),
-    brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
+    brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1"),
   ) %>%
+  add_column(
+    stratum = list(strata),
+    .before=1
+  ) %>%
+  unnest(stratum) %>%
+  arrange(stratum) %>%
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    broom = map(brand, ~read_rds(here("output", cohort, outcome, .x, strata_var, "all", glue("broom_vax{.x}1.rds"))))
+    broom = map2(stratum, brand, ~read_rds(here("output", cohort, strata_var, .x, .y, outcome, glue("broom_vax{.x}1.rds"))))
   ) %>%
   unnest(broom)
 
-
 broomstack_formatted <- broomstack %>%
   transmute(
+    stratum,
     brand_descr,
     var_label,
     label,
@@ -166,33 +171,30 @@ broomstack_formatted <- broomstack %>%
     HR = if_else(is.na(HR), "1", HR),
     CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(or.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(or.ul), ")"),
     CI = if_else(is.na(HR), "", CI),
-
     HR_ECI = paste0(HR, " ", CI)
   )
 
 
 broomstack_formatted_wide <- broomstack_formatted %>%
   select(
-    brand_descr, var_label, label, HR_ECI
+    stratum, brand_descr, var_label, label, HR_ECI
   ) %>%
   pivot_wider(
-    id_cols = c(var_label, label),
+    id_cols = c(stratum, var_label, label),
     names_from = brand_descr,
     values_from = HR_ECI,
     names_glue = "{brand_descr}_{.value}"
   )
 
-write_csv(broomstack_formatted, here("output", cohort, "tab_vax1.csv"))
-write_csv(broomstack_formatted_wide, here("output", cohort, "tab_vax1_wide.csv"))
+write_csv(broomstack_formatted, here("output", cohort, strata_var, "combined", "tab_vax1.csv"))
+write_csv(broomstack_formatted_wide, here("output", cohort, strata_var, "combined", "tab_vax1_wide.csv"))
 
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
-  here("output", cohort, "plot_vax1.svg"),
+  here("output", cohort, strata_var, "plot_vax1.svg"),
   plot_vax,
   units="cm", width=30, height=25
 )
-
-
 
 
 #
