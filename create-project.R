@@ -219,8 +219,9 @@ actions_descriptive <- function(cohort){
 
 ## actions that run the models ----
 actions_models <- function(
-  cohort, outcome, brand, strata
+  cohort, strata, brand, outcome
 ){
+
 
   splice(
     action(
@@ -375,77 +376,81 @@ actions_list <- splice(
 
   comment("####################################", "All", "####################################"),
 
-  actions_models("over80s", "postest", "any", "all"),
-  actions_models("over80s", "postest", "pfizer", "all"),
-  actions_models("over80s", "postest", "az", "all"),
+  actions_models("over80s", "all", "any",    "postest"),
+  actions_models("over80s", "all", "pfizer", "postest"),
+  actions_models("over80s", "all", "az",     "postest"),
 
-  actions_models("over80s", "covidadmitted", "any", "all"),
-  actions_models("over80s", "covidadmitted", "pfizer", "all"),
-  actions_models("over80s", "covidadmitted", "az", "all"),
+  actions_models("over80s", "all", "any",    "covidadmitted"),
+  actions_models("over80s", "all", "pfizer", "covidadmitted"),
+  actions_models("over80s", "all", "az",     "covidadmitted"),
 
-  actions_models("over80s", "coviddeath", "any", "all"),
-  actions_models("over80s", "coviddeath", "pfizer", "all"),
-  actions_models("over80s", "coviddeath", "az", "all"),
+  actions_models("over80s", "all", "any",    "coviddeath"),
+  actions_models("over80s", "all", "pfizer", "coviddeath"),
+  actions_models("over80s", "all", "az",     "coviddeath"),
 
-  actions_models("over80s", "noncoviddeath", "any", "all"),
-  actions_models("over80s", "noncoviddeath", "pfizer", "all"),
-  actions_models("over80s", "noncoviddeath", "az", "all"),
+  actions_models("over80s", "all", "any",    "noncoviddeath"),
+  actions_models("over80s", "all", "pfizer", "noncoviddeath"),
+  actions_models("over80s", "all", "az",     "noncoviddeath"),
 
-  actions_models("over80s", "death", "any", "all"),
-  actions_models("over80s", "death", "pfizer", "all"),
-  actions_models("over80s", "death", "az", "all"),
+  actions_models("over80s", "all", "any",    "death"),
+  actions_models("over80s", "all", "pfizer", "death"),
+  actions_models("over80s", "all", "az",     "death"),
 
   actions_combine_models("over80s", "all"),
 
+
   comment("####################################", "Immunosuppressed", "####################################"),
 
-  actions_models("over80s", "postest", "any", "any_immunosuppression"),
-  actions_models("over80s", "postest", "pfizer", "any_immunosuppression"),
-  actions_models("over80s", "postest", "az", "any_immunosuppression"),
+  actions_models("over80s", "any_immunosuppression", "any",    "postest"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "postest"),
+  actions_models("over80s", "any_immunosuppression", "az",     "postest"),
 
-  actions_models("over80s", "covidadmitted", "any", "any_immunosuppression"),
-  actions_models("over80s", "covidadmitted", "pfizer", "any_immunosuppression"),
-  actions_models("over80s", "covidadmitted", "az", "any_immunosuppression"),
+  actions_models("over80s", "any_immunosuppression", "any",    "covidadmitted"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "covidadmitted"),
+  actions_models("over80s", "any_immunosuppression", "az",     "covidadmitted"),
 
-  actions_models("over80s", "coviddeath", "any", "any_immunosuppression"),
-  actions_models("over80s", "coviddeath", "pfizer", "any_immunosuppression"),
-  actions_models("over80s", "coviddeath", "az", "any_immunosuppression"),
+  actions_models("over80s", "any_immunosuppression", "any",    "coviddeath"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "coviddeath"),
+  actions_models("over80s", "any_immunosuppression", "az",     "coviddeath"),
 
-  actions_models("over80s", "noncoviddeath", "any", "any_immunosuppression"),
-  actions_models("over80s", "noncoviddeath", "pfizer", "any_immunosuppression"),
-  actions_models("over80s", "noncoviddeath", "az", "any_immunosuppression"),
+  actions_models("over80s", "any_immunosuppression", "any",    "noncoviddeath"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "noncoviddeath"),
+  actions_models("over80s", "any_immunosuppression", "az",     "noncoviddeath"),
 
-  actions_models("over80s", "death", "any", "any_immunosuppression"),
-  actions_models("over80s", "death", "pfizer", "any_immunosuppression"),
-  actions_models("over80s", "death", "az", "any_immunosuppression"),
+  actions_models("over80s", "any_immunosuppression", "any",    "death"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "death"),
+  actions_models("over80s", "any_immunosuppression", "az",     "death"),
 
   actions_combine_models("over80s", "any_immunosuppression"),
 
   ## 70-79s
-  comment("####################################", "in70s, all", "####################################"),
+  comment("####################################", "in70s", "####################################"),
 
   actions_process("in70s"),
   actions_descriptive("in70s"),
 
-  actions_models("in70s", "postest", "any", "all"),
-  actions_models("in70s", "postest", "pfizer", "all"),
-  actions_models("in70s", "postest", "az", "all"),
+  comment("####################################", "all", "####################################"),
 
-  actions_models("in70s", "covidadmitted", "any", "all"),
-  actions_models("in70s", "covidadmitted", "pfizer", "all"),
-  actions_models("in70s", "covidadmitted", "az", "all"),
+  actions_models("in70s", "all", "any",    "postest"),
+  actions_models("in70s", "all", "pfizer", "postest"),
+  actions_models("in70s", "all", "az",     "postest"),
 
-  actions_models("in70s", "coviddeath", "any", "all"),
-  actions_models("in70s", "coviddeath", "pfizer", "all"),
-  actions_models("in70s", "coviddeath", "az", "all"),
+  actions_models("in70s", "all", "any",    "covidadmitted"),
+  actions_models("in70s", "all", "pfizer", "covidadmitted"),
+  actions_models("in70s", "all", "az",     "covidadmitted"),
 
-  actions_models("in70s", "noncoviddeath", "any", "all"),
-  actions_models("in70s", "noncoviddeath", "pfizer", "all"),
-  actions_models("in70s", "noncoviddeath", "az", "all"),
+  actions_models("in70s", "all", "any",    "coviddeath"),
+  actions_models("in70s", "all", "pfizer", "coviddeath"),
+  actions_models("in70s", "all", "az",     "coviddeath"),
 
-  actions_models("in70s", "death", "any", "all"),
-  actions_models("in70s", "death", "pfizer", "all"),
-  actions_models("in70s", "death", "az", "all"),
+  actions_models("in70s", "all", "any",    "noncoviddeath"),
+  actions_models("in70s", "all", "pfizer", "noncoviddeath"),
+  actions_models("in70s", "all", "az",     "noncoviddeath"),
+
+  actions_models("in70s", "all", "any",    "death"),
+  actions_models("in70s", "all", "pfizer", "death"),
+  actions_models("in70s", "all", "az",     "death"),
+
 
   actions_combine_models("in70s", "all")
 
@@ -467,3 +472,11 @@ as.yaml(project_list, indent=2) %>%
   writeLines(here("project.yaml"))
 
 
+## grab all action names and send to a txt file
+
+names(actions_list) %>% tibble(action=.) %>%
+  mutate(
+    cohort_strata_brand =
+  )
+  paste(collapse="  ")
+  writeLines

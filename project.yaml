@@ -1676,7 +1676,7 @@ actions:
         csv: output/over80s/any_immunosuppression/combined/*.csv
 
   ## #################################### 
-  ## in70s, all 
+  ## in70s 
   ## #################################### 
 
   extract_in70s:
@@ -1788,6 +1788,10 @@ actions:
       moderately_sensitive:
         plots: output/in70s/descriptive/plots/*.svg
         tables: output/in70s/descriptive/tables/*.csv
+
+  ## #################################### 
+  ## all 
+  ## #################################### 
 
   model_in70s_all_any_postest:
     run: r:latest analysis/R/dose_1/model_msm.R in70s all any postest
