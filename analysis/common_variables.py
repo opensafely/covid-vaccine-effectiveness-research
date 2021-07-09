@@ -387,10 +387,23 @@ demographic_variables = dict(
 vaccination_variables = dict(
 
 
-    # ## any covid vaccination, identified by target disease
-    # covid_vax_0_date = patients.with_tpp_vaccination_record(
+    ## any covid vaccination, identified by target disease
+    # covid_vax_disease_0_date = patients.with_tpp_vaccination_record(
     #     target_disease_matches="SARS-2 CORONAVIRUS",
-    #     on_or_before="index_date -1 day",  
+    #     on_or_before="index_date -1 day",
+    #     find_first_match_in_period=True,
+    #     returning="date",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {
+    #             "earliest": "2020-06-08",  # first vaccine administered on the 8/12
+    #             "latest": "2020-12-07",
+    #         }
+    #     },
+    # ),
+    # covid_vax_disease_1_date=patients.with_tpp_vaccination_record(
+    #     target_disease_matches="SARS-2 CORONAVIRUS",
+    #     on_or_after="index_date",
     #     find_first_match_in_period=True,
     #     returning="date",
     #     date_format="YYYY-MM-DD",
@@ -401,20 +414,7 @@ vaccination_variables = dict(
     #         }
     #     },
     # ),
-    # covid_vax_1_date=patients.with_tpp_vaccination_record(
-    #     target_disease_matches="SARS-2 CORONAVIRUS",
-    #     on_or_after="index_date",  
-    #     find_first_match_in_period=True,
-    #     returning="date",
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={
-    #         "date": {
-    #             "earliest": "2020-12-08",  # first vaccine administered on the 8/12
-    #             "latest": "2021-02-01",
-    #         }
-    #     },
-    # ),
-    # covid_vax_2_date=patients.with_tpp_vaccination_record(
+    # covid_vax_disease_2_date=patients.with_tpp_vaccination_record(
     #     target_disease_matches="SARS-2 CORONAVIRUS",
     #     on_or_after="covid_vax_1_date + 15 days",
     #     find_first_match_in_period=True,
@@ -422,12 +422,12 @@ vaccination_variables = dict(
     #     date_format="YYYY-MM-DD",
     #     return_expectations={
     #         "date": {
-    #             "earliest": "2021-02-02", 
+    #             "earliest": "2021-02-02",
     #             "latest": "2021-04-30",
     #         }
     #     },
     # ),
-    
+
     # Pfizer BioNTech - first record of a pfizer vaccine 
     # NB *** may be patient's first COVID vaccine dose or their second if mixed types are given ***
        
