@@ -167,20 +167,13 @@ sim_list = list(
   # ),
 
   unknown_vaccine_brand = bn_node(
-    ~(
-      covid_vax_pfizer_1_day == "" &
-      covid_vax_az_1_day == "" &
-      covid_vax_moderna_1_day == ""
-    ) |
+    ~
     (
       (
         covid_vax_pfizer_1_day == covid_vax_az_1_day |
         covid_vax_pfizer_1_day == covid_vax_moderna_1_day |
         covid_vax_az_1_day == covid_vax_moderna_1_day
-      ) &
-      covid_vax_pfizer_1_day != "" &
-      covid_vax_az_1_day != ""  &
-      covid_vax_moderna_1_day != ""
+      )
     )
   ),
 
