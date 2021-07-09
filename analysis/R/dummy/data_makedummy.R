@@ -521,7 +521,7 @@ sim_list = list(
   other_neuro_conditions = bn_node( ~rbernoulli(n=1, p = 0.05)),
   psychosis_schiz_bipolar = bn_node( ~rbernoulli(n=1, p = 0.05)),
   flu_vaccine = bn_node( ~rbernoulli(n=1, p = 0.5)),
-  efi = bn_node(~rexp(n=1, 5), missing_rate = ~0.1),
+  efi = bn_node(~rbeta(n=1, 1, 5), missing_rate = ~0.1),
   endoflife = bn_node( ~rbernoulli(n=1, p = 0.01)),
   shielded_ever = bn_node( ~rbernoulli(n=1, p = 0.02)),
   shielded = bn_node( ~rbernoulli(n=1, p = 0.02))
