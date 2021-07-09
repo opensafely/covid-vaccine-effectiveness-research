@@ -74,6 +74,8 @@ data_tte <- data_cohort  %>%
 
     covid_vax_1_date,
     covid_vax_2_date,
+    covid_vax_1_type,
+    covid_vax_2_type,
     covid_vax_pfizer_1_date,
     covid_vax_pfizer_2_date,
     covid_vax_az_1_date,
@@ -134,6 +136,9 @@ data_tte <- data_cohort  %>%
 
     tte_vaxaz1 = tte(start_date, covid_vax_az_1_date, lastfup_date, na.censor=TRUE),
     tte_vaxaz2 = tte(start_date, covid_vax_az_2_date, lastfup_date, na.censor=TRUE),
+
+    tte_vaxmoderna1 = tte(start_date, covid_vax_moderna_1_date, lastfup_date, na.censor=TRUE),
+    tte_vaxmoderna2 = tte(start_date, covid_vax_moderna_2_date, lastfup_date, na.censor=TRUE),
 
   ) %>%
   # convert tte variables to integer to save space. works since we know precision is to nearest day

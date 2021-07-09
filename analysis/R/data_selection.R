@@ -44,10 +44,11 @@ data_criteria <- data_processed %>%
     has_follow_up_previous_year,
     previous_covid_vaccine = !is.na(covid_vax_pfizer_0_date) | !is.na(covid_vax_az_0_date),
     unknown_vaccine_brand = (
-      covid_vax_pfizer_1_date == covid_vax_az_1_date |
-        covid_vax_pfizer_1_date == covid_vax_moderna_1_date |
-        covid_vax_moderna_1_date == covid_vax_az_1_date
+      (covid_vax_pfizer_1_date == covid_vax_az_1_date) & (!is.na(covid_vax_pfizer_1_date)) & (!is.na(covid_vax_az_1_date)) |
+        covid_vax_pfizer_1_date == covid_vax_moderna_1_date & (!is.na(covid_vax_pfizer_1_date)) & (!is.na(covid_vax_moderna_1_date)) |
+        covid_vax_moderna_1_date == covid_vax_az_1_date & (!is.na(covid_vax_moderna_1_date)) & (!is.na(covid_vax_az_1_date))
     ),
+    unknown_vaccine_brand = covid_vax_1_type %in% c("duplicate"),
     care_home_combined,
     endoflife,
     nopriorcovid = (is.na(positive_test_0_date) & is.na(primary_care_covid_case_0_date) & is.na(covidadmitted_0_date)),

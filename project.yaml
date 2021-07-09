@@ -35,6 +35,8 @@ actions:
     outputs:
       highly_sensitive:
         data: output/over80s/data/data_processed.rds
+        datavaxlong: output/over80s/data/data_long_vax_dates_long.rds
+        datavaxwide: output/over80s/data/data_long_vax_dates_wide.rds
 
   data_process_long_over80s:
     run: r:latest analysis/R/data_process_long.R over80s
@@ -42,7 +44,6 @@ actions:
     - data_process_over80s
     outputs:
       highly_sensitive:
-        data1: output/over80s/data/data_long_vax_dates.rds
         data2: output/over80s/data/data_long_admission_dates.rds
         data3: output/over80s/data/data_long_admission_infectious_dates.rds
         data4: output/over80s/data/data_long_admission_noninfectious_dates.rds
@@ -1693,6 +1694,8 @@ actions:
     outputs:
       highly_sensitive:
         data: output/in70s/data/data_processed.rds
+        datavaxlong: output/in70s/data/data_long_vax_dates_long.rds
+        datavaxwide: output/in70s/data/data_long_vax_dates_wide.rds
 
   data_process_long_in70s:
     run: r:latest analysis/R/data_process_long.R in70s
@@ -1700,7 +1703,6 @@ actions:
     - data_process_in70s
     outputs:
       highly_sensitive:
-        data1: output/in70s/data/data_long_vax_dates.rds
         data2: output/in70s/data/data_long_admission_dates.rds
         data3: output/in70s/data/data_long_admission_infectious_dates.rds
         data4: output/in70s/data/data_long_admission_noninfectious_dates.rds
