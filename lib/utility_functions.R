@@ -277,7 +277,20 @@ sample_random <- function(id, proportion){
   # `proportion` is the proportion patients to be sampled
 
   dplyr::dense_rank(id) <= ceiling(length(id)*proportion)
+}
 
+sample_random_n <- function(id, n){
+  # select n rows
+  # based on `id` to ensure consistency of samples
+
+  # `id` is a identifier with the following properties:
+  # - a) consistent between cohort extracts
+  # - b) unique
+  # - c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
+  # - d) is an integer strictly greater than zero
+  # `proportion` is the proportion patients to be sampled
+
+  dplyr::dense_rank(id) <= n
 }
 
 

@@ -54,7 +54,8 @@ if(length(args)==0){
   outcome <- args[[4]]
 }
 
-trt_prop <-0.1
+sample_trt_prop <-0.1
+sample_trt_n <- 50000
 
 ### define parglm optimisation parameters ----
 
@@ -172,7 +173,7 @@ get_ipw_weights <- function(
   event_atrisk,
 
   sample_type,
-  sample_prop,
+  sample_amount,
 
   ipw_formula,
   ipw_formula_fxd,
@@ -201,7 +202,7 @@ get_ipw_weights <- function(
       ungroup() %>%
       transmute(
         patient_id,
-        sample_event = sample_nonoutcomes(had_event, patient_id, sample_prop),
+        sample_event = sample_nonoutcomes(had_event, patient_id, sample_amount),
         sample_weights_event = sample_weights(had_event, sample_event),
       )
   }
@@ -213,7 +214,20 @@ get_ipw_weights <- function(
       ungroup() %>%
       transmute(
         patient_id,
-        sample_event = sample_random(patient_id, sample_prop),
+        sample_event = sample_random(patient_id, sample_amount),
+        sample_weights_event = sample_event*1L,
+      )
+  }
+
+
+  if(sample_type=="random_n"){
+    data_sample <- data_atrisk %>%
+      group_by(patient_id) %>%
+      summarise() %>%
+      ungroup() %>%
+      transmute(
+        patient_id,
+        sample_event = sample_random_n(patient_id, sample_amount),
         sample_weights_event = sample_event*1L,
       )
   }
@@ -367,7 +381,7 @@ for(stratum in strata){
     # IPW model for any vaccination ----
     weights_vaxany1 <- get_ipw_weights(
       data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk",
-      sample_type="random", sample_prop=trt_prop,
+      sample_type="random_n", sample_amount=sample_trt_n,
       ipw_formula =     update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -380,14 +394,14 @@ for(stratum in strata){
     # these could be separated out and run only once, but it complicates the remaining workflow so leaving as is
     weights_vaxpfizer1 <- get_ipw_weights(
       data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
-      sample_type="random", sample_prop=trt_prop,
+      sample_type="random_n", sample_amount=sample_trt_n,
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
     )
     weights_vaxaz1 <- get_ipw_weights(
       data_pt_sub, "vaxaz1", "vaxaz1_status", "vaxaz1_atrisk",
-      sample_type="random", sample_prop=trt_prop,
+      sample_type="random_n", sample_amount=sample_trt_n,
       ipw_formula =     update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -400,7 +414,7 @@ for(stratum in strata){
   if(!(outcome %in% c("death", "coviddeath", "noncoviddeath")) & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "death", "death_status", "death_atrisk",
-      sample_type="event", sample_prop=trt_prop,
+      sample_type="event", sample_amount=sample_trt_prop,
       ipw_formula =     update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -410,7 +424,7 @@ for(stratum in strata){
   if(outcome=="coviddeath" & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk",
-      sample_type="event", sample_prop=trt_prop,
+      sample_type="event", sample_amount=sample_trt_prop,
       ipw_formula =     update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -420,7 +434,7 @@ for(stratum in strata){
   if(outcome=="noncoviddeath" & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk",
-      sample_type="event", sample_prop=trt_prop,
+      sample_type="event", sample_amount=sample_trt_prop,
       ipw_formula =     update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
