@@ -558,24 +558,6 @@ vaccination_variables = dict(
     unknown_vaccine_brand = patients.satisfying(
         """
         (
-            covid_vax_pfizer_1_date = ""
-            AND
-            covid_vax_az_1_date = ""
-        ) 
-            OR
-        (
-            covid_vax_pfizer_1_date = ""
-            AND
-            covid_vax_moderna_1_date = ""
-        )
-            OR
-        (
-            covid_vax_az_1_date = ""
-            AND
-            covid_vax_moderna_1_date = ""
-        )
-            OR 
-        (
             (covid_vax_pfizer_1_date = covid_vax_az_1_date)
             AND
             covid_vax_pfizer_1_date != "" 
