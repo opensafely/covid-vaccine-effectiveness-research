@@ -78,8 +78,8 @@ actions_process <- function(cohort){
       needs = list(glue("extract_{cohort}")),
       highly_sensitive = list(
         data = glue("output/{cohort}/data/data_processed.rds"),
-        datavaxlong = glue("output/{cohort}/data/data_long_vax_dates_long.rds"),
-        datavaxwide = glue("output/{cohort}/data/data_long_vax_dates_wide.rds")
+        datavaxlong = glue("output/{cohort}/data/data_long_vax_dates.rds"),
+        datavaxwide = glue("output/{cohort}/data/data_wide_vax_dates.rds")
       )
     ),
 
