@@ -227,7 +227,7 @@ data_processed <- data_extract_reordered %>%
       is.na(efi) | (efi <= 0.12) ~ "None",
       efi <= 0.24 ~ "Mild",
       efi <= 0.36 ~ "Moderate",
-      efi <= 1 ~ "Severe"
+      TRUE ~ "Severe"
     ),
 
     cause_of_death = fct_case_when(
