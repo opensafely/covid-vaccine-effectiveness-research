@@ -155,12 +155,12 @@ msmmod_effect <-
   geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(model_descr_wrap), switch="y")+
   scale_y_log10(
-    breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
-    sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
+    #breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+    #sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(ylim=c(0.1,2)) +
+  coord_cartesian(ylim=c(NA, max(c(1, msmmod_effect_data$or.ul)))) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Time since first dose",

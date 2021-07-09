@@ -181,7 +181,7 @@ get_ipw_weights <- function(
   stratum
 ){
 
-  stopifnot(sample_type %in% c("random", "event"))
+  stopifnot(sample_type %in% c("random_prop", "random_n", "event"))
 
   name <- str_remove(event_atrisk, "_atrisk")
 
@@ -207,7 +207,7 @@ get_ipw_weights <- function(
       )
   }
 
-  if(sample_type=="random"){
+  if(sample_type=="random_prop"){
     data_sample <- data_atrisk %>%
       group_by(patient_id) %>%
       summarise() %>%
