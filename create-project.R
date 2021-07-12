@@ -296,7 +296,7 @@ actions_combine_models <- function(
 
     action(
       name = glue("report_ipw_{cohort}_{strata}"),
-      run = glue("r:latest analysis/R/dose_1/report_vaxmodel.R"),
+      run = glue("r:latest analysis/R/dose_1/report_ipw_combined.R"),
       arguments = c(cohort, strata, "death"),
       needs = list(
         "design",
@@ -305,9 +305,9 @@ actions_combine_models <- function(
         glue("report_ipw_{cohort}_{strata}_az_death")
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{strata}/plot_vax1.svg"),
-        csv = glue("output/{cohort}/{strata}/tab_vax1.csv"),
-        csv_wide = glue("output/{cohort}/{strata}/tab_vax1_wide.csv")
+        svg = glue("output/{cohort}/{strata}/combined/plot_vax1.svg"),
+        csv = glue("output/{cohort}/{strata}/combined/tab_vax1.csv"),
+        csv_wide = glue("output/{cohort}/{strata}/combined/tab_vax1_wide.csv")
       )
     ),
 
@@ -333,7 +333,7 @@ actions_combine_models <- function(
         glue("report_msm_{cohort}_{strata}_az_noncoviddeath")
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{strata}/*.svg"),
+        svg = glue("output/{cohort}/{strata}/combined/*.svg"),
         png = glue("output/{cohort}/{strata}/combined/*.png"),
         csv = glue("output/{cohort}/{strata}/combined/*.csv")
       )

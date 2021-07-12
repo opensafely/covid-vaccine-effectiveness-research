@@ -842,7 +842,7 @@ actions:
         trendpng: output/over80s/all/az/death/time*.png
 
   report_ipw_over80s_all:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s all death
+    run: r:latest analysis/R/dose_1/report_ipw_combined.R over80s all death
     needs:
     - design
     - report_ipw_over80s_all_any_death
@@ -850,9 +850,9 @@ actions:
     - report_ipw_over80s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/all/plot_vax1.svg
-        csv: output/over80s/all/tab_vax1.csv
-        csv_wide: output/over80s/all/tab_vax1_wide.csv
+        svg: output/over80s/all/combined/plot_vax1.svg
+        csv: output/over80s/all/combined/tab_vax1.csv
+        csv_wide: output/over80s/all/combined/tab_vax1_wide.csv
 
   report_over80s_all:
     run: r:latest analysis/R/dose_1/report_msm_combined.R over80s all
@@ -872,7 +872,7 @@ actions:
     - report_msm_over80s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/all/*.svg
+        svg: output/over80s/all/combined/*.svg
         png: output/over80s/all/combined/*.png
         csv: output/over80s/all/combined/*.csv
 
@@ -1641,7 +1641,7 @@ actions:
         trendpng: output/over80s/any_immunosuppression/az/death/time*.png
 
   report_ipw_over80s_any_immunosuppression:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R over80s any_immunosuppression
+    run: r:latest analysis/R/dose_1/report_ipw_combined.R over80s any_immunosuppression
       death
     needs:
     - design
@@ -1650,9 +1650,9 @@ actions:
     - report_ipw_over80s_any_immunosuppression_az_death
     outputs:
       moderately_sensitive:
-        svg: output/over80s/any_immunosuppression/plot_vax1.svg
-        csv: output/over80s/any_immunosuppression/tab_vax1.csv
-        csv_wide: output/over80s/any_immunosuppression/tab_vax1_wide.csv
+        svg: output/over80s/any_immunosuppression/combined/plot_vax1.svg
+        csv: output/over80s/any_immunosuppression/combined/tab_vax1.csv
+        csv_wide: output/over80s/any_immunosuppression/combined/tab_vax1_wide.csv
 
   report_over80s_any_immunosuppression:
     run: r:latest analysis/R/dose_1/report_msm_combined.R over80s any_immunosuppression
@@ -1672,7 +1672,7 @@ actions:
     - report_msm_over80s_any_immunosuppression_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/any_immunosuppression/*.svg
+        svg: output/over80s/any_immunosuppression/combined/*.svg
         png: output/over80s/any_immunosuppression/combined/*.png
         csv: output/over80s/any_immunosuppression/combined/*.csv
 
@@ -2501,7 +2501,7 @@ actions:
         trendpng: output/in70s/all/az/death/time*.png
 
   report_ipw_in70s_all:
-    run: r:latest analysis/R/dose_1/report_vaxmodel.R in70s all death
+    run: r:latest analysis/R/dose_1/report_ipw_combined.R in70s all death
     needs:
     - design
     - report_ipw_in70s_all_any_death
@@ -2509,9 +2509,9 @@ actions:
     - report_ipw_in70s_all_az_death
     outputs:
       moderately_sensitive:
-        svg: output/in70s/all/plot_vax1.svg
-        csv: output/in70s/all/tab_vax1.csv
-        csv_wide: output/in70s/all/tab_vax1_wide.csv
+        svg: output/in70s/all/combined/plot_vax1.svg
+        csv: output/in70s/all/combined/tab_vax1.csv
+        csv_wide: output/in70s/all/combined/tab_vax1_wide.csv
 
   report_in70s_all:
     run: r:latest analysis/R/dose_1/report_msm_combined.R in70s all
@@ -2531,7 +2531,7 @@ actions:
     - report_msm_in70s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/all/*.svg
+        svg: output/in70s/all/combined/*.svg
         png: output/in70s/all/combined/*.png
         csv: output/in70s/all/combined/*.csv
 
