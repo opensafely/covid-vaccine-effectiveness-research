@@ -191,7 +191,7 @@ write_csv(broomstack_formatted_wide, here("output", cohort, strata_var, "combine
 
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
-  here("output", cohort, strata_var, "plot_vax1.svg"),
+  here("output", cohort, strata_var, "combined", "plot_vax1.svg"),
   plot_vax,
   units="cm", width=30, height=25
 )
