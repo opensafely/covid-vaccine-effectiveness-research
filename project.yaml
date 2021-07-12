@@ -884,7 +884,7 @@ actions:
         csv: output/over80s/all/combined/tab_vax1.csv
         csv_wide: output/over80s/all/combined/tab_vax1_wide.csv
 
-  report_over80s_all:
+  report_msm_over80s_all:
     run: r:latest analysis/R/dose_1/report_msm_combined.R over80s all
     needs:
     - design
@@ -1735,7 +1735,7 @@ actions:
         csv: output/over80s/any_immunosuppression/combined/tab_vax1.csv
         csv_wide: output/over80s/any_immunosuppression/combined/tab_vax1_wide.csv
 
-  report_over80s_any_immunosuppression:
+  report_msm_over80s_any_immunosuppression:
     run: r:latest analysis/R/dose_1/report_msm_combined.R over80s any_immunosuppression
     needs:
     - design
@@ -2645,7 +2645,7 @@ actions:
         csv: output/in70s/all/combined/tab_vax1.csv
         csv_wide: output/in70s/all/combined/tab_vax1_wide.csv
 
-  report_in70s_all:
+  report_msm_in70s_all:
     run: r:latest analysis/R/dose_1/report_msm_combined.R in70s all
     needs:
     - design

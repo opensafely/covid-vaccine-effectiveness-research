@@ -317,7 +317,7 @@ actions_combine_models <- function(
 
 
     action(
-      name = glue("report_{cohort}_{strata}"),
+      name = glue("report_msm_{cohort}_{strata}"),
       run = glue("r:latest analysis/R/dose_1/report_msm_combined.R"),
       arguments = c(cohort, strata),
       needs = list(
