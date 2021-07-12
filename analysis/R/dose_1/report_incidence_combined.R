@@ -153,8 +153,8 @@ cml_inc <- ggplot(curves)+
   )
 cml_inc
 
-ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot.svg")), cml_inc, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot.png")), cml_inc, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot.svg")), cml_inc, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot.png")), cml_inc, width=20, height=15, units="cm")
 
 
 
@@ -205,6 +205,6 @@ cml_inc_pair <- ggplot(curves)+
   )
 cml_inc_pair
 
-ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot_pair.svg")), cml_inc_pair, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot_pair.png")), cml_inc_pair, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot_pair.svg")), cml_inc_pair, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot_pair.png")), cml_inc_pair, width=20, height=15, units="cm")
 
