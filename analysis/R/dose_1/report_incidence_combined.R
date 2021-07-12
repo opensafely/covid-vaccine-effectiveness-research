@@ -68,6 +68,7 @@ names(summary_list) <- strata
 
 # import models ----
 
+
 curves <-
   metadata_outcomes %>%
   filter(outcome %in% c(
@@ -88,26 +89,27 @@ curves <-
     ) %>%
     mutate(
       brand = fct_inorder(brand),
-      brand_descr = fct_inorder(brand_descr)
+      brand_descr = fct_inorder(brand_descr),
     )
   ) %>%
-  add_column(
-    stratum = list(strata),
-    .before=1
-  ) %>%
-  unnest(stratum) %>% arrange(stratum) %>%
   mutate(
-    brand = fct_inorder(brand),
-    brand_descr = fct_inorder(brand_descr),
-    curves = map2(brand, outcome, ~read_csv(here("output", cohort, strata_var, .x, .y, glue("data_incidence.rds"))))
+    curves = map2(brand, outcome, ~read_rds(here("output", cohort, strata_var, .x, .y, glue("data_incidence.rds"))))
   ) %>%
   unnest(curves) %>%
   mutate(
-    model_descr = fct_inorder(model_descr),
+    stratum=fct_inorder(stratum),
+    paired = factor(
+      paste0(vax_status,", ",stratum),
+      levels= map_chr(
+        cross2(c("Unvaccinated", "Vaccinated"), levels(stratum)),
+        ~paste(., sep = ":", collapse = ", ")
+      )
+    ),
+   paired=factor(str_remove(paired, "\\, all$"), levels=c("Unvaccinated", "Vaccinated"))
   )
 
 cml_inc <- ggplot(curves)+
-  geom_step(aes(x=date, y=1-survival4, group=vax_status, colour=vax_status))+
+  geom_step(aes(x=date, y=1-survival4, group=paired, alpha=vax_status, colour=stratum))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_x_date(
     breaks = seq(min(curves$date),max(curves$date)+1,by=14),
@@ -120,18 +122,89 @@ cml_inc <- ggplot(curves)+
       labels = scales::date_format("%b %y")
     )
   )+
+  scale_alpha_discrete(range=c(0.4,1), breaks=c("Unvaccinated", "Vaccinated"), limits=c("Unvaccinated", "Vaccinated"))+
   scale_colour_brewer(type="qual", palette="Set2")+
   labs(
     x="Date",
     y="Cumulative risk",
-    colour=NULL
+    colour=NULL,
+    alpha=NULL
   ) +
   theme_bw()+
   theme(
-    legend.position=c(0.05,.95),
-    legend.justification = c(0,1),
-    axis.text.x.bottom=element_text(hjust=0)
+    panel.border = element_blank(),
+    axis.line.y = element_line(colour = "black"),
+
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    #strip.text.y.left = element_text(angle = 0),
+
+    panel.spacing = unit(1, "lines"),
+
+    plot.title = element_text(hjust = 0),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.caption = element_text(hjust = 0, face= "italic"),
+
+    legend.position="bottom",
+    axis.text.x.top=element_text(hjust=0)
   )
+cml_inc
 
 ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot.svg")), cml_inc, width=20, height=15, units="cm")
 ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot.png")), cml_inc, width=20, height=15, units="cm")
+
+
+
+cml_inc_pair <- ggplot(curves)+
+  geom_step(aes(x=date, y=1-survival4, group=paired, colour=paired))+
+  facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
+  scale_x_date(
+    breaks = seq(min(curves$date),max(curves$date)+1,by=14),
+    limits = c(lubridate::floor_date((min(curves$date)), "1 month"), NA),
+    labels = scales::date_format("%d/%m"),
+    expand = expansion(0),
+    sec.axis = sec_axis(
+      trans = ~as.Date(.),
+      breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"),by="month")),
+      labels = scales::date_format("%b %y")
+    )
+  )+
+  scale_y_continuous(limits=c(0,NA), expand=expansion(c(0,0)))+
+  scale_colour_brewer(type="qual", palette="Paired", guide=guide_legend(ncol=2))+
+  labs(
+    x="Date",
+    y="Cumulative risk",
+    colour=NULL,
+    alpha=NULL
+  ) +
+  geom_hline(aes(yintercept=0), colour='black') +
+  theme_bw()+
+  theme(
+    panel.border = element_blank(),
+    #axis.line.x = element_line(colour = "black"),
+    #axis.line.y = element_line(colour = "black"),
+
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    #strip.text.y.left = element_text(angle = 0),
+
+    panel.spacing = unit(1, "lines"),
+
+    plot.title = element_text(hjust = 0),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.caption = element_text(hjust = 0, face= "italic"),
+
+    legend.position="bottom",
+    axis.text.x.top=element_text(hjust=0)
+  )
+cml_inc_pair
+
+ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot_pair.svg")), cml_inc_pair, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, glue("cml_incidence_plot_pair.png")), cml_inc_pair, width=20, height=15, units="cm")
+

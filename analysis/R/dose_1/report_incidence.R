@@ -215,4 +215,4 @@ for(stratum in strata){
 
 summary_df <- summary_list %>% bind_rows
 
-write_rds(summary_df, path = here("output", cohort, strata_var, brand, outcome, glue("data_incidence.rds")), compress="gz")
+write_rds(summary_df, path = here("output", cohort, strata_var, brand, outcome, "data_incidence.rds"))
