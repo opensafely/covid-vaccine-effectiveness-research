@@ -163,7 +163,7 @@ cml_inc_pair <- ggplot(curves)+
   geom_step(aes(x=date, y=1-survival4, group=paired, colour=paired))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
   scale_x_date(
-    breaks = seq(min(curves$date),max(curves$date)+1,by=28),
+    breaks = seq(min(curves$date),max(curves$date)+27,by=28),
     limits = c(lubridate::floor_date((min(curves$date)), "1 month"), NA),
     labels = scales::date_format("%d/%m"),
     expand = expansion(0),
@@ -173,7 +173,7 @@ cml_inc_pair <- ggplot(curves)+
       labels = scales::date_format("%b %y")
     )
   )+
-  scale_y_continuous(limits=c(0,NA), expand=expansion(c(0,0)),  breaks=seq(0,0.5,0.04))+
+  scale_y_continuous(limits=c(0,NA), expand=expansion(c(0,NA)),  breaks=seq(0,0.5,0.02))+
   scale_colour_brewer(type="qual", palette="Paired", guide=guide_legend(ncol=2))+
   labs(
     x="Date",
@@ -181,7 +181,7 @@ cml_inc_pair <- ggplot(curves)+
     colour=NULL,
     alpha=NULL
   ) +
-  theme_bw(base_size = 10)+
+  theme_bw(base_size = 11)+
   theme(
     panel.border = element_blank(),
     #axis.line.x = element_line(colour = "black"),
