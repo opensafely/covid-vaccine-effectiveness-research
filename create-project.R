@@ -274,6 +274,9 @@ actions_models <- function(
       run = glue("r:latest analysis/R/dose_1/report_incidence.R"),
       arguments = c(cohort, strata, brand, outcome),
       needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
+      highly_sensitive = list(
+        data = glue("output/{cohort}/{strata}/{brand}/{outcome}/data_incidence.rds")
+      ),
       moderately_sensitive = list(
         cmlsvg = glue("output/{cohort}/{strata}/{brand}/{outcome}/cml_incidence*.svg"),
         cmlpng = glue("output/{cohort}/{strata}/{brand}/{outcome}/cml_incidence*.png"),
@@ -336,6 +339,31 @@ actions_combine_models <- function(
         svg = glue("output/{cohort}/{strata}/combined/*.svg"),
         png = glue("output/{cohort}/{strata}/combined/*.png"),
         csv = glue("output/{cohort}/{strata}/combined/*.csv")
+      )
+    ),
+
+    action(
+      name = glue("report_incidence_{cohort}_{strata}"),
+      run = glue("r:latest analysis/R/dose_1/report_incidence_combined.R"),
+      arguments = c(cohort, strata),
+      needs = list(
+        "design",
+        glue("report_incidence_{cohort}_{strata}_any_postest"),
+        glue("report_incidence_{cohort}_{strata}_any_covidadmitted"),
+        glue("report_incidence_{cohort}_{strata}_any_coviddeath"),
+        glue("report_incidence_{cohort}_{strata}_any_noncoviddeath"),
+        glue("report_incidence_{cohort}_{strata}_pfizer_postest"),
+        glue("report_incidence_{cohort}_{strata}_pfizer_covidadmitted"),
+        glue("report_incidence_{cohort}_{strata}_pfizer_coviddeath"),
+        glue("report_incidence_{cohort}_{strata}_pfizer_noncoviddeath"),
+        glue("report_incidence_{cohort}_{strata}_az_postest"),
+        glue("report_incidence_{cohort}_{strata}_az_covidadmitted"),
+        glue("report_incidence_{cohort}_{strata}_az_coviddeath"),
+        glue("report_incidence_{cohort}_{strata}_az_noncoviddeath")
+      ),
+      moderately_sensitive = list(
+        svg = glue("output/{cohort}/{strata}/combined/cml_incidence*.svg"),
+        png = glue("output/{cohort}/{strata}/combined/cml_incidence*.png")
       )
     )
 

@@ -39,7 +39,7 @@ if(length(args)==0){
   cohort <- "over80s"
   strata_var <- "all"
   brand <- "any"
-  outcome <- "postest"
+  outcome <- "covidadmitted"
   removeobs <- FALSE
 } else {
   cohort <- args[[1]]
@@ -74,12 +74,21 @@ list2env(list_formula, globalenv())
 formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
+# import globally defined repo variables from
+gbl_vars <- jsonlite::fromJSON(
+  txt="./analysis/global-variables.json"
+)
+
+start_date <- gbl_vars[[glue("start_date_{cohort}")]]
+
+
 ##  Create big loop over all categories
 
 strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 strata_names <- paste0("strata_",strata)
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata_names
+
 
 for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
@@ -90,8 +99,8 @@ for(stratum in strata){
   # import models ----
 
   #msmmod0 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")))
-  msmmod1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")))
-  msmmod2 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")))
+  #msmmod1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")))
+  #msmmod2 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")))
   #msmmod3 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")))
   msmmod4 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")))
 
@@ -105,8 +114,9 @@ for(stratum in strata){
       tstop,
       sample_weights,
       timesincevax_pw,
-      outcome_prob1=predict(msmmod1, newdata=., type="response"),
-      outcome_prob2=predict(msmmod2, newdata=., type="response"),
+      # outcome_prob1=predict(msmmod1, newdata=., type="response"),
+      # outcome_prob2=predict(msmmod2, newdata=., type="response"),
+      # outcome_prob3=predict(msmmod3, newdata=., type="response"),
       outcome_prob4=predict(msmmod4, newdata=., type="response"),
       vax_status="Unvaccinated"
     )
@@ -118,8 +128,9 @@ for(stratum in strata){
       tstop,
       sample_weights,
       timesincevax_pw,
-      outcome_prob1=predict(msmmod1, newdata=., type="response"),
-      outcome_prob2=predict(msmmod2, newdata=., type="response"),
+      # outcome_prob1=predict(msmmod1, newdata=., type="response"),
+      # outcome_prob2=predict(msmmod2, newdata=., type="response"),
+      # outcome_prob2=predict(msmmod3, newdata=., type="response"),
       outcome_prob4=predict(msmmod4, newdata=., type="response"),
       vax_status="Vaccinated"
     )
@@ -128,110 +139,63 @@ for(stratum in strata){
     #marginalise over all patients
     group_by(vax_status, tstop) %>%
     summarise(
-      outcome_prob1=weighted.mean(outcome_prob1, sample_weights),
-      outcome_prob2=weighted.mean(outcome_prob2, sample_weights),
+      # outcome_prob1=weighted.mean(outcome_prob1, sample_weights),
+      # outcome_prob2=weighted.mean(outcome_prob2, sample_weights),
+      # outcome_prob3=weighted.mean(outcome_prob3, sample_weights),
       outcome_prob4=weighted.mean(outcome_prob4, sample_weights),
     ) %>%
     arrange(vax_status, tstop) %>%
     group_by(vax_status) %>%
     mutate(
-      survival1 = cumprod(1-outcome_prob1),
-      survival2 = cumprod(1-outcome_prob2),
+      # survival1 = cumprod(1-outcome_prob1),
+      # survival2 = cumprod(1-outcome_prob2),
+      # survival3 = cumprod(1-outcome_prob3),
       survival4 = cumprod(1-outcome_prob4),
+    ) %>%
+    ungroup() %>%
+    add_row(
+      vax_status=c("Unvaccinated", "Vaccinated"),
+      tstop=0,
+      outcome_prob4 =0,
+      survival4 = 1,
+    ) %>%
+    arrange(vax_status, tstop) %>%
+    mutate(
+      stratum = stratum,
+      date = as.Date(start_date) + tstop
     )
 
+
+  summary_list[[stratum_name]] <- curves
+
   cml_inc <- ggplot(curves)+
-    geom_step(aes(x=tstop, y=1-survival4, group=vax_status, colour=vax_status))+
-    scale_x_continuous(breaks=seq(0,700,7), limits=c(0, max(curves$tstop)))+
+    geom_step(aes(x=date, y=1-survival4, group=vax_status, colour=vax_status))+
+    scale_x_date(
+      breaks = seq(min(curves$date),max(curves$date)+1,by=14),
+      limits = c(lubridate::floor_date((min(curves$date)), "1 month"), NA),
+      labels = scales::date_format("%d/%m"),
+      expand = expansion(0),
+      sec.axis = sec_axis(
+        trans = ~as.Date(.),
+        breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"),by="month")),
+        labels = scales::date_format("%b %y")
+      )
+    )+
+    scale_colour_brewer(type="qual", palette="Set2")+
     labs(
-      x="Days",
+      x="Date",
       y="Cumulative risk",
-      colour=""
-    ) +
+      colour=NULL
+    )+
     theme_bw()+
     theme(
-      legend.position=c(0.9,.1),
-      legend.justification = c(1,0),
-      panel.grid.minor.x = element_blank(),
+      legend.position=c(0.05,.95),
+      legend.justification = c(0,1),
+      axis.text.x.top=element_text(hjust=0)
     )
 
   ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_{stratum}.svg")), cml_inc, width=20, height=15, units="cm")
   ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_{stratum}.png")), cml_inc, width=20, height=15, units="cm")
-
-
-  ### cumulative incidence curves
-  ### with time "fixed" at day 30
-
-  survival_novax <- data_weights %>%
-    mutate(
-      timesincevax_pw="pre-vax",
-      days=tstop,
-      tstop=30,
-    ) %>%
-    transmute(
-      patient_id,
-      days,
-      tstop,
-      sample_weights,
-      timesincevax_pw,
-      outcome_prob1=predict(msmmod1, newdata=., type="response"),
-      outcome_prob2=predict(msmmod2, newdata=., type="response"),
-      outcome_prob4=predict(msmmod4, newdata=., type="response"),
-      vax_status="Unvaccinated"
-    )
-
-  survival_vax <- data_weights %>%
-    mutate(
-      timesincevax_pw = timesince_cut(tstop, postvaxcuts, "pre-vax"),
-      days=tstop,
-      tstop=30
-    ) %>%
-    transmute(
-      patient_id,
-      days,
-      tstop,
-      sample_weights,
-      timesincevax_pw,
-      outcome_prob1=predict(msmmod1, newdata=., type="response"),
-      outcome_prob2=predict(msmmod2, newdata=., type="response"),
-      outcome_prob4=predict(msmmod4, newdata=., type="response"),
-      vax_status="Vaccinated"
-    )
-
-  curves <- bind_rows(survival_novax, survival_vax) %>%
-    #marginalise over all patients
-    group_by(vax_status, days) %>%
-    summarise(
-      outcome_prob1=weighted.mean(outcome_prob1, sample_weights),
-      outcome_prob2=weighted.mean(outcome_prob2, sample_weights),
-      outcome_prob4=weighted.mean(outcome_prob4, sample_weights),
-    ) %>%
-    arrange(vax_status, days) %>%
-    group_by(vax_status) %>%
-    mutate(
-      survival1 = cumprod(1-outcome_prob1),
-      survival2 = cumprod(1-outcome_prob2),
-      survival4 = cumprod(1-outcome_prob4),
-    )
-
-  cml_inc <- ggplot(curves)+
-    geom_step(aes(x=days, y=1-survival4, group=vax_status, colour=vax_status))+
-    scale_x_continuous(breaks=seq(0,700,7), limits=c(0, max(curves$days)))+
-    labs(
-      x="Days",
-      y="Cumulative risk",
-      colour=""
-    ) +
-    theme_bw()+
-    theme(
-      legend.position=c(0.9,.1),
-      legend.justification = c(1,0),
-      panel.grid.minor.x = element_blank(),
-    )
-
-  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_fixed_{stratum}.svg")), cml_inc, width=20, height=15, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_fixed_{stratum}.png")), cml_inc, width=20, height=15, units="cm")
-
 
 
   ### absolute daily risk, by region
@@ -240,7 +204,7 @@ for(stratum in strata){
     msmmod1,
     pred=tstop, modx=region, data=data_weights,
     colors="Set1", vary.lty=FALSE,
-    x.label=glue("Days since {gbl_vars$start_date}"),
+    x.label=glue("Days since {start_date}"),
     y.label=glue("{outcome_descr} prob.")
   )
   ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("time_trends_region_plot1_{stratum}.svg")), ggsecular1, width=20, height=15, units="cm")
@@ -249,40 +213,6 @@ for(stratum in strata){
 }
 
 
-#
-## secular trends ----
+summary_df <- summary_list %>% bind_rows
 
-#
-# ggsecular2 <- interactions::interact_plot(
-#   msmmod2,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label=glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot2.svg"), ggsecular2, width=20, height=15, units="cm")
-#
-#
-# ggsecular3 <- interactions::interact_plot(
-#   msmmod3,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label=glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot3.svg"), ggsecular3, width=20, height=15, units="cm")
-#
-#
-# ggsecular4 <- interactions::interact_plot(
-#   msmmod4,
-#   pred=tstop, modx=region, data=data_weights,
-#   colors="Set1", vary.lty=FALSE,
-#   x.label=glue("Days since {gbl_vars$start_date}"),
-#   y.label=glue("{outcome_descr} prob.")
-# )
-#
-# ggsave(filename=here("output", cohort, outcome, brand, strata_var, "time_trends_region_plot4.svg"), ggsecular4, width=20, height=15, units="cm")
-
-
+write_rds(summary_df, path = here("output", cohort, strata_var, brand, outcome, glue("data_incidence.rds")), compress="gz")
