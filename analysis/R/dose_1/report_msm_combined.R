@@ -157,9 +157,9 @@ msmmod_effect_data <- estimates %>%
 
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
+  geom_hline(aes(yintercept=1), colour='grey')+
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5))+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
-  geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_y_log10(
     breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
@@ -197,6 +197,6 @@ msmmod_effect <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=30, height=26, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 
