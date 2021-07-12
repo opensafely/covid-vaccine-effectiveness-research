@@ -157,7 +157,7 @@ broomstack <-
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    broom = map2(stratum, brand, ~read_rds(here("output", cohort, strata_var, .y, outcome, glue("broom_vax{.y}1_{.x}S.rds"))))
+    broom = map2(stratum, brand, ~read_rds(here("output", cohort, strata_var, .y, outcome, glue("broom_vax{.y}1_{.x}.rds"))))
   ) %>%
   unnest(broom)
 
