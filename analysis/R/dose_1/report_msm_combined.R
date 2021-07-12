@@ -165,7 +165,7 @@ msmmod_effect <-
     breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
     sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
   )+
-  scale_x_continuous(breaks=unique(msmmod_forest_data$term_left))+
+  scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
   #coord_cartesian(ylim=c(0.05,1.5)) +
   labs(
@@ -197,6 +197,6 @@ msmmod_effect <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("forest_plot.svg")), msmmod_effect, width=30, height=26, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("forest_plot.png")), msmmod_effect, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=30, height=26, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=30, height=26, units="cm")
 
