@@ -902,8 +902,8 @@ actions:
     - report_msm_over80s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/all/combined/*.svg
-        png: output/over80s/all/combined/*.png
+        svg: output/over80s/all/combined/VE*.svg
+        png: output/over80s/all/combined/VE*.png
         csv: output/over80s/all/combined/*.csv
 
   report_incidence_over80s_all:
@@ -1753,8 +1753,8 @@ actions:
     - report_msm_over80s_any_immunosuppression_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/over80s/any_immunosuppression/combined/*.svg
-        png: output/over80s/any_immunosuppression/combined/*.png
+        svg: output/over80s/any_immunosuppression/combined/VE*.svg
+        png: output/over80s/any_immunosuppression/combined/VE*.png
         csv: output/over80s/any_immunosuppression/combined/*.csv
 
   report_incidence_over80s_any_immunosuppression:
@@ -2663,8 +2663,8 @@ actions:
     - report_msm_in70s_all_az_noncoviddeath
     outputs:
       moderately_sensitive:
-        svg: output/in70s/all/combined/*.svg
-        png: output/in70s/all/combined/*.png
+        svg: output/in70s/all/combined/VE*.svg
+        png: output/in70s/all/combined/VE*.png
         csv: output/in70s/all/combined/*.csv
 
   report_incidence_in70s_all:

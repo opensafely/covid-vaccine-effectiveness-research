@@ -163,10 +163,10 @@ cml_inc_pair <- ggplot(curves)+
   geom_step(aes(x=date, y=1-survival4, group=paired, colour=paired))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
   scale_x_date(
-    breaks = seq(min(curves$date),max(curves$date)+29,by=28),
+    breaks = seq(min(curves$date),max(curves$date)+29, by=28),
     limits = c(floor_date((min(curves$date)), "1 month"), NA),
     labels = scales::date_format("%d/%m"),
-    expand = expansion(c(0,0.05)),
+    expand = expansion(c(0,1/30)),
     sec.axis = sec_axis(
       trans = ~as.Date(.),
       breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"), by="month")),

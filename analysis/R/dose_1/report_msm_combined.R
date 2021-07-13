@@ -163,7 +163,7 @@ msmmod_effect <-
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_y_log10(
     breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
-    limits = c(0.005, max(c(1, msmmod_effect_data$or.ul))),
+    limits = c(0.009, max(c(1, msmmod_effect_data$or.ul))),
     oob = scales::oob_keep,
     sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
   )+
@@ -201,4 +201,56 @@ msmmod_effect <-
 ## save plot
 ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
 ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
+
+
+msmmod_effect_free <-
+  ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
+  geom_hline(aes(yintercept=1), colour='grey')+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
+  facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
+  scale_y_log10(
+    #breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+    #limits = c(0.009, max(c(1, msmmod_effect_data$or.ul))),
+    oob = scales::oob_keep,
+    sec.axis = sec_axis(
+      ~(1-.),
+      name="Effectiveness", #breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
+      labels = scales::label_percent(1)
+    )
+  )+
+  scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
+  scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+  coord_cartesian() +
+  labs(
+    y="Hazard ratio, versus no vaccination",
+    x="Days since first dose",
+    colour=NULL#,
+    #title=glue("Outcomes by time since first {brand} vaccine"),
+    #subtitle=cohort_descr
+  ) +
+  theme_bw(base_size=12)+
+  theme(
+    panel.border = element_blank(),
+    axis.line.y = element_line(colour = "black"),
+
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    #strip.text.y.left = element_text(angle = 0),
+
+    panel.spacing = unit(1, "lines"),
+
+    plot.title = element_text(hjust = 0),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.caption = element_text(hjust = 0, face= "italic"),
+
+    legend.position = "bottom"
+  )
+
+## save plot
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect, width=20, height=20, units="cm")
 
