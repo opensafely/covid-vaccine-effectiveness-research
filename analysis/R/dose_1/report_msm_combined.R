@@ -81,7 +81,7 @@ estimates <-
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
-    outcome_descr = fct_inorder(str_wrap(outcome_descr, 15)),
+    outcome_descr = fct_inorder(stringi::stri_wrap(outcome_descr, width=12L, whitespace_only = TRUE)),
   ) %>%
   crossing(
     tibble(
@@ -217,13 +217,11 @@ msmmod_effect_free <-
   geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
   scale_y_continuous(
-    labels = function(x){scales::label_number(0.01)(exp(x))},
-    #limits = c(-3, 1.1),
+    labels = function(x){scales::label_number(0.001)(exp(x))},
     breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
     sec.axis = sec_axis(
       ~(1-exp(.)),
       name="Effectiveness",
-      #breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
       labels = function(x){scales::label_percent(1)(x)}
     )
   )+
