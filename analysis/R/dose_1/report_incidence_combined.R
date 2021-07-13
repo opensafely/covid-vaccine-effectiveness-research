@@ -80,7 +80,7 @@ curves <-
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
-    outcome_descr = fct_inorder(str_wrap(outcome_descr, 15)),
+    outcome_descr = fct_inorder(str_wrap(outcome_descr, 14)),
   ) %>%
   crossing(
     tibble(
