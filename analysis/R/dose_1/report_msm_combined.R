@@ -158,7 +158,7 @@ msmmod_effect_data <- estimates %>%
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
   geom_hline(aes(yintercept=1), colour='grey')+
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=1)+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_y_log10(
@@ -203,23 +203,28 @@ ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg
 ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 
 
+log(scales::breaks_log(n=8, base=10)(c(min((msmmod_effect_data$or.ll)), max((msmmod_effect_data$or.ul)))))
+
+
 msmmod_effect_free <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
   geom_hline(aes(yintercept=0), colour='grey')+
-  geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=1)+
+  geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
   geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
   scale_y_continuous(
     labels = function(x){scales::label_number(0.01)(exp(x))},
+    #limits = c(-3, 1.1),
+   breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
     sec.axis = sec_axis(
       ~(1-.),
       name="Effectiveness",
+      breaks=function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
       labels = function(x){scales::label_percent(2)(log(x))}
     )
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian() +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Days since first dose",
