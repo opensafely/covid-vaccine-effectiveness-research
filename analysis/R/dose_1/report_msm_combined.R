@@ -251,6 +251,6 @@ msmmod_effect_free <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect, width=20, height=20, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
 
