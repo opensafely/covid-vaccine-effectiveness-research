@@ -75,8 +75,8 @@ estimates <-
   filter(outcome %in% c(
     "postest",
     "covidadmitted",
-    #"coviddeath",
-    #"noncoviddeath",
+    "coviddeath",
+    "noncoviddeath",
     NULL
   )) %>%
   mutate(
@@ -85,8 +85,8 @@ estimates <-
   ) %>%
   crossing(
     tibble(
-      brand = c("any"),#, "pfizer", "az"),
-      brand_descr = c("Any vaccine"),#, "BNT162b2", "ChAdOx1")
+      brand = c("any", "pfizer", "az"),
+      brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
     ) %>%
     mutate(
       brand = fct_inorder(brand),
