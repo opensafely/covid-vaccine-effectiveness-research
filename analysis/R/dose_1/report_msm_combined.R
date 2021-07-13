@@ -81,7 +81,7 @@ estimates <-
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
-    outcome_descr = fct_inorder(outcome_descr),
+    outcome_descr = fct_inorder(str_wrap(outcome_descr, 15)),
   ) %>%
   crossing(
     tibble(
@@ -167,7 +167,7 @@ msmmod_effect <-
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian(ylim=c(max(c(0.005, msmmod_effect_data$or.ul)), max(c(1, msmmod_effect_data$or.ul)))) +
+  coord_cartesian(ylim=c(max(c(0.005, msmmod_effect_data$or.ll)), max(c(1, msmmod_effect_data$or.ul)))) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Days since first dose",
@@ -175,7 +175,7 @@ msmmod_effect <-
     #title=glue("Outcomes by time since first {brand} vaccine"),
     #subtitle=cohort_descr
   ) +
-  theme_bw(base_size=16)+
+  theme_bw(base_size=12)+
   theme(
     panel.border = element_blank(),
     axis.line.y = element_line(colour = "black"),
@@ -197,6 +197,6 @@ msmmod_effect <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=30, height=30, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=30, height=30, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 

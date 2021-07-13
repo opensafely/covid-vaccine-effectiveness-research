@@ -80,7 +80,7 @@ curves <-
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
-    outcome_descr = fct_inorder(outcome_descr),
+    outcome_descr = fct_inorder(str_wrap(outcome_descr, 15)),
   ) %>%
   crossing(
     tibble(
@@ -112,8 +112,8 @@ cml_inc <- ggplot(curves)+
   geom_step(aes(x=date, y=1-survival4, group=paired, alpha=vax_status, colour=stratum))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_x_date(
-    breaks = seq(min(curves$date),max(curves$date)+1,by=14),
-    limits = c(lubridate::floor_date((min(curves$date)), "1 month"), NA),
+    breaks = seq(min(curves$date),max(curves$date)+29,by=28),
+    limits = c(floor_date((min(curves$date)), "1 month"), NA),
     labels = scales::date_format("%d/%m"),
     expand = expansion(0),
     sec.axis = sec_axis(
@@ -163,13 +163,13 @@ cml_inc_pair <- ggplot(curves)+
   geom_step(aes(x=date, y=1-survival4, group=paired, colour=paired))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
   scale_x_date(
-    breaks = seq(min(curves$date),max(curves$date)+27,by=28),
-    limits = c(lubridate::floor_date((min(curves$date)), "1 month"), NA),
+    breaks = seq(min(curves$date),max(curves$date)+29,by=28),
+    limits = c(floor_date((min(curves$date)), "1 month"), NA),
     labels = scales::date_format("%d/%m"),
-    expand = expansion(0),
+    expand = expansion(c(0,0.05)),
     sec.axis = sec_axis(
       trans = ~as.Date(.),
-      breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"),by="month")),
+      breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"), by="month")),
       labels = scales::date_format("%b %y")
     )
   )+
@@ -181,14 +181,14 @@ cml_inc_pair <- ggplot(curves)+
     colour=NULL,
     alpha=NULL
   ) +
-  theme_bw(base_size = 11)+
+  theme_bw(base_size = 12)+
   theme(
     panel.border = element_blank(),
     #axis.line.x = element_line(colour = "black"),
     #axis.line.y = element_line(colour = "black"),
 
     panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank(),
+    #panel.grid.minor.y = element_blank(),
     strip.background = element_blank(),
     strip.placement = "outside",
     #strip.text.y.left = element_text(angle = 0),

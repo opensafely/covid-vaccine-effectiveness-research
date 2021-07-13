@@ -32,7 +32,7 @@ write_csv(metadata_cohorts, here("output", "metadata", "metadata_cohorts.csv"))
 metadata_outcomes <- tribble(
   ~outcome, ~outcome_var, ~outcome_descr,
   "test", "covid_test_1_date", "Covid test",
-  "postest", "positive_test_1_date", "Positive test",
+  "postest", "positive_test_1_date", "Positive SARS-CoV-2 test",
   "emergency", "emergency_1_date", "A&E attendance",
   "covidadmitted", "covidadmitted_1_date", "COVID-19 hospitalisation",
   "coviddeath", "coviddeath_date", "COVID-19 death",
