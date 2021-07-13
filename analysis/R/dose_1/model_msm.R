@@ -550,6 +550,9 @@ for(stratum in strata){
 
   ## output weight distribution file ----
   data_weights <- data_weights %>%
+    mutate(
+      timesincevax_pw = if_else(!recentpostest, timesincevax_pw, factor("pre-vax"))
+    ) %>%
     select(
       "patient_id",
       "tstart", "tstop",
@@ -561,6 +564,7 @@ for(stratum in strata){
       "cmlipweight_stbl_sample",
       "outcome",
     )
+
   cat("  \n")
   cat(glue("data_weights data size = ", nrow(data_weights)), "  \n")
   cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
