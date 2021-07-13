@@ -165,7 +165,11 @@ msmmod_effect <-
     breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
     limits = c(0.009, max(c(1, msmmod_effect_data$or.ul))),
     oob = scales::oob_keep,
-    sec.axis = sec_axis(~(1-.), name="Effectiveness", breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99), labels = scales::label_percent(1))
+    sec.axis = sec_axis(
+      ~(1-.),
+      name="Effectiveness",
+      breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
+      labels = scales::label_percent(1))
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
@@ -203,7 +207,7 @@ ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg
 ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 
 
-log(scales::breaks_log(n=8, base=10)(c(min((msmmod_effect_data$or.ll)), max((msmmod_effect_data$or.ul)))))
+log(scales::breaks_log(n=6, base=10)(c(min((msmmod_effect_data$or.ll)), max((msmmod_effect_data$or.ul)))))
 
 
 msmmod_effect_free <-
@@ -215,12 +219,12 @@ msmmod_effect_free <-
   scale_y_continuous(
     labels = function(x){scales::label_number(0.01)(exp(x))},
     #limits = c(-3, 1.1),
-   breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
+    breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
     sec.axis = sec_axis(
-      ~(1-.),
+      ~(1-exp(.)),
       name="Effectiveness",
-      breaks=function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
-      labels = function(x){scales::label_percent(2)(log(x))}
+      #breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
+      labels = function(x){scales::label_percent(1)(x)}
     )
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
