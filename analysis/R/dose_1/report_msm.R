@@ -150,8 +150,8 @@ msmmod_effect_data <- summary_df %>%
 
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=as.factor(strata))) +
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 0.5))+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.5))+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 0.6))+
+  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.6))+
   geom_hline(aes(yintercept=1), colour='grey')+
   facet_grid(rows=vars(model_descr_wrap), switch="y")+
   scale_y_log10(
@@ -160,7 +160,7 @@ msmmod_effect <-
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(ylim=c(NA, max(c(1, msmmod_effect_data$or.ul)))) +
+  coord_cartesian(ylim=c(max(c(0.005, msmmod_effect_data$or.ul)), max(c(1, msmmod_effect_data$or.ul)))) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Time since first dose",
@@ -190,5 +190,5 @@ msmmod_effect <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.svg")), msmmod_effect, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.png")), msmmod_effect, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.svg")), msmmod_effect, width=20, height=18, units="cm")
+ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.png")), msmmod_effect, width=20, height=18, units="cm")
