@@ -75,8 +75,8 @@ estimates <-
   filter(outcome %in% c(
     "postest",
     "covidadmitted",
-    "coviddeath",
-    "noncoviddeath",
+    #"coviddeath",
+    #"noncoviddeath",
     NULL
   )) %>%
   mutate(
@@ -85,8 +85,8 @@ estimates <-
   ) %>%
   crossing(
     tibble(
-      brand = c("any", "pfizer", "az"),
-      brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
+      brand = c("any"),#, "pfizer", "az"),
+      brand_descr = c("Any vaccine"),#, "BNT162b2", "ChAdOx1")
     ) %>%
     mutate(
       brand = fct_inorder(brand),
@@ -158,7 +158,7 @@ msmmod_effect_data <- estimates %>%
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
   geom_hline(aes(yintercept=1), colour='grey')+
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.5)+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=1)+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_y_log10(
@@ -205,18 +205,16 @@ ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png
 
 msmmod_effect_free <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
-  geom_hline(aes(yintercept=1), colour='grey')+
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.5)+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
+  geom_hline(aes(yintercept=0), colour='grey')+
+  geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=1)+
+  geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
-  scale_y_log10(
-    #breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
-    #limits = c(0.009, max(c(1, msmmod_effect_data$or.ul))),
-    oob = scales::oob_keep,
+  scale_y_continuous(
+    labels = function(x){scales::label_number(0.01)(exp(x))},
     sec.axis = sec_axis(
       ~(1-.),
-      name="Effectiveness", #breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
-      labels = scales::label_percent(1)
+      name="Effectiveness",
+      labels = function(x){scales::label_percent(2)(log(x))}
     )
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
@@ -249,8 +247,10 @@ msmmod_effect_free <-
 
     legend.position = "bottom"
   )
+msmmod_effect_free
 
 ## save plot
 ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
 ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
+
 
