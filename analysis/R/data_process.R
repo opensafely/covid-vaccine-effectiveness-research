@@ -46,13 +46,6 @@ if(length(args)==0){
 }
 
 
-if(cohort=="over80s"){
-  start_date = "2020-12-08"
-} else
-if(cohort=="in70s"){
-  start_date= "2021-01-05"
-}
-
 # output processed data to rds ----
 
 fs::dir_create(here("output", cohort, "data"))
@@ -161,7 +154,7 @@ data_extract_reordered <- left_join(
 data_processed <- data_extract_reordered %>%
   mutate(
 
-    start_date = as.Date(start_date), # i.e., this is interpreted later as [midnight at the _end of_ the start date] = [midnight at the _start of_ start date + 1], So that for example deaths on start_date+1 occur at t=1, not t=0.
+    start_date = as.Date(gbl_vars[[glue("start_date_{cohort}")]]), # this is interpreted later as [midnight at the _end of_ the start date] = [midnight at the _start of_ start date + 1], So that for example deaths on start_date+1 occur at t=1, not t=0.
     end_date = as.Date(gbl_vars$end_date),
     censor_date = pmin(end_date, death_date, na.rm=TRUE),
 

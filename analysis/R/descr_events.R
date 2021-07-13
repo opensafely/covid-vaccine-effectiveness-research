@@ -83,11 +83,7 @@ gbl_vars <- jsonlite::fromJSON(
   txt="./analysis/global-variables.json"
 )
 #list2env(gbl_vars, globalenv())
-if(cohort=="over80s"){
-  start_date = "2020-12-08"
-} else if(cohort=="in70s"){
-  start_date= "2021-01-05"
-}
+start_date = gbl_vars[[glue("start_date_{cohort}")]]
 
 
 ## create output directories ----
