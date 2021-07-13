@@ -81,7 +81,8 @@ estimates <-
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
-    outcome_descr = fct_inorder(stringi::stri_wrap(outcome_descr, width=12L, whitespace_only = TRUE)),
+    #outcome_descr = fct_inorder(stringi::stri_wrap(outcome_descr, width=12L, whitespace_only = TRUE)),
+    outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=3, simplify=TRUE, whitespace_only=TRUE), collapse="\n")))
   ) %>%
   crossing(
     tibble(
@@ -222,6 +223,7 @@ msmmod_effect_free <-
     sec.axis = sec_axis(
       ~(1-exp(.)),
       name="Effectiveness",
+      #breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
       labels = function(x){scales::label_percent(1)(x)}
     )
   )+
