@@ -71,7 +71,7 @@ actions:
         flow: output/over80s/data/flowchart.csv
 
   data_stset_over80s:
-    run: r:latest analysis/R/data_stset.R over80s 0.1
+    run: r:latest analysis/R/data_stset.R over80s
     needs:
     - design
     - data_selection_over80s
@@ -1832,7 +1832,7 @@ actions:
         flow: output/in70s/data/flowchart.csv
 
   data_stset_in70s:
-    run: r:latest analysis/R/data_stset.R in70s 0.1
+    run: r:latest analysis/R/data_stset.R in70s
     needs:
     - design
     - data_selection_in70s
@@ -1844,7 +1844,7 @@ actions:
         pt: output/in70s/data/data_pt.rds
 
   data_samples_in70s:
-    run: r:latest analysis/R/data_samples.R in70s 0.1
+    run: r:latest analysis/R/data_samples.R in70s 0.05
     needs:
     - design
     - data_stset_in70s

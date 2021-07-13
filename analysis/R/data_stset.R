@@ -36,13 +36,11 @@ if(length(args)==0){
   removeobs <- FALSE
   sample_size <- 10000
   cohort <- "over80s"
-  sample_nonoutcomeprop <- 0.1
 
 } else{
   removeobs <- TRUE
   sample_size <- 200000
   cohort <- args[[1]]
-  sample_nonoutcomeprop <- as.numeric(args[[2]])
 }
 
 # Import processed data ----

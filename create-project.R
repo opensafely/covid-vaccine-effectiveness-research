@@ -59,7 +59,7 @@ convert_comment_actions(as.yaml(splice(a="c", b="'c'", comment("fff"))))
 
 ## actions that extract and process data ----
 
-actions_process <- function(cohort){
+actions_process <- function(cohort, sample_proc){
   splice(
 
 
@@ -124,7 +124,7 @@ actions_process <- function(cohort){
     action(
       name = glue("data_stset_{cohort}"),
       run = "r:latest analysis/R/data_stset.R",
-      arguments = c(cohort, "0.1"),
+      arguments = c(cohort),
       needs = list("design", glue("data_selection_{cohort}"), glue("data_process_long_{cohort}")),
       highly_sensitive = list(
         fixed = glue("output/{cohort}/data/data_fixed.rds"),
@@ -137,7 +137,7 @@ actions_process <- function(cohort){
     action(
       name = glue("data_samples_{cohort}"),
       run = "r:latest analysis/R/data_samples.R",
-      arguments = c(cohort, "0.1"),
+      arguments = c(cohort, sample_proc),
       needs = list("design", glue("data_stset_{cohort}")),
       highly_sensitive = list(
         data = glue("output/{cohort}/data/data_samples.rds")
@@ -400,7 +400,7 @@ actions_list <- splice(
 
   comment("####################################", "over80s", "####################################"),
 
-  actions_process("over80s"),
+  actions_process("over80s", "0.1"),
   actions_descriptive("over80s"),
 
   comment("####################################", "All", "####################################"),
@@ -455,7 +455,7 @@ actions_list <- splice(
   ## 70-79s
   comment("####################################", "in70s", "####################################"),
 
-  actions_process("in70s"),
+  actions_process("in70s", "0.05"),
   actions_descriptive("in70s"),
 
   comment("####################################", "all", "####################################"),
