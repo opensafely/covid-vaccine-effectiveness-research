@@ -158,7 +158,7 @@ msmmod_effect_data <- estimates %>%
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
   geom_hline(aes(yintercept=1), colour='grey')+
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5))+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.5)+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
   scale_y_log10(
@@ -206,7 +206,7 @@ ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png
 msmmod_effect_free <-
   ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
   geom_hline(aes(yintercept=1), colour='grey')+
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5))+
+  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.5)+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
   facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
   scale_y_log10(
