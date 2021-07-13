@@ -41,8 +41,8 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
-  brand <- "pfizer"
-  outcome <- "postest"
+  brand <- "any"
+  outcome <- "covidadmitted"
 
 
 
@@ -123,7 +123,7 @@ data_pt <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # p
     )
   ) %>%
   mutate(
-    recentpostest = (replace_na(postest_timesince<Inf, FALSE) & exclude_recentpostest),
+    recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
     vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & !recentpostest),
     vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
     vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),

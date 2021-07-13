@@ -489,7 +489,7 @@ data_tte_pt <- tmerge(
 
     # define time since positive SGSS test
     timesince_postesttdc_pw = cut(
-      postest_timesince,
+      tstop - postesttdc_time,
       breaks=c(0, 21, 28, Inf),
       labels=c("1-21", "22-28", "29+"),
       right=TRUE
