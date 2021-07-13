@@ -47,6 +47,13 @@ if(length(args)==0){
 data_cohort <- read_rds(here("output", cohort, "data", "data_cohort.rds"))
 characteristics <- read_rds(here("output", "metadata", "baseline_characteristics.rds"))
 
+
+# import globally defined repo variables from
+gbl_vars <- jsonlite::fromJSON(
+  txt="./analysis/global-variables.json"
+)
+
+
 # Generate different data formats ----
 
 ## one-row-per-patient data ----
@@ -67,7 +74,9 @@ data_tte <- data_cohort  %>%
   transmute(
     patient_id,
 
-    start_date,
+    # since discrete dates are interpreted as the _end of_ the date, and we start follow up at the _start of_ the start date
+    # this ensures everybody has at least one discrete-time "day" event-free and vaccine-free
+    start_date = start_date - 1,
     end_date,
 
     covid_vax_1_date,
@@ -95,7 +104,8 @@ data_tte <- data_cohort  %>%
     # events are considered to occur at midnight at the end of each day.
     # The study start date is the end of 7 december 2020 / start of 8 december 2020 = tstart=0
     # The first possible vaccination date is 8 december 2020, ie between tstart=0 and tstop=1, so all patients are "unvaccinated" for at least 1 day of follow-up
-    # the first possible AZ accine date is 4 Jan 2021, ie between tstart=27 and tstop=28
+    # the first possible AZ vaccine date is 4 Jan 2021, ie between tstart=27 and tstop=28
+    # the first possible outcome date is 8 december 2020, ie between tstart=0 and tstop=1, so all patients are event-free for at least 1 day of follow-up
 
     # time to last follow up day
     tte_lastfup = tte(start_date, lastfup_date, lastfup_date),
@@ -261,9 +271,9 @@ data_tte_cp0 <- tmerge(
   data2 = data_tte,
   id = patient_id,
 
-  vaxany_atrisk = tdc(as.Date("2020-12-08")-start_date),
-  vaxpfizer_atrisk = tdc(as.Date("2020-12-08")-start_date),
-  vaxaz_atrisk = tdc(as.Date("2021-01-04")-start_date),
+  vaxany_atrisk = tdc(start_date-start_date),
+  vaxpfizer_atrisk = tdc(as.Date(gbl_vars[[glue("start_date_pfizer")]])-1-start_date),
+  vaxaz_atrisk = tdc(as.Date(gbl_vars[[glue("start_date_az")]])-1-start_date),
 
   vaxany1_status = tdc(tte_vaxany1),
   vaxany2_status = tdc(tte_vaxany2),

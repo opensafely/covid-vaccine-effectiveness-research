@@ -67,7 +67,7 @@ data_tte <- data_cohort %>%
   transmute(
     patient_id,
 
-    start_date,
+    start_date = start_date - 1,
     end_date,
 
     #composite of death, deregistration and end date
@@ -116,6 +116,10 @@ data_tte_cp <- tmerge(
   data1 = data_tte,
   data2 = data_tte,
   id = patient_id,
+
+  vaxany_atrisk = tdc(start_date-start_date),
+  vaxpfizer_atrisk = tdc(as.Date(gbl_vars[[glue("start_date_pfizer")]])-1-start_date),
+  vaxaz_atrisk = tdc(as.Date(gbl_vars[[glue("start_date_az")]])-1-start_date),
 
   vaxany1_status = tdc(tte_vaxany1),
   vaxany2_status = tdc(tte_vaxany2),
@@ -179,13 +183,13 @@ data_pt <- tmerge(
     vaxpfizer_status = vaxpfizer1_status + vaxpfizer2_status,
     vaxaz_status = vaxaz1_status + vaxaz2_status,
 
-    fup_any = (death_status==0 & dereg_status==0),
-    fup_pfizer = (death_status==0 & dereg_status==0 & vaxaz1_status==0),
-    fup_az = (death_status==0 & dereg_status==0 & vaxpfizer1_status==0 & tstart>=27),
+    fup_any = (death_status==0 & dereg_status==0 & vaxany_atrisk),
+    fup_pfizer = (death_status==0 & dereg_status==0 & vaxaz1_status==0 & vaxpfizer_atrisk),
+    fup_az = (death_status==0 & dereg_status==0 & vaxpfizer1_status==0 & vaxaz_atrisk),
     all=0
   ) %>%
   ungroup() %>%
-  # for some reason tmerge converts event indicators to numeric. So convert back to save space
+  # for some reason tmerge converts event 0/1 indicators to numeric. So convert back to integer to save space
   mutate(across(
     .cols = c("vaxany1",
               "vaxany2",
