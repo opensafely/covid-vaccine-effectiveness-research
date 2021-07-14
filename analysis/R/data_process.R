@@ -60,7 +60,11 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
   # ideally in future this will check column existence and types from metadata,
   # rather than from a cohort-extractor-generated dummy data
 
-  data_studydef_dummy <- read_feather(here("output", glue("input_{cohort}.feather")))
+  data_studydef_dummy <- read_feather(here("output", glue("input_{cohort}.feather"))) %>%
+    # because date types are not returned consistently by cohort extractor
+    mutate(across(ends_with("_date"), ~ as.Date(.))) %>%
+    # because of a bug in cohort extractor -- remove once pulled new version
+    mutate(patient_id = as.integer(patient_id))
   data_custom_dummy <- read_feather(here("output", "dummyinput.feather"))
 
   not_in_studydef <- names(data_custom_dummy)[!( names(data_custom_dummy) %in% names(data_studydef_dummy) )]
@@ -86,9 +90,9 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
   data_studydef_dummy <- data_studydef_dummy[,names(data_custom_dummy)]
 
   unmatched_types <- cbind(
-    map_chr(data_studydef_dummy, class) ,
-    map_chr(data_custom_dummy, class)
-  )[ (map_chr(data_studydef_dummy, class) != map_chr(data_custom_dummy, class)) ,] %>%
+    map_chr(data_studydef_dummy, ~paste(class(.), collapse=", ")),
+    map_chr(data_custom_dummy, ~paste(class(.), collapse=", "))
+  )[ (map_chr(data_studydef_dummy, ~paste(class(.), collapse=", ")) != map_chr(data_custom_dummy, ~paste(class(.), collapse=", ")) ), ] %>%
     as.data.frame() %>% rownames_to_column()
 
 
@@ -100,7 +104,9 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
 
   data_extract0 <- data_custom_dummy
 } else {
-  data_extract0 <- read_feather(here("output", glue("input_{cohort}.feather")))
+  data_extract0 <- read_feather(here("output", glue("input_{cohort}.feather"))) #%>%
+    #because date types are not returned consistently by cohort extractor
+    #mutate(across(ends_with("_date"),  as.Date))
 }
 
 
