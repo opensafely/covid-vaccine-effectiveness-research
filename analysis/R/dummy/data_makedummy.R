@@ -4,13 +4,13 @@ library('arrow')
 library('here')
 library('glue')
 
-source(here("analysis", "lib", "utility_functions.R"))
+source(here("lib", "utility_functions.R"))
 
 remotes::install_github("https://github.com/wjchulme/dd4d")
 library('dd4d')
 
 
-population_size <- 50000
+population_size <- 20000
 
 # import globally defined repo variables from
 gbl_vars <- jsonlite::fromJSON(
@@ -18,7 +18,7 @@ gbl_vars <- jsonlite::fromJSON(
 )
 
 
-index_date <- as.Date(gbl_vars$start_date)
+index_date <- as.Date(gbl_vars$start_date_over80s)
 start_date_pfizer <- as.Date(gbl_vars$start_date_pfizer)
 start_date_az <- as.Date(gbl_vars$start_date_az)
 start_date_moderna <- as.Date(gbl_vars$start_date_moderna)
@@ -541,10 +541,10 @@ dummydata_processed <- dummydata %>%
     covid_vax_moderna_1_day = if_else(covid_vax_moderna_1_day<pmin(Inf, covid_vax_pfizer_1_day, covid_vax_az_1_day, na.rm=TRUE), covid_vax_moderna_1_day, NA_integer_),
     covid_vax_moderna_2_day = if_else(covid_vax_moderna_1_day<pmin(Inf, covid_vax_pfizer_1_day, covid_vax_az_1_day, na.rm=TRUE), covid_vax_moderna_2_day, NA_integer_),
   ) %>%
-  #convert logical to integer as study defs output 0/1 not TRUE/FALSE
-  mutate(across(where(is.logical), ~ as.integer(.))) %>%
+  #convert logical to integer as study defs output 0/1 not TRUE/FALSE -- NO LONGER NECESSARY AS cohort extractor now returns bools
+  #mutate(across(where(is.logical), ~ as.integer(.))) %>%
   #convert integer days to dates since index date and rename vars
-  mutate(across(ends_with("_day"), ~ as.character(index_date + .))) %>%
+  mutate(across(ends_with("_day"), ~ as.Date(as.character(index_date + .)))) %>%
   rename_with(~str_replace(., "_day", "_date"), ends_with("_day"))
 
 
