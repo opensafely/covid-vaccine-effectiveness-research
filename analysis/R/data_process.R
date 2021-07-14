@@ -65,6 +65,7 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
     mutate(across(ends_with("_date"), ~ as.Date(.))) %>%
     # because of a bug in cohort extractor -- remove once pulled new version
     mutate(patient_id = as.integer(patient_id))
+
   data_custom_dummy <- read_feather(here("output", "dummyinput.feather"))
 
   not_in_studydef <- names(data_custom_dummy)[!( names(data_custom_dummy) %in% names(data_studydef_dummy) )]
@@ -104,18 +105,10 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
 
   data_extract0 <- data_custom_dummy
 } else {
-  data_extract0 <- read_feather(here("output", glue("input_{cohort}.feather"))) #%>%
+  data_extract0 <- read_feather(here("output", glue("input_{cohort}.feather"))) %>%
     #because date types are not returned consistently by cohort extractor
-    #mutate(across(ends_with("_date"),  as.Date))
+    mutate(across(ends_with("_date"),  as.Date))
 }
-
-
-#convert date-strings to dates
-data_extract <- data_extract0 %>%
-  mutate(across(
-    .cols = ends_with("_date"),
-    .fns = as.Date
-  ))
 
 
 ##  SECTION TO SORT OUT BAD DUMMY DATA ----

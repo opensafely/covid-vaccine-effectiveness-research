@@ -43,9 +43,6 @@ comment <- function(...){
 }
 
 
-as.yaml(list(a="c", b="'c'", comment("fff")))
-
-
 ## create function to convert comment "actions" in a yaml string into proper comments
 convert_comment_actions <-function(yaml.txt){
   yaml.txt %>%
