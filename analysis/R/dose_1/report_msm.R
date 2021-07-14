@@ -160,7 +160,7 @@ msmmod_effect <-
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2")+#, guide=guide_legend(reverse = TRUE))+
-  coord_cartesian(ylim=c(max(c(0.005, msmmod_effect_data$or.ul)), max(c(1, msmmod_effect_data$or.ul)))) +
+  #coord_cartesian(ylim=c(max(c(0.005, msmmod_effect_data$or.ll)), max(c(1, msmmod_effect_data$or.ul)))) +
   labs(
     y="Hazard ratio, versus no vaccination",
     x="Time since first dose",
