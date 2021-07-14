@@ -551,6 +551,7 @@ for(stratum in strata){
   ## output weight distribution file ----
   data_weights <- data_weights %>%
     mutate(
+      # recode treatment variable to remove vaccines occurring after a positive test
       timesincevax_pw = if_else(!recentpostest, timesincevax_pw, factor("pre-vax"))
     ) %>%
     select(
