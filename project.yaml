@@ -111,7 +111,7 @@ actions:
         html: output/over80s/descriptive/tables/table1.html
 
   descr_tableirr_over80s:
-    run: r:latest analysis/R/descr_tableirr.R over80s
+    run: r:latest analysis/R/descr_tableirr_lite.R over80s FALSE
     needs:
     - design
     - data_selection_over80s
@@ -119,6 +119,16 @@ actions:
       moderately_sensitive:
         html: output/over80s/descriptive/tables/table_irr.html
         csv: output/over80s/descriptive/tables/table_irr.csv
+
+  descr_tableirr_exclude_over80s:
+    run: r:latest analysis/R/descr_tableirr_lite.R over80s TRUE
+    needs:
+    - design
+    - data_selection_over80s
+    outputs:
+      moderately_sensitive:
+        html: output/over80s/descriptive/tables/table_irr_exclude_recentpostest.html
+        csv: output/over80s/descriptive/tables/table_irr_exclude_recentpostest.csv
 
   descr_events_over80s:
     run: r:latest analysis/R/descr_events.R over80s
@@ -1872,7 +1882,7 @@ actions:
         html: output/in70s/descriptive/tables/table1.html
 
   descr_tableirr_in70s:
-    run: r:latest analysis/R/descr_tableirr.R in70s
+    run: r:latest analysis/R/descr_tableirr_lite.R in70s FALSE
     needs:
     - design
     - data_selection_in70s
@@ -1880,6 +1890,16 @@ actions:
       moderately_sensitive:
         html: output/in70s/descriptive/tables/table_irr.html
         csv: output/in70s/descriptive/tables/table_irr.csv
+
+  descr_tableirr_exclude_in70s:
+    run: r:latest analysis/R/descr_tableirr_lite.R in70s TRUE
+    needs:
+    - design
+    - data_selection_in70s
+    outputs:
+      moderately_sensitive:
+        html: output/in70s/descriptive/tables/table_irr_exclude_recentpostest.html
+        csv: output/in70s/descriptive/tables/table_irr_exclude_recentpostest.csv
 
   descr_events_in70s:
     run: r:latest analysis/R/descr_events.R in70s
