@@ -91,6 +91,9 @@ formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 
+# create output directories ----
+fs::dir_create(here("output", cohort, strata_var, brand, outcome))
+
 # Import processed data ----
 
 data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
@@ -307,9 +310,6 @@ for(stratum in strata){
   cat("  \n")
   cat(stratum, "  \n")
   cat("  \n")
-
-  # create output directories ----
-  fs::dir_create(here("output", cohort, strata_var, brand, outcome))
 
 
 
