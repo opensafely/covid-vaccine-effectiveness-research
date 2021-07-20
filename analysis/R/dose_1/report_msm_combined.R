@@ -141,6 +141,20 @@ write_csv(estimates, path = here("output", cohort, strata_var, "combined", glue(
 write_csv(estimates_formatted, path = here("output", cohort, strata_var, "combined", glue("estimates_formatted_timesincevax.csv")))
 write_csv(estimates_formatted_wide, path = here("output", cohort, strata_var, "combined", glue("estimates_formatted_wide_timesincevax.csv")))
 
+
+
+formatpercent100 <- function(x,accuracy){
+  formatx <- scales::label_percent(accuracy)(x)
+
+  if(formatx==scales::label_percent(accuracy)(1)){
+    paste0(">",scales::label_percent(1)((100-accuracy)/100))
+  } else{
+    formatx
+  }
+}
+
+formatpercent100(0.996,1)
+
 # create forest plot
 msmmod_effect_data <- estimates %>%
   filter(
@@ -170,7 +184,8 @@ msmmod_effect <-
       ~(1-.),
       name="Effectiveness",
       breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
-      labels = scales::label_percent(1))
+      labels = function(x){formatpercent100(x, 1)}
+    )
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
   scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
@@ -224,7 +239,7 @@ msmmod_effect_free <-
       ~(1-exp(.)),
       name="Effectiveness",
       breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
-      labels = function(x){scales::label_percent(1)(x)}
+      labels = function(x){formatpercent100(x, 1)}
     )
   )+
   scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
