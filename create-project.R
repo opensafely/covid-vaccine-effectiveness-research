@@ -173,6 +173,17 @@ actions_descriptive <- function(cohort){
     ),
 
     action(
+      name = glue("descr_tableirrold_{cohort}"),
+      run = "r:latest analysis/R/descr_tableirr.R",
+      arguments = c(cohort, "FALSE"),
+      needs = list("design", glue("data_selection_{cohort}")),
+      moderately_sensitive = list(
+        html = glue("output/{cohort}/descriptive/tables/table_irr_old.html"),
+        csv = glue("output/{cohort}/descriptive/tables/table_irr_old.csv")
+      )
+    ),
+
+    action(
       name = glue("descr_tableirr_{cohort}"),
       run = "r:latest analysis/R/descr_tableirr_lite.R",
       arguments = c(cohort, "FALSE"),

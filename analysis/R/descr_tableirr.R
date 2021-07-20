@@ -429,7 +429,7 @@ data_summary %>%
     noncoviddeath_rr = scales::label_number(accuracy=0.01, trim=FALSE)(noncoviddeath_rr),
     death_rr = scales::label_number(accuracy=0.01, trim=FALSE)(death_rr),
   ) %>%
-write_csv(here("output", cohort, "descriptive", "tables", "table_irr.csv"))
+write_csv(here("output", cohort, "descriptive", "tables", "table_irr_old.csv"))
 
 tab_summary <- data_summary %>%
   gt(
@@ -517,7 +517,7 @@ tab_summary <- data_summary %>%
     columns = "timesincevax_pw"
   )
 
-gtsave(tab_summary, here("output", cohort, "descriptive", "tables", "table_irr.html"))
+gtsave(tab_summary, here("output", cohort, "descriptive", "tables", "table_irr_old.html"))
 
 
 ## note:
