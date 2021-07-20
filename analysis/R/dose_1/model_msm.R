@@ -101,65 +101,6 @@ data_samples <- read_rds(here("output", cohort, "data", glue("data_samples.rds")
     sample_outcome = .[[glue("sample_{outcome}")]]
   )
 
-data_pt <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
-  left_join(data_samples, by="patient_id") %>%
-  filter(
-    .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
-    lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
-    vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
-    vaxany2_status == 0, # censor at second dose
-    .[[glue("vax{brand}_atrisk")]] == 1, # select follow-up time where vax brand is being administered
-  ) %>%
-  mutate(
-    all = factor("all",levels=c("all")),
-    timesincevax_pw = timesince_cut(vaxany1_timesince, postvaxcuts, "pre-vax"),
-    outcome = .[[outcome]],
-  ) %>%
-  left_join(data_fixed, by="patient_id") %>%
-  mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
-    across(
-      where(is.logical),
-      ~.x*1L
-    )
-  ) %>%
-  mutate(
-    recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
-    vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxany_atrisk==1 & !recentpostest),
-    vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
-    vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
-    death_atrisk = (death_status==0 & lastfup_status==0),
-  ) %>%
-  mutate(
-    vax_atrisk = .[[glue("vax{brand}1_atrisk")]]
-  ) %>%
-  select(
-    "patient_id",
-    "all",
-    "tstart", "tstart",
-    "outcome",
-    "timesincevax_pw",
-    any_of(all.vars(formula_all_rhsvars)),
-    "sample_weights", "sample_outcome",
-    "recentpostest",
-    "vaxany1_atrisk",
-    "vaxpfizer1_atrisk",
-    "vaxaz1_atrisk",
-    "death_atrisk",
-    "vax_atrisk",
-    "vaxany1",
-    "vaxpfizer1",
-    "vaxaz1",
-    "vaxany1_status",
-    "vaxpfizer1_status",
-    "vaxaz1_status",
-  )
-
-
-
-### print dataset size ----
-cat(glue("data_pt data size = ", nrow(data_pt)), "\n  ")
-cat(glue("memory usage = ", format(object.size(data_pt), units="GB", standard="SI", digits=3L)), "\n  ")
-
 
 
 # function to calculate weights for treatment model ----
@@ -370,11 +311,70 @@ for(stratum in strata){
   # create output directories ----
   fs::dir_create(here("output", cohort, strata_var, brand, outcome))
 
-  # subset data
-  data_pt_sub <- data_pt %>%
+
+
+  ## read and process person-time dataset -- do this _within_ loop so that it can be deleted just before models are run, to reduce RAM use
+  data_pt_sub <- read_rds(here("output", cohort, "data", glue("data_pt.rds"))) %>% # person-time dataset (one row per patient per day)
+    left_join(data_samples, by="patient_id") %>%
+    mutate(all = factor("all",levels=c("all"))) %>%
     filter(
-      .[[strata_var]] == stratum
+      .[[glue("{outcome}_status")]] == 0, # follow up ends at (day after) occurrence of outcome, ie where status not >0
+      lastfup_status == 0, # follow up ends at (day after) occurrence of censoring event (derived from lastfup = min(end_date, death, dereg))
+      vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
+      vaxany2_status == 0, # censor at second dose
+      .[[glue("vax{brand}_atrisk")]] == 1, # select follow-up time where vax brand is being administered
+      .[[strata_var]] == stratum # select patients in current stratum
+    ) %>%
+    mutate(
+      timesincevax_pw = timesince_cut(vaxany1_timesince, postvaxcuts, "pre-vax"),
+      outcome = .[[outcome]],
+    ) %>%
+    left_join(data_fixed, by="patient_id") %>%
+    mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
+      across(
+        where(is.logical),
+        ~.x*1L
+      )
+    ) %>%
+    mutate(
+      recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
+      vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxany_atrisk==1 & !recentpostest),
+      vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
+      vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
+      death_atrisk = (death_status==0 & lastfup_status==0),
+    ) %>%
+    mutate(
+      vax_atrisk = .[[glue("vax{brand}1_atrisk")]]
+    ) %>%
+    select(
+      "patient_id",
+      "all",
+      "tstart", "tstart",
+      "outcome",
+      "timesincevax_pw",
+      any_of(all.vars(formula_all_rhsvars)),
+      "sample_weights", "sample_outcome",
+      "recentpostest",
+      "vaxany1_atrisk",
+      "vaxpfizer1_atrisk",
+      "vaxaz1_atrisk",
+      "death_atrisk",
+      "vax_atrisk",
+      "vaxany1",
+      "vaxpfizer1",
+      "vaxaz1",
+      "vaxany1_status",
+      "vaxpfizer1_status",
+      "vaxaz1_status",
     )
+
+
+
+  ### print dataset size ----
+  cat(glue("data_pt_sub data size = ", nrow(data_pt_sub)), "\n  ")
+  cat(glue("memory usage = ", format(object.size(data_pt_sub), units="GB", standard="SI", digits=3L)), "\n  ")
+
+
 
   if(brand=="any"){
 
@@ -514,6 +514,8 @@ for(stratum in strata){
     if(removeobs) rm(weights_vaxpfizer1, weights_vaxaz1, weights_death)
   }
 
+
+  if(removeobs) rm(data_pt_sub)
 
   ## report weights ----
   summarise_weights <-
