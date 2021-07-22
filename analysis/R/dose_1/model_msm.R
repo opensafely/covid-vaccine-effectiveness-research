@@ -40,7 +40,7 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  strata_var <- "all"
+  strata_var <- "any_immunosuppression"
   brand <- "any"
   outcome <- "covidadmitted"
 
@@ -323,13 +323,15 @@ for(stratum in strata){
       vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
       vaxany2_status == 0, # censor at second dose
       .[[glue("vax{brand}_atrisk")]] == 1, # select follow-up time where vax brand is being administered
+    ) %>%
+    left_join(data_fixed, by="patient_id") %>%
+    filter(
       .[[strata_var]] == stratum # select patients in current stratum
     ) %>%
     mutate(
       timesincevax_pw = timesince_cut(vaxany1_timesince, postvaxcuts, "pre-vax"),
       outcome = .[[outcome]],
     ) %>%
-    left_join(data_fixed, by="patient_id") %>%
     mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
       across(
         where(is.logical),
@@ -394,7 +396,7 @@ for(stratum in strata){
     # these could be separated out and run only once, but it complicates the remaining workflow so leaving as is
     weights_vaxpfizer1 <- get_ipw_weights(
       data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
-      sample_type="random_n", sample_amount=sample_trt_n,
+      sample_type="random_n", sample_amount=sample_trt_n, # select no more than n non-outcome samples
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
