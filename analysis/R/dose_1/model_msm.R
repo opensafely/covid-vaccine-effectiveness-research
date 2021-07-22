@@ -56,6 +56,8 @@ if(length(args)==0){
 
 sample_trt_prop <-0.1
 sample_trt_n <- 50000
+sample_nonoutcome_prop <- 0.1
+sample_nonoutcome_n <- 50000
 
 ### define parglm optimisation parameters ----
 
@@ -97,12 +99,12 @@ fs::dir_create(here("output", cohort, strata_var, brand, outcome))
 # Import processed data ----
 
 data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
-data_samples <- read_rds(here("output", cohort, "data", glue("data_samples.rds"))) %>%
-  transmute(
-    patient_id,
-    sample_weights = .[[glue("sample_weights_{outcome}")]],
-    sample_outcome = .[[glue("sample_{outcome}")]]
-  )
+# data_samples <- read_rds(here("output", cohort, "data", glue("data_samples.rds"))) %>%
+#   transmute(
+#     patient_id,
+#     sample_weights = .[[glue("sample_weights_{outcome}")]],
+#     sample_outcome = .[[glue("sample_{outcome}")]]
+#   )
 
 
 
@@ -311,6 +313,21 @@ for(stratum in strata){
   cat(stratum, "  \n")
   cat("  \n")
 
+
+  data_samples <- read_rds(here("output", cohort, "data", "data_tte.rds")) %>%
+    left_join(data_fixed, by="patient_id") %>%
+    mutate(
+      all = factor("all",levels=c("all")),
+      tte_outcome = .[[glue("tte_{outcome}")]]
+      ) %>%
+    filter(
+      .[[strata_var]] == stratum # select patients in current stratum
+    ) %>%
+    transmute(
+      patient_id,
+      sample_outcome = sample_nonoutcomes_n(!is.na(tte_outcome), patient_id, sample_nonoutcome_n),
+      sample_weights = sample_weights(!is.na(tte_outcome), sample_outcome),
+    )
 
 
   ## read and process person-time dataset -- do this _within_ loop so that it can be deleted just before models are run, to reduce RAM use
