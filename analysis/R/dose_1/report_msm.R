@@ -133,7 +133,6 @@ summary_df <- summary_list %>% bind_rows %>%
   )
 
 write_csv(summary_df, path = here("output", cohort, strata_var, brand, outcome, glue("estimates.csv")))
-write_csv(summary_df %>% filter(str_detect(term, "timesincevax")), path = here("output", cohort, strata_var, brand, outcome, glue("estimates_timesincevax.csv")))
 
 # create plot
 msmmod_effect_data <- summary_df %>%
@@ -145,8 +144,19 @@ msmmod_effect_data <- summary_df %>%
     term_right = as.numeric(str_extract(term, "\\d+$")),
     term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
     term_midpoint = term_left + (term_right-term_left)/2,
+  ) %>%
+  group_by(model, term) %>%
+  mutate(
+    # conduct z test for difference in effects between strata
+    diff = estimate - first(estimate),
+    std.diff = if_else(row_number()!=1, sqrt((std.error^2) + (first(std.error))^2), NA_real_),
+    z = diff/std.diff,
+    z.low = z + qnorm(0.025)*std.diff,
+    z.high = z + qnorm(0.975)*std.diff,
+    z.p.value = 2 * pmin(pnorm(z), pnorm(-z))
   )
 
+write_csv(msmmod_effect_data, path = here("output", cohort, strata_var, brand, outcome, glue("estimates_timesincevax.csv")))
 
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=as.factor(strata))) +
