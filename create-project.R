@@ -51,8 +51,6 @@ convert_comment_actions <-function(yaml.txt){
     str_replace_all("([^\\'])\\\n(\\s*)\\#\\#", "\\1\n\n\\2\\#\\#") %>%
     str_replace_all("\\#\\#\\'\\\n", "\n")
 }
-as.yaml(splice(a="c", b="'c'", comment("fff")))
-convert_comment_actions(as.yaml(splice(a="c", b="'c'", comment("fff"))))
 
 ## actions that extract and process data ----
 
@@ -217,31 +215,31 @@ actions_descriptive <- function(cohort){
         plots = glue("output/{cohort}/descriptive/plots/*.svg"),
         tables = glue("output/{cohort}/descriptive/tables/*.csv")
       )
-    )#,
+    )
 
-
-    # action(
-    #   name = glue("descr_preflight_{cohort}"),
-    #   run = "r:latest analysis/R/preflight.R",
-    #   arguments = c(cohort, "all", "0.1"),
-    #   needs = list("design", glue("data_stset_{cohort}")),
-    #   moderately_sensitive = list(
-    #     html = glue("output/{cohort}/descriptive/model-checks/*/*.html"),
-    #     csv = glue("output/{cohort}/descriptive/model-checks/*/*.csv")
-    #   )
-    # )
   )
 }
 
 
-
-
+preflight_checks <- function(
+  cohort, strata
+){
+  action(
+    name = glue("descr_preflight_{cohort}_{strata}"),
+    run = "r:latest analysis/R/preflight.R",
+    arguments = c(cohort, strata, "0.1"),
+    needs = list("design", glue("data_stset_{cohort}")),
+    moderately_sensitive = list(
+      html = glue("output/{cohort}/descriptive/model-checks/{strata}/*.html"),
+      csv = glue("output/{cohort}/descriptive/model-checks/{strata}/*.csv")
+    )
+  )
+}
 
 ## actions that run the models ----
 actions_models <- function(
   cohort, strata, brand, outcome
 ){
-
 
   splice(
     action(
@@ -424,6 +422,8 @@ actions_list <- splice(
 
   comment("####################################", "All", "####################################"),
 
+  preflight_checks("over80s", "all"),
+
   actions_models("over80s", "all", "any",    "postest"),
   actions_models("over80s", "all", "pfizer", "postest"),
   actions_models("over80s", "all", "az",     "postest"),
@@ -448,6 +448,8 @@ actions_list <- splice(
 
 
   comment("####################################", "Immunosuppressed", "####################################"),
+
+  preflight_checks("over80s", "any_immunosuppression"),
 
   actions_models("over80s", "any_immunosuppression", "any",    "postest"),
   actions_models("over80s", "any_immunosuppression", "pfizer", "postest"),
@@ -478,6 +480,8 @@ actions_list <- splice(
   actions_descriptive("in70s"),
 
   comment("####################################", "all", "####################################"),
+
+  preflight_checks("in70s", "all"),
 
   actions_models("in70s", "all", "any",    "postest"),
   actions_models("in70s", "all", "pfizer", "postest"),

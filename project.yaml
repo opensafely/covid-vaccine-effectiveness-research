@@ -156,6 +156,16 @@ actions:
   ## All 
   ## #################################### 
 
+  descr_preflight_over80s_all:
+    run: r:latest analysis/R/preflight.R over80s all 0.1
+    needs:
+    - design
+    - data_stset_over80s
+    outputs:
+      moderately_sensitive:
+        html: output/over80s/descriptive/model-checks/all/*.html
+        csv: output/over80s/descriptive/model-checks/all/*.csv
+
   model_over80s_all_any_postest:
     run: r:latest analysis/R/dose_1/model_msm.R over80s all any postest
     needs:
@@ -950,6 +960,16 @@ actions:
   ## #################################### 
   ## Immunosuppressed 
   ## #################################### 
+
+  descr_preflight_over80s_any_immunosuppression:
+    run: r:latest analysis/R/preflight.R over80s any_immunosuppression 0.1
+    needs:
+    - design
+    - data_stset_over80s
+    outputs:
+      moderately_sensitive:
+        html: output/over80s/descriptive/model-checks/any_immunosuppression/*.html
+        csv: output/over80s/descriptive/model-checks/any_immunosuppression/*.csv
 
   model_over80s_any_immunosuppression_any_postest:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
@@ -1936,6 +1956,16 @@ actions:
   ## #################################### 
   ## all 
   ## #################################### 
+
+  descr_preflight_in70s_all:
+    run: r:latest analysis/R/preflight.R in70s all 0.1
+    needs:
+    - design
+    - data_stset_in70s
+    outputs:
+      moderately_sensitive:
+        html: output/in70s/descriptive/model-checks/all/*.html
+        csv: output/in70s/descriptive/model-checks/all/*.csv
 
   model_in70s_all_any_postest:
     run: r:latest analysis/R/dose_1/model_msm.R in70s all any postest

@@ -244,7 +244,7 @@ tidy_custom.glm  <- function(model, conf.int=TRUE, conf.level=0.95, exponentiate
 # functions for sampling ----
 
 # function to sample non-outcome patients
-sample_nonoutcomes <- function(had_outcome, id, proportion){
+sample_nonoutcomes_prop <- function(had_outcome, id, proportion){
   # TRUE if outcome occurs,
   # TRUE with probability of `prop` if outcome does not occur
   # FALSE with probability `prop` if outcome does occur
@@ -282,7 +282,7 @@ sample_nonoutcomes_n <- function(had_outcome, id, n){
 
 
 
-sample_random <- function(id, proportion){
+sample_random_prop <- function(id, proportion){
   # TRUE with probability of `prop`
   # FALSE with probability `prop`
   # based on `id` to ensure consistency of samples
