@@ -103,9 +103,9 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations")){
     apply(unmatched_types, 1, function(row) paste(paste(row, collapse=" : "), "\n"))
   )
 
-  data_extract0 <- data_custom_dummy
+  data_extract <- data_custom_dummy
 } else {
-  data_extract0 <- read_feather(here("output", glue("input_{cohort}.feather"))) %>%
+  data_extract <- read_feather(here("output", glue("input_{cohort}.feather"))) %>%
     #because date types are not returned consistently by cohort extractor
     mutate(across(ends_with("_date"),  as.Date))
 }
