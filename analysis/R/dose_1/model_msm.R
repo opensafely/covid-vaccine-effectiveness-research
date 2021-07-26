@@ -40,24 +40,21 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  strata_var <- "any_immunosuppression"
+  strata_var <- "all"
   brand <- "any"
-  outcome <- "covidadmitted"
-
-
-
+  outcome <- "postest"
+  ipw_sample_random_n <- 20000 # vax models use less follow up time because median time to vaccination (=outcome) is ~ 30 days
+  msm_sample_nonoutcomes_n <- 5000 # outcome models use more follow up time because longer to outcome, and much fewer outcomes than vaccinations
 } else {
   removeobs <- TRUE
   cohort <- args[[1]]
   strata_var <- args[[2]]
   brand <- args[[3]]
   outcome <- args[[4]]
+  ipw_sample_random_n <- as.integer(args[[5]])
+  msm_sample_nonoutcomes_n <- as.integer(args[[6]])
 }
 
-sample_trt_prop <-0.1
-sample_trt_n <- 50000
-sample_nonoutcome_prop <- 0.1
-sample_nonoutcome_n <- 50000
 
 ### define parglm optimisation parameters ----
 
@@ -96,15 +93,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 # create output directories ----
 fs::dir_create(here("output", cohort, strata_var, brand, outcome))
 
-# Import processed data ----
 
-data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
-# data_samples <- read_rds(here("output", cohort, "data", glue("data_samples.rds"))) %>%
-#   transmute(
-#     patient_id,
-#     sample_weights = .[[glue("sample_weights_{outcome}")]],
-#     sample_outcome = .[[glue("sample_{outcome}")]]
-#   )
 
 
 
@@ -127,7 +116,7 @@ get_ipw_weights <- function(
   stratum
 ){
 
-  stopifnot(sample_type %in% c("random_prop", "random_n", "event"))
+  stopifnot(sample_type %in% c("random_prop", "random_n", "nonoutcomes_n"))
 
   name <- str_remove(event_atrisk, "_atrisk")
 
@@ -139,7 +128,7 @@ get_ipw_weights <- function(
     ) %>%
     filter(event_atrisk)
 
-  if(sample_type=="event"){
+  if(sample_type=="nonoutcomes_prop"){
     data_sample <- data_atrisk %>%
       group_by(patient_id) %>%
       summarise(
@@ -148,7 +137,21 @@ get_ipw_weights <- function(
       ungroup() %>%
       transmute(
         patient_id,
-        sample_event = sample_nonoutcomes(had_event, patient_id, sample_amount),
+        sample_event = sample_nonoutcomes_prop(had_event, patient_id, sample_amount),
+        sample_weights_event = sample_weights(had_event, sample_event),
+      )
+  }
+
+  if(sample_type=="nonoutcomes_n"){
+    data_sample <- data_atrisk %>%
+      group_by(patient_id) %>%
+      summarise(
+        had_event = any(event>0)
+      ) %>%
+      ungroup() %>%
+      transmute(
+        patient_id,
+        sample_event = sample_nonoutcomes_n(had_event, patient_id, sample_amount),
         sample_weights_event = sample_weights(had_event, sample_event),
       )
   }
@@ -160,7 +163,7 @@ get_ipw_weights <- function(
       ungroup() %>%
       transmute(
         patient_id,
-        sample_event = sample_random(patient_id, sample_amount),
+        sample_event = sample_random_prop(patient_id, sample_amount),
         sample_weights_event = sample_event*1L,
       )
   }
@@ -313,6 +316,8 @@ for(stratum in strata){
   cat(stratum, "  \n")
   cat("  \n")
 
+  # Import processed data ----
+  data_fixed <- read_rds(here("output", cohort, "data", glue("data_fixed.rds")))
 
   data_samples <- read_rds(here("output", cohort, "data", "data_tte.rds")) %>%
     left_join(data_fixed, by="patient_id") %>%
@@ -325,7 +330,7 @@ for(stratum in strata){
     ) %>%
     transmute(
       patient_id,
-      sample_outcome = sample_nonoutcomes_n(!is.na(tte_outcome), patient_id, sample_nonoutcome_n),
+      sample_outcome = sample_nonoutcomes_n(!is.na(tte_outcome), patient_id, msm_sample_nonoutcomes_n),
       sample_weights = sample_weights(!is.na(tte_outcome), sample_outcome),
     )
 
@@ -387,10 +392,12 @@ for(stratum in strata){
       "vaxaz1_status",
     )
 
+  if(removeobs) rm(data_samples, data_fixed)
 
 
   ### print dataset size ----
   cat(glue("data_pt_sub data size = ", nrow(data_pt_sub)), "\n  ")
+  cat(glue("data_pt_sub patient size = ", n_distinct(data_pt_sub$patient_id)), "\n  ")
   cat(glue("memory usage = ", format(object.size(data_pt_sub), units="GB", standard="SI", digits=3L)), "\n  ")
 
 
@@ -400,7 +407,7 @@ for(stratum in strata){
     # IPW model for any vaccination ----
     weights_vaxany1 <- get_ipw_weights(
       data_pt_sub, "vaxany1", "vaxany1_status", "vaxany1_atrisk",
-      sample_type="random_n", sample_amount=sample_trt_n,
+      sample_type="random_n", sample_amount=ipw_sample_random_n,
       ipw_formula =     update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxany1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -413,14 +420,14 @@ for(stratum in strata){
     # these could be separated out and run only once, but it complicates the remaining workflow so leaving as is
     weights_vaxpfizer1 <- get_ipw_weights(
       data_pt_sub, "vaxpfizer1", "vaxpfizer1_status", "vaxpfizer1_atrisk",
-      sample_type="random_n", sample_amount=sample_trt_n, # select no more than n non-outcome samples
+      sample_type="random_n", sample_amount=ipw_sample_random_n, # select no more than n non-outcome samples
       ipw_formula =     update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxpfizer1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
     )
     weights_vaxaz1 <- get_ipw_weights(
       data_pt_sub, "vaxaz1", "vaxaz1_status", "vaxaz1_atrisk",
-      sample_type="random_n", sample_amount=sample_trt_n,
+      sample_type="random_n", sample_amount=random_n,
       ipw_formula =     update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -433,7 +440,7 @@ for(stratum in strata){
   if(!(outcome %in% c("death", "coviddeath", "noncoviddeath")) & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "death", "death_status", "death_atrisk",
-      sample_type="event", sample_amount=sample_trt_prop,
+      sample_type="nonoutcomes_n", sample_amount=ipw_sample_random_n,
       ipw_formula =     update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(death ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -443,7 +450,7 @@ for(stratum in strata){
   if(outcome=="coviddeath" & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "noncoviddeath", "noncoviddeath_status", "death_atrisk",
-      sample_type="event", sample_amount=sample_trt_prop,
+      sample_type="nonoutcomes_n", sample_amount=msm_sample_nonoutcomes_n,
       ipw_formula =     update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(noncoviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -453,7 +460,7 @@ for(stratum in strata){
   if(outcome=="noncoviddeath" & reweight_death){
     weights_death <- get_ipw_weights(
       data_pt_sub, "coviddeath", "coviddeath_status", "death_atrisk",
-      sample_type="event", sample_amount=sample_trt_prop,
+      sample_type="nonoutcomes_n", sample_amount=msm_sample_nonoutcomes_n,
       ipw_formula =     update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(coviddeath ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_exposure) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
@@ -737,6 +744,7 @@ for(stratum in strata){
     write_csv(path=here("output", cohort, strata_var, brand, outcome, glue("summary_substantive_{stratum}.csv")))
 
 
+  if(removeobs) rm(data_weights)
 }
 
 

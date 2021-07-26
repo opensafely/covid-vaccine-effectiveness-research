@@ -34,11 +34,13 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
-  sample_nonoutcomeprop <- 0.1 # not currently used
+  ipw_sample_random_n <- 200000 # vax models use less follow up time because median time to vaccination (=outcome) is ~ 30 days
+  msm_sample_nonoutcomes_n <- 50000 # outcome models use more follow up time because longer to outcome, and much fewer outcomes than vaccinations
 } else {
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  sample_nonoutcomeprop <- as.numeric(args[[3]])
+  ipw_sample_random_n <- as.integer(args[[3]])
+  msm_sample_nonoutcomes_n <- as.integer(args[[4]])
   removeobs <- TRUE
 }
 
@@ -116,11 +118,6 @@ septab <- function(data, formula, stratum, brand, outcome, name){
     )
 }
 
-
-random_prop <-0.1
-random_n <- 200000 # vax models use less follow up time because median time to vaccination (=outcome) is ~ 30 days
-nonoutcomes_prop <- 0.1
-nonoutcomes_n <- 50000 # outcome models use more follow up time because longer to outcome, and much fewer outcomes than vaccinations
 
 
 outcomes <- c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")
@@ -239,7 +236,7 @@ for(stratum in strata){
         ungroup() %>%
           transmute(
             patient_id,
-            sample = sample_random_n(patient_id, random_n)
+            sample = sample_random_n(patient_id, ipw_sample_random_n)
           )
 
       data_pt_vax_sample <- data_pt_vax %>%
@@ -286,7 +283,8 @@ for(stratum in strata){
         ungroup() %>%
         transmute(
           patient_id,
-          sample = sample_random_n(patient_id, random_n)
+          sample = sample_nonoutcomes_n(had_death, patient_id, ipw_sample_random_n),
+          sample_weights_death = sample_weights(had_death, sample) # not used in this script
         )
 
       data_pt_death_sample <- data_pt_death %>%
@@ -327,8 +325,8 @@ for(stratum in strata){
         ungroup() %>%
         transmute(
           patient_id,
-          sample = sample_nonoutcomes_n(had_outcome, patient_id, nonoutcomes_n),
-          sample_weights = sample_weights(had_outcome, sample)
+          sample = sample_nonoutcomes_n(had_outcome, patient_id, msm_sample_nonoutcomes_n),
+          sample_weights = sample_weights(had_outcome, sample) # not used in this script
         )
 
       data_pt_outcome_sample <- data_pt %>%
@@ -350,11 +348,13 @@ for(stratum in strata){
           rate_noncoviddeath = noncoviddeath/patients,
           rate_death = death/patients,
           rate_dereg = dereg/patients,
+          rate_outcome = outcome/patients,
 
           incidencerate_coviddeath = coviddeath/obs,
           incidencerate_noncoviddeath = noncoviddeath/obs,
           incidencerate_death = death/obs,
           incidencerate_dereg = dereg/obs,
+          incidencerate_outcome = outcome/obs
 
         ) %>%
         write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, glue("summary_{stratum}_{brand}_{outcome}_outcomes.csv")))
