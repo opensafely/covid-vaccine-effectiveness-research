@@ -13,7 +13,7 @@ actions:
         metadata: output/metadata/metadata*
         chars: output/metadata/baseline_characteristics.rds
         formula: output/metadata/list_formula.rds
-        strata: output/metadata/list_strata.rds
+        strata: output/metadata/list_strata*.rds
         reweight: output/metadata/reweight_death.rds
         exclude_recentpostest: output/metadata/exclude_recentpostest.rds
 
@@ -171,7 +171,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/any/postest/model*.rds
@@ -220,7 +219,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/pfizer/postest/model*.rds
@@ -269,7 +267,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/az/postest/model*.rds
@@ -318,7 +315,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/any/covidadmitted/model*.rds
@@ -367,7 +363,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/pfizer/covidadmitted/model*.rds
@@ -416,7 +411,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/az/covidadmitted/model*.rds
@@ -465,7 +459,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/any/coviddeath/model*.rds
@@ -514,7 +507,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/pfizer/coviddeath/model*.rds
@@ -563,7 +555,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/az/coviddeath/model*.rds
@@ -612,7 +603,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/any/noncoviddeath/model*.rds
@@ -661,7 +651,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/pfizer/noncoviddeath/model*.rds
@@ -710,7 +699,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/az/noncoviddeath/model*.rds
@@ -759,7 +747,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/any/death/model*.rds
@@ -808,7 +795,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/pfizer/death/model*.rds
@@ -857,7 +843,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/all/az/death/model*.rds
@@ -977,7 +962,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/any/postest/model*.rds
@@ -1030,7 +1014,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/pfizer/postest/model*.rds
@@ -1082,7 +1065,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/az/postest/model*.rds
@@ -1135,7 +1117,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/any/covidadmitted/model*.rds
@@ -1188,7 +1169,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/pfizer/covidadmitted/model*.rds
@@ -1240,7 +1220,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/az/covidadmitted/model*.rds
@@ -1293,7 +1272,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/any/coviddeath/model*.rds
@@ -1346,7 +1324,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/pfizer/coviddeath/model*.rds
@@ -1398,7 +1375,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/az/coviddeath/model*.rds
@@ -1451,7 +1427,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/any/noncoviddeath/model*.rds
@@ -1504,7 +1479,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/pfizer/noncoviddeath/model*.rds
@@ -1556,7 +1530,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/az/noncoviddeath/model*.rds
@@ -1609,7 +1582,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/any/death/model*.rds
@@ -1662,7 +1634,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/pfizer/death/model*.rds
@@ -1714,7 +1685,6 @@ actions:
     needs:
     - design
     - data_stset_over80s
-    - data_samples_over80s
     outputs:
       highly_sensitive:
         models: output/over80s/any_immunosuppression/az/death/model*.rds
@@ -1972,7 +1942,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/any/postest/model*.rds
@@ -2021,7 +1990,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/pfizer/postest/model*.rds
@@ -2070,7 +2038,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/az/postest/model*.rds
@@ -2119,7 +2086,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/any/covidadmitted/model*.rds
@@ -2168,7 +2134,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/pfizer/covidadmitted/model*.rds
@@ -2217,7 +2182,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/az/covidadmitted/model*.rds
@@ -2266,7 +2230,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/any/coviddeath/model*.rds
@@ -2315,7 +2278,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/pfizer/coviddeath/model*.rds
@@ -2364,7 +2326,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/az/coviddeath/model*.rds
@@ -2413,7 +2374,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/any/noncoviddeath/model*.rds
@@ -2462,7 +2422,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/pfizer/noncoviddeath/model*.rds
@@ -2511,7 +2470,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/az/noncoviddeath/model*.rds
@@ -2560,7 +2518,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/any/death/model*.rds
@@ -2609,7 +2566,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/pfizer/death/model*.rds
@@ -2658,7 +2614,6 @@ actions:
     needs:
     - design
     - data_stset_in70s
-    - data_samples_in70s
     outputs:
       highly_sensitive:
         models: output/in70s/all/az/death/model*.rds

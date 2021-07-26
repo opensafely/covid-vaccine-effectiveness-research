@@ -40,7 +40,7 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  strata_var <- "all"
+  strata_var <- "any_immunosuppression"
 } else{
   removeobs <- TRUE
   cohort <- args[[1]]
@@ -65,8 +65,9 @@ fs::dir_create(here("output", cohort, strata_var, "combined"))
 ##  Create big loop over all categories
 
 strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
-summary_list <- vector("list", length(strata))
-names(summary_list) <- strata
+strata_descr <- read_rds(here("output", "metadata", "list_strata_descr.rds"))[[strata_var]]
+summary_list <- vector("list", length(strata_descr))
+names(summary_list) <- strata_descr
 
 # import models ----
 
@@ -81,24 +82,14 @@ estimates <-
   )) %>%
   mutate(
     outcome = fct_inorder(outcome),
-    #outcome_descr = fct_inorder(stringi::stri_wrap(outcome_descr, width=12L, whitespace_only = TRUE)),
     outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=14, simplify=TRUE, whitespace_only=TRUE), collapse="\n")))
   ) %>%
   crossing(
     tibble(
-      brand = c("any", "pfizer", "az"),
-      brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
-    ) %>%
-    mutate(
-      brand = fct_inorder(brand),
-      brand_descr = fct_inorder(brand_descr)
+      brand = fct_inorder(c("any", "pfizer", "az")),
+      brand_descr = fct_inorder(c("Any vaccine", "BNT162b2", "ChAdOx1"))
     )
   ) %>%
-  add_column(
-    stratum = list(strata),
-    .before=1
-  ) %>%
-  unnest(stratum) %>% arrange(stratum) %>%
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
@@ -115,7 +106,7 @@ estimates_formatted <- estimates %>%
   transmute(
     outcome_descr,
     brand_descr,
-    strata,
+    stratum,
     model,
     model_descr,
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
@@ -126,12 +117,16 @@ estimates_formatted <- estimates %>%
 
     HR_ECI = paste0(HR, " ", HR_CI),
     VE_ECI = paste0(VE, " ", VE_CI),
+
+    diff = scales::label_number(accuracy = .01, trim=TRUE)(diff),
+    diff_CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(diff.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(diff.ul), ")"),
+    diff_ECI = paste0(diff, " ", diff_CI),
   )
 
 estimates_formatted_wide <- estimates_formatted %>%
-  select(outcome_descr, brand_descr, strata, model, term, HR_ECI, VE_ECI) %>%
+  select(outcome_descr, brand_descr, stratum, model, term, HR_ECI, VE_ECI) %>%
   pivot_wider(
-    id_cols=c(outcome_descr, brand_descr, term, strata),
+    id_cols=c(outcome_descr, brand_descr, term, stratum),
     names_from = model,
     values_from = c(HR_ECI, VE_ECI),
     names_glue = "{model}_{.value}"
@@ -146,14 +141,14 @@ write_csv(estimates_formatted_wide, path = here("output", cohort, strata_var, "c
 formatpercent100 <- function(x,accuracy){
   formatx <- scales::label_percent(accuracy)(x)
 
-  if(formatx==scales::label_percent(accuracy)(1)){
-    paste0(">",scales::label_percent(1)((100-accuracy)/100))
-  } else{
+  if_else(
+    formatx==scales::label_percent(accuracy)(1),
+    paste0(">",scales::label_percent(1)((100-accuracy)/100)),
     formatx
-  }
+  )
 }
 
-formatpercent100(0.996,1)
+
 
 # create forest plot
 msmmod_effect_data <- estimates %>%
@@ -167,114 +162,229 @@ msmmod_effect_data <- estimates %>%
     term_right = as.numeric(str_extract(term, "\\d+$")),
     term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
     term_midpoint = term_left + (term_right-term_left)/2,
-    strata = if_else(strata=="all", "", strata)
+    #stratum = if_else(stratum=="all", "", stratum)
   )
 
-msmmod_effect <-
-  ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
-  geom_hline(aes(yintercept=1), colour='grey')+
-  geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
-  geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
-  facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
-  scale_y_log10(
-    breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
-    limits = c(0.009, max(c(1, msmmod_effect_data$or.ul))),
-    oob = scales::oob_keep,
-    sec.axis = sec_axis(
-      ~(1-.),
-      name="Effectiveness",
-      breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
-      labels = function(x){formatpercent100(x, 1)}
+if(strata_var=="all"){
+
+  msmmod_effect_data_plot <- msmmod_effect_data %>%
+    filter(
+      or !=Inf, or !=0
     )
-  )+
-  scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
-  scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  coord_cartesian() +
-  labs(
-    y="Hazard ratio, versus no vaccination",
-    x="Days since first dose",
-    colour=NULL#,
-    #title=glue("Outcomes by time since first {brand} vaccine"),
-    #subtitle=cohort_descr
-  ) +
-  theme_bw(base_size=12)+
-  theme(
-    panel.border = element_blank(),
-    axis.line.y = element_line(colour = "black"),
 
-    panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    strip.background = element_blank(),
-    strip.placement = "outside",
-    #strip.text.y.left = element_text(angle = 0),
+  msmmod_effect <-
+    ggplot(data = msmmod_effect_data_plot, aes(colour=model_descr)) +
+    geom_hline(aes(yintercept=1), colour='grey')+
+    geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
+    geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
+    scale_y_log10(
+      breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+      limits = c(0.009, max(c(1, msmmod_effect_data_plot$or.ul))),
+      oob = scales::oob_keep,
+      sec.axis = sec_axis(
+        ~(1-.),
+        name="Effectiveness",
+        breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left))+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    coord_cartesian() +
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL#,
+      #title=glue("Outcomes by time since first {brand} vaccine"),
+      #subtitle=cohort_descr
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+      axis.line.y = element_line(colour = "black"),
 
-    panel.spacing = unit(1, "lines"),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
 
-    plot.title = element_text(hjust = 0),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0, face= "italic"),
+      panel.spacing = unit(1, "lines"),
 
-    legend.position = "bottom"
-  )
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
 
-## save plot
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
-
-
-log(scales::breaks_log(n=6, base=10)(c(min((msmmod_effect_data$or.ll)), max((msmmod_effect_data$or.ul)))))
-
-
-msmmod_effect_free <-
-  ggplot(data = msmmod_effect_data, aes(colour=model_descr)) +
-  geom_hline(aes(yintercept=0), colour='grey')+
-  geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
-  geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
-  facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
-  scale_y_continuous(
-    labels = function(x){scales::label_number(0.001)(exp(x))},
-    breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
-    sec.axis = sec_axis(
-      ~(1-exp(.)),
-      name="Effectiveness",
-      breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
-      labels = function(x){formatpercent100(x, 1)}
+      legend.position = "bottom"
     )
-  )+
-  scale_x_continuous(breaks=unique(msmmod_effect_data$term_left))+
-  scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
-  labs(
-    y="Hazard ratio, versus no vaccination",
-    x="Days since first dose",
-    colour=NULL#,
-    #title=glue("Outcomes by time since first {brand} vaccine"),
-    #subtitle=cohort_descr
-  ) +
-  theme_bw(base_size=12)+
-  theme(
-    panel.border = element_blank(),
-    axis.line.y = element_line(colour = "black"),
 
-    panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    strip.background = element_blank(),
-    strip.placement = "outside",
-    #strip.text.y.left = element_text(angle = 0),
-
-    panel.spacing = unit(1, "lines"),
-
-    plot.title = element_text(hjust = 0),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0, face= "italic"),
-
-    legend.position = "bottom"
-  )
-msmmod_effect_free
-
-## save plot
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
+  ## save plot
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 
 
+  msmmod_effect_free <-
+    ggplot(data = msmmod_effect_data_plot, aes(colour=model_descr)) +
+    geom_hline(aes(yintercept=0), colour='grey')+
+    geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
+    geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
+    scale_y_continuous(
+      labels = function(x){scales::label_number(0.001)(exp(x))},
+      breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
+      sec.axis = sec_axis(
+        ~(1-exp(.)),
+        name="Effectiveness",
+        breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left))+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL#,
+      #title=glue("Outcomes by time since first {brand} vaccine"),
+      #subtitle=cohort_descr
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+      axis.line.y = element_line(colour = "black"),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+  msmmod_effect_free
+
+  ## save plot
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
+
+}
+
+if(strata_var!="all"){
+
+  msmmod_effect_data_plot <- msmmod_effect_data %>%
+    filter(
+      model==max(model),
+      or !=Inf, or !=0
+    )
+
+  msmmod_effect <-
+    ggplot(data = msmmod_effect_data_plot, aes(colour=stratum)) +
+    geom_hline(aes(yintercept=1), colour='grey')+
+    geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
+    geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
+    scale_y_log10(
+      breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+      limits = c(0.009, max(c(1, msmmod_effect_data_plot$or.ul))),
+      oob = scales::oob_keep,
+      sec.axis = sec_axis(
+        ~(1-.),
+        name="Effectiveness",
+        breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left))+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    coord_cartesian() +
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+      axis.line.y = element_line(colour = "black"),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+
+  ## save plot
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
+
+
+  msmmod_effect_free <-
+    ggplot(data = msmmod_effect_data_plot, aes(colour=stratum)) +
+    geom_hline(aes(yintercept=0), colour='grey')+
+    geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
+    geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
+    scale_y_continuous(
+      labels = function(x){scales::label_number(0.001)(exp(x))},
+      breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
+      sec.axis = sec_axis(
+        ~(1-exp(.)),
+        name="Effectiveness",
+        breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left))+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose"
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+      axis.line.y = element_line(colour = "black"),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+  msmmod_effect_free
+
+  ## save plot
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
+
+
+
+}

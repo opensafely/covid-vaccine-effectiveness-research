@@ -199,3 +199,9 @@ list_strata <- list(
 
 write_rds(list_strata, here("output", "metadata", glue("list_strata.rds")))
 
+list_strata_descr <- list(
+  all = factor(""),
+  sex = factor(c("Female", "Male")),
+  any_immunosuppression = c("Not immunocompromised", "Immunocompromised")
+)
+write_rds(list_strata_descr, here("output", "metadata", glue("list_strata_descr.rds")))

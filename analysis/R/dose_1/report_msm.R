@@ -77,12 +77,14 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 ##  Create big loop over all categories
 
 strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
+strata_descr <- read_rds(here("output", "metadata", "list_strata_descr.rds"))[[strata_var]]
 strata_names <- paste0("strata_",strata)
 summary_list <- vector("list", length(strata))
 names(summary_list) <- strata_names
 
 for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
+  stratum_descr <- strata_descr[which(strata==stratum)]
   # Import processed data ----
 
   data_weights <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")))
@@ -104,15 +106,17 @@ for(stratum in strata){
   robust4 <- tidy_plr(msmmod4, cluster=data_weights$patient_id)
 
   robust_summary <- bind_rows(
-    #mutate(robust0,, model_descr="unadjusted"),
-    mutate(robust1, model_descr="Region-stratified Cox model, with no further adjustment"),
-    mutate(robust2, model_descr="Region-stratified Cox model, with adjustment for baseline confounders"),
-    #mutate(robust3, model_descr="Region-stratified Cox model, with adjustment for baseline and time-varying confounders"),
-    mutate(robust4, model_descr="Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders"),
+    list(
+      #"0"=mutate(robust0,, model_descr="unadjusted"),
+      "1"=mutate(robust1, model_descr="Region-stratified Cox model, with no further adjustment"),
+      "2"=mutate(robust2, model_descr="Region-stratified Cox model, with adjustment for baseline confounders"),
+      #"3"=mutate(robust3, model_descr="Region-stratified Cox model, with adjustment for baseline and time-varying confounders"),
+      "4"=mutate(robust4, model_descr="Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders")
+    ),
     .id = "model"
   ) %>%
   mutate(
-    strata=stratum,
+    stratum=stratum_descr,
   )
 
   summary_list[[stratum_name]] <- robust_summary
@@ -124,12 +128,9 @@ summary_df <- summary_list %>% bind_rows %>%
   mutate(
     model_descr = fct_reorder(model_descr, as.numeric(model)),
     model_descr_wrap = fct_inorder(str_wrap(model_descr, 30)),
-    ve = 1-or,
-    ve.ll = 1-or.ul,
-    ve.ul = 1-or.ll
   ) %>%
   select(
-    strata, model, model_descr, model_descr_wrap, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul, ve, ve.ll, ve.ul
+    stratum, model, model_descr, model_descr_wrap, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul
   )
 
 write_csv(summary_df, path = here("output", cohort, strata_var, brand, outcome, glue("estimates.csv")))
@@ -147,19 +148,24 @@ msmmod_effect_data <- summary_df %>%
   ) %>%
   group_by(model, term) %>%
   mutate(
+    #Vaccine effectiveness
+    ve = 1-or,
+    ve.ll = 1-or.ul,
+    ve.ul = 1-or.ll,
     # conduct z test for difference in effects between strata
     diff = estimate - first(estimate),
-    std.diff = if_else(row_number()!=1, sqrt((std.error^2) + (first(std.error))^2), NA_real_),
-    z = diff/std.diff,
-    z.low = z + qnorm(0.025)*std.diff,
-    z.high = z + qnorm(0.975)*std.diff,
-    z.p.value = 2 * pmin(pnorm(z), pnorm(-z))
-  )
+    diff.std.error = if_else(row_number()!=1, sqrt((std.error^2) + (first(std.error))^2), NA_real_),
+    z = diff/diff.std.error,
+    diff.ll = diff + qnorm(0.025)*diff.std.error,
+    diff.ul = diff + qnorm(0.975)*diff.std.error,
+    diff.p.value = 2 * pmin(pnorm(z), pnorm(-z))
+  ) %>%
+  ungroup()
 
 write_csv(msmmod_effect_data, path = here("output", cohort, strata_var, brand, outcome, glue("estimates_timesincevax.csv")))
 
 msmmod_effect <-
-  ggplot(data = msmmod_effect_data, aes(colour=as.factor(strata))) +
+  ggplot(data = msmmod_effect_data, aes(colour=as.factor(stratum))) +
   geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 0.6))+
   geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 0.6))+
   geom_hline(aes(yintercept=1), colour='grey')+

@@ -246,7 +246,7 @@ actions_models <- function(
       name = glue("model_{cohort}_{strata}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/model_msm.R"),
       arguments = c(cohort, strata, brand, outcome),
-      needs = list("design", glue("data_stset_{cohort}"), glue("data_samples_{cohort}")),
+      needs = list("design", glue("data_stset_{cohort}")),# glue("data_samples_{cohort}")),
       highly_sensitive = list(
         models = glue("output/{cohort}/{strata}/{brand}/{outcome}/model*.rds"),
         data = glue("output/{cohort}/{strata}/{brand}/{outcome}/data*.rds")
@@ -406,7 +406,7 @@ actions_list <- splice(
       metadata = "output/metadata/metadata*",
       chars = "output/metadata/baseline_characteristics.rds",
       formula = "output/metadata/list_formula.rds",
-      strata = "output/metadata/list_strata.rds",
+      strata = "output/metadata/list_strata*.rds",
       reweight = "output/metadata/reweight_death.rds",
       exclude_recentpostest = "output/metadata/exclude_recentpostest.rds"
     )
