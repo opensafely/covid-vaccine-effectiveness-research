@@ -32,8 +32,10 @@ moderna_day <- as.integer(start_date_moderna - index_date)
 end_day <- as.integer(end_date - index_date)
 
 
-known_variables <- c("index_date", "start_date_pfizer", "start_date_az", "start_date_moderna", "end_date", "index_day", "pfizer_day",  "az_day", "moderna_day", "end_day")
+known_variables <- c("index_date", "start_date_pfizer", "start_date_az", "start_date_moderna", "end_date", "index_day", "pfizer_day",  "az_day", "moderna_day", "end_day", "lookup_stp", "Code")
 
+
+lookup_stp <- read_csv(here("lib", "STP_region_map.csv"))
 
 sim_list = list(
 
@@ -74,7 +76,7 @@ sim_list = list(
   ),
 
   stp = bn_node(
-    ~factor(as.integer(runif(n=1, 1, 36)), levels=1:36)
+    ~rfactor(n=1, levels=unique(lookup_stp$Code), p=rep(1/n_distinct(lookup_stp$Code), n_distinct(lookup_stp$Code)))
   ),
 
   region = bn_node(
