@@ -117,11 +117,16 @@ estimates_formatted <- estimates %>%
 
     HR_ECI = paste0(HR, " ", HR_CI),
     VE_ECI = paste0(VE, " ", VE_CI),
-
-    diff = scales::label_number(accuracy = .01, trim=TRUE)(diff),
-    diff_CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(diff.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(diff.ul), ")"),
-    diff_ECI = paste0(diff, " ", diff_CI),
   )
+
+if(strata_var!-"all"){
+  estimates_formatted <- estimates_formatted %>%
+    mutate(
+      diff = scales::label_number(accuracy = .01, trim=TRUE)(diff),
+      diff_CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(diff.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(diff.ul), ")"),
+      diff_ECI = paste0(diff, " ", diff_CI),
+    )
+}
 
 estimates_formatted_wide <- estimates_formatted %>%
   select(outcome_descr, brand_descr, stratum, model, term, HR_ECI, VE_ECI) %>%
