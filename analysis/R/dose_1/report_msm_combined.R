@@ -119,7 +119,7 @@ estimates_formatted <- estimates %>%
     VE_ECI = paste0(VE, " ", VE_CI),
   )
 
-if(strata_var!-"all"){
+if(strata_var!="all"){
   estimates_formatted <- estimates_formatted %>%
     mutate(
       diff = scales::label_number(accuracy = .01, trim=TRUE)(diff),
