@@ -185,6 +185,16 @@ data_processed <- data_extract_reordered %>%
 
     ),
 
+    region = fct_collapse(region,
+      `East of England` = "East",
+      `London` = "London",
+      `Midlands` = c("West Midlands", "East Midlands"),
+      `North East and Yorkshire` = c("Yorkshire and The Humber", "North East"),
+      `North West` = "North West",
+      `South East` = "South East",
+      `South West` = "South West"
+    ),
+
 
     imd = na_if(imd, "0"),
     imd = fct_case_when(
