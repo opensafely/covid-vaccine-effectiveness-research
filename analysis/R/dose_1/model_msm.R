@@ -355,10 +355,7 @@ for(stratum in strata){
       outcome = .[[outcome]],
     ) %>%
     mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
-      across(
-        where(is.logical),
-        ~.x*1L
-      )
+      across(where(is.logical), ~.x*1L)
     ) %>%
     mutate(
       recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
@@ -485,7 +482,7 @@ for(stratum in strata){
       left_join(weights_vaxany1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
       replace_na(list(
-        # weight is 1 if patient is not yet at risk
+        # weight is 1 if patient is not yet at risk or has already been vaccinated / censored
         ipweight_stbl_vaxany1 = 1,
         ipweight_stbl_death = 1
       )) %>%
@@ -514,8 +511,7 @@ for(stratum in strata){
       left_join(weights_vaxpfizer1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_vaxaz1, by=c("patient_id", "tstart", "tstop")) %>%
       left_join(weights_death, by=c("patient_id", "tstart", "tstop")) %>%
-
-      replace_na(list( # weight is 1 if patient is not yet at risk
+      replace_na(list( # weight is 1 if patient is not yet at risk or has already been vaccinated / censored
         ipweight_stbl_vaxpfizer1 = 1,
         ipweight_stbl_vaxaz1 = 1,
         ipweight_stbl_death = 1
