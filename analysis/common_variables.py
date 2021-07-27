@@ -41,6 +41,7 @@ def covid_test_date_X(name, index_date, n, test_result, return_expectations):
                 test_result=test_result,
                 on_or_after=on_or_after,
                 find_first_match_in_period=True,
+                restrict_to_earliest_specimen_date=False,
                 returning="date",
                 date_format="YYYY-MM-DD",
                 return_expectations=return_expectations
@@ -617,6 +618,7 @@ event_variables = dict(
         date_format="YYYY-MM-DD",
         on_or_before="index_date - 1 day",
         find_last_match_in_period=True,
+        restrict_to_earliest_specimen_date=False,
         return_expectations={
             "date": {"earliest": "2020-02-01"},
             "rate": "exponential_increase",
