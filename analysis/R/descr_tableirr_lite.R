@@ -117,7 +117,8 @@ data_tte <- data_cohort %>%
 
 if(removeobs) rm(data_cohort)
 
-
+brand = "any"
+outcome="postest"
 get_irr <- function(brand, outcome){
 
     data_atrisk <- data_tte %>%
@@ -134,21 +135,25 @@ get_irr <- function(brand, outcome){
         tte_firstfup<tte_lastfup, # not interested if last follow up (death, dereg, study end date) occurred before first "at risk" date
       )
 
+
+    # expand dataset to add an extra row for each postvax period
     data_timesincelong <- data_atrisk %>%
       filter(
         !is.na(tte_vaxbrand),
         tte_vaxbrand<=pmin(tte_outcome, Inf, na.rm=TRUE), # not interested if vaccination occurred after outcome (this is caught by `tstop` but is quicker to exclude earlier)
       ) %>%
+      select(patient_id, tte_vaxbrand) %>%
+      expand_grid(
+        nesting(
+          postvaxcuts = postvaxcuts,
+          timesincevax_pw = as.character(timesince_cut(c(postvaxcuts[-1], Inf), postvaxcuts, "Unvaccinated"))
+        )
+      ) %>%
       transmute(
         patient_id,
-        vaxany1_timesince = map(tte_vaxbrand, ~ set_names(c(vaxany1_timesince = . + postvaxcuts), as.character(timesince_cut(c(postvaxcuts[-1], Inf), postvaxcuts, "Unvaccinated")))),
-      ) %>%
-      unnest_longer(
-        col=vaxany1_timesince,
-        values_to = "day",
-        indices_to = "timesincevax"
-      ) %>%
-      arrange(patient_id, day)
+        day = tte_vaxbrand + postvaxcuts,
+        timesincevax_pw
+      )
 
     data_pt <- data_atrisk %>%
       tmerge(
@@ -163,7 +168,7 @@ get_irr <- function(brand, outcome){
         data1 = .,
         data2 = data_timesincelong,
         id=patient_id,
-        timesincevax_pw = tdc(day, timesincevax),
+        timesincevax_pw = tdc(day, timesincevax_pw),
         options = list(tdcstart = "Unvaccinated")
       ) %>%
       tmerge(
