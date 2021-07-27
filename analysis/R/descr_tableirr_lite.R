@@ -117,8 +117,6 @@ data_tte <- data_cohort %>%
 
 if(removeobs) rm(data_cohort)
 
-brand = "any"
-outcome="postest"
 get_irr <- function(brand, outcome){
 
     data_atrisk <- data_tte %>%
