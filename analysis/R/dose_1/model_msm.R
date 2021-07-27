@@ -424,7 +424,7 @@ for(stratum in strata){
     )
     weights_vaxaz1 <- get_ipw_weights(
       data_pt_sub, "vaxaz1", "vaxaz1_status", "vaxaz1_atrisk",
-      sample_type="random_n", sample_amount=random_n,
+      sample_type="random_n", sample_amount=ipw_sample_random_n,
       ipw_formula =     update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_timedependent) %>% update(formula_remove_postest) %>% update(formula_remove_strata_var),
       ipw_formula_fxd = update(vaxaz1 ~ 1, formula_demog) %>% update(formula_comorbs) %>% update(formula_secular_region) %>% update(formula_remove_strata_var),
       stratum = stratum
