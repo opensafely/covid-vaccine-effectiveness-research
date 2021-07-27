@@ -11,6 +11,19 @@ from cohortextractor import (
 # Import Codelists
 from codelists import *
 
+# get STP codes
+
+import pandas as pd
+
+STPs = pd.read_csv(
+    filepath_or_buffer = './lib/STP_region_map.csv'
+)
+
+dict_stp = { stp : 1/len(STPs.index) for stp in STPs['Code'].tolist() }
+
+
+# define recurrent event variables
+
 def with_these_clinical_events_date_X(name, codelist, index_date, n, return_expectations):
     
     def var_signature(name, on_or_after, codelist, return_expectations):
@@ -239,18 +252,7 @@ demographic_variables = dict(
         return_expectations={
             "rate": "universal",
             "category": {
-                "ratios": {
-                    "STP1": 0.1,
-                    "STP2": 0.1,
-                    "STP3": 0.1,
-                    "STP4": 0.1,
-                    "STP5": 0.1,
-                    "STP6": 0.1,
-                    "STP7": 0.1,
-                    "STP8": 0.1,
-                    "STP9": 0.1,
-                    "STP10": 0.1,
-                }
+                "ratios": dict_stp
             },
         },
     ),
