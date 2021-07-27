@@ -157,10 +157,7 @@ for(stratum in strata){
           vax = .[[glue("vax{brand}1")]],
         ) %>%
         mutate( # this step converts logical to integer so that model coefficients print nicely in gtsummary methods
-          across(
-            where(is.logical),
-            ~.x*1L
-          )
+          across(where(is.logical), ~.x*1L)
         ) %>%
         mutate(
           recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
