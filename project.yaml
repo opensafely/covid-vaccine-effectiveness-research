@@ -167,7 +167,7 @@ actions:
         csv: output/over80s/descriptive/model-checks/all/*.csv
 
   model_over80s_all_any_postest:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all any postest 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any postest 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -215,7 +215,8 @@ actions:
         trendpng: output/over80s/all/any/postest/time*.png
 
   model_over80s_all_pfizer_postest:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer postest 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer postest 200000
+      50000
     needs:
     - design
     - data_stset_over80s
@@ -263,7 +264,7 @@ actions:
         trendpng: output/over80s/all/pfizer/postest/time*.png
 
   model_over80s_all_az_postest:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all az postest 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az postest 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -311,7 +312,7 @@ actions:
         trendpng: output/over80s/all/az/postest/time*.png
 
   model_over80s_all_any_covidadmitted:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all any covidadmitted 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any covidadmitted 200000
       50000
     needs:
     - design
@@ -360,7 +361,7 @@ actions:
         trendpng: output/over80s/all/any/covidadmitted/time*.png
 
   model_over80s_all_pfizer_covidadmitted:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer covidadmitted 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer covidadmitted 200000
       50000
     needs:
     - design
@@ -409,7 +410,7 @@ actions:
         trendpng: output/over80s/all/pfizer/covidadmitted/time*.png
 
   model_over80s_all_az_covidadmitted:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all az covidadmitted 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az covidadmitted 200000
       50000
     needs:
     - design
@@ -458,7 +459,8 @@ actions:
         trendpng: output/over80s/all/az/covidadmitted/time*.png
 
   model_over80s_all_any_coviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all any coviddeath 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any coviddeath 200000
+      50000
     needs:
     - design
     - data_stset_over80s
@@ -506,7 +508,7 @@ actions:
         trendpng: output/over80s/all/any/coviddeath/time*.png
 
   model_over80s_all_pfizer_coviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer coviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer coviddeath 200000
       50000
     needs:
     - design
@@ -555,7 +557,7 @@ actions:
         trendpng: output/over80s/all/pfizer/coviddeath/time*.png
 
   model_over80s_all_az_coviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all az coviddeath 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az coviddeath 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -603,7 +605,7 @@ actions:
         trendpng: output/over80s/all/az/coviddeath/time*.png
 
   model_over80s_all_any_noncoviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all any noncoviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any noncoviddeath 200000
       50000
     needs:
     - design
@@ -652,7 +654,7 @@ actions:
         trendpng: output/over80s/all/any/noncoviddeath/time*.png
 
   model_over80s_all_pfizer_noncoviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer noncoviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer noncoviddeath 200000
       50000
     needs:
     - design
@@ -701,7 +703,7 @@ actions:
         trendpng: output/over80s/all/pfizer/noncoviddeath/time*.png
 
   model_over80s_all_az_noncoviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all az noncoviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az noncoviddeath 200000
       50000
     needs:
     - design
@@ -750,7 +752,7 @@ actions:
         trendpng: output/over80s/all/az/noncoviddeath/time*.png
 
   model_over80s_all_any_death:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all any death 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all any death 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -798,7 +800,7 @@ actions:
         trendpng: output/over80s/all/any/death/time*.png
 
   model_over80s_all_pfizer_death:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer death 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all pfizer death 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -846,7 +848,7 @@ actions:
         trendpng: output/over80s/all/pfizer/death/time*.png
 
   model_over80s_all_az_death:
-    run: r:latest analysis/R/dose_1/model_msm.R over80s all az death 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R over80s all az death 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -965,7 +967,7 @@ actions:
 
   model_over80s_any_immunosuppression_any_postest:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
-      postest 2e+05 50000
+      postest 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1017,7 +1019,7 @@ actions:
 
   model_over80s_any_immunosuppression_pfizer_postest:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
-      postest 2e+05 50000
+      postest 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1069,7 +1071,7 @@ actions:
 
   model_over80s_any_immunosuppression_az_postest:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az postest
-      2e+05 50000
+      200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1121,7 +1123,7 @@ actions:
 
   model_over80s_any_immunosuppression_any_covidadmitted:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
-      covidadmitted 2e+05 50000
+      covidadmitted 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1173,7 +1175,7 @@ actions:
 
   model_over80s_any_immunosuppression_pfizer_covidadmitted:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
-      covidadmitted 2e+05 50000
+      covidadmitted 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1225,7 +1227,7 @@ actions:
 
   model_over80s_any_immunosuppression_az_covidadmitted:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az covidadmitted
-      2e+05 50000
+      200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1277,7 +1279,7 @@ actions:
 
   model_over80s_any_immunosuppression_any_coviddeath:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
-      coviddeath 2e+05 50000
+      coviddeath 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1329,7 +1331,7 @@ actions:
 
   model_over80s_any_immunosuppression_pfizer_coviddeath:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
-      coviddeath 2e+05 50000
+      coviddeath 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1381,7 +1383,7 @@ actions:
 
   model_over80s_any_immunosuppression_az_coviddeath:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az coviddeath
-      2e+05 50000
+      200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1433,7 +1435,7 @@ actions:
 
   model_over80s_any_immunosuppression_any_noncoviddeath:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
-      noncoviddeath 2e+05 50000
+      noncoviddeath 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1485,7 +1487,7 @@ actions:
 
   model_over80s_any_immunosuppression_pfizer_noncoviddeath:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
-      noncoviddeath 2e+05 50000
+      noncoviddeath 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1537,7 +1539,7 @@ actions:
 
   model_over80s_any_immunosuppression_az_noncoviddeath:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az noncoviddeath
-      2e+05 50000
+      200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1589,7 +1591,7 @@ actions:
 
   model_over80s_any_immunosuppression_any_death:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression any
-      death 2e+05 50000
+      death 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1641,7 +1643,7 @@ actions:
 
   model_over80s_any_immunosuppression_pfizer_death:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression pfizer
-      death 2e+05 50000
+      death 200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1693,7 +1695,7 @@ actions:
 
   model_over80s_any_immunosuppression_az_death:
     run: r:latest analysis/R/dose_1/model_msm.R over80s any_immunosuppression az death
-      2e+05 50000
+      200000 50000
     needs:
     - design
     - data_stset_over80s
@@ -1950,7 +1952,7 @@ actions:
         csv: output/in70s/descriptive/model-checks/all/*.csv
 
   model_in70s_all_any_postest:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all any postest 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any postest 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -1998,7 +2000,7 @@ actions:
         trendpng: output/in70s/all/any/postest/time*.png
 
   model_in70s_all_pfizer_postest:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer postest 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer postest 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -2046,7 +2048,7 @@ actions:
         trendpng: output/in70s/all/pfizer/postest/time*.png
 
   model_in70s_all_az_postest:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all az postest 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az postest 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -2094,7 +2096,7 @@ actions:
         trendpng: output/in70s/all/az/postest/time*.png
 
   model_in70s_all_any_covidadmitted:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all any covidadmitted 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any covidadmitted 200000
       50000
     needs:
     - design
@@ -2143,7 +2145,7 @@ actions:
         trendpng: output/in70s/all/any/covidadmitted/time*.png
 
   model_in70s_all_pfizer_covidadmitted:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer covidadmitted 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer covidadmitted 200000
       50000
     needs:
     - design
@@ -2192,7 +2194,8 @@ actions:
         trendpng: output/in70s/all/pfizer/covidadmitted/time*.png
 
   model_in70s_all_az_covidadmitted:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all az covidadmitted 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az covidadmitted 200000
+      50000
     needs:
     - design
     - data_stset_in70s
@@ -2240,7 +2243,7 @@ actions:
         trendpng: output/in70s/all/az/covidadmitted/time*.png
 
   model_in70s_all_any_coviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all any coviddeath 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any coviddeath 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -2288,7 +2291,7 @@ actions:
         trendpng: output/in70s/all/any/coviddeath/time*.png
 
   model_in70s_all_pfizer_coviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer coviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer coviddeath 200000
       50000
     needs:
     - design
@@ -2337,7 +2340,7 @@ actions:
         trendpng: output/in70s/all/pfizer/coviddeath/time*.png
 
   model_in70s_all_az_coviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all az coviddeath 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az coviddeath 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -2385,7 +2388,7 @@ actions:
         trendpng: output/in70s/all/az/coviddeath/time*.png
 
   model_in70s_all_any_noncoviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all any noncoviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any noncoviddeath 200000
       50000
     needs:
     - design
@@ -2434,7 +2437,7 @@ actions:
         trendpng: output/in70s/all/any/noncoviddeath/time*.png
 
   model_in70s_all_pfizer_noncoviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer noncoviddeath 2e+05
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer noncoviddeath 200000
       50000
     needs:
     - design
@@ -2483,7 +2486,8 @@ actions:
         trendpng: output/in70s/all/pfizer/noncoviddeath/time*.png
 
   model_in70s_all_az_noncoviddeath:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all az noncoviddeath 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az noncoviddeath 200000
+      50000
     needs:
     - design
     - data_stset_in70s
@@ -2531,7 +2535,7 @@ actions:
         trendpng: output/in70s/all/az/noncoviddeath/time*.png
 
   model_in70s_all_any_death:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all any death 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all any death 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -2579,7 +2583,7 @@ actions:
         trendpng: output/in70s/all/any/death/time*.png
 
   model_in70s_all_pfizer_death:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer death 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all pfizer death 200000 50000
     needs:
     - design
     - data_stset_in70s
@@ -2627,7 +2631,7 @@ actions:
         trendpng: output/in70s/all/pfizer/death/time*.png
 
   model_in70s_all_az_death:
-    run: r:latest analysis/R/dose_1/model_msm.R in70s all az death 2e+05 50000
+    run: r:latest analysis/R/dose_1/model_msm.R in70s all az death 200000 50000
     needs:
     - design
     - data_stset_in70s
