@@ -227,7 +227,7 @@ preflight_checks <- function(
   action(
     name = glue("descr_preflight_{cohort}_{strata}"),
     run = "r:latest analysis/R/preflight.R",
-    arguments = c(cohort, strata, "200000", "50000"),
+    arguments = c(cohort, strata, "150000", "50000"),
     needs = list("design", glue("data_stset_{cohort}")),
     moderately_sensitive = list(
       html = glue("output/{cohort}/descriptive/model-checks/{strata}/*.html"),
@@ -424,25 +424,25 @@ actions_list <- splice(
 
   preflight_checks("over80s", "all"),
 
-  actions_models("over80s", "all", "any",    "postest", "200000", "50000"),
-  actions_models("over80s", "all", "pfizer", "postest", "200000", "50000"),
-  actions_models("over80s", "all", "az",     "postest", "200000", "50000"),
+  actions_models("over80s", "all", "any",    "postest", "150000", "50000"),
+  actions_models("over80s", "all", "pfizer", "postest", "150000", "50000"),
+  actions_models("over80s", "all", "az",     "postest", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "covidadmitted", "200000", "50000"),
-  actions_models("over80s", "all", "pfizer", "covidadmitted", "200000", "50000"),
-  actions_models("over80s", "all", "az",     "covidadmitted", "200000", "50000"),
+  actions_models("over80s", "all", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "az",     "covidadmitted", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "coviddeath", "200000", "50000"),
-  actions_models("over80s", "all", "pfizer", "coviddeath", "200000", "50000"),
-  actions_models("over80s", "all", "az",     "coviddeath", "200000", "50000"),
+  actions_models("over80s", "all", "any",    "coviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "pfizer", "coviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "az",     "coviddeath", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "noncoviddeath", "200000", "50000"),
-  actions_models("over80s", "all", "pfizer", "noncoviddeath", "200000", "50000"),
-  actions_models("over80s", "all", "az",     "noncoviddeath", "200000", "50000"),
+  actions_models("over80s", "all", "any",    "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "pfizer", "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "az",     "noncoviddeath", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "death", "200000", "50000"),
-  actions_models("over80s", "all", "pfizer", "death", "200000", "50000"),
-  actions_models("over80s", "all", "az",     "death", "200000", "50000"),
+  actions_models("over80s", "all", "any",    "death", "150000", "50000"),
+  actions_models("over80s", "all", "pfizer", "death", "150000", "50000"),
+  actions_models("over80s", "all", "az",     "death", "150000", "50000"),
 
   actions_combine_models("over80s", "all"),
 
@@ -451,25 +451,25 @@ actions_list <- splice(
 
   preflight_checks("over80s", "any_immunosuppression"),
 
-  actions_models("over80s", "any_immunosuppression", "any",    "postest", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "postest", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "postest", "200000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "any",    "postest", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "postest", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "az",     "postest", "150000", "50000"),
 
-  actions_models("over80s", "any_immunosuppression", "any",    "covidadmitted", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "covidadmitted", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "covidadmitted", "200000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "az",     "covidadmitted", "150000", "50000"),
 
-  actions_models("over80s", "any_immunosuppression", "any",    "coviddeath", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "coviddeath", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "coviddeath", "200000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "any",    "coviddeath", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "coviddeath", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "az",     "coviddeath", "150000", "50000"),
 
-  actions_models("over80s", "any_immunosuppression", "any",    "noncoviddeath", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "noncoviddeath", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "noncoviddeath", "200000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "any",    "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "az",     "noncoviddeath", "150000", "50000"),
 
-  actions_models("over80s", "any_immunosuppression", "any",    "death", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "death", "200000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "death", "200000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "any",    "death", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "pfizer", "death", "150000", "50000"),
+  actions_models("over80s", "any_immunosuppression", "az",     "death", "150000", "50000"),
 
   actions_combine_models("over80s", "any_immunosuppression"),
 
@@ -483,25 +483,25 @@ actions_list <- splice(
 
   preflight_checks("in70s", "all"),
 
-  actions_models("in70s", "all", "any",    "postest", "200000", "50000"),
-  actions_models("in70s", "all", "pfizer", "postest", "200000", "50000"),
-  actions_models("in70s", "all", "az",     "postest", "200000", "50000"),
+  actions_models("in70s", "all", "any",    "postest", "150000", "50000"),
+  actions_models("in70s", "all", "pfizer", "postest", "150000", "50000"),
+  actions_models("in70s", "all", "az",     "postest", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "covidadmitted", "200000", "50000"),
-  actions_models("in70s", "all", "pfizer", "covidadmitted", "200000", "50000"),
-  actions_models("in70s", "all", "az",     "covidadmitted", "200000", "50000"),
+  actions_models("in70s", "all", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "az",     "covidadmitted", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "coviddeath", "200000", "50000"),
-  actions_models("in70s", "all", "pfizer", "coviddeath", "200000", "50000"),
-  actions_models("in70s", "all", "az",     "coviddeath", "200000", "50000"),
+  actions_models("in70s", "all", "any",    "coviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "pfizer", "coviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "az",     "coviddeath", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "noncoviddeath", "200000", "50000"),
-  actions_models("in70s", "all", "pfizer", "noncoviddeath", "200000", "50000"),
-  actions_models("in70s", "all", "az",     "noncoviddeath", "200000", "50000"),
+  actions_models("in70s", "all", "any",    "noncoviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "pfizer", "noncoviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "az",     "noncoviddeath", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "death", "200000", "50000"),
-  actions_models("in70s", "all", "pfizer", "death", "200000", "50000"),
-  actions_models("in70s", "all", "az",     "death", "200000", "50000"),
+  actions_models("in70s", "all", "any",    "death", "150000", "50000"),
+  actions_models("in70s", "all", "pfizer", "death", "150000", "50000"),
+  actions_models("in70s", "all", "az",     "death", "150000", "50000"),
 
 
   actions_combine_models("in70s", "all")
