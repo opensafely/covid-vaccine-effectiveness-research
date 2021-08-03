@@ -656,9 +656,10 @@ event_variables = dict(
             "incidence": 0.01
         },
     ),
+    
     **with_these_clinical_events_date_X(
         name = "primary_care_covid_case",
-        n = 5,
+        n = 6,
         index_date = "index_date",
         codelist = combine_codelists(
             covid_primary_care_code,
@@ -689,7 +690,7 @@ event_variables = dict(
     ),
     **with_these_clinical_events_date_X(
         name = "primary_care_suspected_covid",
-        n = 5,
+        n = 6,
         index_date = "index_date",
         codelist = primary_care_suspected_covid_combined,
         return_expectations={
@@ -715,7 +716,7 @@ event_variables = dict(
     ),
     **with_these_clinical_events_date_X(
         name = "primary_care_probable_covid",
-        n = 5,
+        n = 6,
         index_date = "index_date",
         codelist = covid_primary_care_probable_combined,
         return_expectations={
@@ -754,7 +755,7 @@ event_variables = dict(
     ),
     **admitted_date_X(
         name = "admitted_unplanned",
-        n = 5,
+        n = 6,
         index_name = "admitted_unplanned",
         index_date = "index_date",
         returning="date_admitted",
@@ -781,7 +782,7 @@ event_variables = dict(
     ), 
     **admitted_date_X(
         name = "discharged_unplanned",
-        n = 5,
+        n = 6,
         index_name = "admitted_unplanned",
         index_date = "index_date",
         returning="date_discharged",
@@ -812,7 +813,7 @@ event_variables = dict(
     ),
     **admitted_date_X(
         name = "admitted_unplanned_infectious",
-        n = 5,
+        n = 6,
         index_name = "admitted_unplanned_infectious",
         index_date = "index_date",
         returning="date_admitted",
@@ -841,7 +842,7 @@ event_variables = dict(
     ), 
     **admitted_date_X(
         name = "discharged_unplanned_infectious",
-        n = 5,
+        n = 6,
         index_name = "admitted_unplanned_infectious",
         index_date = "index_date",
         returning="date_discharged",
@@ -870,7 +871,7 @@ event_variables = dict(
     ),
     **admitted_date_X(
         name = "covidadmitted",
-        n = 5,
+        n = 6,
         index_name = "covidadmitted",
         index_date = "index_date",
         returning="date_admitted",
