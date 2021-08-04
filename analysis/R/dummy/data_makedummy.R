@@ -201,6 +201,10 @@ sim_list = list(
     ~as.integer(runif(n=1, covid_test_4_day+1, covid_test_4_day+30)),
     missing_rate = ~1-(!is.na(covid_test_4_day))*0.1
   ),
+  covid_test_6_day = bn_node(
+    ~as.integer(runif(n=1, covid_test_5_day+1, covid_test_5_day+30)),
+    missing_rate = ~1-(!is.na(covid_test_5_day))*0.1
+  ),
 
   positive_test_0_day = bn_node(
     ~as.integer(runif(n=1, index_day-100, index_day-1)),
@@ -229,6 +233,11 @@ sim_list = list(
     ~as.integer(runif(n=1, positive_test_4_day+1, positive_test_4_day+30)),
     missing_rate = ~0.9,
     needs = "positive_test_4_day"
+  ),
+  positive_test_6_day = bn_node(
+    ~as.integer(runif(n=1, positive_test_5_day+1, positive_test_5_day+30)),
+    missing_rate = ~0.9,
+    needs = "positive_test_5_day"
   ),
 
 
@@ -265,6 +274,11 @@ sim_list = list(
     missing_rate = ~0.1,
     needs="positive_test_5_day"
   ),
+  primary_care_covid_case_6_day = bn_node(
+    ~positive_test_6_day+as.integer(runif(n=1, -1, 3)),
+    missing_rate = ~0.1,
+    needs="positive_test_6_day"
+  ),
 
 
   primary_care_suspected_covid_0_day = bn_node(
@@ -297,6 +311,11 @@ sim_list = list(
     missing_rate = ~0.1,
     needs="positive_test_5_day"
   ),
+  primary_care_suspected_covid_6_day = bn_node(
+    ~positive_test_6_day+as.integer(runif(n=1, 0, 7)),
+    missing_rate = ~0.1,
+    needs="positive_test_6_day"
+  ),
 
 
   primary_care_probable_covid_0_day = bn_node(
@@ -328,6 +347,11 @@ sim_list = list(
     ~positive_test_5_day+as.integer(runif(n=1, 0, 7)),
     missing_rate = ~0.1,
     needs = "positive_test_5_day"
+  ),
+  primary_care_probable_covid_6_day = bn_node(
+    ~positive_test_6_day+as.integer(runif(n=1, 0, 7)),
+    missing_rate = ~0.1,
+    needs = "positive_test_6_day"
   ),
 
 
@@ -392,6 +416,15 @@ sim_list = list(
     ~as.integer(runif(n=1, admitted_unplanned_5_day+1, 20)),
     needs = "admitted_unplanned_4_day"
   ),
+  admitted_unplanned_6_day = bn_node(
+    ~as.integer(runif(n=1, discharged_unplanned_5_day, discharged_unplanned_5_day+100)),
+    missing_rate = ~0.8,
+    needs = "discharged_unplanned_5_day"
+  ),
+  discharged_unplanned_6_day = bn_node(
+    ~as.integer(runif(n=1, admitted_unplanned_5_day+1, 20)),
+    needs = "admitted_unplanned_5_day"
+  ),
 
 
   admitted_unplanned_infectious_0_day = bn_node(
@@ -433,8 +466,8 @@ sim_list = list(
     needs = "discharged_unplanned_infectious_3_day"
   ),
   discharged_unplanned_infectious_4_day = bn_node(
-    ~as.integer(runif(n=1, admitted_unplanned_infectious_3_day+1, 20)),
-    needs = "admitted_unplanned_infectious_3_day"
+    ~as.integer(runif(n=1, admitted_unplanned_infectious_4_day+1, 20)),
+    needs = "admitted_unplanned_infectious_4_day"
   ),
   admitted_unplanned_infectious_5_day = bn_node(
     ~as.integer(runif(n=1, discharged_unplanned_infectious_4_day, discharged_unplanned_infectious_4_day+100)),
@@ -443,7 +476,16 @@ sim_list = list(
   ),
   discharged_unplanned_infectious_5_day = bn_node(
     ~as.integer(runif(n=1, admitted_unplanned_infectious_5_day+1, 20)),
-    needs = "admitted_unplanned_infectious_4_day"
+    needs = "admitted_unplanned_infectious_5_day"
+  ),
+  admitted_unplanned_infectious_6_day = bn_node(
+    ~as.integer(runif(n=1, discharged_unplanned_infectious_5_day, discharged_unplanned_infectious_5_day+100)),
+    missing_rate = ~0.95,
+    needs = "discharged_unplanned_infectious_5_day"
+  ),
+  discharged_unplanned_infectious_6_day = bn_node(
+    ~as.integer(runif(n=1, admitted_unplanned_infectious_6_day+1, 20)),
+    needs = "admitted_unplanned_infectious_6_day"
   ),
 
 
@@ -474,6 +516,11 @@ sim_list = list(
     ~as.integer(runif(n=1, covidadmitted_4_day, covidadmitted_4_day+100)),
     missing_rate = ~0.9,
     needs = "covidadmitted_4_day"
+  ),
+  covidadmitted_6_day = bn_node(
+    ~as.integer(runif(n=1, covidadmitted_5_day, covidadmitted_5_day+100)),
+    missing_rate = ~0.9,
+    needs = "covidadmitted_5_day"
   ),
 
 
