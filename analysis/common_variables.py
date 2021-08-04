@@ -603,7 +603,7 @@ event_variables = dict(
     **covid_test_date_X(
         name = "covid_test",
         index_date = "index_date",
-        n = 5,
+        n = 6,
         test_result="any",
         return_expectations = {
             "date": {"earliest": "2020-12-01",  "latest" : "2021-03-31"},
@@ -630,7 +630,7 @@ event_variables = dict(
     **covid_test_date_X(
         name = "positive_test",
         index_date = "index_date",
-        n = 5,
+        n = 6,
         test_result="any",
         return_expectations = {
             "date": {"earliest": "2020-12-15",  "latest" : "2021-03-31"},
