@@ -245,15 +245,15 @@ data_suspected_covid <- read_rds(here("output", cohort, "data", "data_long_pr_su
     tte = tte(start_date, date, lastfup_date, na.censor=TRUE)
   )
 
-data_probable_covid <- read_rds(here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds")) %>%
-  inner_join(
-    data_tte %>% select(patient_id, start_date, lastfup_date),
-    .,
-    by =c("patient_id")
-  ) %>%
-  mutate(
-    tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
-  )
+# data_probable_covid <- read_rds(here("output", cohort, "data", "data_long_pr_probable_covid_dates.rds")) %>%
+#   inner_join(
+#     data_tte %>% select(patient_id, start_date, lastfup_date),
+#     .,
+#     by =c("patient_id")
+#   ) %>%
+#   mutate(
+#     tte = tte(start_date, date, lastfup_date, na.censor=TRUE),
+#   )
 
 data_postest <- read_rds(here("output", cohort, "data", "data_long_postest_dates.rds")) %>%
   inner_join(
@@ -351,12 +351,12 @@ data_tte_cp <- data_tte_cp0 %>%
     id = patient_id,
     suspectedcovid = event(tte)
   ) %>%
-  tmerge(
-    data1 = .,
-    data2 = data_probable_covid,
-    id = patient_id,
-    probablecovid = event(tte)
-  ) %>%
+  # tmerge(
+  #   data1 = .,
+  #   data2 = data_probable_covid,
+  #   id = patient_id,
+  #   probablecovid = event(tte)
+  # ) %>%
   tmerge(
     data1 = .,
     data2 = data_postest,
@@ -394,7 +394,7 @@ mutate(across(
             "hospinfectiousdischarge",
             "hospnoninfectiousdischarge",
             "suspectedcovid",
-            "probablecovid",
+            #"probablecovid",
             "postesttdc"
           ),
   .fns = as.integer
@@ -402,7 +402,9 @@ mutate(across(
 
 # free up memory
 if(removeobs){
-  rm(data_tte_cp0, data_hospitalised_infectious, data_hospitalised_noninfectious, data_suspected_covid, data_probable_covid, data_postest)
+  rm(data_tte_cp0, data_hospitalised_infectious, data_hospitalised_noninfectious, data_suspected_covid,
+     #data_probable_covid,
+     data_postest)
 }
 
 
@@ -435,11 +437,13 @@ data_tte_pt <- tmerge(
     hospinfectiousdischarge_time = if_else(hospinfectiousdischarge==1, tstop, NA_real_),
     hospnoninfectiousdischarge_time = if_else(hospnoninfectiousdischarge==1, tstop, NA_real_),
     suspectedcovid_time = if_else(suspectedcovid==1, tstop, NA_real_),
-    probablecovid_time = if_else(probablecovid==1, tstop, NA_real_),
+    #probablecovid_time = if_else(probablecovid==1, tstop, NA_real_),
     postesttdc_time = if_else(postesttdc==1, tstop, NA_real_),
   ) %>%
   fill(
-    hospinfectiousdischarge_time, hospnoninfectiousdischarge_time, suspectedcovid_time, probablecovid_time, postesttdc_time
+    hospinfectiousdischarge_time, hospnoninfectiousdischarge_time, suspectedcovid_time,
+    #probablecovid_time,
+    postesttdc_time
   ) %>%
   mutate(
 
@@ -490,12 +494,12 @@ data_tte_pt <- tmerge(
       right=TRUE
     ) %>% fct_explicit_na(na_level="Not suspected") %>% factor(c("Not suspected", "1-21", "22-28", "29+")),
 
-    timesince_probablecovid_pw = cut(
-      tstop - probablecovid_time,
-      breaks=c(0, 21, 28, Inf),
-      labels=c("1-21", "22-28", "29+"),
-      right=TRUE
-    ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "1-21", "22-28", "29+")),
+    # timesince_probablecovid_pw = cut(
+    #   tstop - probablecovid_time,
+    #   breaks=c(0, 21, 28, Inf),
+    #   labels=c("1-21", "22-28", "29+"),
+    #   right=TRUE
+    # ) %>% fct_explicit_na(na_level="Not probable")  %>% factor(c("Not probable", "1-21", "22-28", "29+")),
 
     # define time since positive SGSS test
     timesince_postesttdc_pw = cut(
@@ -511,7 +515,7 @@ data_tte_pt <- tmerge(
     -hospinfectiousdischarge_time,
     -hospnoninfectiousdischarge_time,
     -suspectedcovid_time,
-    -probablecovid_time,
+    #-probablecovid_time,
     -postesttdc_time,
   ) %>%
   # for some reason tmerge converts event indicators to numeric. So convert back to save space
@@ -535,7 +539,7 @@ data_tte_pt <- tmerge(
               "hospnoninfectious_status",
               "hospinfectiousdischarge",
               "hospnoninfectiousdischarge",
-              "probablecovid",
+              #"probablecovid",
               "suspectedcovid",
               "postesttdc",
               "postest_timesince"
