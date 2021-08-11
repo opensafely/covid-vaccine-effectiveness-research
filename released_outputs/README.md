@@ -2,6 +2,33 @@
 
 * output
   * output/over80s
+    * output/over80s/all
+      * output/over80s/all/combined
+        * [output/over80s/all/combined/cml_incidence_plot.png](output/over80s/all/combined/cml_incidence_plot.png)
+        * [output/over80s/all/combined/cml_incidence_plot.svg](output/over80s/all/combined/cml_incidence_plot.svg)
+        * [output/over80s/all/combined/cml_incidence_plot_pair.png](output/over80s/all/combined/cml_incidence_plot_pair.png)
+        * [output/over80s/all/combined/cml_incidence_plot_pair.svg](output/over80s/all/combined/cml_incidence_plot_pair.svg)
+        * [output/over80s/all/combined/estimates_formatted_timesincevax.csv](output/over80s/all/combined/estimates_formatted_timesincevax.csv)
+        * [output/over80s/all/combined/estimates_formatted_wide_timesincevax.csv](output/over80s/all/combined/estimates_formatted_wide_timesincevax.csv)
+        * [output/over80s/all/combined/estimates_timesincevax.csv](output/over80s/all/combined/estimates_timesincevax.csv)
+        * [output/over80s/all/combined/plot_vax1.svg](output/over80s/all/combined/plot_vax1.svg)
+        * [output/over80s/all/combined/tab_vax1.csv](output/over80s/all/combined/tab_vax1.csv)
+        * [output/over80s/all/combined/tab_vax1_wide.csv](output/over80s/all/combined/tab_vax1_wide.csv)
+        * [output/over80s/all/combined/VE_plot.png](output/over80s/all/combined/VE_plot.png)
+        * [output/over80s/all/combined/VE_plot.svg](output/over80s/all/combined/VE_plot.svg)
+        * [output/over80s/all/combined/VE_plot_free.png](output/over80s/all/combined/VE_plot_free.png)
+        * [output/over80s/all/combined/VE_plot_free.svg](output/over80s/all/combined/VE_plot_free.svg)
+    * output/over80s/any_immunosuppression
+      * output/over80s/any_immunosuppression/combined
+        * [output/over80s/any_immunosuppression/combined/estimates_formatted_timesincevax.csv](output/over80s/any_immunosuppression/combined/estimates_formatted_timesincevax.csv)
+        * [output/over80s/any_immunosuppression/combined/estimates_formatted_wide_timesincevax.csv](output/over80s/any_immunosuppression/combined/estimates_formatted_wide_timesincevax.csv)
+        * [output/over80s/any_immunosuppression/combined/estimates_timesincevax.csv](output/over80s/any_immunosuppression/combined/estimates_timesincevax.csv)
+        * [output/over80s/any_immunosuppression/combined/tab_vax1.csv](output/over80s/any_immunosuppression/combined/tab_vax1.csv)
+        * [output/over80s/any_immunosuppression/combined/tab_vax1_wide.csv](output/over80s/any_immunosuppression/combined/tab_vax1_wide.csv)
+        * [output/over80s/any_immunosuppression/combined/VE_plot.png](output/over80s/any_immunosuppression/combined/VE_plot.png)
+        * [output/over80s/any_immunosuppression/combined/VE_plot.svg](output/over80s/any_immunosuppression/combined/VE_plot.svg)
+        * [output/over80s/any_immunosuppression/combined/VE_plot_free.png](output/over80s/any_immunosuppression/combined/VE_plot_free.png)
+        * [output/over80s/any_immunosuppression/combined/VE_plot_free.svg](output/over80s/any_immunosuppression/combined/VE_plot_free.svg)
     * output/over80s/covidadmitted
       * output/over80s/covidadmitted/any
         * output/over80s/covidadmitted/any/all
@@ -123,6 +150,10 @@
           * [output/over80s/coviddeath/pfizer/all/estimates_timesincevax.csv](output/over80s/coviddeath/pfizer/all/estimates_timesincevax.csv)
           * [output/over80s/coviddeath/pfizer/all/forest_plot.svg](output/over80s/coviddeath/pfizer/all/forest_plot.svg)
           * [output/over80s/coviddeath/pfizer/all/time_trends_region_plot1.svg](output/over80s/coviddeath/pfizer/all/time_trends_region_plot1.svg)
+    * output/over80s/data
+      * [output/over80s/data/ethnicity_table.txt](output/over80s/data/ethnicity_table.txt)
+      * [output/over80s/data/ethnicity_table_combined.txt](output/over80s/data/ethnicity_table_combined.txt)
+      * [output/over80s/data/flowchart.csv](output/over80s/data/flowchart.csv)
     * output/over80s/death
       * output/over80s/death/any
         * output/over80s/death/any/any_immunosuppression
