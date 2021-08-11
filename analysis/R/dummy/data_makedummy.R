@@ -83,10 +83,10 @@ sim_list = list(
     variable_formula = ~rfactor(n=1, levels=c(
       "North East",
       "North West",
-      "Yorkshire and the Humber",
+      "Yorkshire and The Humber",
       "East Midlands",
       "West Midlands",
-      "East of England",
+      "England",
       "London",
       "South East",
       "South West"

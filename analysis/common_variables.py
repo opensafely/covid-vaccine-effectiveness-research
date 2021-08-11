@@ -266,10 +266,10 @@ demographic_variables = dict(
                 "ratios": {
                     "North East": 0.1,
                     "North West": 0.2,
-                    "Yorkshire and the Humber": 0.2,
+                    "Yorkshire and The Humber": 0.2,
                     "East Midlands": 0.1,
                     "West Midlands": 0.1,
-                    "East of England": 0.1,
+                    "East": 0.1,
                     "London": 0.1,
                     "South East": 0.09,
                     "" : 0.01
