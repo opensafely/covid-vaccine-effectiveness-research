@@ -1,0 +1,505 @@
+outcome_descr,brand_descr,stratum,model,model_descr,term,HR,HR_CI,VE,VE_CI,HR_ECI,VE_ECI
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.82,(0.79-0.85), 18.5,(15.4-21.4),0.82 (0.79-0.85), 18.5 (15.4-21.4)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.87,(0.85-0.90), 12.5,(9.5-15.5),0.87 (0.85-0.90), 12.5 (9.5-15.5)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.93,(0.90-0.96),  7.5,(4.5-10.4),0.93 (0.90-0.96),  7.5 (4.5-10.4)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.90,(0.87-0.93), 10.1,(6.7-13.3),0.90 (0.87-0.93), 10.1 (6.7-13.3)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.87,(0.83-0.90), 13.2,(9.5-16.8),0.87 (0.83-0.90), 13.2 (9.5-16.8)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.95,(0.91-0.99),  5.1,(0.7-9.3),0.95 (0.91-0.99),  5.1 (0.7-9.3)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",36+,1.08,(1.03-1.13), -7.9,(-13.3--2.7),1.08 (1.03-1.13), -7.9 (-13.3--2.7)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.80,(0.77-0.83), 20.0,(16.9-22.9),0.80 (0.77-0.83), 20.0 (16.9-22.9)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.85,(0.83-0.88), 14.5,(11.6-17.4),0.85 (0.83-0.88), 14.5 (11.6-17.4)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.90,(0.87-0.93), 10.2,(7.3-13.1),0.90 (0.87-0.93), 10.2 (7.3-13.1)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.87,(0.83-0.90), 13.5,(10.2-16.6),0.87 (0.83-0.90), 13.5 (10.2-16.6)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.83,(0.79-0.86), 17.2,(13.6-20.6),0.83 (0.79-0.86), 17.2 (13.6-20.6)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.90,(0.86-0.94), 10.0,(5.7-14.0),0.90 (0.86-0.94), 10.0 (5.7-14.0)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,1.01,(0.96-1.06), -1.3,(-6.5-3.7),1.01 (0.96-1.06), -1.3 (-6.5-3.7)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.81,(0.78-0.84), 19.3,(16.2-22.2),0.81 (0.78-0.84), 19.3 (16.2-22.2)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.86,(0.83-0.89), 13.7,(10.6-16.6),0.86 (0.83-0.89), 13.7 (10.6-16.6)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.91,(0.88-0.94),  9.3,(6.3-12.2),0.91 (0.88-0.94),  9.3 (6.3-12.2)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.87,(0.84-0.91), 12.7,(9.4-15.9),0.87 (0.84-0.91), 12.7 (9.4-15.9)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.83,(0.80-0.87), 16.6,(13.0-20.1),0.83 (0.80-0.87), 16.6 (13.0-20.1)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.91,(0.86-0.95),  9.4,(5.1-13.5),0.91 (0.86-0.95),  9.4 (5.1-13.5)
+"Positive
+SARS-CoV-2
+test",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,1.02,(0.97-1.07), -1.6,(-6.8-3.5),1.02 (0.97-1.07), -1.6 (-6.8-3.5)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.64,(0.60-0.68), 35.8,(31.8-39.6),0.64 (0.60-0.68), 35.8 (31.8-39.6)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.82,(0.78-0.86), 18.3,(14.1-22.3),0.82 (0.78-0.86), 18.3 (14.1-22.3)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.94,(0.90-0.98),  5.8,(1.8-9.7),0.94 (0.90-0.98),  5.8 (1.8-9.7)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.92,(0.88-0.96),  8.0,(3.7-12.2),0.92 (0.88-0.96),  8.0 (3.7-12.2)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.90,(0.85-0.95), 10.2,(5.5-14.6),0.90 (0.85-0.95), 10.2 (5.5-14.6)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.89,(0.84-0.94), 11.1,(6.0-15.9),0.89 (0.84-0.94), 11.1 (6.0-15.9)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",36+,1.04,(0.99-1.10), -4.4,(-10.5-1.3),1.04 (0.99-1.10), -4.4 (-10.5-1.3)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.64,(0.60-0.68), 36.0,(32.0-39.8),0.64 (0.60-0.68), 36.0 (32.0-39.8)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.81,(0.77-0.85), 18.8,(14.7-22.8),0.81 (0.77-0.85), 18.8 (14.7-22.8)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.93,(0.89-0.97),  7.0,(3.0-10.8),0.93 (0.89-0.97),  7.0 (3.0-10.8)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.90,(0.86-0.95),  9.8,(5.5-13.9),0.90 (0.86-0.95),  9.8 (5.5-13.9)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.87,(0.83-0.92), 12.5,(7.9-16.9),0.87 (0.83-0.92), 12.5 (7.9-16.9)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.86,(0.81-0.91), 13.9,(9.0-18.6),0.86 (0.81-0.91), 13.9 (9.0-18.6)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,1.00,(0.94-1.06), -0.1,(-6.0-5.5),1.00 (0.94-1.06), -0.1 (-6.0-5.5)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.65,(0.61-0.69), 35.4,(31.4-39.3),0.65 (0.61-0.69), 35.4 (31.4-39.3)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.82,(0.78-0.86), 18.1,(13.9-22.1),0.82 (0.78-0.86), 18.1 (13.9-22.1)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.94,(0.90-0.98),  6.1,(2.1-10.0),0.94 (0.90-0.98),  6.1 (2.1-10.0)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.91,(0.87-0.95),  9.1,(4.8-13.3),0.91 (0.87-0.95),  9.1 (4.8-13.3)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.88,(0.84-0.93), 11.8,(7.1-16.2),0.88 (0.84-0.93), 11.8 (7.1-16.2)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.87,(0.82-0.92), 13.4,(8.3-18.1),0.87 (0.82-0.92), 13.4 (8.3-18.1)
+"Positive
+SARS-CoV-2
+test",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,1.00,(0.95-1.06), -0.3,(-6.3-5.4),1.00 (0.95-1.06), -0.3 (-6.3-5.4)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.97,(0.92-1.01),  3.3,(-1.1-7.5),0.97 (0.92-1.01),  3.3 (-1.1-7.5)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.95,(0.91-0.99),  5.0,(0.9-8.9),0.95 (0.91-0.99),  5.0 (0.9-8.9)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.95,(0.92-0.99),  4.8,(0.9-8.5),0.95 (0.92-0.99),  4.8 (0.9-8.5)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.91,(0.87-0.96),  8.6,(4.3-12.7),0.91 (0.87-0.96),  8.6 (4.3-12.7)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.86,(0.82-0.91), 13.9,(9.3-18.2),0.86 (0.82-0.91), 13.9 (9.3-18.2)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,1.00,(0.95-1.06), -0.1,(-5.7-5.3),1.00 (0.95-1.06), -0.1 (-5.7-5.3)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",36+,1.11,(1.05-1.17),-10.9,(-17.4--4.7),1.11 (1.05-1.17),-10.9 (-17.4--4.7)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.94,(0.90-0.99),  5.8,(1.5-9.9),0.94 (0.90-0.99),  5.8 (1.5-9.9)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.92,(0.88-0.96),  8.0,(4.0-11.8),0.92 (0.88-0.96),  8.0 (4.0-11.8)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.91,(0.88-0.95),  8.9,(5.2-12.4),0.91 (0.88-0.95),  8.9 (5.2-12.4)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.86,(0.82-0.90), 13.8,(9.7-17.7),0.86 (0.82-0.90), 13.8 (9.7-17.7)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.80,(0.76-0.85), 19.8,(15.5-23.8),0.80 (0.76-0.85), 19.8 (15.5-23.8)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.92,(0.87-0.98),  7.7,(2.4-12.7),0.92 (0.87-0.98),  7.7 (2.4-12.7)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,1.01,(0.95-1.07), -0.6,(-6.6-5.1),1.01 (0.95-1.07), -0.6 (-6.6-5.1)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.95,(0.91-0.99),  4.9,(0.6-9.1),0.95 (0.91-0.99),  4.9 (0.6-9.1)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.93,(0.89-0.97),  6.8,(2.8-10.7),0.93 (0.89-0.97),  6.8 (2.8-10.7)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.92,(0.89-0.96),  7.7,(3.9-11.3),0.92 (0.89-0.96),  7.7 (3.9-11.3)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.87,(0.83-0.91), 12.7,(8.5-16.6),0.87 (0.83-0.91), 12.7 (8.5-16.6)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.81,(0.77-0.85), 18.9,(14.6-23.1),0.81 (0.77-0.85), 18.9 (14.6-23.1)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.93,(0.88-0.99),  6.8,(1.5-11.9),0.93 (0.88-0.99),  6.8 (1.5-11.9)
+"Positive
+SARS-CoV-2
+test",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,1.01,(0.95-1.07), -0.9,(-7.1-4.9),1.01 (0.95-1.07), -0.9 (-7.1-4.9)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.23,(0.19-0.28), 76.6,(71.6-80.8),0.23 (0.19-0.28), 76.6 (71.6-80.8)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.21,(0.18-0.25), 78.9,(74.7-82.5),0.21 (0.18-0.25), 78.9 (74.7-82.5)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.23,(0.19-0.26), 77.5,(73.9-80.6),0.23 (0.19-0.26), 77.5 (73.9-80.6)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.17,(0.14-0.20), 83.2,(79.9-86.0),0.17 (0.14-0.20), 83.2 (79.9-86.0)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.12,(0.09-0.15), 88.2,(85.3-90.6),0.12 (0.09-0.15), 88.2 (85.3-90.6)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.14,(0.11-0.17), 86.3,(82.5-89.3),0.14 (0.11-0.17), 86.3 (82.5-89.3)
+"COVID-19
+hospitalisation",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.12,(0.10-0.15), 87.9,(85.1-90.2),0.12 (0.10-0.15), 87.9 (85.1-90.2)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.22,(0.18-0.27), 77.9,(73.1-81.8),0.22 (0.18-0.27), 77.9 (73.1-81.8)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.20,(0.16-0.24), 80.3,(76.3-83.6),0.20 (0.16-0.24), 80.3 (76.3-83.6)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.21,(0.18-0.24), 79.2,(75.9-82.1),0.21 (0.18-0.24), 79.2 (75.9-82.1)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.15,(0.13-0.18), 84.8,(81.8-87.3),0.15 (0.13-0.18), 84.8 (81.8-87.3)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.11,(0.08-0.13), 89.4,(86.7-91.5),0.11 (0.08-0.13), 89.4 (86.7-91.5)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.12,(0.10-0.16), 87.7,(84.2-90.3),0.12 (0.10-0.16), 87.7 (84.2-90.3)
+"COVID-19
+hospitalisation",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.11,(0.09-0.13), 89.2,(86.6-91.3),0.11 (0.09-0.13), 89.2 (86.6-91.3)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.24,(0.20-0.30), 75.7,(70.3-80.1),0.24 (0.20-0.30), 75.7 (70.3-80.1)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.21,(0.17-0.25), 79.0,(74.8-82.6),0.21 (0.17-0.25), 79.0 (74.8-82.6)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.23,(0.19-0.26), 77.5,(73.8-80.6),0.23 (0.19-0.26), 77.5 (73.8-80.6)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.17,(0.14-0.20), 83.4,(80.1-86.2),0.17 (0.14-0.20), 83.4 (80.1-86.2)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.12,(0.09-0.15), 88.4,(85.4-90.8),0.12 (0.09-0.15), 88.4 (85.4-90.8)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.13,(0.10-0.17), 86.8,(83.1-89.6),0.13 (0.10-0.17), 86.8 (83.1-89.6)
+"COVID-19
+hospitalisation",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.12,(0.09-0.14), 88.3,(85.5-90.6),0.12 (0.09-0.14), 88.3 (85.5-90.6)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.21,(0.15-0.29), 79.4,(71.4-85.2),0.21 (0.15-0.29), 79.4 (71.4-85.2)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.19,(0.14-0.25), 81.3,(74.9-86.1),0.19 (0.14-0.25), 81.3 (74.9-86.1)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.21,(0.17-0.26), 79.0,(73.8-83.2),0.21 (0.17-0.26), 79.0 (73.8-83.2)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.12,(0.09-0.16), 88.0,(83.8-91.1),0.12 (0.09-0.16), 88.0 (83.8-91.1)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.07,(0.04-0.10), 93.3,(89.9-95.6),0.07 (0.04-0.10), 93.3 (89.9-95.6)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.12,(0.09-0.18), 87.5,(82.2-91.3),0.12 (0.09-0.18), 87.5 (82.2-91.3)
+"COVID-19
+hospitalisation",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.14,(0.11-0.19), 85.8,(81.0-89.4),0.14 (0.11-0.19), 85.8 (81.0-89.4)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.19,(0.14-0.26), 81.0,(73.6-86.4),0.19 (0.14-0.26), 81.0 (73.6-86.4)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.17,(0.13-0.23), 82.8,(76.8-87.2),0.17 (0.13-0.23), 82.8 (76.8-87.2)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.19,(0.16-0.24), 80.5,(75.6-84.5),0.19 (0.16-0.24), 80.5 (75.6-84.5)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.11,(0.08-0.15), 88.9,(84.9-91.8),0.11 (0.08-0.15), 88.9 (84.9-91.8)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.06,(0.04-0.09), 93.9,(90.8-96.0),0.06 (0.04-0.09), 93.9 (90.8-96.0)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.11,(0.08-0.16), 88.9,(84.0-92.3),0.11 (0.08-0.16), 88.9 (84.0-92.3)
+"COVID-19
+hospitalisation",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.13,(0.09-0.17), 87.4,(83.1-90.6),0.13 (0.09-0.17), 87.4 (83.1-90.6)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.21,(0.15-0.30), 78.8,(70.3-84.9),0.21 (0.15-0.30), 78.8 (70.3-84.9)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.19,(0.14-0.26), 80.7,(73.7-85.7),0.19 (0.14-0.26), 80.7 (73.7-85.7)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.21,(0.17-0.27), 78.8,(73.4-83.1),0.21 (0.17-0.27), 78.8 (73.4-83.1)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.12,(0.09-0.17), 87.7,(83.3-90.9),0.12 (0.09-0.17), 87.7 (83.3-90.9)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.07,(0.05-0.11), 93.1,(89.4-95.5),0.07 (0.05-0.11), 93.1 (89.4-95.5)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.13,(0.09-0.18), 87.5,(82.0-91.3),0.13 (0.09-0.18), 87.5 (82.0-91.3)
+"COVID-19
+hospitalisation",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.14,(0.11-0.19), 85.8,(80.9-89.4),0.14 (0.11-0.19), 85.8 (80.9-89.4)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.28,(0.22-0.36), 72.0,(64.5-78.0),0.28 (0.22-0.36), 72.0 (64.5-78.0)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.25,(0.20-0.31), 75.3,(69.1-80.3),0.25 (0.20-0.31), 75.3 (69.1-80.3)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.24,(0.20-0.29), 75.7,(70.8-79.9),0.24 (0.20-0.29), 75.7 (70.8-79.9)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.20,(0.16-0.24), 80.5,(75.7-84.3),0.20 (0.16-0.24), 80.5 (75.7-84.3)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.15,(0.11-0.19), 85.3,(80.9-88.7),0.15 (0.11-0.19), 85.3 (80.9-88.7)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.14,(0.10-0.19), 86.3,(81.2-90.0),0.14 (0.10-0.19), 86.3 (81.2-90.0)
+"COVID-19
+hospitalisation",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.12,(0.09-0.16), 87.9,(84.0-90.8),0.12 (0.09-0.16), 87.9 (84.0-90.8)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.26,(0.21-0.34), 73.6,(66.5-79.2),0.26 (0.21-0.34), 73.6 (66.5-79.2)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.23,(0.19-0.29), 76.7,(70.8-81.4),0.23 (0.19-0.29), 76.7 (70.8-81.4)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.23,(0.19-0.28), 76.9,(72.2-80.9),0.23 (0.19-0.28), 76.9 (72.2-80.9)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.19,(0.15-0.23), 81.3,(76.7-85.0),0.19 (0.15-0.23), 81.3 (76.7-85.0)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.14,(0.11-0.18), 86.1,(81.8-89.4),0.14 (0.11-0.18), 86.1 (81.8-89.4)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.13,(0.09-0.18), 87.2,(82.4-90.7),0.13 (0.09-0.18), 87.2 (82.4-90.7)
+"COVID-19
+hospitalisation",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.11,(0.08-0.15), 88.8,(85.2-91.5),0.11 (0.08-0.15), 88.8 (85.2-91.5)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.29,(0.22-0.36), 71.4,(63.6-77.5),0.29 (0.22-0.36), 71.4 (63.6-77.5)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.25,(0.20-0.31), 75.5,(69.2-80.4),0.25 (0.20-0.31), 75.5 (69.2-80.4)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.25,(0.21-0.30), 74.8,(69.5-79.1),0.25 (0.21-0.30), 74.8 (69.5-79.1)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.21,(0.17-0.26), 79.4,(74.3-83.5),0.21 (0.17-0.26), 79.4 (74.3-83.5)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.15,(0.12-0.20), 84.7,(79.9-88.3),0.15 (0.12-0.20), 84.7 (79.9-88.3)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.14,(0.10-0.19), 86.0,(80.7-89.8),0.14 (0.10-0.19), 86.0 (80.7-89.8)
+"COVID-19
+hospitalisation",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.12,(0.09-0.16), 87.9,(84.0-90.8),0.12 (0.09-0.16), 87.9 (84.0-90.8)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.00,(0.00-0.03), 99.6,(97.5-100.0),0.00 (0.00-0.03), 99.6 (97.5-100.0)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.01,(0.00-0.02), 99.3,(97.9-99.8),0.01 (0.00-0.02), 99.3 (97.9-99.8)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.00,(0.00-0.01), 99.6,(98.9-99.8),0.00 (0.00-0.01), 99.6 (98.9-99.8)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.00,(0.00-0.01), 99.5,(98.8-99.8),0.00 (0.00-0.01), 99.5 (98.8-99.8)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.00,(0.00-0.01), 99.6,(98.9-99.8),0.00 (0.00-0.01), 99.6 (98.9-99.8)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.01,(0.00-0.02), 99.1,(98.1-99.6),0.01 (0.00-0.02), 99.1 (98.1-99.6)
+COVID-19 death,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.01,(0.00-0.01), 99.3,(98.6-99.6),0.01 (0.00-0.01), 99.3 (98.6-99.6)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.00,(0.00-0.02), 99.7,(97.5-100.0),0.00 (0.00-0.02), 99.7 (97.5-100.0)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.01,(0.00-0.02), 99.3,(98.0-99.8),0.01 (0.00-0.02), 99.3 (98.0-99.8)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.00,(0.00-0.01), 99.6,(98.9-99.8),0.00 (0.00-0.01), 99.6 (98.9-99.8)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.00,(0.00-0.01), 99.6,(98.9-99.8),0.00 (0.00-0.01), 99.6 (98.9-99.8)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.00,(0.00-0.01), 99.6,(99.0-99.9),0.00 (0.00-0.01), 99.6 (99.0-99.9)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.01,(0.00-0.02), 99.2,(98.3-99.6),0.01 (0.00-0.02), 99.2 (98.3-99.6)
+COVID-19 death,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.01,(0.00-0.01), 99.4,(98.8-99.7),0.01 (0.00-0.01), 99.4 (98.8-99.7)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.00,(0.00-0.02), 99.7,(97.5-100.0),0.00 (0.00-0.02), 99.7 (97.5-100.0)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.01,(0.00-0.02), 99.4,(98.0-99.8),0.01 (0.00-0.02), 99.4 (98.0-99.8)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.01,(0.00-0.01), 99.5,(98.6-99.8),0.01 (0.00-0.01), 99.5 (98.6-99.8)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.00,(0.00-0.01), 99.5,(98.9-99.8),0.00 (0.00-0.01), 99.5 (98.9-99.8)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.00,(0.00-0.01), 99.6,(98.9-99.9),0.00 (0.00-0.01), 99.6 (98.9-99.9)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.01,(0.00-0.02), 99.1,(98.2-99.6),0.01 (0.00-0.02), 99.1 (98.2-99.6)
+COVID-19 death,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.01,(0.00-0.01), 99.3,(98.7-99.7),0.01 (0.00-0.01), 99.3 (98.7-99.7)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.01,(0.00-0.08), 98.9,(92.4-99.9),0.01 (0.00-0.08), 98.9 (92.4-99.9)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.00,(0.00-0.02), 99.6,(98.2-99.9),0.00 (0.00-0.02), 99.6 (98.2-99.9)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.01,(0.00-0.02), 99.4,(97.8-99.9),0.01 (0.00-0.02), 99.4 (97.8-99.9)
+COVID-19 death,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.01,(0.00-0.02), 99.0,(97.8-99.5),0.01 (0.00-0.02), 99.0 (97.8-99.5)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.01,(0.00-0.07), 99.0,(93.0-99.9),0.01 (0.00-0.07), 99.0 (93.0-99.9)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.00,(0.00-0.02), 99.6,(98.4-99.9),0.00 (0.00-0.02), 99.6 (98.4-99.9)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.00,(0.00-0.02), 99.6,(98.2-99.9),0.00 (0.00-0.02), 99.6 (98.2-99.9)
+COVID-19 death,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.01,(0.00-0.02), 99.2,(98.2-99.6),0.01 (0.00-0.02), 99.2 (98.2-99.6)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.01,(0.00-0.07), 99.0,(93.0-99.9),0.01 (0.00-0.07), 99.0 (93.0-99.9)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.00,(0.00-0.02), 99.6,(98.3-99.9),0.00 (0.00-0.02), 99.6 (98.3-99.9)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.00,(0.00-0.02), 99.5,(98.1-99.9),0.00 (0.00-0.02), 99.5 (98.1-99.9)
+COVID-19 death,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.01,(0.00-0.02), 99.1,(98.0-99.6),0.01 (0.00-0.02), 99.1 (98.0-99.6)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.01,(0.00-0.03), 98.9,(96.6-99.6),0.01 (0.00-0.03), 98.9 (96.6-99.6)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.01,(0.00-0.02), 99.3,(98.2-99.7),0.01 (0.00-0.02), 99.3 (98.2-99.7)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.00,(0.00-0.01), 99.5,(98.6-99.9),0.00 (0.00-0.01), 99.5 (98.6-99.9)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.01,(0.00-0.02), 99.3,(98.2-99.8),0.01 (0.00-0.02), 99.3 (98.2-99.8)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.01,(0.00-0.03), 98.9,(97.3-99.6),0.01 (0.00-0.03), 98.9 (97.3-99.6)
+COVID-19 death,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.00,(0.00-0.01), 99.6,(98.7-99.9),0.00 (0.00-0.01), 99.6 (98.7-99.9)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.01,(0.00-0.03), 98.9,(96.7-99.7),0.01 (0.00-0.03), 98.9 (96.7-99.7)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.01,(0.00-0.02), 99.3,(98.2-99.8),0.01 (0.00-0.02), 99.3 (98.2-99.8)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.00,(0.00-0.01), 99.6,(98.6-99.9),0.00 (0.00-0.01), 99.6 (98.6-99.9)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.01,(0.00-0.02), 99.4,(98.4-99.8),0.01 (0.00-0.02), 99.4 (98.4-99.8)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.01,(0.00-0.02), 99.1,(97.7-99.6),0.01 (0.00-0.02), 99.1 (97.7-99.6)
+COVID-19 death,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.00,(0.00-0.01), 99.7,(98.9-99.9),0.00 (0.00-0.01), 99.7 (98.9-99.9)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.00,(0.00-0.00),100.0,(100.0-100.0),0.00 (0.00-0.00),100.0 (100.0-100.0)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.01,(0.00-0.03), 98.9,(96.7-99.7),0.01 (0.00-0.03), 98.9 (96.7-99.7)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.01,(0.00-0.02), 99.2,(97.8-99.7),0.01 (0.00-0.02), 99.2 (97.8-99.7)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.00,(0.00-0.01), 99.5,(98.6-99.9),0.00 (0.00-0.01), 99.5 (98.6-99.9)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.01,(0.00-0.02), 99.3,(98.2-99.8),0.01 (0.00-0.02), 99.3 (98.2-99.8)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.01,(0.00-0.03), 99.0,(97.5-99.6),0.01 (0.00-0.03), 99.0 (97.5-99.6)
+COVID-19 death,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.00,(0.00-0.01), 99.6,(98.8-99.9),0.00 (0.00-0.01), 99.6 (98.8-99.9)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.15,(0.11-0.20), 85.0,(80.2-88.7),0.15 (0.11-0.20), 85.0 (80.2-88.7)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.17,(0.14-0.21), 82.7,(78.5-86.0),0.17 (0.14-0.21), 82.7 (78.5-86.0)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.17,(0.15-0.20), 83.0,(80.0-85.5),0.17 (0.15-0.20), 83.0 (80.0-85.5)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.18,(0.16-0.21), 81.9,(79.0-84.4),0.18 (0.16-0.21), 81.9 (79.0-84.4)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.13,(0.11-0.15), 87.1,(84.8-89.0),0.13 (0.11-0.15), 87.1 (84.8-89.0)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.15,(0.13-0.17), 85.1,(82.6-87.2),0.15 (0.13-0.17), 85.1 (82.6-87.2)
+"Non-COVID-19
+death",Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.15,(0.13-0.16), 85.2,(83.7-86.6),0.15 (0.13-0.16), 85.2 (83.7-86.6)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.16,(0.12-0.21), 84.5,(79.5-88.2),0.16 (0.12-0.21), 84.5 (79.5-88.2)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.18,(0.15-0.23), 81.8,(77.5-85.3),0.18 (0.15-0.23), 81.8 (77.5-85.3)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.18,(0.15-0.21), 82.0,(78.9-84.7),0.18 (0.15-0.21), 82.0 (78.9-84.7)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.19,(0.16-0.22), 80.9,(77.9-83.6),0.19 (0.16-0.22), 80.9 (77.9-83.6)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.14,(0.11-0.16), 86.5,(84.0-88.5),0.14 (0.11-0.16), 86.5 (84.0-88.5)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.16,(0.13-0.18), 84.4,(81.8-86.7),0.16 (0.13-0.18), 84.4 (81.8-86.7)
+"Non-COVID-19
+death",Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.15,(0.14-0.17), 84.9,(83.3-86.4),0.15 (0.14-0.17), 84.9 (83.3-86.4)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.17,(0.13-0.22), 83.2,(77.7-87.3),0.17 (0.13-0.22), 83.2 (77.7-87.3)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.19,(0.15-0.24), 81.0,(76.4-84.7),0.19 (0.15-0.24), 81.0 (76.4-84.7)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.19,(0.16-0.22), 81.0,(77.7-83.9),0.19 (0.16-0.22), 81.0 (77.7-83.9)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.21,(0.18-0.24), 79.4,(76.0-82.3),0.21 (0.18-0.24), 79.4 (76.0-82.3)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.14,(0.12-0.17), 85.7,(83.1-87.9),0.14 (0.12-0.17), 85.7 (83.1-87.9)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.17,(0.14-0.20), 83.4,(80.5-85.8),0.17 (0.14-0.20), 83.4 (80.5-85.8)
+"Non-COVID-19
+death",Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.16,(0.14-0.18), 84.0,(82.2-85.6),0.16 (0.14-0.18), 84.0 (82.2-85.6)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.10,(0.06-0.18), 89.8,(82.1-94.2),0.10 (0.06-0.18), 89.8 (82.1-94.2)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.16,(0.11-0.23), 84.0,(76.9-88.9),0.16 (0.11-0.23), 84.0 (76.9-88.9)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.13,(0.10-0.17), 86.7,(82.5-89.9),0.13 (0.10-0.17), 86.7 (82.5-89.9)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.13,(0.10-0.17), 86.8,(82.9-89.8),0.13 (0.10-0.17), 86.8 (82.9-89.8)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.12,(0.09-0.15), 88.5,(85.1-91.1),0.12 (0.09-0.15), 88.5 (85.1-91.1)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.12,(0.10-0.16), 87.5,(84.0-90.2),0.12 (0.10-0.16), 87.5 (84.0-90.2)
+"Non-COVID-19
+death",BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.16,(0.14-0.18), 84.2,(81.9-86.2),0.16 (0.14-0.18), 84.2 (81.9-86.2)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.10,(0.06-0.17), 90.2,(82.7-94.5),0.10 (0.06-0.17), 90.2 (82.7-94.5)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.16,(0.11-0.23), 84.4,(77.4-89.2),0.16 (0.11-0.23), 84.4 (77.4-89.2)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.13,(0.10-0.17), 86.8,(82.6-90.0),0.13 (0.10-0.17), 86.8 (82.6-90.0)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.13,(0.10-0.17), 86.8,(82.8-89.8),0.13 (0.10-0.17), 86.8 (82.8-89.8)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.11,(0.09-0.15), 88.6,(85.1-91.2),0.11 (0.09-0.15), 88.6 (85.1-91.2)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.12,(0.09-0.16), 87.8,(84.3-90.5),0.12 (0.09-0.16), 87.8 (84.3-90.5)
+"Non-COVID-19
+death",BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.15,(0.13-0.17), 85.2,(82.9-87.2),0.15 (0.13-0.17), 85.2 (82.9-87.2)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.10,(0.06-0.18), 89.9,(82.2-94.3),0.10 (0.06-0.18), 89.9 (82.2-94.3)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.17,(0.12-0.25), 82.6,(74.8-88.0),0.17 (0.12-0.25), 82.6 (74.8-88.0)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.16,(0.12-0.21), 84.2,(78.8-88.2),0.16 (0.12-0.21), 84.2 (78.8-88.2)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.16,(0.12-0.21), 84.0,(79.0-87.8),0.16 (0.12-0.21), 84.0 (79.0-87.8)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.13,(0.10-0.17), 87.1,(83.1-90.1),0.13 (0.10-0.17), 87.1 (83.1-90.1)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.14,(0.11-0.18), 86.2,(82.2-89.3),0.14 (0.11-0.18), 86.2 (82.2-89.3)
+"Non-COVID-19
+death",BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.17,(0.15-0.20), 83.1,(80.4-85.4),0.17 (0.15-0.20), 83.1 (80.4-85.4)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",1-3,0.18,(0.13-0.25), 81.5,(74.6-86.6),0.18 (0.13-0.25), 81.5 (74.6-86.6)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",4-7,0.19,(0.15-0.25), 81.0,(75.4-85.3),0.19 (0.15-0.25), 81.0 (75.4-85.3)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",8-14,0.20,(0.16-0.24), 80.3,(76.3-83.6),0.20 (0.16-0.24), 80.3 (76.3-83.6)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",15-21,0.21,(0.17-0.25), 79.3,(75.4-82.6),0.21 (0.17-0.25), 79.3 (75.4-82.6)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",22-28,0.13,(0.11-0.16), 86.9,(84.0-89.3),0.13 (0.11-0.16), 86.9 (84.0-89.3)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",29-35,0.16,(0.13-0.19), 84.3,(81.2-87.0),0.16 (0.13-0.19), 84.3 (81.2-87.0)
+"Non-COVID-19
+death",ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment",36+,0.16,(0.14-0.18), 84.1,(82.2-85.9),0.16 (0.14-0.18), 84.1 (82.2-85.9)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",1-3,0.19,(0.14-0.26), 81.3,(74.3-86.4),0.19 (0.14-0.26), 81.3 (74.3-86.4)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",4-7,0.19,(0.15-0.25), 80.6,(74.9-85.0),0.19 (0.15-0.25), 80.6 (74.9-85.0)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",8-14,0.20,(0.17-0.24), 79.6,(75.5-83.1),0.20 (0.17-0.24), 79.6 (75.5-83.1)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",15-21,0.22,(0.18-0.26), 78.4,(74.3-81.8),0.22 (0.18-0.26), 78.4 (74.3-81.8)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",22-28,0.14,(0.11-0.17), 86.3,(83.2-88.8),0.14 (0.11-0.17), 86.3 (83.2-88.8)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",29-35,0.16,(0.14-0.20), 83.6,(80.2-86.5),0.16 (0.14-0.20), 83.6 (80.2-86.5)
+"Non-COVID-19
+death",ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders",36+,0.16,(0.14-0.18), 84.1,(82.0-86.0),0.16 (0.14-0.18), 84.1 (82.0-86.0)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",1-3,0.20,(0.15-0.28), 79.9,(72.3-85.5),0.20 (0.15-0.28), 79.9 (72.3-85.5)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",4-7,0.20,(0.15-0.26), 80.0,(74.1-84.6),0.20 (0.15-0.26), 80.0 (74.1-84.6)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",8-14,0.21,(0.17-0.25), 79.0,(74.7-82.6),0.21 (0.17-0.25), 79.0 (74.7-82.6)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",15-21,0.23,(0.19-0.27), 77.2,(72.8-80.9),0.23 (0.19-0.27), 77.2 (72.8-80.9)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",22-28,0.14,(0.12-0.18), 85.6,(82.2-88.3),0.14 (0.12-0.18), 85.6 (82.2-88.3)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",29-35,0.17,(0.14-0.21), 82.6,(78.8-85.6),0.17 (0.14-0.21), 82.6 (78.8-85.6)
+"Non-COVID-19
+death",ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders",36+,0.17,(0.15-0.19), 83.2,(80.9-85.2),0.17 (0.15-0.19), 83.2 (80.9-85.2)

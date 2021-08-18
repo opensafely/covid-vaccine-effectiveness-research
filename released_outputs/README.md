@@ -1,6 +1,23 @@
 # Table of contents
 
 * output
+  * output/in70s
+    * output/in70s/all
+      * output/in70s/all/combined
+        * [output/in70s/all/combined/cml_incidence_plot.png](output/in70s/all/combined/cml_incidence_plot.png)
+        * [output/in70s/all/combined/cml_incidence_plot.svg](output/in70s/all/combined/cml_incidence_plot.svg)
+        * [output/in70s/all/combined/cml_incidence_plot_pair.png](output/in70s/all/combined/cml_incidence_plot_pair.png)
+        * [output/in70s/all/combined/cml_incidence_plot_pair.svg](output/in70s/all/combined/cml_incidence_plot_pair.svg)
+        * [output/in70s/all/combined/estimates_formatted_timesincevax.csv](output/in70s/all/combined/estimates_formatted_timesincevax.csv)
+        * [output/in70s/all/combined/estimates_formatted_wide_timesincevax.csv](output/in70s/all/combined/estimates_formatted_wide_timesincevax.csv)
+        * [output/in70s/all/combined/estimates_timesincevax.csv](output/in70s/all/combined/estimates_timesincevax.csv)
+        * [output/in70s/all/combined/plot_vax1.svg](output/in70s/all/combined/plot_vax1.svg)
+        * [output/in70s/all/combined/tab_vax1.csv](output/in70s/all/combined/tab_vax1.csv)
+        * [output/in70s/all/combined/tab_vax1_wide.csv](output/in70s/all/combined/tab_vax1_wide.csv)
+        * [output/in70s/all/combined/VE_plot.png](output/in70s/all/combined/VE_plot.png)
+        * [output/in70s/all/combined/VE_plot.svg](output/in70s/all/combined/VE_plot.svg)
+        * [output/in70s/all/combined/VE_plot_free.png](output/in70s/all/combined/VE_plot_free.png)
+        * [output/in70s/all/combined/VE_plot_free.svg](output/in70s/all/combined/VE_plot_free.svg)
   * output/over80s
     * output/over80s/all
       * output/over80s/all/combined
