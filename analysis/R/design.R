@@ -185,10 +185,6 @@ reweight_death <- 0
 write_rds(reweight_death, here("output", "metadata", glue("reweight_death.rds")))
 
 
-## if changing treatment strategy as per Miguel's suggestion:
-exclude_recentpostest <- TRUE
-write_rds(exclude_recentpostest, here("output", "metadata", glue("exclude_recentpostest.rds")))
-
 ## define stratification variables ----
 
 list_strata <- list(

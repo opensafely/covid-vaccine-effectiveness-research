@@ -1,13 +1,11 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports fitted MSMs
-# calculates robust CIs taking into account patient-level clustering
-# outputs forest plots for the primary vaccine-outcome relationship
-# outputs plots showing model-estimated spatio-temporal trends
+# imports fitted MSMs and model summaries
+# outputs marginal cumulative incidence curves using g-formula
 #
 # The script should only be run via an action in the project.yaml only
-# The script must be accompanied by four arguments: cohort, outcome, brand, and stratum
+# The script must be accompanied by four arguments: cohort, outcome, brand, recentpostest_period, and stratum
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -38,14 +36,16 @@ if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   strata_var <- "all"
+  recentpostest_period <- as.numeric("Inf")
   brand <- "any"
   outcome <- "covidadmitted"
   removeobs <- FALSE
 } else {
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  brand <- args[[3]]
-  outcome <- args[[4]]
+  recentpostest_period <- as.numeric(args[[3]])
+  brand <- args[[4]]
+  outcome <- args[[5]]
   removeobs <- TRUE
 }
 
@@ -94,15 +94,15 @@ for(stratum in strata){
   stratum_name <- strata_names[which(strata==stratum)]
   # Import processed data ----
 
-  data_weights <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")))
+  data_weights <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("data_weights_{stratum}.rds")))
 
   # import models ----
 
-  #msmmod0 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")))
-  msmmod1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")))
-  #msmmod2 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")))
-  #msmmod3 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")))
-  msmmod4 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")))
+  #msmmod0 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model0_{stratum}.rds")))
+  msmmod1 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model1_{stratum}.rds")))
+  #msmmod2 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model2_{stratum}.rds")))
+  #msmmod3 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model3_{stratum}.rds")))
+  msmmod4 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model4_{stratum}.rds")))
 
 
   ### cumulative incidence curves
@@ -194,8 +194,8 @@ for(stratum in strata){
       axis.text.x.top=element_text(hjust=0)
     )
 
-  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_{stratum}.svg")), cml_inc, width=20, height=15, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("cml_incidence_plot_{stratum}.png")), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("cml_incidence_plot_{stratum}.svg")), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("cml_incidence_plot_{stratum}.png")), cml_inc, width=20, height=15, units="cm")
 
 
   ### absolute daily risk, by region
@@ -207,12 +207,12 @@ for(stratum in strata){
     x.label=glue("Days since {start_date}"),
     y.label=glue("{outcome_descr} prob.")
   )
-  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("time_trends_region_plot1_{stratum}.svg")), ggsecular1, width=20, height=15, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("time_trends_region_plot1_{stratum}.png")), ggsecular1, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("time_trends_region_plot1_{stratum}.svg")), ggsecular1, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("time_trends_region_plot1_{stratum}.png")), ggsecular1, width=20, height=15, units="cm")
 
 }
 
 
 summary_df <- summary_list %>% bind_rows
 
-write_rds(summary_df, path = here("output", cohort, strata_var, brand, outcome, "data_incidence.rds"))
+write_rds(summary_df, path = here("output", cohort, strata_var, recentpostest_period, brand, outcome, "data_incidence.rds"))

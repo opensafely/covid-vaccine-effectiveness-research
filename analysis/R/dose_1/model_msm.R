@@ -10,8 +10,9 @@
 # The script must be accompanied by four arguments,
 # 1. the name of the cohort defined in data_define_cohorts.R
 # 2. the name of the outcome defined in data_define_cohorts.R
-# 3. the name of the brand (currently "az" or "pfizer")
-# 4. the stratification variable. Use "all" if no stratification
+# 3. the duration of time from positive test over which to exclude vaccinations from the exposure. This changes the causal estimand, but allows estimation of covid-19 specific mortality
+# 4. the name of the brand (currently "az" or "pfizer")
+# 5. the stratification variable. Use "all" if no stratification
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -41,18 +42,21 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
+  recentpostest_period <- as.numeric("Inf")
   brand <- "az"
   outcome <- "postest"
   ipw_sample_random_n <- 20000 # vax models use less follow up time because median time to vaccination (=outcome) is ~ 30 days
   msm_sample_nonoutcomes_n <- 5000 # outcome models use more follow up time because longer to outcome, and much fewer outcomes than vaccinations
+
 } else {
   removeobs <- TRUE
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  brand <- args[[3]]
-  outcome <- args[[4]]
-  ipw_sample_random_n <- as.integer(args[[5]])
-  msm_sample_nonoutcomes_n <- as.integer(args[[6]])
+  recentpostest_period <- as.numeric(args[[3]])
+  brand <- args[[4]]
+  outcome <- args[[5]]
+  ipw_sample_random_n <- as.integer(args[[6]])
+  msm_sample_nonoutcomes_n <- as.integer(args[[7]])
 }
 
 
@@ -71,7 +75,7 @@ parglmparams <- parglm.control(
 reweight_death <- read_rds(here("output", "metadata", "reweight_death.rds")) == 1
 
 ## if changing treatment strategy as per Miguel's suggestion
-exclude_recentpostest <- read_rds(here("output", "metadata", "exclude_recentpostest.rds"))
+exclude_recentpostest <- (recentpostest_period >0)
 
 ### import outcomes, exposures, and covariate formulae ----
 ## these are created in data_define_cohorts.R script
@@ -91,7 +95,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 
 # create output directories ----
-fs::dir_create(here("output", cohort, strata_var, brand, outcome))
+fs::dir_create(here("output", cohort, strata_var, recentpostest_period, brand, outcome))
 
 
 
@@ -234,9 +238,9 @@ get_ipw_weights <- function(
   cat("warnings: ", "\n")
   print(warnings())
 
-  #write_rds(data_atrisk, here("output", cohort, strata_var, brand, outcome, glue("data_atrisk_{event}.rds")), compress="gz")
-  write_rds(event_model, here("output", cohort, strata_var, brand, outcome, glue("model_{name}_{stratum}.rds")), compress="gz")
-  write_rds(ipw_formula, here("output", cohort, strata_var, brand, outcome, glue("model_formula_{name}_{stratum}.rds")), compress="gz")
+  #write_rds(data_atrisk, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("data_atrisk_{event}.rds")), compress="gz")
+  write_rds(event_model, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_{name}_{stratum}.rds")), compress="gz")
+  write_rds(ipw_formula, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_formula_{name}_{stratum}.rds")), compress="gz")
 
   rm("data_atrisk_sample")
 
@@ -358,7 +362,7 @@ for(stratum in strata){
       across(where(is.logical), ~.x*1L)
     ) %>%
     mutate(
-      recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
+      recentpostest = (replace_na(between(postest_timesince, 1, recentpostest_period), FALSE) & exclude_recentpostest),
       vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxany_atrisk==1 & !recentpostest),
       vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
       vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
@@ -548,7 +552,7 @@ for(stratum in strata){
 
   capture.output(
     walk2(summarise_weights$value, summarise_weights$name, print_num),
-    file = here("output", cohort, strata_var, brand, outcome, glue("weights_table_{stratum}.txt")),
+    file = here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("weights_table_{stratum}.txt")),
     append=FALSE
   )
 
@@ -560,7 +564,7 @@ for(stratum in strata){
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here("output", cohort, strata_var, brand, outcome, glue("weights_prob_histogram_{stratum}.svg")), weight_histogram)
+  ggsave(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("weights_prob_histogram_{stratum}.svg")), weight_histogram)
 
 
   weight_histogram <- data_weights %>%
@@ -569,7 +573,7 @@ for(stratum in strata){
     scale_x_log10()+
     theme_bw()
 
-  ggsave(here("output", cohort, strata_var, brand, outcome, glue("weights_cmlprob_histogram_{stratum}.svg")), weight_histogram)
+  ggsave(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("weights_cmlprob_histogram_{stratum}.svg")), weight_histogram)
   if(removeobs) rm(weight_histogram)
 
   ## output weight distribution file ----
@@ -594,7 +598,7 @@ for(stratum in strata){
   cat(glue("data_weights data size = ", nrow(data_weights)), "  \n")
   cat(glue("memory usage = ", format(object.size(data_weights), units="GB", standard="SI", digits=3L)), "  \n")
 
-  write_rds(data_weights, here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")), compress="gz")
+  write_rds(data_weights, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("data_weights_{stratum}.rds")), compress="gz")
 
 
   # MSM model ----
@@ -623,7 +627,7 @@ for(stratum in strata){
   #
   # cat(glue("msmmod0_par data size = ", length(msmmod0_par$y)), "\n")
   # cat(glue("memory usage = ", format(object.size(msmmod0_par), units="GB", standard="SI", digits=3L)), "\n")
-  # write_rds(msmmod0_par, here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")), compress="gz")
+  # write_rds(msmmod0_par, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model0_{stratum}.rds")), compress="gz")
   # if(removeobs) rm(msmmod0_par)
 
   ### model 1 - adjusted vaccination effect model and region/time only ----
@@ -646,7 +650,7 @@ for(stratum in strata){
 
   cat(glue("msmmod1_par data size = ", length(msmmod1_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod1_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod1_par, here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")), compress="gz")
+  write_rds(msmmod1_par, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model1_{stratum}.rds")), compress="gz")
   if(removeobs) rm(msmmod1_par)
 
 
@@ -670,7 +674,7 @@ for(stratum in strata){
 
   cat(glue("msmmod2_par data size = ", length(msmmod2_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod2_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod2_par, here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")), compress="gz")
+  write_rds(msmmod2_par, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model2_{stratum}.rds")), compress="gz")
 
   if(removeobs) rm(msmmod2_par)
 
@@ -694,7 +698,7 @@ for(stratum in strata){
 
   cat(glue("msmmod3_par data size = ", length(msmmod3_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod3_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod3_par, here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")), compress="gz")
+  write_rds(msmmod3_par, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model3_{stratum}.rds")), compress="gz")
   if(removeobs) rm(msmmod3_par)
 
 
@@ -718,7 +722,7 @@ for(stratum in strata){
 
   cat(glue("msmmod4_par data size = ", length(msmmod4_par$y)), "\n")
   cat(glue("memory usage = ", format(object.size(msmmod4_par), units="GB", standard="SI", digits=3L)), "\n")
-  write_rds(msmmod4_par, here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")), compress="gz")
+  write_rds(msmmod4_par, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model4_{stratum}.rds")), compress="gz")
   if(removeobs) rm(msmmod4_par)
 
 
@@ -737,7 +741,7 @@ for(stratum in strata){
       incidence_prop = outcomes/patients,
       incidence_rate = outcomes/obs
     ) %>%
-    write_csv(path=here("output", cohort, strata_var, brand, outcome, glue("summary_substantive_{stratum}.csv")))
+    write_csv(path=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("summary_substantive_{stratum}.csv")))
 
 
   if(removeobs) rm(data_weights)

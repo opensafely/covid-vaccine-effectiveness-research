@@ -34,13 +34,15 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
+  recentpostest_period <- as.numeric("Inf")
   ipw_sample_random_n <- 200000 # vax models use less follow up time because median time to vaccination (=outcome) is ~ 30 days
   msm_sample_nonoutcomes_n <- 50000 # outcome models use more follow up time because longer to outcome, and much fewer outcomes than vaccinations
 } else {
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  ipw_sample_random_n <- as.integer(args[[3]])
-  msm_sample_nonoutcomes_n <- as.integer(args[[4]])
+  recentpostest_period <- as.numeric(args[[3]])
+  ipw_sample_random_n <- as.integer(args[[4]])
+  msm_sample_nonoutcomes_n <- as.integer(args[[5]])
   removeobs <- TRUE
 }
 
@@ -56,7 +58,7 @@ list2env(list_formula, globalenv())
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ", strata_var))
 
 ## if changing treatment strategy as per Miguel's suggestion
-exclude_recentpostest <- read_rds(here("output", "metadata", "exclude_recentpostest.rds"))
+exclude_recentpostest <- recentpostest_period > 0
 
 
 
@@ -113,8 +115,8 @@ septab <- function(data, formula, stratum, brand, outcome, name){
       pattern = "({x})"
     ) %>%
     gtsave(
-      filename = glue("sepcheck_{stratum}_{brand}_{outcome}_{name}.html"),
-      path=here("output", cohort, "descriptive", "model-checks", strata_var)
+      filename = glue("sepcheck_{stratum}_{recentpostest_period}_{brand}_{outcome}_{name}.html"),
+      path=here("output", cohort, "descriptive", "model-checks", strata_var, recentpostest_period)
     )
 }
 
@@ -128,7 +130,7 @@ for(stratum in strata){
   for(brand in brands){
     for(outcome in outcomes){
 
-      fs::dir_create(here("output", cohort, "descriptive", "model-checks", strata_var))
+      fs::dir_create(here("output", cohort, "descriptive", "model-checks", strata_var, recentpostest_period))
 
       cat("  \n")
       cat(stratum, "  \n")
@@ -160,7 +162,7 @@ for(stratum in strata){
           across(where(is.logical), ~.x*1L)
         ) %>%
         mutate(
-          recentpostest = (replace_na(between(postest_timesince, 1, Inf), FALSE) & exclude_recentpostest),
+          recentpostest = (replace_na(between(postest_timesince, 1, recentpostest_period), FALSE) & exclude_recentpostest),
           vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxany_atrisk==1 & !recentpostest),
           vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
           vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
@@ -254,7 +256,7 @@ for(stratum in strata){
           incidencerate_vaxpfizer1 = vaxpfizer1/obs,
           incidencerate_vaxaz1 = vaxaz1/obs
         ) %>%
-        write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, glue("summary_{stratum}_{brand}_{outcome}_vaccinations.csv")))
+        write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, recentpostest_period, glue("summary_{stratum}_{recentpostest_period}_{brand}_{outcome}_vaccinations.csv")))
 
 
       septab(data_pt_vax_sample, treatment_any, stratum, outcome, brand, "vaxany1")
@@ -303,7 +305,7 @@ for(stratum in strata){
           incidencerate_coviddeath = coviddeath/obs,
           incidencerate_noncoviddeath = noncoviddeath/obs
         ) %>%
-        write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, glue("summary_{stratum}_{brand}_{outcome}_deaths.csv")))
+        write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, recentpostest_period, glue("summary_{stratum}_{recentpostest_period}_{brand}_{outcome}_deaths.csv")))
 
 
       septab(data_pt_death_sample, treatment_coviddeath, stratum, outcome, brand, "coviddeath")
@@ -354,7 +356,7 @@ for(stratum in strata){
           incidencerate_outcome = outcome/obs
 
         ) %>%
-        write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, glue("summary_{stratum}_{brand}_{outcome}_outcomes.csv")))
+        write_csv(path=here("output", cohort, "descriptive", "model-checks", strata_var, recentpostest_period, glue("summary_{stratum}_{recentpostest_period}_{brand}_{outcome}_outcomes.csv")))
 
 
       septab(data_pt_outcome_sample, outcome_formula, stratum, outcome, brand, "outcome")

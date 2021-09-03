@@ -6,7 +6,7 @@
 # outputs forest plots for these models
 #
 # The script should only be run via an action in the project.yaml only
-# The script must be accompanied by four arguments: cohort, outcome, brand, and stratum
+# The script must be accompanied by four arguments: cohort, outcome, brand,  recentpostest_period, and stratum
 # # # # # # # # # # # # # # # # # # # # #
 
 
@@ -41,14 +41,16 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
+  recentpostest_period <- as.numeric("Inf")
   outcome <- "covidadmitted"
   brand <- "any"
 } else {
   removeobs <- TRUE
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  brand <- args[[3]]
-  outcome <- args[[4]]
+  recentpostest_period <- as.numeric(args[[3]])
+  brand <- args[[4]]
+  outcome <- args[[5]]
 }
 
 
@@ -79,7 +81,7 @@ list2env(metadata_outcomes, globalenv())
 reweight_death <- read_rds(here("output", "metadata", "reweight_death.rds")) == 1
 
 ## if changing treatment strategy as per Miguel's suggestion
-exclude_recentpostest <- read_rds(here("output", "metadata", "exclude_recentpostest.rds"))
+exclude_recentpostest <- recentpostest_period > 0
 
 
 list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
@@ -347,23 +349,23 @@ for(stratum in strata){
   # import models ----
   if(brand=="any"){
 
-    model_vaxany1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_vaxany1_{stratum}.rds")))
-    ipw_formula <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_formula_vaxany1_{stratum}.rds")))
+    model_vaxany1 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_vaxany1_{stratum}.rds")))
+    ipw_formula <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_formula_vaxany1_{stratum}.rds")))
     assign(as.character(model_vaxany1$call$data), model_vaxany1$data) # alternative to `data_atrisk <- model_vaxany1$data` that ensures the right model name is used
 
     ## output model coefficients
     broom_vaxany1 <- broom_model_summary(model_vaxany1, model_vaxany1$data$patient_id, stratum)
-    write_rds(broom_vaxany1, here("output", cohort, strata_var, brand, outcome, glue("broom_vaxany1_{stratum}.rds")))
-    write_csv(broom_vaxany1, here("output", cohort, strata_var, brand, outcome, glue("broom_vaxany1_{stratum}.csv")))
+    write_rds(broom_vaxany1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_vaxany1_{stratum}.rds")))
+    write_csv(broom_vaxany1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_vaxany1_{stratum}.csv")))
 
     #gt_vaxany1 <- gt_from_broom(broom_vaxany1)
-    #write_rds(gt_vaxany1, here("output", cohort, strata_var, brand, outcome, glue("gt_vaxany1_{stratum}.rds")))
-    #gtsave(gt_vaxany1, here("output", cohort, strata_var, brand, outcome, glue("tab_vaxany1_{stratum}.html")))
+    #write_rds(gt_vaxany1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("gt_vaxany1_{stratum}.rds")))
+    #gtsave(gt_vaxany1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("tab_vaxany1_{stratum}.html")))
 
     ##output forest plot
     # plot_vaxany1 <- forest_from_broom(broom_vaxany1, "Predicting vaccination by any brand")
     # ggsave(
-    #   here("output", cohort, strata_var, brand, outcome, glue("plot_vaxany1_{stratum}.svg")),
+    #   here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_vaxany1_{stratum}.svg")),
     #   plot_vaxany1,
     #   units="cm", width=20, height=25
     # )
@@ -376,7 +378,7 @@ for(stratum in strata){
     #   y.label=glue("Death rate (mean-centered)")
     # )
     # ggsave(
-    #   filename=here("output", cohort, strata_var, brand, outcome, glue("plot_vaxany1_trends_{stratum}.svg")),
+    #   filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_vaxany1_trends_{stratum}.svg")),
     #   ggsecular_vaxany1,
     #   width=20, height=15, units="cm"
     # )
@@ -393,22 +395,22 @@ for(stratum in strata){
   if(brand!="any"){
 
     # pfizer
-    model_vaxpfizer1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_vaxpfizer1_{stratum}.rds")))
-    ipw_formula <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_formula_vaxpfizer1_{stratum}.rds")))
+    model_vaxpfizer1 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_vaxpfizer1_{stratum}.rds")))
+    ipw_formula <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_formula_vaxpfizer1_{stratum}.rds")))
     assign(as.character(model_vaxpfizer1$call$data), model_vaxpfizer1$data)
 
     broom_vaxpfizer1 <- broom_model_summary(model_vaxpfizer1, model_vaxpfizer1$data$patient_id, stratum)
-    write_rds(broom_vaxpfizer1, here("output", cohort, strata_var, brand, outcome, glue("broom_vaxpfizer1_{stratum}.rds")))
-    write_csv(broom_vaxpfizer1, here("output", cohort, strata_var, brand, outcome, glue("broom_vaxpfizer1_{stratum}.csv")))
+    write_rds(broom_vaxpfizer1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_vaxpfizer1_{stratum}.rds")))
+    write_csv(broom_vaxpfizer1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_vaxpfizer1_{stratum}.csv")))
 
     #gt_vaxpfizer1 <- gt_from_broom(broom_vaxpfizer1)
-    #write_rds(gt_vaxpfizer1, here("output", cohort, strata_var, brand, outcome, glue("gt_vaxpfizer1_{stratum}.rds")))
-    #gtsave(gt_vaxpfizer1, here("output", cohort, strata_var, brand, outcome, glue("tab_vaxpfizer1_{stratum}.html")))
+    #write_rds(gt_vaxpfizer1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("gt_vaxpfizer1_{stratum}.rds")))
+    #gtsave(gt_vaxpfizer1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("tab_vaxpfizer1_{stratum}.html")))
 
 
     # plot_vaxpfizer1 <- forest_from_broom(broom_vaxpfizer1, "Predicting P-BNT vaccine")
     # ggsave(
-    #   here("output", cohort, strata_var, brand, outcome, glue("plot_vaxpfizer1_{stratum}.svg")),
+    #   here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_vaxpfizer1_{stratum}.svg")),
     #   plot_vaxpfizer1,
     #   units="cm", width=20, height=25
     # )
@@ -421,7 +423,7 @@ for(stratum in strata){
     #   y.label=glue("Death rate (mean-centered)")
     # )
     # ggsave(
-    #   filename=here("output", cohort, strata_var, brand, outcome, glue("plot_vaxpfizer1_trends_{stratum}.svg")),
+    #   filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_vaxpfizer1_trends_{stratum}.svg")),
     #   ggsecular_vaxpfizer1,
     #   width=20, height=15, units="cm"
     # )
@@ -434,21 +436,21 @@ for(stratum in strata){
       ))
 
     # AZ
-    model_vaxaz1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_vaxaz1_{stratum}.rds")))
-    ipw_formula <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_formula_vaxaz1_{stratum}.rds")))
+    model_vaxaz1 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_vaxaz1_{stratum}.rds")))
+    ipw_formula <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_formula_vaxaz1_{stratum}.rds")))
     assign(as.character(model_vaxaz1$call$data), model_vaxaz1$data)
 
     broom_vaxaz1 <- broom_model_summary(model_vaxaz1, model_vaxaz1$data$patient_id, stratum)
-    write_rds(broom_vaxaz1, here("output", cohort, strata_var, brand, outcome, glue("broom_vaxaz1_{stratum}.rds")))
-    write_csv(broom_vaxaz1, here("output", cohort, strata_var, brand, outcome, glue("broom_vaxaz1_{stratum}.csv")))
+    write_rds(broom_vaxaz1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_vaxaz1_{stratum}.rds")))
+    write_csv(broom_vaxaz1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_vaxaz1_{stratum}.csv")))
 
     #gt_vaxaz1 <- gt_from_broom(broom_vaxaz1)
-    #write_rds(gt_vaxaz1, here("output", cohort, strata_var, brand, outcome, glue("gt_vaxaz1_{stratum}.rds")))
-    #gtsave(gt_vaxaz1, here("output", cohort, strata_var, brand, outcome, glue("tab_vaxaz1_{stratum}.html")))
+    #write_rds(gt_vaxaz1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("gt_vaxaz1_{stratum}.rds")))
+    #gtsave(gt_vaxaz1, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("tab_vaxaz1_{stratum}.html")))
 
     # plot_vaxaz1 <- forest_from_broom(broom_vaxaz1, "Predicting Ox-AZ vaccine")
     # ggsave(
-    #   here("output", cohort, strata_var, stratum, brand, outcome, "plot_vaxaz1.svg"),
+    #   here("output", cohort, strata_var, recentpostest_period, stratum, brand, outcome, "plot_vaxaz1.svg"),
     #   plot_vaxaz1,
     #   units="cm", width=20, height=25
     # )
@@ -461,7 +463,7 @@ for(stratum in strata){
     #   y.label=glue("Death rate (mean-centered)")
     # )
     # ggsave(
-    #   filename=here("output", cohort, strata_var, brand, outcome, glue("plot_vaxaz1_trends_{stratum}.svg")),
+    #   filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_vaxaz1_trends_{stratum}.svg")),
     #   ggsecular_vaxaz1,
     #   width=20, height=15, units="cm"
     # )
@@ -477,32 +479,32 @@ for(stratum in strata){
     # combine tables
     # tbl_merge(list(tab_vaxpfizer1, tab_vaxaz1), tab_spanner = c("Pfizer", "AstraZeneca")) %>%
     #   as_gt() %>%
-    #   gtsave(here("output", cohort, strata_var, brand, outcome, glue("tab_pfizer_az_{stratum}.html")))
+    #   gtsave(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("tab_pfizer_az_{stratum}.html")))
     #
     # if(removeobs) rm("tab_vaxpfizer1", "tab_vaxaz1")
   }
 
 
   if(outcome!="death" & reweight_death){
-    model_death <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_death_{stratum}.rds")))
-    ipw_formula <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model_formula_death_{stratum}.rds")))
+    model_death <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_death_{stratum}.rds")))
+    ipw_formula <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model_formula_death_{stratum}.rds")))
     assign(as.character(model_death$call$data), model_death$data)
 
 
     ## output model coefficients
     broom_death <- broom_model_summary(model_death, model_death$data$patient_id, stratum)
-    write_rds(broom_death, here("output", cohort, strata_var, brand, outcome, glue("broom_death_{stratum}.rds")))
-    write_csv(broom_death, here("output", cohort, strata_var, brand, outcome, glue("broom_death_{stratum}.csv")))
+    write_rds(broom_death, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_death_{stratum}.rds")))
+    write_csv(broom_death, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("broom_death_{stratum}.csv")))
 
     # gt_death <- gt_from_broom(broom_death)
-    # write_rds(gt_death, here("output", cohort, strata_var, brand, outcome, glue("gt_death_{stratum}.rds")))
-    # gtsave(gt_death, here("output", cohort, strata_var, brand, outcome, glue("tab_death_{stratum}.html")))
+    # write_rds(gt_death, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("gt_death_{stratum}.rds")))
+    # gtsave(gt_death, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("tab_death_{stratum}.html")))
     #
     #
     # ##output forest plot
     # plot_death <- forest_from_broom(broom_death, "Predicting death")
     # ggsave(
-    #   here("output", cohort, strata_var, brand, outcome, glue("plot_death_{stratum}.svg")),
+    #   here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_death_{stratum}.svg")),
     #   plot_death,
     #   units="cm", width=20, height=25
     # )
@@ -516,7 +518,7 @@ for(stratum in strata){
     # )
     #
     # ggsave(
-    #   filename=here("output", cohort, strata_var, brand, outcome, glue("plot_death_trends_{stratum}.svg")),
+    #   filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("plot_death_trends_{stratum}.svg")),
     #   ggsecular_death,
     #   width=20, height=15, units="cm"
     # )

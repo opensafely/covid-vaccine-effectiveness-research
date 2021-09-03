@@ -222,83 +222,83 @@ actions_descriptive <- function(cohort){
 
 
 preflight_checks <- function(
-  cohort, strata
+  cohort, strata, recentpostest_period
 ){
   action(
-    name = glue("descr_preflight_{cohort}_{strata}"),
+    name = glue("descr_preflight_{cohort}_{strata}_{recentpostest_period}"),
     run = "r:latest analysis/R/preflight.R",
-    arguments = c(cohort, strata, "150000", "50000"),
+    arguments = c(cohort, strata, recentpostest_period, "150000", "50000"),
     needs = list("design", glue("data_stset_{cohort}")),
     moderately_sensitive = list(
-      html = glue("output/{cohort}/descriptive/model-checks/{strata}/*.html"),
-      csv = glue("output/{cohort}/descriptive/model-checks/{strata}/*.csv")
+      html = glue("output/{cohort}/descriptive/model-checks/{strata}/{recentpostest_period}/*.html"),
+      csv = glue("output/{cohort}/descriptive/model-checks/{strata}/{recentpostest_period}/*.csv")
     )
   )
 }
 
 ## actions that run the models ----
 actions_models <- function(
-  cohort, strata, brand, outcome, sample_random_n, sample_nonoutcome_n
+  cohort, strata, recentpostest_period, brand, outcome, sample_random_n, sample_nonoutcome_n
 ){
 
   splice(
     action(
-      name = glue("model_{cohort}_{strata}_{brand}_{outcome}"),
+      name = glue("model_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/model_msm.R"),
-      arguments = c(cohort, strata, brand, outcome, sample_random_n, sample_nonoutcome_n),
+      arguments = c(cohort, strata, recentpostest_period, brand, outcome, sample_random_n, sample_nonoutcome_n),
       needs = list("design", glue("data_stset_{cohort}")),# glue("data_samples_{cohort}")),
       highly_sensitive = list(
-        models = glue("output/{cohort}/{strata}/{brand}/{outcome}/model*.rds"),
-        data = glue("output/{cohort}/{strata}/{brand}/{outcome}/data*.rds")
+        models = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/model*.rds"),
+        data = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/data*.rds")
       ),
       moderately_sensitive = list(
-        weights = glue("output/{cohort}/{strata}/{brand}/{outcome}/weights*")
+        weights = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/weights*")
       )
     ),
 
     action(
-      name = glue("report_ipw_{cohort}_{strata}_{brand}_{outcome}"),
+      name = glue("report_ipw_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/report_ipw.R"),
-      arguments = c(cohort, strata, brand, outcome),
-      needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
+      arguments = c(cohort, strata, recentpostest_period, brand, outcome),
+      needs = list("design", glue("model_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}")),
       highly_sensitive = list(
-        broom = glue("output/{cohort}/{strata}/{brand}/{outcome}/broom*.rds")
-        #gt = glue("output/{cohort}/{strata}/{brand}/{outcome}/gt*.rds")
+        broom = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/broom*.rds")
+        #gt = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/gt*.rds")
       ),
       moderately_sensitive = list(
-        #plots = glue("output/{cohort}/{strata}/{brand}/{outcome}/plot*.svg"),
-        #tables = glue("output/{cohort}/{strata}/{brand}/{outcome}/tab*.html"),
-        data = glue("output/{cohort}/{strata}/{brand}/{outcome}/broom*.csv")
+        #plots = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/plot*.svg"),
+        #tables = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/tab*.html"),
+        data = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/broom*.csv")
       )
     ),
 
 
     action(
-      name = glue("report_msm_{cohort}_{strata}_{brand}_{outcome}"),
+      name = glue("report_msm_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/report_msm.R"),
-      arguments = c(cohort, strata, brand, outcome),
-      needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
+      arguments = c(cohort, strata, recentpostest_period, brand, outcome),
+      needs = list("design", glue("model_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}")),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{strata}/{brand}/{outcome}/VE_plot.svg"),
-        png = glue("output/{cohort}/{strata}/{brand}/{outcome}/VE_plot.png"),
-        tables = glue("output/{cohort}/{strata}/{brand}/{outcome}/estimates*.csv")
+        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/VE_plot.svg"),
+        png = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/VE_plot.png"),
+        tables = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/estimates*.csv")
       )
     ),
 
 
     action(
-      name = glue("report_incidence_{cohort}_{strata}_{brand}_{outcome}"),
+      name = glue("report_incidence_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"),
       run = glue("r:latest analysis/R/dose_1/report_incidence.R"),
-      arguments = c(cohort, strata, brand, outcome),
-      needs = list("design", glue("model_{cohort}_{strata}_{brand}_{outcome}")),
+      arguments = c(cohort, strata, recentpostest_period, brand, outcome),
+      needs = list("design", glue("model_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}")),
       highly_sensitive = list(
-        data = glue("output/{cohort}/{strata}/{brand}/{outcome}/data_incidence.rds")
+        data = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/data_incidence.rds")
       ),
       moderately_sensitive = list(
-        cmlsvg = glue("output/{cohort}/{strata}/{brand}/{outcome}/cml_incidence*.svg"),
-        cmlpng = glue("output/{cohort}/{strata}/{brand}/{outcome}/cml_incidence*.png"),
-        trendsvg = glue("output/{cohort}/{strata}/{brand}/{outcome}/time*.svg"),
-        trendpng = glue("output/{cohort}/{strata}/{brand}/{outcome}/time*.png")
+        cmlsvg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/cml_incidence*.svg"),
+        cmlpng = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/cml_incidence*.png"),
+        trendsvg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/time*.svg"),
+        trendpng = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/time*.png")
       )
     )
   )
@@ -309,78 +309,69 @@ actions_models <- function(
 ## actions that combine results of the models in one place ----
 
 actions_combine_models <- function(
-  cohort, strata
+  cohort, strata, recentpostest_period, outcomes
 ){
 
   splice(
 
     action(
-      name = glue("report_ipw_{cohort}_{strata}"),
+      name = glue("report_ipw_{cohort}_{strata}_{recentpostest_period}"),
       run = glue("r:latest analysis/R/dose_1/report_ipw_combined.R"),
-      arguments = c(cohort, strata, "death"),
-      needs = list(
+      arguments = c(cohort, strata, recentpostest_period, "death"),
+      needs = splice(
         "design",
-        glue("report_ipw_{cohort}_{strata}_any_death"),
-        glue("report_ipw_{cohort}_{strata}_pfizer_death"),
-        glue("report_ipw_{cohort}_{strata}_az_death")
+        as.list(
+          glue_data(
+            .x=expand_grid(brand=c("any", "pfizer", "az")),
+            "report_ipw_{cohort}_{strata}_{recentpostest_period}_{brand}_death"
+          )
+        )
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{strata}/combined/plot_vax1.svg"),
-        csv = glue("output/{cohort}/{strata}/combined/tab_vax1.csv"),
-        csv_wide = glue("output/{cohort}/{strata}/combined/tab_vax1_wide.csv")
+        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/plot_vax1.svg"),
+        csv = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/tab_vax1.csv"),
+        csv_wide = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/tab_vax1_wide.csv")
       )
     ),
 
 
 
     action(
-      name = glue("report_msm_{cohort}_{strata}"),
+      name = glue("report_msm_{cohort}_{strata}_{recentpostest_period}"),
       run = glue("r:latest analysis/R/dose_1/report_msm_combined.R"),
-      arguments = c(cohort, strata),
-      needs = list(
+      arguments = c(cohort, strata, recentpostest_period),
+      needs = splice(
         "design",
-        glue("report_msm_{cohort}_{strata}_any_postest"),
-        glue("report_msm_{cohort}_{strata}_any_covidadmitted"),
-        glue("report_msm_{cohort}_{strata}_any_coviddeath"),
-        glue("report_msm_{cohort}_{strata}_any_noncoviddeath"),
-        glue("report_msm_{cohort}_{strata}_pfizer_postest"),
-        glue("report_msm_{cohort}_{strata}_pfizer_covidadmitted"),
-        glue("report_msm_{cohort}_{strata}_pfizer_coviddeath"),
-        glue("report_msm_{cohort}_{strata}_pfizer_noncoviddeath"),
-        glue("report_msm_{cohort}_{strata}_az_postest"),
-        glue("report_msm_{cohort}_{strata}_az_covidadmitted"),
-        glue("report_msm_{cohort}_{strata}_az_coviddeath"),
-        glue("report_msm_{cohort}_{strata}_az_noncoviddeath")
+        as.list(
+          glue_data(
+            .x=expand_grid(brand=c("any", "pfizer", "az"), outcome=outcomes),
+            "report_msm_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"
+          )
+        )
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{strata}/combined/VE*.svg"),
-        png = glue("output/{cohort}/{strata}/combined/VE*.png"),
-        csv = glue("output/{cohort}/{strata}/combined/*.csv")
+        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/VE*.svg"),
+        png = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/VE*.png"),
+        csv = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/*.csv")
       )
     ),
 
     action(
-      name = glue("report_incidence_{cohort}_{strata}"),
+      name = glue("report_incidence_{cohort}_{strata}_{recentpostest_period}"),
       run = glue("r:latest analysis/R/dose_1/report_incidence_combined.R"),
-      arguments = c(cohort, strata),
-      needs = list(
+      arguments = c(cohort, strata, recentpostest_period),
+      needs = splice(
         "design",
-        glue("report_incidence_{cohort}_{strata}_any_postest"),
-        glue("report_incidence_{cohort}_{strata}_any_covidadmitted"),
-        glue("report_incidence_{cohort}_{strata}_any_coviddeath"),
-        glue("report_incidence_{cohort}_{strata}_any_noncoviddeath"),
-        glue("report_incidence_{cohort}_{strata}_pfizer_postest"),
-        glue("report_incidence_{cohort}_{strata}_pfizer_covidadmitted"),
-        glue("report_incidence_{cohort}_{strata}_pfizer_coviddeath"),
-        glue("report_incidence_{cohort}_{strata}_pfizer_noncoviddeath"),
-        glue("report_incidence_{cohort}_{strata}_az_postest"),
-        glue("report_incidence_{cohort}_{strata}_az_covidadmitted"),
-        glue("report_incidence_{cohort}_{strata}_az_coviddeath"),
-        glue("report_incidence_{cohort}_{strata}_az_noncoviddeath")
+        as.list(
+          glue_data(
+            .x=expand_grid(brand=c("any", "pfizer", "az"), outcome=outcomes),
+            "report_incidence_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"
+          )
+        )
       ),
       moderately_sensitive = list(
-        svg = glue("output/{cohort}/{strata}/combined/cml_incidence*.svg"),
-        png = glue("output/{cohort}/{strata}/combined/cml_incidence*.png")
+        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/cml_incidence*.svg"),
+        png = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/cml_incidence*.png")
       )
     )
 
@@ -407,8 +398,7 @@ actions_list <- splice(
       chars = "output/metadata/baseline_characteristics.rds",
       formula = "output/metadata/list_formula.rds",
       strata = "output/metadata/list_strata*.rds",
-      reweight = "output/metadata/reweight_death.rds",
-      exclude_recentpostest = "output/metadata/exclude_recentpostest.rds"
+      reweight = "output/metadata/reweight_death.rds"
     )
   ),
 
@@ -420,58 +410,86 @@ actions_list <- splice(
   actions_process("over80s", "0.1"),
   actions_descriptive("over80s"),
 
-  comment("####################################", "All", "####################################"),
+  comment("####################################", "All", "natural estimand", "####################################"),
 
-  preflight_checks("over80s", "all"),
+  preflight_checks("over80s", "all", "0"),
 
-  actions_models("over80s", "all", "any",    "postest", "150000", "50000"),
-  actions_models("over80s", "all", "pfizer", "postest", "150000", "50000"),
-  actions_models("over80s", "all", "az",     "postest", "150000", "50000"),
+  actions_models("over80s", "all", "0", "any",    "postest", "150000", "50000"),
+  actions_models("over80s", "all", "0", "pfizer", "postest", "150000", "50000"),
+  actions_models("over80s", "all", "0", "az",     "postest", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "covidadmitted", "150000", "50000"),
-  actions_models("over80s", "all", "pfizer", "covidadmitted", "150000", "50000"),
-  actions_models("over80s", "all", "az",     "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "0", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "0", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "0", "az",     "covidadmitted", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "coviddeath", "150000", "50000"),
-  actions_models("over80s", "all", "pfizer", "coviddeath", "150000", "50000"),
-  actions_models("over80s", "all", "az",     "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "0", "any",    "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "0", "pfizer", "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "0", "az",     "coviddeath", "150000", "50000"),
+  #
+  # actions_models("over80s", "all", "0", "any",    "noncoviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "0", "pfizer", "noncoviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "0", "az",     "noncoviddeath", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "noncoviddeath", "150000", "50000"),
-  actions_models("over80s", "all", "pfizer", "noncoviddeath", "150000", "50000"),
-  actions_models("over80s", "all", "az",     "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "0", "any",    "death", "150000", "50000"),
+  actions_models("over80s", "all", "0", "pfizer", "death", "150000", "50000"),
+  actions_models("over80s", "all", "0", "az",     "death", "150000", "50000"),
 
-  actions_models("over80s", "all", "any",    "death", "150000", "50000"),
-  actions_models("over80s", "all", "pfizer", "death", "150000", "50000"),
-  actions_models("over80s", "all", "az",     "death", "150000", "50000"),
+  actions_combine_models("over80s", "all", "0", c("postest", "covidadmitted", "death")),
 
-  actions_combine_models("over80s", "all"),
+  comment("####################################", "All", "modified estimand", "####################################"),
+
+  preflight_checks("over80s", "all", "Inf"),
+
+  actions_models("over80s", "all", "Inf", "any",    "postest",  "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "pfizer", "postest", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "az",     "postest", "150000", "50000"),
+
+  actions_models("over80s", "all", "Inf", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "az",     "covidadmitted", "150000", "50000"),
+
+  # actions_models("over80s", "all", "Inf", "any",    "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "Inf", "pfizer", "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "Inf", "az",     "coviddeath", "150000", "50000"),
+  #
+  # actions_models("over80s", "all", "Inf", "any",    "noncoviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "Inf", "pfizer", "noncoviddeath", "150000", "50000"),
+  # actions_models("over80s", "all", "Inf", "az",     "noncoviddeath", "150000", "50000"),
+
+  actions_models("over80s", "all", "Inf", "any",    "death", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "pfizer", "death", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "az",     "death", "150000", "50000"),
+
+  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "death")),
 
 
-  comment("####################################", "Immunosuppressed", "####################################"),
 
-  preflight_checks("over80s", "any_immunosuppression"),
 
-  actions_models("over80s", "any_immunosuppression", "any",    "postest", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "postest", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "postest", "150000", "50000"),
-
-  actions_models("over80s", "any_immunosuppression", "any",    "covidadmitted", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "covidadmitted", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "covidadmitted", "150000", "50000"),
-
-  actions_models("over80s", "any_immunosuppression", "any",    "coviddeath", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "coviddeath", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "coviddeath", "150000", "50000"),
-
-  actions_models("over80s", "any_immunosuppression", "any",    "noncoviddeath", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "noncoviddeath", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "noncoviddeath", "150000", "50000"),
-
-  actions_models("over80s", "any_immunosuppression", "any",    "death", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "pfizer", "death", "150000", "50000"),
-  actions_models("over80s", "any_immunosuppression", "az",     "death", "150000", "50000"),
-
-  actions_combine_models("over80s", "any_immunosuppression"),
+  # comment("####################################", "Immunosuppressed", "####################################"),
+  #
+  # preflight_checks("over80s", "any_immunosuppression"),
+  #
+  # actions_models("over80s", "any_immunosuppression", "any",    "postest", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "pfizer", "postest", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "az",     "postest", "150000", "50000"),
+  #
+  # actions_models("over80s", "any_immunosuppression", "any",    "covidadmitted", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "pfizer", "covidadmitted", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "az",     "covidadmitted", "150000", "50000"),
+  #
+  # actions_models("over80s", "any_immunosuppression", "any",    "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "pfizer", "coviddeath", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "az",     "coviddeath", "150000", "50000"),
+  #
+  # actions_models("over80s", "any_immunosuppression", "any",    "noncoviddeath", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "pfizer", "noncoviddeath", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "az",     "noncoviddeath", "150000", "50000"),
+  #
+  # actions_models("over80s", "any_immunosuppression", "any",    "death", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "pfizer", "death", "150000", "50000"),
+  # actions_models("over80s", "any_immunosuppression", "az",     "death", "150000", "50000"),
+  #
+  # actions_combine_models("over80s", "any_immunosuppression"),
 
   ## 70-79s
   comment("####################################", "in70s", "####################################"),
@@ -479,32 +497,60 @@ actions_list <- splice(
   actions_process("in70s", "0.05"),
   actions_descriptive("in70s"),
 
-  comment("####################################", "all", "####################################"),
+  comment("####################################", "all", "natural estimand", "####################################"),
 
-  preflight_checks("in70s", "all"),
+  preflight_checks("in70s", "all", "0"),
 
-  actions_models("in70s", "all", "any",    "postest", "150000", "50000"),
-  actions_models("in70s", "all", "pfizer", "postest", "150000", "50000"),
-  actions_models("in70s", "all", "az",     "postest", "150000", "50000"),
+  actions_models("in70s", "all", "0", "any",    "postest", "150000", "50000"),
+  actions_models("in70s", "all", "0", "pfizer", "postest", "150000", "50000"),
+  actions_models("in70s", "all", "0", "az",     "postest", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "covidadmitted", "150000", "50000"),
-  actions_models("in70s", "all", "pfizer", "covidadmitted", "150000", "50000"),
-  actions_models("in70s", "all", "az",     "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "0", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "0", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "0", "az",     "covidadmitted", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "coviddeath", "150000", "50000"),
-  actions_models("in70s", "all", "pfizer", "coviddeath", "150000", "50000"),
-  actions_models("in70s", "all", "az",     "coviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "0", "any",    "coviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "0", "pfizer", "coviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "0", "az",     "coviddeath", "150000", "50000"),
+  #
+  # actions_models("in70s", "all", "0", "any",    "noncoviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "0", "pfizer", "noncoviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "0", "az",     "noncoviddeath", "150000", "50000"),
 
-  actions_models("in70s", "all", "any",    "noncoviddeath", "150000", "50000"),
-  actions_models("in70s", "all", "pfizer", "noncoviddeath", "150000", "50000"),
-  actions_models("in70s", "all", "az",     "noncoviddeath", "150000", "50000"),
-
-  actions_models("in70s", "all", "any",    "death", "150000", "50000"),
-  actions_models("in70s", "all", "pfizer", "death", "150000", "50000"),
-  actions_models("in70s", "all", "az",     "death", "150000", "50000"),
+  actions_models("in70s", "all", "0", "any",    "death", "150000", "50000"),
+  actions_models("in70s", "all", "0", "pfizer", "death", "150000", "50000"),
+  actions_models("in70s", "all", "0", "az",     "death", "150000", "50000"),
 
 
-  actions_combine_models("in70s", "all")
+  actions_combine_models("in70s", "all", "0",  c("postest", "covidadmitted", "death")),
+
+
+  comment("####################################", "All", "modified estimand", "####################################"),
+
+  preflight_checks("in70s", "all", "Inf"),
+
+  actions_models("in70s", "all", "Inf", "any",    "postest", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "pfizer", "postest", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "az",     "postest", "150000", "50000"),
+
+  actions_models("in70s", "all", "Inf", "any",    "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "pfizer", "covidadmitted", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "az",     "covidadmitted", "150000", "50000"),
+
+  # actions_models("in70s", "all", "Inf", "any",    "coviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "Inf", "pfizer", "coviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "Inf", "az",     "coviddeath", "150000", "50000"),
+  #
+  # actions_models("in70s", "all", "Inf", "any",    "noncoviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "Inf", "pfizer", "noncoviddeath", "150000", "50000"),
+  # actions_models("in70s", "all", "Inf", "az",     "noncoviddeath", "150000", "50000"),
+
+  actions_models("in70s", "all", "Inf", "any",    "death", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "pfizer", "death", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "az",     "death", "150000", "50000"),
+
+  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "death"))
+
 
 )
 

@@ -7,7 +7,7 @@
 # outputs plots showing model-estimated spatio-temporal trends
 #
 # The script should only be run via an action in the project.yaml only
-# The script must be accompanied by four arguments: cohort, outcome, brand, and stratum
+# The script must be accompanied by five arguments: cohort, outcome, brand, recentpostest_period, and stratum
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -38,14 +38,16 @@ if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
   strata_var <- "all"
+  recentpostest_period <- as.numeric("Inf")
   brand <- "any"
   outcome <- "postest"
   removeobs <- FALSE
 } else {
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  brand <- args[[3]]
-  outcome <- args[[4]]
+  recentpostest_period <- as.numeric(args[[3]])
+  brand <- args[[4]]
+  outcome <- args[[5]]
   removeobs <- TRUE
 }
 
@@ -87,15 +89,15 @@ for(stratum in strata){
   stratum_descr <- strata_descr[which(strata==stratum)]
   # Import processed data ----
 
-  data_weights <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("data_weights_{stratum}.rds")))
+  data_weights <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("data_weights_{stratum}.rds")))
 
   # import models ----
 
-  #msmmod0 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model0_{stratum}.rds")))
-  msmmod1 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model1_{stratum}.rds")))
-  msmmod2 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model2_{stratum}.rds")))
-  #msmmod3 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model3_{stratum}.rds")))
-  msmmod4 <- read_rds(here("output", cohort, strata_var, brand, outcome, glue("model4_{stratum}.rds")))
+  #msmmod0 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model0_{stratum}.rds")))
+  msmmod1 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model1_{stratum}.rds")))
+  msmmod2 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model2_{stratum}.rds")))
+  #msmmod3 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model3_{stratum}.rds")))
+  msmmod4 <- read_rds(here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("model4_{stratum}.rds")))
 
   ## report models ----
 
@@ -133,7 +135,7 @@ summary_df <- summary_list %>% bind_rows %>%
     stratum, model, model_descr, model_descr_wrap, term, estimate, conf.low, conf.high, std.error, statistic, p.value, or, or.ll, or.ul
   )
 
-write_csv(summary_df, path = here("output", cohort, strata_var, brand, outcome, glue("estimates.csv")))
+write_csv(summary_df, path = here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("estimates.csv")))
 
 # create plot
 msmmod_effect_data <- summary_df %>%
@@ -162,7 +164,7 @@ msmmod_effect_data <- summary_df %>%
   ) %>%
   ungroup()
 
-write_csv(msmmod_effect_data, path = here("output", cohort, strata_var, brand, outcome, glue("estimates_timesincevax.csv")))
+write_csv(msmmod_effect_data, path = here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("estimates_timesincevax.csv")))
 
 msmmod_effect <-
   ggplot(data = msmmod_effect_data, aes(colour=as.factor(stratum))) +
@@ -206,5 +208,5 @@ msmmod_effect <-
   )
 
 ## save plot
-ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.svg")), msmmod_effect, width=20, height=18, units="cm")
-ggsave(filename=here("output", cohort, strata_var, brand, outcome, glue("VE_plot.png")), msmmod_effect, width=20, height=18, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("VE_plot.svg")), msmmod_effect, width=20, height=18, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("VE_plot.png")), msmmod_effect, width=20, height=18, units="cm")
