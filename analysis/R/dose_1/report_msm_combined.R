@@ -40,8 +40,8 @@ if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
   cohort <- "over80s"
-  strata_var <- "any_immunosuppression"
-  recent_postestperiod <- as.numeric("Inf")
+  strata_var <- "all"
+  recent_postestperiod <- as.numeric("0")
 
 } else{
   removeobs <- TRUE
