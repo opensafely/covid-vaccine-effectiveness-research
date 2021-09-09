@@ -74,8 +74,7 @@ curves <-
   filter(outcome %in% c(
     "postest",
     "covidadmitted",
-    "coviddeath",
-    "noncoviddeath",
+    "death",
     NULL
   )) %>%
   mutate(
