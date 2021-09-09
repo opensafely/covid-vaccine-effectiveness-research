@@ -41,10 +41,13 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "any_immunosuppression"
+  recent_postestperiod <- as.numeric("Inf")
+
 } else{
   removeobs <- TRUE
   cohort <- args[[1]]
   strata_var <- args[[2]]
+  recent_postestperiod <- as.numeric(args[[3]])
 }
 
 
@@ -60,7 +63,7 @@ gbl_vars <- jsonlite::fromJSON(
 metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 
 
-fs::dir_create(here("output", cohort, strata_var, "combined"))
+fs::dir_create(here("output", cohort, strata_var, recent_postestperiod, "combined"))
 
 ##  Create big loop over all categories
 
@@ -92,7 +95,7 @@ estimates <-
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    estimates = map2(brand, outcome, ~read_csv(here("output", cohort, strata_var, .x, .y, glue("estimates_timesincevax.csv"))))
+    estimates = map2(brand, outcome, ~read_csv(here("output", cohort, strata_var, recent_postestperiod, .x, .y, glue("estimates_timesincevax.csv"))))
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -136,9 +139,9 @@ estimates_formatted_wide <- estimates_formatted %>%
     names_glue = "{model}_{.value}"
   )
 
-write_csv(estimates, path = here("output", cohort, strata_var, "combined", glue("estimates_timesincevax.csv")))
-write_csv(estimates_formatted, path = here("output", cohort, strata_var, "combined", glue("estimates_formatted_timesincevax.csv")))
-write_csv(estimates_formatted_wide, path = here("output", cohort, strata_var, "combined", glue("estimates_formatted_wide_timesincevax.csv")))
+write_csv(estimates, path = here("output", cohort, strata_var, recent_postestperiod, "combined", glue("estimates_timesincevax.csv")))
+write_csv(estimates_formatted, path = here("output", cohort, strata_var, recent_postestperiod, "combined", glue("estimates_formatted_timesincevax.csv")))
+write_csv(estimates_formatted_wide, path = here("output", cohort, strata_var, recent_postestperiod, "combined", glue("estimates_formatted_wide_timesincevax.csv")))
 
 
 
@@ -164,7 +167,7 @@ msmmod_effect_data <- estimates %>%
     term=fct_inorder(term),
     term_left = as.numeric(str_extract(term, "\\d+"))-1,
     term_right = as.numeric(str_extract(term, "\\d+$")),
-    term_right = if_else(is.na(term_right), max(term_left)+7, term_right),
+    term_right = if_else(is.na(term_right), 63, term_right),
     term_midpoint = term_left + (term_right-term_left)/2,
     #stratum = if_else(stratum=="all", "", stratum)
   )
@@ -225,8 +228,8 @@ if(strata_var=="all"){
     )
 
   ## save plot
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 
 
   msmmod_effect_free <-
@@ -277,8 +280,8 @@ if(strata_var=="all"){
   msmmod_effect_free
 
   ## save plot
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
 
 }
 
@@ -337,8 +340,8 @@ if(strata_var!="all"){
     )
 
   ## save plot
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot.svg")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot.png")), msmmod_effect, width=20, height=20, units="cm")
 
 
   msmmod_effect_free <-
@@ -386,8 +389,8 @@ if(strata_var!="all"){
   msmmod_effect_free
 
   ## save plot
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
-  ggsave(filename=here("output", cohort, strata_var, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot_free.svg")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("VE_plot_free.png")), msmmod_effect_free, width=20, height=20, units="cm")
 
 
 

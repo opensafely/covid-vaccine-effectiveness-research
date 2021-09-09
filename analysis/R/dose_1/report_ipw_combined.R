@@ -32,12 +32,14 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "sex"
+  recent_postestperiod <- as.numeric("Inf")
   outcome <- "death"
 } else{
   removeobs <- TRUE
   cohort <- args[[1]]
   strata_var <- args[[2]]
-  outcome <- args[[3]]
+  recent_postestperiod <- as.numeric(args[[3]])
+  outcome <- args[[4]]
 }
 
 
@@ -65,7 +67,7 @@ formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 
 ## create directory ----
-fs::dir_create(here("output", cohort, strata_var, "combined"))
+fs::dir_create(here("output", cohort, strata_var, recent_postestperiod, "combined"))
 
 
 forest_from_broomstack <- function(broomstack, title){
@@ -157,7 +159,7 @@ broomstack <-
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    broom = map2(stratum, brand, ~read_rds(here("output", cohort, strata_var, .y, outcome, glue("broom_vax{.y}1_{.x}.rds"))))
+    broom = map2(stratum, brand, ~read_rds(here("output", cohort, strata_var, recent_postestperiod, .y, outcome, glue("broom_vax{.y}1_{.x}.rds"))))
   ) %>%
   unnest(broom)
 
@@ -186,12 +188,12 @@ broomstack_formatted_wide <- broomstack_formatted %>%
     names_glue = "{brand_descr}_{.value}"
   )
 
-write_csv(broomstack_formatted, here("output", cohort, strata_var, "combined", "tab_vax1.csv"))
-write_csv(broomstack_formatted_wide, here("output", cohort, strata_var, "combined", "tab_vax1_wide.csv"))
+write_csv(broomstack_formatted, here("output", cohort, strata_var, recent_postestperiod, "combined", "tab_vax1.csv"))
+write_csv(broomstack_formatted_wide, here("output", cohort, strata_var, recent_postestperiod, "combined", "tab_vax1_wide.csv"))
 
 plot_vax <- forest_from_broomstack(broomstack, "Vaccination model")
 ggsave(
-  here("output", cohort, strata_var, "combined", "plot_vax1.svg"),
+  here("output", cohort, strata_var, recent_postestperiod, "combined", "plot_vax1.svg"),
   plot_vax,
   units="cm", width=30, height=25
 )

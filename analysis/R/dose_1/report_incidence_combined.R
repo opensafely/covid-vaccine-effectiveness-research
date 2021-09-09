@@ -41,10 +41,12 @@ if(length(args)==0){
   removeobs <- FALSE
   cohort <- "over80s"
   strata_var <- "all"
+  recent_postestperiod <- as.numeric("Inf")
 } else{
   removeobs <- TRUE
   cohort <- args[[1]]
   strata_var <- args[[2]]
+  recent_postestperiod <- as.numeric(args[[3]])
 }
 
 
@@ -60,7 +62,7 @@ gbl_vars <- jsonlite::fromJSON(
 metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 
 
-fs::dir_create(here("output", cohort, strata_var, "combined"))
+fs::dir_create(here("output", cohort, strata_var, recent_postestperiod, "combined"))
 
 strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
 summary_list <- vector("list", length(strata))
@@ -92,7 +94,7 @@ curves <-
     )
   ) %>%
   mutate(
-    curves = map2(brand, outcome, ~read_rds(here("output", cohort, strata_var, .x, .y, glue("data_incidence.rds"))))
+    curves = map2(brand, outcome, ~read_rds(here("output", cohort, strata_var, recent_postestperiod, .x, .y, glue("data_incidence.rds"))))
   ) %>%
   unnest(curves) %>%
   mutate(
@@ -152,8 +154,8 @@ cml_inc <- ggplot(curves)+
   )
 cml_inc
 
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot.svg")), cml_inc, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot.png")), cml_inc, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot.svg")), cml_inc, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot.png")), cml_inc, width=20, height=15, units="cm")
 
 
 
@@ -204,6 +206,6 @@ cml_inc_pair <- ggplot(curves)+
   )
 cml_inc_pair
 
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot_pair.svg")), cml_inc_pair, width=20, height=20, units="cm")
-ggsave(filename=here("output", cohort, strata_var, "combined", glue("cml_incidence_plot_pair.png")), cml_inc_pair, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_pair.svg")), cml_inc_pair, width=20, height=20, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_pair.png")), cml_inc_pair, width=20, height=20, units="cm")
 
