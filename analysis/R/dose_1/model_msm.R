@@ -363,9 +363,9 @@ for(stratum in strata){
     ) %>%
     mutate(
       recentpostest = (replace_na(between(postest_timesince, 1, recentpostest_period), FALSE) & exclude_recentpostest),
-      vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxany_atrisk==1 & !recentpostest),
-      vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & !recentpostest),
-      vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & !recentpostest),
+      vaxany1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxany_atrisk==1 & (!recentpostest)),
+      vaxpfizer1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxpfizer_atrisk==1 & (!recentpostest)),
+      vaxaz1_atrisk = (vaxany1_status==0 & lastfup_status==0 & vaxaz_atrisk==1 & (!recentpostest)),
       death_atrisk = (death_status==0 & lastfup_status==0),
     ) %>%
     mutate(
