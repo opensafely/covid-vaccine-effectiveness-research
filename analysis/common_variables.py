@@ -631,7 +631,7 @@ event_variables = dict(
         name = "positive_test",
         index_date = "index_date",
         n = 6,
-        test_result="any",
+        test_result="positive",
         return_expectations = {
             "date": {"earliest": "2020-12-15",  "latest" : "2021-03-31"},
             "rate": "exponential_increase",
