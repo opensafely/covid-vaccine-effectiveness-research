@@ -159,9 +159,6 @@ formatpercent100 <- function(x,accuracy){
 
 # create forest plot
 msmmod_effect_data <- estimates %>%
-  filter(
-    !(outcome %in% c("death") )
-  ) %>%
   mutate(
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
     term=fct_inorder(term),
