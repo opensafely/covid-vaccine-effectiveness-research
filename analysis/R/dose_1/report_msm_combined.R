@@ -184,7 +184,7 @@ if(strata_var=="all"){
     facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
     scale_y_log10(
       breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
-      limits = c(0.009, max(c(1, msmmod_effect_data_plot$or.ul))),
+      limits = c(0.05, max(c(1, msmmod_effect_data_plot$or.ul))),
       oob = scales::oob_keep,
       sec.axis = sec_axis(
         ~(1-.),
