@@ -193,7 +193,7 @@ if(strata_var=="all"){
         labels = function(x){formatpercent100(x, 1)}
       )
     )+
-    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left))+
+    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left), expand=expansion(mult=c(0, NA))+
     scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
     coord_cartesian() +
     labs(
