@@ -448,19 +448,19 @@ actions_list <- splice(
   actions_models("over80s", "all", "Inf", "pfizer", "covidadmitted", "150000", "50000"),
   actions_models("over80s", "all", "Inf", "az",     "covidadmitted", "150000", "50000"),
 
-  # actions_models("over80s", "all", "Inf", "any",    "coviddeath", "150000", "50000"),
-  # actions_models("over80s", "all", "Inf", "pfizer", "coviddeath", "150000", "50000"),
-  # actions_models("over80s", "all", "Inf", "az",     "coviddeath", "150000", "50000"),
-  #
-  # actions_models("over80s", "all", "Inf", "any",    "noncoviddeath", "150000", "50000"),
-  # actions_models("over80s", "all", "Inf", "pfizer", "noncoviddeath", "150000", "50000"),
-  # actions_models("over80s", "all", "Inf", "az",     "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "any",    "coviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "pfizer", "coviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "az",     "coviddeath", "150000", "50000"),
+
+  actions_models("over80s", "all", "Inf", "any",    "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "pfizer", "noncoviddeath", "150000", "50000"),
+  actions_models("over80s", "all", "Inf", "az",     "noncoviddeath", "150000", "50000"),
 
   actions_models("over80s", "all", "Inf", "any",    "death", "150000", "50000"),
   actions_models("over80s", "all", "Inf", "pfizer", "death", "150000", "50000"),
   actions_models("over80s", "all", "Inf", "az",     "death", "150000", "50000"),
 
-  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "death")),
+  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")),
 
 
 
@@ -537,19 +537,19 @@ actions_list <- splice(
   actions_models("in70s", "all", "Inf", "pfizer", "covidadmitted", "150000", "50000"),
   actions_models("in70s", "all", "Inf", "az",     "covidadmitted", "150000", "50000"),
 
-  # actions_models("in70s", "all", "Inf", "any",    "coviddeath", "150000", "50000"),
-  # actions_models("in70s", "all", "Inf", "pfizer", "coviddeath", "150000", "50000"),
-  # actions_models("in70s", "all", "Inf", "az",     "coviddeath", "150000", "50000"),
-  #
-  # actions_models("in70s", "all", "Inf", "any",    "noncoviddeath", "150000", "50000"),
-  # actions_models("in70s", "all", "Inf", "pfizer", "noncoviddeath", "150000", "50000"),
-  # actions_models("in70s", "all", "Inf", "az",     "noncoviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "any",    "coviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "pfizer", "coviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "az",     "coviddeath", "150000", "50000"),
+
+  actions_models("in70s", "all", "Inf", "any",    "noncoviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "pfizer", "noncoviddeath", "150000", "50000"),
+  actions_models("in70s", "all", "Inf", "az",     "noncoviddeath", "150000", "50000"),
 
   actions_models("in70s", "all", "Inf", "any",    "death", "150000", "50000"),
   actions_models("in70s", "all", "Inf", "pfizer", "death", "150000", "50000"),
   actions_models("in70s", "all", "Inf", "az",     "death", "150000", "50000"),
 
-  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "death"))
+  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death"))
 
 
 )
