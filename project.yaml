@@ -109,35 +109,25 @@ actions:
       moderately_sensitive:
         html: output/over80s/descriptive/tables/table1.html
 
-  descr_tableirrold_over80s:
-    run: r:latest analysis/R/descr_tableirr.R over80s FALSE
+  descr_tableirr_over80s_0:
+    run: r:latest analysis/R/descr_tableirr_lite.R over80s 0
     needs:
     - design
     - data_selection_over80s
     outputs:
       moderately_sensitive:
-        html: output/over80s/descriptive/tables/table_irr_old.html
-        csv: output/over80s/descriptive/tables/table_irr_old.csv
+        html: output/over80s/descriptive/tables/table_irr_0.html
+        csv: output/over80s/descriptive/tables/table_irr_0.csv
 
-  descr_tableirr_over80s:
-    run: r:latest analysis/R/descr_tableirr_lite.R over80s FALSE
+  descr_tableirr_over80s_Inf:
+    run: r:latest analysis/R/descr_tableirr_lite.R over80s Inf
     needs:
     - design
     - data_selection_over80s
     outputs:
       moderately_sensitive:
-        html: output/over80s/descriptive/tables/table_irr.html
-        csv: output/over80s/descriptive/tables/table_irr.csv
-
-  descr_tableirr_exclude_over80s:
-    run: r:latest analysis/R/descr_tableirr_lite.R over80s TRUE
-    needs:
-    - design
-    - data_selection_over80s
-    outputs:
-      moderately_sensitive:
-        html: output/over80s/descriptive/tables/table_irr_exclude_recentpostest.html
-        csv: output/over80s/descriptive/tables/table_irr_exclude_recentpostest.csv
+        html: output/over80s/descriptive/tables/table_irr_Inf.html
+        csv: output/over80s/descriptive/tables/table_irr_Inf.csv
 
   descr_events_over80s:
     run: r:latest analysis/R/descr_events.R over80s
@@ -1422,17 +1412,14 @@ actions:
     - report_msm_over80s_all_Inf_any_covidadmitted
     - report_msm_over80s_all_Inf_any_coviddeath
     - report_msm_over80s_all_Inf_any_noncoviddeath
-    - report_msm_over80s_all_Inf_any_death
     - report_msm_over80s_all_Inf_pfizer_postest
     - report_msm_over80s_all_Inf_pfizer_covidadmitted
     - report_msm_over80s_all_Inf_pfizer_coviddeath
     - report_msm_over80s_all_Inf_pfizer_noncoviddeath
-    - report_msm_over80s_all_Inf_pfizer_death
     - report_msm_over80s_all_Inf_az_postest
     - report_msm_over80s_all_Inf_az_covidadmitted
     - report_msm_over80s_all_Inf_az_coviddeath
     - report_msm_over80s_all_Inf_az_noncoviddeath
-    - report_msm_over80s_all_Inf_az_death
     outputs:
       moderately_sensitive:
         svg: output/over80s/all/Inf/combined/VE*.svg
@@ -1447,17 +1434,14 @@ actions:
     - report_incidence_over80s_all_Inf_any_covidadmitted
     - report_incidence_over80s_all_Inf_any_coviddeath
     - report_incidence_over80s_all_Inf_any_noncoviddeath
-    - report_incidence_over80s_all_Inf_any_death
     - report_incidence_over80s_all_Inf_pfizer_postest
     - report_incidence_over80s_all_Inf_pfizer_covidadmitted
     - report_incidence_over80s_all_Inf_pfizer_coviddeath
     - report_incidence_over80s_all_Inf_pfizer_noncoviddeath
-    - report_incidence_over80s_all_Inf_pfizer_death
     - report_incidence_over80s_all_Inf_az_postest
     - report_incidence_over80s_all_Inf_az_covidadmitted
     - report_incidence_over80s_all_Inf_az_coviddeath
     - report_incidence_over80s_all_Inf_az_noncoviddeath
-    - report_incidence_over80s_all_Inf_az_death
     outputs:
       moderately_sensitive:
         svg: output/over80s/all/Inf/combined/cml_incidence*.svg
@@ -1556,35 +1540,25 @@ actions:
       moderately_sensitive:
         html: output/in70s/descriptive/tables/table1.html
 
-  descr_tableirrold_in70s:
-    run: r:latest analysis/R/descr_tableirr.R in70s FALSE
+  descr_tableirr_in70s_0:
+    run: r:latest analysis/R/descr_tableirr_lite.R in70s 0
     needs:
     - design
     - data_selection_in70s
     outputs:
       moderately_sensitive:
-        html: output/in70s/descriptive/tables/table_irr_old.html
-        csv: output/in70s/descriptive/tables/table_irr_old.csv
+        html: output/in70s/descriptive/tables/table_irr_0.html
+        csv: output/in70s/descriptive/tables/table_irr_0.csv
 
-  descr_tableirr_in70s:
-    run: r:latest analysis/R/descr_tableirr_lite.R in70s FALSE
+  descr_tableirr_in70s_Inf:
+    run: r:latest analysis/R/descr_tableirr_lite.R in70s Inf
     needs:
     - design
     - data_selection_in70s
     outputs:
       moderately_sensitive:
-        html: output/in70s/descriptive/tables/table_irr.html
-        csv: output/in70s/descriptive/tables/table_irr.csv
-
-  descr_tableirr_exclude_in70s:
-    run: r:latest analysis/R/descr_tableirr_lite.R in70s TRUE
-    needs:
-    - design
-    - data_selection_in70s
-    outputs:
-      moderately_sensitive:
-        html: output/in70s/descriptive/tables/table_irr_exclude_recentpostest.html
-        csv: output/in70s/descriptive/tables/table_irr_exclude_recentpostest.csv
+        html: output/in70s/descriptive/tables/table_irr_Inf.html
+        csv: output/in70s/descriptive/tables/table_irr_Inf.csv
 
   descr_events_in70s:
     run: r:latest analysis/R/descr_events.R in70s
@@ -2866,17 +2840,14 @@ actions:
     - report_msm_in70s_all_Inf_any_covidadmitted
     - report_msm_in70s_all_Inf_any_coviddeath
     - report_msm_in70s_all_Inf_any_noncoviddeath
-    - report_msm_in70s_all_Inf_any_death
     - report_msm_in70s_all_Inf_pfizer_postest
     - report_msm_in70s_all_Inf_pfizer_covidadmitted
     - report_msm_in70s_all_Inf_pfizer_coviddeath
     - report_msm_in70s_all_Inf_pfizer_noncoviddeath
-    - report_msm_in70s_all_Inf_pfizer_death
     - report_msm_in70s_all_Inf_az_postest
     - report_msm_in70s_all_Inf_az_covidadmitted
     - report_msm_in70s_all_Inf_az_coviddeath
     - report_msm_in70s_all_Inf_az_noncoviddeath
-    - report_msm_in70s_all_Inf_az_death
     outputs:
       moderately_sensitive:
         svg: output/in70s/all/Inf/combined/VE*.svg
@@ -2891,17 +2862,14 @@ actions:
     - report_incidence_in70s_all_Inf_any_covidadmitted
     - report_incidence_in70s_all_Inf_any_coviddeath
     - report_incidence_in70s_all_Inf_any_noncoviddeath
-    - report_incidence_in70s_all_Inf_any_death
     - report_incidence_in70s_all_Inf_pfizer_postest
     - report_incidence_in70s_all_Inf_pfizer_covidadmitted
     - report_incidence_in70s_all_Inf_pfizer_coviddeath
     - report_incidence_in70s_all_Inf_pfizer_noncoviddeath
-    - report_incidence_in70s_all_Inf_pfizer_death
     - report_incidence_in70s_all_Inf_az_postest
     - report_incidence_in70s_all_Inf_az_covidadmitted
     - report_incidence_in70s_all_Inf_az_coviddeath
     - report_incidence_in70s_all_Inf_az_noncoviddeath
-    - report_incidence_in70s_all_Inf_az_death
     outputs:
       moderately_sensitive:
         svg: output/in70s/all/Inf/combined/cml_incidence*.svg

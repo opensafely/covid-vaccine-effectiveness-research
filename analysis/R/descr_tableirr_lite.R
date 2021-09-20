@@ -33,14 +33,17 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort <- "over80s"
-  exclude_recentpostest <- FALSE
+
+  recentpostest_period <- as.numeric("0")
   removeobs <- FALSE
 } else {
   # use for actions
   cohort <- args[[1]]
-  exclude_recentpostest <- as.logical(args[[2]])
+  recentpostest_period <- as.numeric(args[[2]])
   removeobs <- TRUE
 }
+
+exclude_recentpostest <- recentpostest_period>0
 
 ## import global vars ----
 gbl_vars <- jsonlite::fromJSON(
@@ -174,7 +177,7 @@ get_irr <- function(brand, outcome){
         data2 = data_atrisk,
         id=patient_id,
         postest_status = tdc(tte_postest),
-        postest_status_stop = tdc(tte_postest+Inf)
+        postest_status_stop = tdc(tte_postest+recentpostest_period)
       ) %>%
       mutate(
         twidth = tstop - tstart,
@@ -182,7 +185,6 @@ get_irr <- function(brand, outcome){
         timesincevax_pw = factor(timesincevax_pw, timesince_cut(c(postvaxcuts, Inf), postvaxcuts, "Unvaccinated")),
         timesincevax_pw = if_else(!recentpostest, timesincevax_pw, factor("Unvaccinated"))
       )
-
 
     data_irr <- data_pt %>%
     group_by(timesincevax_pw) %>%
@@ -256,15 +258,12 @@ data_irr_wide %>%
   ) %>%
   select(brand_descr, starts_with("timesince"), ends_with(c("_q","_rr", "_rrCI")))
 
-string_exclude_recentpostest <- if(exclude_recentpostest){
-  "_exclude_recentpostest"
-} else {
-  ""
-}
+
+
 
 
 data_irr_wide_print %>%
-  write_csv(here("output", cohort, "descriptive", "tables", glue("table_irr{string_exclude_recentpostest}.csv")))
+  write_csv(here("output", cohort, "descriptive", "tables", glue("table_irr_{recentpostest_period}.csv")))
 
 tab_irr <- data_irr_wide_print %>%
   gt(
@@ -354,7 +353,7 @@ tab_irr <- data_irr_wide_print %>%
 
 
 
-gtsave(tab_irr, here("output", cohort, "descriptive", "tables", glue("table_irr{string_exclude_recentpostest}.html")))
+gtsave(tab_irr, here("output", cohort, "descriptive", "tables", glue("table_irr_{recentpostest_period}.html")))
 
 
 ## note:

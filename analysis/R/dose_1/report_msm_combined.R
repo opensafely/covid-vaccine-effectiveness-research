@@ -74,14 +74,26 @@ names(summary_list) <- strata_descr
 
 # import models ----
 
-estimates <-
-  metadata_outcomes %>%
-  filter(outcome %in% c(
+# select outcomes
+if(recent_postestperiod==0){
+  outcomes <- c(
     "postest",
     "covidadmitted",
-    "death",
-    NULL
-  )) %>%
+    "death"
+  )
+}
+if(recent_postestperiod>0){
+  outcomes <- c(
+    "postest",
+    "covidadmitted",
+    "coviddeath",
+    "noncoviddeath"
+  )
+}
+
+estimates <-
+  metadata_outcomes %>%
+  filter(outcome %in% outcomes) %>%
   mutate(
     outcome = fct_inorder(outcome),
     outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=14, simplify=TRUE, whitespace_only=TRUE), collapse="\n")))

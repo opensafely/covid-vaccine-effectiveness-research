@@ -170,36 +170,26 @@ actions_descriptive <- function(cohort){
       )
     ),
 
+
     action(
-      name = glue("descr_tableirrold_{cohort}"),
-      run = "r:latest analysis/R/descr_tableirr.R",
-      arguments = c(cohort, "FALSE"),
+      name = glue("descr_tableirr_{cohort}_0"),
+      run = "r:latest analysis/R/descr_tableirr_lite.R",
+      arguments = c(cohort, "0"),
       needs = list("design", glue("data_selection_{cohort}")),
       moderately_sensitive = list(
-        html = glue("output/{cohort}/descriptive/tables/table_irr_old.html"),
-        csv = glue("output/{cohort}/descriptive/tables/table_irr_old.csv")
+        html = glue("output/{cohort}/descriptive/tables/table_irr_0.html"),
+        csv = glue("output/{cohort}/descriptive/tables/table_irr_0.csv")
       )
     ),
 
     action(
-      name = glue("descr_tableirr_{cohort}"),
+      name = glue("descr_tableirr_{cohort}_Inf"),
       run = "r:latest analysis/R/descr_tableirr_lite.R",
-      arguments = c(cohort, "FALSE"),
+      arguments = c(cohort, "Inf"),
       needs = list("design", glue("data_selection_{cohort}")),
       moderately_sensitive = list(
-        html = glue("output/{cohort}/descriptive/tables/table_irr.html"),
-        csv = glue("output/{cohort}/descriptive/tables/table_irr.csv")
-      )
-    ),
-
-    action(
-      name = glue("descr_tableirr_exclude_{cohort}"),
-      run = "r:latest analysis/R/descr_tableirr_lite.R",
-      arguments = c(cohort, "TRUE"),
-      needs = list("design", glue("data_selection_{cohort}")),
-      moderately_sensitive = list(
-        html = glue("output/{cohort}/descriptive/tables/table_irr_exclude_recentpostest.html"),
-        csv = glue("output/{cohort}/descriptive/tables/table_irr_exclude_recentpostest.csv")
+        html = glue("output/{cohort}/descriptive/tables/table_irr_Inf.html"),
+        csv = glue("output/{cohort}/descriptive/tables/table_irr_Inf.csv")
       )
     ),
 
@@ -460,7 +450,7 @@ actions_list <- splice(
   actions_models("over80s", "all", "Inf", "pfizer", "death", "150000", "50000"),
   actions_models("over80s", "all", "Inf", "az",     "death", "150000", "50000"),
 
-  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")),
+  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "coviddeath", "noncoviddeath")),
 
 
 
@@ -549,7 +539,7 @@ actions_list <- splice(
   actions_models("in70s", "all", "Inf", "pfizer", "death", "150000", "50000"),
   actions_models("in70s", "all", "Inf", "az",     "death", "150000", "50000"),
 
-  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death"))
+  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath"))
 
 
 )
