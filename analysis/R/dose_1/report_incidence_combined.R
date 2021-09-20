@@ -71,14 +71,26 @@ names(summary_list) <- strata
 # import models ----
 
 
-curves <-
-  metadata_outcomes %>%
-  filter(outcome %in% c(
+# select outcomes
+if(recent_postestperiod==0){
+  outcomes <- c(
     "postest",
     "covidadmitted",
-    "death",
-    NULL
-  )) %>%
+    "death"
+  )
+}
+if(recent_postestperiod>0){
+  outcomes <- c(
+    "postest",
+    "covidadmitted",
+    "coviddeath",
+    "noncoviddeath"
+  )
+}
+
+curves <-
+  metadata_outcomes %>%
+  filter(outcome %in% outcomes) %>%
   mutate(
     outcome = fct_inorder(outcome),
     outcome_descr = fct_inorder(str_wrap(outcome_descr, 14)),
