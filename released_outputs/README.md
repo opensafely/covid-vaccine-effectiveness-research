@@ -369,6 +369,16 @@
             * [output/in70s/all/Inf/pfizer/postest/weights_cmlprob_histogram_all.svg](output/in70s/all/Inf/pfizer/postest/weights_cmlprob_histogram_all.svg)
             * [output/in70s/all/Inf/pfizer/postest/weights_prob_histogram_all.svg](output/in70s/all/Inf/pfizer/postest/weights_prob_histogram_all.svg)
             * [output/in70s/all/Inf/pfizer/postest/weights_table_all.txt](output/in70s/all/Inf/pfizer/postest/weights_table_all.txt)
+    * output/in70s/descriptive
+      * output/in70s/descriptive/tables
+        * [output/in70s/descriptive/tables/end_status.csv](output/in70s/descriptive/tables/end_status.csv)
+        * [output/in70s/descriptive/tables/table1.html](output/in70s/descriptive/tables/table1.html)
+        * [output/in70s/descriptive/tables/table_irr.csv](output/in70s/descriptive/tables/table_irr.csv)
+        * [output/in70s/descriptive/tables/table_irr.html](output/in70s/descriptive/tables/table_irr.html)
+        * [output/in70s/descriptive/tables/table_irr_0.csv](output/in70s/descriptive/tables/table_irr_0.csv)
+        * [output/in70s/descriptive/tables/table_irr_0.html](output/in70s/descriptive/tables/table_irr_0.html)
+        * [output/in70s/descriptive/tables/table_irr_Inf.csv](output/in70s/descriptive/tables/table_irr_Inf.csv)
+        * [output/in70s/descriptive/tables/table_irr_Inf.html](output/in70s/descriptive/tables/table_irr_Inf.html)
   * output/over80s
     * output/over80s/all
       * output/over80s/all/0
