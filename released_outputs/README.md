@@ -160,6 +160,22 @@
         * [output/in70s/all/combined/VE_plot.svg](output/in70s/all/combined/VE_plot.svg)
         * [output/in70s/all/combined/VE_plot_free.png](output/in70s/all/combined/VE_plot_free.png)
         * [output/in70s/all/combined/VE_plot_free.svg](output/in70s/all/combined/VE_plot_free.svg)
+      * output/in70s/all/Inf
+        * output/in70s/all/Inf/combined
+          * [output/in70s/all/Inf/combined/cml_incidence_plot.png](output/in70s/all/Inf/combined/cml_incidence_plot.png)
+          * [output/in70s/all/Inf/combined/cml_incidence_plot.svg](output/in70s/all/Inf/combined/cml_incidence_plot.svg)
+          * [output/in70s/all/Inf/combined/cml_incidence_plot_pair.png](output/in70s/all/Inf/combined/cml_incidence_plot_pair.png)
+          * [output/in70s/all/Inf/combined/cml_incidence_plot_pair.svg](output/in70s/all/Inf/combined/cml_incidence_plot_pair.svg)
+          * [output/in70s/all/Inf/combined/estimates_formatted_timesincevax.csv](output/in70s/all/Inf/combined/estimates_formatted_timesincevax.csv)
+          * [output/in70s/all/Inf/combined/estimates_formatted_wide_timesincevax.csv](output/in70s/all/Inf/combined/estimates_formatted_wide_timesincevax.csv)
+          * [output/in70s/all/Inf/combined/estimates_timesincevax.csv](output/in70s/all/Inf/combined/estimates_timesincevax.csv)
+          * [output/in70s/all/Inf/combined/plot_vax1.svg](output/in70s/all/Inf/combined/plot_vax1.svg)
+          * [output/in70s/all/Inf/combined/tab_vax1.csv](output/in70s/all/Inf/combined/tab_vax1.csv)
+          * [output/in70s/all/Inf/combined/tab_vax1_wide.csv](output/in70s/all/Inf/combined/tab_vax1_wide.csv)
+          * [output/in70s/all/Inf/combined/VE_plot.png](output/in70s/all/Inf/combined/VE_plot.png)
+          * [output/in70s/all/Inf/combined/VE_plot.svg](output/in70s/all/Inf/combined/VE_plot.svg)
+          * [output/in70s/all/Inf/combined/VE_plot_free.png](output/in70s/all/Inf/combined/VE_plot_free.png)
+          * [output/in70s/all/Inf/combined/VE_plot_free.svg](output/in70s/all/Inf/combined/VE_plot_free.svg)
     * output/in70s/data
       * [output/in70s/data/flowchart.csv](output/in70s/data/flowchart.csv)
     * output/in70s/descriptive
