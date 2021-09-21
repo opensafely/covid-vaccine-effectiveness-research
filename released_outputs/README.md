@@ -87,6 +87,21 @@
             * [output/in70s/all/0/az/postest/weights_cmlprob_histogram_all.svg](output/in70s/all/0/az/postest/weights_cmlprob_histogram_all.svg)
             * [output/in70s/all/0/az/postest/weights_prob_histogram_all.svg](output/in70s/all/0/az/postest/weights_prob_histogram_all.svg)
             * [output/in70s/all/0/az/postest/weights_table_all.txt](output/in70s/all/0/az/postest/weights_table_all.txt)
+        * output/in70s/all/0/combined
+          * [output/in70s/all/0/combined/cml_incidence_plot.png](output/in70s/all/0/combined/cml_incidence_plot.png)
+          * [output/in70s/all/0/combined/cml_incidence_plot.svg](output/in70s/all/0/combined/cml_incidence_plot.svg)
+          * [output/in70s/all/0/combined/cml_incidence_plot_pair.png](output/in70s/all/0/combined/cml_incidence_plot_pair.png)
+          * [output/in70s/all/0/combined/cml_incidence_plot_pair.svg](output/in70s/all/0/combined/cml_incidence_plot_pair.svg)
+          * [output/in70s/all/0/combined/estimates_formatted_timesincevax.csv](output/in70s/all/0/combined/estimates_formatted_timesincevax.csv)
+          * [output/in70s/all/0/combined/estimates_formatted_wide_timesincevax.csv](output/in70s/all/0/combined/estimates_formatted_wide_timesincevax.csv)
+          * [output/in70s/all/0/combined/estimates_timesincevax.csv](output/in70s/all/0/combined/estimates_timesincevax.csv)
+          * [output/in70s/all/0/combined/plot_vax1.svg](output/in70s/all/0/combined/plot_vax1.svg)
+          * [output/in70s/all/0/combined/tab_vax1.csv](output/in70s/all/0/combined/tab_vax1.csv)
+          * [output/in70s/all/0/combined/tab_vax1_wide.csv](output/in70s/all/0/combined/tab_vax1_wide.csv)
+          * [output/in70s/all/0/combined/VE_plot.png](output/in70s/all/0/combined/VE_plot.png)
+          * [output/in70s/all/0/combined/VE_plot.svg](output/in70s/all/0/combined/VE_plot.svg)
+          * [output/in70s/all/0/combined/VE_plot_free.png](output/in70s/all/0/combined/VE_plot_free.png)
+          * [output/in70s/all/0/combined/VE_plot_free.svg](output/in70s/all/0/combined/VE_plot_free.svg)
         * output/in70s/all/0/pfizer
           * output/in70s/all/0/pfizer/covidadmitted
             * [output/in70s/all/0/pfizer/covidadmitted/broom_vaxaz1_all.csv](output/in70s/all/0/pfizer/covidadmitted/broom_vaxaz1_all.csv)
