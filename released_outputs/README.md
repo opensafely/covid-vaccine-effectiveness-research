@@ -20,6 +20,18 @@
         * [output/in70s/all/combined/VE_plot_free.svg](output/in70s/all/combined/VE_plot_free.svg)
     * output/in70s/data
       * [output/in70s/data/flowchart.csv](output/in70s/data/flowchart.csv)
+    * output/in70s/descriptive
+      * output/in70s/descriptive/plots
+        * [output/in70s/descriptive/plots/brandcounts12_ageband.svg](output/in70s/descriptive/plots/brandcounts12_ageband.svg)
+        * [output/in70s/descriptive/plots/brandcounts12_all.svg](output/in70s/descriptive/plots/brandcounts12_all.svg)
+        * [output/in70s/descriptive/plots/brandcounts12_ethnicity_combined.svg](output/in70s/descriptive/plots/brandcounts12_ethnicity_combined.svg)
+        * [output/in70s/descriptive/plots/brandcounts12_imd.svg](output/in70s/descriptive/plots/brandcounts12_imd.svg)
+        * [output/in70s/descriptive/plots/brandcounts12_sex.svg](output/in70s/descriptive/plots/brandcounts12_sex.svg)
+        * [output/in70s/descriptive/plots/brandcounts1_ageband.svg](output/in70s/descriptive/plots/brandcounts1_ageband.svg)
+        * [output/in70s/descriptive/plots/brandcounts1_all.svg](output/in70s/descriptive/plots/brandcounts1_all.svg)
+        * [output/in70s/descriptive/plots/brandcounts1_ethnicity_combined.svg](output/in70s/descriptive/plots/brandcounts1_ethnicity_combined.svg)
+        * [output/in70s/descriptive/plots/brandcounts1_imd.svg](output/in70s/descriptive/plots/brandcounts1_imd.svg)
+        * [output/in70s/descriptive/plots/brandcounts1_sex.svg](output/in70s/descriptive/plots/brandcounts1_sex.svg)
   * output/over80s
     * output/over80s/all
       * output/over80s/all/combined
