@@ -422,6 +422,21 @@
             * [output/over80s/all/0/az/postest/weights_cmlprob_histogram_all.svg](output/over80s/all/0/az/postest/weights_cmlprob_histogram_all.svg)
             * [output/over80s/all/0/az/postest/weights_prob_histogram_all.svg](output/over80s/all/0/az/postest/weights_prob_histogram_all.svg)
             * [output/over80s/all/0/az/postest/weights_table_all.txt](output/over80s/all/0/az/postest/weights_table_all.txt)
+        * output/over80s/all/0/combined
+          * [output/over80s/all/0/combined/cml_incidence_plot.png](output/over80s/all/0/combined/cml_incidence_plot.png)
+          * [output/over80s/all/0/combined/cml_incidence_plot.svg](output/over80s/all/0/combined/cml_incidence_plot.svg)
+          * [output/over80s/all/0/combined/cml_incidence_plot_pair.png](output/over80s/all/0/combined/cml_incidence_plot_pair.png)
+          * [output/over80s/all/0/combined/cml_incidence_plot_pair.svg](output/over80s/all/0/combined/cml_incidence_plot_pair.svg)
+          * [output/over80s/all/0/combined/estimates_formatted_timesincevax.csv](output/over80s/all/0/combined/estimates_formatted_timesincevax.csv)
+          * [output/over80s/all/0/combined/estimates_formatted_wide_timesincevax.csv](output/over80s/all/0/combined/estimates_formatted_wide_timesincevax.csv)
+          * [output/over80s/all/0/combined/estimates_timesincevax.csv](output/over80s/all/0/combined/estimates_timesincevax.csv)
+          * [output/over80s/all/0/combined/plot_vax1.svg](output/over80s/all/0/combined/plot_vax1.svg)
+          * [output/over80s/all/0/combined/tab_vax1.csv](output/over80s/all/0/combined/tab_vax1.csv)
+          * [output/over80s/all/0/combined/tab_vax1_wide.csv](output/over80s/all/0/combined/tab_vax1_wide.csv)
+          * [output/over80s/all/0/combined/VE_plot.png](output/over80s/all/0/combined/VE_plot.png)
+          * [output/over80s/all/0/combined/VE_plot.svg](output/over80s/all/0/combined/VE_plot.svg)
+          * [output/over80s/all/0/combined/VE_plot_free.png](output/over80s/all/0/combined/VE_plot_free.png)
+          * [output/over80s/all/0/combined/VE_plot_free.svg](output/over80s/all/0/combined/VE_plot_free.svg)
         * output/over80s/all/0/pfizer
           * output/over80s/all/0/pfizer/covidadmitted
             * [output/over80s/all/0/pfizer/covidadmitted/broom_vaxaz1_all.csv](output/over80s/all/0/pfizer/covidadmitted/broom_vaxaz1_all.csv)
@@ -618,6 +633,21 @@
             * [output/over80s/all/Inf/az/postest/weights_cmlprob_histogram_all.svg](output/over80s/all/Inf/az/postest/weights_cmlprob_histogram_all.svg)
             * [output/over80s/all/Inf/az/postest/weights_prob_histogram_all.svg](output/over80s/all/Inf/az/postest/weights_prob_histogram_all.svg)
             * [output/over80s/all/Inf/az/postest/weights_table_all.txt](output/over80s/all/Inf/az/postest/weights_table_all.txt)
+        * output/over80s/all/Inf/combined
+          * [output/over80s/all/Inf/combined/cml_incidence_plot.png](output/over80s/all/Inf/combined/cml_incidence_plot.png)
+          * [output/over80s/all/Inf/combined/cml_incidence_plot.svg](output/over80s/all/Inf/combined/cml_incidence_plot.svg)
+          * [output/over80s/all/Inf/combined/cml_incidence_plot_pair.png](output/over80s/all/Inf/combined/cml_incidence_plot_pair.png)
+          * [output/over80s/all/Inf/combined/cml_incidence_plot_pair.svg](output/over80s/all/Inf/combined/cml_incidence_plot_pair.svg)
+          * [output/over80s/all/Inf/combined/estimates_formatted_timesincevax.csv](output/over80s/all/Inf/combined/estimates_formatted_timesincevax.csv)
+          * [output/over80s/all/Inf/combined/estimates_formatted_wide_timesincevax.csv](output/over80s/all/Inf/combined/estimates_formatted_wide_timesincevax.csv)
+          * [output/over80s/all/Inf/combined/estimates_timesincevax.csv](output/over80s/all/Inf/combined/estimates_timesincevax.csv)
+          * [output/over80s/all/Inf/combined/plot_vax1.svg](output/over80s/all/Inf/combined/plot_vax1.svg)
+          * [output/over80s/all/Inf/combined/tab_vax1.csv](output/over80s/all/Inf/combined/tab_vax1.csv)
+          * [output/over80s/all/Inf/combined/tab_vax1_wide.csv](output/over80s/all/Inf/combined/tab_vax1_wide.csv)
+          * [output/over80s/all/Inf/combined/VE_plot.png](output/over80s/all/Inf/combined/VE_plot.png)
+          * [output/over80s/all/Inf/combined/VE_plot.svg](output/over80s/all/Inf/combined/VE_plot.svg)
+          * [output/over80s/all/Inf/combined/VE_plot_free.png](output/over80s/all/Inf/combined/VE_plot_free.png)
+          * [output/over80s/all/Inf/combined/VE_plot_free.svg](output/over80s/all/Inf/combined/VE_plot_free.svg)
         * output/over80s/all/Inf/pfizer
           * output/over80s/all/Inf/pfizer/covidadmitted
             * [output/over80s/all/Inf/pfizer/covidadmitted/broom_vaxaz1_all.csv](output/over80s/all/Inf/pfizer/covidadmitted/broom_vaxaz1_all.csv)
