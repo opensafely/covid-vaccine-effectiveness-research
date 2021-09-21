@@ -210,6 +210,12 @@
       * output/over80s/descriptive/tables
         * [output/over80s/descriptive/tables/end_status.csv](output/over80s/descriptive/tables/end_status.csv)
         * [output/over80s/descriptive/tables/table1.html](output/over80s/descriptive/tables/table1.html)
+        * [output/over80s/descriptive/tables/table_irr.csv](output/over80s/descriptive/tables/table_irr.csv)
+        * [output/over80s/descriptive/tables/table_irr.html](output/over80s/descriptive/tables/table_irr.html)
+        * [output/over80s/descriptive/tables/table_irr_0.csv](output/over80s/descriptive/tables/table_irr_0.csv)
+        * [output/over80s/descriptive/tables/table_irr_0.html](output/over80s/descriptive/tables/table_irr_0.html)
+        * [output/over80s/descriptive/tables/table_irr_Inf.csv](output/over80s/descriptive/tables/table_irr_Inf.csv)
+        * [output/over80s/descriptive/tables/table_irr_Inf.html](output/over80s/descriptive/tables/table_irr_Inf.html)
     * output/over80s/noncoviddeath
       * output/over80s/noncoviddeath/any
         * output/over80s/noncoviddeath/any/all
