@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+
+
+</head>
+<body>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#cpefsptsig .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cpefsptsig .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cpefsptsig .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cpefsptsig .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cpefsptsig .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cpefsptsig .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cpefsptsig .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cpefsptsig .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cpefsptsig .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cpefsptsig .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cpefsptsig .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cpefsptsig .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cpefsptsig .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#cpefsptsig .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cpefsptsig .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cpefsptsig .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cpefsptsig .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#cpefsptsig .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cpefsptsig .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#cpefsptsig .gt_left {
+  text-align: left;
+}
+
+#cpefsptsig .gt_center {
+  text-align: center;
+}
+
+#cpefsptsig .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cpefsptsig .gt_font_normal {
+  font-weight: normal;
+}
+
+#cpefsptsig .gt_font_bold {
+  font-weight: bold;
+}
+
+#cpefsptsig .gt_font_italic {
+  font-style: italic;
+}
+
+#cpefsptsig .gt_super {
+  font-size: 65%;
+}
+
+#cpefsptsig .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="cpefsptsig" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Time since first dose</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+        <span class="gt_column_spanner">Positive test</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+        <span class="gt_column_spanner">COVID-19 hospitalisation</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+        <span class="gt_column_spanner">COVID-19 death</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+        <span class="gt_column_spanner">Non-COVID-19 death</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+        <span class="gt_column_spanner">Any death</span>
+      </th>
+    </tr>
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Events / person-years</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Rate ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Events / person-years</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Rate ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Events / person-years</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Rate ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Events / person-years</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Rate ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Events / person-years</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Rate ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">95% CI</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr class="gt_group_heading_row">
+      <td colspan="16" class="gt_group_heading">Any vaccine</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Unvaccinated</td>
+      <td class="gt_row gt_right">9,748 /129,230</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,803 /130,929</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,808 /131,790</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">2,788 /131,790</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,596 /131,790</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">1-3</td>
+      <td class="gt_row gt_right">260 / 12,646</td>
+      <td class="gt_row gt_right">0.27</td>
+      <td class="gt_row gt_right">(0.24-0.31)</td>
+      <td class="gt_row gt_right">112 / 12,644</td>
+      <td class="gt_row gt_right">0.24</td>
+      <td class="gt_row gt_right">(0.20-0.29)</td>
+      <td class="gt_row gt_right">-- / 12,646</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">63 / 12,646</td>
+      <td class="gt_row gt_right">0.24</td>
+      <td class="gt_row gt_right">(0.18-0.30)</td>
+      <td class="gt_row gt_right">64 / 12,646</td>
+      <td class="gt_row gt_right">0.15</td>
+      <td class="gt_row gt_right">(0.11-0.19)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">4-7</td>
+      <td class="gt_row gt_right">490 / 16,846</td>
+      <td class="gt_row gt_right">0.39</td>
+      <td class="gt_row gt_right">(0.35-0.42)</td>
+      <td class="gt_row gt_right">144 / 16,843</td>
+      <td class="gt_row gt_right">0.23</td>
+      <td class="gt_row gt_right">(0.20-0.28)</td>
+      <td class="gt_row gt_right">-- / 16,846</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">127 / 16,846</td>
+      <td class="gt_row gt_right">0.36</td>
+      <td class="gt_row gt_right">(0.30-0.43)</td>
+      <td class="gt_row gt_right">131 / 16,846</td>
+      <td class="gt_row gt_right">0.22</td>
+      <td class="gt_row gt_right">(0.19-0.27)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">8-14</td>
+      <td class="gt_row gt_right">917 / 29,439</td>
+      <td class="gt_row gt_right">0.41</td>
+      <td class="gt_row gt_right">(0.39-0.44)</td>
+      <td class="gt_row gt_right">256 / 29,433</td>
+      <td class="gt_row gt_right">0.24</td>
+      <td class="gt_row gt_right">(0.21-0.27)</td>
+      <td class="gt_row gt_right">-- / 29,439</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">278 / 29,439</td>
+      <td class="gt_row gt_right">0.45</td>
+      <td class="gt_row gt_right">(0.39-0.51)</td>
+      <td class="gt_row gt_right">283 / 29,439</td>
+      <td class="gt_row gt_right">0.28</td>
+      <td class="gt_row gt_right">(0.24-0.31)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">15-21</td>
+      <td class="gt_row gt_right">631 / 29,388</td>
+      <td class="gt_row gt_right">0.28</td>
+      <td class="gt_row gt_right">(0.26-0.31)</td>
+      <td class="gt_row gt_right">177 / 29,382</td>
+      <td class="gt_row gt_right">0.16</td>
+      <td class="gt_row gt_right">(0.14-0.19)</td>
+      <td class="gt_row gt_right">-- / 29,388</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">341 / 29,388</td>
+      <td class="gt_row gt_right">0.55</td>
+      <td class="gt_row gt_right">(0.49-0.61)</td>
+      <td class="gt_row gt_right">346 / 29,388</td>
+      <td class="gt_row gt_right">0.34</td>
+      <td class="gt_row gt_right">(0.30-0.38)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">22-28</td>
+      <td class="gt_row gt_right">405 / 29,322</td>
+      <td class="gt_row gt_right">0.18</td>
+      <td class="gt_row gt_right">(0.17-0.20)</td>
+      <td class="gt_row gt_right">111 / 29,315</td>
+      <td class="gt_row gt_right">0.10</td>
+      <td class="gt_row gt_right">(0.08-0.12)</td>
+      <td class="gt_row gt_right">-- / 29,322</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">305 / 29,322</td>
+      <td class="gt_row gt_right">0.49</td>
+      <td class="gt_row gt_right">(0.44-0.55)</td>
+      <td class="gt_row gt_right">309 / 29,322</td>
+      <td class="gt_row gt_right">0.30</td>
+      <td class="gt_row gt_right">(0.27-0.34)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">29-35</td>
+      <td class="gt_row gt_right">279 / 29,239</td>
+      <td class="gt_row gt_right">0.13</td>
+      <td class="gt_row gt_right">(0.11-0.14)</td>
+      <td class="gt_row gt_right">85 / 29,233</td>
+      <td class="gt_row gt_right">0.08</td>
+      <td class="gt_row gt_right">(0.06-0.10)</td>
+      <td class="gt_row gt_right">8 / 29,239</td>
+      <td class="gt_row gt_right">0.02</td>
+      <td class="gt_row gt_right">(0.01-0.04)</td>
+      <td class="gt_row gt_right">368 / 29,239</td>
+      <td class="gt_row gt_right">0.59</td>
+      <td class="gt_row gt_right">(0.53-0.66)</td>
+      <td class="gt_row gt_right">376 / 29,239</td>
+      <td class="gt_row gt_right">0.37</td>
+      <td class="gt_row gt_right">(0.33-0.41)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">36+</td>
+      <td class="gt_row gt_right">800 /158,836</td>
+      <td class="gt_row gt_right">0.07</td>
+      <td class="gt_row gt_right">(0.06-0.07)</td>
+      <td class="gt_row gt_right">191 /158,810</td>
+      <td class="gt_row gt_right">0.03</td>
+      <td class="gt_row gt_right">(0.03-0.04)</td>
+      <td class="gt_row gt_right">12 /158,836</td>
+      <td class="gt_row gt_right">0.01</td>
+      <td class="gt_row gt_right">(0.00-0.01)</td>
+      <td class="gt_row gt_right">2,265 /158,836</td>
+      <td class="gt_row gt_right">0.67</td>
+      <td class="gt_row gt_right">(0.64-0.71)</td>
+      <td class="gt_row gt_right">2,277 /158,836</td>
+      <td class="gt_row gt_right">0.41</td>
+      <td class="gt_row gt_right">(0.39-0.43)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Total</td>
+      <td class="gt_row gt_right">13,530 /434,946</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">5,879 /436,590</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,847 /437,505</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">6,535 /437,505</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">8,382 /437,505</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="16" class="gt_group_heading">BNT162b2</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Unvaccinated</td>
+      <td class="gt_row gt_right">9,748 /129,240</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,522 /130,131</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,591 /130,672</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">2,726 /130,672</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,317 /130,672</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">1-3</td>
+      <td class="gt_row gt_right">104 /  5,161</td>
+      <td class="gt_row gt_right">0.27</td>
+      <td class="gt_row gt_right">(0.22-0.32)</td>
+      <td class="gt_row gt_right">38 /  5,160</td>
+      <td class="gt_row gt_right">0.21</td>
+      <td class="gt_row gt_right">(0.15-0.29)</td>
+      <td class="gt_row gt_right">-- /  5,161</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">12 /  5,161</td>
+      <td class="gt_row gt_right">0.11</td>
+      <td class="gt_row gt_right">(0.06-0.20)</td>
+      <td class="gt_row gt_right">13 /  5,161</td>
+      <td class="gt_row gt_right">0.08</td>
+      <td class="gt_row gt_right">(0.04-0.13)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">4-7</td>
+      <td class="gt_row gt_right">228 /  6,876</td>
+      <td class="gt_row gt_right">0.44</td>
+      <td class="gt_row gt_right">(0.38-0.50)</td>
+      <td class="gt_row gt_right">51 /  6,875</td>
+      <td class="gt_row gt_right">0.21</td>
+      <td class="gt_row gt_right">(0.16-0.28)</td>
+      <td class="gt_row gt_right">0 /  6,876</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_right">(NA-0.04)</td>
+      <td class="gt_row gt_right">38 /  6,876</td>
+      <td class="gt_row gt_right">0.26</td>
+      <td class="gt_row gt_right">(0.19-0.36)</td>
+      <td class="gt_row gt_right">38 /  6,876</td>
+      <td class="gt_row gt_right">0.17</td>
+      <td class="gt_row gt_right">(0.12-0.23)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">8-14</td>
+      <td class="gt_row gt_right">378 / 12,021</td>
+      <td class="gt_row gt_right">0.42</td>
+      <td class="gt_row gt_right">(0.38-0.46)</td>
+      <td class="gt_row gt_right">99 / 12,019</td>
+      <td class="gt_row gt_right">0.24</td>
+      <td class="gt_row gt_right">(0.19-0.29)</td>
+      <td class="gt_row gt_right">0 / 12,021</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_right">(NA-0.03)</td>
+      <td class="gt_row gt_right">75 / 12,021</td>
+      <td class="gt_row gt_right">0.30</td>
+      <td class="gt_row gt_right">(0.23-0.38)</td>
+      <td class="gt_row gt_right">75 / 12,021</td>
+      <td class="gt_row gt_right">0.19</td>
+      <td class="gt_row gt_right">(0.15-0.24)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">15-21</td>
+      <td class="gt_row gt_right">237 / 12,008</td>
+      <td class="gt_row gt_right">0.26</td>
+      <td class="gt_row gt_right">(0.23-0.30)</td>
+      <td class="gt_row gt_right">56 / 12,006</td>
+      <td class="gt_row gt_right">0.13</td>
+      <td class="gt_row gt_right">(0.10-0.17)</td>
+      <td class="gt_row gt_right">-- / 12,008</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">90 / 12,008</td>
+      <td class="gt_row gt_right">0.36</td>
+      <td class="gt_row gt_right">(0.29-0.44)</td>
+      <td class="gt_row gt_right">92 / 12,008</td>
+      <td class="gt_row gt_right">0.23</td>
+      <td class="gt_row gt_right">(0.19-0.29)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">22-28</td>
+      <td class="gt_row gt_right">168 / 11,991</td>
+      <td class="gt_row gt_right">0.19</td>
+      <td class="gt_row gt_right">(0.16-0.22)</td>
+      <td class="gt_row gt_right">32 / 11,989</td>
+      <td class="gt_row gt_right">0.08</td>
+      <td class="gt_row gt_right">(0.05-0.11)</td>
+      <td class="gt_row gt_right">0 / 11,991</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_right">(NA-0.03)</td>
+      <td class="gt_row gt_right">106 / 11,991</td>
+      <td class="gt_row gt_right">0.42</td>
+      <td class="gt_row gt_right">(0.35-0.51)</td>
+      <td class="gt_row gt_right">106 / 11,991</td>
+      <td class="gt_row gt_right">0.27</td>
+      <td class="gt_row gt_right">(0.22-0.32)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">29-35</td>
+      <td class="gt_row gt_right">124 / 11,976</td>
+      <td class="gt_row gt_right">0.14</td>
+      <td class="gt_row gt_right">(0.11-0.16)</td>
+      <td class="gt_row gt_right">34 / 11,974</td>
+      <td class="gt_row gt_right">0.08</td>
+      <td class="gt_row gt_right">(0.06-0.11)</td>
+      <td class="gt_row gt_right">-- / 11,976</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">116 / 11,976</td>
+      <td class="gt_row gt_right">0.46</td>
+      <td class="gt_row gt_right">(0.38-0.56)</td>
+      <td class="gt_row gt_right">118 / 11,976</td>
+      <td class="gt_row gt_right">0.30</td>
+      <td class="gt_row gt_right">(0.25-0.36)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">36+</td>
+      <td class="gt_row gt_right">351 / 67,100</td>
+      <td class="gt_row gt_right">0.07</td>
+      <td class="gt_row gt_right">(0.06-0.08)</td>
+      <td class="gt_row gt_right">91 / 67,091</td>
+      <td class="gt_row gt_right">0.04</td>
+      <td class="gt_row gt_right">(0.03-0.05)</td>
+      <td class="gt_row gt_right">8 / 67,100</td>
+      <td class="gt_row gt_right">0.01</td>
+      <td class="gt_row gt_right">(0.00-0.02)</td>
+      <td class="gt_row gt_right">868 / 67,100</td>
+      <td class="gt_row gt_right">0.62</td>
+      <td class="gt_row gt_right">(0.57-0.67)</td>
+      <td class="gt_row gt_right">876 / 67,100</td>
+      <td class="gt_row gt_right">0.40</td>
+      <td class="gt_row gt_right">(0.37-0.43)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Total</td>
+      <td class="gt_row gt_right">11,338 /256,372</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,923 /257,246</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,604 /257,804</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,031 /257,804</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">5,635 /257,804</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="16" class="gt_group_heading">ChAdOx1</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Unvaccinated</td>
+      <td class="gt_row gt_right">9,748 /129,240</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,604 /130,576</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,692 /131,330</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">2,757 /131,330</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">4,449 /131,330</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">1-3</td>
+      <td class="gt_row gt_right">156 /  7,484</td>
+      <td class="gt_row gt_right">0.28</td>
+      <td class="gt_row gt_right">(0.23-0.32)</td>
+      <td class="gt_row gt_right">74 /  7,483</td>
+      <td class="gt_row gt_right">0.28</td>
+      <td class="gt_row gt_right">(0.22-0.35)</td>
+      <td class="gt_row gt_right">0 /  7,484</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_right">(NA-0.04)</td>
+      <td class="gt_row gt_right">51 /  7,484</td>
+      <td class="gt_row gt_right">0.32</td>
+      <td class="gt_row gt_right">(0.24-0.43)</td>
+      <td class="gt_row gt_right">51 /  7,484</td>
+      <td class="gt_row gt_right">0.20</td>
+      <td class="gt_row gt_right">(0.15-0.26)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">4-7</td>
+      <td class="gt_row gt_right">262 /  9,969</td>
+      <td class="gt_row gt_right">0.35</td>
+      <td class="gt_row gt_right">(0.31-0.39)</td>
+      <td class="gt_row gt_right">93 /  9,967</td>
+      <td class="gt_row gt_right">0.26</td>
+      <td class="gt_row gt_right">(0.21-0.32)</td>
+      <td class="gt_row gt_right">-- /  9,969</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">89 /  9,969</td>
+      <td class="gt_row gt_right">0.43</td>
+      <td class="gt_row gt_right">(0.34-0.53)</td>
+      <td class="gt_row gt_right">93 /  9,969</td>
+      <td class="gt_row gt_right">0.28</td>
+      <td class="gt_row gt_right">(0.22-0.34)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">8-14</td>
+      <td class="gt_row gt_right">539 / 17,416</td>
+      <td class="gt_row gt_right">0.41</td>
+      <td class="gt_row gt_right">(0.38-0.45)</td>
+      <td class="gt_row gt_right">157 / 17,412</td>
+      <td class="gt_row gt_right">0.26</td>
+      <td class="gt_row gt_right">(0.22-0.30)</td>
+      <td class="gt_row gt_right">-- / 17,416</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">203 / 17,416</td>
+      <td class="gt_row gt_right">0.56</td>
+      <td class="gt_row gt_right">(0.48-0.64)</td>
+      <td class="gt_row gt_right">208 / 17,416</td>
+      <td class="gt_row gt_right">0.35</td>
+      <td class="gt_row gt_right">(0.31-0.41)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">15-21</td>
+      <td class="gt_row gt_right">394 / 17,379</td>
+      <td class="gt_row gt_right">0.30</td>
+      <td class="gt_row gt_right">(0.27-0.33)</td>
+      <td class="gt_row gt_right">121 / 17,374</td>
+      <td class="gt_row gt_right">0.20</td>
+      <td class="gt_row gt_right">(0.16-0.24)</td>
+      <td class="gt_row gt_right">-- / 17,379</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">251 / 17,379</td>
+      <td class="gt_row gt_right">0.69</td>
+      <td class="gt_row gt_right">(0.60-0.78)</td>
+      <td class="gt_row gt_right">254 / 17,379</td>
+      <td class="gt_row gt_right">0.43</td>
+      <td class="gt_row gt_right">(0.38-0.49)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">22-28</td>
+      <td class="gt_row gt_right">237 / 17,329</td>
+      <td class="gt_row gt_right">0.18</td>
+      <td class="gt_row gt_right">(0.16-0.21)</td>
+      <td class="gt_row gt_right">79 / 17,325</td>
+      <td class="gt_row gt_right">0.13</td>
+      <td class="gt_row gt_right">(0.10-0.16)</td>
+      <td class="gt_row gt_right">-- / 17,329</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">199 / 17,329</td>
+      <td class="gt_row gt_right">0.55</td>
+      <td class="gt_row gt_right">(0.47-0.63)</td>
+      <td class="gt_row gt_right">203 / 17,329</td>
+      <td class="gt_row gt_right">0.35</td>
+      <td class="gt_row gt_right">(0.30-0.40)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">29-35</td>
+      <td class="gt_row gt_right">155 / 17,263</td>
+      <td class="gt_row gt_right">0.12</td>
+      <td class="gt_row gt_right">(0.10-0.14)</td>
+      <td class="gt_row gt_right">51 / 17,258</td>
+      <td class="gt_row gt_right">0.08</td>
+      <td class="gt_row gt_right">(0.06-0.11)</td>
+      <td class="gt_row gt_right">6 / 17,263</td>
+      <td class="gt_row gt_right">0.03</td>
+      <td class="gt_row gt_right">(0.01-0.06)</td>
+      <td class="gt_row gt_right">252 / 17,263</td>
+      <td class="gt_row gt_right">0.70</td>
+      <td class="gt_row gt_right">(0.61-0.79)</td>
+      <td class="gt_row gt_right">258 / 17,263</td>
+      <td class="gt_row gt_right">0.44</td>
+      <td class="gt_row gt_right">(0.39-0.50)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">36+</td>
+      <td class="gt_row gt_right">449 / 91,734</td>
+      <td class="gt_row gt_right">0.06</td>
+      <td class="gt_row gt_right">(0.06-0.07)</td>
+      <td class="gt_row gt_right">100 / 91,717</td>
+      <td class="gt_row gt_right">0.03</td>
+      <td class="gt_row gt_right">(0.03-0.04)</td>
+      <td class="gt_row gt_right">-- / 91,734</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,397 / 91,734</td>
+      <td class="gt_row gt_right">0.73</td>
+      <td class="gt_row gt_right">(0.68-0.77)</td>
+      <td class="gt_row gt_right">1,401 / 91,734</td>
+      <td class="gt_row gt_right">0.45</td>
+      <td class="gt_row gt_right">(0.42-0.48)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Total</td>
+      <td class="gt_row gt_right">11,940 /307,814</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">5,279 /309,112</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">1,718 /309,904</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">5,199 /309,904</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">6,917 /309,904</td>
+      <td class="gt_row gt_right">&ndash;</td>
+      <td class="gt_row gt_right">&ndash;</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</body>
+</html>
