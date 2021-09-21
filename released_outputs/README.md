@@ -18,6 +18,8 @@
         * [output/in70s/all/combined/VE_plot.svg](output/in70s/all/combined/VE_plot.svg)
         * [output/in70s/all/combined/VE_plot_free.png](output/in70s/all/combined/VE_plot_free.png)
         * [output/in70s/all/combined/VE_plot_free.svg](output/in70s/all/combined/VE_plot_free.svg)
+    * output/in70s/data
+      * [output/in70s/data/flowchart.csv](output/in70s/data/flowchart.csv)
   * output/over80s
     * output/over80s/all
       * output/over80s/all/combined
