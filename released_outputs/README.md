@@ -369,6 +369,8 @@
             * [output/in70s/all/Inf/pfizer/postest/weights_cmlprob_histogram_all.svg](output/in70s/all/Inf/pfizer/postest/weights_cmlprob_histogram_all.svg)
             * [output/in70s/all/Inf/pfizer/postest/weights_prob_histogram_all.svg](output/in70s/all/Inf/pfizer/postest/weights_prob_histogram_all.svg)
             * [output/in70s/all/Inf/pfizer/postest/weights_table_all.txt](output/in70s/all/Inf/pfizer/postest/weights_table_all.txt)
+    * output/in70s/data
+      * [output/in70s/data/flowchart.csv](output/in70s/data/flowchart.csv)
     * output/in70s/descriptive
       * output/in70s/descriptive/plots
         * [output/in70s/descriptive/plots/brandcounts12_ageband.svg](output/in70s/descriptive/plots/brandcounts12_ageband.svg)
@@ -758,6 +760,8 @@
             * [output/over80s/all/Inf/pfizer/postest/weights_cmlprob_histogram_all.svg](output/over80s/all/Inf/pfizer/postest/weights_cmlprob_histogram_all.svg)
             * [output/over80s/all/Inf/pfizer/postest/weights_prob_histogram_all.svg](output/over80s/all/Inf/pfizer/postest/weights_prob_histogram_all.svg)
             * [output/over80s/all/Inf/pfizer/postest/weights_table_all.txt](output/over80s/all/Inf/pfizer/postest/weights_table_all.txt)
+    * output/over80s/data
+      * [output/over80s/data/flowchart.csv](output/over80s/data/flowchart.csv)
     * output/over80s/descriptive
       * output/over80s/descriptive/plots
         * [output/over80s/descriptive/plots/brandcounts12_ageband.svg](output/over80s/descriptive/plots/brandcounts12_ageband.svg)
