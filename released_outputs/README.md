@@ -3,6 +3,47 @@
 * output
   * output/in70s
     * output/in70s/all
+      * output/in70s/all/0
+        * output/in70s/all/0/any
+          * output/in70s/all/0/any/covidadmitted
+            * [output/in70s/all/0/any/covidadmitted/broom_vaxany1_all.csv](output/in70s/all/0/any/covidadmitted/broom_vaxany1_all.csv)
+            * [output/in70s/all/0/any/covidadmitted/cml_incidence_plot_all.png](output/in70s/all/0/any/covidadmitted/cml_incidence_plot_all.png)
+            * [output/in70s/all/0/any/covidadmitted/cml_incidence_plot_all.svg](output/in70s/all/0/any/covidadmitted/cml_incidence_plot_all.svg)
+            * [output/in70s/all/0/any/covidadmitted/estimates.csv](output/in70s/all/0/any/covidadmitted/estimates.csv)
+            * [output/in70s/all/0/any/covidadmitted/estimates_timesincevax.csv](output/in70s/all/0/any/covidadmitted/estimates_timesincevax.csv)
+            * [output/in70s/all/0/any/covidadmitted/time_trends_region_plot1_all.png](output/in70s/all/0/any/covidadmitted/time_trends_region_plot1_all.png)
+            * [output/in70s/all/0/any/covidadmitted/time_trends_region_plot1_all.svg](output/in70s/all/0/any/covidadmitted/time_trends_region_plot1_all.svg)
+            * [output/in70s/all/0/any/covidadmitted/VE_plot.png](output/in70s/all/0/any/covidadmitted/VE_plot.png)
+            * [output/in70s/all/0/any/covidadmitted/VE_plot.svg](output/in70s/all/0/any/covidadmitted/VE_plot.svg)
+            * [output/in70s/all/0/any/covidadmitted/weights_cmlprob_histogram_all.svg](output/in70s/all/0/any/covidadmitted/weights_cmlprob_histogram_all.svg)
+            * [output/in70s/all/0/any/covidadmitted/weights_prob_histogram_all.svg](output/in70s/all/0/any/covidadmitted/weights_prob_histogram_all.svg)
+            * [output/in70s/all/0/any/covidadmitted/weights_table_all.txt](output/in70s/all/0/any/covidadmitted/weights_table_all.txt)
+          * output/in70s/all/0/any/death
+            * [output/in70s/all/0/any/death/broom_vaxany1_all.csv](output/in70s/all/0/any/death/broom_vaxany1_all.csv)
+            * [output/in70s/all/0/any/death/cml_incidence_plot_all.png](output/in70s/all/0/any/death/cml_incidence_plot_all.png)
+            * [output/in70s/all/0/any/death/cml_incidence_plot_all.svg](output/in70s/all/0/any/death/cml_incidence_plot_all.svg)
+            * [output/in70s/all/0/any/death/estimates.csv](output/in70s/all/0/any/death/estimates.csv)
+            * [output/in70s/all/0/any/death/estimates_timesincevax.csv](output/in70s/all/0/any/death/estimates_timesincevax.csv)
+            * [output/in70s/all/0/any/death/time_trends_region_plot1_all.png](output/in70s/all/0/any/death/time_trends_region_plot1_all.png)
+            * [output/in70s/all/0/any/death/time_trends_region_plot1_all.svg](output/in70s/all/0/any/death/time_trends_region_plot1_all.svg)
+            * [output/in70s/all/0/any/death/VE_plot.png](output/in70s/all/0/any/death/VE_plot.png)
+            * [output/in70s/all/0/any/death/VE_plot.svg](output/in70s/all/0/any/death/VE_plot.svg)
+            * [output/in70s/all/0/any/death/weights_cmlprob_histogram_all.svg](output/in70s/all/0/any/death/weights_cmlprob_histogram_all.svg)
+            * [output/in70s/all/0/any/death/weights_prob_histogram_all.svg](output/in70s/all/0/any/death/weights_prob_histogram_all.svg)
+            * [output/in70s/all/0/any/death/weights_table_all.txt](output/in70s/all/0/any/death/weights_table_all.txt)
+          * output/in70s/all/0/any/postest
+            * [output/in70s/all/0/any/postest/broom_vaxany1_all.csv](output/in70s/all/0/any/postest/broom_vaxany1_all.csv)
+            * [output/in70s/all/0/any/postest/cml_incidence_plot_all.png](output/in70s/all/0/any/postest/cml_incidence_plot_all.png)
+            * [output/in70s/all/0/any/postest/cml_incidence_plot_all.svg](output/in70s/all/0/any/postest/cml_incidence_plot_all.svg)
+            * [output/in70s/all/0/any/postest/estimates.csv](output/in70s/all/0/any/postest/estimates.csv)
+            * [output/in70s/all/0/any/postest/estimates_timesincevax.csv](output/in70s/all/0/any/postest/estimates_timesincevax.csv)
+            * [output/in70s/all/0/any/postest/time_trends_region_plot1_all.png](output/in70s/all/0/any/postest/time_trends_region_plot1_all.png)
+            * [output/in70s/all/0/any/postest/time_trends_region_plot1_all.svg](output/in70s/all/0/any/postest/time_trends_region_plot1_all.svg)
+            * [output/in70s/all/0/any/postest/VE_plot.png](output/in70s/all/0/any/postest/VE_plot.png)
+            * [output/in70s/all/0/any/postest/VE_plot.svg](output/in70s/all/0/any/postest/VE_plot.svg)
+            * [output/in70s/all/0/any/postest/weights_cmlprob_histogram_all.svg](output/in70s/all/0/any/postest/weights_cmlprob_histogram_all.svg)
+            * [output/in70s/all/0/any/postest/weights_prob_histogram_all.svg](output/in70s/all/0/any/postest/weights_prob_histogram_all.svg)
+            * [output/in70s/all/0/any/postest/weights_table_all.txt](output/in70s/all/0/any/postest/weights_table_all.txt)
       * output/in70s/all/combined
         * [output/in70s/all/combined/cml_incidence_plot.png](output/in70s/all/combined/cml_incidence_plot.png)
         * [output/in70s/all/combined/cml_incidence_plot.svg](output/in70s/all/combined/cml_incidence_plot.svg)
