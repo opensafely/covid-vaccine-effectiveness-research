@@ -73,151 +73,148 @@ names(summary_list) <- strata
 
 # select outcomes
 if(recent_postestperiod==0){
-  outcomes <- c(
-    "postest",
-    "covidadmitted",
-    "death"
-  )
+  deathtypes <- c("alldeath")
 }
 if(recent_postestperiod>0){
-  outcomes <- c(
-    "postest",
-    "covidadmitted",
-    "coviddeath",
-    "noncoviddeath"
-  )
+  deathtypes <- c("alldeath", "specificdeath")
 }
 
-curves <-
-  metadata_outcomes %>%
-  filter(outcome %in% outcomes) %>%
-  mutate(
-    outcome = fct_inorder(outcome),
-    outcome_descr = fct_inorder(str_wrap(outcome_descr, 14)),
-  ) %>%
-  crossing(
-    tibble(
-      brand = c("any", "pfizer", "az"),
-      brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
+for(deathtype in deathtypes){
+
+  if(deathtype=="alldeath") outcomes <- c("postest","covidadmitted","death")
+  if(deathtype=="specificdeath") outcomes <- c("postest","covidadmitted","coviddeath","noncoviddeath")
+
+  curves <-
+    metadata_outcomes %>%
+    filter(outcome %in% outcomes) %>%
+    mutate(
+      outcome = fct_inorder(outcome),
+      outcome_descr = fct_inorder(str_wrap(outcome_descr, 14)),
+    ) %>%
+    crossing(
+      tibble(
+        brand = c("any", "pfizer", "az"),
+        brand_descr = c("Any vaccine", "BNT162b2", "ChAdOx1")
+      ) %>%
+      mutate(
+        brand = fct_inorder(brand),
+        brand_descr = fct_inorder(brand_descr),
+      )
     ) %>%
     mutate(
-      brand = fct_inorder(brand),
-      brand_descr = fct_inorder(brand_descr),
+      curves = map2(brand, outcome, ~read_rds(here("output", cohort, strata_var, recent_postestperiod, .x, .y, glue("data_incidence.rds"))))
+    ) %>%
+    unnest(curves) %>%
+    mutate(
+      stratum=fct_inorder(stratum),
+      paired = factor(
+        paste0(vax_status,", ",stratum),
+        levels= map_chr(
+          cross2(c("Unvaccinated", "Vaccinated"), levels(stratum)),
+          ~paste(., sep = ":", collapse = ", ")
+        )
+      ),
+     paired=factor(str_remove(paired, "\\, all$"), levels=c("Unvaccinated", "Vaccinated"))
     )
-  ) %>%
-  mutate(
-    curves = map2(brand, outcome, ~read_rds(here("output", cohort, strata_var, recent_postestperiod, .x, .y, glue("data_incidence.rds"))))
-  ) %>%
-  unnest(curves) %>%
-  mutate(
-    stratum=fct_inorder(stratum),
-    paired = factor(
-      paste0(vax_status,", ",stratum),
-      levels= map_chr(
-        cross2(c("Unvaccinated", "Vaccinated"), levels(stratum)),
-        ~paste(., sep = ":", collapse = ", ")
+
+  cml_inc <- ggplot(curves)+
+    geom_step(aes(x=date, y=1-survival4, group=paired, alpha=vax_status, colour=stratum))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
+    scale_x_date(
+      breaks = seq(min(curves$date),max(curves$date)+29,by=28),
+      limits = c(floor_date((min(curves$date)), "1 month"), NA),
+      labels = scales::date_format("%d/%m"),
+      expand = expansion(0),
+      sec.axis = sec_axis(
+        trans = ~as.Date(.),
+        breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"),by="month")),
+        labels = scales::date_format("%b %y")
       )
-    ),
-   paired=factor(str_remove(paired, "\\, all$"), levels=c("Unvaccinated", "Vaccinated"))
-  )
+    )+
+    scale_alpha_discrete(range=c(0.4,1), breaks=c("Unvaccinated", "Vaccinated"), limits=c("Unvaccinated", "Vaccinated"))+
+    scale_colour_brewer(type="qual", palette="Set2")+
+    labs(
+      x="Date",
+      y="Cumulative risk",
+      colour=NULL,
+      alpha=NULL
+    ) +
+    theme_bw()+
+    theme(
+      panel.border = element_blank(),
+      axis.line.y = element_line(colour = "black"),
 
-cml_inc <- ggplot(curves)+
-  geom_step(aes(x=date, y=1-survival4, group=paired, alpha=vax_status, colour=stratum))+
-  facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
-  scale_x_date(
-    breaks = seq(min(curves$date),max(curves$date)+29,by=28),
-    limits = c(floor_date((min(curves$date)), "1 month"), NA),
-    labels = scales::date_format("%d/%m"),
-    expand = expansion(0),
-    sec.axis = sec_axis(
-      trans = ~as.Date(.),
-      breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"),by="month")),
-      labels = scales::date_format("%b %y")
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position="bottom",
+      axis.text.x.top=element_text(hjust=0)
     )
-  )+
-  scale_alpha_discrete(range=c(0.4,1), breaks=c("Unvaccinated", "Vaccinated"), limits=c("Unvaccinated", "Vaccinated"))+
-  scale_colour_brewer(type="qual", palette="Set2")+
-  labs(
-    x="Date",
-    y="Cumulative risk",
-    colour=NULL,
-    alpha=NULL
-  ) +
-  theme_bw()+
-  theme(
-    panel.border = element_blank(),
-    axis.line.y = element_line(colour = "black"),
+  cml_inc
 
-    panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    strip.background = element_blank(),
-    strip.placement = "outside",
-    #strip.text.y.left = element_text(angle = 0),
-
-    panel.spacing = unit(1, "lines"),
-
-    plot.title = element_text(hjust = 0),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0, face= "italic"),
-
-    legend.position="bottom",
-    axis.text.x.top=element_text(hjust=0)
-  )
-cml_inc
-
-ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot.svg")), cml_inc, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot.png")), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_{deathtype}.svg")), cml_inc, width=20, height=15, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_{deathtype}.png")), cml_inc, width=20, height=15, units="cm")
 
 
 
-cml_inc_pair <- ggplot(curves)+
-  geom_hline(aes(yintercept=0), colour='black') +
-  geom_step(aes(x=date, y=1-survival4, group=paired, colour=paired))+
-  facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
-  scale_x_date(
-    breaks = seq(min(curves$date),max(curves$date)+29, by=28),
-    limits = c(floor_date((min(curves$date)), "1 month"), NA),
-    labels = scales::date_format("%d/%m"),
-    expand = expansion(c(0,1/30)),
-    sec.axis = sec_axis(
-      trans = ~as.Date(.),
-      breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"), by="month")),
-      labels = scales::date_format("%b %y")
+  cml_inc_pair <- ggplot(curves)+
+    geom_hline(aes(yintercept=0), colour='black') +
+    geom_step(aes(x=date, y=1-survival4, group=paired, colour=paired))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y", scales="free_y")+
+    scale_x_date(
+      breaks = seq(min(curves$date),max(curves$date)+29, by=28),
+      limits = c(floor_date((min(curves$date)), "1 month"), NA),
+      labels = scales::date_format("%d/%m"),
+      expand = expansion(c(0,1/30)),
+      sec.axis = sec_axis(
+        trans = ~as.Date(.),
+        breaks=as.Date(seq(floor_date(min(curves$date), "month"), ceiling_date(max(curves$date), "month"), by="month")),
+        labels = scales::date_format("%b %y")
+      )
+    )+
+    scale_y_continuous(limits=c(0,NA), expand=expansion(c(0,NA)),  breaks=seq(0,0.5,0.02))+
+    scale_colour_brewer(type="qual", palette="Paired", guide=guide_legend(ncol=2))+
+    labs(
+      x="Date",
+      y="Cumulative risk",
+      colour=NULL,
+      alpha=NULL
+    ) +
+    theme_bw(base_size = 12)+
+    theme(
+      panel.border = element_blank(),
+      #axis.line.x = element_line(colour = "black"),
+      #axis.line.y = element_line(colour = "black"),
+
+      panel.grid.minor.x = element_blank(),
+      #panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position="bottom",
+      axis.text.x.top=element_text(hjust=0)
     )
-  )+
-  scale_y_continuous(limits=c(0,NA), expand=expansion(c(0,NA)),  breaks=seq(0,0.5,0.02))+
-  scale_colour_brewer(type="qual", palette="Paired", guide=guide_legend(ncol=2))+
-  labs(
-    x="Date",
-    y="Cumulative risk",
-    colour=NULL,
-    alpha=NULL
-  ) +
-  theme_bw(base_size = 12)+
-  theme(
-    panel.border = element_blank(),
-    #axis.line.x = element_line(colour = "black"),
-    #axis.line.y = element_line(colour = "black"),
+  cml_inc_pair
 
-    panel.grid.minor.x = element_blank(),
-    #panel.grid.minor.y = element_blank(),
-    strip.background = element_blank(),
-    strip.placement = "outside",
-    #strip.text.y.left = element_text(angle = 0),
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_pair_{deathtype}.svg")), cml_inc_pair, width=20, height=20, units="cm")
+  ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_pair_{deathtype}.png")), cml_inc_pair, width=20, height=20, units="cm")
 
-    panel.spacing = unit(1, "lines"),
-
-    plot.title = element_text(hjust = 0),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0, face= "italic"),
-
-    legend.position="bottom",
-    axis.text.x.top=element_text(hjust=0)
-  )
-cml_inc_pair
-
-ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_pair.svg")), cml_inc_pair, width=20, height=20, units="cm")
-ggsave(filename=here("output", cohort, strata_var, recent_postestperiod, "combined", glue("cml_incidence_plot_pair.png")), cml_inc_pair, width=20, height=20, units="cm")
-
+}

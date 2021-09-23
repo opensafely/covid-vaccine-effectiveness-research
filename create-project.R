@@ -540,7 +540,7 @@ actions_list <- splice(
   actions_models("in70s", "all", "Inf", "az",     "death", "150000", "50000"),
 
 
-  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath")),
+  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")),
 
   comment("####################################", "Combine info across cohorts", "####################################"),
 
