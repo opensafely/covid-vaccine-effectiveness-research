@@ -51,11 +51,6 @@ if(length(args)==0){
 
 
 
-# import global vars ----
-gbl_vars <- jsonlite::fromJSON(
-  txt="./analysis/global-variables.json"
-)
-
 # Import metadata for outcome ----
 ## these are created in data_define_cohorts.R script
 
@@ -75,8 +70,8 @@ formula_1 <- outcome ~ 1
 formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
 
 # import globally defined repo variables from
-gbl_vars <- jsonlite::fromJSON(
-  txt="./analysis/global-variables.json"
+gbl_vars <- jsonlite::read_json(
+  path=here("analysis","global-variables.json")
 )
 
 start_date <- gbl_vars[[glue("start_date_{cohort}")]]
