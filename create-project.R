@@ -450,7 +450,7 @@ actions_list <- splice(
   actions_models("over80s", "all", "Inf", "pfizer", "death", "150000", "50000"),
   actions_models("over80s", "all", "Inf", "az",     "death", "150000", "50000"),
 
-  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "coviddeath", "noncoviddeath")),
+  actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")),
 
 
 
