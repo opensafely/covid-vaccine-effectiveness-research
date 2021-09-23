@@ -70,10 +70,12 @@ plot <- plot_data %>%
   plot_theme+
   theme(legend.position = "bottom")
 
+fs::dir_create(here("output", "combined"))
+
 ggsave(
   plot = plot,
   filename = paste0("brandcounts12.svg"),
-  path=here("output"),
+  path=here("output", "combined"),
   units="cm",
   width = 25,
   height = 25
@@ -83,7 +85,7 @@ ggsave(
 ggsave(
   plot = plot,
   filename = paste0("brandcounts12.png"),
-  path=here("output"),
+  path=here("output", "combined"),
   units="cm",
   width = 25,
   height = 25

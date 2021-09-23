@@ -2875,3 +2875,16 @@ actions:
         svg: output/in70s/all/Inf/combined/cml_incidence*.svg
         png: output/in70s/all/Inf/combined/cml_incidence*.png
 
+  ## #################################### 
+  ## Combine info across cohorts 
+  ## #################################### 
+
+  descr_events_allcohorts:
+    run: r:latest analysis/R/descr_events_all.R
+    needs:
+    - descr_events_over80s
+    - descr_events_in70s
+    outputs:
+      moderately_sensitive:
+        plots: output/combined/brandcounts12*
+

@@ -539,7 +539,19 @@ actions_list <- splice(
   actions_models("in70s", "all", "Inf", "pfizer", "death", "150000", "50000"),
   actions_models("in70s", "all", "Inf", "az",     "death", "150000", "50000"),
 
-  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath"))
+
+  actions_combine_models("in70s", "all", "Inf",  c("postest", "covidadmitted", "coviddeath", "noncoviddeath")),
+
+  comment("####################################", "Combine info across cohorts", "####################################"),
+
+  action(
+    name = "descr_events_allcohorts",
+    run = "r:latest analysis/R/descr_events_all.R",
+    needs = list("descr_events_over80s","descr_events_in70s"),
+    moderately_sensitive = list(
+      plots = "output/combined/brandcounts12*"
+    )
+  )
 
 
 )

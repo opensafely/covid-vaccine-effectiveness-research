@@ -26,10 +26,10 @@ library('lubridate')
 source(here("lib", "utility_functions.R"))
 
 # import globally defined repo variables from
-gbl_vars <- jsonlite::fromJSON(
-  txt="./analysis/global-variables.json"
+gbl_vars <- jsonlite::read_json(
+  path=here("analysis","global-variables.json")
 )
-gbl_vars$run_date =date(file.info(here("metadata", "extract_over80s.log"))$ctime)
+
 #list2env(gbl_vars, globalenv())
 
 
