@@ -551,8 +551,29 @@ actions_list <- splice(
     moderately_sensitive = list(
       plots = "output/combined/brandcounts12*"
     )
-  )
+  ),
 
+  action(
+    name = "report_msm_allcohorts",
+    run = "r:latest analysis/R/dose_1/report_msm_combined_0Inf.R",
+    needs = splice(
+      "design",
+      as.list(
+        glue_data(
+          .x=expand_grid(
+            cohort=c("over80s", "in70s"),
+            recent_postestperiod = c("0","Inf"),
+            brand=c("pfizer", "az"),
+            outcome=c("postest", "covidadmitted", "death")
+          ),
+          "report_msm_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
+        )
+      )
+    ),
+    moderately_sensitive = list(
+      plots = "output/combined/VE_plot*"
+    )
+  )
 
 )
 
