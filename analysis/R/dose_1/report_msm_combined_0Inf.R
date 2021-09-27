@@ -35,17 +35,6 @@ args <- commandArgs(trailingOnly=TRUE)
 
 
 
-if(length(args)==0){
-  # use for interactive testing
-  removeobs <- FALSE
-  strata_var <- "all"
-} else{
-  removeobs <- TRUE
-  strata_var <- args[[1]]
-
-}
-
-
 
 # import global vars ----
 gbl_vars <- jsonlite::read_json(
@@ -62,8 +51,8 @@ fs::dir_create(here("output", "combined"))
 
 ##  Create big loop over all categories
 
-strata <- read_rds(here("output", "metadata", "list_strata.rds"))[[strata_var]]
-strata_descr <- read_rds(here("output", "metadata", "list_strata_descr.rds"))[[strata_var]]
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[["all"]]
+strata_descr <- read_rds(here("output", "metadata", "list_strata_descr.rds"))[["all"]]
 summary_list <- vector("list", length(strata_descr))
 names(summary_list) <- strata_descr
 
@@ -103,7 +92,8 @@ estimates <- params %>%
     outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=14, simplify=TRUE, whitespace_only=TRUE), collapse="\n")))
   ) %>%
   mutate(
-    estimates = pmap(list(cohort, brand, outcome, recent_postestperiod), ~read_csv(here("output", ..1, strata_var, ..4, ..2, ..3, glue("estimates_timesincevax.csv"))))
+    estimates = pmap(list(cohort, recent_postestperiod, brand, outcome), ~read_csv(here("output", ..1, "all", ..2, ..3, ..4, glue("estimates_timesincevax.csv"))))
+    #estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -114,6 +104,8 @@ estimates <- params %>%
 
 estimates_formatted <- estimates %>%
   transmute(
+    cohort_descr,
+    recent_postestperiod,
     outcome_descr,
     brand_descr,
     stratum,
@@ -130,9 +122,9 @@ estimates_formatted <- estimates %>%
   )
 
 estimates_formatted_wide <- estimates_formatted %>%
-  select(outcome_descr, brand_descr, stratum, model, term, HR_ECI, VE_ECI) %>%
+  select(cohort_descr, recent_postestperiod, outcome_descr, brand_descr, model, term, HR_ECI, VE_ECI) %>%
   pivot_wider(
-    id_cols=c(outcome_descr, brand_descr, term, stratum),
+    id_cols=c(cohort_descr, recent_postestperiod, outcome_descr, brand_descr, term),
     names_from = model,
     values_from = c(HR_ECI, VE_ECI),
     names_glue = "{model}_{.value}"
