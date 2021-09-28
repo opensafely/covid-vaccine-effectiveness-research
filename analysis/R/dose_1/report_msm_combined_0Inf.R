@@ -82,7 +82,7 @@ params <-
   unpack(c(cohort, brand)) %>%
   filter(
     !(recent_postestperiod == 0 & outcome %in% c("coviddeath", "noncoviddeath")),
-    !(recent_postestperiod == Inf & outcome %in% c("postest")),
+    #!(recent_postestperiod == Inf & outcome %in% c("postest")),
   )
 
 estimates <- params %>%
