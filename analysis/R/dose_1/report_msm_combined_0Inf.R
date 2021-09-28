@@ -176,8 +176,8 @@ makeplot <- function(recent_postestperiod){
     ggplot(aes(colour=model_descr)) +
     geom_hline(aes(yintercept=1), colour='black')+
     geom_vline(aes(xintercept=0), colour='black')+
-    geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
-    geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
+    geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 2), size=0.8)+
+    geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 2))+
     facet_grid(rows=vars(outcome_descr), cols=vars(plot_col), switch="y")+
     scale_y_log10(
       breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
@@ -235,8 +235,8 @@ makeplot <- function(recent_postestperiod){
     ggplot(aes(colour=model_descr)) +
     geom_hline(aes(yintercept=0), colour='black')+
     geom_vline(aes(xintercept=0), colour='black')+
-    geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
-    geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
+    geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 2), size=0.8)+
+    geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 2))+
     facet_grid(rows=vars(outcome_descr), cols=vars(plot_col), switch="y")+
     scale_y_continuous(
       labels = function(x){scales::label_number(0.001)(exp(x))},
