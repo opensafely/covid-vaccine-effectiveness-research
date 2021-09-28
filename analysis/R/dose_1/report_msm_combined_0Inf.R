@@ -68,7 +68,7 @@ params <-
     ),
     cohort = tibble(
       cohort = fct_inorder(c("over80s", "in70s")),
-      cohort_descr = fct_inorder(c("over 80s", "70-79s")),
+      cohort_descr = fct_inorder(c("Over 80s", "70-79s")),
     ),
     outcome = fct_inorder(c(
       "postest",
@@ -151,7 +151,7 @@ formatpercent100 <- function(x,accuracy){
 # create forest plot
 msmmod_effect_data <- estimates %>%
   mutate(
-    plot_col = fct_cross(cohort_descr, brand_descr, sep="\n", keep_empty=TRUE),
+    plot_col = fct_cross(brand_descr, cohort_descr, sep="\n", keep_empty=TRUE),
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
     term=fct_inorder(term),
     term_left = as.numeric(str_extract(term, "\\d+"))-1,
@@ -174,7 +174,8 @@ makeplot <- function(recent_postestperiod){
     msmmod_effect_data_plot %>%
     filter(recent_postestperiod==recent_postestperiodd) %>%
     ggplot(aes(colour=model_descr)) +
-    geom_hline(aes(yintercept=1), colour='grey')+
+    geom_hline(aes(yintercept=1), colour='black')+
+    geom_vline(aes(xintercept=0), colour='black')+
     geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
     geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 1.5))+
     facet_grid(rows=vars(outcome_descr), cols=vars(plot_col), switch="y")+
@@ -189,7 +190,10 @@ makeplot <- function(recent_postestperiod){
         labels = function(x){formatpercent100(x, 1)}
       )
     )+
-    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left), expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA))+
+    scale_x_continuous(
+      breaks=unique(msmmod_effect_data_plot$term_left),
+      expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
+    )+
     scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
     coord_cartesian() +
     labs(
@@ -202,7 +206,6 @@ makeplot <- function(recent_postestperiod){
     theme_bw(base_size=12)+
     theme(
       panel.border = element_blank(),
-      axis.line.y = element_line(colour = "black"),
 
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank(),
@@ -222,15 +225,16 @@ makeplot <- function(recent_postestperiod){
 
   msmmod_effect
   ## save plot
-  ggsave(filename=here("output", "combined", glue("VE_plot_{recent_postestperiod}.svg")), msmmod_effect, width=20, height=20, units="cm")
-  ggsave(filename=here("output", "combined", glue("VE_plot_{recent_postestperiod}.png")), msmmod_effect, width=20, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_{recent_postestperiod}.svg")), msmmod_effect, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_{recent_postestperiod}.png")), msmmod_effect, width=25, height=20, units="cm")
 
 
   msmmod_effect_free <-
     msmmod_effect_data_plot %>%
     filter(recent_postestperiod==recent_postestperiodd) %>%
     ggplot(aes(colour=model_descr)) +
-    geom_hline(aes(yintercept=0), colour='grey')+
+    geom_hline(aes(yintercept=0), colour='black')+
+    geom_vline(aes(xintercept=0), colour='black')+
     geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 1.5), size=0.8)+
     geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 1.5))+
     facet_grid(rows=vars(outcome_descr), cols=vars(plot_col), switch="y")+
@@ -256,7 +260,6 @@ makeplot <- function(recent_postestperiod){
     theme_bw(base_size=12)+
     theme(
       panel.border = element_blank(),
-      axis.line.y = element_line(colour = "black"),
 
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank(),
@@ -276,8 +279,8 @@ makeplot <- function(recent_postestperiod){
   msmmod_effect_free
 
   ## save plot
-  ggsave(filename=here("output", "combined", glue("VE_plot_free_{recent_postestperiod}.svg")), msmmod_effect_free, width=20, height=20, units="cm")
-  ggsave(filename=here("output", "combined", glue("VE_plot_free_{recent_postestperiod}.png")), msmmod_effect_free, width=20, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_free_{recent_postestperiod}.svg")), msmmod_effect_free, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_free_{recent_postestperiod}.png")), msmmod_effect_free, width=25, height=20, units="cm")
 
 }
 
