@@ -1,6 +1,17 @@
 # Table of contents
 
 * output
+  * output/combined
+    * [output/combined/brandcounts12.png](output/combined/brandcounts12.png)
+    * [output/combined/brandcounts12.svg](output/combined/brandcounts12.svg)
+    * [output/combined/VE_plot_0.png](output/combined/VE_plot_0.png)
+    * [output/combined/VE_plot_0.svg](output/combined/VE_plot_0.svg)
+    * [output/combined/VE_plot_free_0.png](output/combined/VE_plot_free_0.png)
+    * [output/combined/VE_plot_free_0.svg](output/combined/VE_plot_free_0.svg)
+    * [output/combined/VE_plot_free_Inf.png](output/combined/VE_plot_free_Inf.png)
+    * [output/combined/VE_plot_free_Inf.svg](output/combined/VE_plot_free_Inf.svg)
+    * [output/combined/VE_plot_Inf.png](output/combined/VE_plot_Inf.png)
+    * [output/combined/VE_plot_Inf.svg](output/combined/VE_plot_Inf.svg)
   * output/in70s
     * output/in70s/all
       * output/in70s/all/0
@@ -1021,3 +1032,14 @@
           * [output/over80s/postest/pfizer/all/estimates_timesincevax.csv](output/over80s/postest/pfizer/all/estimates_timesincevax.csv)
           * [output/over80s/postest/pfizer/all/forest_plot.svg](output/over80s/postest/pfizer/all/forest_plot.svg)
           * [output/over80s/postest/pfizer/all/time_trends_region_plot1.svg](output/over80s/postest/pfizer/all/time_trends_region_plot1.svg)
+* topaste
+  * [topaste/estimates_formatted_wide_timesincevax_in70s.csv](topaste/estimates_formatted_wide_timesincevax_in70s.csv)
+  * [topaste/estimates_formatted_wide_timesincevax_over80s.csv](topaste/estimates_formatted_wide_timesincevax_over80s.csv)
+  * [topaste/estimates_timesincevax_in70s.csv](topaste/estimates_timesincevax_in70s.csv)
+  * [topaste/estimates_timesincevax_over80s.csv](topaste/estimates_timesincevax_over80s.csv)
+  * [topaste/table_irr_0_in70s.csv](topaste/table_irr_0_in70s.csv)
+  * [topaste/table_irr_0_over80s.csv](topaste/table_irr_0_over80s.csv)
+  * [topaste/VE_plot_free_in70s.png](topaste/VE_plot_free_in70s.png)
+  * [topaste/VE_plot_free_in70s_modifiedexposure.png](topaste/VE_plot_free_in70s_modifiedexposure.png)
+  * [topaste/VE_plot_free_over80s.png](topaste/VE_plot_free_over80s.png)
+  * [topaste/VE_plot_free_over80s_modifiedexposure.png](topaste/VE_plot_free_over80s_modifiedexposure.png)
