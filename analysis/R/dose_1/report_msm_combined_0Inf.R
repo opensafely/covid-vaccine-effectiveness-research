@@ -92,8 +92,8 @@ estimates <- params %>%
     outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=14, simplify=TRUE, whitespace_only=TRUE), collapse="\n")))
   ) %>%
   mutate(
-    estimates = pmap(list(cohort, recent_postestperiod, brand, outcome), ~read_csv(here("output", ..1, "all", ..2, ..3, ..4, glue("estimates_timesincevax.csv"))))
-    #estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
+    #estimates = pmap(list(cohort, recent_postestperiod, brand, outcome), ~read_csv(here("output", ..1, "all", ..2, ..3, ..4, glue("estimates_timesincevax.csv"))))
+    estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -150,16 +150,19 @@ formatpercent100 <- function(x,accuracy){
 
 # create forest plot
 msmmod_effect_data <- estimates %>%
+  rowwise() %>%
   mutate(
     plot_col = fct_cross(brand_descr, cohort_descr, sep="\n", keep_empty=TRUE),
     term=str_replace(term, pattern="timesincevax\\_pw", ""),
     term=fct_inorder(term),
     term_left = as.numeric(str_extract(term, "\\d+"))-1,
     term_right = as.numeric(str_extract(term, "\\d+$")),
+    maxend = as.numeric(as.Date(gbl_vars$end_date) - as.Date(gbl_vars[[glue("start_date_{cohort}", cohort=cohort)]]))+1,
     term_right = if_else(is.na(term_right), 63, term_right),
     term_midpoint = term_left + (term_right-term_left)/2,
     #stratum = if_else(stratum=="all", "", stratum)
-  )
+  ) %>%
+  ungroup()
 
 
 msmmod_effect_data_plot <- msmmod_effect_data %>%
@@ -191,7 +194,8 @@ makeplot <- function(recent_postestperiod){
       )
     )+
     scale_x_continuous(
-      breaks=unique(msmmod_effect_data_plot$term_left),
+      breaks=unique(c(msmmod_effect_data_plot$term_left, max(msmmod_effect_data_plot$term_midpoint)+7)),
+      labels=c(unique(msmmod_effect_data_plot$term_left), paste0("<",max(msmmod_effect_data_plot$maxend))),
       expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
     )+
     scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
@@ -248,7 +252,11 @@ makeplot <- function(recent_postestperiod){
         labels = function(x){formatpercent100(x, 1)}
       )
     )+
-    scale_x_continuous(breaks=unique(msmmod_effect_data_plot$term_left), expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA))+
+    scale_x_continuous(
+      breaks=unique(c(msmmod_effect_data_plot$term_left, max(msmmod_effect_data_plot$term_midpoint)+7)),
+      labels=c(unique(msmmod_effect_data_plot$term_left), paste0("<",max(msmmod_effect_data_plot$maxend))),
+      expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
+    )+
     scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
     labs(
       y="Hazard ratio, versus no vaccination",

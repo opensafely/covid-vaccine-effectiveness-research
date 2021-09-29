@@ -1,0 +1,1009 @@
+outcome,outcome_var,outcome_descr,brand,brand_descr,stratum,model,model_descr,model_descr_wrap,term,estimate,conf.low,conf.high,std.error,statistic,p.value,or,or.ll,or.ul,term_left,term_right,term_midpoint,ve,ve.ll,ve.ul,diff,diff.std.error,z,diff.ll,diff.ul,diff.p.value
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-0.20407995504849846,-0.24099179532807408,-0.16716811476892285,0.01883291763049296,-10.836342995419162,2.31542664100115e-27,0.8153971734603341,0.785848073987526,0.8460573646422859,0,3,1.5,0.18460282653966587,0.15394263535771413,0.21415192601247401,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-0.13396457004354537,-0.1680161032673377,-0.09991303681975303,0.017373550479695805,-7.7108343628498766,1.2499780869537494e-14,0.8746210518401736,0.8453402218354699,0.9049161089969969,3,7,5,0.12537894815982642,0.09508389100300307,0.15465977816453014,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-0.07752018820879074,-0.10949312272514986,-0.045547253692431615,0.01631302144761718,-4.752043541272608,2.0137099326286686e-6,0.9254083418712318,0.8962883283620923,0.9554744518093207,7,14,10.5,0.07459165812876822,0.04452554819067933,0.10371167163790773,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-0.1059443889193283,-0.14265941561171924,-0.06922936222693736,0.018732500689805726,-5.655645803711808,1.5526136036835484e-8,0.899474667443389,0.8670493220762915,0.9331126347402952,14,21,17.5,0.100525332556611,0.06688736525970485,0.13295067792370852,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-0.1420349716931463,-0.1837510085755719,-0.10031893481072071,0.021284083386978726,-6.673295208946659,2.5012253455167394e-11,0.8675909148321176,0.8321429744982892,0.904548879900179,21,28,24.5,0.1324090851678824,0.09545112009982104,0.16785702550171078,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-0.052171305322245856,-0.09754949321855885,-0.00679311742593286,0.02315256211555435,-2.2533707095508078,0.024235784756160873,0.9491662556839139,0.9070574472523468,0.9932299036384877,28,35,31.5,0.050833744316086116,0.006770096361512268,0.09294255274765317,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,0.07582223547040419,0.026872065682558906,0.12477240525824948,0.024975035344505302,3.0359210477388037,0.0023980214796946947,1.0787707899295589,1.0272363755720852,1.1328905837832453,35,42,38.5,-0.07877078992955888,-0.13289058378324525,-0.027236375572085247,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-0.22261866411063067,-0.2595734656691672,-0.18566386255209408,0.018854837053145543,-11.806978945675445,3.5923833623688786e-32,0.8004200199847777,0.7713805359250273,0.8305527279401055,0,3,1.5,0.19957998001522226,0.16944727205989452,0.2286194640749727,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-0.15695334677042153,-0.19110970463843766,-0.1227969889024054,0.017427033423796118,-9.006314669489656,2.1309711464595868e-19,0.8547439344525191,0.8260419625454247,0.8844431961205562,3,7,5,0.14525606554748094,0.11555680387944378,0.17395803745457528,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-0.10770454739816507,-0.13990730029344572,-0.0755017945028844,0.016430277877191563,-6.55524807329522,5.554945392698281e-11,0.8978928420210995,0.8694388283875333,0.9272780665293407,7,14,10.5,0.10210715797890046,0.07272193347065925,0.13056117161246672,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-0.14487547302426734,-0.18200735773546528,-0.10774358831306942,0.018945187260628004,-7.647085828776598,2.0558511281781446e-14,0.8651300184280585,0.833595207020153,0.8978577881473331,14,21,17.5,0.13486998157194152,0.10214221185266692,0.166404792979847,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-0.18878452824137665,-0.23110432335192935,-0.14646473313082395,0.021592128959698163,-8.743210481640975,2.2657800742268366e-18,0.8279648905267447,0.793656664792714,0.8637561937743051,21,28,24.5,0.1720351094732553,0.13624380622569487,0.20634333520728598,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-0.10521108064133475,-0.1513696377743669,-0.059052523508302576,0.023550717001498495,-4.467425795768356,7.916645839592215e-6,0.9001345015642138,0.8595299252037332,0.9426572561905918,28,35,31.5,0.09986549843578618,0.05734274380940818,0.14047007479626683,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,0.012692464507584244,-0.037396929584124154,0.06278185859929264,0.025556282914791888,0.4966475191209395,0.6194376371364767,1.0127733557091663,0.9632936996864544,1.0647945381229704,35,42,38.5,-0.012773355709166268,-0.06479453812297042,0.0367063003135456,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-0.21424390082167577,-0.25127108991592706,-0.17721671172742448,0.0188917701479808,-11.340594298124822,8.258172898005995e-30,0.8071514960998569,0.7778114861254107,0.8375982474900011,0,3,1.5,0.19284850390014308,0.1624017525099989,0.22218851387458927,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-0.14683809014223154,-0.18108885938440517,-0.1125873209000579,0.01747520337737803,-8.4026541477804,4.364988112722054e-17,0.8634337645375664,0.834361214577739,0.8935193207905906,3,7,5,0.13656623546243363,0.1064806792094094,0.16563878542226096,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-0.09729066233195899,-0.12962962515635384,-0.06495169950756413,0.016499774015992372,-5.896484535949415,3.7132754035771074e-9,0.9072922521216815,0.8784207156134101,0.9371127252904078,7,14,10.5,0.09270774787831848,0.06288727470959221,0.12157928438658994,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-0.13620097991904262,-0.17354085063267777,-0.09886110920540747,0.01905130451792344,-7.149168173282042,8.730531883555194e-13,0.8726672262742586,0.8406828080358272,0.9058685160845508,14,21,17.5,0.12733277372574137,0.09413148391544923,0.15931719196417282,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-0.1815504445553134,-0.22416009122812494,-0.13894079788250188,0.021740015127273256,-8.350980599252434,6.769854151394393e-17,0.8339761746850978,0.7991871812702027,0.8702795493252997,21,28,24.5,0.16602382531490223,0.12972045067470028,0.20081281872979728,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-0.098851468155916,-0.14538309503823574,-0.052319841273596256,0.02374106220795652,-4.163734010299976,3.1308482663674564e-5,0.9058772496498474,0.8646909708303002,0.9490252808413115,28,35,31.5,0.0941227503501526,0.05097471915868845,0.13530902916969978,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,0.015452673546752279,-0.03515742058294208,0.06606276767644663,0.0258219510811935,0.5984316792392456,0.5495519331166188,1.0155726834678327,0.9654534220538692,1.0682937693792818,35,42,38.5,-0.015572683467832693,-0.06829376937928178,0.03454657794613081,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-0.4431699585321558,-0.5039873215129068,-0.3823525955514048,0.03102983700745047,-14.282058859211789,2.831119864432464e-46,0.6419980847627897,0.6041170420974318,0.6822544509059171,0,3,1.5,0.35800191523721026,0.3177455490940829,0.3958829579025682,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-0.2020390514513985,-0.251762684550201,-0.152315418352596,0.025369666734193178,-7.9638039225438755,1.6682954504166745e-15,0.8170630198224034,0.7774292121419729,0.8587173827980502,3,7,5,0.18293698017759663,0.1412826172019498,0.22257078785802709,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-0.06018974168694002,-0.10182291009920313,-0.018556573274676906,0.021241802778347075,-2.8335514793638277,0.004603389270709889,0.9415858585445339,0.9031894832433138,0.9816145398719248,7,14,10.5,0.058414141455466084,0.01838546012807518,0.09681051675668617,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-0.08369762516736874,-0.1299721196147475,-0.03742313071998998,0.023609869779437825,-3.5450269717396834,3.925729132121223e-4,0.919709311003587,0.8781199129007458,0.9632684606279976,14,21,17.5,0.080290688996413,0.03673153937200235,0.12188008709925424,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-0.10730095909301557,-0.15832250120381008,-0.05627941698222104,0.02603187737797529,-4.121906289547882,3.75750058962873e-5,0.8982552942072286,0.8535744587843394,0.9452749731059766,21,28,24.5,0.1017447057927714,0.054725026894023365,0.14642554121566065,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-0.1174371553880364,-0.1730418598429763,-0.0618324509330965,0.028370268481228596,-4.139444625479649,3.481476206763247e-5,0.8891963911927325,0.8411024056930743,0.9400403764850266,28,35,31.5,0.11080360880726747,0.059959623514973415,0.15889759430692574,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,0.04329457530606715,-0.01314954344799147,0.09973869406012578,0.028798548952573947,1.503359609449961,0.13274633620605872,1.0442454584736034,0.9869365340919299,1.104882168077866,35,42,38.5,-0.044245458473603394,-0.10488216807786599,0.01306346590807006,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-0.4466513357541424,-0.5076532596438763,-0.3856494118644085,0.03112400246683579,-14.350703648416431,1.0546175689261747e-46,0.63976693324743,0.6019064408366729,0.6800088869424231,0,3,1.5,0.36023306675257005,0.3199911130575769,0.3980935591633271,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-0.20864386008559113,-0.2586464694128598,-0.15864125075832244,0.025512004160118704,-8.178262232010406,2.8796654724933403e-16,0.8116842573362109,0.7720959343286093,0.85330242566338,3,7,5,0.18831574266378914,0.14669757433662,0.22790406567139065,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-0.07232734694674395,-0.11438962114856388,-0.03026507274492401,0.021460738326623246,-3.3702170841446693,7.510898802744884e-4,0.9302263392141666,0.891910381028476,0.9701883289775981,7,14,10.5,0.06977366078583336,0.029811671022401898,0.10808961897152403,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-0.1031429294874223,-0.14990191280040197,-0.05638394617444265,0.023857062518397563,-4.323370884738337,1.536630840322787e-5,0.901998042149871,0.8607924050007506,0.9451761694406341,14,21,17.5,0.098001957850129,0.054823830559365905,0.1392075949992494,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-0.1337500675171369,-0.18529543274909605,-0.08220470228517773,0.026299138983441758,-5.085720395688523,3.662332624269631e-7,0.8748086803881227,0.8308587846947928,0.9210833915218576,21,28,24.5,0.12519131961187735,0.07891660847814241,0.1691412153052072,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-0.15001598618439993,-0.20624250951140552,-0.09378946285739434,0.028687528837526226,-5.2293101658921435,1.701437074423175e-7,0.860694217098612,0.8136357379504041,0.9104744307484542,28,35,31.5,0.13930578290138795,0.08952556925154576,0.18636426204959589,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,7.499406807435381e-4,-0.05658317518761179,0.05808305654909886,0.029252127243455307,0.02563713313914034,0.9795467678336487,1.000750221956565,0.9449878816819405,1.0598030156361247,35,42,38.5,-7.502219565649337e-4,-0.05980301563612467,0.05501211831805952,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-0.43740958848134737,-0.49857753358804663,-0.3762416433746481,0.031208708725866518,-14.015625969132518,1.2509043680401697e-44,0.6457069031306056,0.6073940431252656,0.686436440181766,0,3,1.5,0.35429309686939436,0.31356355981823403,0.39260595687473443,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-0.2000622736362204,-0.2501726021825714,-0.14995194508986937,0.02556696395526394,-7.825030534962283,5.0753371113931275e-15,0.8186797693243906,0.778666371956618,0.860749338663335,3,7,5,0.18132023067560943,0.13925066133666497,0.22133362804338197,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-0.06308444176513188,-0.1052105355082468,-0.020958348022016952,0.021493299915406706,-2.9350747448469767,0.0033346735042941535,0.9388641909922885,0.900134992257448,0.9792597518256415,7,14,10.5,0.06113580900771154,0.02074024817435849,0.09986500774255203,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-0.09588065693850187,-0.14274513888901508,-0.04901617498798865,0.023910889342954402,-4.009915966038885,6.074036103583695e-5,0.9085724414154224,0.8669749989524824,0.952165728304728,14,21,17.5,0.09142755858457763,0.04783427169527199,0.13302500104751758,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-0.12550973611153063,-0.17726035821123443,-0.07375911401182683,0.02640386379949128,-4.753460973160633,1.9996371769337256e-6,0.8820471766755399,0.83756169006946,0.9288954247856895,21,28,24.5,0.11795282332446011,0.07110457521431046,0.16243830993053998,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-0.14348040948360044,-0.20001393797692107,-0.0869468809902798,0.028844167004725547,-4.974330146545539,6.547364267458828e-7,0.866337772025331,0.8187193417071668,0.9167257899059899,28,35,31.5,0.13366222797466898,0.08327421009401015,0.18128065829283324,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,0.0028967544639743837,-0.05498931694943533,0.060782825877384095,0.029534252603623166,0.0980811840018941,0.9218678284697006,1.0029009541113234,0.9464952593561884,1.0626681051118636,35,42,38.5,-0.002900954111323406,-0.0626681051118636,0.05350474064381161,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-0.033798603294753524,-0.07844980066618513,0.010852594076678088,0.02278164176670315,-1.4835894463125294,0.13791787090809038,0.9667661885576178,0.9245484704839518,1.0109116970892729,0,3,1.5,0.033233811442382244,-0.010911697089272865,0.07545152951604817,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-0.050778197494133544,-0.09285577450543053,-0.008700620482836548,0.021468546025947194,-2.3652369113754736,0.018018540356780365,0.9504894680996726,0.9113249271066898,0.9913371203799334,3,7,5,0.04951053190032739,0.008662879620066621,0.08867507289331023,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-0.048984429553444245,-0.08847440556518943,-0.00949445354169906,0.020148317174824175,-2.431192100482293,0.015049233164918307,0.9521959556993197,0.9153265377015959,0.990550476474577,7,14,10.5,0.047804044300680304,0.009449523525423054,0.08467346229840411,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-0.09007443504137885,-0.13594384150302646,-0.04420502857973124,0.023403188437879294,-3.84881039950901,1.1869282904239842e-4,0.9138631592974246,0.8728916513954555,0.9567577746745053,14,21,17.5,0.08613684070257543,0.04324222532549471,0.12710834860454445,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-0.14933667223181862,-0.20097950822216315,-0.0976938362414741,0.026348869876026627,-5.66766897155205,1.4475327925862496e-8,0.8612790973253506,0.817929192205424,0.9069265292872274,21,28,24.5,0.13872090267464943,0.09307347071277261,0.18207080779457596,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,6.620466455822508e-4,-0.05421858171627356,0.05554267500743807,0.02800083511469967,0.02364381786722834,0.981136720305272,1.0006622658468338,0.9472250377974473,1.0571141284631467,28,35,31.5,-6.622658468338205e-4,-0.057114128463146674,0.05277496220255273,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,0.10309243329573424,0.045548812892836375,0.1606360536986321,0.029359529489722574,3.5113789317305706,4.457884647046425e-4,1.1085938753258149,1.0466020910428129,1.174257524352333,35,42,38.5,-0.10859387532581488,-0.174257524352333,-0.046602091042812877,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-0.059292285191218715,-0.10394585255958536,-0.01463871782285208,0.02278285097103227,-2.6024962927864967,0.009254781575074353,0.9424312701929085,0.9012740977854925,0.985467907287855,0,3,1.5,0.05756872980709149,0.01453209271214495,0.0987259022145075,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-0.0830659239766525,-0.1252010329951227,-0.04093081495818231,0.021497899630210843,-3.8639088192560243,1.1158688909751658e-4,0.9202904760124488,0.8823195094206193,0.9598955380634898,3,7,5,0.07970952398755116,0.04010446193651018,0.11768049057938068,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-0.09271481386776827,-0.13235043866877638,-0.05307918906676014,0.02022262914709091,-4.584706231489469,4.546251693528384e-6,0.9114533971039259,0.8760339451118968,0.9483049141276993,7,14,10.5,0.08854660289607408,0.05169508587230065,0.1239660548881032,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-0.14807724914557932,-0.194236613555821,-0.10191788473533764,0.023551128885194252,-6.287479885461888,3.226608016906067e-10,0.8623644954484777,0.8234630386978947,0.9031037072241199,14,21,17.5,0.1376355045515223,0.09689629277588008,0.17653696130210528,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-0.2200749951053138,-0.2721472580812919,-0.16800273212933572,0.026567969302863453,-8.283470693471273,1.1963642622275576e-16,0.8024586152374421,0.7617420801531029,0.845351525071803,21,28,24.5,0.1975413847625579,0.154648474928197,0.23825791984689715,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-0.08006657751836557,-0.13549334048616762,-0.024639814550563535,0.028279480339945675,-2.831260566173451,0.004636493267838697,0.9230548896369724,0.8732849785625089,0.9756612677401454,28,35,31.5,0.07694511036302765,0.024338732259854612,0.12671502143749114,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,0.005840354652062873,-0.05247351920469027,0.06415422850881601,0.029752523167122232,0.1962977936108863,0.8443770882407549,1.0058574427739941,0.9488794478055426,1.0662568332823459,35,42,38.5,-0.005857442773994137,-0.06625683328234588,0.051120552194457436,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-0.05069723946146373,-0.09542981622965119,-0.005964662693276286,0.02282316263004439,-2.221306498281966,0.02633020903304922,0.9505664209720178,0.9089821552098413,0.9940530905922549,0,3,1.5,0.04943357902798218,0.005946909407745116,0.09101784479015873,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-0.07089483582736678,-0.11313951449076795,-0.028650157163965594,0.02155380353752509,-3.2892030264606955,0.0010047152117698159,0.9315598536977505,0.8930260613483593,0.9717563670102726,3,7,5,0.06844014630224948,0.02824363298972743,0.10697393865164073,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-0.07958771803792353,-0.11939411032975802,-0.03978132574608903,0.020309757018915783,-3.918693757084261,8.90301456610641e-5,0.9234970090699359,0.8874579754762374,0.9609995620394909,7,14,10.5,0.07650299093006407,0.039000437960509116,0.11254202452376261,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-0.13552193802377901,-0.18194948930168767,-0.08909438674587036,0.02368796143404842,-5.721131318163307,1.0581706850088454e-8,0.8732600051195802,0.8336434472649681,0.9147592283527748,14,21,17.5,0.12673999488041976,0.08524077164722521,0.16635655273503192,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-0.20984066259426779,-0.2622735952049665,-0.15740772998356908,0.026751987804002012,-7.8439278655351465,4.366680004186313e-15,0.810713412651336,0.7693005179793125,0.8543556413807717,21,28,24.5,0.189286587348664,0.1456443586192283,0.23069948202068746,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-0.07063754634722706,-0.12653096902630828,-0.014744123668145828,0.028517576404444897,-2.4769828033569197,0.013249828578994401,0.9317995650845141,0.8811468608606503,0.9853640386843526,28,35,31.5,0.06820043491548589,0.014635961315647372,0.1188531391393497,0,NA,NA,NA,NA,NA
+postest,positive_test_1_date,"Positive
+SARS-CoV-2
+test",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,0.009184405646692378,-0.04977740235486962,0.06814621364825438,0.030083107887004676,0.3053010906050656,0.7601368453810898,1.009226711719756,0.9514411894989071,1.070521821937415,35,42,38.5,-0.009226711719755976,-0.07052182193741507,0.0485588105010929,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-1.452942479999702,-1.6483472383029834,-1.2575377216964205,0.09969813723344376,-14.573416518280867,4.146253918322855e-48,0.2338810841941739,0.19236758380200986,0.28435332223199,0,3,1.5,0.7661189158058261,0.7156466777680099,0.8076324161979902,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-1.5580909670858523,-1.7409792215204098,-1.3752027126512947,0.09331204852597126,-16.697639712112778,1.3635287505135467e-62,0.21053761103156549,0.17534861138702426,0.2527883472144729,3,7,5,0.7894623889684345,0.747211652785527,0.8246513886129757,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-1.4909444303283068,-1.638557014542219,-1.3433318461143946,0.07531392687736177,-19.796397454565103,3.197598508020756e-87,0.22515990724715937,0.19426015472149502,0.26097469089444597,7,14,10.5,0.7748400927528406,0.7390253091055541,0.805739845278505,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-1.7852226991691904,-1.9635492321914458,-1.606896166146935,0.0909845968746734,-19.62115303569727,1.0201292025297108e-85,0.1677596968947406,0.14035936783060562,0.20050899585256277,14,21,17.5,0.8322403031052594,0.7994910041474372,0.8596406321693943,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-2.138338142988777,-2.362627859001263,-1.9140484269762912,0.1144356313593793,-18.685947004333244,6.442538732900383e-78,0.11785053110532902,0.09417242589366077,0.1474821058288469,21,28,24.5,0.8821494688946709,0.8525178941711531,0.9058275741063392,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-1.987750262832162,-2.2302810382885476,-1.7452194873757765,0.1237424653562195,-16.063606435430167,4.5906582011823625e-58,0.13700330041384734,0.10749821477585476,0.17460666080291795,28,35,31.5,0.8629966995861527,0.825393339197082,0.8925017852241452,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-2.1135489452801512,-2.3262332488687956,-1.9008646416915072,0.10851439376757473,-19.47712991704242,1.716353058903918e-84,0.12080846211908822,0.09766292705858386,0.14943935185174653,35,42,38.5,0.8791915378809118,0.8505606481482535,0.9023370729414162,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-1.5081647783682457,-1.7037300668574866,-1.3125994898790048,0.09978004189456288,-15.114894218644611,1.2917836032896016e-51,0.22131576897393024,0.18200337158993896,0.2691195727235071,0,3,1.5,0.7786842310260698,0.7308804272764928,0.817996628410061,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-1.6233157226743677,-1.8065249541347845,-1.440106491213951,0.09347581532392839,-17.36615740712158,1.4886746288358122e-67,0.19724360852931053,0.16422383171880683,0.2369025293008586,3,7,5,0.8027563914706894,0.7630974706991414,0.8357761682811932,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-1.5725773860195917,-1.7222738772758106,-1.4228808947633729,0.07637716429332671,-20.589627810481467,3.39970323469483e-94,0.20750966003289834,0.17865943604856435,0.2410186663483261,7,14,10.5,0.7924903399671017,0.7589813336516739,0.8213405639514356,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-1.8827210312257088,-2.0642921644253827,-1.701149898026035,0.09264003554753242,-20.322973972302815,8.05459717818804e-92,0.15217546769177848,0.12690808884302876,0.1824735773608144,14,21,17.5,0.8478245323082215,0.8175264226391856,0.8730919111569713,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-2.2424927145314952,-2.4696425456473974,-2.015342883415593,0.11589490057349583,-19.349364842065658,2.063695949146314e-83,0.10619346419038889,0.0846150996320796,0.13327469784695503,21,28,24.5,0.8938065358096111,0.866725302153045,0.9153849003679204,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-2.092280563148446,-2.338037427701682,-1.8465236985952096,0.1253884594266706,-16.686388625518195,1.6463300393567484e-62,0.12340538089563505,0.09651687381836817,0.15778472127739543,28,35,31.5,0.876594619104365,0.8422152787226046,0.9034831261816318,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-2.225575040203673,-2.438857818338099,-2.0122922620692467,0.10881974353445951,-20.451941604686,5.773105578746482e-93,0.1080052933883762,0.08726046186391491,0.13368188926276062,35,42,38.5,0.8919947066116238,0.8663181107372394,0.9127395381360851,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-1.4138861504429718,-1.612675443282685,-1.2150968576032586,0.1014249722993575,-13.940217269863908,3.608400742092262e-44,0.24319634678578622,0.1993535408606468,0.29668127706492997,0,3,1.5,0.7568036532142137,0.70331872293507,0.8006464591393532,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-1.5628711034373806,-1.7475209963845595,-1.3782212104902016,0.09421086020134746,-16.58907582519905,8.359681503961437e-62,0.20953361407663215,0.17420526408634746,0.25202645659578443,3,7,5,0.7904663859233678,0.7479735434042156,0.8257947359136526,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-1.4904114677239018,-1.6418122574310337,-1.3390106780167699,0.07724672029759828,-19.294171480445893,6.012095161002953e-83,0.225279941041654,0.19362881886753372,0.2621048464405041,7,14,10.5,0.7747200589583461,0.737895153559496,0.8063711811324663,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-1.7973483959858778,-1.9798432719013406,-1.614853520070415,0.09311134151186404,-19.30321663077815,5.046765296486034e-83,0.16573777703964832,0.13809087833577394,0.19891980606606097,14,21,17.5,0.8342622229603517,0.801080193933939,0.8619091216642261,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-2.153864184475321,-2.3821506859707084,-1.9255776829799331,0.11647484509719694,-18.492097436815182,2.3907214252984124e-76,0.11603491004646482,0.09235174417238717,0.14579151125027587,21,28,24.5,0.8839650899535352,0.8542084887497241,0.9076482558276129,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-2.0221866340348367,-2.2680889277999934,-1.77628434026968,0.12546265936762244,-16.11783652783541,1.911861493034747e-58,0.13236571303156688,0.10350980589683104,0.1692659148044206,28,35,31.5,0.8676342869684331,0.8307340851955793,0.896490194103169,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-2.147553126235967,-2.363431238526246,-1.9316750139456875,0.11014391794599211,-19.49770052023205,1.1483013263854701e-84,0.11676952879412923,0.09409680007706363,0.14490527673242928,35,42,38.5,0.8832304712058707,0.8550947232675707,0.9059031999229363,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-1.5794844149327618,-1.9077428921915727,-1.251225937673951,0.16748189244704087,-9.430777213317,4.070614083811377e-21,0.20608132327141673,0.14841499747668116,0.28615377504534834,0,3,1.5,0.7939186767285833,0.7138462249546517,0.8515850025233188,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-1.6760812063009027,-1.971255914593718,-1.3809064980080874,0.1506021083148037,-11.129201477029717,9.044205708977201e-29,0.1871057701409361,0.1392818202522538,0.2513506009372126,3,7,5,0.8128942298590639,0.7486493990627874,0.8607181797477462,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-1.5600427052733894,-1.781939548784574,-1.3381458617622048,0.11321475560851044,-13.779499826576668,3.386100336838843e-43,0.21012709747400923,0.1683113823457191,0.2623316170154121,7,14,10.5,0.7898729025259907,0.7376683829845879,0.8316886176542809,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-2.1179897463298434,-2.415627589352013,-1.8203519033076736,0.1518588327999388,-13.947096176618953,3.276773224436455e-44,0.12027316522690122,0.08931127052723213,0.16196874356732754,14,21,17.5,0.8797268347730988,0.8380312564326724,0.9106887294727679,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-2.7101103871540766,-3.126874331380982,-2.293346442927171,0.21263857270556327,-12.745149446176525,3.3175446526479897e-37,0.06652946231165359,0.04385465837955554,0.10092814581223956,21,28,24.5,0.9334705376883464,0.8990718541877605,0.9561453416204445,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-2.082174081242697,-2.4388307729248275,-1.7255173895605669,0.1819710435984502,-11.442337418459639,2.5687031002654052e-30,0.12465889880314374,0.0872628218910821,0.17808089073957095,28,35,31.5,0.8753411011968563,0.821919109260429,0.9127371781089179,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-1.9516001020945024,-2.24022809127744,-1.662972112911565,0.14726188412623814,-13.252581370081623,4.359461882497568e-40,0.14204660058352211,0.1064342248920695,0.18957470454447853,35,42,38.5,0.8579533994164779,0.8104252954555214,0.8935657751079304,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-1.6631539747798678,-1.993618047727587,-1.3326899018321485,0.16860721704805695,-9.864073459594737,5.958197760017686e-23,0.18954023126930927,0.13620174848405367,0.26376679939486497,0,3,1.5,0.8104597687306907,0.7362332006051351,0.8637982515159464,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-1.7586055464342543,-2.0563382815709375,-1.4608728112975713,0.15190724803371947,-11.57683763742392,5.4001582546099556e-31,0.17228493974533746,0.1279215259521347,0.23203366471848458,3,7,5,0.8277150602546626,0.7679663352815154,0.8720784740478653,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-1.636996461965632,-1.8625237798332632,-1.411469144098001,0.11506707248018934,-14.22645442072464,6.278528898892006e-46,0.19456354457280986,0.15528024228172813,0.2437848648384687,7,14,10.5,0.8054364554271901,0.7562151351615313,0.8447197577182719,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-2.194149513363393,-2.496312571348064,-1.891986455378722,0.15416765836928364,-14.232229616588347,5.780883422852672e-46,0.11145331075912034,0.08238823994648847,0.1507720092969226,14,21,17.5,0.8885466892408797,0.8492279907030774,0.9176117600535115,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-2.802820226812827,-3.2243232317972015,-2.381317221828452,0.21505650527720757,-13.03294789060203,7.947665712627437e-39,0.060638806060800035,0.039782696131499824,0.09242874812518878,21,28,24.5,0.9393611939391999,0.9075712518748112,0.9602173038685001,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-2.1955382855633685,-2.5587389558852114,-1.8323376152415256,0.1853098695622591,-11.847929582756127,2.2057323018280847e-32,0.1112986349291493,0.07740228662337242,0.16003902051843974,28,35,31.5,0.8887013650708507,0.8399609794815602,0.9225977133766275,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-2.068896478069927,-2.3606954746561812,-1.7770974814836724,0.14887977477541822,-13.896424018580163,6.658591343456567e-44,0.1263251073427232,0.09435457915356828,0.1691283336570003,35,42,38.5,0.8736748926572768,0.8308716663429997,0.9056454208464317,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-1.5519396439034867,-1.8891268997493493,-1.214752388057624,0.17203747543605538,-9.020939420145858,1.8648319335646097e-19,0.21183668734188987,0.15120376726861956,0.29678349233365164,0,3,1.5,0.7881633126581101,0.7032165076663484,0.8487962327313805,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-1.6425232854006009,-1.9478835379875539,-1.337163032813648,0.15579891007977478,-10.542585211665271,5.496676084529694e-26,0.19349119229557388,0.1425755081313591,0.2625895708642273,3,7,5,0.8065088077044261,0.7374104291357727,0.8574244918686409,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-1.549293667643645,-1.7757064236036406,-1.3228809116836495,0.11551883491018738,-13.411610919104032,5.170340880044809e-41,0.21239794439652554,0.16936376466938896,0.2663668162545475,7,14,10.5,0.7876020556034744,0.7336331837454525,0.830636235330611,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-2.093305457245709,-2.39632640006302,-1.790284514428398,0.15460536275538805,-13.539669128797774,9.119876493587031e-42,0.12327896824004228,0.09105182764182064,0.1669126738467461,14,21,17.5,0.8767210317599577,0.8330873261532539,0.9089481723581794,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-2.667319760480574,-3.0915578032212006,-2.2430817177399476,0.2164519583456443,-12.322918124035763,6.818164869194159e-35,0.06943808682585494,0.045431126495774875,0.10613093431622009,21,28,24.5,0.930561913174145,0.8938690656837799,0.9545688735042251,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-2.0786855290843542,-2.441677228982278,-1.7156938291864305,0.1852032500398763,-11.223806972268523,3.115629633321648e-29,0.12509453730562933,0.08701478528324492,0.1798388999383385,28,35,31.5,0.8749054626943706,0.8201611000616615,0.9129852147167551,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-1.9507404777754909,-2.2463506677579645,-1.6551302877930174,0.15082429693311156,-12.933860905982653,2.898877062408352e-38,0.1421687597938081,0.10578456403858126,0.19106716036507831,35,42,38.5,0.8578312402061918,0.8089328396349217,0.8942154359614187,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-1.2740493040318672,-1.5126040119056734,-1.035494596158061,0.12171382216994561,-10.4675810957029,1.217133944201059e-25,0.2796967484343371,0.22033547407879905,0.35505073076323235,0,3,1.5,0.7203032515656629,0.6449492692367677,0.779664525921201,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-1.4003004064264755,-1.6249059959456627,-1.1756948169072883,0.11459679427318435,-12.219368048711164,2.449816373488273e-34,0.24652289575472577,0.1969301865700677,0.3086044815667312,3,7,5,0.7534771042452743,0.6913955184332687,0.8030698134299323,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-1.4161509856543142,-1.6025873956503867,-1.2297145756582417,0.09512236524071829,-14.887676332170443,3.9630513163500712e-50,0.24264617040091688,0.20137480704953742,0.29237601700468535,7,14,10.5,0.7573538295990832,0.7076239829953146,0.7986251929504626,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-1.6323922422980615,-1.8516996775147783,-1.4130848070813447,0.1118936046512007,-14.588789478957453,3.310191088648728e-48,0.1954614233006081,0.15697014083044594,0.24339130866912756,14,21,17.5,0.8045385766993919,0.7566086913308725,0.8430298591695541,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-1.9188593180436613,-2.1837304115647145,-1.653988224522608,0.13514079626478992,-14.1989641254142,9.29766031099027e-46,0.14677428946221677,0.11262062477142579,0.1912854958038239,21,28,24.5,0.8532257105377832,0.8087145041961761,0.8873793752285742,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-1.9860126892478525,-2.2989817147782468,-1.673043663717458,0.15968100842620286,-12.437375670543158,1.6379749463127127e-35,0.1372415606670252,0.10036098781880232,0.18767497594111998,28,35,31.5,0.8627584393329748,0.81232502405888,0.8996390121811977,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-2.109960332062951,-2.3852337214074972,-1.8346869427184047,0.14044818757684718,-15.023051336340469,5.1864222762244116e-51,0.12124277578879007,0.0920674589283753,0.15966347775935327,35,42,38.5,0.8787572242112099,0.8403365222406467,0.9079325410716247,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-1.3318489991804219,-1.5706686071320188,-1.093029391228825,0.12184897775437492,-10.930325586031456,8.25516950741413e-28,0.2639886948790886,0.20790612835574307,0.3351995036179003,0,3,1.5,0.7360113051209114,0.6648004963820997,0.7920938716442569,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-1.4569651641711026,-1.6818923378900927,-1.2320379904521124,0.1147608708594582,-12.695661450281026,6.249966479981424e-37,0.23294214425437207,0.18602162698969715,0.2916974947909148,3,7,5,0.7670578557456279,0.7083025052090852,0.8139783730103028,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-1.467273929093743,-1.6541176128767408,-1.2804302453107455,0.09533016180746014,-15.391497310759,1.8666232160563388e-53,0.23055313348067977,0.19126074728947168,0.2779177019386568,7,14,10.5,0.7694468665193203,0.7220822980613433,0.8087392527105284,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-1.6786460841026967,-1.8989118172577781,-1.4583803509476152,0.11238254115509747,-14.93689381686095,1.896097202461305e-50,0.18662648162550485,0.1497314658001993,0.23261272076499329,14,21,17.5,0.8133735183744951,0.7673872792350067,0.8502685341998006,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-1.9714080369319817,-2.240164379416285,-1.7026516944476782,0.13712310256934276,-14.376921175153882,7.2237318402384025e-47,0.13926063398757232,0.1064410062306515,0.18219974486708573,21,28,24.5,0.8607393660124276,0.8178002551329142,0.8935589937693484,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-2.053026419093096,-2.3714370166422083,-1.7346158215439833,0.16245737169697752,-12.637323857008404,1.314522751151551e-36,0.12834588677851175,0.09334648939209086,0.1764679824623192,28,35,31.5,0.8716541132214882,0.8235320175376808,0.9066535106079091,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-2.190648119842123,-2.467818865404998,-1.9134773742792475,0.14141624425201837,-15.490781355628151,4.0039458271749516e-54,0.11184423665264394,0.08476955130991749,0.14756634993476878,35,42,38.5,0.888155763347356,0.8524336500652312,0.9152304486900825,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-1.2515745426826568,-1.493569316537859,-1.0095797688274546,0.12346899012636257,-10.136752081650224,3.795081897282917e-24,0.2860540377915706,0.22456966311242685,0.3643720679043639,0,3,1.5,0.7139459622084294,0.6356279320956362,0.7754303368875731,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-1.4053299809095237,-1.6316550037645159,-1.1790049580545314,0.1154740722993969,-12.170091111585952,4.485815179535456e-34,0.24528610336569212,0.1956055781254035,0.3075846460050991,3,7,5,0.7547138966343079,0.692415353994901,0.8043944218745965,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-1.3764478542277336,-1.5653742023628139,-1.1875215060926534,0.09639276518614996,-14.279576393203277,2.9337930946660846e-46,0.25247378581069874,0.2090097865819179,0.30497620979390627,7,14,10.5,0.7475262141893013,0.6950237902060937,0.7909902134180821,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-1.578539316529102,-1.8000904964841826,-1.3569881365740213,0.11303839341061782,-13.964629794365319,2.5623341437635824e-44,0.20627618246711785,0.1652839299302098,0.2574349694563418,14,21,17.5,0.7937238175328821,0.7425650305436582,0.8347160700697902,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-1.8747562268029365,-2.144928580093505,-1.604583873512368,0.13784557033784983,-13.600409662842559,3.981967656268296e-42,0.15339235523244005,0.11707639833096323,0.20097316777067523,21,28,24.5,0.8466076447675599,0.7990268322293248,0.8829236016690367,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-1.964743828714191,-2.2839674936526313,-1.6455201637757508,0.16287220962039903,-12.063100471795376,1.6543550483041252e-33,0.14019179512867203,0.10187919873918613,0.19291219075754337,28,35,31.5,0.859808204871328,0.8070878092424566,0.8981208012608138,0,NA,NA,NA,NA,NA
+covidadmitted,covidadmitted_1_date,"COVID-19
+hospitalisation",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-2.1095999680787867,-2.3896988315712133,-1.82950110458636,0.14291020942313776,-14.761716301405361,2.5861478123241027e-49,0.12128647519189706,0.09165728400136282,0.1604936173349402,35,42,38.5,0.8787135248081029,0.8395063826650598,0.9083427159986371,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-5.644651091411811,-7.606917605470969,-3.682384577352654,1.001174781545613,-5.638027640585995,1.720089042048585e-8,0.0035363820599619102,4.970014544212765e-4,0.02516290035525711,0,3,1.5,0.9964636179400381,0.9748370996447429,0.9995029985455787,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-5.003569572530828,-6.140485691667145,-3.8666534533945103,0.5800699033779024,-8.6258044821731,6.364366975060967e-18,0.006713938284480379,0.0021538772439810864,0.020928289861354418,3,7,5,0.9932860617155196,0.9790717101386456,0.9978461227560189,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-5.466964261087154,-6.4511063633780275,-4.48282215879628,0.5021225441149232,-10.887709235847222,1.3191670319259343e-27,0.0042240357837296525,0.001578774503845051,0.011301473553552982,7,14,10.5,0.9957759642162703,0.9886985264464471,0.998421225496155,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-5.344199491168326,-6.22836700130942,-4.460031981027233,0.45111416184955133,-11.846667524817457,2.239195391609354e-32,0.004775772723799368,0.001972670636391696,0.011561993517126215,14,21,17.5,0.9952242272762006,0.9884380064828738,0.9980273293636083,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-5.492168257636137,-6.480553782469025,-4.5037827328032485,0.5042875953992766,-10.890944587458348,1.2731286814172173e-27,0.0041189036407965045,0.0015329615170067543,0.011067053552194258,21,28,24.5,0.9958810963592035,0.9889329464478057,0.9984670384829932,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-4.694334845888369,-5.445665996987871,-3.943003694788866,0.3833392638976568,-12.245901445518644,1.7670274368314951e-34,0.009146949475949078,0.004314965296574597,0.019389885888997375,28,35,31.5,0.9908530505240509,0.9806101141110026,0.9956850347034254,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-4.937702518422739,-5.581233237158324,-4.294171799687154,0.32833803264329015,-15.038472633437232,4.1092197523963767e-51,0.007171054827229997,0.0037679159184314743,0.013647870188288511,35,42,38.5,0.99282894517277,0.9863521298117115,0.9962320840815685,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-5.666555664558119,-7.628918154043404,-3.7041931750728345,1.0012237494995575,-5.6596296955505085,1.516999681462707e-8,0.00345976135595646,4.8618655288524805e-4,0.024620073445336288,0,3,1.5,0.9965402386440435,0.9753799265546637,0.9995138134471148,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-5.03509979202829,-6.1719233246459595,-3.8982762594106197,0.5800226644901587,-8.68086731826963,3.927621206666667e-18,0.006505548882461559,0.0020872177402230167,0.02027683333966622,3,7,5,0.9934944511175384,0.9797231666603338,0.997912782259777,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-5.511026449966168,-6.49657571783208,-4.525477182100255,0.502840498927429,-10.959790354439074,5.96373597499245e-28,0.004041956387194902,0.0015085962175110663,0.010829545537996699,7,14,10.5,0.995958043612805,0.9891704544620032,0.9984914037824889,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-5.404001506469474,-6.291481928858024,-4.5165210840809245,0.4528044542598144,-11.934514900705274,7.821352134907315e-33,0.004498543926436824,0.001852013360191221,0.010926971636960638,14,21,17.5,0.9955014560735632,0.9890730283630393,0.9981479866398087,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-5.579645117814287,-6.572676854365776,-4.586613381262799,0.5066581551418274,-11.012642471435978,3.3211734138208527e-28,0.0037739045726783898,0.001398050022459947,0.010187300522067616,21,28,24.5,0.9962260954273217,0.9898126994779324,0.99860194997754,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-4.818521830951229,-5.57835485233465,-4.058688809567808,0.38767703252553976,-12.429216658930628,1.8140321825870123e-35,0.008078720031414932,0.0037787770541933426,0.017271650698089995,28,35,31.5,0.991921279968585,0.98272834930191,0.9962212229458066,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-5.088098962707577,-5.736402969176212,-4.439794956238942,0.3307734282784656,-15.382429565727085,2.147362898054752e-53,0.006169737647042194,0.0032263527181929873,0.011798357451335801,35,42,38.5,0.9938302623529578,0.9882016425486642,0.9967736472818071,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-5.661373342504718,-7.623778981115809,-3.6989677038936275,1.001245764764198,-5.654329378200187,1.5645592802464498e-8,0.0034777374923637408,4.886915810286293e-4,0.024749061648115217,0,3,1.5,0.9965222625076363,0.9752509383518848,0.9995113084189714,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-5.041218426468231,-6.178131692455631,-3.904305160480831,0.58006844766293,-8.690730286708536,3.601170552381346e-18,0.006465865335382477,0.0020742996663624443,0.020154954085595322,3,7,5,0.9935341346646175,0.9798450459144047,0.9979257003336376,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-5.283239675137485,-6.2889020842935475,-4.277577265981422,0.5131024942746908,-10.296655607971159,7.295364123025727e-25,0.005075959666226234,0.0018567974352234266,0.013876239833374831,7,14,10.5,0.9949240403337738,0.9861237601666252,0.9981432025647766,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-5.359381158266462,-6.247395176661864,-4.47136713987106,0.4530767021230713,-11.828860617094076,2.768744806327687e-32,0.004703816124795272,0.0019354891830717777,0.011431676461641825,14,21,17.5,0.9952961838752047,0.9885683235383582,0.9980645108169283,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-5.529195387027465,-6.522833476985211,-4.535557297069719,0.506967524809352,-10.906409417657965,1.0741559502279373e-27,0.0039691814595001745,0.0014694994050290947,0.010720930818020995,21,28,24.5,0.9960308185404998,0.989279069181979,0.998530500594971,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-4.761094419916698,-5.5211351839797205,-4.001053655853675,0.3877830256362503,-12.277727763109255,1.1930203268621505e-34,0.008556240151854473,0.004001303147758271,0.018296350671960986,28,35,31.5,0.9914437598481455,0.981703649328039,0.9959986968522417,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-5.018077759704067,-5.666926850040084,-4.3692286693680495,0.3310515374027565,-15.157995637395532,6.708554795493066e-52,0.006617234406401806,0.003458477381081226,0.012661002621789146,35,42,38.5,0.9933827655935982,0.9873389973782108,0.9965415226189188,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-4.542079773944997,-6.504022244177025,-2.580137303712969,1.0010094500243782,-4.537499395070028,5.692519370181592e-6,0.010651231348368661,0.0014974041388053402,0.07576360068497141,0,3,1.5,0.9893487686516313,0.9242363993150285,0.9985025958611946,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-16.3962363497223,-16.475831610126942,-16.31664108931766,0.040610572965869444,-403.74304404673813,0,7.571902782830078e-8,6.992576832134238e-8,8.199225139601476e-8,3,7,5,0.9999999242809722,0.9999999180077486,0.9999999300742317,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-16.69831664843752,-16.79712749246577,-16.59950580440927,0.05041462231329597,-331.21971131049474,0,5.5977464410946235e-8,5.0710771541973416e-8,6.179114272172268e-8,7,14,10.5,0.9999999440225356,0.9999999382088572,0.9999999492892284,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-5.424830980292147,-6.818023936372143,-4.0316380242121514,0.7108257942846521,-7.6317306207936495,2.3162303440089603e-14,0.004405810767728912,0.0010938803651813983,0.01774523900318575,14,21,17.5,0.995594189232271,0.9822547609968143,0.9989061196348186,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-16.91944669934735,-17.049541700274176,-16.789351698420525,0.06637622015149264,-254.90223246716278,0,4.487223088466981e-8,3.939835785673507e-8,5.1106625100693336e-8,21,28,24.5,0.9999999551277691,0.9999999488933748,0.9999999606016421,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-5.193804342918687,-6.586119635812832,-3.801489050024543,0.7103779987165836,-7.31132488942811,2.645210866193808e-13,0.005550849261063683,0.0013793820970963541,0.02233748544649911,28,35,31.5,0.9944491507389364,0.9776625145535008,0.9986206179029037,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-4.5662628147048725,-5.33579830915645,-3.7967273202532943,0.3926273648503626,-11.630016711762202,2.900407857043794e-31,0.010396741755050292,0.004816063869344619,0.022444104159257284,35,42,38.5,0.9896032582449497,0.9775558958407428,0.9951839361306554,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-4.629213876071436,-6.592997812053885,-2.6654299400889867,1.0019489906307089,-4.620209131761717,3.833534343387432e-6,0.009762430566856469,0.001369927018054857,0.06956943641276309,0,3,1.5,0.9902375694331436,0.930430563587237,0.9986300729819452,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-16.38374376408379,-16.48052526842611,-16.28696225974147,0.049379225896863194,-331.794260977359,0,7.66708874827602e-8,6.95983297021656e-8,8.44621560969898e-8,3,7,5,0.9999999233291125,0.999999915537844,0.9999999304016703,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-16.68264607231963,-16.804771962581153,-16.56052018205811,0.062310272650331754,-267.735083843046,0,5.686157267859603e-8,5.03245925120427e-8,6.424768261580148e-8,7,14,10.5,0.9999999431384273,0.9999999357523174,0.9999999496754075,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-5.540531755066861,-6.938492495248488,-4.142571014885235,0.7132583818930158,-7.767916782642037,7.97874498593669e-15,0.003924439442804942,9.697303689634419e-4,0.015881966197166485,14,21,17.5,0.996075560557195,0.9841180338028335,0.9990302696310366,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-16.95598724728105,-17.12567394431076,-16.786300550251344,0.08657643628565387,-195.84990991469974,0,4.3262170371458135e-8,3.6510207996898074e-8,5.126279711712635e-8,21,28,24.5,0.9999999567378296,0.9999999487372029,0.999999963489792,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-5.42917911885898,-6.831770093464044,-4.026588144253916,0.7156207898045698,-7.5866704771694025,3.282304145454406e-14,0.0043866952805220885,0.0010789465900041494,0.01783507697455234,28,35,31.5,0.995613304719478,0.9821649230254477,0.9989210534099958,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-4.82134045345128,-5.597202741148952,-4.045478165753608,0.39585537990369957,-12.17955015446342,3.994791136474911e-34,0.008055981230465048,0.0037082220792505794,0.017501334116084278,35,42,38.5,0.991944018769535,0.9824986658839158,0.9962917779207494,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-4.62351768476503,-6.587338145235851,-2.65969722429421,1.0019676259161832,-4.614438196580812,3.9416003957077565e-6,0.00981819791894555,0.0013777023306265727,0.06996940357337263,0,3,1.5,0.9901818020810544,0.9300305964266273,0.9986222976693734,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-16.358460755758884,-16.455919320796305,-16.261002190721463,0.0497246713746596,-328.98077158726863,0,7.863407118811834e-8,7.133210568270476e-8,8.668350797216511e-8,3,7,5,0.9999999213659289,0.9999999133164921,0.9999999286678943,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-16.649681625383103,-16.773131648293695,-16.52623160247251,0.0629858629466406,-264.3399779961438,0,5.8767219712237216e-8,5.194233643934576e-8,6.648884800819834e-8,7,14,10.5,0.9999999412327802,0.999999933511152,0.9999999480576636,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-5.462117990474634,-6.860641690834618,-4.06359429011465,0.7135456117517267,-7.654896758548269,1.934676061817848e-14,0.004244556288010386,0.0010482410700788718,0.017187132422442606,14,21,17.5,0.9957554437119897,0.9828128675775574,0.9989517589299212,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-16.890287318980388,-17.06084613458959,-16.719728503371186,0.08702140292094596,-194.09348449971856,0,4.619994085841671e-8,3.8955489611877054e-8,5.479162389144864e-8,21,28,24.5,0.9999999538000591,0.9999999452083761,0.9999999610445104,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-5.351885577450854,-6.754289478734767,-3.9494816761669402,0.7155253424786867,-7.479659013768991,7.45156995463459e-14,0.004739206428444527,0.0011658679140460315,0.0192646845331427,28,35,31.5,0.9952607935715555,0.9807353154668573,0.998834132085954,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-4.707806718461058,-5.483507907106916,-3.9321055298152006,0.3957731849995662,-11.895213968238446,1.2533139532137668e-32,0.009024549269382431,0.004154729699316743,0.019602355726993363,35,42,38.5,0.9909754507306175,0.9803976442730067,0.9958452703006833,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-14.376106351799033,-14.450218416674495,-14.30199428692357,0.03781297281993375,-380.189794128549,0,5.708688423712091e-7,5.300903269709058e-7,6.147843463820289e-7,0,3,1.5,0.9999994291311576,0.9999993852156536,0.999999469909673,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-4.507061851776358,-5.643945503217147,-3.37017820033557,0.580053337922728,-7.770081744408078,7.843549123843115e-15,0.011030822801849891,0.0035388781699045384,0.034383509644553195,3,7,5,0.9889691771981501,0.9656164903554468,0.9964611218300955,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-4.9913948747529355,-5.97670821076271,-4.006081538743161,0.5027201233195103,-9.928774765955787,3.120663914817296e-23,0.0067961780603836485,0.0025371643714715494,0.018204589638648874,7,14,10.5,0.9932038219396163,0.9817954103613511,0.9974628356285284,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-5.401302944174806,-6.542144666234797,-4.260461222114816,0.5820727988161032,-9.279428544265755,1.7038994979789148e-20,0.004510699921936266,0.001441393872966314,0.014115790393838685,14,21,17.5,0.9954893000780637,0.9858842096061613,0.9985586061270337,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-5.026983743303543,-6.018490271868291,-4.035477214738794,0.5058799735023836,-9.937107627526704,2.870405300100196e-23,0.006558563076057488,0.002433340505904422,0.017677242259458045,21,28,24.5,0.9934414369239425,0.982322757740542,0.9975666594940956,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-4.517337309951601,-5.404967257379733,-3.629707362523469,0.4528807439471562,-9.974672958227387,1.9674854434973477e-23,0.010918056398941323,0.004494201550709189,0.02652394517367676,28,35,31.5,0.9890819436010587,0.9734760548263233,0.9955057984492908,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-5.464634804480928,-6.613162148265054,-4.316107460696802,0.5859941064445894,-9.325409154089598,1.1055620283484355e-20,0.004233886961281631,0.0013425799929850984,0.01335175475172567,35,42,38.5,0.9957661130387183,0.9866482452482743,0.9986574200070149,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-15.31090239261043,-15.390098728178216,-15.231706057042643,0.04040703614580542,-378.91673958372786,0,2.241607535705379e-7,2.0709282211432666e-7,2.426353696294299e-7,0,3,1.5,0.9999997758392464,0.9999997573646303,0.9999997929071779,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-4.54730043090573,-5.684403989625684,-3.410196872185775,0.5801655375758343,-7.837936134411198,4.580118468871354e-15,0.01059576982205925,0.0033985582220778378,0.03303469612282257,3,7,5,0.9894042301779408,0.9669653038771774,0.9966014417779222,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-5.018201672264005,-6.004287552439242,-4.032115792088768,0.5031142857487979,-9.97427784185314,1.9753315053787231e-23,0.006616414498746275,0.0024681471477798617,0.017736762922987794,7,14,10.5,0.9933835855012537,0.9822632370770122,0.9975318528522201,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-5.4328072620660075,-6.576574280780666,-4.289040243351349,0.5835653245348115,-9.309681424948893,1.2821634007414535e-20,0.004370808558916267,0.0013926118297348748,0.013718085004586456,14,21,17.5,0.9956291914410837,0.9862819149954135,0.9986073881702652,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-5.10419823765759,-6.10176647597019,-4.10662999934499,0.5089727393877087,-10.028431471198067,1.1431814926707487e-23,0.0060712046275735,0.0022389092448595166,0.016463162012707075,21,28,24.5,0.9939287953724265,0.983536837987293,0.9977610907551405,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-4.656877399007197,-5.554748481490836,-3.759006316523558,0.45810590886665853,-10.165503890853937,2.8265667139461474e-24,0.009496068586698965,0.003869041482761833,0.02330688854204819,28,35,31.5,0.9905039314133011,0.9766931114579518,0.9961309585172382,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-5.661497102968867,-6.818042234643328,-4.504951971294406,0.590084889721006,-9.594377354156011,8.442529582748975e-22,0.0034773071125900473,0.0010938603492449612,0.01105412108923742,35,42,38.5,0.9965226928874099,0.9889458789107626,0.998906139650755,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-15.28734892170259,-15.367067699178264,-15.207630144226915,0.040673593037671485,-375.85440036103023,0,2.2950318680019488e-7,2.1191773094324181e-7,2.48547927146088e-7,0,3,1.5,0.9999997704968132,0.9999997514520729,0.9999997880822691,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-4.5354262703755595,-5.672676630647574,-3.3981759101035447,0.5802404377031928,-7.816460170077876,5.43294980486221e-15,0.010722335638176853,0.0034386489540838027,0.033434201360153015,3,7,5,0.9892776643618232,0.966565798639847,0.9965613510459161,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-4.825984654870856,-5.82609101197019,-3.825878297771522,0.5102677217479739,-9.457750214610785,3.1463983892216026e-21,0.008018654374807126,0.002949584364430552,0.02179928086072122,7,14,10.5,0.9919813456251929,0.9782007191392788,0.9970504156355694,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-5.37956761379003,-6.52380324494821,-4.23533198263185,0.5838044169095783,-9.214674397749953,3.122244449693708e-20,0.0046098147194495705,0.0014680750223564222,0.014475003950101066,14,21,17.5,0.9953901852805505,0.985524996049899,0.9985319249776435,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-5.031577985227968,-6.029780063261861,-4.033375907194075,0.5092961329430461,-9.879474160057372,5.1100348718827967e-23,0.006528500560721221,0.002406023093302526,0.017714426636211103,21,28,24.5,0.9934714994392788,0.9822855733637889,0.9975939769066975,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-4.5747696980901615,-5.473150982457956,-3.676388413722367,0.4583662207337033,-9.980599553709178,1.85343426078091e-23,0.010308673011723531,0.004197983523410189,0.025314234481871135,28,35,31.5,0.9896913269882764,0.9746857655181289,0.9958020164765898,0,NA,NA,NA,NA,NA
+coviddeath,coviddeath_date,COVID-19 death,az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-5.565472107099553,-6.7225587795444675,-4.4083854346546385,0.5903611911095644,-9.427232329820718,4.210521575530149e-21,0.003827772999792119,0.0012034548951054484,0.012174819511331782,35,42,38.5,0.9961722270002079,0.9878251804886682,0.9987965451048946,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-1.898535264232827,-2.1777388416639276,-1.6193316868017265,0.1424534224268521,-13.327410685465974,1.603676546011745e-40,0.14978785825328478,0.1132974246391754,0.19803100160096834,0,3,1.5,0.8502121417467152,0.8019689983990317,0.8867025753608246,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-1.7523372419260757,-1.9663731425259043,-1.538301341326247,0.10920399675102017,-16.046457035096616,6.0521743938885044e-58,0.17336826597203325,0.13996356468058024,0.21474557121164814,3,7,5,0.8266317340279667,0.7852544287883518,0.8600364353194198,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-1.7695528282967625,-1.9291321165172035,-1.6099735400763215,0.08141950029652696,-21.7337716622199,9.838022999731969e-105,0.17040917395078664,0.14527422488785216,0.19989290315613123,7,14,10.5,0.8295908260492133,0.8001070968438688,0.8547257751121479,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-1.7096519361479554,-1.8575410116137014,-1.5617628606822094,0.07545499643476933,-22.657902285184594,1.166034899141947e-113,0.18092875641867948,0.15605589859106822,0.20976595690874728,14,21,17.5,0.8190712435813206,0.7902340430912527,0.8439441014089317,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-2.046757425865437,-2.2095833338933586,-1.8839315178375153,0.08307596941182173,-24.637177758580364,5.050310973306954e-134,0.12915301356635045,0.10974636658154725,0.15199137277019031,21,28,24.5,0.8708469864336496,0.8480086272298097,0.8902536334184528,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-1.9050017130601613,-2.0593070301523095,-1.750696395968013,0.07872864925543989,-24.19705826374929,2.3891545311257278e-129,0.14882238768021858,0.12754232226215395,0.17365297010444472,28,35,31.5,0.8511776123197814,0.8263470298955553,0.8724576777378461,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-1.9115722566728304,-2.0064450884055254,-1.8166994249401356,0.048405395446569244,-39.49089226598424,0,0.1478477491503333,0.1344658402000424,0.1625614125959478,35,42,38.5,0.8521522508496667,0.8374385874040522,0.8655341597999576,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-1.8612483372419426,-2.139598830120853,-1.5828978443630324,0.14201816720843008,-13.105705937679925,3.054072113794608e-39,0.15547841967140105,0.11770205206972621,0.20537907843098613,0,3,1.5,0.8445215803285989,0.7946209215690139,0.8822979479302738,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-1.7041315830920951,-1.9171224285623034,-1.4911407376218868,0.10867079556065971,-15.68159664517091,2.021092691853185e-55,0.18193030895039164,0.14702944170319426,0.2251157110533045,3,7,5,0.8180696910496084,0.7748842889466955,0.8529705582968057,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-1.7151707820071176,-1.8750248807522498,-1.5553166832619854,0.08155971232432888,-21.02963256155932,3.5136095135650864e-98,0.17993298877198644,0.15335115130545907,0.2111225130871728,7,14,10.5,0.8200670112280135,0.7888774869128272,0.8466488486945409,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-1.6573311153639045,-1.807214884868795,-1.507447345859014,0.07647271617598825,-21.67218843842102,3.754799119252126e-104,0.1906471168818402,0.16411056772669452,0.22147460507167496,14,21,17.5,0.8093528831181598,0.7785253949283251,0.8358894322733055,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-2.000194091802461,-2.165140909713122,-1.8352472738918006,0.08415808617491963,-23.767105250529674,7.312858591539867e-125,0.135309018316538,0.11473376635607178,0.15957403839568382,21,28,24.5,0.864690981683462,0.8404259616043162,0.8852662336439282,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-1.861063443736236,-2.018805304491258,-1.7033215829812138,0.08048202007754719,-23.123965352050522,2.6581537342712624e-118,0.15550716927920183,0.13281404267557212,0.1820777322191858,28,35,31.5,0.8444928307207982,0.8179222677808142,0.8671859573244278,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-1.8933941324378696,-1.9962819050473162,-1.790506359828423,0.05249472613834344,-36.068273362319495,7.132113695808906e-285,0.1505599203096968,0.1358394092836275,0.1668756491448791,35,42,38.5,0.8494400796903032,0.8331243508551209,0.8641605907163725,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-1.7835681802172036,-2.067437559243336,-1.4996988011910712,0.14483397718797786,-12.31457020545902,7.561693988253352e-35,0.1680374882347813,0.1265095399234659,0.22319737680918353,0,3,1.5,0.8319625117652187,0.7768026231908165,0.8734904600765341,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-1.6602826666192356,-1.875832353311357,-1.4447329799271142,0.10997635078621337,-15.096724475307544,1.701797581396785e-51,0.1900852417542066,0.15322737443880938,0.23580903389547064,3,7,5,0.8099147582457934,0.7641909661045294,0.8467726255611906,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-1.6610647604712485,-1.8233776888273243,-1.4987518321151727,0.0828142402801172,-20.057718996790122,1.7283234023812286e-89,0.18993663537491492,0.16147940158369214,0.22340883793061256,7,14,10.5,0.8100633646250851,0.7765911620693875,0.8385205984163079,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-1.579647022689774,-1.7314613322877903,-1.4278327130917579,0.07745770371063354,-20.39367224970958,1.903108288395224e-92,0.20604781557405702,0.17702552774001765,0.23982813577707107,14,21,17.5,0.793952184425943,0.7601718642229289,0.8229744722599823,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-1.9432728945165745,-2.111378042881851,-1.7751677461512976,0.08576950887427974,-22.656919924363894,1.1923306975060306e-113,0.14323439073622474,0.12107101037944971,0.1694550216875026,21,28,24.5,0.8567656092637752,0.8305449783124974,0.8789289896205503,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-1.7932809794717803,-1.9528810728057366,-1.633680886137824,0.08143011534541525,-22.022331318885296,1.7597413438887042e-107,0.1664132744443602,0.14186475953993474,0.1952097053637785,28,35,31.5,0.8335867255556398,0.8047902946362215,0.8581352404600653,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",any,Any vaccine,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-1.8303375510043742,-1.9346380681202648,-1.7260370338884836,0.05321552739672757,-34.39480242973085,3.0155482488253046e-259,0.16035942915204235,0.14447655003118381,0.17798837605423534,35,42,38.5,0.8396405708479576,0.8220116239457647,0.8555234499688162,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-2.286186746919688,-2.852449072906562,-1.7199244209328142,0.2889146588679583,-7.913017483701083,2.5122406021637037e-15,0.10165335369091184,0.05770282924816184,0.17907968207536024,0,3,1.5,0.8983466463090881,0.8209203179246398,0.9422971707518382,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-1.8309968879536371,-2.196531987358722,-1.4654617885485524,0.1865009266947654,-9.817628900848934,9.4541029749247e-23,0.1602537331037238,0.11118809220814618,0.23097130694178777,3,7,5,0.8397462668962762,0.7690286930582122,0.8888119077918538,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-2.020225157444766,-2.2972252374126256,-1.7432250774769067,0.14132916836880718,-14.294467170236677,2.369121030670417e-46,0.1326256000768601,0.10053742453048062,0.17495524555052122,7,14,10.5,0.8673743999231399,0.8250447544494788,0.8994625754695194,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-2.0212935472891855,-2.2789170697144208,-1.7636700248639505,0.1314429879616853,-15.377720627275897,2.3093543724328877e-53,0.13248397989887903,0.10239503337867026,0.17141461212222042,14,21,17.5,0.8675160201011209,0.8285853878777796,0.8976049666213297,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-2.1593041594675295,-2.416749155795105,-1.901859163139954,0.13135190154424714,-16.439078034512864,1.0043523045390621e-60,0.11540539685803844,0.08921115815505185,0.14929080508980203,21,28,24.5,0.8845946031419616,0.8507091949101979,0.9107888418449481,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-2.0804073075455256,-2.325788672595038,-1.8350259424960134,0.12519687452680217,-16.617086611855886,5.2418783762394905e-62,0.12487933754200892,0.09770635533165442,0.15960936104919524,28,35,31.5,0.875120662457991,0.8403906389508048,0.9022936446683456,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-1.8454400958847392,-1.9807472449227268,-1.7101329468467517,0.06903552825729099,-26.731744399882075,2.0132343942062702e-157,0.15795578989751366,0.13796610431193132,0.1808417486786267,35,42,38.5,0.8420442101024863,0.8191582513213733,0.8620338956880687,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-2.3241224881882445,-2.894373924898365,-1.7538710514781242,0.29094995684012104,-7.988048918891455,1.3709105503297903e-15,0.0978692878374589,0.05533365727749032,0.1731025558960814,0,3,1.5,0.9021307121625411,0.8268974441039186,0.9446663427225097,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-1.8559922863650815,-2.222926200457354,-1.4890583722728088,0.18721462077191248,-9.913714424186326,3.628980343526982e-23,0.15629777355199603,0.10829176133866592,0.22558497262698587,3,7,5,0.843702226448004,0.7744150273730142,0.8917082386613341,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-2.0287424489989867,-2.3075038242359778,-1.7499810737619954,0.14222780491673595,-14.264035433765345,3.666260490397659e-46,0.131500786157391,0.09950933459070525,0.1737772323685812,7,14,10.5,0.868499213842609,0.8262227676314188,0.9004906654092948,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-2.021338469055693,-2.2805243706786387,-1.7621525674327474,0.13224013485317646,-15.285363035208215,9.57280363016643e-53,0.13247802861814004,0.10223058593645883,0.1716749239553137,14,21,17.5,0.8675219713818599,0.8283250760446863,0.8977694140635412,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-2.1685236142676647,-2.430472778393137,-1.9065744501421924,0.13364998856698085,-16.225393189471724,3.3357465160616587e-59,0.11434631161397991,0.08799522050754742,0.14858851315225624,21,28,24.5,0.8856536883860201,0.8514114868477438,0.9120047794924526,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-2.1062251972466353,-2.35792929911508,-1.8545210953781905,0.1284228199364145,-16.40070820972069,1.8902158924666e-60,0.12169648069889015,0.0946159418034422,0.15652788665637463,28,35,31.5,0.8783035193011098,0.8434721133436254,0.9053840581965578,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-1.9109930952907372,-2.0573355663151127,-1.7646506242663615,0.07466589803624274,-25.593920994068046,1.7828093918940322e-144,0.14793340165798874,0.1277940153586041,0.17124660544309603,35,42,38.5,0.8520665983420113,0.828753394556904,0.8722059846413959,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-2.293744667936359,-2.8641838690190555,-1.723305466853662,0.29104575674974065,-7.8810448692047554,3.2465469146639958e-15,0.10088796170213603,0.0570296558132766,0.17847522786630818,0,3,1.5,0.899112038297864,0.8215247721336918,0.9429703441867234,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-1.7505699919333348,-2.1237732608958106,-1.3773667229708593,0.19041332999292612,-9.193526482617413,3.8016912053739616e-20,0.17367492192787007,0.11957957126265066,0.25224190209212455,3,7,5,0.82632507807213,0.7477580979078755,0.8804204287373494,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-1.8462788466594053,-2.1402501152510984,-1.5523075780677122,0.14998809718469377,-12.309502429288885,8.051804546530258e-35,0.1578233599020185,0.11762541943097164,0.21175875972437597,7,14,10.5,0.8421766400979815,0.788241240275624,0.8823745805690284,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-1.8310702938524057,-2.100097269541849,-1.5620433181629623,0.1372611832724958,-13.340044506372202,1.3537868915715972e-40,0.1602419699661614,0.12244451755159289,0.2097071347258711,14,21,17.5,0.8397580300338385,0.7902928652741289,0.8775554824484071,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-2.0458586611666103,-2.312573657994224,-1.7791436643389966,0.13608158054506492,-15.034060105504887,4.392383565864812e-51,0.12926914391480251,0.09900611550335697,0.16878261997764493,21,28,24.5,0.8707308560851975,0.831217380022355,0.900993884496643,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-1.9796797176432364,-2.234567152015101,-1.7247922832713716,0.1300469990175251,-15.222802006961002,2.4960734331379882e-52,0.13811346553399698,0.10703845120525017,0.17821006514035714,28,35,31.5,0.861886534466003,0.8217899348596429,0.8929615487947499,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",pfizer,BNT162b2,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-1.7778444642832503,-1.9267160964257242,-1.6289728321407764,0.0759563100734271,-23.406145750953474,3.7000996285471327e-121,0.1690020448744837,0.14562563466956574,0.1961309300836036,35,42,38.5,0.8309979551255163,0.8038690699163964,0.8543743653304343,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",1-3,-1.6899200999907746,-2.0084576266250425,-1.3713825733565068,0.16252213262429885,-10.398092079540636,2.5294703419429024e-25,0.18453426769366163,0.13419549468900566,0.25375588079281364,0,3,1.5,0.8154657323063383,0.7462441192071864,0.8658045053109944,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",4-7,-1.6599760454395036,-1.9157899997330352,-1.404162091145972,0.13051972194966818,-12.718200902080023,4.685236363774747e-37,0.1901435348517754,0.1472254785436366,0.24557273784110925,3,7,5,0.8098564651482246,0.7544272621588908,0.8527745214563633,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",8-14,-1.6241370718527892,-1.8080260784520135,-1.440248065253565,0.09382264574743077,-17.31071490165544,3.905357363869665e-67,0.19708166916698108,0.16397749626787017,0.23686899242682205,7,14,10.5,0.8029183308330189,0.763131007573178,0.8360225037321298,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",15-21,-1.5768459979304184,-1.7500562001132982,-1.4036357957475385,0.08837417603034539,-17.842836773821467,3.2858301041741764e-71,0.20662576966107182,0.17376417760955817,0.2457020156591921,14,21,17.5,0.7933742303389282,0.7542979843408079,0.8262358223904418,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",22-28,-2.0336918756556734,-2.234445804897639,-1.8329379464137074,0.10242735622975084,-19.85496795498634,9.982619851106391e-88,0.13085154068280816,0.10705144080087056,0.15994297293871976,21,28,24.5,0.8691484593171919,0.8400570270612803,0.8929485591991294,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",29-35,-1.8546421146824466,-2.040551858274025,-1.668732371090868,0.0948536529538354,-19.552669369360903,3.914905489872021e-85,0.15650894490661663,0.12995697325478806,0.18848584437064733,28,35,31.5,0.8434910550933834,0.8115141556293527,0.870043026745212,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,1,"Region-stratified Cox model, with no further adjustment","Region-stratified Cox model,
+with no further adjustment",36+,-1.8419693104500565,-1.9564662125566703,-1.7274724083434427,0.05841786023097912,-31.530927411019004,3.27427023807193e-218,0.15850497304955197,0.14135706517267263,0.17773307935298144,35,42,38.5,0.841495026950448,0.8222669206470186,0.8586429348273273,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",1-3,-1.6750271112291102,-1.9931765422376062,-1.3568776802206142,0.1623241210134565,-10.319027762301896,5.780551666227733e-25,0.18730310139582576,0.136261895580414,0.2574634063547966,0,3,1.5,0.8126968986041743,0.7425365936452034,0.863738104419586,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",4-7,-1.6384378975169023,-1.8942807406895275,-1.382595054344277,0.13053446144453726,-12.551765100077098,3.88746592779119e-36,0.19428329579148335,0.15042649180013049,0.25092653941403875,3,7,5,0.8057167042085167,0.7490734605859612,0.8495735081998695,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",8-14,-1.5919022179082825,-1.7768866117287334,-1.4069178240878315,0.09438152704824393,-16.866671558456222,7.913146813847512e-64,0.2035380694953666,0.1691640014677709,0.24489693654943182,7,14,10.5,0.7964619305046334,0.7551030634505682,0.8308359985322291,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",15-21,-1.531887674480545,-1.706085062525619,-1.357690286435471,0.0888778515417226,-17.2358765193758,1.4287125918822722e-66,0.2161273040124409,0.18157525873807462,0.25725427497293274,14,21,17.5,0.783872695987559,0.7427457250270673,0.8184247412619254,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",22-28,-1.9848287514181142,-2.1876108971362562,-1.7820466056999724,0.10346217956945206,-19.18409953934654,5.025716147945028e-82,0.1374041423668326,0.11218444889637116,0.16829336441278808,21,28,24.5,0.8625958576331674,0.8317066355872119,0.8878155511036289,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",29-35,-1.8101374238069061,-2.0013656698575844,-1.6189091777562281,0.09756722447915475,-18.552720275379382,7.752730641265145e-77,0.1636316483734669,0.135150586066014,0.19811468916856606,28,35,31.5,0.8363683516265331,0.8018853108314339,0.864849413933986,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,2,"Region-stratified Cox model, with adjustment for baseline confounders","Region-stratified Cox model,
+with adjustment for baseline
+confounders",36+,-1.8378852944833275,-1.9626015189622157,-1.7131690700044393,0.06363189602596468,-28.883082373239162,1.9476154953332354e-183,0.15915363355863646,0.14049245131287258,0.18029352351826952,35,42,38.5,0.8408463664413636,0.8197064764817305,0.8595075486871274,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",1-3,-1.6064420795378238,-1.9294064398925292,-1.2834777191831184,0.16478076276003398,-9.748966157398145,1.8635637266518275e-22,0.20060006497765603,0.14523437823781674,0.2770720442177089,0,3,1.5,0.799399935022344,0.7229279557822911,0.8547656217621833,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",4-7,-1.6091970273473415,-1.8676948272396918,-1.3506992274549912,0.13188905609049353,-12.2011414369606,3.064970640951791e-34,0.20004818282038023,0.15447935328970902,0.25905905609718943,3,7,5,0.7999518171796198,0.7409409439028105,0.8455206467102909,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",8-14,-1.5606405385679485,-1.7485927759485858,-1.3726883011873112,0.0958957607706981,-16.27434337060724,1.5012116541343966e-59,0.21000151404176906,0.17401865446440692,0.2534247609003062,7,14,10.5,0.789998485958231,0.7465752390996938,0.8259813455355931,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",15-21,-1.477374602614162,-1.653674684043958,-1.3010745211843662,0.08995067400239419,-16.424274959572166,1.2820707354521902e-60,0.22823611298327268,0.19134548095313184,0.2722391091246757,14,21,17.5,0.7717638870167274,0.7277608908753244,0.8086545190468681,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",22-28,-1.9350603601365801,-2.1421284828781526,-1.7279922373950076,0.10564894272287631,-18.315946286489233,6.174422839825793e-75,0.14441555161803882,0.11740468302795198,0.17764071254446487,21,28,24.5,0.8555844483819612,0.8223592874555351,0.882595316972048,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",29-35,-1.7463758398811349,-1.939806423245768,-1.5529452565165018,0.09869088661342193,-17.695411398235713,4.5489618217129e-70,0.17440487064600832,0.14373177021447928,0.2116237687719422,28,35,31.5,0.8255951293539917,0.7883762312280578,0.8562682297855208,0,NA,NA,NA,NA,NA
+noncoviddeath,noncoviddeath_date,"Non-COVID-19
+death",az,ChAdOx1,NA,4,"Region-stratified marginal structural Cox model, with adjustment for baseline and time-varying confounders","Region-stratified marginal
+structural Cox model, with
+adjustment for baseline and
+time-varying confounders",36+,-1.7822778515503064,-1.9090092141431576,-1.6555464889574552,0.06466004660927042,-27.56381946830793,3.0223401573029824e-167,0.16825445176999587,0.1482271752542325,0.19098765453680538,35,42,38.5,0.8317455482300041,0.8090123454631946,0.8517728247457674,0,NA,NA,NA,NA,NA
