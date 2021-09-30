@@ -126,18 +126,18 @@ actions_process <- function(cohort, sample_proc){
         tte = glue("output/{cohort}/data/data_tte.rds"),
         pt = glue("output/{cohort}/data/data_pt.rds")
       )
-    ),
+    )#,
 
 
-    action(
-      name = glue("data_samples_{cohort}"),
-      run = "r:latest analysis/R/data_samples.R",
-      arguments = c(cohort, sample_proc),
-      needs = list("design", glue("data_stset_{cohort}")),
-      highly_sensitive = list(
-        data = glue("output/{cohort}/data/data_samples.rds")
-      )
-    )
+    # action(
+    #   name = glue("data_samples_{cohort}"),
+    #   run = "r:latest analysis/R/data_samples.R",
+    #   arguments = c(cohort, sample_proc),
+    #   needs = list("design", glue("data_stset_{cohort}")),
+    #   highly_sensitive = list(
+    #     data = glue("output/{cohort}/data/data_samples.rds")
+    #   )
+    # )
 
   )
 }
