@@ -3,8 +3,8 @@
 This is the code and configuration for the OpenSAFELY study investigating the out-of-trial effectiveness of vaccines for Covid-19. 
 
 * Raw model outputs, including tables, figures, etc, are in the [`released_outputs/`](./released_outputs) folder.
-* If you are interested in how we defined our variables, take a look at the [study definition](./analysis/study_definition_over80s.py); this is written in `python`, but non-programmers should be able to understand what is going on there
-* If you are interested in how we defined our code lists, look in the [codelists folder](./codelists/).
+* If you are interested in how we defined our variables, take a look at the [common_variables.py](./analysis/common_variables.py) and [study_definition.py](./analysis/study_definition_over80s.py) scripts; these are written in `python`, but non-programmers should be able to understand what is going on there
+* If you are interested in how we defined our codelists, look in the [codelists folder](./codelists/).
 * Developers and researchers interested in the framework should review [the OpenSAFELY documentation](https://docs.opensafely.org)
 
 ## Repository navigation and use
@@ -15,8 +15,17 @@ This is the code and configuration for the OpenSAFELY study investigating the ou
 * The study definitions that define the data to be extracted from the OpenSAFELY-TPP database are the [study_definition_{cohort}.py](./analysis/) files, where `{cohort}` is the analysis cohort of interest. Most of the variables in these study definitions are stored in the [common_variables.py](./analysis/common_variables.py) script. 
   * These study definitions create dummy data, but they are not used. Instead, use the dummy data created by the [analysis/R/dummy/data_makedummy.R](./analysis/R/dummy/data_makedummy.R) script. Creating dummy data independently of the study definition allows more for realistic (or at least, more usable) dummy data, for example by ensuring that second vaccine doses always occur before first doses. If the study definitions are updated, this script must also be updated to ensure variable names and types match. 
 * The [`lib/`](./lib) directory contains functions that are used through the code-base.
-
 * The R scripts that process and analyse this extracted data live in the [analysis/R/](./analysis/R/) directory. See the [`project.yaml`](./project.yaml) to understand more about the run order and dependencies of these scripts. At the top of each script is a description of what the script is supposed to do. 
+
+## Local development and testing
+
+GitHub test actions are disabled for this repository. This is because running the project from start to finish takes many hours and eats into the finite processing time allocated the github.com/opensafely organisation. 
+
+The long run time also makes it difficult to test locally. Many actions can be run in parallel, but this use too much memory, so running actions has to be managed carefully. Often it's not worth trying to run every action locally because it takes far too long. But this means downstream actions can't run if they depend on upstream actions that haven't been run. There are some workarounds that make testing possible even when upstream actions haven't been run - ask @wjchulme about these.
+
+## Running actions on the real data
+
+The `stset_{cohort}` and `model_msm_{cohort}_{strata}_{recent_postestperiod}_{brand}_{outcome}` actions take hours to run and use a lot of memory. It's best to only attempt to run one of thse actions at a time. Even then, if there are other actions running on the server, they may crash.
 
 ## Pre-modelling scripts
 
@@ -47,7 +56,7 @@ These scripts run across five different design characteristics:
   * The analysis strata variable (`strata`), for example analyses stratified by sex or immunosuppression status. To run an unstratified analysis, use `all`.
   * The exclusion period for vaccination following a positive test (`recent_postestperiod`), during which time vaccinated person-time is coded as unvaccinated. Use `0` to code vaccination time in the natural way (i.e., code vaccination time as unvaccinated time for zero days after a positive test).
 
-In addition, there are some `...combined.R` scripts which combine data across different cohorts and outcomes and output publication-ready figures. 
+In addition, there are some `...combined.R` scripts which combine data across different cohorts and outcomes, and output publication-ready figures. 
 
 # About the OpenSAFELY framework
 
