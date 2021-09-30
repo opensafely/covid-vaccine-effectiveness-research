@@ -1,3 +1,11 @@
+######################################
+
+# What this script does:
+# imports data created by the `data_process.R` script
+# converts hospitalisation and infection episodes into long format
+# saves as a one-row-per-event dataset
+
+######################################
 
 # Preliminaries ----
 

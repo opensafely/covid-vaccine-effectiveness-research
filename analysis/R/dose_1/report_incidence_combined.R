@@ -1,13 +1,7 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports reported MSM estimates for ALL outcomes
-# calculates robust CIs taking into account patient-level clustering
-# outputs forest plots for the primary vaccine-outcome relationship
-# outputs plots showing model-estimated spatio-temporal trends
-#
-# The script should only be run via an action in the project.yaml only
-# The script must be accompanied by four arguments: cohort and stratum
+# combines outputs from the `report_incidence.R` scripts across different outcomes and brands
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----

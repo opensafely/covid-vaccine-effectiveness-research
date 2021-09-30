@@ -1,9 +1,9 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports processed data
-# creates indicator variables for each potential cohort/outcome combination of interest
-# creates a metadata df that describes each cohort
+# imports processed data from `data_process.R`
+# filters out patients who should be exlcuded from the main analysis
+# creates an inclusion/exclusion data frame that reports how many patients were excluded at each step
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----

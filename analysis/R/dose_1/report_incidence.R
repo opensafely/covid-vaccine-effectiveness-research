@@ -2,10 +2,10 @@
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
 # imports fitted MSMs and model summaries
-# outputs marginal cumulative incidence curves using g-formula
+# outputs marginal cumulative incidence curves assuming everyone got the vaccine on day one, or no-one got the vaccine
 #
 # The script should only be run via an action in the project.yaml only
-# The script must be accompanied by four arguments: cohort, outcome, brand, recentpostest_period, and stratum
+# The script must be accompanied by five arguments: cohort, outcome, brand, recentpostest_period, and strata_var
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----

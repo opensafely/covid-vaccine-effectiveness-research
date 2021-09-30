@@ -4,8 +4,8 @@
 #
 # The script should be run via an action in the project.yaml
 # The script must be accompanied by two arguments,
-# 1. the name of the cohort defined in data_define_cohorts.R
-# 2. whether or not (TRUE/FALSE) to relabel vaccinations occurring after a recent positive test as "unvaccinated"
+# 1. the `cohort`
+# 2. `recentpostest_period`, which describes how long after a positive test should vaccinations occurring after a recent positive test be re-coded as "unvaccinated"
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----

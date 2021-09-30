@@ -1,15 +1,12 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# takes a cohort name as defined in data_define_cohorts.R, and imported as an Arg
+# imports a cohort-specific processed dataset
 # creates 3 datasets for that cohort:
-# 1 is one row per patient (wide format)
-# 2 is one row per patient per event (eg `stset` format, where a new row is created every time an event occurs or a covariate changes)
-# 3 is one row per patient per day
+# data_tte is one row per patient containing time-to-event data
+# data_fixed is one row per patient containing baseline / time-invariant characteristics
+# data_pt is a (very large) one row per patient per day "person-time" dataset
 # creates additional survival variables for use in models (eg time to event from study start date)
-#
-# The script should only be run via an action in the project.yaml only
-# The script must be accompanied by one argument, the name of the cohort defined in data_define_cohorts.R
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
@@ -34,12 +31,10 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
-  sample_size <- 10000
   cohort <- "over80s"
 
 } else{
   removeobs <- TRUE
-  sample_size <- 200000
   cohort <- args[[1]]
 }
 

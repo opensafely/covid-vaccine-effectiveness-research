@@ -1,12 +1,12 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports fitted IPW models
+# imports fitted IPW models from `model_msm.R`
 # calculates robust CIs taking into account patient-level clustering
 # outputs forest plots for these models
 #
 # The script should only be run via an action in the project.yaml only
-# The script must be accompanied by four arguments: cohort, outcome, brand,  recentpostest_period, and stratum
+# The script must be accompanied by five arguments: cohort, outcome, brand,  recentpostest_period, and strata_var
 # # # # # # # # # # # # # # # # # # # # #
 
 

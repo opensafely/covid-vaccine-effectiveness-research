@@ -7,12 +7,14 @@
 # "tte" = "time-to-event"
 #
 # The script should be run via an action in the project.yaml
-# The script must be accompanied by four arguments,
-# 1. the name of the cohort defined in data_define_cohorts.R
-# 2. the name of the outcome defined in data_define_cohorts.R
+# The script must be accompanied by seven arguments:
+# 1. the name of the cohort
+# 2. the stratification variable. Use "all" if no stratification
 # 3. the duration of time from positive test over which to exclude vaccinations from the exposure. This changes the causal estimand, but allows estimation of covid-19 specific mortality
-# 4. the name of the brand (currently "az" or "pfizer")
-# 5. the stratification variable. Use "all" if no stratification
+# 4. the name of the outcome
+# 5. the name of the brand (currently "any", "az",or "pfizer")
+# 6. the sample size for the vaccination models (a completely random sample of participants)
+# 7. the sample size for those who did not experience the outcome for the main MSM models (all those who did experience an outcome are included)
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----

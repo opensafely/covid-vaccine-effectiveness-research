@@ -1,8 +1,6 @@
 
 # # # # # # # # # # # # # # # # # # # # #
-# This script:
-# creates indicator variables for each potential cohort/outcome combination of interest
-# creates a metadata df that describes each cohort
+# This script specifies some study design elements that are used throughout the code-base
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----

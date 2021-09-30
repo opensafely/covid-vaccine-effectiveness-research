@@ -1,7 +1,7 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# imports fitted MSMs
+# imports fitted MSMs from `model_msm.R`
 # calculates robust CIs taking into account patient-level clustering
 # outputs plots for the primary vaccine-outcome relationship
 # outputs plots showing model-estimated spatio-temporal trends

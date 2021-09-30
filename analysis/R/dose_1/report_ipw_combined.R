@@ -1,7 +1,7 @@
 
 # # # # # # # # # # # # # # # # # # # # #
-# The script should only be run via an action in the project.yaml only
-# The script must be accompanied by two arguments: cohort  and stratum
+# this script:
+# combines outputs from the `report_ipw.R` scripts across different outcomes and brands
 # # # # # # # # # # # # # # # # # # # # #
 
 # Preliminaries ----
