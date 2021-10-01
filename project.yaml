@@ -2957,4 +2957,5 @@ actions:
     outputs:
       moderately_sensitive:
         plots: output/combined/VE_plot_metaanalysis*
+        estimates: output/combined/meta_estimates*
 

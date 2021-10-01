@@ -593,7 +593,8 @@ actions_list <- splice(
       )
     ),
     moderately_sensitive = list(
-      plots = "output/combined/VE_plot_metaanalysis*"
+      plots = "output/combined/VE_plot_metaanalysis*",
+      estimates = "output/combined/meta_estimates*"
     )
   )
 
