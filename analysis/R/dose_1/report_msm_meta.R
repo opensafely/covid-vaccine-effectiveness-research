@@ -41,7 +41,7 @@ metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"
 params <-
   crossing(
     brand = nesting(
-      brand = fct_inorder(c("all", "pfizer", "az")),
+      brand = fct_inorder(c("any", "pfizer", "az")),
       brand_descr = fct_inorder(c("Any vaccine", "BNT162b2", "ChAdOx1"))
     ),
     cohort = tibble(
