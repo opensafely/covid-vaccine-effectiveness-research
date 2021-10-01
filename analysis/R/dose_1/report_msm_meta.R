@@ -70,8 +70,8 @@ estimates <- params %>%
     outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=14, simplify=TRUE, whitespace_only=TRUE), collapse="\n")))
   ) %>%
   mutate(
-    estimates = pmap(list(cohort, recent_postestperiod, brand, outcome), ~read_csv(here("output", ..1, "all", ..2, ..3, ..4, glue("estimates_timesincevax.csv"))))
-    #estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
+    #estimates = pmap(list(cohort, recent_postestperiod, brand, outcome), ~read_csv(here("output", ..1, "all", ..2, ..3, ..4, glue("estimates_timesincevax.csv"))))
+    estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -216,8 +216,8 @@ makeplot <- function(recent_postestperiod){
 
   msmmod_effect
   ## save plot
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanlysis_{recent_postestperiod}.svg")), msmmod_effect, width=25, height=20, units="cm")
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanlysis_{recent_postestperiod}.png")), msmmod_effect, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_{recent_postestperiod}.svg")), msmmod_effect, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_{recent_postestperiod}.png")), msmmod_effect, width=25, height=20, units="cm")
 
 
   msmmod_effect_free <-
@@ -274,8 +274,8 @@ makeplot <- function(recent_postestperiod){
   msmmod_effect_free
 
   ## save plot
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanlysis_free_{recent_postestperiod}.svg")), msmmod_effect_free, width=25, height=20, units="cm")
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanlysis_free_{recent_postestperiod}.png")), msmmod_effect_free, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_free_{recent_postestperiod}.svg")), msmmod_effect_free, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_free_{recent_postestperiod}.png")), msmmod_effect_free, width=25, height=20, units="cm")
 
 }
 
