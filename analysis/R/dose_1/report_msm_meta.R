@@ -61,6 +61,7 @@ params <-
   filter(
     !(recent_postestperiod == 0 & outcome %in% c("coviddeath", "noncoviddeath")),
     #!(recent_postestperiod == Inf & outcome %in% c("postest")),
+    brand != "any",
   )
 
 estimates <- params %>%
@@ -216,8 +217,8 @@ makeplot <- function(recent_postestperiod){
 
   msmmod_effect
   ## save plot
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_{recent_postestperiod}.svg")), msmmod_effect, width=25, height=20, units="cm")
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_{recent_postestperiod}.png")), msmmod_effect, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_{recent_postestperiod}.svg")), msmmod_effect, width=18, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_{recent_postestperiod}.png")), msmmod_effect, width=18, height=20, units="cm")
 
 
   msmmod_effect_free <-
@@ -274,8 +275,8 @@ makeplot <- function(recent_postestperiod){
   msmmod_effect_free
 
   ## save plot
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_free_{recent_postestperiod}.svg")), msmmod_effect_free, width=25, height=20, units="cm")
-  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_free_{recent_postestperiod}.png")), msmmod_effect_free, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_free_{recent_postestperiod}.svg")), msmmod_effect_free, width=18, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("VE_plot_metaanalysis_free_{recent_postestperiod}.png")), msmmod_effect_free, width=18, height=20, units="cm")
 
 }
 
