@@ -36,8 +36,6 @@ gbl_vars <- jsonlite::read_json(
 )
 
 # Import metadata for outcomes ----
-## these are created in data_define_cohorts.R script
-
 metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
 
 

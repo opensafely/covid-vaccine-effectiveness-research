@@ -34,22 +34,9 @@ gbl_vars <- jsonlite::fromJSON(
 )
 
 # Import metadata for outcome ----
-## these are created in data_define_cohorts.R script
-
 metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
-stopifnot("outcome does not exist" = (outcome %in% metadata_outcomes[["outcome"]]))
-metadata_outcomes <- metadata_outcomes[metadata_outcomes[["outcome"]]==outcome, ]
-list2env(metadata_outcomes, globalenv())
 
 ### import outcomes, exposures, and covariate formulae ----
-## these are created in data_define_cohorts.R script
-
-list_formula <- read_rds(here("output", "metadata", "list_formula.rds"))
-list2env(list_formula, globalenv())
-
-formula_1 <- outcome ~ 1
-formula_remove_strata_var <- as.formula(paste0(". ~ . - ",strata_var))
-
 
 params <-
   crossing(
