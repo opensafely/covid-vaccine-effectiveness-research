@@ -2914,3 +2914,47 @@ actions:
       moderately_sensitive:
         plots: output/combined/VE_plot*
 
+  report_msm_metacohorts:
+    run: r:latest analysis/R/dose_1/report_msm_meta.R
+    needs:
+    - design
+    - report_msm_over80s_all_0_any_postest
+    - report_msm_over80s_all_0_any_covidadmitted
+    - report_msm_over80s_all_0_any_death
+    - report_msm_over80s_all_0_pfizer_postest
+    - report_msm_over80s_all_0_pfizer_covidadmitted
+    - report_msm_over80s_all_0_pfizer_death
+    - report_msm_over80s_all_0_az_postest
+    - report_msm_over80s_all_0_az_covidadmitted
+    - report_msm_over80s_all_0_az_death
+    - report_msm_over80s_all_Inf_any_postest
+    - report_msm_over80s_all_Inf_any_covidadmitted
+    - report_msm_over80s_all_Inf_any_death
+    - report_msm_over80s_all_Inf_pfizer_postest
+    - report_msm_over80s_all_Inf_pfizer_covidadmitted
+    - report_msm_over80s_all_Inf_pfizer_death
+    - report_msm_over80s_all_Inf_az_postest
+    - report_msm_over80s_all_Inf_az_covidadmitted
+    - report_msm_over80s_all_Inf_az_death
+    - report_msm_in70s_all_0_any_postest
+    - report_msm_in70s_all_0_any_covidadmitted
+    - report_msm_in70s_all_0_any_death
+    - report_msm_in70s_all_0_pfizer_postest
+    - report_msm_in70s_all_0_pfizer_covidadmitted
+    - report_msm_in70s_all_0_pfizer_death
+    - report_msm_in70s_all_0_az_postest
+    - report_msm_in70s_all_0_az_covidadmitted
+    - report_msm_in70s_all_0_az_death
+    - report_msm_in70s_all_Inf_any_postest
+    - report_msm_in70s_all_Inf_any_covidadmitted
+    - report_msm_in70s_all_Inf_any_death
+    - report_msm_in70s_all_Inf_pfizer_postest
+    - report_msm_in70s_all_Inf_pfizer_covidadmitted
+    - report_msm_in70s_all_Inf_pfizer_death
+    - report_msm_in70s_all_Inf_az_postest
+    - report_msm_in70s_all_Inf_az_covidadmitted
+    - report_msm_in70s_all_Inf_az_death
+    outputs:
+      moderately_sensitive:
+        plots: output/combined/VE_plot_metaanalysis*
+
