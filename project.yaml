@@ -2959,3 +2959,27 @@ actions:
         plots: output/combined/VE_plot_metaanalysis*
         estimates: output/combined/meta_estimates*
 
+  do_baselinevaxmodels_over80s:
+    run: r:latest analysis/R/dose_1/baselineHR.R over80s all 0 50000
+    needs:
+    - design
+    - data_stset_over80s
+    outputs:
+      highly_sensitive:
+        models: output/over80s/all/0/combined/modelvax*fxd.rds
+      moderately_sensitive:
+        csv: output/over80s/all/0/combined/broom_vax*fxd.csv
+        svg: output/over80s/all/0/combined/plot_vax*fxd.svg
+
+  do_baselinevaxmodels_in70s:
+    run: r:latest analysis/R/dose_1/baselineHR.R in70s all 0 50000
+    needs:
+    - design
+    - data_stset_in70s
+    outputs:
+      highly_sensitive:
+        models: output/in70s/all/0/combined/modelvax*fxd.rds
+      moderately_sensitive:
+        csv: output/in70s/all/0/combined/broom_vax*fxd.csv
+        svg: output/in70s/all/0/combined/plot_vax*fxd.svg
+

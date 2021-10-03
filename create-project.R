@@ -596,7 +596,37 @@ actions_list <- splice(
       plots = "output/combined/VE_plot_metaanalysis*",
       estimates = "output/combined/meta_estimates*"
     )
+  ),
+
+
+  action(
+    name = "do_baselinevaxmodels_over80s",
+    run = "r:latest analysis/R/dose_1/baselineHR.R",
+    arguments = c("over80s", "all", "0", "50000"),
+    needs = list("design", glue("data_stset_over80s")),
+    highly_sensitive = list(
+      models = glue("output/over80s/all/0/combined/modelvax*fxd.rds")
+    ),
+    moderately_sensitive = list(
+      csv = glue("output/over80s/all/0/combined/broom_vax*fxd.csv"),
+      svg = glue("output/over80s/all/0/combined/plot_vax*fxd.svg")
+    )
+  ),
+
+  action(
+    name = "do_baselinevaxmodels_in70s",
+    run = "r:latest analysis/R/dose_1/baselineHR.R",
+    arguments = c("in70s", "all", "0", "50000"),
+    needs = list("design", glue("data_stset_in70s")),
+    highly_sensitive = list(
+      models = glue("output/in70s/all/0/combined/modelvax*fxd.rds")
+    ),
+    moderately_sensitive = list(
+      csv = glue("output/in70s/all/0/combined/broom_vax*fxd.csv"),
+      svg = glue("output/in70s/all/0/combined/plot_vax*fxd.svg")
+    )
   )
+
 
 )
 
