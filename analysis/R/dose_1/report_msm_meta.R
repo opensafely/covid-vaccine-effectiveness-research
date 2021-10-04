@@ -77,6 +77,7 @@ estimates <- params %>%
   unnest(estimates) %>%
   mutate(
     model_descr = fct_inorder(model_descr),
+    term = fct_inorder(term)
   )
 
 meta_estimates <-
