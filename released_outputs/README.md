@@ -4,6 +4,8 @@
   * output/combined
     * [output/combined/brandcounts12.png](output/combined/brandcounts12.png)
     * [output/combined/brandcounts12.svg](output/combined/brandcounts12.svg)
+    * [output/combined/meta_estimates.csv](output/combined/meta_estimates.csv)
+    * [output/combined/meta_estimates_wide.csv](output/combined/meta_estimates_wide.csv)
     * [output/combined/VE_plot_0.png](output/combined/VE_plot_0.png)
     * [output/combined/VE_plot_0.svg](output/combined/VE_plot_0.svg)
     * [output/combined/VE_plot_free_0.png](output/combined/VE_plot_free_0.png)
@@ -12,6 +14,14 @@
     * [output/combined/VE_plot_free_Inf.svg](output/combined/VE_plot_free_Inf.svg)
     * [output/combined/VE_plot_Inf.png](output/combined/VE_plot_Inf.png)
     * [output/combined/VE_plot_Inf.svg](output/combined/VE_plot_Inf.svg)
+    * [output/combined/VE_plot_metaanalysis_0.png](output/combined/VE_plot_metaanalysis_0.png)
+    * [output/combined/VE_plot_metaanalysis_0.svg](output/combined/VE_plot_metaanalysis_0.svg)
+    * [output/combined/VE_plot_metaanalysis_free_0.png](output/combined/VE_plot_metaanalysis_free_0.png)
+    * [output/combined/VE_plot_metaanalysis_free_0.svg](output/combined/VE_plot_metaanalysis_free_0.svg)
+    * [output/combined/VE_plot_metaanalysis_free_Inf.png](output/combined/VE_plot_metaanalysis_free_Inf.png)
+    * [output/combined/VE_plot_metaanalysis_free_Inf.svg](output/combined/VE_plot_metaanalysis_free_Inf.svg)
+    * [output/combined/VE_plot_metaanalysis_Inf.png](output/combined/VE_plot_metaanalysis_Inf.png)
+    * [output/combined/VE_plot_metaanalysis_Inf.svg](output/combined/VE_plot_metaanalysis_Inf.svg)
   * output/in70s
     * output/in70s/all
       * output/in70s/all/0
