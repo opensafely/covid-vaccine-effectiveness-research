@@ -274,12 +274,11 @@ sample_nonoutcomes_n <- function(had_outcome, id, n){
   # - b) unique
   # - c) completely randomly assigned (no correlation with practice ID, age, registration date, etc etc) which should be true as based on hash of true IDs
   # - d) is an integer strictly greater than zero
-  # `proportion` is the proportion of nonoutcome patients to be sampled
-
-  (dplyr::dense_rank(dplyr::if_else(had_outcome, 0L, id)) - 1L) <= n
+  # `n` is the number of nonoutcome patients to be sampled
+  if(!any(had_outcome)) {dplyr::dense_rank(id) <= n}
+  else {  (dplyr::dense_rank(dplyr::if_else(had_outcome, 0L, id)) - 1L) <= n}
 
 }
-
 
 
 sample_random_prop <- function(id, proportion){
