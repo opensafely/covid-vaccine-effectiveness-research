@@ -296,6 +296,44 @@ actions_models <- function(
 
 
 
+## actions that run the models ----
+actions_stcoxmodels <- function(
+  cohort, strata, recentpostest_period, brand, outcome
+){
+
+  splice(
+    action(
+      name = glue("stcoxmodel_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"),
+      run = glue("r:latest analysis/R/dose_1/model_stcox.R"),
+      arguments = c(cohort, strata, recentpostest_period, brand, outcome),
+      needs = list("design", glue("data_stset_{cohort}")),# glue("data_samples_{cohort}")),
+      highly_sensitive = lst(
+        models = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox*.rds"),
+      ),
+      moderately_sensitive = lst(
+        models = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox*.csv"),
+      )
+    ),
+
+    action(
+      name = glue("stcoxreport_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"),
+      run = glue("r:latest analysis/R/dose_1/report_stcox.R"),
+      arguments = c(cohort, strata, recentpostest_period, brand, outcome),
+      needs = list("design", glue("stcoxmodel_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}")),
+      highly_sensitive = lst(
+        rds = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.rds")
+      ),
+      moderately_sensitive = lst(
+        csv = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.csv"),
+        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.svg"),
+        png = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.png")
+      )
+    )
+  )
+}
+
+
+
 ## actions that combine results of the models in one place ----
 
 actions_combine_models <- function(
@@ -453,6 +491,20 @@ actions_list <- splice(
   actions_combine_models("over80s", "all", "Inf", c("postest", "covidadmitted", "coviddeath", "noncoviddeath", "death")),
 
 
+  ## sequential trials
+  comment("##########", "sequential trials", "########"),
+
+  actions_stcoxmodels("over80s", "all", "0", "any",    "postest"),
+  actions_stcoxmodels("over80s", "all", "0", "pfizer", "postest"),
+  actions_stcoxmodels("over80s", "all", "0", "az",     "postest"),
+
+  actions_stcoxmodels("over80s", "all", "0", "any",    "covidadmitted"),
+  actions_stcoxmodels("over80s", "all", "0", "pfizer", "covidadmitted"),
+  actions_stcoxmodels("over80s", "all", "0", "az",     "covidadmitted"),
+
+  actions_stcoxmodels("over80s", "all", "0", "any",    "death"),
+  actions_stcoxmodels("over80s", "all", "0", "pfizer", "death"),
+  actions_stcoxmodels("over80s", "all", "0", "az",     "death"),
 
 
   # comment("####################################", "Immunosuppressed", "####################################"),
