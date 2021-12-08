@@ -373,7 +373,7 @@ for(stratum in strata){
   formula4_pw <- formula_vaxonly %>% update(formula_spacetime) %>% update(formula_demog) %>% update(formula_comorbs) %>% update(formula_timedependent) %>% update(formula_remove_postest)
 
 
-  model_names = c(
+  model_descr = c(
     "Unadjusted" = "0",
     "Adjusting for time" = "1",
     "Adjusting for time + demographics" = "2",
@@ -440,14 +440,14 @@ for(stratum in strata){
   model_glance <-
     bind_rows(summary0$glance, summary1$glance, summary2$glance, summary3$glance, summary4$glance) %>%
     mutate(
-      model_name = fct_recode(as.character(model), !!!model_names),
+      model_descr = fct_recode(as.character(model), !!!model_descr),
       outcome = outcome
     )
   write_csv(model_glance, here::here("output", cohort, strata_var, recentpostest_period, brand, outcome,  glue("stcox_glance.csv")))
 
   model_tidy <- bind_rows(summary0$tidy, summary1$tidy, summary2$tidy, summary3$tidy, summary4$tidy) %>%
     mutate(
-      model_name = fct_recode(as.character(model), !!!model_names),
+      model_descr = fct_recode(as.character(model), !!!model_descr),
       outcome = outcome
     )
   write_csv(model_tidy, here::here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("stcox_tidy.csv")))

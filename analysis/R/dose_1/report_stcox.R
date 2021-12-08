@@ -82,15 +82,33 @@ effectscox <- tidy_cox %>%
     term_right = as.numeric(str_extract(term, "\\d+$"))-1,
     term_right = if_else(is.na(term_right), 60, term_right),
     term_midpoint = term_left + (term_right+1-term_left)/2
-  )
+  ) %>%
+  group_by(model, term) %>%
+  mutate(
+    #Vaccine effectiveness
+    hr= exp(estimate),
+    hr.ll = exp(conf.low),
+    hr.ul = exp(conf.high),
+    ve = 1-exp(hr),
+    ve.ll = 1-exp(hr.ul),
+    ve.ul = 1-exp(hr.ll),
+    # conduct z test for difference in effects between strata
+    diff = estimate - first(estimate),
+    diff.std.error = if_else(row_number()!=1, sqrt((std.error^2) + (first(std.error))^2), NA_real_),
+    z = diff/diff.std.error,
+    diff.ll = diff + qnorm(0.025)*diff.std.error,
+    diff.ul = diff + qnorm(0.975)*diff.std.error,
+    diff.p.value = 2 * pmin(pnorm(z), pnorm(-z))
+  ) %>%
+  ungroup()
 
 write_csv(effectscox, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue::glue("reportstcox_effects.csv")))
 write_rds(effectscox, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue::glue("reportstcox_effects.rds")))
 
 plotcox <-
   ggplot(data = effectscox) +
-  geom_point(aes(y=exp(estimate), x=term_midpoint, colour=model_name), position = position_dodge(width = 1.8))+
-  geom_linerange(aes(ymin=exp(conf.low), ymax=exp(conf.high), x=term_midpoint, colour=model_name), position = position_dodge(width = 1.8))+
+  geom_point(aes(y=exp(estimate), x=term_midpoint, colour=model_descr), position = position_dodge(width = 1.8))+
+  geom_linerange(aes(ymin=exp(conf.low), ymax=exp(conf.high), x=term_midpoint, colour=model_descr), position = position_dodge(width = 1.8))+
   geom_hline(aes(yintercept=1), colour='grey')+
   scale_y_log10(
     breaks=c(0.01, 0.05, 0.1, 0.5, 1, 2),

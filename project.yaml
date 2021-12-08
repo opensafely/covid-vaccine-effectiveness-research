@@ -1664,6 +1664,25 @@ actions:
         svg: output/over80s/all/0/az/death/reportstcox*.svg
         png: output/over80s/all/0/az/death/reportstcox*.png
 
+  stcoxreport_over80s_all_0:
+    run: r:latest analysis/R/dose_1/report_stcox_combined.R over80s 1 0
+    needs:
+    - design
+    - stcoxreport_over80s_all_0_any_postest
+    - stcoxreport_over80s_all_0_any_covidadmitted
+    - stcoxreport_over80s_all_0_any_death
+    - stcoxreport_over80s_all_0_pfizer_postest
+    - stcoxreport_over80s_all_0_pfizer_covidadmitted
+    - stcoxreport_over80s_all_0_pfizer_death
+    - stcoxreport_over80s_all_0_az_postest
+    - stcoxreport_over80s_all_0_az_covidadmitted
+    - stcoxreport_over80s_all_0_az_death
+    outputs:
+      moderately_sensitive:
+        svg: output/over80s/all/0/combined/VEstcox*.svg
+        png: output/over80s/all/0/combined/VEstcox*.png
+        csv: output/over80s/all/0/combined/stcox*.csv
+
   ## #################################### 
   ## in70s 
   ## #################################### 
