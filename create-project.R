@@ -506,6 +506,26 @@ actions_list <- splice(
   actions_stcoxmodels("over80s", "all", "0", "pfizer", "death"),
   actions_stcoxmodels("over80s", "all", "0", "az",     "death"),
 
+  action(
+    name = glue("stcoxreport_{cohort}_{strata}_{recentpostest_period}"),
+    run = glue("r:latest analysis/R/dose_1/report_stcox_combined.R"),
+    arguments = c(cohort, strata, recentpostest_period),
+    needs = splice(
+      "design",
+      as.list(
+        glue_data(
+          .x=expand_grid(brand=c("any", "pfizer", "az"), outcome=outcomes),
+          "stcoxreport_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}"
+        )
+      )
+    ),
+    moderately_sensitive = list(
+      svg = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/VEstcox*.svg"),
+      png = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/VEstcox*.png"),
+      csv = glue("output/{cohort}/{strata}/{recentpostest_period}/combined/stcox*.csv")
+    )
+  ),
+
 
   # comment("####################################", "Immunosuppressed", "####################################"),
   #
