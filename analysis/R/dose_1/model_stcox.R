@@ -304,7 +304,7 @@ for(stratum in strata){
     data2 = data_samples %>% filter(treated==1, !is.na(trial_day)),
     id = patient_id,
     tstart = trial_day-1,
-    tstop = pmin(tte_censor, tte_outcome, na.rm=TRUE),
+    tstop = pmin(tte_censor, tte_outcome, trial_day+(7*8), na.rm=TRUE),
     ind_outcome = event(tte_outcome)
   ) %>%
     tmerge( # create treatment timescale variables
@@ -321,7 +321,7 @@ for(stratum in strata){
     data2 = data_samples %>% filter(treated==0, !is.na(trial_day)),
     id = patient_id,
     tstart = trial_day-1,
-    tstop = pmin(tte_censor, tte_outcome, tte_vax, na.rm=TRUE),
+    tstop = pmin(tte_censor, tte_outcome, tte_vax, trial_day+(7*8), na.rm=TRUE),
     ind_outcome = event(tte_outcome)
   ) %>%
     tmerge( # create treatment timescale variables
