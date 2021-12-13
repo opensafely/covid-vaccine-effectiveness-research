@@ -1665,7 +1665,7 @@ actions:
         png: output/over80s/all/0/az/death/reportstcox*.png
 
   stcoxreport_over80s_all_0:
-    run: r:latest analysis/R/dose_1/report_stcox_combined.R over80s 1 0
+    run: r:latest analysis/R/dose_1/report_stcox_combined.R over80s all 0
     needs:
     - design
     - stcoxreport_over80s_all_0_any_postest
