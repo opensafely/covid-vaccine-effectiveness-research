@@ -2352,29 +2352,29 @@ actions:
         svg: output/in70s/all/0/pfizer/postest/reportstcox*.svg
         png: output/in70s/all/0/pfizer/postest/reportstcox*.png
 
-  stcoxmodel_over80s_all_0_az_postest:
-    run: r:latest analysis/R/dose_1/model_stcox.R over80s all 0 az postest
+  stcoxmodel_in70s_all_0_az_postest:
+    run: r:latest analysis/R/dose_1/model_stcox.R in70s all 0 az postest
     needs:
     - design
-    - data_stset_over80s
+    - data_stset_in70s
     outputs:
       highly_sensitive:
-        models: output/over80s/all/0/az/postest/stcox*.rds
+        models: output/in70s/all/0/az/postest/stcox*.rds
       moderately_sensitive:
-        models: output/over80s/all/0/az/postest/stcox*.csv
+        models: output/in70s/all/0/az/postest/stcox*.csv
 
-  stcoxreport_over80s_all_0_az_postest:
-    run: r:latest analysis/R/dose_1/report_stcox.R over80s all 0 az postest
+  stcoxreport_in70s_all_0_az_postest:
+    run: r:latest analysis/R/dose_1/report_stcox.R in70s all 0 az postest
     needs:
     - design
-    - stcoxmodel_over80s_all_0_az_postest
+    - stcoxmodel_in70s_all_0_az_postest
     outputs:
       highly_sensitive:
-        rds: output/over80s/all/0/az/postest/reportstcox*.rds
+        rds: output/in70s/all/0/az/postest/reportstcox*.rds
       moderately_sensitive:
-        csv: output/over80s/all/0/az/postest/reportstcox*.csv
-        svg: output/over80s/all/0/az/postest/reportstcox*.svg
-        png: output/over80s/all/0/az/postest/reportstcox*.png
+        csv: output/in70s/all/0/az/postest/reportstcox*.csv
+        svg: output/in70s/all/0/az/postest/reportstcox*.svg
+        png: output/in70s/all/0/az/postest/reportstcox*.png
 
   stcoxmodel_in70s_all_0_any_covidadmitted:
     run: r:latest analysis/R/dose_1/model_stcox.R in70s all 0 any covidadmitted
