@@ -586,6 +586,42 @@ actions_list <- splice(
 
   actions_combine_models("in70s", "all", "0",  c("postest", "covidadmitted", "death")),
 
+  ## sequential trials
+  comment("##########", "sequential trials", "########"),
+
+  actions_stcoxmodels("in70s", "all", "0", "any",    "postest"),
+  actions_stcoxmodels("in70s", "all", "0", "pfizer", "postest"),
+  actions_stcoxmodels("over80s", "all", "0", "az",     "postest"),
+
+  actions_stcoxmodels("in70s", "all", "0", "any",    "covidadmitted"),
+  actions_stcoxmodels("in70s", "all", "0", "pfizer", "covidadmitted"),
+  actions_stcoxmodels("in70s", "all", "0", "az",     "covidadmitted"),
+
+  actions_stcoxmodels("in70s", "all", "0", "any",    "death"),
+  actions_stcoxmodels("in70s", "all", "0", "pfizer", "death"),
+  actions_stcoxmodels("in70s", "all", "0", "az",     "death"),
+
+  action(
+    name = glue("stcoxreport_over80s_all_0"),
+    run = glue("r:latest analysis/R/dose_1/report_stcox_combined.R"),
+    arguments = c("in70s", "all", "0"),
+    needs = splice(
+      "design",
+      as.list(
+        glue_data(
+          .x=expand_grid(brand=c("any", "pfizer", "az"), outcome=c("postest", "covidadmitted", "death")),
+          "stcoxreport_over80s_all_0_{brand}_{outcome}"
+        )
+      )
+    ),
+    moderately_sensitive = list(
+      svg = glue("output/in70s/all/0/combined/VEstcox*.svg"),
+      png = glue("output/in70s/all/0/combined/VEstcox*.png"),
+      csv = glue("output/in70s/all/0/combined/stcox*.csv")
+    )
+  ),
+
+
 
   comment("####################################", "All", "modified estimand", "####################################"),
 

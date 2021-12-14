@@ -41,7 +41,7 @@ if(length(args)==0){
   cohort <- "over80s"
   strata_var <- "all"
   recentpostest_period <- as.numeric("0")
-  brand <- "any"
+  brand <- "az"
   outcome <- "covidadmitted"
 
 } else {
@@ -126,7 +126,6 @@ for(stratum in strata){
       vaxany1_status == .[[glue("vax{brand}1_status")]], # if brand-specific, follow up ends at (day after) occurrence of competing vaccination, ie where vax{competingbrand}_status not >0
       vaxany2_status == 0, # censor at second dose
       .[[glue("vax{brand}_atrisk")]] == 1, # select follow-up time where vax brand is being administered
-
     ) %>%
     left_join(data_fixed, by="patient_id") %>%
     filter(
