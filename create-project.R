@@ -591,7 +591,7 @@ actions_list <- splice(
 
   actions_stcoxmodels("in70s", "all", "0", "any",    "postest"),
   actions_stcoxmodels("in70s", "all", "0", "pfizer", "postest"),
-  actions_stcoxmodels("over80s", "all", "0", "az",     "postest"),
+  actions_stcoxmodels("in70s", "all", "0", "az",     "postest"),
 
   actions_stcoxmodels("in70s", "all", "0", "any",    "covidadmitted"),
   actions_stcoxmodels("in70s", "all", "0", "pfizer", "covidadmitted"),
