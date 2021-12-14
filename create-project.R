@@ -602,7 +602,7 @@ actions_list <- splice(
   actions_stcoxmodels("in70s", "all", "0", "az",     "death"),
 
   action(
-    name = glue("stcoxreport_over80s_all_0"),
+    name = glue("stcoxreport_in70s_all_0"),
     run = glue("r:latest analysis/R/dose_1/report_stcox_combined.R"),
     arguments = c("in70s", "all", "0"),
     needs = splice(

@@ -2520,7 +2520,7 @@ actions:
         svg: output/in70s/all/0/az/death/reportstcox*.svg
         png: output/in70s/all/0/az/death/reportstcox*.png
 
-  stcoxreport_over80s_all_0:
+  stcoxreport_in70s_all_0:
     run: r:latest analysis/R/dose_1/report_stcox_combined.R in70s all 0
     needs:
     - design
