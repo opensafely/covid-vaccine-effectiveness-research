@@ -89,6 +89,9 @@ effectscox <- tidy_cox %>%
     hr= exp(estimate),
     hr.ll = exp(conf.low),
     hr.ul = exp(conf.high),
+    or = exp(estimate), # use `or` too to match names in PLR models -- just helps with combining estimates later
+    or.ll = exp(conf.low),
+    or.ul = exp(conf.high),
     ve = 1-exp(hr),
     ve.ll = 1-exp(hr.ul),
     ve.ul = 1-exp(hr.ll),
@@ -102,8 +105,7 @@ effectscox <- tidy_cox %>%
   ) %>%
   ungroup()
 
-write_csv(effectscox, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue::glue("reportstcox_effects.csv")))
-write_rds(effectscox, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue::glue("reportstcox_effects.rds")))
+write_csv(effectscox, here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue::glue("stcoxestimates_timesincevax.csv")))
 
 plotcox <-
   ggplot(data = effectscox) +
@@ -145,9 +147,8 @@ plotcox <-
 plotcox
 ## save plot
 
-write_rds(plotcox, path=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("reportstcox_effectsplot.rds")))
-ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("reportstcox_effectsplot.svg")), plotcox, width=20, height=15, units="cm")
-ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("reportstcox_effectsplot.png")), plotcox, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("stcoxVE_plot.svg")), plotcox, width=20, height=15, units="cm")
+ggsave(filename=here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("stcoxVE_plot.png")), plotcox, width=20, height=15, units="cm")
 
 
 
