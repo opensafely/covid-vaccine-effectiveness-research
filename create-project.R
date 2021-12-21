@@ -696,9 +696,9 @@ actions_list <- splice(
             recent_postestperiod = c("0"),
             brand=c("pfizer", "az"),
             outcome=c("postest", "covidadmitted", "death"),
-            approach=c("msm", "stcox")
+            approach=c("report_msm", "stcoxreport"),
           ),
-          "report{approach}_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
+          "{approach}_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
         )
       )
     ),
