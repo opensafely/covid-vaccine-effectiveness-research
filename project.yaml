@@ -3414,30 +3414,30 @@ actions:
     run: r:latest analysis/R/dose_1/report_msmstcox_combined.R
     needs:
     - design
-    - reportmsm_over80s_all_0_pfizer_postest
-    - reportstcox_over80s_all_0_pfizer_postest
-    - reportmsm_over80s_all_0_pfizer_covidadmitted
-    - reportstcox_over80s_all_0_pfizer_covidadmitted
-    - reportmsm_over80s_all_0_pfizer_death
-    - reportstcox_over80s_all_0_pfizer_death
-    - reportmsm_over80s_all_0_az_postest
-    - reportstcox_over80s_all_0_az_postest
-    - reportmsm_over80s_all_0_az_covidadmitted
-    - reportstcox_over80s_all_0_az_covidadmitted
-    - reportmsm_over80s_all_0_az_death
-    - reportstcox_over80s_all_0_az_death
-    - reportmsm_in70s_all_0_pfizer_postest
-    - reportstcox_in70s_all_0_pfizer_postest
-    - reportmsm_in70s_all_0_pfizer_covidadmitted
-    - reportstcox_in70s_all_0_pfizer_covidadmitted
-    - reportmsm_in70s_all_0_pfizer_death
-    - reportstcox_in70s_all_0_pfizer_death
-    - reportmsm_in70s_all_0_az_postest
-    - reportstcox_in70s_all_0_az_postest
-    - reportmsm_in70s_all_0_az_covidadmitted
-    - reportstcox_in70s_all_0_az_covidadmitted
-    - reportmsm_in70s_all_0_az_death
-    - reportstcox_in70s_all_0_az_death
+    - report_msm_over80s_all_0_pfizer_postest
+    - stcoxreport_over80s_all_0_pfizer_postest
+    - report_msm_over80s_all_0_pfizer_covidadmitted
+    - stcoxreport_over80s_all_0_pfizer_covidadmitted
+    - report_msm_over80s_all_0_pfizer_death
+    - stcoxreport_over80s_all_0_pfizer_death
+    - report_msm_over80s_all_0_az_postest
+    - stcoxreport_over80s_all_0_az_postest
+    - report_msm_over80s_all_0_az_covidadmitted
+    - stcoxreport_over80s_all_0_az_covidadmitted
+    - report_msm_over80s_all_0_az_death
+    - stcoxreport_over80s_all_0_az_death
+    - report_msm_in70s_all_0_pfizer_postest
+    - stcoxreport_in70s_all_0_pfizer_postest
+    - report_msm_in70s_all_0_pfizer_covidadmitted
+    - stcoxreport_in70s_all_0_pfizer_covidadmitted
+    - report_msm_in70s_all_0_pfizer_death
+    - stcoxreport_in70s_all_0_pfizer_death
+    - report_msm_in70s_all_0_az_postest
+    - stcoxreport_in70s_all_0_az_postest
+    - report_msm_in70s_all_0_az_covidadmitted
+    - stcoxreport_in70s_all_0_az_covidadmitted
+    - report_msm_in70s_all_0_az_death
+    - stcoxreport_in70s_all_0_az_death
     outputs:
       moderately_sensitive:
         plots: output/combined/msmvstcox_*
