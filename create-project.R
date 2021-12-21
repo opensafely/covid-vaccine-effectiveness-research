@@ -308,10 +308,11 @@ actions_stcoxmodels <- function(
       arguments = c(cohort, strata, recentpostest_period, brand, outcome),
       needs = list("design", glue("data_stset_{cohort}")),# glue("data_samples_{cohort}")),
       highly_sensitive = lst(
-        models = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox*.rds"),
+        models = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox_model*.rds"),
       ),
       moderately_sensitive = lst(
-        models = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox*.csv"),
+        tidy = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox_tidy*.csv"),
+        glance = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcox_glance*.csv"),
       )
     ),
 
@@ -324,9 +325,9 @@ actions_stcoxmodels <- function(
         rds = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.rds")
       ),
       moderately_sensitive = lst(
-        csv = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.csv"),
-        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.svg"),
-        png = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.png")
+        svg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcoxVE*.svg"),
+        png = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcoxVE*.png"),
+        tables = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcoxestimates*.csv")
       )
     )
   )
@@ -680,6 +681,29 @@ actions_list <- splice(
     ),
     moderately_sensitive = list(
       plots = "output/combined/VE_plot*"
+    )
+  ),
+
+  action(
+    name = "report_msm_msmvstcox",
+    run = "r:latest analysis/R/dose_1/report_msmstcox_combined.R",
+    needs = splice(
+      "design",
+      as.list(
+        glue_data(
+          .x=expand_grid(
+            cohort=c("over80s", "in70s"),
+            recent_postestperiod = c("0"),
+            brand=c("pfizer", "az"),
+            outcome=c("postest", "covidadmitted", "death"),
+            approach=c("msm", "stcox")
+          ),
+          "report_{approach}_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
+        )
+      )
+    ),
+    moderately_sensitive = list(
+      plots = "output/combined/msmvstcox_*"
     )
   ),
 

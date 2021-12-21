@@ -1,0 +1,300 @@
+
+# # # # # # # # # # # # # # # # # # # # #
+# This script:
+# combines outputs from the `report_msm.R` scripts across different outcomes and brands and recent_postestperiod parameters
+# # # # # # # # # # # # # # # # # # # # #
+
+# Preliminaries ----
+
+## Import libraries ----
+library('tidyverse')
+library('glue')
+library('here')
+library('lubridate')
+library('survival')
+
+## Import custom user functions from lib
+source(here("lib", "utility_functions.R"))
+source(here("lib", "redaction_functions.R"))
+source(here("lib", "survival_functions.R"))
+
+# import command-line arguments ----
+
+args <- commandArgs(trailingOnly=TRUE)
+
+
+
+
+# import global vars ----
+gbl_vars <- jsonlite::read_json(
+  path=here("analysis","global-variables.json")
+)
+
+# Import metadata for outcomes ----
+metadata_outcomes <- read_rds(here("output", "metadata", "metadata_outcomes.rds"))
+
+
+fs::dir_create(here("output", "combined"))
+
+##  Create big loop over all categories
+
+strata <- read_rds(here("output", "metadata", "list_strata.rds"))[["all"]]
+strata_descr <- read_rds(here("output", "metadata", "list_strata_descr.rds"))[["all"]]
+summary_list <- vector("list", length(strata_descr))
+names(summary_list) <- strata_descr
+
+# import models ----
+
+# select outcomes
+
+params <-
+  crossing(
+    brand = nesting(
+      brand = fct_inorder(c("pfizer", "az")),
+      brand_descr = fct_inorder(c("BNT162b2", "ChAdOx1"))
+    ),
+    cohort = tibble(
+      cohort = fct_inorder(c("over80s", "in70s")),
+      cohort_descr = fct_inorder(c("Over 80s", "70-79s")),
+    ),
+    outcome = fct_inorder(c(
+      "postest",
+      "covidadmitted",
+      #"coviddeath",
+      #"noncoviddeath",
+      "death"
+    )),
+    recent_postestperiod = c(0),
+    approach = c("msm", "stcox")
+  ) %>%
+  unpack(c(cohort, brand)) %>%
+  filter(
+    !(recent_postestperiod == 0 & outcome %in% c("coviddeath", "noncoviddeath")),
+    #!(recent_postestperiod == Inf & outcome %in% c("postest")),
+  )
+
+estimates <- params %>%
+  left_join(metadata_outcomes, by=c("outcome")) %>%
+  mutate(
+    outcome = fct_inorder(outcome),
+    outcome_descr = fct_inorder(map_chr(outcome_descr, ~paste(stringi::stri_wrap(., width=14, simplify=TRUE, whitespace_only=TRUE), collapse="\n"))),#
+    fileprefix = case_when(
+      approach=="msm" ~ "",
+      approach=="stcox" ~ "stcox",
+      TRUE ~ NA_character_
+    ),
+    approach_descr=case_when(
+      approach=="msm" ~ "Marginal structural model",
+      approach=="stcox" ~ "Sequential trial",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  mutate(
+    estimates = pmap(list(cohort, recent_postestperiod, brand, outcome, fileprefix),
+                     function(cohort, recent_postestperiod, brand, outcome, fileprefix){
+                       read_csv(here("output", cohort, "all", recent_postestperiod, brand, outcome, glue("{fileprefix}estimates_timesincevax.csv")))
+                      }
+                     )
+    #estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
+  ) %>%
+  unnest(estimates) %>%
+  mutate(
+    model_descr = fct_inorder(model_descr),
+  )
+
+
+
+estimates_formatted <- estimates %>%
+  transmute(
+    cohort_descr,
+    recent_postestperiod,
+    outcome_descr,
+    brand_descr,
+    stratum,
+    model,
+    model_descr,
+    approach,
+    approach_descr,
+    term=str_replace(term, pattern="timesincevax\\_pw", ""),
+    HR =scales::label_number(accuracy = .01, trim=TRUE)(or),
+    HR_CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(or.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(or.ul), ")"),
+    VE = scales::label_number(accuracy = .1, trim=FALSE, scale=100)(ve),
+    VE_CI = paste0("(", scales::label_number(accuracy = .1, trim=TRUE, scale=100)(ve.ll), "-", scales::label_number(accuracy = .1, trim=TRUE, scale=100)(ve.ul), ")"),
+
+    HR_ECI = paste0(HR, " ", HR_CI),
+    VE_ECI = paste0(VE, " ", VE_CI),
+  )
+
+estimates_formatted_wide <- estimates_formatted %>%
+  select(cohort_descr, recent_postestperiod, outcome_descr, brand_descr, model, approach_descr, term, HR_ECI, VE_ECI) %>%
+  pivot_wider(
+    id_cols=c(cohort_descr, recent_postestperiod, outcome_descr, brand_descr, approach_descr, term),
+    names_from = model,
+    values_from = c(HR_ECI, VE_ECI),
+    names_glue = "{model}_{.value}"
+  )
+
+write_csv(estimates, path = here("output", "combined", glue("msmvstcox_estimates_timesincevax.csv")))
+write_csv(estimates_formatted, path = here("output", "combined", glue("msmvstcox_estimates_formatted_timesincevax.csv")))
+write_csv(estimates_formatted_wide, path = here("output", "combined", glue("msmvstcox_estimates_formatted_wide_timesincevax.csv")))
+
+
+
+formatpercent100 <- function(x,accuracy){
+  formatx <- scales::label_percent(accuracy)(x)
+
+  if_else(
+    formatx==scales::label_percent(accuracy)(1),
+    paste0(">",scales::label_percent(1)((100-accuracy)/100)),
+    formatx
+  )
+}
+
+
+
+# create forest plot
+effect_data <- estimates %>%
+  rowwise() %>%
+  mutate(
+    plot_col = fct_cross(brand_descr, cohort_descr, sep="\n", keep_empty=TRUE),
+    term=str_replace(term, pattern="timesincevax\\_pw", ""),
+    term=fct_inorder(term),
+    term_left = as.numeric(str_extract(term, "\\d+"))-1,
+    term_right = as.numeric(str_extract(term, "\\d+$")),
+    maxend = as.numeric(as.Date(gbl_vars$end_date) - as.Date(gbl_vars[[glue("start_date_{cohort}", cohort=cohort)]]))+1,
+    term_right = if_else(is.na(term_right), 63, term_right),
+    term_midpoint = term_left + (term_right-term_left)/2,
+    #stratum = if_else(stratum=="all", "", stratum)
+  ) %>%
+  ungroup() %>%
+  filter(model==4)
+
+
+effect_data_plot <- effect_data %>%
+  filter(
+    or !=Inf, or !=0
+  )
+
+makeplot <- function(recent_postestperiod){
+  recent_postestperiodd<-recent_postestperiod
+
+  effect_plot <-
+    effect_data_plot %>%
+    filter(recent_postestperiod==recent_postestperiodd) %>%
+    ggplot(aes(colour=approach_descr)) +
+    geom_hline(aes(yintercept=1), colour='black')+
+    geom_vline(aes(xintercept=0), colour='black')+
+    geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 2), size=0.8)+
+    geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 2))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(plot_col), switch="y")+
+    scale_y_log10(
+      breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+      limits = c(0.05, max(c(1, effect_data_plot$or.ul))),
+      oob = scales::oob_keep,
+      sec.axis = sec_axis(
+        ~(1-.),
+        name="Effectiveness",
+        breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(
+      breaks=unique(c(effect_data_plot$term_left, max(effect_data_plot$term_midpoint)+7)),
+      labels=c(unique(effect_data_plot$term_left), paste0("<",max(effect_data_plot$maxend))),
+      expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
+    )+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    coord_cartesian() +
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL#,
+      #title=glue("Outcomes by time since first {brand} vaccine"),
+      #subtitle=cohort_descr
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+
+  effect_plot
+  ## save plot
+  ggsave(filename=here("output", "combined", glue("msmvstcox_VE_plot_{recent_postestperiod}.svg")), effect_plot, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("msmvstcox_VE_plot_{recent_postestperiod}.png")), effect_plot, width=25, height=20, units="cm")
+
+
+  effect_plot_free <-
+    effect_data_plot %>%
+    filter(recent_postestperiod==recent_postestperiodd) %>%
+    ggplot(aes(colour=approach_descr)) +
+    geom_hline(aes(yintercept=0), colour='black')+
+    geom_vline(aes(xintercept=0), colour='black')+
+    geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 2), size=0.8)+
+    geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 2))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(plot_col), switch="y")+
+    scale_y_continuous(
+      labels = function(x){scales::label_number(0.001)(exp(x))},
+      breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
+      sec.axis = sec_axis(
+        ~(1-exp(.)),
+        name="Effectiveness",
+        breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(
+      breaks=unique(c(effect_data_plot$term_left, max(effect_data_plot$term_midpoint)+7)),
+      labels=c(unique(effect_data_plot$term_left), paste0("<",max(effect_data_plot$maxend))),
+      expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
+    )+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL#,
+      #title=glue("Outcomes by time since first {brand} vaccine"),
+      #subtitle=cohort_descr
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+  effect_plot_free
+
+  ## save plot
+  ggsave(filename=here("output", "combined", glue("msmvstcox_VE_plot_free_{recent_postestperiod}.svg")), effect_plot_free, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("msmvstcox_VE_plot_free_{recent_postestperiod}.png")), effect_plot_free, width=25, height=20, units="cm")
+
+}
+
+makeplot(0)
