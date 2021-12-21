@@ -682,7 +682,7 @@ actions_list <- splice(
   ),
 
   action(
-    name = "report_msm_msmvstcox",
+    name = "report_msmvstcox",
     run = "r:latest analysis/R/dose_1/report_msmstcox_combined.R",
     needs = splice(
       "design",

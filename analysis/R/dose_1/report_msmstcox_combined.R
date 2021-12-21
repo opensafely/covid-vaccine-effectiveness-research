@@ -92,10 +92,18 @@ estimates <- params %>%
   mutate(
     estimates = pmap(list(cohort, recent_postestperiod, brand, outcome, fileprefix),
                      function(cohort, recent_postestperiod, brand, outcome, fileprefix){
-                       read_csv(here("output", cohort, "all", recent_postestperiod, brand, outcome, glue("{fileprefix}estimates_timesincevax.csv")))
+                       x<-read_csv(here("output", cohort, "all", recent_postestperiod, brand, outcome, glue(fileprefix,"estimates_timesincevax.csv")))
+                       x[["outcome"]]<-NULL
+                       x
                       }
                      )
-    #estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
+    # estimates = pmap(list(cohort, recent_postestperiod, brand, outcome, fileprefix),
+    #                   function(cohort, recent_postestperiod, brand, outcome, fileprefix){
+    #                    x<-read_csv(here("output", "over80s", "all", "0", "any", "covidadmitted", glue("stcox","estimates_timesincevax.csv")))
+    #                    x[["outcome"]]<-NULL
+    #                    x
+    #                   }
+    #                  )
   ) %>%
   unnest(estimates) %>%
   mutate(
@@ -110,7 +118,7 @@ estimates_formatted <- estimates %>%
     recent_postestperiod,
     outcome_descr,
     brand_descr,
-    stratum,
+    #stratum,
     model,
     model_descr,
     approach,
@@ -298,3 +306,4 @@ makeplot <- function(recent_postestperiod){
 }
 
 makeplot(0)
+
