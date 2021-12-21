@@ -1466,8 +1466,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_any_postest
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/any/postest/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/any/postest/stcoxVE*.svg
         png: output/over80s/all/0/any/postest/stcoxVE*.png
@@ -1491,8 +1489,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_pfizer_postest
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/pfizer/postest/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/pfizer/postest/stcoxVE*.svg
         png: output/over80s/all/0/pfizer/postest/stcoxVE*.png
@@ -1516,8 +1512,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_az_postest
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/az/postest/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/az/postest/stcoxVE*.svg
         png: output/over80s/all/0/az/postest/stcoxVE*.png
@@ -1541,8 +1535,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_any_covidadmitted
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/any/covidadmitted/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/any/covidadmitted/stcoxVE*.svg
         png: output/over80s/all/0/any/covidadmitted/stcoxVE*.png
@@ -1566,8 +1558,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_pfizer_covidadmitted
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/pfizer/covidadmitted/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/pfizer/covidadmitted/stcoxVE*.svg
         png: output/over80s/all/0/pfizer/covidadmitted/stcoxVE*.png
@@ -1591,8 +1581,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_az_covidadmitted
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/az/covidadmitted/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/az/covidadmitted/stcoxVE*.svg
         png: output/over80s/all/0/az/covidadmitted/stcoxVE*.png
@@ -1616,8 +1604,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_any_death
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/any/death/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/any/death/stcoxVE*.svg
         png: output/over80s/all/0/any/death/stcoxVE*.png
@@ -1641,8 +1627,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_pfizer_death
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/pfizer/death/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/pfizer/death/stcoxVE*.svg
         png: output/over80s/all/0/pfizer/death/stcoxVE*.png
@@ -1666,8 +1650,6 @@ actions:
     - design
     - stcoxmodel_over80s_all_0_az_death
     outputs:
-      highly_sensitive:
-        rds: output/over80s/all/0/az/death/reportstcox*.rds
       moderately_sensitive:
         svg: output/over80s/all/0/az/death/stcoxVE*.svg
         png: output/over80s/all/0/az/death/stcoxVE*.png
@@ -2331,8 +2313,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_any_postest
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/any/postest/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/any/postest/stcoxVE*.svg
         png: output/in70s/all/0/any/postest/stcoxVE*.png
@@ -2356,8 +2336,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_pfizer_postest
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/pfizer/postest/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/pfizer/postest/stcoxVE*.svg
         png: output/in70s/all/0/pfizer/postest/stcoxVE*.png
@@ -2381,8 +2359,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_az_postest
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/az/postest/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/az/postest/stcoxVE*.svg
         png: output/in70s/all/0/az/postest/stcoxVE*.png
@@ -2406,8 +2382,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_any_covidadmitted
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/any/covidadmitted/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/any/covidadmitted/stcoxVE*.svg
         png: output/in70s/all/0/any/covidadmitted/stcoxVE*.png
@@ -2431,8 +2405,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_pfizer_covidadmitted
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/pfizer/covidadmitted/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/pfizer/covidadmitted/stcoxVE*.svg
         png: output/in70s/all/0/pfizer/covidadmitted/stcoxVE*.png
@@ -2456,8 +2428,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_az_covidadmitted
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/az/covidadmitted/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/az/covidadmitted/stcoxVE*.svg
         png: output/in70s/all/0/az/covidadmitted/stcoxVE*.png
@@ -2481,8 +2451,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_any_death
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/any/death/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/any/death/stcoxVE*.svg
         png: output/in70s/all/0/any/death/stcoxVE*.png
@@ -2506,8 +2474,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_pfizer_death
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/pfizer/death/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/pfizer/death/stcoxVE*.svg
         png: output/in70s/all/0/pfizer/death/stcoxVE*.png
@@ -2531,8 +2497,6 @@ actions:
     - design
     - stcoxmodel_in70s_all_0_az_death
     outputs:
-      highly_sensitive:
-        rds: output/in70s/all/0/az/death/reportstcox*.rds
       moderately_sensitive:
         svg: output/in70s/all/0/az/death/stcoxVE*.svg
         png: output/in70s/all/0/az/death/stcoxVE*.png

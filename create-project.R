@@ -321,9 +321,6 @@ actions_stcoxmodels <- function(
       run = glue("r:latest analysis/R/dose_1/report_stcox.R"),
       arguments = c(cohort, strata, recentpostest_period, brand, outcome),
       needs = list("design", glue("stcoxmodel_{cohort}_{strata}_{recentpostest_period}_{brand}_{outcome}")),
-      highly_sensitive = lst(
-        rds = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/reportstcox*.rds")
-      ),
       moderately_sensitive = lst(
         svg = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcoxVE*.svg"),
         png = glue("output/{cohort}/{strata}/{recentpostest_period}/{brand}/{outcome}/stcoxVE*.png"),
