@@ -698,7 +698,7 @@ actions_list <- splice(
             outcome=c("postest", "covidadmitted", "death"),
             approach=c("msm", "stcox")
           ),
-          "report_{approach}_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
+          "report{approach}_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
         )
       )
     ),
