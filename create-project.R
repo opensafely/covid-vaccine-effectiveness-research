@@ -727,6 +727,30 @@ actions_list <- splice(
     )
   ),
 
+  action(
+    name = "report_stcox_metacohorts",
+    run = "r:latest analysis/R/dose_1/report_stcox_meta.R",
+    needs = splice(
+      "design",
+      as.list(
+        glue_data(
+          .x=expand_grid(
+            cohort=c("over80s", "in70s"),
+            recent_postestperiod = c("0"),
+            brand=c("any", "pfizer", "az"),
+            outcome=c("postest", "covidadmitted", "death")
+          ),
+          "stcoxreport_{cohort}_all_{recent_postestperiod}_{brand}_{outcome}"
+        )
+      )
+    ),
+    moderately_sensitive = list(
+      plots = "output/combined/stcoxVE_plot_metaanalysis*",
+      estimates = "output/combined/stcoxmeta_estimates*"
+    )
+  ),
+
+
 
   action(
     name = "do_baselinevaxmodels_over80s",

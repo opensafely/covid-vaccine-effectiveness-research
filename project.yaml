@@ -3451,6 +3451,33 @@ actions:
         plots: output/combined/VE_plot_metaanalysis*
         estimates: output/combined/meta_estimates*
 
+  report_stcox_metacohorts:
+    run: r:latest analysis/R/dose_1/report_stcox_meta.R
+    needs:
+    - design
+    - stcoxreport_over80s_all_0_any_postest
+    - stcoxreport_over80s_all_0_any_covidadmitted
+    - stcoxreport_over80s_all_0_any_death
+    - stcoxreport_over80s_all_0_pfizer_postest
+    - stcoxreport_over80s_all_0_pfizer_covidadmitted
+    - stcoxreport_over80s_all_0_pfizer_death
+    - stcoxreport_over80s_all_0_az_postest
+    - stcoxreport_over80s_all_0_az_covidadmitted
+    - stcoxreport_over80s_all_0_az_death
+    - stcoxreport_in70s_all_0_any_postest
+    - stcoxreport_in70s_all_0_any_covidadmitted
+    - stcoxreport_in70s_all_0_any_death
+    - stcoxreport_in70s_all_0_pfizer_postest
+    - stcoxreport_in70s_all_0_pfizer_covidadmitted
+    - stcoxreport_in70s_all_0_pfizer_death
+    - stcoxreport_in70s_all_0_az_postest
+    - stcoxreport_in70s_all_0_az_covidadmitted
+    - stcoxreport_in70s_all_0_az_death
+    outputs:
+      moderately_sensitive:
+        plots: output/combined/stcoxVE_plot_metaanalysis*
+        estimates: output/combined/stcoxmeta_estimates*
+
   do_baselinevaxmodels_over80s:
     run: r:latest analysis/R/dose_1/baselineHR.R over80s all 0 50000
     needs:
