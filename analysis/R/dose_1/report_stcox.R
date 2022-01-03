@@ -71,7 +71,7 @@ exclude_recentpostest <- (recentpostest_period >0)
 
 #data_cox <- read_rds(here("output", "models", outcome, timescale, "modelcox_data.rds"))
 
-tidy_cox <- read_rds(here::here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("stcox_tidy.rds")))
+tidy_cox <- read_csv(here::here("output", cohort, strata_var, recentpostest_period, brand, outcome, glue("stcox_tidy.csv")))
 
 effectscox <- tidy_cox %>%
   filter(str_detect(term, fixed("timesincereruitment_pw")) | str_detect(term, fixed("treated"))) %>%
