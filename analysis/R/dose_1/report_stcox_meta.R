@@ -74,6 +74,7 @@ estimates <- params %>%
     estimates = pmap(list(cohort, recent_postestperiod, brand, outcome), ~read_csv(here("output", ..1, "all", ..2, ..3, ..4, glue("stcoxestimates_timesincevax.csv"))))
     #estimates = pmap(list(brand, outcome), ~read_csv(here("output", "over80s", "all", "0", "pfizer", "postest", glue("estimates_timesincevax.csv"))))
   ) %>%
+  select(-outcome) %>%
   unnest(estimates) %>%
   mutate(
     model_descr = fct_inorder(model_descr),
@@ -86,7 +87,7 @@ meta_estimates <-
     outcome, outcome_descr,
     brand, brand_descr,
     recent_postestperiod,
-    model, model_descr, model_descr_wrap,
+    model, model_descr,
     term, term_left, term_right, term_midpoint,
   ) %>%
   summarise(
