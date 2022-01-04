@@ -30,7 +30,7 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   removeobs <- FALSE
-  cohort <- "over80s"
+  cohort <- "in70s"
   strata_var <- "all"
   recent_postestperiod <- as.numeric("0")
 
@@ -103,7 +103,7 @@ estimates <-
   mutate(
     brand = fct_inorder(brand),
     brand_descr = fct_inorder(brand_descr),
-    estimates = map2(brand, outcome, ~read_csv(here("output", cohort, strata_var, recent_postestperiod, .x, .y, glue("reportstcox_effects.csv"))))
+    estimates = map2(brand, outcome, ~read_csv(here("output", cohort, strata_var, recent_postestperiod, .x, .y, glue("stcoxestimates_timesincevax.csv"))))
   ) %>%
   select(-outcome) %>%
   unnest(estimates) %>%
