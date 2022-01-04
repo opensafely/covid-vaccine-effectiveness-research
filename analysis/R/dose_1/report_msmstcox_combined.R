@@ -307,3 +307,195 @@ makeplot <- function(recent_postestperiod){
 
 makeplot(0)
 
+
+
+
+
+
+## meta analysis of 70-79 and 80+ combined
+
+meta_estimates <-
+  estimates %>%
+  group_by(
+    outcome, outcome_descr,
+    brand, brand_descr,
+    recent_postestperiod,
+    model, model_descr,
+    term, term_left, term_right, term_midpoint,
+    approach, approach_descr
+  ) %>%
+  summarise(
+    estimate = weighted.mean(estimate, std.error^-2),
+    std.error = sqrt(1/sum(std.error^-2)),
+    statistic = estimate/std.error,
+    p.value = 2 * pmin(pnorm(statistic), pnorm(-statistic)),
+    conf.low = estimate + qnorm(0.025)*std.error,
+    conf.high = estimate + qnorm(0.975)*std.error,
+
+    or = exp(estimate),
+    or.ll = exp(conf.low),
+    or.ul = exp(conf.high),
+
+    ve = 1-or,
+    ve.ll = 1-or.ul,
+    ve.ul = 1-or.ll,
+
+    HR =scales::label_number(accuracy = .01, trim=TRUE)(or),
+    HR_CI = paste0("(", scales::label_number(accuracy = .01, trim=TRUE)(or.ll), "-", scales::label_number(accuracy = .01, trim=TRUE)(or.ul), ")"),
+    VE = scales::label_number(accuracy = .1, trim=FALSE, scale=100)(ve),
+    VE_CI = paste0("(", scales::label_number(accuracy = .1, trim=TRUE, scale=100)(ve.ll), "-", scales::label_number(accuracy = .1, trim=TRUE, scale=100)(ve.ul), ")"),
+
+    HR_ECI = paste0(HR, " ", HR_CI),
+    VE_ECI = paste0(VE, " ", VE_CI),
+  )
+
+
+# create forest plot
+meta_effect_data <- meta_estimates %>%
+  rowwise() %>%
+  mutate(
+    term=str_replace(term, pattern="timesincevax\\_pw", ""),
+    term=fct_inorder(term),
+    term_left = as.numeric(str_extract(term, "\\d+"))-1,
+    term_right = as.numeric(str_extract(term, "\\d+$")),
+    maxend = 100,
+    term_right = if_else(is.na(term_right), 63, term_right),
+    term_midpoint = term_left + (term_right-term_left)/2,
+    #stratum = if_else(stratum=="all", "", stratum)
+  ) %>%
+  ungroup() %>%
+  filter(model==4)
+
+
+
+meta_effect_data_plot <- meta_effect_data %>%
+  filter(
+    or !=Inf, or !=0
+  )
+
+
+meta_makeplot <- function(recent_postestperiod){
+  recent_postestperiodd<-recent_postestperiod
+
+  meta_effect_plot <-
+    meta_effect_data_plot %>%
+    filter(recent_postestperiod==recent_postestperiodd) %>%
+    ggplot(aes(colour=approach_descr)) +
+    geom_hline(aes(yintercept=1), colour='black')+
+    geom_vline(aes(xintercept=0), colour='black')+
+    geom_point(aes(y=or, x=term_midpoint), position = position_dodge(width = 2), size=0.8)+
+    geom_linerange(aes(ymin=or.ll, ymax=or.ul, x=term_midpoint), position = position_dodge(width = 2))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
+    scale_y_log10(
+      breaks = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+      limits = c(0.05, max(c(1, meta_effect_data_plot$or.ul))),
+      oob = scales::oob_keep,
+      sec.axis = sec_axis(
+        ~(1-.),
+        name="Effectiveness",
+        breaks = c(-4, -1, 0, 0.5, 0.80, 0.9, 0.95, 0.98, 0.99),
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(
+      breaks=unique(c(meta_effect_data_plot$term_left, max(meta_effect_data_plot$term_midpoint)+7)),
+      labels=c(unique(meta_effect_data_plot$term_left), paste0("<",max(meta_effect_data_plot$maxend))),
+      expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
+    )+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    coord_cartesian() +
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL#,
+      #title=glue("Outcomes by time since first {brand} vaccine"),
+      #subtitle=cohort_descr
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+
+  meta_effect_plot
+  ## save plot
+  ggsave(filename=here("output", "combined", glue("msmvstcox_meta_VE_plot_{recent_postestperiod}.svg")), meta_effect_plot, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("msmvstcox_meta_VE_plot_{recent_postestperiod}.png")), meta_effect_plot, width=25, height=20, units="cm")
+
+
+  meta_effect_plot_free <-
+    meta_effect_data_plot %>%
+    filter(recent_postestperiod==recent_postestperiodd) %>%
+    ggplot(aes(colour=approach_descr)) +
+    geom_hline(aes(yintercept=0), colour='black')+
+    geom_vline(aes(xintercept=0), colour='black')+
+    geom_point(aes(y=log(or), x=term_midpoint), position = position_dodge(width = 2), size=0.8)+
+    geom_linerange(aes(ymin=log(or.ll), ymax=log(or.ul), x=term_midpoint), position = position_dodge(width = 2))+
+    facet_grid(rows=vars(outcome_descr), cols=vars(brand_descr), switch="y")+
+    scale_y_continuous(
+      labels = function(x){scales::label_number(0.001)(exp(x))},
+      breaks = function(x){log(scales::breaks_log(n=6, base=10)(exp(x)))},
+      sec.axis = sec_axis(
+        ~(1-exp(.)),
+        name="Effectiveness",
+        breaks = function(x){1-(scales::breaks_log(n=6, base=10)(1-x))},
+        labels = function(x){formatpercent100(x, 1)}
+      )
+    )+
+    scale_x_continuous(
+      breaks=unique(c(meta_effect_data_plot$term_left, max(meta_effect_data_plot$term_midpoint)+7)),
+      labels=c(unique(meta_effect_data_plot$term_left), paste0("<",max(meta_effect_data_plot$maxend))),
+      expand=expansion(mult=c(0), add=c(0,7)), limits=c(0,NA)
+    )+
+    scale_colour_brewer(type="qual", palette="Set2", guide=guide_legend(ncol=1))+
+    labs(
+      y="Hazard ratio, versus no vaccination",
+      x="Days since first dose",
+      colour=NULL#,
+      #title=glue("Outcomes by time since first {brand} vaccine"),
+      #subtitle=cohort_descr
+    ) +
+    theme_bw(base_size=12)+
+    theme(
+      panel.border = element_blank(),
+
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      strip.background = element_blank(),
+      strip.placement = "outside",
+      #strip.text.y.left = element_text(angle = 0),
+
+      panel.spacing = unit(1, "lines"),
+
+      plot.title = element_text(hjust = 0),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0, face= "italic"),
+
+      legend.position = "bottom"
+    )
+  meta_effect_plot_free
+
+  ## save plot
+  ggsave(filename=here("output", "combined", glue("msmvstcox_meta_VE_plot_free_{recent_postestperiod}.svg")), meta_effect_plot_free, width=25, height=20, units="cm")
+  ggsave(filename=here("output", "combined", glue("msmvstcox_meta_VE_plot_free_{recent_postestperiod}.png")), meta_effect_plot_free, width=25, height=20, units="cm")
+
+}
+
+meta_makeplot(0)
+
+
