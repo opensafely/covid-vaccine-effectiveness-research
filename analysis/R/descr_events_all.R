@@ -34,16 +34,21 @@ plot_data <- bind_rows(
 
 
 plot_theme <-
-  theme_minimal(base_size = 12)+
+  theme_bw(base_size = 12)+
   theme(
     legend.position = "left",
+    
     panel.border=element_rect(colour='black', fill=NA),
-    strip.text.y.right = element_text(angle = 0),
+    
+    strip.background = element_blank(),
+    # strip.text.y.right = element_text(angle = 0),
+    
     axis.line.x = element_line(colour = "black"),
     axis.text.x = element_text(angle = 70, vjust = 1, hjust=1),
-    # panel.spacing.y = unit(0.5,"cm"),
+    
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
+    
     axis.ticks.x = element_line(colour = 'black')
   )
 
@@ -81,8 +86,9 @@ plot <- plot_data %>%
                 group=vaxbrand12_status,
                 fill=vaxbrand12_status,
                 # alpha=lastfup_status,
-                colour="black"
-  )
+  ),
+  colour="black"
+  # outline.type = "full"
   )+
   geom_text(data=annotation_data, aes(x=x_pos,y=y_pos,label=vaxbrand12_status))+
   facet_wrap(vars(fct_rev(cohort_descr)), ncol = 1)+
@@ -103,14 +109,14 @@ plot <- plot_data %>%
 
 fs::dir_create(here("output", "combined"))
 
-# ggsave(
-#   plot = plot,
-#   filename = paste0("brandcounts12.svg"),
-#   path=here("output", "combined"),
-#   units="cm",
-#   width = 25,
-#   height = 25
-# )
+ggsave(
+  plot = plot,
+  filename = paste0("brandcounts12.svg"),
+  path=here("output", "combined"),
+  units="cm",
+  width = 25,
+  height = 25
+)
 
 
 ggsave(
