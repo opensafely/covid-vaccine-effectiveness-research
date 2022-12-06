@@ -472,6 +472,16 @@ write_rds(
   path=here("output", cohort, "descriptive", "plots", paste0("vaxcounts12.rds")), compress="gz"
 )
 
+write_csv(
+  plot_brand1_counts("all", "")$data,
+  path=here("output", cohort, "descriptive", "plots", paste0("vaxcounts1.csv"))
+)
+
+write_csv(
+  plot_brand12_counts("all", "")$data,
+  path=here("output", cohort, "descriptive", "plots", paste0("vaxcounts12.csv"))
+)
+
 vars_df %>%
   transmute(
     plot = pmap(lst(var, var_descr), plot_brand1_counts),
