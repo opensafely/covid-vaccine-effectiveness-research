@@ -204,7 +204,7 @@ actions_descriptive <- function(cohort){
       moderately_sensitive = list(
         plots = glue("output/{cohort}/descriptive/plots/*.svg"),
         tables = glue("output/{cohort}/descriptive/tables/*.csv"),
-        tables = glue("output/{cohort}/descriptive/plots/*.csv"),
+        plots_csv = glue("output/{cohort}/descriptive/plots/*.csv")
       )
     )
 
